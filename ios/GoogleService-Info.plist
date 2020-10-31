@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>923512146027-fuugcq753lgo84urhlbgj8v9ajl76eau.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.923512146027-fuugcq753lgo84urhlbgj8v9ajl76eau</string>
+	<key>API_KEY</key>
+	<string>AIzaSyCvzBlzBLaPoBm9a_0fmEj3-CsuW_FmBJk</string>
+	<key>GCM_SENDER_ID</key>
+	<string>923512146027</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>org.reactjs.native.example.Lootbox</string>
+	<key>PROJECT_ID</key>
+	<string>lootbox-e9bd6</string>
+	<key>STORAGE_BUCKET</key>
+	<string>lootbox-e9bd6.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:923512146027:ios:6320af336fc97caca5092e</string>
+	<key>DATABASE_URL</key>
+	<string>https://lootbox-e9bd6.firebaseio.com</string>
+</dict>
+</plist>
