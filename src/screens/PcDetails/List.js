@@ -1,4 +1,4 @@
-import React, { useState, useEffect,useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     View,
     Text,
@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import SearchImage from '../../assets/buildYourPc/search.png';
 import IcCardImage from '../../assets/ic_card_a0.png';
+import selectedIcCardImage from '../../assets/Rectangle.png'
 import { ScrollView } from 'react-native-gesture-handler';
 import { getCategoriesItem } from '../../api/buildYourPc';
 import ItemDetails from './ItemDetails';
@@ -75,9 +76,12 @@ const ListDetails = (props) => {
             </View>
             <ScrollView horizontal={true} style={{}}>
                 {categoryItems.map((processer, index) => (
-                    <TouchableOpacity key={index} style={{ padding: 20 }}>
+                    <TouchableOpacity 
+                    key={index} 
+                    style={{ padding: 20 }}
+                    >
                         <ImageBackground
-                            source={IcCardImage}
+                            source={processer.selected?selectedIcCardImage:IcCardImage}
                             style={{ width: 128, height: 151 }}
                             >
                             <View
@@ -99,6 +103,7 @@ const ListDetails = (props) => {
                                         marginBottom: 10,
                                     }}>
                                     {processer.name}
+                                    
                                 </Text>
                                 <Text
                                     style={{

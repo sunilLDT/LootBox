@@ -91,35 +91,12 @@ const PcDetails = ({navigation, route}) => {
                         </TouchableOpacity>
                         <Text style={styles.attrText}>{Object.entries(cpuDetail.items).length === 0?"Name":cpuDetail.items[index].name}</Text>
                     </View>
-                
-                    {/* <View style={styles.attributesViewTouch1}>
-                        <TouchableOpacity>
-                            <Text style={styles.attrHeading}>GPU</Text>
-                        </TouchableOpacity>
-                          <Text style={styles.attrText}>{cpuDetail.items[index].name}</Text>
-                    </View> */}
-                
-                </View>    
-                {/* <View style={styles.attributesView1}>
-                    <View style={styles.attributesViewTouch}>
-                        <TouchableOpacity>
-                            <Text style={styles.attrHeading}>Monitor</Text>
-                        </TouchableOpacity>
-                        <Text style={styles.attrText}>Samsung TL10</Text>
-                    </View>
-                    <View style={styles.attributesViewTouch1}>
-                        <TouchableOpacity>
-                            <Text style={styles.attrHeading}>Mouse</Text>
-                        </TouchableOpacity>
-                        <Text style={styles.attrText}>Samsung</Text>
-                    </View>
-                </View> */}
+                </View>
 
                 <View style={styles.playableView}>
                 </View>
                 </ImageBackground>
             </TouchableOpacity>
-            
           );
         })}
         </ImageBackground>   
@@ -151,7 +128,7 @@ container:{
     flexDirection: 'column',
 },
 linearGradient:{
-    height:height*0.4,
+    height:"70%",
     width:width*0.9,
     marginVertical:"5%",
 },

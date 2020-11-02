@@ -26,6 +26,7 @@ const ProductDetails = ({ navigation, route }) => {
   const [packageDetailsData, setPackageDetailsData] = useState({});
 
   const [packageDetails, setPackageDetails] = useState([]);
+  
 
   useEffect(() => {
     packageDetailsById(PackageId).then((response) => {
@@ -176,7 +177,7 @@ const ProductDetails = ({ navigation, route }) => {
 
         <TouchableOpacity
           activeOpacity={0.1}
-          onPress={() => navigation.navigate('cart')}>
+          onPress={() => navigation.navigate('cart',{packageId:PackageId})}>
           <Btn />
         </TouchableOpacity>
       </ScrollView>
@@ -189,8 +190,6 @@ const styles = StyleSheet.create({
     width,
     height,
     backgroundColor: '#2A2D39',
-    // paddingHorizontal: width * 0.09,
-    // paddingVertical: width * 0.09,
   },
   backButtonContentConatiner: {
     flexDirection: 'row',

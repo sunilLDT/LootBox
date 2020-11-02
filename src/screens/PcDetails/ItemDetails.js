@@ -1,4 +1,4 @@
-import React, { useState, useEffect,useRef } from 'react';
+import React, {  useRef } from 'react';
 import {
     View,
     Text,
@@ -11,7 +11,6 @@ import {
 import Expand from '../../assets/ic_expand1.png';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import { getItemDetails } from '../../api/buildYourPc';
-import CPUImage from '../../assets/cpu.jpg';
 import Icons from 'react-native-vector-icons/Feather';
 import { ScrollView } from 'react-native-gesture-handler';
 import IcDetailCard from '../../assets/ic_details_card.png';
@@ -21,17 +20,14 @@ const { width, height } = Dimensions.get('window');
 const ItemDetails = (props) => {
     const itemId = props.itemid;
     const refRBSheet = useRef();
-    const [itemDetails,setItemDetails] = useState({});
-
-    useEffect(() => {
-        
-    },[]);
+    const [itemDetails,setItemDetails] = React.useState({});
+    const [customFieldsValue,setCustomFieldsValue] =  React.useState([]);
 
     const GetItemDetails = () => {
         refRBSheet.current.open();
         getItemDetails(itemId).then((response) => {
             setItemDetails(response.data);
-            console.log(response.data);
+            setCustomFieldsValue(response.data.custom_fields_values);
         }).catch((error) => {
             console.log("getItemDetails" + error);
         });
@@ -48,18 +44,18 @@ const ItemDetails = (props) => {
             closeOnPressMask={false}
             style={styles.bottomSheet}
             animationType="fade"
-            height={450}
+            height={500}
             closeOnPressMask={true}
         >
             <ScrollView>
                 <View style={styles.imageTextContainer}>
                     <View style={styles.brandItem}>
                         <Image
-                        source={CPUImage}
+                        source={{uri:itemDetails.image}}
                         style={styles.image}
                         />
-                        <Text style={styles.item}>i7 64652k</Text>
-                        <Text style={styles.brand}>intel</Text>
+                        <Text style={styles.item}>{itemDetails.name}</Text>
+                        <Text style={styles.brand}>{itemDetails.brand}</Text>
                     </View>
                     <View style={styles.brandItem}>
                         <Icons
@@ -67,12 +63,12 @@ const ItemDetails = (props) => {
                         onPress={() => refRBSheet.current.close()}
                         style={styles.cross}  
                         />
-                        <Text style={styles.price}>KD 2,000</Text>
+                        <Text style={styles.price}>{itemDetails.price}</Text>
                     </View>
                 </View>
                 <View style={styles.desToBtn}>
                     <View style={styles.description}>
-                        <Text>New 10th Gen Intel® Core™ processors deliver remarkable performance upgrades for improved productivity and stunning entertainment, including 5.3 GHz, ...</Text>
+                        <Text>{itemDetails.description}</Text>
                     </View>
                     <ImageBackground
                     source={IcDetailCard}
@@ -82,54 +78,27 @@ const ItemDetails = (props) => {
                             style={styles.headingView}>
                             <Text
                                 style={styles.packageText}>
-                                Package Details (4 Items)
+                                Package Details (2 items)
                             </Text>
                         </View>
                         <View
                             style={styles.dataView}>
-                            {[...Array(4).keys()].map((i, k) => (
+                            {customFieldsValue.map((customValues, index) => {
+                                return(
                                 <View
                                 style={styles.permormanceDetails}
-                                key={k}>
+                                key={index}>
                                 <Text
                                     style={styles.performaceItem}>
-                                    #of course
+                                   {customValues.name}
                                 </Text>
                                 <Text
                                     style={styles.itemData}>
-                                    3.5 GHz
+                                    {customValues.value}
                                 </Text>
                                 </View>
-                            ))}
-                            </View>
-                    </ImageBackground>
-                    <ImageBackground
-                    source={IcDetailCard}
-                    style={styles.detailsCardImage}
-                    >
-                        <View
-                            style={styles.headingView}>
-                            <Text
-                                style={styles.packageText}>
-                                Processors Graphics
-                            </Text>
-                        </View>
-                        <View
-                            style={styles.dataView}>
-                            {[...Array(4).keys()].map((i, k) => (
-                                <View
-                                style={styles.permormanceDetails}
-                                key={k}>
-                                <Text
-                                    style={styles.performaceItem}>
-                                    Graphics Basic Frequency
-                                </Text>
-                                <Text
-                                    style={styles.itemData}>
-                                    350 MHz
-                                </Text>
-                                </View>
-                            ))}
+                                );
+                            })}
                             </View>
                     </ImageBackground>
 
@@ -161,7 +130,6 @@ const styles = StyleSheet.create({
         width:width*0.2,
         height:height*0.1,
         position:'relative',
-        top:"-40%",
 
     },
     imageTextContainer:{
@@ -177,28 +145,24 @@ const styles = StyleSheet.create({
     },
     item:{
         position:'relative',
-        top:"-30%",
         fontSize:20,
     },
     brand:{
         position:'relative',
-        top:"-30%",
         fontSize:15,    
     },
     cross:{
         position:'relative',
-        top:"-30%",
         left:"80%",
+        top:"-20%"
     },
     price:{
         fontSize:18,
         position:'relative',
-        top:"-20%",
     },
     description:{
         paddingHorizontal:"10%",
         position:'relative',
-        top:"-4%",
     },
     desToBtn:{
         display:'flex',
