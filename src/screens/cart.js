@@ -16,7 +16,10 @@ import IcDetailCard from '../assets/ic_details_card.png';
 
 const {width, height} = Dimensions.get('window');
 
-const Cart = ({navigation}) => {
+const Cart = ({navigation,route}) => {
+  const { packageId } = route.params;
+  const { itemsIds } = route.params;
+  
   return (
     <ImageBackground
       source={require('../assets/plainBg.png')}
