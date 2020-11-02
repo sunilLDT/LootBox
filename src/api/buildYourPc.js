@@ -12,7 +12,7 @@ export async function packageListByGames(gameIds) {
   const response = await Api.post('app/build-pc/get-packages', {
     game_ids:gameIds,
   });
-
+console.log(response.data)
   return response.data;
 }
 
