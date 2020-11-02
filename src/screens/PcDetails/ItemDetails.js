@@ -33,6 +33,11 @@ const ItemDetails = (props) => {
         });
     }
 
+
+    const selectItem=(id)=>{
+        props.addToSelected(id)
+    }
+
     return(
         <View>
         <TouchableOpacity style={styles.expandContainer} onPress={() => GetItemDetails()}>
@@ -102,7 +107,7 @@ const ItemDetails = (props) => {
                             </View>
                     </ImageBackground>
 
-                    <TouchableOpacity style={styles.btn} onPress={() => {}}>
+                    <TouchableOpacity style={styles.btn} onPress={() => {selectItem(itemId)}}>
                         <Btn text="Select this CPU" />
                     </TouchableOpacity>
                 </View>
