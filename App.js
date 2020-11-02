@@ -36,6 +36,7 @@ import AdvanceBuilder from './src/screens/AdvanceBuilder';
 import ProductDetails from './src/screens/PcDetails/ProductDetails';
 import ItemListing from './src/screens/PcDetails/ItemListing';
 import SearchListing from './src/screens/PcDetails/searchListing';
+import CheckOut from './src/components/CheckOut';
 
 import OrderDetails from './src/screens/OrderDetails';
 
@@ -161,6 +162,8 @@ const App = () => {
           <Stack.Screen name="ItemListing" component={ItemListing} />
           <Stack.Screen name="OrderDetails" component={OrderDetails} />
           <Stack.Screen name="searchListing" component={SearchListing} />
+          <Stack.Screen name="checkout" component={CheckOut} />
+
 
         </Stack.Navigator>
       </NavigationContainer>

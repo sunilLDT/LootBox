@@ -14,7 +14,7 @@ import Btn from '../btn';
 import ExpandImage from '../../assets/ic_expand1.png';
 import { ScrollView } from 'react-native-gesture-handler';
 import ItemCard from '../../assets/ic_card.png';
-import { packageDetailsById } from '../../api/buildYourPc';
+import { packageDetailsById,addToCart } from '../../api/buildYourPc';
 import ListDetails from '../PcDetails/List';
 
 const { width, height } = Dimensions.get('window');
@@ -27,6 +27,13 @@ const ProductDetails = ({ navigation, route }) => {
 
   const [packageDetails, setPackageDetails] = useState([]);
   
+  const items = {
+    "item_id":82,
+    "quantity":1
+  };
+
+  const [addItems,setAddItems] = useState();
+
 
   useEffect(() => {
     packageDetailsById(PackageId).then((response) => {
@@ -36,6 +43,15 @@ const ProductDetails = ({ navigation, route }) => {
       console.log("PackageDetails" + error);
     });
   }, [PackageId]);
+  
+  
+  const addIntoCart = () => {
+    addToCart(PackageId,items).then((response) => {
+      setAddItems(response.data);
+    }).catch((error) => {
+      console.log("addToCart" + error);
+    });
+  }  
 
 
   const [showCpuPerocessersList, setShowCpuProcesserList] = React.useState(false,);
@@ -177,7 +193,7 @@ const ProductDetails = ({ navigation, route }) => {
 
         <TouchableOpacity
           activeOpacity={0.1}
-          onPress={() => navigation.navigate('cart',{packageId:PackageId})}>
+          onPress={() => navigation.navigate('cart',addIntoCart())}>
           <Btn />
         </TouchableOpacity>
       </ScrollView>

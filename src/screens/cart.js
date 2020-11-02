@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useState,useEffect} from 'react';
 import {
   ImageBackground,
   View,
@@ -10,16 +10,42 @@ import {
 } from 'react-native';
 import Btn from './btn';
 import ItemCard from '../assets/ic_card.png';
-import Machine from '../assets/machine.png';
-import GPUImage from '../assets/buildYourPc/gpu.png';
 import IcDetailCard from '../assets/ic_details_card.png';
+import {showCartData,orderPlace} from '../api/buildYourPc';
 
 const {width, height} = Dimensions.get('window');
 
-const Cart = ({navigation,route}) => {
-  const { packageId } = route.params;
-  const { itemsIds } = route.params;
-  
+const Cart = ({navigation}) => {
+
+  const [cartItems,setcartItems] = useState([]);
+
+  const [cartPackage,setCartPackage] = useState({});
+
+  const [cartData,setCartData] = useState({});
+
+  useEffect(() => {
+    showCartData().then((response) => {
+      setcartItems(response.data.items) 
+      setCartPackage(response.data.package)
+      setCartData(response.data)
+        
+    }).catch((error) => {
+      console.log("showCartData" + error);
+    });
+  }, []);
+
+  const checkout = () => {
+    orderPlace().then((response) => {
+      setPaymentUrl(response.data.data.paymenturl);
+      console.log(response.data);
+      navigation.navigate('checkout',{paymentUrl:response.data.data.paymenturl})
+    }).catch((error) => {
+      console.log("orderPlace" + error);
+    });
+  }
+
+
+
   return (
     <ImageBackground
       source={require('../assets/plainBg.png')}
@@ -69,18 +95,12 @@ const Cart = ({navigation,route}) => {
 
           <View
             style={{
-              // backgroundColor: '#000',
-              // width: '100%',
-              // height: height * 0.15,
-              // borderRadius: 20,
-              // marginBottom: 15,
-              // display: 'flex',
               flexDirection: 'row',
               justifyContent: 'space-between',
             }}>
             <Image
               resizeMode="contain"
-              source={Machine}
+              source={{uri:cartPackage.image}}
               style={{
                 width: 139,
                 height: 86,
@@ -95,7 +115,7 @@ const Cart = ({navigation,route}) => {
                 style={{
                   color: '#ECDBFA',
                 }}>
-                Alpha Fury
+                {cartPackage.name}
               </Text>
               <Text
                 style={{
@@ -107,7 +127,7 @@ const Cart = ({navigation,route}) => {
             </View>
           </View>
 
-          {[...Array(3).keys()].map((i, k) => (
+          {cartItems.map((items, k) => (
             <View
               key={k}
               style={
@@ -131,7 +151,7 @@ const Cart = ({navigation,route}) => {
                 }}>
                 <Image
                   resizeMode="contain"
-                  source={GPUImage}
+                  source={{uri:items.image}}
                   style={{
                     width: 63,
                     height: 60,
@@ -162,7 +182,7 @@ const Cart = ({navigation,route}) => {
                         color: '#D2D7F9',
                         opacity: 0.87,
                       }}>
-                      Alpha Fury
+                      {items.brand}
                     </Text>
                     <Text
                       style={{
@@ -171,7 +191,7 @@ const Cart = ({navigation,route}) => {
                         opacity: 0.5,
                         alignSelf: 'center',
                       }}>
-                      KD 4,500
+                      {items.sub_category_name}
                     </Text>
                   </View>
                   <Text
@@ -180,7 +200,7 @@ const Cart = ({navigation,route}) => {
                       color: '#D2D7F9',
                       opacity: 0.5,
                     }}>
-                    KD 2,520
+                    {items.price}
                   </Text>
                 </View>
               </ImageBackground>
@@ -234,9 +254,7 @@ const Cart = ({navigation,route}) => {
           <ImageBackground
             source={IcDetailCard}
             style={{
-              // backgroundColor: '#000',
               width: 345,
-              // height: 225,
               borderRadius: 10,
               marginVertical: 10,
               overflow: 'hidden',
@@ -254,7 +272,7 @@ const Cart = ({navigation,route}) => {
                   fontSize: 12,
                   opacity: 0.8,
                 }}>
-                Package Details (4 Items)
+                Package Details (1 Item)
               </Text>
             </View>
 
@@ -264,7 +282,7 @@ const Cart = ({navigation,route}) => {
                 borderBottomColor: 'rgba(255,255,255,0.3)',
                 borderBottomWidth: 0.3,
               }}>
-              {[...Array(4).keys()].map((i, k) => (
+              {/* {[...Array(4).keys()].map((i, k) => ( */}
                 <View
                   style={{
                     display: 'flex',
@@ -272,23 +290,24 @@ const Cart = ({navigation,route}) => {
                     justifyContent: 'space-between',
                     marginVertical: 8,
                   }}
-                  key={k}>
+                  // key={k}
+                  >
                   <Text
                     style={{
                       color: 'rgba(255,255,255,0.8)',
                       fontSize: 14,
                     }}>
-                    Alpha Fury
+                    {cartPackage.name}
                   </Text>
                   <Text
                     style={{
                       color: 'rgba(255,255,255,0.3)',
                       fontSize: 12,
                     }}>
-                    KD 2,500
+                    {cartData.sub_total}
                   </Text>
                 </View>
-              ))}
+              {/* ))} */}
             </View>
 
             <View style={{paddingHorizontal: 20}}>
@@ -311,14 +330,13 @@ const Cart = ({navigation,route}) => {
                     color: 'rgba(255,255,255,0.8)',
                     fontSize: 14,
                   }}>
-                  KD 10,000
+                  {cartData.grand_total}
                 </Text>
               </View>
             </View>
           </ImageBackground>
-
-          <TouchableOpacity onPress={() => {}}>
-            <Btn text="PAY     KD 10,000" />
+          <TouchableOpacity onPress={() => checkout()}>
+            <Btn text="PAY          185.00" />
           </TouchableOpacity>
 
           <Text
