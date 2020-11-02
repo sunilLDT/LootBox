@@ -37,3 +37,24 @@ export async function getItemDetails(itemId){
   );
   return response.data;
 }
+
+export async function addToCart(packageId,items){
+  const response = await Api.post('app/cart/add-to-cart',{
+    is_update:"true",
+    items:[items],
+    package_id:packageId
+  });
+  return response.data;
+}
+
+export async function showCartData(){
+  const response = await Api.get('app/cart/cart-list');
+  return response.data;
+}
+
+export async function orderPlace(){
+  const response = await Api.post('app/order/place',{
+    payment_type:1,
+  });
+  return response.data;
+}
