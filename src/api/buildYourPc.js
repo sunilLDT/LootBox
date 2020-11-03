@@ -41,9 +41,10 @@ export async function getItemDetails(itemId){
 export async function addToCart(packageId,items){
   const response = await Api.post('app/cart/add-to-cart',{
     is_update:"true",
-    items:[items],
+    items:items,
     package_id:packageId
   });
+  console.log(response.data)
   return response.data;
 }
 

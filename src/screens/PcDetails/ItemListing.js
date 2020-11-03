@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -10,18 +10,46 @@ import {
   FlatList,
 } from 'react-native';
 import IcCardImage from '../../assets/ic_card_a0.png';
+import { connect } from 'react-redux';
+import { cartActions } from '../../actions/user';
+import selectedIcCardImage from '../../assets/Rectangle.png'
 
-const {width, height} = Dimensions.get('window');
 
-const ItemListing = ({navigation, route}) => {
-  const {items} = route.params;
+const { width, height } = Dimensions.get('window');
+
+const ItemListing = (props   ) => {
+  const [selectedItems, setSelectedItems] = useState([0]);
+  const { items } = props.route.params;
+
+  const selectHandler = (id) => {
+    let item = {
+      "item_id": id,
+      "quantity": 1
+    };
+    setSelectedItems([...selectedItems, id]);
+    props.add(item);
+    console.log(props.cart);
+  }
+
+  const selectDisplay = (id) => {
+    let a = [...selectedItems]
+    if (!a.includes(id)) {
+      return true;
+    }
+    if (a.includes(id)) {
+      return false;
+    }
+
+
+  }
+
   return (
     <ImageBackground
       source={require('../../assets/plainBg.png')}
       style={styles.container}>
       <TouchableOpacity
         onPress={() => {
-          navigation.goBack();
+          props.navigation.goBack();
         }}>
         <View style={styles.backButtonContentConatiner}>
           <Image
@@ -34,10 +62,15 @@ const ItemListing = ({navigation, route}) => {
       <FlatList
         keyExtractor={(item) => item.name}
         data={items || []}
-        renderItem={({item}, index) => {
+        renderItem={({ item }, index) => {
           return (
+            <TouchableOpacity
+                        key={index}
+                        onPress={() => { selectHandler(item.item_id) }}
+                      >
             <ImageBackground
-              source={IcCardImage}
+            onPress={() => { selectHandler(item.item_id) }}
+            source={!selectDisplay(item.item_id) ? selectedIcCardImage : IcCardImage}
               style={styles.cardConatiner}
               key={index}>
               <View
@@ -47,8 +80,8 @@ const ItemListing = ({navigation, route}) => {
                   alignContent: 'center',
                 }}>
                 <Image
-                  source={{uri:item.image}}
-                  style={{width: 48, height: 40, marginBottom: 10, alignSelf: 'center'}}
+                  source={{ uri: item.image }}
+                  style={{ width: 48, height: 40, marginBottom: 10, alignSelf: 'center' }}
                 />
                 <Text
                   style={{
@@ -84,6 +117,7 @@ const ItemListing = ({navigation, route}) => {
                 </Text>
               </View>
             </ImageBackground>
+            </TouchableOpacity>
           );
         }}
         numColumns={3}
@@ -122,4 +156,15 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ItemListing;
+const mapStateToProps = (state) => ({
+  cart: state.cartReducer.cart,
+
+})
+
+const actionCreators = {
+  add: cartActions.addCartAction,
+
+};
+
+export default connect(mapStateToProps, actionCreators)(ItemListing);
+

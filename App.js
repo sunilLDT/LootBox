@@ -40,6 +40,8 @@ import CheckOut from './src/components/CheckOut';
 import AlertMessage from './src/components/AlertMessage';
 
 import OrderDetails from './src/screens/OrderDetails';
+import { store, persistedStore } from './src/store/index';
+import { Provider } from 'react-redux';
 
 const {width, height} = Dimensions.get('window');
 
@@ -176,10 +178,12 @@ const App = () => {
 
 export default () => {
   return (
+    <Provider store={store}>
     <AuthProvider>
       <SafeAreaView style={{flex:1, backgroundColor: '#2A2D39'}}>
       <App />
       </SafeAreaView>
     </AuthProvider>
+    </Provider>
   );
 };

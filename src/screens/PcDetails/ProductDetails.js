@@ -16,12 +16,14 @@ import { ScrollView } from 'react-native-gesture-handler';
 import ItemCard from '../../assets/ic_card.png';
 import { packageDetailsById,addToCart } from '../../api/buildYourPc';
 import ListDetails from '../PcDetails/List';
+import { connect } from 'react-redux';
+import { cartActions } from '../../actions/user';
 
 const { width, height } = Dimensions.get('window');
 
-const ProductDetails = ({ navigation, route }) => {
+const ProductDetails = (props) => {
 
-  const { PackageId } = route.params;
+  const { PackageId } = props.route.params;
 
   const [packageDetailsData, setPackageDetailsData] = useState({});
 
@@ -46,8 +48,10 @@ const ProductDetails = ({ navigation, route }) => {
   
   
   const addIntoCart = () => {
-    addToCart(PackageId,items).then((response) => {
+    
+    addToCart(PackageId,props.cart).then((response) => {
       setAddItems(response.data);
+      props.navigation.navigate('cart');
     }).catch((error) => {
       console.log("addToCart" + error);
     });
@@ -60,7 +64,7 @@ const ProductDetails = ({ navigation, route }) => {
     <ImageBackground source={BackgroundImage} style={styles.container}>
       <TouchableOpacity
         onPress={() => {
-          navigation.goBack();
+          props.navigation.goBack();
         }}>
         <View style={styles.backButtonContentConatiner}>
           <Image
@@ -193,7 +197,7 @@ const ProductDetails = ({ navigation, route }) => {
 
         <TouchableOpacity
           activeOpacity={0.1}
-          onPress={() => navigation.navigate('cart',addIntoCart())}>
+          onPress={() =>addIntoCart()}>
           <Btn />
         </TouchableOpacity>
       </ScrollView>
@@ -241,5 +245,14 @@ const styles = StyleSheet.create({
     paddingBottom: 20,
   },
 });
+const mapStateToProps = (state) => ({
+  cart: state.cartReducer.cart,
 
-export default ProductDetails;
+})
+
+const actionCreators = {
+  add: cartActions.addCartAction,
+
+};
+
+export default connect(mapStateToProps, actionCreators)(ProductDetails)

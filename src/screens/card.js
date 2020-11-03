@@ -5,6 +5,7 @@ import {SvgXml} from 'react-native-svg';
 
 
 export default ({text,image}) => {
+    console.log(image);
 
 
 const xml = `
