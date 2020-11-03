@@ -33,6 +33,12 @@ const BuildYourPc = ({ navigation }) => {
     });
   }, [resolution]);
 
+  const submitGames =()=>{
+    if(selected.length>0){
+    navigation.navigate('PcDetails', { selectedGames: selected })
+    } 
+  }
+
   return (
     <ScrollView
       showsVerticalScrollIndicator={false}
@@ -183,7 +189,7 @@ const BuildYourPc = ({ navigation }) => {
         <TouchableOpacity
           activeOpacity={0.1}
           onPress={() =>
-            navigation.navigate('PcDetails', { selectedGames: selected })
+            submitGames()
           }>
           <Btn />
         </TouchableOpacity>

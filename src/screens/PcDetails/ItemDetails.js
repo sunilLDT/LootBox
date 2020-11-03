@@ -15,6 +15,8 @@ import Icons from 'react-native-vector-icons/Feather';
 import { ScrollView } from 'react-native-gesture-handler';
 import IcDetailCard from '../../assets/ic_details_card.png';
 import Btn from '../../screens/btn';
+import { connect } from 'react-redux';
+import { cartActions } from '../../actions/user';
 
 const { width, height } = Dimensions.get('window');
 const ItemDetails = (props) => {
@@ -34,8 +36,17 @@ const ItemDetails = (props) => {
     }
 
 
+
     const selectItem=(id)=>{
-        props.addToSelected(id)
+        console.log(props.cart);
+        let item = {
+            "item_id": id,
+            "quantity": 1
+        };
+        //setSelectedItems([...selectedItems, id]);
+        props.add(item);
+        refRBSheet.current.close()
+        console.log(props.cart);
     }
 
     return(
@@ -108,7 +119,7 @@ const ItemDetails = (props) => {
                     </ImageBackground>
 
                     <TouchableOpacity style={styles.btn} onPress={() => {selectItem(itemId)}}>
-                        <Btn text="Select this CPU" />
+                        <Btn text="Select this CPU" pay=" "/>
                     </TouchableOpacity>
                 </View>
             </ScrollView>
@@ -216,4 +227,16 @@ const styles = StyleSheet.create({
     },
 });
 
-export default ItemDetails;
+const mapStateToProps = (state) => ({
+    cart: state.cartReducer.cart,
+
+})
+
+const actionCreators = {
+    add: cartActions.addCartAction,
+
+};
+
+export default connect(mapStateToProps, actionCreators)(ItemDetails)
+
+

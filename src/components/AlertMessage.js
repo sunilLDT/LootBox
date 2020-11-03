@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useEffect} from 'react';
 import {
     View,
     Image,
@@ -7,18 +7,31 @@ import {
     StyleSheet,
 } from 'react-native';
 import Btn from '../../src/screens/btn';
+import { connect } from 'react-redux';
+import { cartActions } from '../actions/user';
 
 const {width, height} = Dimensions.get('window');
 
-const AlertMessage = ({navigation,route}) => {
-    const {msgUrl} = route.params;
+const AlertMessage = (props) => {
+
+    useEffect(() => {
+        props.empty();
+      }, []);
+
+    const {msgUrl} = props.route.params;
+
     return (
+        
         <View style={styles.container}>
             <Image style={styles.checkImage} source={require('../assets/check.png')}/>
             {msgUrl == "https://test-api.loot-box.co/api/hesabe-success-callback"?<Text style={styles.msg}>Order{"\n"}Successful</Text>:<Text style={styles.msg}>Order{"\n"}Failed</Text>}
             {msgUrl == "https://test-api.loot-box.co/api/hesabe-success-callback"?<Text style={styles.line}>Your Order will be delivered{"\n"}between 48-72 Hours</Text>:null}
-            <Btn text="View Order" pay=""/>
+            <Btn text="View Order" pay=" " 
+                onPress={() =>props.navigation.navigate('home')}
+            pay=""/>
         </View>
+       
+            
     );
 }
 
@@ -40,4 +53,16 @@ const styles = StyleSheet.create({
     }
 });
 
-export default AlertMessage;
+
+
+const mapStateToProps = (state) => ({
+    cart: state.cartReducer.cart,
+
+})
+
+const actionCreators = {
+    empty: cartActions.emptyCartAction,
+
+};
+
+export default connect(mapStateToProps, actionCreators)(AlertMessage)

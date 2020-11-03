@@ -187,7 +187,7 @@ const ProductDetails = (props) => {
                   {showCpuPerocessersList ? (
                       <ListDetails
                         data={item}
-                        navigation={navigation}
+                        navigation={props.navigation}
                       ></ListDetails>
                   ) : null}
                 </View>
