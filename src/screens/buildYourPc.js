@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -15,27 +15,28 @@ import Card from './card';
 import Btn from './btn';
 import Option1 from './1080P';
 import Option2 from './2K';
-import {TouchableWithoutFeedback} from 'react-native-gesture-handler';
-import {getAllGames} from '../api/buildYourPc';
+import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
+import { getAllGames } from '../api/buildYourPc';
 
 
-const {width, height} = Dimensions.get('window');
+const { width, height } = Dimensions.get('window');
 
-const BuildYourPc = ({navigation}) => {
+const BuildYourPc = ({ navigation }) => {
   const [selected, setSelected] = useState([]);
   const [resolution, setResolution] = useState('1080P');
   const [gameData, setGameData] = useState([]);
 
   useEffect(() => {
     getAllGames(resolution).then((response) => {
-      setGameData(response.data); 
+      console.log(response.data)
+      setGameData(response.data);
     });
   }, [resolution]);
 
   return (
     <ScrollView
       showsVerticalScrollIndicator={false}
-      style={{width, height, overflowX: 'hidden'}}>
+      style={{ width, height, overflowX: 'hidden' }}>
       <ImageBackground
         source={require('../assets/dottedBackground.png')}
         style={{
@@ -69,8 +70,8 @@ const BuildYourPc = ({navigation}) => {
           <TouchableOpacity
             onPress={() => navigation.navigate('AdvanceBuilder')}>
             <LinearGradient
-              start={{x: 0, y: 0}}
-              end={{x: 1, y: 0}}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 0 }}
               style={{
                 borderRadius: 10,
                 borderColor: '#C01C8A',
@@ -121,13 +122,13 @@ const BuildYourPc = ({navigation}) => {
               flexDirection: 'row',
             }}>
             <TouchableOpacity
-              style={{width: 116}}
+              style={{ width: 116 }}
               onPress={() => {
                 setResolution('1080P');
               }}>
               <Option1 selected={resolution === '1080P'} />
             </TouchableOpacity>
-            <View style={{position: 'relative', right: 50, width: 84}}>
+            <View style={{ position: 'relative', right: 50, width: 84 }}>
               <TouchableOpacity
                 onPress={() => {
                   setResolution('2K');
@@ -135,7 +136,7 @@ const BuildYourPc = ({navigation}) => {
                 <Option2 selected={resolution === '2K'} text="2K" />
               </TouchableOpacity>
             </View>
-            <View style={{position: 'relative', right: 100, width: 84}}>
+            <View style={{ position: 'relative', right: 100, width: 84 }}>
               <TouchableOpacity
                 onPress={() => {
                   setResolution('4K');
@@ -144,7 +145,7 @@ const BuildYourPc = ({navigation}) => {
               </TouchableOpacity>
             </View>
           </View>
-          <TouchableOpacity onPress={() => {}}>
+          <TouchableOpacity onPress={() => { }}>
             <Image
               resizeMode="contain"
               source={require('../assets/buildYourPc/search.png')}
@@ -157,8 +158,8 @@ const BuildYourPc = ({navigation}) => {
         </View>
 
         {gameData.map((i, k) => {
-          return(
-            <View key={k} style={{width: '100%', marginVertical: 10}}>
+          return (
+            <View key={k} style={{ width: '100%', marginVertical: 10 }}>
               {!selected.includes(i.game_id) ? (
                 <TouchableWithoutFeedback
                   activeOpacity={0.2}
@@ -168,21 +169,21 @@ const BuildYourPc = ({navigation}) => {
                   <Card text={i.name} image={i.image} />
                 </TouchableWithoutFeedback>
               ) : (
-                <TouchableWithoutFeedback
-                  activeOpacity={0.2}
-                  onPressIn={() => {
-                    setSelected(selected.filter((x) => x !== i.game_id));
-                  }}>
-                  <Testing text={i.name} image={i.image} />
-                </TouchableWithoutFeedback>
-              )}
+                  <TouchableWithoutFeedback
+                    activeOpacity={0.2}
+                    onPressIn={() => {
+                      setSelected(selected.filter((x) => x !== i.game_id));
+                    }}>
+                    <Testing text={i.name} image={i.image} />
+                  </TouchableWithoutFeedback>
+                )}
             </View>
           );
         })}
         <TouchableOpacity
           activeOpacity={0.1}
           onPress={() =>
-            navigation.navigate('PcDetails', {selectedGames: selected})
+            navigation.navigate('PcDetails', { selectedGames: selected })
           }>
           <Btn />
         </TouchableOpacity>

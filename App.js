@@ -37,8 +37,9 @@ import ProductDetails from './src/screens/PcDetails/ProductDetails';
 import ItemListing from './src/screens/PcDetails/ItemListing';
 import SearchListing from './src/screens/PcDetails/searchListing';
 import CheckOut from './src/components/CheckOut';
-
 import OrderDetails from './src/screens/OrderDetails';
+import { store, persistedStore } from './src/store/index';
+import { Provider } from 'react-redux';
 
 const {width, height} = Dimensions.get('window');
 
@@ -173,10 +174,12 @@ const App = () => {
 
 export default () => {
   return (
+    <Provider store={store}>
     <AuthProvider>
       <SafeAreaView style={{flex:1, backgroundColor: '#2A2D39'}}>
       <App />
       </SafeAreaView>
     </AuthProvider>
+    </Provider>
   );
 };

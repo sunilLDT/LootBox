@@ -12,15 +12,15 @@ import Btn from './btn';
 import ItemCard from '../assets/ic_card.png';
 import IcDetailCard from '../assets/ic_details_card.png';
 import {showCartData,orderPlace} from '../api/buildYourPc';
+import { connect } from 'react-redux';
+import { cartActions } from '../actions/user';
 
 const {width, height} = Dimensions.get('window');
 
 const Cart = ({navigation}) => {
 
   const [cartItems,setcartItems] = useState([]);
-
   const [cartPackage,setCartPackage] = useState({});
-
   const [cartData,setCartData] = useState({});
 
   useEffect(() => {
@@ -359,5 +359,14 @@ const Cart = ({navigation}) => {
     </ImageBackground>
   );
 };
+const mapStateToProps = (state) => ({
+  cart: state.cartReducer.cart,
 
-export default Cart;
+})
+
+const actionCreators = {
+  add: cartActions.addCartAction,
+
+};
+
+export default connect(mapStateToProps, actionCreators)(Cart)
