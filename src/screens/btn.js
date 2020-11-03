@@ -4,7 +4,7 @@ import {SvgXml} from 'react-native-svg';
 
 const {width, height} = Dimensions.get('window');
 
-export default ({text, x}) => {
+export default ({text, x,pay=""}) => {
   const xml = `
 <?xml version="1.0" encoding="UTF-8"?>
 <svg width="${
@@ -36,7 +36,7 @@ export default ({text, x}) => {
                     <g id="Group-2-Copy-2" transform="translate(0.135120, 0.000000)">
                         <text id="Build-Your-PC">
                             <tspan x=${x ? x : '15.901504017'} y="13.3199707">${
-    text ? text : 'BUILD YOUR PC'
+                                pay  +  text ? pay  +  text : 'BUILD YOUR PC'
   }</tspan>
                         </text>
                     </g>

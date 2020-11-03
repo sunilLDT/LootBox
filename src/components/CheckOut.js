@@ -4,20 +4,18 @@ import {
     StyleSheet,
     View,
     SafeAreaView,
-} from "react-native"
-
-
+} from "react-native";
 
 const CheckOut = ({navigation,route}) => {
+
     const {paymentUrl} = route.params;
-const _onNavigationStateChange = (webViewState) => {
-    console.log(webViewState.url)
-    if(webViewState.url == "https://test-api.loot-box.co/api/hesabe-success-callback"){
-        console.log("success");
-    }
-    else{
-        console.log("errrrorr");
-    }
+
+    const _onNavigationStateChange = (webViewState) => {
+        var fullUrl  = webViewState.url;
+        var msgUrl =  fullUrl.substring(0,56);
+        if(msgUrl == "https://test-api.loot-box.co/api/hesabe-success-callback" || msgUrl == "https://test-api.loot-box.co/api/hesabe-error-callback"){
+            navigation.navigate('alertMessage',{msgUrl:msgUrl});
+        }
     }
     return (
         <SafeAreaView >
@@ -35,23 +33,5 @@ const _onNavigationStateChange = (webViewState) => {
 }
 
 const styles = StyleSheet.create({
-    container: {
-        marginTop: "-2%",
-
-        marginBottom: "-2%",
-        flex: 1,
-        alignItems: "center",
-        justifyContent: "center",
-        width: "100%",
-    },
-    checkboxContainer: {
-        flexDirection: "row",
-        alignItems: "center",
-        justifyContent: "center",
-    },
-    label: {
-        margin: 8,
-    },
-
 });
 export default CheckOut;

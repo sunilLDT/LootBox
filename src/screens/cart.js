@@ -28,7 +28,6 @@ const Cart = ({navigation}) => {
       setcartItems(response.data.items) 
       setCartPackage(response.data.package)
       setCartData(response.data)
-        
     }).catch((error) => {
       console.log("showCartData" + error);
     });
@@ -36,16 +35,11 @@ const Cart = ({navigation}) => {
 
   const checkout = () => {
     orderPlace().then((response) => {
-      setPaymentUrl(response.data.data.paymenturl);
-      console.log(response.data);
       navigation.navigate('checkout',{paymentUrl:response.data.data.paymenturl})
     }).catch((error) => {
       console.log("orderPlace" + error);
     });
   }
-
-
-
   return (
     <ImageBackground
       source={require('../assets/plainBg.png')}
@@ -130,17 +124,7 @@ const Cart = ({navigation}) => {
           {cartItems.map((items, k) => (
             <View
               key={k}
-              style={
-                {
-                  // backgroundColor: '#000',
-                  // width: '100%',
-                  // height: height * 0.12,
-                  // borderRadius: 20,
-                  // marginVertical: 10,
-                  // display: 'flex',
-                  // flexDirection: 'row',
-                }
-              }>
+              >
               <ImageBackground
                 source={ItemCard}
                 style={{
@@ -336,7 +320,7 @@ const Cart = ({navigation}) => {
             </View>
           </ImageBackground>
           <TouchableOpacity onPress={() => checkout()}>
-            <Btn text="PAY          185.00" />
+            <Btn  text={cartData.grand_total} pay="PAY                " />
           </TouchableOpacity>
 
           <Text
@@ -352,7 +336,7 @@ const Cart = ({navigation}) => {
           </Text>
 
           <TouchableOpacity onPress={() => {}}>
-            <Btn text="Continue Shopping" x="0" />
+            <Btn text="Continue Shopping" x="0"  />
           </TouchableOpacity>
         </View>
       </ScrollView>

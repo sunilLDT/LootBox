@@ -24,8 +24,6 @@ const ListDetails = (props) => {
 
     useEffect(() => {
         getCategoriesItem(props.data.sub_category_id, props.data.item_id, props.data.sub_category_name).then((response) => {
-            console.log(response.data)
-
             setCategoyItems(response.data);
         }).catch((error) => {
             console.log("getCategoriesItems" + error);

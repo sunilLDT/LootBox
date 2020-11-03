@@ -37,6 +37,7 @@ import ProductDetails from './src/screens/PcDetails/ProductDetails';
 import ItemListing from './src/screens/PcDetails/ItemListing';
 import SearchListing from './src/screens/PcDetails/searchListing';
 import CheckOut from './src/components/CheckOut';
+import AlertMessage from './src/components/AlertMessage';
 
 import OrderDetails from './src/screens/OrderDetails';
 
@@ -163,6 +164,8 @@ const App = () => {
           <Stack.Screen name="OrderDetails" component={OrderDetails} />
           <Stack.Screen name="searchListing" component={SearchListing} />
           <Stack.Screen name="checkout" component={CheckOut} />
+          <Stack.Screen name="alertMessage" component={AlertMessage} />
+
 
 
         </Stack.Navigator>
