@@ -1,4 +1,4 @@
-import React, {  useRef } from 'react';
+import React, {  useRef, useState } from 'react';
 import {
     View,
     Text,
@@ -33,7 +33,6 @@ const ItemDetails = (props) => {
         });
     }
 
-
     const selectItem=(id)=>{
         props.addToSelected(id)
     }
@@ -46,13 +45,12 @@ const ItemDetails = (props) => {
         <RBSheet
             ref={refRBSheet}
             closeOnDragDown={true}
-            closeOnPressMask={false}
             style={styles.bottomSheet}
             animationType="fade"
             height={500}
             closeOnPressMask={true}
         >
-            <ScrollView>
+            <ScrollView style={styles.scrollViewContainer}>
                 <View style={styles.imageTextContainer}>
                     <View style={styles.brandItem}>
                         <Image
@@ -68,12 +66,12 @@ const ItemDetails = (props) => {
                         onPress={() => refRBSheet.current.close()}
                         style={styles.cross}  
                         />
-                        <Text style={styles.price}>{itemDetails.price}</Text>
+                        <Text style={styles.price}>KD {itemDetails.price}</Text>
                     </View>
                 </View>
                 <View style={styles.desToBtn}>
                     <View style={styles.description}>
-                        <Text>{itemDetails.description}</Text>
+                        <Text style={styles.descriptionText}>{itemDetails.description}</Text>
                     </View>
                     <ImageBackground
                     source={IcDetailCard}
@@ -83,7 +81,7 @@ const ItemDetails = (props) => {
                             style={styles.headingView}>
                             <Text
                                 style={styles.packageText}>
-                                Package Details (2 items)
+                                Package Details ({customFieldsValue.length} items)
                             </Text>
                         </View>
                         <View
@@ -97,6 +95,7 @@ const ItemDetails = (props) => {
                                     style={styles.performaceItem}>
                                    {customValues.name}
                                 </Text>
+                                
                                 <Text
                                     style={styles.itemData}>
                                     {customValues.value}
@@ -108,7 +107,7 @@ const ItemDetails = (props) => {
                     </ImageBackground>
 
                     <TouchableOpacity style={styles.btn} onPress={() => {selectItem(itemId)}}>
-                        <Btn text="Select this CPU" />
+                        <Btn text="Select this CPU" pay=""/>
                     </TouchableOpacity>
                 </View>
             </ScrollView>
@@ -121,6 +120,10 @@ const styles = StyleSheet.create({
     expand:{
         width:16,
         height:10,
+    },
+    scrollViewContainer:{
+        backgroundColor:"#2E2E3A",
+        borderRadius:20,
     },
     bottomSheet:{
         backgroundColor: "transparent",
@@ -151,23 +154,35 @@ const styles = StyleSheet.create({
     item:{
         position:'relative',
         fontSize:20,
+        color:'#fff',
+        marginVertical:5,
     },
     brand:{
         position:'relative',
-        fontSize:15,    
+        fontSize:15,
+        color: 'rgba(255,255,255,0.3)', 
+        marginVertical:5,   
     },
     cross:{
         position:'relative',
         left:"80%",
-        top:"-20%"
+        top:"-20%",
+        color: '#842D8A',
+        marginVertical:5,
     },
     price:{
         fontSize:18,
         position:'relative',
+        color: 'rgba(255,255,255,0.3)',
+        marginVertical:5,
     },
     description:{
         paddingHorizontal:"10%",
         position:'relative',
+        marginVertical:5,
+    },
+    descriptionText:{
+        color: 'rgba(255,255,255,0.3)',
     },
     desToBtn:{
         display:'flex',
@@ -176,7 +191,6 @@ const styles = StyleSheet.create({
     },
     detailsCardImage:{
         width:width*0.9,
-        height:height*0.4,
         position:'relative',
         left:"10%",
         borderRadius: 10,
@@ -204,7 +218,7 @@ const styles = StyleSheet.create({
         marginVertical: 8,
     },
     performaceItem:{
-        color: 'rgba(255,255,255,0.8)',
+        color: 'rgba(255,255,255,0.3)',
         fontSize: 14,
     },
     itemData:{

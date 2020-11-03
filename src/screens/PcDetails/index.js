@@ -114,7 +114,7 @@ const styles = StyleSheet.create({
     textTransform:'uppercase',
 },
 images:{
-    width:width*0.5,
+    width:width*0.4,
     height:height*0.4,
     resizeMode:"contain",
     position:'absolute',
@@ -129,8 +129,8 @@ container:{
 },
 linearGradient:{
     height:"70%",
-    width:width*0.9,
     marginVertical:"5%",
+    
 },
 detailsContainer:{
     display:'flex',
@@ -159,7 +159,7 @@ attributesView:{
     alignItems:'center',
     flexDirection:'row',
     marginLeft:"5%",
-    marginTop:"7%",
+    marginTop:"1%",
 },
 attributesView1:{
     display:'flex',
@@ -203,7 +203,7 @@ attrText:{
 },
 arrow:{
     marginBottom:"7%",
-    marginLeft:"-6%",
+    marginLeft:"-11%",
 },
 });
 

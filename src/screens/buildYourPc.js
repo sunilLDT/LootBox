@@ -185,7 +185,7 @@ const BuildYourPc = ({ navigation }) => {
           onPress={() =>
             navigation.navigate('PcDetails', { selectedGames: selected })
           }>
-          <Btn />
+          <Btn text="BUILD YOUR PC"/>
         </TouchableOpacity>
         {/*
         <ActivityIndicator

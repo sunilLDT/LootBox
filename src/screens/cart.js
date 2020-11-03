@@ -104,6 +104,7 @@ const Cart = ({navigation}) => {
               style={{
                 alignSelf: 'center',
                 right: 20,
+                width:"40%",
               }}>
               <Text
                 style={{
@@ -116,7 +117,7 @@ const Cart = ({navigation}) => {
                   color: '#ECDBFA',
                   opacity: 0.5,
                 }}>
-                KD 4,500
+                {cartData.grand_total}
               </Text>
             </View>
           </View>
@@ -335,7 +336,7 @@ const Cart = ({navigation}) => {
             Forgot to add something?
           </Text>
 
-          <TouchableOpacity onPress={() => {}}>
+          <TouchableOpacity onPress={() => navigation.navigate('home')}>
             <Btn text="Continue Shopping" x="0"  />
           </TouchableOpacity>
         </View>

@@ -187,7 +187,7 @@ const ProductDetails = (props) => {
                   {showCpuPerocessersList ? (
                       <ListDetails
                         data={item}
-                        navigation={navigation}
+                        navigation={props.navigation}
                       ></ListDetails>
                   ) : null}
                 </View>
@@ -198,7 +198,7 @@ const ProductDetails = (props) => {
         <TouchableOpacity
           activeOpacity={0.1}
           onPress={() =>addIntoCart()}>
-          <Btn />
+          <Btn  text="BUILD YOUR PC"/>
         </TouchableOpacity>
       </ScrollView>
     </ImageBackground>
