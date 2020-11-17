@@ -8,13 +8,15 @@ import {
     Dimensions,
     TouchableOpacity,
 } from 'react-native';
-import Expand from '../../assets/ic_expand1.png';
+import Expand from '../../assets/ic-3copy.png';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import { getItemDetails } from '../../api/buildYourPc';
 import Icons from 'react-native-vector-icons/Feather';
 import { ScrollView } from 'react-native-gesture-handler';
 import IcDetailCard from '../../assets/ic_details_card.png';
 import Btn from '../../screens/btn';
+import { connect } from 'react-redux';
+import { cartActions } from '../../actions/user';
 
 const { width, height } = Dimensions.get('window');
 const ItemDetails = (props) => {
@@ -34,7 +36,13 @@ const ItemDetails = (props) => {
     }
 
     const selectItem=(id)=>{
-        props.addToSelected(id)
+        let item = {
+            "item_id": id,
+            "quantity": 1
+        };
+        setSelectedItems([...selectedItems, id]);
+        props.add(item);
+        refRBSheet.current.close()
     }
 
     return(
@@ -118,12 +126,13 @@ const ItemDetails = (props) => {
 
 const styles = StyleSheet.create({
     expand:{
-        width:16,
-        height:10,
+        width:25,
+        height:13,
     },
     scrollViewContainer:{
         backgroundColor:"#2E2E3A",
-        borderRadius:20,
+        borderTopLeftRadius:20,
+        borderTopRightRadius:20,
     },
     bottomSheet:{
         backgroundColor: "transparent",
@@ -131,8 +140,8 @@ const styles = StyleSheet.create({
     expandContainer:{
         display:"flex",
         alignItems:'flex-end',
-        bottom: 11,
-        right:6,
+        bottom: 13,
+        right:8,
     },
     image:{
         width:width*0.2,
@@ -230,4 +239,16 @@ const styles = StyleSheet.create({
     },
 });
 
-export default ItemDetails;
+const mapStateToProps = (state) => ({
+    cart: state.cartReducer.cart,
+
+})
+
+const actionCreators = {
+    add: cartActions.addCartAction,
+
+};
+
+export default connect(mapStateToProps, actionCreators)(ItemDetails)
+
+

@@ -8,6 +8,7 @@ import {
   Image,
   ActivityIndicator,
   ScrollView,
+  StyleSheet,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import Testing from './testing';
@@ -28,15 +29,23 @@ const BuildYourPc = ({ navigation }) => {
 
   useEffect(() => {
     getAllGames(resolution).then((response) => {
-      console.log(response.data)
       setGameData(response.data);
+    }).catch((error) => {
+      console.log("getAllGames" +error);
     });
   }, [resolution]);
 
+  const submitGames = () => {
+    if(selected.length > 0){
+    navigation.navigate('PcDetails', { selectedGames: selected })
+    } 
+  }
+
   return (
     <ScrollView
-      showsVerticalScrollIndicator={false}
-      style={{ width, height, overflowX: 'hidden' }}>
+    showsVerticalScrollIndicator={false}
+    style={{ width, height, overflowX: 'hidden' }}
+    >
       <ImageBackground
         source={require('../assets/dottedBackground.png')}
         style={{
@@ -45,29 +54,27 @@ const BuildYourPc = ({ navigation }) => {
           overflowX: 'hidden',
           backgroundColor: '#2A2D39',
           paddingHorizontal: width * 0.09,
-          paddingVertical: width * 0.07,
         }}>
-        <View
+          <View
           style={{
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
             flexDirection: 'row',
           }}>
-          <TouchableOpacity
-            onPress={() => {
-              navigation.goBack();
-            }}>
-            <Image
-              source={require('../assets/back.png')}
-              resizeMode="contain"
-              style={{
-                width: 48,
-              }}
-            />
-          </TouchableOpacity>
-
-          <TouchableOpacity
+            <TouchableOpacity
+                onPress={() => {
+                navigation.goBack();
+              }}>
+              <Image
+                source={require('../assets/back.png')}
+                resizeMode="contain"
+                style={{
+                  width: 48,
+                }}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity
             onPress={() => navigation.navigate('AdvanceBuilder')}>
             <LinearGradient
               start={{ x: 0, y: 0 }}
@@ -87,24 +94,24 @@ const BuildYourPc = ({ navigation }) => {
                   fontSize: 12,
                   color: '#fff',
                   opacity: 0.87,
-                  fontStyle: 'italic',
                   fontWeight: 'bold',
+                  fontFamily:'Michroma-Regular',
                 }}>
                 Advanced Builder
               </Text>
             </LinearGradient>
           </TouchableOpacity>
-        </View>
+          </View>
 
-        <Text
+          <Text
           style={{
             color: '#ECDBFA',
             fontSize: 20,
             lineHeight: 28,
-            // fontFamily: 'Michroma-Regular',
+            fontFamily: 'Michroma-Regular',
           }}>
           Select graphics and games to build your PC
-        </Text>
+          </Text>
 
         <View
           style={{
@@ -114,52 +121,50 @@ const BuildYourPc = ({ navigation }) => {
             marginVertical: height * 0.04,
             flexDirection: 'row',
           }}>
-          <View
-            style={{
-              width: 116,
-              top: 10,
-              display: 'flex',
-              flexDirection: 'row',
-            }}>
-            <TouchableOpacity
-              style={{ width: 116 }}
-              onPress={() => {
-                setResolution('1080P');
-              }}>
-              <Option1 selected={resolution === '1080P'} />
-            </TouchableOpacity>
-            <View style={{ position: 'relative', right: 50, width: 84 }}>
-              <TouchableOpacity
-                onPress={() => {
-                  setResolution('2K');
-                }}>
-                <Option2 selected={resolution === '2K'} text="2K" />
-              </TouchableOpacity>
-            </View>
-            <View style={{ position: 'relative', right: 100, width: 84 }}>
-              <TouchableOpacity
-                onPress={() => {
-                  setResolution('4K');
-                }}>
-                <Option2 selected={resolution === '4K'} text="4K" />
-              </TouchableOpacity>
-            </View>
-          </View>
-          <TouchableOpacity onPress={() => { }}>
-            <Image
-              resizeMode="contain"
-              source={require('../assets/buildYourPc/search.png')}
+            <View
               style={{
-                height: 28,
-                width: 80,
-              }}
-            />
-          </TouchableOpacity>
+                width: 116,
+                top: 10,
+                display: 'flex',
+                flexDirection: 'row',
+              }}>
+                <TouchableOpacity
+                  style={{ width: 116 }}
+                  onPress={() => {
+                    setResolution('1080P');
+                  }}>
+                  <Option1 selected={resolution === '1080P'} />
+                </TouchableOpacity>
+                <View style={{ position: 'relative', right: 48, width: 84,  }}>
+                  <TouchableOpacity
+                    onPress={() => {
+                      setResolution('2K');
+                    }}>
+                    <Option2 selected={resolution === '2K'} text="2K" />
+                  </TouchableOpacity>
+                </View>
+                <View style={{ position: 'relative', right: 94, width: 84 }}>
+                  <TouchableOpacity
+                    onPress={() => {
+                      setResolution('4K');
+                    }}>
+                    <Option2 selected={resolution === '4K'} text="4K" />
+                  </TouchableOpacity>
+                </View>
+              </View>
+              <TouchableOpacity onPress={() => { }}>
+                <Image
+                  resizeMode="contain"
+                  source={require('../assets/buildYourPc/search.png')}
+                  style={{
+                    height: 28,
+                    width: 80,
+                  }}
+                />
+              </TouchableOpacity>
         </View>
-
-        {gameData.map((i, k) => {
-          return (
-            <View key={k} style={{ width: '100%', marginVertical: 10 }}>
+          {gameData.map((i, k) => (
+            <View key={k} style={{width: '100%', marginVertical: 10}}>
               {!selected.includes(i.game_id) ? (
                 <TouchableWithoutFeedback
                   activeOpacity={0.2}
@@ -178,26 +183,32 @@ const BuildYourPc = ({ navigation }) => {
                   </TouchableWithoutFeedback>
                 )}
             </View>
-          );
-        })}
-        <TouchableOpacity
-          activeOpacity={0.1}
-          onPress={() =>
-            navigation.navigate('PcDetails', { selectedGames: selected })
-          }>
-          <Btn text="BUILD YOUR PC"/>
-        </TouchableOpacity>
-        {/*
-        <ActivityIndicator
-          color="#ECDBFA"
-          size="large"
-          style={{
-            marginVertical: height * 0.08,
-          }}
-        /> */}
+          ))}
+          {gameData.length === 0?(
+          <View style={{marginTop: height * 0.27}}>
+            <ActivityIndicator color="#ECDBFA" size="large" />
+          </View>):
+          (
+          <View style={styles.bottom}>
+            <TouchableOpacity
+              activeOpacity={0.1}
+              onPress={() =>
+                submitGames()
+              }>
+                <Btn text="BUILD YOUR PC" pay= "" />
+              
+            </TouchableOpacity>
+          </View>
+          )}
       </ImageBackground>
     </ScrollView>
   );
 };
+const styles = StyleSheet.create({
+  bottom:{
+    flex: 1,
+    justifyContent: 'flex-end',
+  }
+});
 
 export default BuildYourPc;

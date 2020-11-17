@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useEffect,useState} from 'react';
 import {
   View,
   Text,
@@ -8,10 +8,25 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
+import {showCartData} from '../api/buildYourPc';
+
 
 const {height, width} = Dimensions.get('window');
 
 const Home = ({navigation}) => {
+
+  const [cartItems,setcartItems] = useState([]);
+
+  const [cartData,setCartData] = useState([]);
+
+  useEffect(() => {
+    showCartData().then((response) => {
+      setcartItems(response.data.items)
+      setCartData(response.data); 
+    }).catch((error) => {
+      console.log("showCartDataOnHome" + error);
+    });
+  }, []);
   return (
     <View
       style={{
@@ -55,7 +70,7 @@ const Home = ({navigation}) => {
                 width: '80%',
                 fontSize: 28,
                 textAlign: 'left',
-                // fontFamily: 'Michroma-Regular',           
+                fontFamily: 'Michroma-Regular',           
                  }}>
               Build Your PC
             </Text>
@@ -115,10 +130,11 @@ const Home = ({navigation}) => {
                 resizeMode="contain"
                 source={require('../assets/ic_noti.png')}
                 style={{width: 40, position: 'relative', zIndex: 10}}
+
               />
             </TouchableOpacity>
             <View>
-              <TouchableOpacity onPress={() => {}}>
+              <TouchableOpacity onPress={() => navigation.navigate('cart')}>
                 <Image
                   resizeMode="contain"
                   source={require('../assets/ic_cart1.png')}
@@ -145,9 +161,8 @@ const Home = ({navigation}) => {
                     fontWeight: 'bold',
                     color: '#fff',
                     fontSize: 12,
-                   
                   }}>
-                  2
+                  {cartData.length == 0?"0":cartItems.length}
                 </Text>
               </LinearGradient>
             </View>
@@ -160,7 +175,7 @@ const Home = ({navigation}) => {
                 // width:'90%',
                 fontSize: 28,
                 textAlign: 'right',
-                // fontFamily: 'Michroma-Regular',        
+                fontFamily: 'Michroma-Regular',        
                     }}>
               Loot Store
             </Text>
@@ -171,8 +186,7 @@ const Home = ({navigation}) => {
                 // width:'90%',
                 fontSize: 12,
                 opacity: 0.5,
-                textAlign: 'right',
-               
+                textAlign: 'right', 
               }}>
               Buy items
             </Text>

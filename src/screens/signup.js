@@ -324,10 +324,10 @@ const Signup = ({navigation, route}) => {
                 )}
               </LinearGradient> */}
               {!state.loading ? (
-                <Btn text="SUBMIT" x="54" />
+                <Btn text="SUBMIT" x="54" pay=""/>
               ) : (
                 <>
-                  <Btn text={' '} x="54" />
+                  <Btn text={' '} x="54" pay="" />
                   <ActivityIndicator
                     color="#ECDBFA"
                     size="small"

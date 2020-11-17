@@ -7,13 +7,19 @@ import {
   ScrollView,
   Image,
   Text,
+  StyleSheet,
 } from 'react-native';
 import Btn from './btn';
 import ItemCard from '../assets/ic_card.png';
 import IcDetailCard from '../assets/ic_details_card.png';
-import {showCartData,orderPlace} from '../api/buildYourPc';
+import {showCartData,orderPlace,addressListApi,defaultAddressApi} from '../api/buildYourPc';
 import { connect } from 'react-redux';
 import { cartActions } from '../actions/user';
+import Dialog, {
+  DialogContent, 
+  SlideAnimation,
+} from 'react-native-popup-dialog';
+import Icon from 'react-native-vector-icons/Feather';
 
 const {width, height} = Dimensions.get('window');
 
@@ -22,6 +28,8 @@ const Cart = ({navigation}) => {
   const [cartItems,setcartItems] = useState([]);
   const [cartPackage,setCartPackage] = useState({});
   const [cartData,setCartData] = useState({});
+  const [addressModal, setaddressModal] = useState(false);
+  const [allAddress,setAllAddress] = useState([]);
 
   useEffect(() => {
     showCartData().then((response) => {
@@ -39,7 +47,30 @@ const Cart = ({navigation}) => {
     }).catch((error) => {
       console.log("orderPlace" + error);
     });
+  };
+
+  const changeAddressPop = () => {
+    setaddressModal(!addressModal)
+    addressListApi().then((response) => {
+      setAllAddress(response.data)
+    }).catch((error) => {
+      console.log("allAddressList" + error);
+    })
+  };
+
+  const gotoAddress = () => {
+    setaddressModal(!addressModal)
+    navigation.navigate('address')
+  };
+
+  const defaultAddressfun = (id) => {
+    defaultAddressApi(id).then((response) => {
+      console.log(response.message)
+    }).catch((error) => {
+      console.log("defaultAddressCartPAGE" + error)
+    })
   }
+
   return (
     <ImageBackground
       source={require('../assets/plainBg.png')}
@@ -55,6 +86,46 @@ const Cart = ({navigation}) => {
             paddingVertical: width * 0.05,
             paddingHorizontal: width * 0.1,
           }}>
+            <Dialog
+              visible={addressModal}
+              containerStyle={{zIndex: 10, elevation: 10,}}
+              dialogStyle={{backgroundColor:'#272732',width:"80%"}}
+              dialogAnimation={new SlideAnimation({
+                  slideFrom: 'bottom',
+              })}
+              onTouchOutside={() => {setaddressModal(!addressModal)}}
+              >
+              <DialogContent>
+                  <View style={styles.addressDialouge}>
+                      <Text style={styles.address}>Address</Text>
+                      <TouchableOpacity onPress={gotoAddress}>
+                        <Text style={styles.addAddress}>Add Address</Text>
+                      </TouchableOpacity>
+                  </View>
+                  {allAddress.map((addValues,index) => {
+                    return(
+                      <TouchableOpacity key={index} onPress={() => defaultAddressfun(addValues.address_id)}>
+                        <View style={styles.addressDialouge} >
+                          <View style={styles.addressContainer}>
+                          {addValues.is_default == 1?<Text style={styles.addressType}>{addValues.address_type}</Text>:
+                            <Text style={{backgroundColor:'#353240',
+                              color:'#fff',
+                              paddingHorizontal:10,
+                              borderRadius:10,
+                              paddingTop:7,}}>
+                              {addValues.address_type}
+                            </Text>
+                          }
+                            <Text style={styles.addressList}>{addValues.area_name},{addValues.block},{addValues.street}</Text>
+                          </View>
+                          {addValues.is_default == 1?<Icon name="check-circle" size={25} color="#fff" style={styles.icon}/>:null}
+                        </View>
+                    </TouchableOpacity>
+                    );
+                  })}
+                  
+              </DialogContent>
+          </Dialog>
           <View
             style={{
               display: 'flex',
@@ -86,7 +157,7 @@ const Cart = ({navigation}) => {
               </Text>
             </View>
           </View>
-
+        {Object.keys(cartData).length === 0?null:
           <View
             style={{
               flexDirection: 'row',
@@ -117,11 +188,12 @@ const Cart = ({navigation}) => {
                   color: '#ECDBFA',
                   opacity: 0.5,
                 }}>
-                {cartData.grand_total}
+                KD {cartData.grand_total}
               </Text>
             </View>
           </View>
-
+         } 
+          {Object.keys(cartData).length === 0?null:<View>
           {cartItems.map((items, k) => (
             <View
               key={k}
@@ -176,7 +248,7 @@ const Cart = ({navigation}) => {
                         opacity: 0.5,
                         alignSelf: 'center',
                       }}>
-                      {items.sub_category_name}
+                      {items.name}
                     </Text>
                   </View>
                   <Text
@@ -185,13 +257,17 @@ const Cart = ({navigation}) => {
                       color: '#D2D7F9',
                       opacity: 0.5,
                     }}>
-                    {items.price}
+                   KD {items.price}
                   </Text>
                 </View>
               </ImageBackground>
             </View>
           ))}
-
+          </View>
+          }
+        {Object.keys(cartData).length === 0?<View style={{flex:1,flexDirection:'row',alignSelf:'center'}}>
+          <Text style={{color:"#fff",fontSize:20,fontFamily:'Michroma-Regular'}}>Your Cart is empty</Text>
+        </View>:
           <ImageBackground
             source={ItemCard}
             style={{
@@ -212,20 +288,24 @@ const Cart = ({navigation}) => {
                 }}>
                 Deliver to
               </Text>
-              <Text
-                style={{
-                  fontSize: 14,
-                  color: '#D2D7F9',
-                  opacity: 0.87,
-                }}>
-                1295 Mateo Summit{' '}
-              </Text>
+              {allAddress.map((addValues,index) => {
+                return(
+                <View key={index}>
+                  {addValues.is_default == 1?<Text
+                    style={{
+                      fontSize: 14,
+                      color: '#D2D7F9',
+                      opacity: 0.87,
+                    }}>{addValues.area_name},{addValues.block},{addValues.street}</Text>:null}
+                </View>
+                );
+               })} 
             </View>
             <TouchableOpacity
               style={{
                 alignSelf: 'flex-end',
               }}
-              onPress={() => {}}>
+              onPress={() => changeAddressPop()}>
               <Text
                 style={{
                   fontSize: 12,
@@ -235,7 +315,8 @@ const Cart = ({navigation}) => {
               </Text>
             </TouchableOpacity>
           </ImageBackground>
-
+        }
+        {cartData.length === 0?null:
           <ImageBackground
             source={IcDetailCard}
             style={{
@@ -253,11 +334,10 @@ const Cart = ({navigation}) => {
               <Text
                 style={{
                   color: '#fff',
-
                   fontSize: 12,
                   opacity: 0.8,
                 }}>
-                Package Details (1 Item)
+                Package Details ({Object.keys(cartData).length === 0?"0":cartItems.length } items)
               </Text>
             </View>
 
@@ -267,7 +347,7 @@ const Cart = ({navigation}) => {
                 borderBottomColor: 'rgba(255,255,255,0.3)',
                 borderBottomWidth: 0.3,
               }}>
-              {/* {[...Array(4).keys()].map((i, k) => ( */}
+              {Object.keys(cartData).length === 0?null:cartItems.map((items, k) => (
                 <View
                   style={{
                     display: 'flex',
@@ -275,24 +355,46 @@ const Cart = ({navigation}) => {
                     justifyContent: 'space-between',
                     marginVertical: 8,
                   }}
-                  // key={k}
+                  key={k}
                   >
                   <Text
                     style={{
                       color: 'rgba(255,255,255,0.8)',
-                      fontSize: 14,
+                      fontSize: 15,
                     }}>
-                    {cartPackage.name}
+                    {items.name} <Text style={{fontSize:12,color:'rgba(255,255,255,0.3)'}}>{"   "+items.brand}</Text>
                   </Text>
                   <Text
                     style={{
                       color: 'rgba(255,255,255,0.3)',
                       fontSize: 12,
                     }}>
-                    {cartData.sub_total}
+                   KD {items.price}
                   </Text>
                 </View>
-              {/* ))} */}
+               ))}
+               <View
+                style={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  marginVertical: 8,
+                }}>
+                <Text  
+                  style={{
+                  color: 'rgba(255,255,255,0.8)',
+                  fontSize: 15,
+                  }}
+                  >Delivery Fees
+                  </Text>
+                  <Text
+                    style={{
+                      color: 'rgba(255,255,255,0.3)',
+                      fontSize: 12,
+                    }}>
+                   KD {cartData.delivery_charge}
+                  </Text> 
+                </View>
             </View>
 
             <View style={{paddingHorizontal: 20}}>
@@ -315,15 +417,17 @@ const Cart = ({navigation}) => {
                     color: 'rgba(255,255,255,0.8)',
                     fontSize: 14,
                   }}>
-                  {cartData.grand_total}
+                  KD {cartData.grand_total}
                 </Text>
               </View>
             </View>
           </ImageBackground>
+        }
+        {cartData.length === 0?null:
           <TouchableOpacity onPress={() => checkout()}>
             <Btn  text={cartData.grand_total} pay="PAY                " />
           </TouchableOpacity>
-
+        }
           <Text
             style={{
               marginTop: 20,
@@ -335,9 +439,8 @@ const Cart = ({navigation}) => {
             }}>
             Forgot to add something?
           </Text>
-
           <TouchableOpacity onPress={() => navigation.navigate('home')}>
-            <Btn text="Continue Shopping" x="0"  />
+            <Btn text="Continue Shopping" pay="" x="0"  />
           </TouchableOpacity>
         </View>
       </ScrollView>
@@ -353,5 +456,40 @@ const actionCreators = {
   add: cartActions.addCartAction,
 
 };
+
+const styles = StyleSheet.create({
+  addressDialouge:{
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent:'space-between',
+    marginVertical:15,
+  },
+  address:{
+    color:'#fff',
+  },
+  addAddress:{
+    color:'rgba(255,255,255,0.3)',
+    fontWeight:'bold',
+  },
+  addressList:{
+    color:'rgba(255,255,255,0.8)',
+    padding:8,
+  },
+  addressType:{
+    backgroundColor:'#353240',
+    color:'#fff',
+    paddingHorizontal:10,
+    borderRadius:10,
+    paddingTop:12,
+  },
+  addressContainer:{
+    display: 'flex',
+    flexDirection: 'row',
+    width:width*0.4,
+  },
+  icon:{
+    padding:10,
+  },
+});
 
 export default connect(mapStateToProps, actionCreators)(Cart)

@@ -3,6 +3,7 @@ import { cartConstants } from './actionTypes';
 
 export const cartActions = {
   addCartAction,
+  emptyCartAction
 };
 
 function addCartAction(id) {
@@ -21,5 +22,18 @@ function addCartAction(id) {
   function failure(error) {
     return { type: cartConstants.CART_ADD_FAILURE, error };
   }
+}
+
+
+function emptyCartAction() {
+  return (dispatch) => {
+    //dispatch(request(id));
+    dispatch(empty());
+  };
+
+  function empty() {
+    return { type: cartConstants.CART_EMPTY_SUCCESS };
+  }
+  
 }
 

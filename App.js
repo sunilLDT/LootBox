@@ -1,6 +1,6 @@
 import React, {useEffect, useContext} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
-import {Easing, SafeAreaView} from 'react-native';
+import {Easing, SafeAreaView } from 'react-native';
 import {
   createStackNavigator,
   TransitionPresets,
@@ -35,9 +35,10 @@ import PcDetails from './src/screens/PcDetails';
 import AdvanceBuilder from './src/screens/AdvanceBuilder';
 import ProductDetails from './src/screens/PcDetails/ProductDetails';
 import ItemListing from './src/screens/PcDetails/ItemListing';
-import SearchListing from './src/screens/PcDetails/searchListing';
 import CheckOut from './src/components/CheckOut';
 import AlertMessage from './src/components/AlertMessage';
+import changePasswordNumber from './src/screens/changePhoneNumber';
+import Address from './src/screens/Address';
 
 import OrderDetails from './src/screens/OrderDetails';
 import { store, persistedStore } from './src/store/index';
@@ -126,6 +127,7 @@ const App = () => {
         height,
         backgroundColor: '#261D2A',
       }}>
+      <StatusBar hidden />
       <NavigationContainer
         ref={(navigator) => {
           setNavigator(navigator);
@@ -164,11 +166,10 @@ const App = () => {
           <Stack.Screen name="ProductDetails" component={ProductDetails} />
           <Stack.Screen name="ItemListing" component={ItemListing} />
           <Stack.Screen name="OrderDetails" component={OrderDetails} />
-          <Stack.Screen name="searchListing" component={SearchListing} />
           <Stack.Screen name="checkout" component={CheckOut} />
           <Stack.Screen name="alertMessage" component={AlertMessage} />
-
-
+          <Stack.Screen name="changePasswordNumber" component={changePasswordNumber} />
+          <Stack.Screen name="address" component={Address} />
 
         </Stack.Navigator>
       </NavigationContainer>

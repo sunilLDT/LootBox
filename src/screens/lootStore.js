@@ -14,6 +14,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import SmallBtn from '../svgs/smallBtn';
 import {Context as AuthContext} from '../api/contexts/authContext';
 import SmallLGBtn from './smallLGBtn';
+import {showCartData} from '../api/buildYourPc';
 
 const {width, height} = Dimensions.get('window');
 
@@ -34,6 +35,19 @@ const LootStore = ({navigation}) => {
   const [categoryId, setCategoryId] = useState(null);
   const [selectedSubCategory, setSelectedSubCategory] = useState(0);
   const [loading, setLoading] = useState(false);
+
+  const [cartItems,setcartItems] = useState([]);
+
+  const [cartData,setCartData] = useState([]);
+
+  useEffect(() => {
+    showCartData().then((response) => {
+      setcartItems(response.data.items)
+      setCartData(response.data) 
+    }).catch((error) => {
+      console.log("showCartDataOnHome" + error);
+    });
+  }, []);
 
   const fetchData = useCallback(async () => {
     if (selectedSubCategory === 0) {
@@ -57,7 +71,7 @@ const LootStore = ({navigation}) => {
       });
       setCategories(x);
       var itemData = null;
-      console.log(b);
+      // console.log(b);
       if (b) {
         itemData = await fetchItems(x[current].id, b);
       } else {
@@ -76,7 +90,7 @@ const LootStore = ({navigation}) => {
           };
         });
       });
-      console.log(y);
+      // console.log(y);
       setSubCategories(y);
       setLoading(false);
     }
@@ -142,7 +156,7 @@ const LootStore = ({navigation}) => {
               {options.map(
                 (i, k) =>
                   k !== 0 && (
-                    <TouchableOpacity key={k} onPress={() => {}}>
+                    <TouchableOpacity key={k} onPress={() => {k === 1?navigation.navigate('cart'):{}}}>
                       {k === 1 && (
                         <LinearGradient
                           start={{x: 0, y: 1}}
@@ -164,9 +178,9 @@ const LootStore = ({navigation}) => {
                               fontWeight: 'bold',
                               color: '#fff',
                               fontSize: 12,
-                              // fontFamily: 'Montserrat-Bold',
+                              fontFamily: 'Montserrat-Bold',
                             }}>
-                            2
+                            {cartData.length == 0?"0":cartItems.length}
                           </Text>
                         </LinearGradient>
                       )}
@@ -231,8 +245,8 @@ const LootStore = ({navigation}) => {
                     <Text
                       style={{
                         fontSize: 14,
-                        // fontFamily: 'Montserrat-Bold',
-                        //   lineHeight: 16,
+                        fontFamily: 'Montserrat-Bold',
+                          lineHeight: 16,
                         color: '#ECDBFA',
                         opacity: i.index === current ? 1 : 0.4,
                         marginLeft: i.index === current ? 10 : 0,
@@ -273,7 +287,7 @@ const LootStore = ({navigation}) => {
                         }}
                         key={k}
                         onPress={() => {
-                          console.log(k + 1);
+                          // console.log(k + 1);
                           setSelectedSubCategory(k + 1);
                         }}>
                         <SmallLGBtn
@@ -339,7 +353,6 @@ const LootStore = ({navigation}) => {
                           <View key={k}>
                             <TouchableOpacity
                               onPress={() => {
-                                console.log(i);
                                 navigation.push('itemDesc', {
                                   price: i.price,
                                   description: i.description,

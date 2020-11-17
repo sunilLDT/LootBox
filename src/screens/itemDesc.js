@@ -12,6 +12,7 @@ import {
 import LinearGradient from 'react-native-linear-gradient';
 import Btn from './btn';
 import {Context as AuthContext} from '../api/contexts/authContext';
+import {showCartData,addToCartForStore} from '../api/buildYourPc';
 
 const {width, height} = Dimensions.get('window');
 
@@ -59,15 +60,18 @@ const processorDetails = [
 
 const data = [performanceDetails, processorDetails];
 
+
 const ItemDesc = ({route, navigation}) => {
   const {fetchItemsInfo} = useContext(AuthContext);
   const [itemData, setData] = useState([]);
   const [qty, setQty] = useState(1);
+  const [cartItems,setcartItems] = useState([]);
+  const [cartData,setCartData] = useState([]);
+  const [AddItems,setAddItems] = useState([]);
 
   const fetchData = async () => {
     const data1 = await fetchItemsInfo(route.params.id);
     if (data1 && data1.length > 0) {
-      console.log(data1)
       setData(data1);
     }
   };
@@ -75,6 +79,31 @@ const ItemDesc = ({route, navigation}) => {
   useEffect(() => {
     fetchData();
   }, []);
+
+  useEffect(() => {
+    showCartData().then((response) => {
+      setcartItems(response.data.items)
+      setCartData(response.data)
+    }).catch((error) => {
+      console.log("showCartOnItemDesc" + error);
+    });
+  }, []);
+
+  const isUpdate = false;
+  const items = [
+          {
+              "item_id":route.params.id,
+              "quantity":qty
+          }, 
+        ];
+  const addIntoCart = () => {
+    addToCartForStore(isUpdate,items).then((response) => {
+      setAddItems(response.data)
+      navigation.navigate('cart');
+    }).catch((error) => {
+      console.log("addToCartForStore" + error);
+    });
+  }
 
   return (
     <ScrollView
@@ -112,7 +141,7 @@ const ItemDesc = ({route, navigation}) => {
             />
           </TouchableOpacity>
           <View>
-            <TouchableOpacity onPress={() => {}}>
+            <TouchableOpacity onPress={() => navigation.navigate('cart')}>
               <Image
                 resizeMode="contain"
                 source={require('../assets/ic_cart2.png')}
@@ -141,7 +170,7 @@ const ItemDesc = ({route, navigation}) => {
                   fontSize: 12,
                  
                 }}>
-                2
+                {cartData.length == 0?"0":cartItems.length}
               </Text>
             </LinearGradient>
           </View>
@@ -272,7 +301,7 @@ const ItemDesc = ({route, navigation}) => {
               style={{
                 fontSize: 14,
                 // fontFamily: 'Michroma-Regular',   
-                             color: '#ECDBFA',
+                color: '#ECDBFA',
                 marginHorizontal: 10,
               }}>
               {qty}
@@ -407,8 +436,8 @@ const ItemDesc = ({route, navigation}) => {
             ),
         )}
 
-        <TouchableOpacity onPress={() => {}}>
-          <Btn text="ADD TO CART" />
+        <TouchableOpacity onPress={() => addIntoCart()}>
+          <Btn text="ADD TO CART" pay= ""/>
         </TouchableOpacity>
       </ImageBackground>
     </ScrollView>

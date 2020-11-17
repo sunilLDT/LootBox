@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState,useContext} from 'react';
 import {
   Text,
   View,
@@ -7,20 +7,99 @@ import {
   Dimensions,
   Image,
   ImageBackground,
-  TouchableWithoutFeedback,
   ScrollView,
+  TouchableWithoutFeedback
 } from 'react-native';
 import Input from '../components/input';
+import InputCard from '../components/InputCard';
 import DateTimePicker from '@react-native-community/datetimepicker';
-
+import { format } from 'date-fns';
+import {profileUpdateApi,changePasswordApi} from '../api/buildYourPc';
 import LinearGradient from 'react-native-linear-gradient';
+import {Picker} from '@react-native-picker/picker';
+import Dialog, {
+  DialogContent, 
+  SlideAnimation,
+} from 'react-native-popup-dialog';
+import ImagePicker from "react-native-image-picker";
+import {uploadImageApi}  from '../api/buildYourPc';
+import {Context as AuthContext} from '../api/contexts/authContext';
+import AddressList from '../components/AddressList';
+import Modal from '../components/modal';
 
 const {width, height} = Dimensions.get('window');
 
 const Profile = ({navigation}) => {
-  const [value, setValue] = useState(new Date());
+  const [DOB, setDOB] = useState(new Date());
   const [show, setShow] = useState(false);
+  const [email,setEmail] = useState("");
+  const [gender,setGender] = useState(1);
+  const [passwordModal, setpasswordModal] = useState(false);
+  const [oldPassword,setOldPassword] = useState("");
+  const [newPassword,setnewPassword] = useState("");
+  const [confirmPassword,setconfirmPassword] = useState("");
+  const [photo,setPhoto] = useState({});
+  const {signout,setValidationError,state} = useContext(AuthContext);
+  const {validationError} = state;
+  
+  var formattedDOB = format(DOB, "d-MM-yyyy");
 
+  const ProfileUpdate = () => {
+    if(email == "" || !/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)){
+      setValidationError("Invalid Email Address");
+    }
+    else if(gender == ""){
+      setValidationError("Please choose the Gender");
+    }
+    else if(DOB == ""){
+      setValidationError("please fill the DOB");
+    }
+    else{
+      profileUpdateApi(email,formattedDOB,gender).then((response) => {
+        setValidationError(response.message);
+      }).catch((error) => {
+        console.log("profileUpdate" + error);
+      });
+    }
+  }
+
+  const changePassword = () => {
+    if(newPassword !== confirmPassword){
+      alert("confirm password doesn't match");
+    }
+    else if(newPassword.length < 8 && confirmPassword.length < 8){
+      alert("new password must be greater then 8 digits");
+    }
+    else if(newPassword == "" && confirmPassword == "" && oldPassword == ""){
+      alert("please fill all input fields");
+    }
+    else{
+      changePasswordApi(oldPassword,newPassword,confirmPassword).then((response) => {
+        setpasswordModal(!passwordModal)
+        alert(response.message);
+        signout()
+      }).catch((error) => {
+        console.log("ChangePassword" + error);
+      })
+    } 
+    
+  };
+
+  const handleChoosePhoto = () => {
+    const options = {
+      noData: true,
+    };
+    ImagePicker.launchImageLibrary(options,response => {
+      if(response.uri){
+        setPhoto(response.uri)
+        uploadImageApi(photo).then((response) => {
+          setValidationError(response.message);
+        }).catch((error) => {
+          console.log("ImageUploadProfile" + error);
+        });
+      }
+    })
+  }
   return (
     <ScrollView
       style={{
@@ -28,6 +107,71 @@ const Profile = ({navigation}) => {
         height,
         overflow: 'hidden',
       }}>
+        {state.msg ? (
+          <Modal msg={state.msg} hideBtn />
+        ) : validationError ? (
+          <Modal msg={validationError} />
+        ) : null}
+         <Dialog
+          visible={passwordModal}
+          containerStyle={{zIndex: 10, elevation: 10}}
+          dialogStyle={{backgroundColor:'#272732'}}
+          dialogAnimation={new SlideAnimation({
+            slideFrom: 'bottom',
+          })}
+          onTouchOutside={() => {setpasswordModal(!passwordModal)}}
+         >
+          <DialogContent>
+            <View>
+              <View style={{marginTop:15}}>
+                <Text style={{color:'#fff',fontSize:20,alignSelf:'center',fontFamily:'Michroma-Regular'}}>Change Password</Text>
+              </View>
+              <View style={{marginVertical: 15}}>
+                <Input placeholder="Current Password" password onChangeText={(oldPassword) => setOldPassword(oldPassword)}/>
+              </View>
+              <View style={{marginVertical: 15}}>
+                <Input placeholder="New Password" password onChangeText={(newPassword) => setnewPassword(newPassword)}/>
+              </View>
+              <View style={{marginVertical: 15}}>
+                <Input placeholder="Confirm Password" password onChangeText={(confPassword) => setconfirmPassword(confPassword)}/>
+              </View>
+              <TouchableWithoutFeedback
+              onPress={() => changePassword()}
+                style={{
+                  width: '100%',
+                  height: height * 0.09,
+                  display: 'flex',
+                }}>
+                <LinearGradient
+                  start={{x: 0, y: 0}}
+                  end={{x: 1, y: 0}}
+                  colors={['rgba(184,37,154,0.16)', 'rgba(184,37,154,0.16)']}
+                  style={{
+                    height: height * 0.09,
+                    borderRadius: 10,
+                    borderColor: '#C01C8A',
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    borderWidth: 1.5,
+                    marginTop: 18,
+                    elevation: 100,
+                    width: width * 0.8,
+                  }}>
+                  <Text
+                    style={{
+                      fontWeight: 'bold',
+                      color: '#fff',
+                      letterSpacing: 0.5,
+                      fontStyle: 'italic',
+                    }}>
+                    Save
+                  </Text>
+                </LinearGradient>
+              </TouchableWithoutFeedback>
+            </View>
+          </DialogContent>
+        </Dialog>
       <View
         style={{
           backgroundColor: '#261D2A',
@@ -85,7 +229,6 @@ const Profile = ({navigation}) => {
                 }}>
                 John Doe
               </Text>
-
               <Text
                 style={{
                  
@@ -98,25 +241,28 @@ const Profile = ({navigation}) => {
                 Jondoe@gmail.com
               </Text>
             </View>
-            <Image
-            // resizeMode="contain"
-              source={{
-                uri:
-                  'https://images.unsplash.com/photo-1596913799254-c261205fe191?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1000&q=60 ',
-              }}
-              style={{
-                height: height * 0.12,
-                width: width * 0.3,
-                borderRadius: 10,
-              }}
-            />
-          </View>
-
-          <View style={{marginVertical: 15}}>
-            <Input placeholder="Email" email />
+            <TouchableOpacity onPress={handleChoosePhoto}>
+              <Image
+              // resizeMode="contain"
+                source={{
+                  uri:Object.keys(photo).length === 0?"https://reactnative.dev/img/tiny_logo.png":photo,
+                }}
+                style={{
+                  height: height * 0.12,
+                  width: width * 0.3,
+                  borderRadius: 10,
+                }}
+              />
+            </TouchableOpacity>
           </View>
           <View style={{marginVertical: 15}}>
-            <Input placeholder="Password" password />
+            <Input placeholder="Email" email value={email} onChangeText={(email) => setEmail(email)}/>
+          </View>
+          <View style={{marginVertical: 15}}>
+            <TouchableOpacity  onPress={() => {setpasswordModal(!passwordModal)}}>
+            <InputCard 
+            placeholder="Password" />
+            </TouchableOpacity>
           </View>
           <View style={{marginVertical: 15}}>
             <Input
@@ -124,8 +270,8 @@ const Profile = ({navigation}) => {
                 setShow(true);
               }}
               placeholder={`Date of Birth : ${
-                value &&
-                value
+                DOB &&
+                DOB
                   .toLocaleDateString('en', {
                     day: 'numeric',
                     month: 'short',
@@ -135,11 +281,42 @@ const Profile = ({navigation}) => {
               }`}
             />
           </View>
+          <LinearGradient
+              start={{x: 0, y: 0}}
+              end={{x: 1, y: 0}}
+              colors={['rgba(255,255,255,0.069)', 'rgba(255,255,255,0.003) ']}
+              style={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              borderRadius: 10,
+              height: height * 0.1,
+              width: width * 0.75,
+              marginVertical: 15,
+          }}>
+              <Picker
+              dropdownIconColor="#ECDBFA"
+              mode="dropdown"
+              selectedValue={gender}
+              style={{
+                  height: 65,
+                  width: "85%",
+                  color:'#ECDBFA',
+                  marginLeft:'2%',
+              }}
+              onValueChange={(itemValue, itemIndex) =>
+                setGender(itemValue)
+              }
+              >   
+                  <Picker.Item label="Male" value="1" />
+                  <Picker.Item label="Female" value="2" />
+                  <Picker.Item label="TransGender" value="3" />
+              </Picker>
+          </LinearGradient>
           <View style={{marginVertical: 15}}>
-            <Input placeholder="Gender" />
-          </View>
-          <View style={{marginVertical: 15}}>
-            <Input placeholder="Phone Number" tel />
+            <TouchableOpacity onPress={() => navigation.navigate('changePasswordNumber')}>
+              <InputCard placeholder="Phone Number"/>
+            </TouchableOpacity>
           </View>
 
           <LinearGradient
@@ -149,7 +326,7 @@ const Profile = ({navigation}) => {
             style={{
               width: width * 0.7,
               marginVertical: 15,
-              height: height * 0.15,
+              
               justifyContent: 'space-around',
               paddingLeft: 20,
               paddingVertical: 10,
@@ -172,11 +349,10 @@ const Profile = ({navigation}) => {
                 }}>
                 Address
               </Text>
-              <TouchableOpacity onPress={() => {}} activeOpacity={0.4}>
+              <TouchableOpacity onPress={() => navigation.navigate('address')} activeOpacity={0.4}>
                 <Text
                   style={{
                     fontSize: 10,
-                   
                     color: '#DF2EDC',
                     fontStyle: 'italic',
                   }}>
@@ -184,67 +360,10 @@ const Profile = ({navigation}) => {
                 </Text>
               </TouchableOpacity>
             </View>
-            <View
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                width: '100%',
-              }}>
-              <Text
-                style={{
-                  fontSize: 14,
-                 
-                  color: '#ECDBFA',
-                }}>
-                Home
-              </Text>
-              <TouchableOpacity>
-                <Text
-                  style={{
-                    fontSize: 12,
-                   
-                    color: '#ECDBFA',
-                    opacity: 0.5,
-                  }}>
-                  0765 Gutkowski Land
-                </Text>
-              </TouchableOpacity>
-            </View>
-            <View
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                width: '100%',
-              }}>
-              <Text
-                style={{
-                  fontSize: 12,
-                 
-                  color: '#ECDBFA',
-                  opacity: 0.5,
-                }}>
-                Office
-              </Text>
-              <TouchableOpacity>
-                <Text
-                  style={{
-                    fontSize: 12,
-                   
-                    color: '#ECDBFA',
-                    opacity: 0.5,
-                  }}>
-                  110 Runte Ford
-                </Text>
-              </TouchableOpacity>
-            </View>
+            <AddressList />
           </LinearGradient>
-
           <TouchableWithoutFeedback
-            onPress={() => {}}
+            onPress={() => ProfileUpdate()}
             style={{
               width: '100%',
               height: height * 0.09,
@@ -272,23 +391,22 @@ const Profile = ({navigation}) => {
                   color: '#fff',
                   letterSpacing: 0.5,
                   fontStyle: 'italic',
-                 
                 }}>
                 Save
               </Text>
             </LinearGradient>
           </TouchableWithoutFeedback>
         </ImageBackground>
-
         {show && (
           <DateTimePicker
             testID="datetimepicker"
-            value={value}
+            value={DOB}
             mode="date"
             display="spinner"
+            format="DD-MM-YYYY"
             onChange={(e, x) => {
               setShow(false);
-              if (x) setValue(x);
+              if (x) setDOB(x);
               console.log(x);
             }}
           />

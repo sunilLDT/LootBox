@@ -220,10 +220,10 @@ const Signin = ({navigation}) => {
                 )}
               </LinearGradient> */}
               {!state.loading ? (
-                <Btn text="LOGIN" x="54" />
+                <Btn text="LOGIN" pay="" x="54" />
               ) : (
                 <>
-                  <Btn text={' '} x="54" />
+                  <Btn text={' '} x="54" pay="" />
                   <ActivityIndicator
                     color="#ECDBFA"
                     size="small"

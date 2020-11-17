@@ -9,17 +9,20 @@ import {
   TouchableOpacity,
   FlatList,
 } from 'react-native';
-import IcCardImage from '../../assets/ic_card_a0.png';
+import IcCardImage from '../../assets/ic-3.png';
 import { connect } from 'react-redux';
 import { cartActions } from '../../actions/user';
-import selectedIcCardImage from '../../assets/Rectangle.png'
+import selectedIcCardImage from '../../assets/Rectangle.png';
+import searchIcon from '../../assets/ic_search.png';
+import filterIcon from '../../assets/ic_filter.png';
 
 
 const { width, height } = Dimensions.get('window');
 
-const ItemListing = (props   ) => {
+const ItemListing = (props) => {
   const [selectedItems, setSelectedItems] = useState([0]);
   const { items } = props.route.params;
+  const { sub_category_name } = props.route.params;
 
   const selectHandler = (id) => {
     let item = {
@@ -28,7 +31,6 @@ const ItemListing = (props   ) => {
     };
     setSelectedItems([...selectedItems, id]);
     props.add(item);
-    console.log(props.cart);
   }
 
   const selectDisplay = (id) => {
@@ -39,35 +41,75 @@ const ItemListing = (props   ) => {
     if (a.includes(id)) {
       return false;
     }
-
-
   }
 
   return (
     <ImageBackground
       source={require('../../assets/plainBg.png')}
       style={styles.container}>
-      <TouchableOpacity
-        onPress={() => {
-          props.navigation.goBack();
+        <View style={{
+          display:'flex',
+          flexDirection:'row',
+          alignItems:'center',
+          justifyContent:'space-around'
         }}>
-        <View style={styles.backButtonContentConatiner}>
-          <Image
-            source={require('../../assets/back.png')}
-            resizeMode="contain"
-            style={styles.backImage}
-          />
+          <View
+              style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  flexDirection: 'row',
+                  marginLeft:'-5%'
+              }}>
+            <TouchableOpacity
+              onPress={() => {
+                props.navigation.goBack();
+              }}>
+                <Image
+                  source={require('../../assets/back.png')}
+                  resizeMode="contain"
+                  style={styles.backImage}
+                />
+            </TouchableOpacity>
+            <Text style={styles.pageName}>
+              {sub_category_name}
+              </Text>
+          </View>
+          <View 
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              flexDirection: 'row',
+              justifyContent:'space-between'
+            }}>
+              <TouchableOpacity onPress={() => {
+
+              }}>
+                  <Image
+                   style={styles.icons}  
+                   source={searchIcon}
+                   resizeMode="contain"
+                   />
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => {
+
+              }}>
+                  <Image 
+                  style={styles.icons}  
+                  source={filterIcon}
+                  resizeMode="contain"
+                  />
+              </TouchableOpacity>
+            </View>
         </View>
-      </TouchableOpacity>
       <FlatList
         keyExtractor={(item) => item.name}
         data={items || []}
         renderItem={({ item }, index) => {
           return (
-            <TouchableOpacity
-                        key={index}
-                        onPress={() => { selectHandler(item.item_id) }}
-                      >
+          <TouchableOpacity
+            key={index}
+            onPress={() => { selectHandler(item.item_id) }}
+          >
             <ImageBackground
             onPress={() => { selectHandler(item.item_id) }}
             source={!selectDisplay(item.item_id) ? selectedIcCardImage : IcCardImage}
@@ -81,28 +123,29 @@ const ItemListing = (props   ) => {
                 }}>
                 <Image
                   source={{ uri: item.image }}
-                  style={{ width: 48, height: 40, marginBottom: 10, alignSelf: 'center' }}
+                  style={{ width: 65, height: 45, marginBottom: 30, alignSelf: 'center',marginTop:'-10%' }}
                 />
                 <Text
                   style={{
-                    fontSize: 10,
-                    fontWeight: '700',
+                    fontSize: 13,
+                    fontWeight: 'bold',
                     color: '#FFFFFF',
-                    marginBottom: 10,
+                    marginBottom: 5,
+                    alignSelf:'center',
                   }}>
-                  {item.brandName}
+                  {item.name}
                 </Text>
                 <Text
                   style={{
-                    fontSize: 10,
+                    fontSize: 13,
                     fontWeight: '700',
                     color: '#FFFFFF',
                     marginBottom: 10,
                     opacity: 0.5,
-                    fontStyle: 'italic',
                     textAlign: 'center',
+                    fontWeight:'300',
                   }}>
-                  {item.name}
+                  {item.brand}
                 </Text>
                 <Text
                   style={{
@@ -110,17 +153,16 @@ const ItemListing = (props   ) => {
                     fontWeight: '400',
                     color: '#FFFFFF',
                     marginBottom: 10,
-                    fontStyle: 'italic',
                     textAlign: 'center',
                   }}>
-                  +KD {item.price}
+                  KD {item.price}
                 </Text>
               </View>
             </ImageBackground>
             </TouchableOpacity>
           );
         }}
-        numColumns={3}
+        numColumns={2}
       />
     </ImageBackground>
   );
@@ -136,8 +178,8 @@ const styles = StyleSheet.create({
   },
   backButtonContentConatiner: {
     flexDirection: 'row',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
+    justifyContent: 'flex-end',
+    alignItems: 'flex-end',
   },
   backImage: {
     width: 48,
@@ -150,9 +192,22 @@ const styles = StyleSheet.create({
     fontStyle: 'italic',
   },
   cardConatiner: {
-    width: 108,
-    height: 131,
-    margin: 10,
+    width: 140,
+    height: 150,
+     marginHorizontal:25,
+     marginVertical:25,
+  },
+  pageName:{
+    fontStyle: 'italic',
+    fontSize: 12,
+    color: '#ECDBFA',
+    marginLeft:10,
+    textTransform:'uppercase',
+  },
+  icons:{
+    width:40,
+    height:40,
+    marginLeft:10
   },
 });
 
@@ -167,4 +222,3 @@ const actionCreators = {
 };
 
 export default connect(mapStateToProps, actionCreators)(ItemListing);
-

@@ -4,26 +4,22 @@ import {
     Text,
     ImageBackground,
     Image,
-    StyleSheet,
     Dimensions,
     TouchableOpacity,
 } from 'react-native';
 import SearchImage from '../../assets/buildYourPc/search.png';
-import IcCardImage from '../../assets/ic_card_a0.png';
+import IcCardImage from '../../assets/ic3.png';
 import selectedIcCardImage from '../../assets/Rectangle.png'
 import { ScrollView } from 'react-native-gesture-handler';
 import { getCategoriesItem } from '../../api/buildYourPc';
 import ItemDetails from './ItemDetails';
-import AsyncStorage from '@react-native-community/async-storage';
 import { connect } from 'react-redux';
 import { cartActions } from '../../actions/user';
 
-const { width, height } = Dimensions.get('window');
 var sel = [];
 const ListDetails = (props) => {
     const [categoryItems, setCategoyItems] = useState([]);
     const [selectedItems, setSelectedItems] = useState([0]);
-
 
     useEffect(() => {
         getCategoriesItem(props.data.sub_category_id, props.data.item_id, props.data.sub_category_name).then((response) => {
@@ -31,17 +27,17 @@ const ListDetails = (props) => {
         }).catch((error) => {
             console.log("getCategoriesItems" + error);
         });
-
     }, []);
-
 
     const selectHandler = (id) => {
         let item = {
             "item_id": id,
             "quantity": 1
         };
-        setSelectedItems([...selectedItems, id]);
-        props.add(item);
+        setSelectedItems([selectedItems, id]);
+        props.add(item)
+       
+        // console.log(selectedItems);   
         console.log(props.cart);
     }
 
@@ -53,14 +49,7 @@ const ListDetails = (props) => {
         if (a.includes(id)) {
             return false;
         }
-
-
     }
-
-
-
-
-
     return (
         <View>
             <View
@@ -80,6 +69,7 @@ const ListDetails = (props) => {
                         onPress={() => {
                             props.navigation.navigate('ItemListing', {
                                 items: categoryItems,
+                                sub_category_name:props.data.sub_category_name,
                             });
                         }}>
                         <Text
@@ -93,12 +83,13 @@ const ListDetails = (props) => {
                     </TouchableOpacity>
                 </View>
                 <View>
-                    <TouchableOpacity onPress={() => {
-                        // navigation.navigate('searchListing', {
-                        //     items: processerList,
-                        //     id: processerList.id,
-                        // });
-                    }}>
+                    <TouchableOpacity 
+                        onPress={() => {
+                            props.navigation.navigate('ItemListing', {
+                                items: categoryItems,
+                                sub_category_name:props.data.sub_category_name,
+                            });
+                        }}>
                         <Image
                             source={SearchImage}
                             style={{ width: 20, height: 20 }}
@@ -107,7 +98,8 @@ const ListDetails = (props) => {
                 </View>
             </View>
             <ScrollView horizontal={true} style={{}}>
-                {categoryItems.map((processer, index) => (
+                {categoryItems.map((processer, index) => {  
+                    return (
                     <TouchableOpacity
                         key={index}
                         onPress={() => { selectHandler(processer.item_id) }}
@@ -115,7 +107,7 @@ const ListDetails = (props) => {
                     >
                         <ImageBackground
                             source={!selectDisplay(processer.item_id) ? selectedIcCardImage : IcCardImage}
-                            style={{ width: 128, height: 151 }}
+                            style={{ width: 139, height: 151 }}
                         >
                             <View
                                 style={{
@@ -126,7 +118,7 @@ const ListDetails = (props) => {
                                 }}>
                                 <Image
                                     source={{ uri: processer.image }}
-                                    style={{ width: 48, height: 40, marginBottom: 10 }}
+                                    style={{ width: 48, height: 40, marginBottom: 10,alignSelf:'center' }}
                                 />
                                 <Text
                                     style={{
@@ -134,6 +126,7 @@ const ListDetails = (props) => {
                                         fontWeight: '700',
                                         color: '#FFFFFF',
                                         marginBottom: 10,
+                                        alignSelf:'center'
                                     }}>
                                     {processer.name}
 
@@ -168,53 +161,13 @@ const ListDetails = (props) => {
                             addToSelected={selectHandler}
                         />
                     </TouchableOpacity>
-                ))}
+                    );
+                })}
             </ScrollView>
         </View>
     )
 };
 
-const styles = StyleSheet.create({
-    container: {
-        width,
-        height,
-        backgroundColor: '#2A2D39',
-    },
-    backButtonContentConatiner: {
-        flexDirection: 'row',
-        justifyContent: 'flex-start',
-        alignItems: 'center',
-        paddingHorizontal: width * 0.09,
-    },
-    backImage: {
-        width: 48,
-    },
-    backTitle: {
-        paddingHorizontal: 20,
-        fontSize: 12,
-        opacity: 0.5,
-        color: '#FFFFFF',
-        fontStyle: 'italic',
-    },
-    brandTitle: {
-        fontSize: 20,
-        color: '#ECDBFA',
-        textAlign: 'left',
-        width: 139,
-    },
-    price: {
-        fontSize: 12,
-        color: '#ECDBFA',
-        marginTop: 10,
-    },
-    scrollViewContainer: {
-        width: '100%',
-        marginBottom: 20,
-        paddingHorizontal: 20,
-        paddingBottom: 20,
-    },
-
-});
 
 const mapStateToProps = (state) => ({
     cart: state.cartReducer.cart,

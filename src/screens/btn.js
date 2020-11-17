@@ -4,7 +4,10 @@ import {SvgXml} from 'react-native-svg';
 
 const {width, height} = Dimensions.get('window');
 
-export default ({text, x,pay=""}) => {
+export default ({text, x,pay}) => {
+
+   // var message = text && pay ? text
+    
   const xml = `
 <?xml version="1.0" encoding="UTF-8"?>
 <svg width="${
@@ -31,8 +34,7 @@ export default ({text, x,pay=""}) => {
                     <use fill="url(#linearGradient-1)" fill-rule="evenodd" xlink:href="#path-2"></use>
                 </g>
                 <g id="Group-14-Copy" transform="translate(82.000000, 15.400000)"
-                font-style="italic"
-                fill="#FFFFFF" font-family="Avenir-Black, Avenir" font-size="16" font-weight="700" line-spacing="16" opacity="0.870000005">
+                fill="#FFFFFF" font-family="Avenir-Black, Avenir" font-size="16" font-weight="700" line-spacing="16" opacity="0.870000005" >
                     <g id="Group-2-Copy-2" transform="translate(0.135120, 0.000000)">
                         <text id="Build-Your-PC">
                             <tspan x=${x ? x : '15.901504017'} y="13.3199707">${

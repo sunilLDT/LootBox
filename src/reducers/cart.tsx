@@ -16,11 +16,16 @@ export default function (state = initialState, action) {
         loading: true,
       };
     case cartConstants.CART_ADD_SUCCESS:
-      console.log(action.id.item_id)
       return {
         ...state,
         cart: [...state.cart,action.id]
       };
+
+    case cartConstants.CART_EMPTY_SUCCESS:
+        return {
+          ...state,
+          cart: []
+        };
     case cartConstants.CART_REMOVE_SUCCESS:
       return {
         ...state,
