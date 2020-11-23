@@ -3,10 +3,10 @@ import {
   Text,
   View,
   StyleSheet,
+  TouchableOpacity,
 } from 'react-native';
 import {addressListApi} from '../api/buildYourPc';
-
-const AddressList = () => {
+const AddressList = ({navigation}) => {
     const [addressList,setAddressList] = useState([]);
 
     useEffect(() => {
@@ -15,13 +15,14 @@ const AddressList = () => {
         }).catch((erroe) => {
           console.log("AddressList" + erroe)
         })
-    });
+    },[]);
     return(
         <View>
             {addressList.map((values,i) => {
             return(
-            <View 
+            <TouchableOpacity 
             key={i}
+            onPress={() => navigation.navigate('address',{addressId:values.address_id})}
             >
             {values.is_default == 1?(
                 <View style={styles.viewStyle}>
@@ -62,7 +63,7 @@ const AddressList = () => {
                     </Text>
                 </View>
             )}  
-            </View>
+            </TouchableOpacity>
             );
         })}
         </View>

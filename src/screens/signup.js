@@ -14,6 +14,7 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import Logo from '../assets/launch_screen.png';
+import PlanBg from '../assets/plainBg.png'
 import LinearGradient from 'react-native-linear-gradient';
 import Input from '../components/input';
 import Icon from 'react-native-vector-icons/AntDesign';
@@ -53,16 +54,17 @@ const Signup = ({navigation, route}) => {
   };
 
   return (
-    <LinearGradient
-      colors={['#2A2D39', '#261D2A']}
-      style={{
-        width: width,
-        minHeight: height,
-        overflowX: 'hidden',
-        display: 'flex',
-        alignItems: 'center',
-        // justifyContent:'center'
-      }}>
+    <ImageBackground
+    source={PlanBg}
+    style={{
+      width: width,
+      minHeight: height,
+      overflowX: 'hidden',
+      display: 'flex',
+      alignItems: 'center',
+      // justifyContent:'center'
+    }}
+    >
       <KeyboardAvoidingView
         behavior="position"
         // keyboardVerticalOffset={40}
@@ -85,25 +87,26 @@ const Signup = ({navigation, route}) => {
               />
             </View>
 
-            <View style={{width, alignItems: 'center'}}>
+            <View style={{width,alignItems:'center'}}>
               <View
                 style={{
                   display: 'flex',
                   flexDirection: 'row',
                   alignSelf: 'flex-start',
                   marginBottom: 27,
-                  marginLeft: width * 0.15,
+                  marginLeft: width * 0.13,
                 }}>
                 <TouchableOpacity>
                   <Text
                     onPress={() => {
-                      navigation.replace('signin');
+                      navigation.navigate('signin');
                     }}
                     style={{
                       color: '#ECDBFA',
                       fontSize: 20,
-                      paddingHorizontal: 10,
+                      paddingRight:20,
                       opacity: 0.24,
+                      fontFamily:'Michroma-Regular',
                     }}>
                     Login
                   </Text>
@@ -113,55 +116,61 @@ const Signup = ({navigation, route}) => {
                     style={{
                       color: '#ECDBFA',
                       fontSize: 20,
-                      paddingHorizontal: 10,
-                      borderLeftColor: '#ECDBFA',
+                      paddingLeft:20,
+                      borderLeftColor: '#373843',
                       borderLeftWidth: 1,
+                      fontFamily:'Michroma-Regular',
                     }}>
                     Signup
                   </Text>
                 </TouchableOpacity>
               </View>
-
+            </View>
+            <View style={{marginLeft:75}}>
               <Input
-                placeholder="First Name"
-                defaultValue={first_name}
-                onChangeText={setFirstName}
-              />
-
-              <View style={{marginTop: 27}}>
-                <Input
-                  placeholder="Last Name"
-                  defaultValue={last_name}
-                  onChangeText={setLastName}
+                  placeholder="First Name"
+                  defaultValue={first_name}
+                  onChangeText={setFirstName}
+                  style={{width:width * 0.95,paddingRight:'15%'}}
                 />
-              </View>
+                <View style={{marginTop: 20}}>
+                  <Input
+                    placeholder="Last Name"
+                    defaultValue={last_name}
+                    onChangeText={setLastName}
+                    style={{width:width * 0.95,paddingRight:'15%'}}
+                  />
+                </View>
 
-              <View style={{marginTop: 27}}>
-                <Input
-                  placeholder="Phone Number"
-                  tel
-                  onChangeText={setPhone}
-                  // defaultValue={phone}
-                />
-              </View>
+                <View style={{marginTop: 20}}>
+                  <Input
+                    placeholder="Phone Number"
+                    tel
+                    onChangeText={setPhone}
+                    style={{width:width * 0.95,paddingRight:'15%'}}
+                    // defaultValue={phone}
+                  />
+                </View>
 
-              <View style={{marginTop: 27}}>
-                <Input
-                  placeholder="Email"
-                  email
-                  onChangeText={setEmail}
-                  defaultValue={email}
-                />
-              </View>
+                <View style={{marginTop: 20}}>
+                  <Input
+                    placeholder="Email"
+                    email
+                    onChangeText={setEmail}
+                    defaultValue={email}
+                    style={{width:width * 0.95,paddingRight:'15%'}}
+                  />
+                </View>
 
-              <View style={{marginTop: 27}}>
-                <Input
-                  placeholder="Password"
-                  onChangeText={setPassword}
-                  password
-                  // defaultValue={password}
-                />
-              </View>
+                <View style={{marginTop: 20}}>
+                  <Input
+                    placeholder="Password"
+                    onChangeText={setPassword}
+                    password
+                    // defaultValue={password}
+                    style={{width:width * 0.95,paddingRight:'15%'}}
+                  />
+                </View>
             </View>
 
             <View
@@ -215,6 +224,8 @@ const Signup = ({navigation, route}) => {
                   flexWrap: 'wrap',
                   position: 'relative',
                   zIndex: 333,
+                  fontStyle:'italic'
+                  // color:'#383540'
                 }}>
                 By clicking signup you agree to our{' '}
                 <Text
@@ -222,6 +233,7 @@ const Signup = ({navigation, route}) => {
                     fontWeight: 'bold',
                     color: '#fff',
                     marginLeft: 5,
+                    fontStyle:'normal'
                   }}>
                   Terms & Conditions{' '}
                 </Text>
@@ -230,6 +242,7 @@ const Signup = ({navigation, route}) => {
                   style={{
                     fontWeight: 'bold',
                     color: '#fff',
+                    fontStyle:'normal'
                   }}>
                   Privacy Policy
                 </Text>
@@ -324,7 +337,7 @@ const Signup = ({navigation, route}) => {
                 )}
               </LinearGradient> */}
               {!state.loading ? (
-                <Btn text="SUBMIT" x="54" pay=""/>
+                <Btn text="SIGNUP" x="54" pay=""/>
               ) : (
                 <>
                   <Btn text={' '} x="54" pay="" />
@@ -353,7 +366,7 @@ const Signup = ({navigation, route}) => {
                 end={{x: 1, y: 0}}
                 colors={['rgba(184,37,154,0.16)', 'rgba(184,37,154,0.16)']}
                 style={{
-                  height: height * 0.09,
+                  height: height * 0.07,
                   borderRadius: 10,
                   borderColor: '#C01C8A',
                   flexDirection: 'row',
@@ -363,12 +376,14 @@ const Signup = ({navigation, route}) => {
                   borderWidth: 1.5,
                   marginTop: 18,
                   elevation: 100,
-                  width: width * 0.75,
+                  width: width * 0.77,
                 }}>
                 <Image
                   source={require('../assets/ic_google.png')}
                   style={{
                     marginRight: 10,
+                    width:20,
+                    height:25
                   }}
                 />
                 <Text
@@ -376,8 +391,7 @@ const Signup = ({navigation, route}) => {
                     fontWeight: 'bold',
                     color: '#fff',
                     letterSpacing: 0.5,
-                    fontStyle: 'italic',
-                   
+                    paddingVertical:10
                   }}>
                   Continue With Gmail
                 </Text>
@@ -386,7 +400,7 @@ const Signup = ({navigation, route}) => {
           </SafeAreaView>
         </ScrollView>
       </KeyboardAvoidingView>
-    </LinearGradient>
+    </ImageBackground>
   );
 };
 

@@ -40,7 +40,6 @@ const Cart = ({navigation}) => {
       console.log("showCartData" + error);
     });
   }, []);
-
   const checkout = () => {
     orderPlace().then((response) => {
       navigation.navigate('checkout',{paymentUrl:response.data.data.paymenturl})
@@ -60,7 +59,7 @@ const Cart = ({navigation}) => {
 
   const gotoAddress = () => {
     setaddressModal(!addressModal)
-    navigation.navigate('address')
+    navigation.navigate('address',{addressId:""})
   };
 
   const defaultAddressfun = (id) => {
@@ -163,6 +162,7 @@ const Cart = ({navigation}) => {
               flexDirection: 'row',
               justifyContent: 'space-between',
             }}>
+            {cartPackage == null?null:
             <Image
               resizeMode="contain"
               source={{uri:cartPackage.image}}
@@ -171,18 +171,22 @@ const Cart = ({navigation}) => {
                 height: 86,
               }}
             />
+            } 
             <View
               style={{
                 alignSelf: 'center',
                 right: 20,
                 width:"40%",
               }}>
+              {cartPackage == null?null:
               <Text
                 style={{
                   color: '#ECDBFA',
                 }}>
                 {cartPackage.name}
               </Text>
+              }
+              {cartPackage == null?null:
               <Text
                 style={{
                   color: '#ECDBFA',
@@ -190,6 +194,7 @@ const Cart = ({navigation}) => {
                 }}>
                 KD {cartData.grand_total}
               </Text>
+              } 
             </View>
           </View>
          } 

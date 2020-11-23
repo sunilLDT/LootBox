@@ -1,4 +1,4 @@
-import React, {useState,useContext} from 'react';
+import React, {useState} from 'react';
 import {
   Text,
   View,
@@ -23,9 +23,9 @@ import Dialog, {
 } from 'react-native-popup-dialog';
 import ImagePicker from "react-native-image-picker";
 import {uploadImageApi}  from '../api/buildYourPc';
-import {Context as AuthContext} from '../api/contexts/authContext';
+
 import AddressList from '../components/AddressList';
-import Modal from '../components/modal';
+
 
 const {width, height} = Dimensions.get('window');
 
@@ -39,24 +39,19 @@ const Profile = ({navigation}) => {
   const [newPassword,setnewPassword] = useState("");
   const [confirmPassword,setconfirmPassword] = useState("");
   const [photo,setPhoto] = useState({});
-  const {signout,setValidationError,state} = useContext(AuthContext);
-  const {validationError} = state;
-  
+
   var formattedDOB = format(DOB, "d-MM-yyyy");
 
   const ProfileUpdate = () => {
     if(email == "" || !/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)){
-      setValidationError("Invalid Email Address");
+      alert("Invalid Email Address")
     }
     else if(gender == ""){
-      setValidationError("Please choose the Gender");
-    }
-    else if(DOB == ""){
-      setValidationError("please fill the DOB");
+      alert("Please choose the Gender");
     }
     else{
       profileUpdateApi(email,formattedDOB,gender).then((response) => {
-        setValidationError(response.message);
+        alert(response.message);
       }).catch((error) => {
         console.log("profileUpdate" + error);
       });
@@ -67,11 +62,11 @@ const Profile = ({navigation}) => {
     if(newPassword !== confirmPassword){
       alert("confirm password doesn't match");
     }
-    else if(newPassword.length < 8 && confirmPassword.length < 8){
-      alert("new password must be greater then 8 digits");
-    }
     else if(newPassword == "" && confirmPassword == "" && oldPassword == ""){
       alert("please fill all input fields");
+    }
+    else if(newPassword.length < 8 && confirmPassword.length < 8){
+      alert("new password must be greater then 8 digits");
     }
     else{
       changePasswordApi(oldPassword,newPassword,confirmPassword).then((response) => {
@@ -93,7 +88,7 @@ const Profile = ({navigation}) => {
       if(response.uri){
         setPhoto(response.uri)
         uploadImageApi(photo).then((response) => {
-          setValidationError(response.message);
+          alert(response.message);
         }).catch((error) => {
           console.log("ImageUploadProfile" + error);
         });
@@ -107,11 +102,6 @@ const Profile = ({navigation}) => {
         height,
         overflow: 'hidden',
       }}>
-        {state.msg ? (
-          <Modal msg={state.msg} hideBtn />
-        ) : validationError ? (
-          <Modal msg={validationError} />
-        ) : null}
          <Dialog
           visible={passwordModal}
           containerStyle={{zIndex: 10, elevation: 10}}
@@ -349,7 +339,7 @@ const Profile = ({navigation}) => {
                 }}>
                 Address
               </Text>
-              <TouchableOpacity onPress={() => navigation.navigate('address')} activeOpacity={0.4}>
+              <TouchableOpacity onPress={() => navigation.navigate('address',{addressId:""})} activeOpacity={0.4}>
                 <Text
                   style={{
                     fontSize: 10,
@@ -360,7 +350,7 @@ const Profile = ({navigation}) => {
                 </Text>
               </TouchableOpacity>
             </View>
-            <AddressList />
+            <AddressList  navigation={navigation}/>
           </LinearGradient>
           <TouchableWithoutFeedback
             onPress={() => ProfileUpdate()}

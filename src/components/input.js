@@ -32,8 +32,8 @@ const Input = ({
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 10,
-        height: height * 0.1,
-        width: width * 0.75,
+        height: height * 0.09,
+        width: width * 0.85,
       },
       style,
     ]}>
@@ -64,9 +64,7 @@ const Input = ({
 
 const styles = StyleSheet.create({
   inp: {
-    paddingLeft: 20,
     fontSize: 13,
-   
     width: width * 0.7,
     color: '#ECDBFA',
   },

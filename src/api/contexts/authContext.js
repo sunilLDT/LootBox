@@ -300,7 +300,6 @@ const addError = (dispatch) => (msg) =>
 
 const setValidationError = (dispatch) => (msg) => {
   dispatch({type: 'validation_error', payload: msg});
-  // console.log(msg);
 };
 
 const setLanguage = (dispatch) => async (language) => {

@@ -19,7 +19,7 @@ const {width, height} = Dimensions.get('window');
 const ChangePhoneNumber = ({navigation}) => {
 
     const [phoneNumber,setPhoneNumber] = useState("");
-
+    
     const numberChange = () => {
         if(phoneNumber == ""){
             alert("Please fill the Phone Number");
@@ -49,6 +49,7 @@ const ChangePhoneNumber = ({navigation}) => {
                     width,
                     minHeight: height,
                 }}>
+                    
                 <View
                     style={{
                     display: 'flex',

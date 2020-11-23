@@ -11,6 +11,7 @@ import {
 import {Context as AuthContext} from '../api/contexts/authContext';
 
 const App = ({msg, hideBtn}) => {
+  console.log(msg);
   const [modalVisible, setModalVisible] = useState(true);
   const {removeError,setValidationError} = useContext(AuthContext);
 
@@ -81,7 +82,7 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontWeight: 'bold',
     textAlign: 'center',
-    // fontFamily: 'Michroma-Regular',  
+    fontFamily: 'Michroma-Regular',  
   },
   modalText: {
     marginBottom: 15,

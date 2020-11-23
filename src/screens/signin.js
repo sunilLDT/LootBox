@@ -33,6 +33,24 @@ const Signin = ({navigation}) => {
 
   const {validationError} = state;
 
+  const checkLoginFun = () => {
+    if(!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)){
+      setValidationError('Invalid Email address');
+    }
+    else if(password && (password.length < 8)){
+      setValidationError('Password must be at least 8 characters',);
+    }
+    else if(!email){
+      setValidationError('All fields are required')
+    }
+    else if(!password){
+      setValidationError('All fields are required')
+    }
+    else{
+      signin({email, password});
+    }
+  }
+
   return (
     <TouchableWithoutFeedback
       onPress={() => {
@@ -61,7 +79,6 @@ const Signin = ({navigation}) => {
               style={styles.screen}>
               <View
                 style={{
-    
                   width: width * 0.8,
                   alignItems: 'center',
                   justifyContent: 'center',
@@ -83,19 +100,21 @@ const Signin = ({navigation}) => {
                   flexDirection: 'row',
                   alignSelf: 'flex-start',
                   marginBottom: 27,
-                  marginLeft: 12,
+                  marginLeft: 3,
                 }}>
                 <TouchableOpacity
-                  onPress={() => {
-                    navigation.replace('signin');
-                  }}>
+                  // onPress={() => {
+                  //   navigation.replace('signin');
+                  // }}
+                  >
                   <Text
                     style={{
                       color: '#ECDBFA',
                       fontSize: 20,
-                      paddingHorizontal: 10,
-                      borderRightColor: '#ECDBFA',
+                      paddingRight:20,
+                      borderRightColor: '#373843',
                       borderRightWidth: 1,
+                      fontFamily:'Michroma-Regular',
                     
                     }}>
                     Login
@@ -109,8 +128,9 @@ const Signin = ({navigation}) => {
                     style={{
                       color: '#ECDBFA',
                       fontSize: 20,
-                      paddingHorizontal: 10,
+                      paddingLeft:20,
                       opacity: 0.24,
+                      fontFamily:'Michroma-Regular',
                     
                     }}>
                     Signup
@@ -124,7 +144,7 @@ const Signin = ({navigation}) => {
                 placeholder="Phone Number Or Email"
               />
 
-              <View style={{marginTop: 27}}>
+              <View style={{marginTop: 20}}>
                 <Input
                   value={password}
                   onChangeText={setPassword}
@@ -145,7 +165,7 @@ const Signin = ({navigation}) => {
               <Text
                 style={{
                   marginTop: 15,
-                  color: '#ECDBFA',
+                  color: '#897E95',
                   fontSize: 12,
                   fontWeight: 'bold',
                 
@@ -155,36 +175,7 @@ const Signin = ({navigation}) => {
             </TouchableOpacity>
 
             <TouchableOpacity
-              onPress={() => {
-                if (
-                  email &&
-                  password &&
-                  password.length >= 8 &&
-                  /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)
-                ) {
-                  signin({email, password});
-                } else {
-                  if (
-                    !/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)
-                  ) {
-                    setValidationError('Invalid Email address');
-                    // se
-                  }
-                  if (password && (password.length < 8)) {
-                    setValidationError(
-                      'Password must be at least 8 characters',
-                    );
-                  }
-                  if (!email) {
-                    setValidationError('All fields are required')
-                    // setValidationError('Email address is required');
-                  }
-                  if (!password) {
-                    setValidationError('All fields are required')
-                    // setValidationError('Password is required');
-                  }
-                }
-              }}
+              onPress={() => checkLoginFun()}
               style={{
                 width: '100%',
                 height: height * 0.1,
@@ -247,7 +238,7 @@ const Signin = ({navigation}) => {
                 end={{x: 1, y: 0}}
                 colors={['rgba(184,37,154,0.16)', 'rgba(184,37,154,0.16)']}
                 style={{
-                  height: height * 0.09,
+                  height: height * 0.07,
                   borderRadius: 10,
                   borderColor: '#C01C8A',
                   flexDirection: 'row',
@@ -259,12 +250,14 @@ const Signin = ({navigation}) => {
                   // bottom: state.loading? 30:0,
                   marginTop: 20,
                   elevation: 100,
-                  width: width * 0.75,
+                  width: width * 0.80,
                 }}>
                 <Image
                   source={require('../assets/ic_google.png')}
                   style={{
                     marginRight: 10,
+                    width:20,
+                    height:25
                   }}
                 />
                 <Text
@@ -272,7 +265,6 @@ const Signin = ({navigation}) => {
                     fontWeight: 'bold',
                     color: '#fff',
                     letterSpacing: 0.5,
-                    fontStyle: 'italic',
                    
                   }}>
                   Continue With Gmail

@@ -103,8 +103,12 @@ export async function cityApi(){
   return response.data;
 }
 
-export async function addAddressApi(city,areas,addressType,email,name,block,street,building,floor,apartment,multiLineAddress){
+export async function addAddressApi(city,areas,addressType,email,name,block,street,building,floor,apartment,addressid){
+  if(addressid == ""){
+    addressid == "";
+  }
   const response = await Api.post('app/user/add-address',{
+    address_id:addressid,
     city:city,
     area:areas,
     name:name,
@@ -115,7 +119,7 @@ export async function addAddressApi(city,areas,addressType,email,name,block,stre
     building:building,
     floor:floor,
     apartment:apartment,
-    address:multiLineAddress,
+    address:"",
   });
   return response.data;
 }
@@ -128,6 +132,13 @@ export async function addressListApi(){
 export async function defaultAddressApi(addId){
   const response = await Api.post('app/user/set-default-address',{
     address_id:addId
+  });
+  return response.data;
+}
+
+export async function getSpecificAddress(addressId){
+  const response = await Api.post('app/user/get-address',{
+    address_id:addressId
   });
   return response.data;
 }
