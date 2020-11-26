@@ -67,7 +67,7 @@ const Signup = ({navigation, route}) => {
     >
       <KeyboardAvoidingView
         behavior="position"
-        // keyboardVerticalOffset={40}
+        // keyboardVerticalOffset={10}
         topOffset={20}
         style={styles.screen}>
         <ScrollView

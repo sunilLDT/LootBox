@@ -167,9 +167,9 @@ const Profile = ({navigation}) => {
           backgroundColor: '#261D2A',
         }}>
         <ImageBackground
-          source={require('../assets/dottedBackground.png')}
+          source={require('../assets/plainBg.png')}
           style={{
-            padding: width * 0.1,
+            paddingLeft: width * 0.1,
           }}>
           <View
             style={{
@@ -189,8 +189,8 @@ const Profile = ({navigation}) => {
             </TouchableOpacity>
             <Text
               style={{
-                fontStyle: 'italic',
-                fontSize: 16,
+                fontFamily:'Montserrat-LightItalic',
+                fontSize: 14,
                 lineHeight: 16,
                 opacity: 0.4,
                 color: '#ECDBFA',
@@ -211,7 +211,7 @@ const Profile = ({navigation}) => {
             <View>
               <Text
                 style={{
-                  // fontFamily: 'Michroma-Regular',
+                  fontFamily: 'Michroma-Regular',
                   fontSize: 20,
                   lineHeight: 28,
                   color: '#ECDBFA',
@@ -221,8 +221,7 @@ const Profile = ({navigation}) => {
               </Text>
               <Text
                 style={{
-                 
-                  fontSize: 12,
+                  fontSize: 16,
                   lineHeight: 16,
                   color: '#ECDBFA',
                   opacity: 0.5,
@@ -238,23 +237,24 @@ const Profile = ({navigation}) => {
                   uri:Object.keys(photo).length === 0?"https://reactnative.dev/img/tiny_logo.png":photo,
                 }}
                 style={{
-                  height: height * 0.12,
-                  width: width * 0.3,
-                  borderRadius: 10,
+                  height: height * 0.14,
+                  width: width * 0.4,
+                  borderTopLeftRadius:10,
+                  borderBottomLeftRadius:10,
                 }}
               />
             </TouchableOpacity>
           </View>
-          <View style={{marginVertical: 15}}>
+          <View style={{marginBottom:10,marginTop:20}}>
             <Input placeholder="Email" email value={email} onChangeText={(email) => setEmail(email)}/>
           </View>
-          <View style={{marginVertical: 15}}>
+          <View style={{marginVertical: 10}}>
             <TouchableOpacity  onPress={() => {setpasswordModal(!passwordModal)}}>
             <InputCard 
             placeholder="Password" />
             </TouchableOpacity>
           </View>
-          <View style={{marginVertical: 15}}>
+          <View style={{marginVertical: 10}}>
             <Input
               onFocus={() => {
                 setShow(true);
@@ -280,9 +280,9 @@ const Profile = ({navigation}) => {
               justifyContent: 'center',
               alignItems: 'center',
               borderRadius: 10,
-              height: height * 0.1,
-              width: width * 0.75,
-              marginVertical: 15,
+              height: height * 0.09,
+              width: width * 0.85,
+              marginVertical: 10,
           }}>
               <Picker
               dropdownIconColor="#ECDBFA"
@@ -303,7 +303,7 @@ const Profile = ({navigation}) => {
                   <Picker.Item label="TransGender" value="3" />
               </Picker>
           </LinearGradient>
-          <View style={{marginVertical: 15}}>
+          <View style={{marginVertical: 10}}>
             <TouchableOpacity onPress={() => navigation.navigate('changePasswordNumber')}>
               <InputCard placeholder="Phone Number"/>
             </TouchableOpacity>

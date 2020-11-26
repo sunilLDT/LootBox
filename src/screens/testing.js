@@ -17,15 +17,15 @@ export default ({text, image}) => {
         </linearGradient>
     </defs>
     <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="Artboard" transform="translate(-1008.000000, -2820.000000)">
-            <g id="youtubegaming1024_1440" transform="translate(1008.000000, 2820.000000)">
+        <g id="Artboard" transform="translate(-113.000000, -1918.000000)">
+            <g id="Group-6" transform="translate(103.000000, 1918.000000)">
                 <mask id="mask-2" fill="white">
                     <use xlink:href="#path-1"></use>
                 </mask>
                 <use id="Mask" fill="#1569F6" xlink:href="#path-1"></use>
                 <g mask="url(#mask-2)">
                     
-                             <image x="0" y="-49" width="460" height="250"
+                             <image x="0" y="-115" width="450" height="420"
 
                                     xlink:href="${image}"
         ></image>

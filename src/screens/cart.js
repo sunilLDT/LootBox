@@ -30,6 +30,7 @@ const Cart = ({navigation}) => {
   const [cartData,setCartData] = useState({});
   const [addressModal, setaddressModal] = useState(false);
   const [allAddress,setAllAddress] = useState([]);
+  const maxlimit = 22;
 
   useEffect(() => {
     showCartData().then((response) => {
@@ -65,6 +66,9 @@ const Cart = ({navigation}) => {
   const defaultAddressfun = (id) => {
     defaultAddressApi(id).then((response) => {
       console.log(response.message)
+      if(response.message){
+        setaddressModal(!addressModal)
+      }
     }).catch((error) => {
       console.log("defaultAddressCartPAGE" + error)
     })
@@ -254,16 +258,24 @@ const Cart = ({navigation}) => {
                         alignSelf: 'center',
                       }}>
                       {items.name}
+                      {items.quantity > 1?<Text style={{color:'#fff'}}> ({items.quantity})</Text>:null}
                     </Text>
                   </View>
+                  {items.quantity > 1?(<Text
+                    style={{
+                      color: 'rgba(255,255,255,0.3)',
+                      fontSize: 12,
+                    }}>
+                   KD {items.price*items.quantity}
+                  </Text>):
                   <Text
                     style={{
+                      color: 'rgba(255,255,255,0.3)',
                       fontSize: 12,
-                      color: '#D2D7F9',
-                      opacity: 0.5,
                     }}>
                    KD {items.price}
                   </Text>
+                  }
                 </View>
               </ImageBackground>
             </View>
@@ -321,7 +333,7 @@ const Cart = ({navigation}) => {
             </TouchableOpacity>
           </ImageBackground>
         }
-        {cartData.length === 0?null:
+        {Object.keys(cartData).length === 0?null:
           <ImageBackground
             source={IcDetailCard}
             style={{
@@ -342,7 +354,8 @@ const Cart = ({navigation}) => {
                   fontSize: 12,
                   opacity: 0.8,
                 }}>
-                Package Details ({Object.keys(cartData).length === 0?"0":cartItems.length } items)
+                Package Details ({Object.keys(cartData).length === 0?"0":cartItems.length }
+                 {Object.keys(cartData).length > 1?" items":" item"})
               </Text>
             </View>
 
@@ -367,8 +380,17 @@ const Cart = ({navigation}) => {
                       color: 'rgba(255,255,255,0.8)',
                       fontSize: 15,
                     }}>
-                    {items.name} <Text style={{fontSize:12,color:'rgba(255,255,255,0.3)'}}>{"   "+items.brand}</Text>
+                    {((items.name).length > maxlimit)?(((items.name).substring(0,maxlimit-3)) + '...'):items.name}
+                    {items.quantity > 1?<Text style={{color:'#fff'}}> ({items.quantity})</Text>:null}
+                    <Text style={{fontSize:12,color:'rgba(255,255,255,0.3)'}}>{"   "+items.brand}</Text>
                   </Text>
+                  {items.quantity > 1?(<Text
+                    style={{
+                      color: 'rgba(255,255,255,0.3)',
+                      fontSize: 12,
+                    }}>
+                   KD {items.price*items.quantity}
+                  </Text>):
                   <Text
                     style={{
                       color: 'rgba(255,255,255,0.3)',
@@ -376,6 +398,7 @@ const Cart = ({navigation}) => {
                     }}>
                    KD {items.price}
                   </Text>
+                  }
                 </View>
                ))}
                <View
@@ -428,7 +451,7 @@ const Cart = ({navigation}) => {
             </View>
           </ImageBackground>
         }
-        {cartData.length === 0?null:
+        {Object.keys(cartData).length === 0?null:
           <TouchableOpacity onPress={() => checkout()}>
             <Btn  text={cartData.grand_total} pay="PAY                " />
           </TouchableOpacity>
@@ -444,9 +467,11 @@ const Cart = ({navigation}) => {
             }}>
             Forgot to add something?
           </Text>
-          <TouchableOpacity onPress={() => navigation.navigate('home')}>
-            <Btn text="Continue Shopping" pay="" x="0"  />
-          </TouchableOpacity>
+          <View style={styles.bottom}>
+            <TouchableOpacity onPress={() => navigation.navigate('home')}>
+              <Btn text="Continue Shopping" pay="" x="0"  />
+            </TouchableOpacity>
+          </View>
         </View>
       </ScrollView>
     </ImageBackground>
@@ -495,6 +520,10 @@ const styles = StyleSheet.create({
   icon:{
     padding:10,
   },
+  bottom:{
+    flex: 1,
+    justifyContent: 'flex-end',
+  }
 });
 
 export default connect(mapStateToProps, actionCreators)(Cart)

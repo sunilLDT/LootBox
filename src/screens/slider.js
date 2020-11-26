@@ -7,8 +7,9 @@ import {
   Animated,
   Text,
   TouchableOpacity,
+  TouchableHighlight
 } from 'react-native';
-
+import Btn from '../screens/btn';
 import LinearGradient from 'react-native-linear-gradient';
 
 const {width, height} = Dimensions.get('window');
@@ -51,61 +52,42 @@ export default class Slideshow extends React.Component {
                   />
                   <View
                     style={{
-                      position: 'absolute',
+                      position:'absolute',
                       zIndex: 12,
                       bottom: height * 0.1,
                       width: width,
                       display: 'flex',
                       alignItems: 'center',
-                      justifyContent: 'center',
-                      textAlign: 'center',
                     }}>
                     <Text
                       style={{
                         color: '#ECDBFA',
                         marginLeft: width * 0.15,
-                        // fontFamily: 'Michroma Regular',
+                        fontFamily:'Michroma-Regular',
                         fontSize: 20,
                         lineHeight: 28,
+                        marginBottom:50
                       }}>
                       Lorem ipsum dolor sit amet, consectetur{' '}
                     </Text>
-                    <LinearGradient
-                      start={{x: 0, y: 1}}
-                      end={{x: 1, y: 0}}
-                      colors={['#C01C8A', '#865CF4']}
-                      style={{
-                        height: height * 0.09,
-                        borderRadius: 10,
-                        alignSelf: 'center',
-                        // marginLeft:width * 0.06,
-                        marginTop: 25,
-                        elevation: 100,
-                        width: width * 0.75,
-                      }}>
-                      <TouchableOpacity
-                        onPress={() => {
-                          navigation.navigate('home');
-                        }}
+                      <TouchableHighlight
+                        onPress={navigation.navigate('home')}
                         style={{
-                          width: '100%',
-                          height: height * 0.09,
+                          width: '75%',
+                          height: height * 0.00,
                           display: 'flex',
                           alignItems: 'center',
-                          justifyContent: 'center',
+                          justifyContent:'center',
+                          zIndex:1000,
                         }}>
-                        <Text
-                          style={{
-                            fontWeight: 'bold',
-                            color: '#fff',
-                            letterSpacing: 0.5,
-                            fontStyle: 'italic',
-                          }}>
-                          GET STARTED
-                        </Text>
-                      </TouchableOpacity>
-                    </LinearGradient>
-                  </View>
+                          <View style={{height:100,width:'100%'}}>
+                            <Btn  text="GET STARTED" pay=""/>
+                          </View>
+                        
+                      </TouchableHighlight>
+                      
+                    </View>
+                  
                 </View>
               );
             })}
@@ -119,7 +101,7 @@ export default class Slideshow extends React.Component {
             alignItems: 'center',
             justifyContent: 'center',
             margin: 'auto',
-            top: 40,
+            top: 10,
             width: width,
             // left: width * 0.2,
           }}>

@@ -22,14 +22,14 @@ const xml = `
         <rect x="0" y="-49" width="316" height="178" id="rect-7"></rect>
     </defs>
     <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="Artboard" transform="translate(-103.000000, -1918.000000)">
+        <g id="Artboard" transform="translate(-113.000000, -1918.000000)">
             <g id="Group-6" transform="translate(103.000000, 1918.000000)">
                 <g id="youtubegaming1024_1440-copy">
                     <mask id="mask-2" fill="white">
                         <use xlink:href="#path-1"></use>
                     </mask>
                     <g id="thumb-1920-681556" mask="url(#mask-2)">
-                        <image x="0" y="-49" width="400" height="270"
+                        <image x="0" y="-105" width="450" height="420"
                          xlink:href="${image}"
 ></image>
                         <use fill="url(#linearGradient-6)" fill-rule="evenodd" xlink:href="#rect-7"></use>

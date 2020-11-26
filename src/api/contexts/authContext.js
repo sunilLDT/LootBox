@@ -2,7 +2,7 @@ import createDataContext from './createDataContext';
 import Api from '../index';
 import {navigate} from './navigationRef';
 import AsyncStorage from '@react-native-community/async-storage';
-import {GoogleSignin} from '@react-native-community/google-signin';
+import {GoogleSignin,statusCodes } from '@react-native-community/google-signin';
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -66,7 +66,7 @@ const checkUser = (dispatch) => async () => {
     if (token && token.length > 0) {
       navigate({name: 'home'});
     } else {
-      navigate({name: 'orderDetails'});
+      // navigate({name: 'orderDetails'});
       // navigate({name: 'auth'});
     }
   } else {
@@ -76,7 +76,9 @@ const checkUser = (dispatch) => async () => {
 
 const googleSignIn = (dispatch) => async () => {
   try {
-    await GoogleSignin.configure();
+    await GoogleSignin.configure({
+      webClientId: '201119561571-i15v7unj24qm39dt32bsvqtcbsqntkg0.apps.googleusercontent.com',
+    });
     await GoogleSignin.hasPlayServices();
     const userInfo = await GoogleSignin.signIn();
     const email = userInfo.user.email;
@@ -87,7 +89,7 @@ const googleSignIn = (dispatch) => async () => {
     } = await Api.post('app/user/check-google-user', {
       email,
       is_google: 1,
-    });
+    })
     if (data.is_available_user !== undefined) {
       navigate({
         name: 'signup',
@@ -122,9 +124,28 @@ const googleSignIn = (dispatch) => async () => {
     }
     await GoogleSignin.revokeAccess();
     await GoogleSignin.signOut();
-  } catch (err) {
-    await GoogleSignin.revokeAccess();
-    await GoogleSignin.signOut();
+  } catch (error) {
+    if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+      dispatch({
+        type: 'add_msg',
+        payload: 'user cancelled the login flow',
+      });
+    } else if (error.code === statusCodes.IN_PROGRESS) {
+      dispatch({
+        type: 'add_msg',
+        payload: 'SIGN_IN_PROGRESS',
+      });
+    } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+      dispatch({
+        type: 'add_msg',
+        payload: 'play services not available or outdated',
+      });
+    }
+    else{
+      await GoogleSignin.revokeAccess();
+      await GoogleSignin.signOut();
+    }
+    
   }
 };
 
@@ -173,6 +194,7 @@ const verifyOtp = (dispatch) => async ({otp}) => {
     const res = await Api.post('app/user/verify-otp', {
       user_id: parseInt(user_id),
       otp,
+
     });
     // console.log(user_id, res.data.success, otp);
     if (res.data.success) {
@@ -260,7 +282,6 @@ const forgotPassword = (dispatch) => async (email) => {
       type: 'toggle_loading',
     });
     const res = await Api.post('app/user/forgot-password', {email});
-    // console.log(res.data);
     if (res.data.success) {
       dispatch({
         type: 'add_msg',
@@ -269,10 +290,11 @@ const forgotPassword = (dispatch) => async (email) => {
       dispatch({
         type: 'toggle_loading',
       });
+      navigate({name: 'auth'});
     } else {
       dispatch({
         type: 'add_msg',
-        payload: 'The selected email is invalid',
+        payload: 'The entered email is not regsitered',
       });
       dispatch({
         type: 'toggle_loading',
@@ -281,7 +303,7 @@ const forgotPassword = (dispatch) => async (email) => {
   } catch (e) {
     dispatch({
       type: 'add_msg',
-      payload: 'The selected email is invalid',
+      payload: 'The entered email is not regsitered',
     });
     dispatch({
       type: 'toggle_loading',
@@ -349,7 +371,6 @@ const fetchItemsInfo = (dispatch) => async (id) => {
     } = await Api(`app/items/item-details?item_id=${id}`);
 
     return data.custom_fields_values.map((i, k) => {
-      console.log(i);
       return {
         name: i.name,
         value: i.value,

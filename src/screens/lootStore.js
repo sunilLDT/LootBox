@@ -21,8 +21,9 @@ const {width, height} = Dimensions.get('window');
 const options = [
   require('../assets/back.png'),
   require('../assets/ic_cart2.png'),
-  require('../assets/ic_filter.png'),
   require('../assets/ic_search.png'),
+  require('../assets/ic_filter.png'),
+  
 ];
 
 const LootStore = ({navigation}) => {
@@ -35,10 +36,9 @@ const LootStore = ({navigation}) => {
   const [categoryId, setCategoryId] = useState(null);
   const [selectedSubCategory, setSelectedSubCategory] = useState(0);
   const [loading, setLoading] = useState(false);
-
   const [cartItems,setcartItems] = useState([]);
-
   const [cartData,setCartData] = useState([]);
+  const maxlimit = 22;
 
   useEffect(() => {
     showCartData().then((response) => {
@@ -54,13 +54,10 @@ const LootStore = ({navigation}) => {
       await fetchData1();
     } else {
       if (selectedSubCategory !== 0) {
-        // console.log(current,selectedSubCategory)
-        // console.log(subCategories)
         await fetchData1(subCategories[current][selectedSubCategory - 1].id);
       }
     }
   }, [selectedSubCategory, current]);
-
   const fetchData1 = async (b) => {
     setLoading(true);
     const categories = await fetchCategories();
@@ -72,6 +69,7 @@ const LootStore = ({navigation}) => {
       setCategories(x);
       var itemData = null;
       // console.log(b);
+      
       if (b) {
         itemData = await fetchItems(x[current].id, b);
       } else {
@@ -90,7 +88,6 @@ const LootStore = ({navigation}) => {
           };
         });
       });
-      // console.log(y);
       setSubCategories(y);
       setLoading(false);
     }
@@ -105,21 +102,19 @@ const LootStore = ({navigation}) => {
       style={{
         backgroundColor: '#261D2A',
         width: width,
-        // minHeight: height * 0.2,
         overflowX: 'hidden',
       }}>
-      <ImageBackground
-        source={require('../assets/dottedBackground.png')}
+      <ScrollView
+        showsVerticalScrollIndicator={false}
         style={{
           width,
           height,
-          paddingHorizontal: width * 0.1,
         }}>
-        <ScrollView
-          showsVerticalScrollIndicator={false}
-          style={{
-            width: width * 0.8,
-          }}>
+          <ImageBackground
+            source={require('../assets/dottedBackground.png')}
+            style={{
+              paddingHorizontal: width * 0.1,
+            }}>
           <View
             style={{
               display: 'flex',
@@ -147,7 +142,7 @@ const LootStore = ({navigation}) => {
             )}
             <View
               style={{
-                width: '54%',
+                width: '44%',
                 display: 'flex',
                 flexDirection: 'row',
                 alignItems: 'center',
@@ -189,6 +184,7 @@ const LootStore = ({navigation}) => {
                         source={i}
                         style={{
                           width: 48,
+
                         }}
                       />
                     </TouchableOpacity>
@@ -201,6 +197,7 @@ const LootStore = ({navigation}) => {
               color: '#ECDBFA',
               fontSize: 12,
               lineHeight: 16,
+              fontFamily:'Montserrat-LightItalic'
             }}>
             DISCOVER
           </Text>
@@ -208,7 +205,7 @@ const LootStore = ({navigation}) => {
             style={{
               color: '#ECDBFA',
               fontSize: 20,
-              // fontFamily: 'Michroma-Regular',
+              fontFamily: 'Michroma-Regular',
             }}>
             Loot Store
           </Text>
@@ -291,8 +288,8 @@ const LootStore = ({navigation}) => {
                           setSelectedSubCategory(k + 1);
                         }}>
                         <SmallLGBtn
-                          // text={i.name}
-                          text={i.name.substring(0, 5)}
+                          text={i.name}
+                          // text={i.name.substring(0, 5)}
                           selected={selectedSubCategory === k + 1}
                         />
                       </TouchableOpacity>
@@ -367,7 +364,7 @@ const LootStore = ({navigation}) => {
                                 source={require('../assets/ic_card_a0.png')}
                                 resizeMode="contain"
                                 style={{
-                                  height: 170,
+                                  height: 185,
                                   display: 'flex',
                                   //   alignItems: 'center',
                                   // justifyContent: 'center',
@@ -405,7 +402,7 @@ const LootStore = ({navigation}) => {
                                 )}
                                 <Text
                                   style={{
-                                    // fontFamily: 'Montserrat-Regular',
+                                    fontFamily: 'Montserrat-Regular',
                                     color: '#D2D7F9',
                                     opacity: 0.5,
                                     fontSize: 14,
@@ -414,20 +411,24 @@ const LootStore = ({navigation}) => {
                                   {i.brand}
                                 </Text>
                                 <Text
+                                numberOfLines={2}
                                   style={{
                                     fontSize: 16,
                                     color: '#ECDBFA',
-                                    // fontFamily: 'Montserrat-Bold',
+                                    fontFamily: 'Montserrat-Bold',
+                                    marginTop:2,
+                                    marginRight:"2%"
                                   }}>
-                                  {i.name}
+                                  {((i.name).length > maxlimit)?(((i.name).substring(0,maxlimit-3)) + '...'):i.name}
                                 </Text>
                                 <Text
                                   style={{
                                     color: '#DF2EDC',
                                     fontSize: 12,
-                                    // fontFamily: 'Montserrat-Regular',
+                                    fontFamily: 'Montserrat-Regular',
+                                    marginVertical:10
                                   }}>
-                                  {i.price}
+                                  KD {i.price}
                                 </Text>
                               </ImageBackground>
                             </TouchableOpacity>
@@ -443,8 +444,8 @@ const LootStore = ({navigation}) => {
               <ActivityIndicator color="#ECDBFA" size="small" />
             </View>
           )}
-        </ScrollView>
-      </ImageBackground>
+        </ImageBackground>
+      </ScrollView>
     </View>
   );
 };

@@ -13,6 +13,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import Btn from './btn';
 import {Context as AuthContext} from '../api/contexts/authContext';
 import {showCartData,addToCartForStore} from '../api/buildYourPc';
+import ViewMoreText from 'react-native-view-more-text';
 
 const {width, height} = Dimensions.get('window');
 
@@ -68,6 +69,17 @@ const ItemDesc = ({route, navigation}) => {
   const [cartItems,setcartItems] = useState([]);
   const [cartData,setCartData] = useState([]);
   const [AddItems,setAddItems] = useState([]);
+
+  const renderViewMore = (onPress) => {
+    return(
+      <Text style={{color:'#fff',fontWeight:'bold',}} onPress={onPress}>more</Text>
+    )
+  };
+const renderViewLess = (onPress) => {
+    return(
+      <Text style={{color:'#fff',fontWeight:'bold',}} onPress={onPress}>less</Text>
+    )
+  };
 
   const fetchData = async () => {
     const data1 = await fetchItemsInfo(route.params.id);
@@ -213,13 +225,15 @@ const ItemDesc = ({route, navigation}) => {
             />
           )}
 
-          <View>
+          <View style={{marginRight:"36%"}}>
             <Text
+              numberOfLines={3}
               style={{
-                color: '#ECDBFA',
-                fontSize: 20,
-                // fontFamily: 'Michroma-Regular',        
-                    }}>
+                  color: '#ECDBFA',
+                  fontSize: 18,
+                  fontFamily: 'Michroma-Regular',        
+                  }}
+            >
               {route.params.name}
             </Text>
             <Text
@@ -227,7 +241,7 @@ const ItemDesc = ({route, navigation}) => {
                 color: '#ECDBFA',
                 fontSize: 14,
                 opacity: 0.5,
-                // fontFamily: 'Michroma-Regular',       
+                fontFamily: 'Michroma-Regular',       
                      }}>
               {route.params.brand}
             </Text>
@@ -245,7 +259,7 @@ const ItemDesc = ({route, navigation}) => {
           <Text
             style={{
               fontSize: 14,
-              // fontFamily: 'Michroma-Regular',       
+              fontFamily: 'Michroma-Regular',       
                      color: '#ECDBFA',
               opacity: 0.5,
             }}>
@@ -254,10 +268,10 @@ const ItemDesc = ({route, navigation}) => {
           <Text
             style={{
               fontSize: 14,
-              // fontFamily: 'Michroma-Regular',            
+              fontFamily: 'Michroma-Regular',            
                 color: '#ECDBFA',
             }}>
-            KD {parseInt(route.params.price)}
+            KD {route.params.price}
           </Text>
         </View>
         <View
@@ -271,7 +285,7 @@ const ItemDesc = ({route, navigation}) => {
           <Text
             style={{
               fontSize: 14,
-              // fontFamily: 'Michroma-Regular',       
+              fontFamily: 'Michroma-Regular',       
                      color: '#ECDBFA',
               opacity: 0.5,
             }}>
@@ -300,7 +314,7 @@ const ItemDesc = ({route, navigation}) => {
             <Text
               style={{
                 fontSize: 14,
-                // fontFamily: 'Michroma-Regular',   
+                fontFamily: 'Michroma-Regular',   
                 color: '#ECDBFA',
                 marginHorizontal: 10,
               }}>
@@ -324,7 +338,7 @@ const ItemDesc = ({route, navigation}) => {
         <Text
           style={{
             fontSize: 14,
-            // fontFamily: 'Michroma-Regular',    
+            fontFamily: 'Michroma-Regular',    
                     color: '#ECDBFA',
             opacity: 0.5,
             marginTop: 20,
@@ -334,20 +348,22 @@ const ItemDesc = ({route, navigation}) => {
         <Text
           style={{
             fontSize: 12,
-           
             color: 'rgba(236,219,250,0.5)',
             marginTop: 10,
           }}>
-          {route.params.description}
-          {/* Nulla ut mollis nisi. Nullam consequat euismod tellus volutpat
-          sodales. In mauris elit, hendrerit ut pharetra hendrerit, viverra nec{' '} */}
+            <ViewMoreText
+                numberOfLines={3}
+                renderViewMore={renderViewMore}
+                renderViewLess={renderViewLess}
+                textStyle={{textAlign:'left',color:'rgba(255,255,255,0.3)'}}
+            >
+              {route.params.description}
+            </ViewMoreText>
           <Text
             style={{
               color: '#ECDBFA',
              
             }}>
-            {' '}
-            {/* more */}
           </Text>
         </Text>
 

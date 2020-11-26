@@ -171,7 +171,7 @@ const Address = ({navigation,route}) => {
                         alignItems: 'center',
                         borderRadius: 10,
                         height: height * 0.1,
-                        width: width * 0.75,
+                        width: width * 0.85,
                         marginVertical: 15,
                         marginHorizontal:"7%",
                     }}>
@@ -212,7 +212,7 @@ const Address = ({navigation,route}) => {
                         alignItems: 'center',
                         borderRadius: 10,
                         height: height * 0.1,
-                        width: width * 0.75,
+                        width: width * 0.85,
                         marginVertical: 15,
                         marginHorizontal:"7%",
                     }}>
@@ -275,7 +275,7 @@ const Address = ({navigation,route}) => {
                         alignItems: 'center',
                         borderRadius: 10,
                         height: height * 0.1,
-                        width: width * 0.75,
+                        width: width * 0.85,
                         marginVertical: 15,
                         marginHorizontal:"7%",
                         }}>
@@ -392,7 +392,7 @@ const styles = StyleSheet.create({
     },
     input:{
         width:"100%",
-        paddingLeft:"95%"
+        paddingLeft:"115%"
     },
     btnView:{
         paddingHorizontal:'10%',

@@ -9,7 +9,7 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
   Keyboard,
-  ScrollView,
+  ScrollView, 
   KeyboardAvoidingView,
   ActivityIndicator,
 } from 'react-native';
@@ -34,14 +34,14 @@ const Signin = ({navigation}) => {
   const {validationError} = state;
 
   const checkLoginFun = () => {
-    if(!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)){
-      setValidationError('Invalid Email address');
+    if(!email){
+      setValidationError('Please fill the Email');
     }
     else if(password && (password.length < 8)){
       setValidationError('Password must be at least 8 characters',);
     }
-    else if(!email){
-      setValidationError('All fields are required')
+    else if(!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)){
+      setValidationError('Invalid Email Address')
     }
     else if(!password){
       setValidationError('All fields are required')
@@ -67,12 +67,11 @@ const Signin = ({navigation}) => {
         }}>
         <ScrollView>
           <SafeAreaView style={{display: 'flex', alignItems: 'center'}}>
-            {state.msg ? (
-              <Modal msg={state.msg} hideBtn />
-            ) : validationError ? (
-              <Modal msg={validationError} />
-            ) : null}
-
+          {state.msg ? (
+            <Modal msg={state.msg} hideBtn />
+          ) : validationError ? (
+            <Modal msg={validationError} />
+          ) : null}
             <KeyboardAvoidingView
               behavior="position"
               keyboardVerticalOffset={50}
@@ -160,7 +159,7 @@ const Signin = ({navigation}) => {
                 alignSelf: 'flex-end',
               }}
               onPress={() => {
-                navigation.push('forgotPassword');
+                navigation.navigate('forgotPassword');
               }}>
               <Text
                 style={{
@@ -180,36 +179,6 @@ const Signin = ({navigation}) => {
                 width: '100%',
                 height: height * 0.1,
               }}>
-              {/* <LinearGradient
-                start={{x: 0, y: 1}}
-                end={{x: 1, y: 0}}
-                colors={['#C01C8A', '#865CF4']}
-                style={{
-                  height: height * 0.09,
-                  borderRadius: 10,
-                  marginTop: 25,
-                  display: 'flex',
-                  height: height * 0.09,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  elevation: 100,
-                  width: width * 0.75,
-                }}>
-                {!state.loading ? (
-                  <Text
-                    style={{
-                      fontWeight: 'bold',
-                      color: '#fff',
-                      letterSpacing: 0.5,
-                      fontStyle: 'italic',
-                    
-                    }}>
-                    LOGIN
-                  </Text>
-                ) : (
-                  <ActivityIndicator color="#ECDBFA" size="small" />
-                )}
-              </LinearGradient> */}
               {!state.loading ? (
                 <Btn text="LOGIN" pay="" x="54" />
               ) : (

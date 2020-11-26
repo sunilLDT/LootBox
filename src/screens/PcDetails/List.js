@@ -99,6 +99,7 @@ const ListDetails = (props) => {
             </View>
             <ScrollView horizontal={true} style={{}}>
                 {categoryItems.map((processer, index) => {  
+                    const maxlimit = 22;
                     return (
                     <TouchableOpacity
                         key={index}
@@ -128,7 +129,7 @@ const ListDetails = (props) => {
                                         marginBottom: 10,
                                         alignSelf:'center'
                                     }}>
-                                    {processer.name}
+                                    {((processer.name).length > maxlimit)?(((processer.name).substring(0,maxlimit-3)) + '...'):processer.name}
 
                                 </Text>
                                 <Text
@@ -148,9 +149,9 @@ const ListDetails = (props) => {
                                         fontSize: 12,
                                         fontWeight: '400',
                                         color: '#FFFFFF',
-                                        marginBottom: 10,
                                         fontStyle: 'italic',
                                         textAlign: 'center',
+                                        marginBottom:40,
                                     }}>
                                     +KD {processer.price}
                                 </Text>

@@ -104,7 +104,9 @@ const ItemListing = (props) => {
       <FlatList
         keyExtractor={(item) => item.name}
         data={items || []}
+        showsVerticalScrollIndicator={false}
         renderItem={({ item }, index) => {
+          const maxlimit = 22;
           return (
           <TouchableOpacity
             key={index}
@@ -127,13 +129,13 @@ const ItemListing = (props) => {
                 />
                 <Text
                   style={{
-                    fontSize: 13,
+                    fontSize: 12,
                     fontWeight: 'bold',
                     color: '#FFFFFF',
                     marginBottom: 5,
                     alignSelf:'center',
                   }}>
-                  {item.name}
+                  {((item.name).length > maxlimit)?(((item.name).substring(0,maxlimit-3)) + '...'):item.name}
                 </Text>
                 <Text
                   style={{
@@ -152,7 +154,7 @@ const ItemListing = (props) => {
                     fontSize: 12,
                     fontWeight: '400',
                     color: '#FFFFFF',
-                    marginBottom: 10,
+                    marginBottom: 20,
                     textAlign: 'center',
                   }}>
                   KD {item.price}
@@ -192,10 +194,9 @@ const styles = StyleSheet.create({
     fontStyle: 'italic',
   },
   cardConatiner: {
-    width: 140,
-    height: 150,
-     marginHorizontal:25,
-     marginVertical:25,
+    width: width*0.34,
+    height: height*0.22,
+    margin:"8%"
   },
   pageName:{
     fontStyle: 'italic',
