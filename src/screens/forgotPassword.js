@@ -121,33 +121,6 @@ const ForgotPassword = ({navigation}) => {
                 </>
                 )}
             </TouchableOpacity>
-            <Text
-              style={{
-                // alignSelf: 'flex-end',
-                marginTop: height * 0.05,
-                marginBottom: height * 0.05,
-                color: 'rgba(236,219,250,0.5)',
-                fontSize: 12,
-                alignSelf:'center',
-               
-              }}>
-              If you do have a password{' '}
-              <TouchableOpacity
-                activeOpacity={0.6}
-                onPress={() => {
-                  navigation.navigate('auth');
-                }}>
-                <Text
-                  style={{
-                    color: '#ECDBFA',
-                    fontSize: 12,
-                    top: 3,
-                   
-                  }}>
-                  Login
-                </Text>
-              </TouchableOpacity>
-            </Text>
           </SafeAreaView>
         </ScrollView>
       </ImageBackground>

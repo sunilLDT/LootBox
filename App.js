@@ -43,6 +43,7 @@ import Address from './src/screens/Address';
 import OrderDetails from './src/screens/OrderDetails';
 import { store, persistedStore } from './src/store/index';
 import { Provider } from 'react-redux';
+import SplashScreen from 'react-native-splash-screen';
 
 const {width, height} = Dimensions.get('window');
 
@@ -74,7 +75,8 @@ const AuthScreen = ({navigation}) => {
     <Auth.Navigator
       initialRouteName="signin"
       screenOptions={{
-        gestureEnabled: true,
+        gestureEnabled: false,
+        swipeEnabled: false,
         gestureDirection: 'horizontal',
         transitionSpec: {
           open: config,
@@ -89,6 +91,7 @@ const AuthScreen = ({navigation}) => {
       <Auth.Screen name="signin" component={Signin} />
       <Auth.Screen name="signup" component={Signup} />
     </Auth.Navigator>
+    
   );
 };
 const Drawer = createDrawerNavigator();
@@ -109,10 +112,10 @@ const HomeScreen = () => (
 
 const App = () => {
   const {checkUser} = useContext(AuthContext);
-
   const check = async () => {
     // RNBootSplash.show();
     await checkUser();
+    SplashScreen.hide();
     // await RNBootSplash.hide({duration: 250});
   };
 
@@ -181,9 +184,7 @@ export default () => {
   return (
     <Provider store={store}>
     <AuthProvider>
-      <SafeAreaView style={{flex:1, backgroundColor: '#2A2D39'}}>
       <App />
-      </SafeAreaView>
     </AuthProvider>
     </Provider>
   );

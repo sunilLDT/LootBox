@@ -7,10 +7,9 @@ import {
   Animated,
   Text,
   TouchableOpacity,
-  TouchableHighlight
+  Button,
 } from 'react-native';
 import Btn from '../screens/btn';
-import LinearGradient from 'react-native-linear-gradient';
 
 const {width, height} = Dimensions.get('window');
 
@@ -28,7 +27,7 @@ export default class Slideshow extends React.Component {
     const {navigation} = this.props;
 
     return (
-      <View>
+      <View >
         <View>
           <ScrollView
             horizontal={true}
@@ -41,7 +40,7 @@ export default class Slideshow extends React.Component {
             scrollEventThrottle={16}>
             {images.map((x, i) => {
               return (
-                <View key={i}>
+                <View key={i} >
                   <ImageBackground
                     source={x}
                     style={{
@@ -52,9 +51,7 @@ export default class Slideshow extends React.Component {
                   />
                   <View
                     style={{
-                      position:'absolute',
-                      zIndex: 12,
-                      bottom: height * 0.1,
+                      bottom: height * 0.2,
                       width: width,
                       display: 'flex',
                       alignItems: 'center',
@@ -66,28 +63,33 @@ export default class Slideshow extends React.Component {
                         fontFamily:'Michroma-Regular',
                         fontSize: 20,
                         lineHeight: 28,
-                        marginBottom:50
+                        marginBottom:20
                       }}>
                       Lorem ipsum dolor sit amet, consectetur{' '}
                     </Text>
-                      <TouchableHighlight
-                        onPress={navigation.navigate('home')}
-                        style={{
-                          width: '75%',
-                          height: height * 0.00,
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent:'center',
-                          zIndex:1000,
-                        }}>
-                          <View style={{height:100,width:'100%'}}>
-                            <Btn  text="GET STARTED" pay=""/>
-                          </View>
-                        
-                      </TouchableHighlight>
-                      
+                    <TouchableOpacity
+                      onPress={() => {navigation.navigate('home')}}
+                      style={{
+                        width: '75%',
+                        height: height * 0.00,
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent:'center',
+                        zIndex:1,
+                      }}>
+                        <View style={{height:100,width:'100%',marginTop:"20%",}}>
+                          <Btn  text="GET STARTED" pay=""/>
+                        </View>
+                    </TouchableOpacity> 
+                    {/* <Button title="GET STARTED" color="#f194ff" onPress={() => {navigation.navigate('home')}} style={{
+                      width: '75%',
+                      height: height * 0.00,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent:'center',
+                      zIndex:1000,
+                    }}/> */}
                     </View>
-                  
                 </View>
               );
             })}

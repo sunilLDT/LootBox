@@ -1,4 +1,4 @@
-import React, {useState, useContext} from 'react';
+import React, {useState, useContext,useEffect} from 'react';
 import {
   View,
   Text,
@@ -12,11 +12,12 @@ import {
   ScrollView, 
   KeyboardAvoidingView,
   ActivityIndicator,
+  BackHandler,
+  Alert
 } from 'react-native';
 import Logo from '../assets/launch_screen.png';
 import LinearGradient from 'react-native-linear-gradient';
 import Input from '../components/input';
-import {Fonts} from '../utils/Fonts';
 import {Context as AuthContext} from '../api/contexts/authContext';
 import Modal from '../components/modal';
 import Btn from './btn';
@@ -34,22 +35,61 @@ const Signin = ({navigation}) => {
   const {validationError} = state;
 
   const checkLoginFun = () => {
-    if(!email){
-      setValidationError('Please fill the Email');
+
+    if(isNaN(email)){
+      if(!email){
+        setValidationError('Please fill the Email or Phone Number');
+      }
+      else if(password && (password.length < 8)){
+        setValidationError('Password must be at least 8 characters',);
+      }
+      else if(!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)){
+          setValidationError('Invalid Email Address ')
+      }
+      else if(!password){ 
+        setValidationError('All fields are required')
+      }
+      else{
+        signin({email, password});
+      }
+    }else {
+      if(email && !(email.length == 8)){
+        setValidationError('Invalid  Phone number')
+      }
+      else if(!password){ 
+        setValidationError('All fields are required')
+      }
+      else if(!email){
+        setValidationError('Please fill the Email or Phone Number');
+      }
+      else if(password && (password.length < 8)){
+        setValidationError('Password must be at least 8 characters',);
+      }
+      else{
+        signin({email, password});
+      }
     }
-    else if(password && (password.length < 8)){
-      setValidationError('Password must be at least 8 characters',);
-    }
-    else if(!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)){
-      setValidationError('Invalid Email Address')
-    }
-    else if(!password){
-      setValidationError('All fields are required')
-    }
-    else{
-      signin({email, password});
-    }
+    
   }
+
+  const backAction = () => {
+    Alert.alert("Hold on!", "Are you sure you want exit from App?", [
+      {
+        text: "Cancel",
+        onPress: () => null,
+        style: "cancel"
+      },
+      { text: "YES", onPress: () => BackHandler.exitApp() }
+    ]);
+    return true;
+  };
+
+  useEffect(() => {
+    BackHandler.addEventListener("hardwareBackPress", backAction);
+
+    return () =>
+      BackHandler.removeEventListener("hardwareBackPress", backAction);
+  }, []);
 
   return (
     <TouchableWithoutFeedback
@@ -121,7 +161,7 @@ const Signin = ({navigation}) => {
                 </TouchableOpacity>
                 <TouchableOpacity
                   onPress={() => {
-                    navigation.push('signup');
+                    navigation.navigate('signup');
                   }}>
                   <Text
                     style={{
@@ -149,7 +189,11 @@ const Signin = ({navigation}) => {
                   onChangeText={setPassword}
                   placeholder="Password"
                   password
+                  
                 />
+                {/* <TouchableOpacity onPress={() => setPasswordVisibility()}>
+                  <Icon name="eye-off" size={20} color="#fff" style={styles.icon}/>
+                </TouchableOpacity> */}
               </View>
             </KeyboardAvoidingView>
 
@@ -251,6 +295,15 @@ const styles = StyleSheet.create({
   screen: {
     flex: 1,
   },
+  // icon:{
+  //   position: 'absolute',
+  //   right: 10,
+  //   height:25,
+  //   width: 35,
+  //   padding: 2,
+  //   bottom:17,
+  //   zIndex:1,
+  // }
 });
 
 export default Signin;

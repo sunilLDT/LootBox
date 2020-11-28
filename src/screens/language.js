@@ -52,7 +52,7 @@ const Language = ({navigation}) => {
                 lineHeight: 28,
                 fontSize: 20,
                 color: '#ECDBFA',
-                // fontFamily: 'Michroma-Regular',
+                fontFamily: 'Michroma-Regular',
               }}>
               Choose your language
             </Text>
@@ -67,8 +67,8 @@ const Language = ({navigation}) => {
                   setLanguage(i.title);
                   {
                     state.token
-                      ? navigation.replace('home')
-                      : navigation.replace('auth', {
+                      ? navigation.navigate('home')
+                      : navigation.navigate('auth', {
                           screen: 'signin',
                         });
                   }

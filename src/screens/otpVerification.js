@@ -8,6 +8,7 @@ import {
   Image,
   TouchableOpacity,
   StyleSheet,
+  BackHandler
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import {Context as AuthContext} from '../api/contexts/authContext';
@@ -21,6 +22,12 @@ const Otp = ({navigation}) => {
   const [otp, setOtp] = useState();
   const {verifyOtp, state, resendOtp} = useContext(AuthContext);
   const [count, setCount] = useState(0);
+
+  const backAction = () => {
+   navigation.navigate("auth");
+    return true;
+  };
+  
   useEffect(() => {
     let timer;
     if (count < 60 && count >= 0) {
@@ -32,6 +39,14 @@ const Otp = ({navigation}) => {
     }
     return () => clearInterval(timer);
   }, [count]);
+  
+
+  useEffect(() => {
+    BackHandler.addEventListener("hardwareBackPress", backAction);
+
+    return () =>
+      BackHandler.removeEventListener("hardwareBackPress", backAction);
+  }, []);
 
   return (
     <LinearGradient
@@ -131,9 +146,9 @@ const Otp = ({navigation}) => {
         </View>
         <TouchableOpacity
           onPress={async () => {
-            if (count !== 0 && count !== 60) {
+            // if (count !== 0 && count !== 60) {
               await verifyOtp({otp});
-            }
+            // }
           }}
           style={styles.btnContainer}>
           <Btn text={'VERIFY'} x={"54"} pay=""/>
@@ -145,8 +160,9 @@ const Otp = ({navigation}) => {
 
 const styles = StyleSheet.create({
   btnContainer:{
-    flex:1,
-    justifyContent: 'flex-end',
+    position:'relative',
+    marginTop:"77%"
+
   }
 })
 

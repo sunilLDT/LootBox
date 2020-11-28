@@ -140,7 +140,7 @@ const Drawer = ({navigation, progress}) => {
 
           {options.map((i, k) => (
             <TouchableOpacity key={k} onPress={() => {
-              k===options.length-1 ? signout():navigation.push(i.path)
+              k===options.length-1 ? signout():navigation.navigate(i.path)
             }}>
               <Text
                 style={{
