@@ -40,7 +40,6 @@ const Language = ({navigation}) => {
         // paddingLeft: width * 0.08,
         justifyContent: 'center',
       }}>
-      <SafeAreaView>
         <View
           style={{
             display: 'flex',
@@ -111,7 +110,6 @@ const Language = ({navigation}) => {
             ))}
           </View>
         </View>
-      </SafeAreaView>
     </LinearGradient>
   );
 };

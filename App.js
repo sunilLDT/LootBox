@@ -1,4 +1,4 @@
-import React, {useEffect, useContext} from 'react';
+import React, {useEffect, useContext } from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {Easing, SafeAreaView } from 'react-native';
 import {
@@ -130,7 +130,8 @@ const App = () => {
         height,
         backgroundColor: '#261D2A',
       }}>
-      <StatusBar hidden />
+        
+      <StatusBar backgroundColor="#2B2B35" />
       <NavigationContainer
         ref={(navigator) => {
           setNavigator(navigator);
@@ -184,7 +185,9 @@ export default () => {
   return (
     <Provider store={store}>
     <AuthProvider>
+    <SafeAreaView style={{ flex: 0, backgroundColor: '#2E2E2E' }}>
       <App />
+    </SafeAreaView>
     </AuthProvider>
     </Provider>
   );

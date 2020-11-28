@@ -106,7 +106,7 @@ const Signin = ({navigation}) => {
           alignItems: 'center',
         }}>
         <ScrollView>
-          <SafeAreaView style={{display: 'flex', alignItems: 'center'}}>
+          
           {state.msg ? (
             <Modal msg={state.msg} hideBtn />
           ) : validationError ? (
@@ -284,7 +284,6 @@ const Signin = ({navigation}) => {
                 </Text>
               </LinearGradient>
             </TouchableWithoutFeedback>
-          </SafeAreaView>
         </ScrollView>
       </LinearGradient>
     </TouchableWithoutFeedback>
