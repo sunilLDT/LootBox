@@ -375,6 +375,7 @@ const Signup = ({navigation, route}) => {
                   marginTop: 18,
                   elevation: 100,
                   width: width * 0.77,
+                  marginLeft:10,
                 }}>
                 <Image
                   source={require('../assets/ic_google.png')}

@@ -1,6 +1,6 @@
 import React, {useEffect, useContext } from 'react';
 import {NavigationContainer} from '@react-navigation/native';
-import {Easing, SafeAreaView } from 'react-native';
+import {Easing,Platform } from 'react-native';
 import {
   createStackNavigator,
   TransitionPresets,
@@ -38,11 +38,11 @@ import CheckOut from './src/components/CheckOut';
 import AlertMessage from './src/components/AlertMessage';
 import changePasswordNumber from './src/screens/changePhoneNumber';
 import Address from './src/screens/Address';
-
 import OrderDetails from './src/screens/OrderDetails';
 import { store, persistedStore } from './src/store/index';
 import { Provider } from 'react-redux';
 import SplashScreen from 'react-native-splash-screen';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 const {width, height} = Dimensions.get('window');
 
@@ -112,10 +112,8 @@ const HomeScreen = () => (
 const App = () => {
   const {checkUser} = useContext(AuthContext);
   const check = async () => {
-    // RNBootSplash.show();
     await checkUser();
     SplashScreen.hide();
-    // await RNBootSplash.hide({duration: 250});
   };
 
   useEffect(() => {
@@ -130,7 +128,7 @@ const App = () => {
         backgroundColor: '#261D2A',
       }}>
         
-      <StatusBar backgroundColor="#2B2B35" hidden />
+      <StatusBar backgroundColor="#2B2B35" hidden/>
       <NavigationContainer
         ref={(navigator) => {
           setNavigator(navigator);
@@ -148,7 +146,7 @@ const App = () => {
           // initialRouteName="cpus"
           headerMode="none">
           <Stack.Screen name="language" component={Language} />
-          <Stack.Screen name="auth" component={AuthScreen} />
+          <Stack.Screen name="auth" component={AuthScreen} options={{gestureEnabled: false}}/>
           <Stack.Screen name="otp" component={OtpVerification} />
           <Stack.Screen name="slider" component={Slider} />
           <Stack.Screen name="home" component={HomeScreen} />
@@ -173,7 +171,6 @@ const App = () => {
           <Stack.Screen name="alertMessage" component={AlertMessage} />
           <Stack.Screen name="changePasswordNumber" component={changePasswordNumber} />
           <Stack.Screen name="address" component={Address} />
-
         </Stack.Navigator>
       </NavigationContainer>
     </View>
@@ -183,11 +180,11 @@ const App = () => {
 export default () => {
   return (
     <Provider store={store}>
-    <AuthProvider>
-    <SafeAreaView style={{ flex: 0, backgroundColor: '#2E2E2E' }}>
-      <App />
-    </SafeAreaView>
-    </AuthProvider>
+      <AuthProvider>
+        <SafeAreaProvider>
+          <App />
+        </SafeAreaProvider>
+      </AuthProvider>
     </Provider>
   );
 };

@@ -8,6 +8,7 @@ import {
   ImageBackground,
   ActivityIndicator,
   ScrollView,
+  FlatList
 } from 'react-native';
 import GradientCircle from '../components/gradientCircle';
 import LinearGradient from 'react-native-linear-gradient';
@@ -338,7 +339,6 @@ const LootStore = ({navigation}) => {
                           //   lineHeight: 16,
                           color: '#ECDBFA',
                           opacity: 0.4,
-                          // marginLeft: i.index === current ? 10 : 0,
                         }}>
                         No Items Available !
                       </Text>
@@ -350,7 +350,7 @@ const LootStore = ({navigation}) => {
                           <View key={k}>
                             <TouchableOpacity
                               onPress={() => {
-                                navigation.push('itemDesc', {
+                                navigation.navigate('itemDesc', {
                                   price: i.price,
                                   description: i.description,
                                   brand: i.brand,
@@ -364,7 +364,7 @@ const LootStore = ({navigation}) => {
                                 source={require('../assets/ic_card_a0.png')}
                                 resizeMode="contain"
                                 style={{
-                                  height: 185,
+                                  height: 195,
                                   display: 'flex',
                                   //   alignItems: 'center',
                                   // justifyContent: 'center',
@@ -435,6 +435,7 @@ const LootStore = ({navigation}) => {
                           </View>
                         ),
                     )
+                   
                   )}
                 </View>
               )}

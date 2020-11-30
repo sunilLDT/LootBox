@@ -5,7 +5,6 @@ import {
   Image,
   StyleSheet,
   Dimensions,
-  SafeAreaView,
   TouchableOpacity,
   TouchableWithoutFeedback,
   Keyboard,
@@ -21,6 +20,7 @@ import Input from '../components/input';
 import {Context as AuthContext} from '../api/contexts/authContext';
 import Modal from '../components/modal';
 import Btn from './btn';
+import SafeAreaView from 'react-native-safe-area-view';
 
 const {height, width} = Dimensions.get('window');
 
@@ -96,6 +96,7 @@ const Signin = ({navigation}) => {
       onPress={() => {
         Keyboard.dismiss();
       }}>
+      <SafeAreaView style={{ flex: 1 }}>
       <LinearGradient
         colors={['#2A2D39', '#261D2A']}
         style={{
@@ -264,6 +265,7 @@ const Signin = ({navigation}) => {
                   marginTop: 20,
                   elevation: 100,
                   width: width * 0.80,
+                  marginLeft:12,
                 }}>
                 <Image
                   source={require('../assets/ic_google.png')}
@@ -286,6 +288,7 @@ const Signin = ({navigation}) => {
             </TouchableWithoutFeedback>
         </ScrollView>
       </LinearGradient>
+      </SafeAreaView>
     </TouchableWithoutFeedback>
   );
 };

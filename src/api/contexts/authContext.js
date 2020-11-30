@@ -314,9 +314,22 @@ const forgotPassword = (dispatch) => async (email) => {
 };
 
 const signout = (dispatch) => async () => {
-  await AsyncStorage.removeItem('token');
-  dispatch({type: 'signout'});
-  navigate({name: 'auth'});
+  try {
+    dispatch({
+      type: 'toggle_loading',
+    });
+    await AsyncStorage.removeItem('token');
+    dispatch({type: 'signout'});
+    navigate({name: 'auth'});
+  } catch (e) {
+    dispatch({
+      type: 'add_msg',
+      payload: 'SomeThing went wrong',
+    });
+    dispatch({
+      type: 'toggle_loading',
+    });
+  }
 };
 
 const addError = (dispatch) => (msg) =>

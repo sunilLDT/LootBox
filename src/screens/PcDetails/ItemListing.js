@@ -195,7 +195,7 @@ const styles = StyleSheet.create({
   },
   cardConatiner: {
     width: width*0.34,
-    height: height*0.22,
+    height: height*0.20,
     margin:"8%"
   },
   pageName:{

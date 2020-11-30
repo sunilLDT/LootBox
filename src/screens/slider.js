@@ -6,8 +6,7 @@ import {
   Dimensions,
   Animated,
   Text,
-  TouchableOpacity,
-  Button,
+  TouchableWithoutFeedback
 } from 'react-native';
 import Btn from '../screens/btn';
 
@@ -63,32 +62,14 @@ export default class Slideshow extends React.Component {
                         fontFamily:'Michroma-Regular',
                         fontSize: 20,
                         lineHeight: 28,
-                        marginBottom:20
                       }}>
                       Lorem ipsum dolor sit amet, consectetur{' '}
                     </Text>
-                    <TouchableOpacity
-                      onPress={() => {navigation.navigate('home')}}
-                      style={{
-                        width: '75%',
-                        height: height * 0.00,
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent:'center',
-                        zIndex:1,
-                      }}>
-                        <View style={{height:100,width:'100%',marginTop:"20%",}}>
+                    <TouchableWithoutFeedback onPress={() => {navigation.navigate('home')}}>
+                        <View style={{width:'75%'}}>
                           <Btn  text="GET STARTED" pay=""/>
                         </View>
-                    </TouchableOpacity> 
-                    {/* <Button title="GET STARTED" color="#f194ff" onPress={() => {navigation.navigate('home')}} style={{
-                      width: '75%',
-                      height: height * 0.00,
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent:'center',
-                      zIndex:1000,
-                    }}/> */}
+                    </TouchableWithoutFeedback> 
                     </View>
                 </View>
               );

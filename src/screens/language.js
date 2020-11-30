@@ -1,6 +1,5 @@
 import React, {useContext} from 'react';
 import {
-  SafeAreaView,
   View,
   Text,
   Dimensions,
@@ -11,6 +10,7 @@ import {
 import LinearGradient from 'react-native-linear-gradient';
 import {Context as AuthContext} from '../api/contexts/authContext';
 import LanguageCard from '../svgs/cardLang';
+import SafeAreaView from 'react-native-safe-area-view';
 
 const {height, width} = Dimensions.get('window');
 
@@ -29,6 +29,7 @@ const Language = ({navigation}) => {
   ];
 
   return (
+    <SafeAreaView style={{ flex: 1 }}>
     <LinearGradient
       colors={['#2A2D39', '#261D2A']}
       style={{
@@ -39,6 +40,7 @@ const Language = ({navigation}) => {
         alignItems: 'center',
         // paddingLeft: width * 0.08,
         justifyContent: 'center',
+        flex: 1
       }}>
         <View
           style={{
@@ -111,6 +113,7 @@ const Language = ({navigation}) => {
           </View>
         </View>
     </LinearGradient>
+    </SafeAreaView>
   );
 };
 
