@@ -17,7 +17,6 @@ import CustomDrawerContent from './src/components/drawer';
 import {Dimensions, View, StatusBar} from 'react-native';
 import {Provider as AuthProvider} from './src/api/contexts/authContext';
 import {setNavigator} from './src/api/contexts/navigationRef';
-// import RNBootSplash from 'react-native-bootsplash';
 import {Context as AuthContext} from './src/api/contexts/authContext';
 import BuildYourPc from './src/screens/buildYourPc';
 import ContactUs from './src/screens/contactUs';
@@ -131,7 +130,7 @@ const App = () => {
         backgroundColor: '#261D2A',
       }}>
         
-      <StatusBar backgroundColor="#2B2B35" />
+      <StatusBar backgroundColor="#2B2B35" hidden />
       <NavigationContainer
         ref={(navigator) => {
           setNavigator(navigator);
