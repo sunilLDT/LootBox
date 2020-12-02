@@ -296,7 +296,7 @@ const forgotPassword = (dispatch) => async (email) => {
     } else {
       dispatch({
         type: 'add_msg',
-        payload: 'The entered email is not regsitered',
+        payload: 'The entered email is not registered',
       });
       dispatch({
         type: 'toggle_loading',
@@ -305,7 +305,7 @@ const forgotPassword = (dispatch) => async (email) => {
   } catch (e) {
     dispatch({
       type: 'add_msg',
-      payload: 'The entered email is not regsitered',
+      payload: 'The entered email is not registered',
     });
     dispatch({
       type: 'toggle_loading',
@@ -359,20 +359,15 @@ const fetchCategories = (dispatch) => async () => {
   }
 };
 
-const fetchItems = (dispatch) => async (category_id, subcategory_id) => {
+const fetchItems = (dispatch) => async (category_id, subcategory_id,page) => {
+  console.log(page);
   try {
     if (subcategory_id) {
-      const {
-        data: {data},
-      } = await Api.get(
-        `app/items/list?category_id=${category_id}&&sub_category_id=${subcategory_id}`,
-      );
-      return data;
+      const response = await Api.get(`app/items/list?category_id=${category_id}&&sub_category_id=${subcategory_id}`);
+      return response.data;
     } else {
-      const {
-        data: {data},
-      } = await Api.get(`app/items/list?category_id=${category_id}`);
-      return data;
+      const response = await Api.get(`app/items/list?category_id=${category_id}&&page=${page}`);
+      return response.data;
     }
   } catch (e) {
     console.log(e);

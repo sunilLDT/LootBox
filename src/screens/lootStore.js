@@ -8,7 +8,7 @@ import {
   ImageBackground,
   ActivityIndicator,
   ScrollView,
-  FlatList
+  Button
 } from 'react-native';
 import GradientCircle from '../components/gradientCircle';
 import LinearGradient from 'react-native-linear-gradient';
@@ -37,9 +37,14 @@ const LootStore = ({navigation}) => {
   const [categoryId, setCategoryId] = useState(null);
   const [selectedSubCategory, setSelectedSubCategory] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [Bottomloading, setBottomLoading] = useState(true);
   const [cartItems,setcartItems] = useState([]);
   const [cartData,setCartData] = useState([]);
+  const [page,setPage] = useState(1);
   const maxlimit = 22;
+  const subCategoryId = "";
+  const [lastPage,setlastPage] = useState("");
+  // console.log(items);
 
   useEffect(() => {
     showCartData().then((response) => {
@@ -59,6 +64,7 @@ const LootStore = ({navigation}) => {
       }
     }
   }, [selectedSubCategory, current]);
+
   const fetchData1 = async (b) => {
     setLoading(true);
     const categories = await fetchCategories();
@@ -69,16 +75,17 @@ const LootStore = ({navigation}) => {
       });
       setCategories(x);
       var itemData = null;
-      // console.log(b);
-      
+
       if (b) {
         itemData = await fetchItems(x[current].id, b);
       } else {
-        itemData = await fetchItems(x[current].id);
+        itemData = await fetchItems(x[current].id,subCategoryId,page);
+        setlastPage(itemData.parameter.last_page);
       }
       if (itemData) {
-        setItems(itemData);
+        setItems(itemData.data);
       }
+
       var y = categories.map((i) => {
         return i.sub_category.map((x, k) => {
           return {
@@ -91,12 +98,23 @@ const LootStore = ({navigation}) => {
       });
       setSubCategories(y);
       setLoading(false);
+      setBottomLoading(false);
     }
   };
 
   useEffect(() => {
     fetchData();
   }, [fetchData]);
+
+  const handleLodeMore = () => {
+    if (page == lastPage){
+      setPage(1);
+    }else{
+      setPage(page + 1);
+    }
+    fetchData1();
+    // console.warn(page);
+  }
 
   return (
     <View
@@ -327,16 +345,13 @@ const LootStore = ({navigation}) => {
                           height: 127,
                           alignSelf: 'center',
                           justifyContent: 'center',
-                          // position: 'absolute',
-                          // top: -24,
-                          // left: '14%',
                         }}
                       />
                       <Text
                         style={{
                           fontSize: 14,
-                          // fontFamily: 'Montserrat-Bold',
-                          //   lineHeight: 16,
+                          fontFamily: 'Montserrat-Bold',
+                          lineHeight: 16,
                           color: '#ECDBFA',
                           opacity: 0.4,
                         }}>
@@ -344,98 +359,107 @@ const LootStore = ({navigation}) => {
                       </Text>
                     </View>
                   ) : (
-                    items.map(
-                      (i, k) =>
-                        i.status === 1 && (
-                          <View key={k}>
-                            <TouchableOpacity
-                              onPress={() => {
-                                navigation.navigate('itemDesc', {
-                                  price: i.price,
-                                  description: i.description,
-                                  brand: i.brand,
-                                  name: i.name,
-                                  value: i.value_en,
-                                  id: i.item_id,
-                                  image: i.image,
-                                });
-                              }}>
-                              <ImageBackground
-                                source={require('../assets/ic_card_a0.png')}
-                                resizeMode="contain"
-                                style={{
-                                  height: 195,
-                                  display: 'flex',
-                                  //   alignItems: 'center',
-                                  // justifyContent: 'center',
-                                  paddingLeft: 20,
-                                  paddingTop: 20,
-                                  width: width * 0.36,
-                                  marginVertical: i.image ? 20 : 10,
-                                }}>
-                                {i.image ? (
-                                  <Image
-                                    resizeMode="contain"
-                                    source={{
-                                      uri: i.image,
-                                    }}
-                                    style={{
-                                      width: 108,
-                                      height: 81,
-                                      position: 'absolute',
-                                      top: -24,
-                                      left: '14%',
-                                    }}
-                                  />
-                                ) : (
-                                  <Image
-                                    resizeMode="contain"
-                                    source={require('../assets/thumbnail1.png')}
-                                    style={{
-                                      width: 108,
-                                      height: 81,
-                                      position: 'absolute',
-                                      top: -24,
-                                      left: '14%',
-                                    }}
-                                  />
-                                )}
-                                <Text
-                                  style={{
-                                    fontFamily: 'Montserrat-Regular',
-                                    color: '#D2D7F9',
-                                    opacity: 0.5,
-                                    fontSize: 14,
-                                    marginTop: 60,
-                                  }}>
-                                  {i.brand}
-                                </Text>
-                                <Text
-                                numberOfLines={2}
-                                  style={{
-                                    fontSize: 16,
-                                    color: '#ECDBFA',
-                                    fontFamily: 'Montserrat-Bold',
-                                    marginTop:2,
-                                    marginRight:"2%"
-                                  }}>
-                                  {((i.name).length > maxlimit)?(((i.name).substring(0,maxlimit-3)) + '...'):i.name}
-                                </Text>
-                                <Text
-                                  style={{
-                                    color: '#DF2EDC',
-                                    fontSize: 12,
-                                    fontFamily: 'Montserrat-Regular',
-                                    marginVertical:10
-                                  }}>
-                                  KD {i.price}
-                                </Text>
-                              </ImageBackground>
-                            </TouchableOpacity>
-                          </View>
-                        ),
-                    )
-                   
+                    <>
+                      <View
+                        style={{
+                          display: 'flex',
+                          flexDirection: 'row',
+                          justifyContent: 'space-between',
+                          flexWrap: 'wrap',
+                      }}>
+                        {items.map(
+                            (i, k) =>
+                              i.status === 1 && (
+                                <View key={k}>
+                                  <TouchableOpacity
+                                    onPress={() => {
+                                      navigation.navigate('itemDesc', {
+                                        price: i.price,
+                                        description: i.description,
+                                        brand: i.brand,
+                                        name: i.name,
+                                        value: i.value_en,
+                                        id: i.item_id,
+                                        image: i.image,
+                                      });
+                                    }}>
+                                    <ImageBackground
+                                      source={require('../assets/ic_card_a0.png')}
+                                      resizeMode="contain"
+                                      style={{
+                                        height: 195,
+                                        display: 'flex',
+                                        paddingLeft: 20,
+                                        marginHorizontal:5,
+                                        paddingTop: 20,
+                                        width: width * 0.36,
+                                        marginVertical: 20,
+                                      }}>
+                                      {i.image ? (
+                                        <Image
+                                          resizeMode="contain"
+                                          source={{
+                                            uri: i.image,
+                                          }}
+                                          style={{
+                                            width: 108,
+                                            height: 81,
+                                            position: 'absolute',
+                                            top: -24,
+                                            left: '14%',
+                                          }}
+                                        />
+                                      ) : (
+                                        <Image
+                                          resizeMode="contain"
+                                          source={require('../assets/thumbnail1.png')}
+                                          style={{
+                                            width: 108,
+                                            height: 81,
+                                            position: 'absolute',
+                                            top: -24,
+                                            left: '14%',
+                                          }}
+                                        />
+                                      )}
+                                      <Text
+                                        style={{
+                                          fontFamily: 'Montserrat-Regular',
+                                          color: '#D2D7F9',
+                                          opacity: 0.5,
+                                          fontSize: 14,
+                                          marginTop: 60,
+                                        }}>
+                                        {i.brand}
+                                      </Text>
+                                      <Text
+                                      numberOfLines={2}
+                                        style={{
+                                          fontSize: 16,
+                                          color: '#ECDBFA',
+                                          fontFamily: 'Montserrat-Bold',
+                                          marginTop:2,
+                                          marginRight:"2%"
+                                        }}>
+                                        {((i.name).length > maxlimit)?(((i.name).substring(0,maxlimit-3)) + '...'):i.name}
+                                      </Text>
+                                      <Text
+                                        style={{
+                                          color: '#DF2EDC',
+                                          fontSize: 12,
+                                          fontFamily: 'Montserrat-Regular',
+                                          marginVertical:10
+                                        }}>
+                                        KD {i.price}
+                                      </Text>
+                                    </ImageBackground>
+                                  </TouchableOpacity>
+                                </View>
+                              ),
+                          )}
+                       </View>
+                       {selectedSubCategory === 0?<Button title="Load More" onPress={() => {handleLodeMore()}}/>:null}
+                      </>
                   )}
                 </View>
               )}
@@ -450,5 +474,6 @@ const LootStore = ({navigation}) => {
     </View>
   );
 };
+
 
 export default LootStore;
