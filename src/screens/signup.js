@@ -12,12 +12,12 @@ import {
   TouchableWithoutFeedback,
   KeyboardAvoidingView,
   ActivityIndicator,
+  Platform
 } from 'react-native';
 import Logo from '../assets/launch_screen.png';
 import PlanBg from '../assets/plainBg.png'
 import LinearGradient from 'react-native-linear-gradient';
 import Input from '../components/input';
-import Icon from 'react-native-vector-icons/AntDesign';
 import {Context as AuthContext} from '../api/contexts/authContext';
 import Btn from './btn';
 
@@ -66,9 +66,8 @@ const Signup = ({navigation, route}) => {
     }}
     >
       <KeyboardAvoidingView
-        behavior="position"
-        // keyboardVerticalOffset={10}
-        topOffset={20}
+        behavior={Platform.OS == "ios" ? "padding" : "height"}
+        keyboardVerticalOffset={50}
         style={styles.screen}>
         <ScrollView
           style={{width, height: height}}
@@ -224,8 +223,7 @@ const Signup = ({navigation, route}) => {
                   flexWrap: 'wrap',
                   position: 'relative',
                   zIndex: 333,
-                  fontStyle:'italic'
-                  // color:'#383540'
+                  fontStyle:'italic',
                 }}>
                 By clicking signup you agree to our{' '}
                 <Text
@@ -233,7 +231,7 @@ const Signup = ({navigation, route}) => {
                     fontWeight: 'bold',
                     color: '#fff',
                     marginLeft: 5,
-                    fontStyle:'normal'
+                    fontStyle:'normal',
                   }}>
                   Terms & Conditions{' '}
                 </Text>
@@ -377,6 +375,7 @@ const Signup = ({navigation, route}) => {
                   marginTop: 18,
                   elevation: 100,
                   width: width * 0.77,
+                  marginLeft:10,
                 }}>
                 <Image
                   source={require('../assets/ic_google.png')}

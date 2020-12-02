@@ -6,6 +6,7 @@ import {
   ImageBackground,
   TouchableOpacity,
   StyleSheet,
+  ActivityIndicator,
   Image,
 } from 'react-native';
 
@@ -40,7 +41,7 @@ const options = [
 
 const Drawer = ({navigation, progress}) => {
 
-  const {signout} = useContext(AuthContext)
+  const {signout,state} = useContext(AuthContext)
   const isDrawerOpen=useIsDrawerOpen()
   
 
@@ -54,6 +55,7 @@ const Drawer = ({navigation, progress}) => {
         end={{x: 1, y: 0}}
         colors={['#2A2D39', '#261D2A']}
         style={styles.gradient}>
+        {!state.loading ? (
         <View
           style={{
             display: 'flex',
@@ -64,7 +66,7 @@ const Drawer = ({navigation, progress}) => {
           }}>
           <TouchableOpacity
             onPress={() => {
-              navigation.push('profile')
+              navigation.navigate('profile')
             }}
             style={{
               marginTop: 18,
@@ -119,7 +121,8 @@ const Drawer = ({navigation, progress}) => {
 
           <Text
             style={{
-              // fontFamily: 'Michroma-Regular',              fontSize: 16,
+              fontFamily: 'Michroma-Regular',
+              fontSize: 16,
               lineHeight: 27.2,
               color: '#ECDBFA',
             }}>
@@ -140,14 +143,13 @@ const Drawer = ({navigation, progress}) => {
 
           {options.map((i, k) => (
             <TouchableOpacity key={k} onPress={() => {
-              k===options.length-1 ? signout():navigation.push(i.path)
+              k===options.length-1 ? signout():navigation.navigate(i.path)
             }}>
               <Text
                 style={{
                   color: '#ECDBFA',
                   fontSize: 14,
                   lineHeight: 16,
-                 
                   marginVertical: height * 0.02,
                 }}>
                 {i.name}
@@ -155,6 +157,15 @@ const Drawer = ({navigation, progress}) => {
             </TouchableOpacity>
           ))}
         </View>
+        ) : (
+          <>
+          <ActivityIndicator
+            color="#ECDBFA"
+            size="small"
+            style={{bottom: 63}}
+          />
+        </>
+        )}
 
         <TouchableOpacity
           style={{

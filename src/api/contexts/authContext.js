@@ -126,15 +126,9 @@ const googleSignIn = (dispatch) => async () => {
     await GoogleSignin.signOut();
   } catch (error) {
     if (error.code === statusCodes.SIGN_IN_CANCELLED) {
-      dispatch({
-        type: 'add_msg',
-        payload: 'user cancelled the login flow',
-      });
+      console.log("user cancelled the login flow");
     } else if (error.code === statusCodes.IN_PROGRESS) {
-      dispatch({
-        type: 'add_msg',
-        payload: 'SIGN_IN_PROGRESS',
-      });
+      console.log("sign in progress");
     } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
       dispatch({
         type: 'add_msg',
@@ -190,23 +184,31 @@ const signin = (dispatch) => async ({email, password}) => {
 
 const verifyOtp = (dispatch) => async ({otp}) => {
   try {
-    const user_id = await AsyncStorage.getItem('userId');
-    const res = await Api.post('app/user/verify-otp', {
-      user_id: parseInt(user_id),
-      otp,
-
-    });
-    // console.log(user_id, res.data.success, otp);
-    if (res.data.success) {
-      await AsyncStorage.setItem('userId', '');
-      console.log(res.data);
-      await AsyncStorage.setItem('token', res.data.data.token);
-      navigate({name: 'slider'});
-    } else {
+    // console.log(otp);
+    if(!otp && otp !== ""){
       dispatch({
         type: 'add_msg',
-        payload: 'Invalid OTP',
+        payload: 'Please fill the OTP',
       });
+    }
+    else {
+      const user_id = await AsyncStorage.getItem('userId');
+      const res = await Api.post('app/user/verify-otp', {
+        user_id: parseInt(user_id),
+        otp,
+
+      });
+      // console.log(user_id, res.data.success, otp);
+      if (res.data.success) {
+        await AsyncStorage.setItem('userId', '');
+        await AsyncStorage.setItem('token', res.data.data.token);
+        navigate({name: 'slider'});
+      } else {
+        dispatch({
+          type: 'add_msg',
+          payload: 'Invalid OTP',
+        });
+      }
     }
   } catch (e) {
     console.log(e);
@@ -312,9 +314,22 @@ const forgotPassword = (dispatch) => async (email) => {
 };
 
 const signout = (dispatch) => async () => {
-  await AsyncStorage.removeItem('token');
-  dispatch({type: 'signout'});
-  navigate({name: 'auth'});
+  try {
+    dispatch({
+      type: 'toggle_loading',
+    });
+    await AsyncStorage.removeItem('token');
+    dispatch({type: 'signout'});
+    navigate({name: 'auth'});
+  } catch (e) {
+    dispatch({
+      type: 'add_msg',
+      payload: 'SomeThing went wrong',
+    });
+    dispatch({
+      type: 'toggle_loading',
+    });
+  }
 };
 
 const addError = (dispatch) => (msg) =>

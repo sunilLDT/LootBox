@@ -345,28 +345,22 @@ const renderViewLess = (onPress) => {
           }}>
           Description
         </Text>
-        <Text
-          style={{
-            fontSize: 12,
-            color: 'rgba(236,219,250,0.5)',
-            marginTop: 10,
-          }}>
+        <View style={{marginTop:10}}>
             <ViewMoreText
                 numberOfLines={3}
                 renderViewMore={renderViewMore}
                 renderViewLess={renderViewLess}
                 textStyle={{textAlign:'left',color:'rgba(255,255,255,0.3)'}}
             >
-              {route.params.description}
-            </ViewMoreText>
-          <Text
-            style={{
-              color: '#ECDBFA',
-             
+            <Text
+             style={{
+             fontSize: 12,
+             color: 'rgba(236,219,250,0.5)',
             }}>
-          </Text>
-        </Text>
-
+              {route.params.description}
+            </Text>
+          </ViewMoreText>
+        </View>
         {data.map(
           (i, k) =>
             k === 0 && (

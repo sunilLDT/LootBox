@@ -1,25 +1,26 @@
-import React, {useState, useContext} from 'react';
+import React, {useState, useContext,useEffect} from 'react';
 import {
   View,
   Text,
   Image,
   StyleSheet,
   Dimensions,
-  SafeAreaView,
   TouchableOpacity,
   TouchableWithoutFeedback,
   Keyboard,
   ScrollView, 
   KeyboardAvoidingView,
   ActivityIndicator,
+  BackHandler,
+  Alert
 } from 'react-native';
 import Logo from '../assets/launch_screen.png';
 import LinearGradient from 'react-native-linear-gradient';
 import Input from '../components/input';
-import {Fonts} from '../utils/Fonts';
 import {Context as AuthContext} from '../api/contexts/authContext';
 import Modal from '../components/modal';
 import Btn from './btn';
+import SafeAreaView from 'react-native-safe-area-view';
 
 const {height, width} = Dimensions.get('window');
 
@@ -34,28 +35,68 @@ const Signin = ({navigation}) => {
   const {validationError} = state;
 
   const checkLoginFun = () => {
-    if(!email){
-      setValidationError('Please fill the Email');
+
+    if(isNaN(email)){
+      if(!email){
+        setValidationError('Please fill the Email or Phone Number');
+      }
+      else if(password && (password.length < 8)){
+        setValidationError('Password must be at least 8 characters',);
+      }
+      else if(!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)){
+          setValidationError('Invalid Email Address ')
+      }
+      else if(!password){ 
+        setValidationError('All fields are required')
+      }
+      else{
+        signin({email, password});
+      }
+    }else {
+      if(email && !(email.length == 8)){
+        setValidationError('Invalid  Phone number')
+      }
+      else if(!password){ 
+        setValidationError('All fields are required')
+      }
+      else if(!email){
+        setValidationError('Please fill the Email or Phone Number');
+      }
+      else if(password && (password.length < 8)){
+        setValidationError('Password must be at least 8 characters',);
+      }
+      else{
+        signin({email, password});
+      }
     }
-    else if(password && (password.length < 8)){
-      setValidationError('Password must be at least 8 characters',);
-    }
-    else if(!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)){
-      setValidationError('Invalid Email Address')
-    }
-    else if(!password){
-      setValidationError('All fields are required')
-    }
-    else{
-      signin({email, password});
-    }
+    
   }
+
+  const backAction = () => {
+    Alert.alert("Hold on!", "Are you sure you want exit from App?", [
+      {
+        text: "Cancel",
+        onPress: () => null,
+        style: "cancel"
+      },
+      { text: "YES", onPress: () => BackHandler.exitApp() }
+    ]);
+    return true;
+  };
+
+  useEffect(() => {
+    BackHandler.addEventListener("hardwareBackPress", backAction);
+
+    return () =>
+      BackHandler.removeEventListener("hardwareBackPress", backAction);
+  }, []);
 
   return (
     <TouchableWithoutFeedback
       onPress={() => {
         Keyboard.dismiss();
       }}>
+      <SafeAreaView style={{ flex: 1 }}>
       <LinearGradient
         colors={['#2A2D39', '#261D2A']}
         style={{
@@ -66,7 +107,7 @@ const Signin = ({navigation}) => {
           alignItems: 'center',
         }}>
         <ScrollView>
-          <SafeAreaView style={{display: 'flex', alignItems: 'center'}}>
+          
           {state.msg ? (
             <Modal msg={state.msg} hideBtn />
           ) : validationError ? (
@@ -121,7 +162,7 @@ const Signin = ({navigation}) => {
                 </TouchableOpacity>
                 <TouchableOpacity
                   onPress={() => {
-                    navigation.push('signup');
+                    navigation.navigate('signup');
                   }}>
                   <Text
                     style={{
@@ -149,7 +190,11 @@ const Signin = ({navigation}) => {
                   onChangeText={setPassword}
                   placeholder="Password"
                   password
+                  
                 />
+                {/* <TouchableOpacity onPress={() => setPasswordVisibility()}>
+                  <Icon name="eye-off" size={20} color="#fff" style={styles.icon}/>
+                </TouchableOpacity> */}
               </View>
             </KeyboardAvoidingView>
 
@@ -220,6 +265,7 @@ const Signin = ({navigation}) => {
                   marginTop: 20,
                   elevation: 100,
                   width: width * 0.80,
+                  marginLeft:12,
                 }}>
                 <Image
                   source={require('../assets/ic_google.png')}
@@ -240,9 +286,9 @@ const Signin = ({navigation}) => {
                 </Text>
               </LinearGradient>
             </TouchableWithoutFeedback>
-          </SafeAreaView>
         </ScrollView>
       </LinearGradient>
+      </SafeAreaView>
     </TouchableWithoutFeedback>
   );
 };
@@ -251,6 +297,15 @@ const styles = StyleSheet.create({
   screen: {
     flex: 1,
   },
+  // icon:{
+  //   position: 'absolute',
+  //   right: 10,
+  //   height:25,
+  //   width: 35,
+  //   padding: 2,
+  //   bottom:17,
+  //   zIndex:1,
+  // }
 });
 
 export default Signin;
