@@ -73,11 +73,7 @@ const ForgotPassword = ({navigation}) => {
               }}
             />
 
-            {state.msg ? (
-              <Modal msg={state.msg} hideBtn />
-            ) : state.validationError ? (
-              <Modal msg={state.validationError} />
-            ) : null}
+           
             <KeyboardAvoidingView
               behavior="position"
               keyboardVerticalOffset={50}
