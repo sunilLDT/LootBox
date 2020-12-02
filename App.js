@@ -128,7 +128,7 @@ const App = () => {
         backgroundColor: '#261D2A',
       }}>
         
-      <StatusBar backgroundColor="#2B2B35" hidden/>
+      <StatusBar backgroundColor="#2B2B35" hidden={true}/>
       <NavigationContainer
         ref={(navigator) => {
           setNavigator(navigator);
@@ -143,6 +143,8 @@ const App = () => {
             gestureDirection: 'horizontal',
             ...TransitionPresets.SlideFromRightIOS,
           }}
+          headerMode="none"
+          
           // initialRouteName="cpus"
           headerMode="none">
           <Stack.Screen name="language" component={Language} />
@@ -181,9 +183,7 @@ export default () => {
   return (
     <Provider store={store}>
       <AuthProvider>
-        <SafeAreaProvider>
           <App />
-        </SafeAreaProvider>
       </AuthProvider>
     </Provider>
   );

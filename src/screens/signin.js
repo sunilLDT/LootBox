@@ -21,6 +21,7 @@ import {Context as AuthContext} from '../api/contexts/authContext';
 import Modal from '../components/modal';
 import Btn from './btn';
 import SafeAreaView from 'react-native-safe-area-view';
+import ContinueBtn from '../components/ContinueGmailBtn';
 
 const {height, width} = Dimensions.get('window');
 
@@ -237,54 +238,14 @@ const Signin = ({navigation}) => {
                 </>
               )}
             </TouchableOpacity>
-
             <TouchableWithoutFeedback
               onPress={() => {
                 googleSignIn();
               }}
-              style={{
-                width: '100%',
-                height: height * 0.09,
-                display: 'flex',
-              }}>
-              <LinearGradient
-                start={{x: 0, y: 0}}
-                end={{x: 1, y: 0}}
-                colors={['rgba(184,37,154,0.16)', 'rgba(184,37,154,0.16)']}
-                style={{
-                  height: height * 0.07,
-                  borderRadius: 10,
-                  borderColor: '#C01C8A',
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  borderWidth: 1.5,
-                  // position: 'absolute',
-                  // top: height * 0.7,
-                  // bottom: state.loading? 30:0,
-                  marginTop: 20,
-                  elevation: 100,
-                  width: width * 0.80,
-                  marginLeft:12,
-                }}>
-                <Image
-                  source={require('../assets/ic_google.png')}
-                  style={{
-                    marginRight: 10,
-                    width:20,
-                    height:25
-                  }}
-                />
-                <Text
-                  style={{
-                    fontWeight: 'bold',
-                    color: '#fff',
-                    letterSpacing: 0.5,
-                   
-                  }}>
-                  Continue With Gmail
-                </Text>
-              </LinearGradient>
+            >
+              <View style={{marginVertical:10}}>
+                  <ContinueBtn text="Continue With Gmail"/>
+              </View>
             </TouchableWithoutFeedback>
         </ScrollView>
       </LinearGradient>

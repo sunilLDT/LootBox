@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState,useContext} from 'react';
 import {
   Text,
   View,
@@ -23,7 +23,7 @@ import Dialog, {
 } from 'react-native-popup-dialog';
 import ImagePicker from "react-native-image-picker";
 import {uploadImageApi}  from '../api/buildYourPc';
-
+import {Context as AuthContext} from '../api/contexts/authContext';
 import AddressList from '../components/AddressList';
 
 
@@ -39,6 +39,7 @@ const Profile = ({navigation}) => {
   const [newPassword,setnewPassword] = useState("");
   const [confirmPassword,setconfirmPassword] = useState("");
   const [photo,setPhoto] = useState({});
+  const {signout} = useContext(AuthContext)
 
   var formattedDOB = format(DOB, "d-MM-yyyy");
 

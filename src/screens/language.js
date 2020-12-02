@@ -29,7 +29,6 @@ const Language = ({navigation}) => {
   ];
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
     <LinearGradient
       colors={['#2A2D39', '#261D2A']}
       style={{
@@ -113,7 +112,6 @@ const Language = ({navigation}) => {
           </View>
         </View>
     </LinearGradient>
-    </SafeAreaView>
   );
 };
 

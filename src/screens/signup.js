@@ -16,10 +16,10 @@ import {
 } from 'react-native';
 import Logo from '../assets/launch_screen.png';
 import PlanBg from '../assets/plainBg.png'
-import LinearGradient from 'react-native-linear-gradient';
 import Input from '../components/input';
 import {Context as AuthContext} from '../api/contexts/authContext';
 import Btn from './btn';
+import ContinueBtn from '../components/ContinueGmailBtn';
 
 const {height, width} = Dimensions.get('window');
 
@@ -304,36 +304,7 @@ const Signup = ({navigation, route}) => {
               }}
               style={{
                 width: '80%',
-                height: height * 0.1,
               }}>
-              {/* <LinearGradient
-                start={{x: 0, y: 1}}
-                end={{x: 1, y: 0}}
-                colors={['#C01C8A', '#865CF4']}
-                style={{
-                  height: height * 0.09,
-                  borderRadius: 10,
-                  marginTop: 25,
-                  elevation: 100,
-                  width: width * 0.75,
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}>
-                {!state.loading ? (
-                  <Text
-                    style={{
-                      fontWeight: 'bold',
-                      color: '#fff',
-                      letterSpacing: 0.5,
-                      fontStyle: 'italic',
-                    }}>
-                    SUBMIT
-                  </Text>
-                ) : (
-                  <ActivityIndicator color="#ECDBFA" size="small" />
-                )}
-              </LinearGradient> */}
               {!state.loading ? (
                 <Btn text="SIGNUP" x="54" pay=""/>
               ) : (
@@ -352,49 +323,10 @@ const Signup = ({navigation, route}) => {
               onPress={() => {
                 googleSignIn();
               }}
-              style={{
-                width: '100%',
-                height: height * 0.09,
-                // marginTop:30,
-                display: 'flex',
-                marginBottom: height * 0.2,
-              }}>
-              <LinearGradient
-                start={{x: 0, y: 0}}
-                end={{x: 1, y: 0}}
-                colors={['rgba(184,37,154,0.16)', 'rgba(184,37,154,0.16)']}
-                style={{
-                  height: height * 0.07,
-                  borderRadius: 10,
-                  borderColor: '#C01C8A',
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  marginBottom: height * 0.1,
-                  borderWidth: 1.5,
-                  marginTop: 18,
-                  elevation: 100,
-                  width: width * 0.77,
-                  marginLeft:10,
-                }}>
-                <Image
-                  source={require('../assets/ic_google.png')}
-                  style={{
-                    marginRight: 10,
-                    width:20,
-                    height:25
-                  }}
-                />
-                <Text
-                  style={{
-                    fontWeight: 'bold',
-                    color: '#fff',
-                    letterSpacing: 0.5,
-                    paddingVertical:10
-                  }}>
-                  Continue With Gmail
-                </Text>
-              </LinearGradient>
+              >
+              <View style={{width:"80%",bottom:20,}}>
+                  <ContinueBtn text="Continue With Gmail"/>
+              </View>
             </TouchableWithoutFeedback>
           </SafeAreaView>
         </ScrollView>

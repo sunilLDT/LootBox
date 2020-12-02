@@ -126,7 +126,7 @@ const PcDetails = ({navigation, route}) => {
                         <Text 
                         style={styles.playableText}>
                             Playable at <Text style={{color:'#fff',fontWeight:'bold',fontStyle:'italic'}}>
-                                {cpuDetail.graphic_quality == 1?"HIGH ":cpuDetail.graphic_quality == 2?"MEDIUM ":"LOW "}
+                                {cpuDetail.graphic_quality == 1?"LOW ":cpuDetail.graphic_quality == 2?"MEDIUM ":"HIGH "}
                                 </Text>
                             <Text style={{color:'#fff',}}>Graphics</Text>
                         </Text>
