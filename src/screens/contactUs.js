@@ -24,7 +24,7 @@ const ContactUs = ({navigation}) => {
           width,
           height,
           overflow: 'hidden',
-          padding: width * 0.1,
+          paddingHorizontal: width * 0.07,
         }}>
         <View
           style={{display: 'flex', alignItems: 'center', flexDirection: 'row'}}>
@@ -54,7 +54,8 @@ const ContactUs = ({navigation}) => {
 
         <Text
           style={{
-            // fontFamily: 'Michroma-Regular',            fontSize: 20,
+            fontFamily: 'Michroma-Regular',
+            fontSize: 20,
             lineHeight: 28,
             color: '#ECDBFA',
             marginBottom: 10,

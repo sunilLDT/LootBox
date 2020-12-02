@@ -147,6 +147,8 @@ const ProductDetails = (props) => {
                           fontSize: 14,
                           fontStyle: 'italic',
                           fontWeight:"bold",
+                          // borderRightWidth:1,
+                          // borderRightColor:'#D2D7F9',
                         }}>
                         {item.sub_category_name}
                       </Text>
@@ -159,6 +161,8 @@ const ProductDetails = (props) => {
                           fontStyle: 'italic',
                           opacity: 0.5,
                           fontFamily:'Michroma-Regular',
+                          // borderRightWidth:1,
+                          // borderRightColor:'#D2D7F9',
                         }}>
                         {item.name}
                       </Text>
@@ -171,8 +175,7 @@ const ProductDetails = (props) => {
                           fontStyle: 'italic',
                           opacity: 0.5,
                         }}>
-                        {item.price}
-                        
+                        KD {item.price}
                       </Text>
                     </View>
                     <TouchableOpacity
@@ -182,7 +185,7 @@ const ProductDetails = (props) => {
                           alignSelf: 'flex-end',
                           justifyContent: 'flex-end',
                           bottom: -6,
-                          right: -8,
+                          right: -6,
                         }}>
                         <Image
                           source={ExpandImage}
@@ -263,9 +266,11 @@ const styles = StyleSheet.create({
     paddingBottom: 20,
   },
   coverImage:{
-    width:100,
+    width:80,
     height:100,
-    margin:3
+    margin:3,
+    borderRadius:10,
+    marginHorizontal:5
   },
   bottom:{
     flex: 1,

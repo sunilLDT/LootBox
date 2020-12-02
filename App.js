@@ -1,6 +1,6 @@
-import React, {useEffect, useContext} from 'react';
+import React, {useEffect, useContext } from 'react';
 import {NavigationContainer} from '@react-navigation/native';
-import {Easing, SafeAreaView } from 'react-native';
+import {Easing,Platform } from 'react-native';
 import {
   createStackNavigator,
   TransitionPresets,
@@ -17,7 +17,6 @@ import CustomDrawerContent from './src/components/drawer';
 import {Dimensions, View, StatusBar} from 'react-native';
 import {Provider as AuthProvider} from './src/api/contexts/authContext';
 import {setNavigator} from './src/api/contexts/navigationRef';
-// import RNBootSplash from 'react-native-bootsplash';
 import {Context as AuthContext} from './src/api/contexts/authContext';
 import BuildYourPc from './src/screens/buildYourPc';
 import ContactUs from './src/screens/contactUs';
@@ -39,10 +38,11 @@ import CheckOut from './src/components/CheckOut';
 import AlertMessage from './src/components/AlertMessage';
 import changePasswordNumber from './src/screens/changePhoneNumber';
 import Address from './src/screens/Address';
-
 import OrderDetails from './src/screens/OrderDetails';
 import { store, persistedStore } from './src/store/index';
 import { Provider } from 'react-redux';
+import SplashScreen from 'react-native-splash-screen';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 const {width, height} = Dimensions.get('window');
 
@@ -74,7 +74,8 @@ const AuthScreen = ({navigation}) => {
     <Auth.Navigator
       initialRouteName="signin"
       screenOptions={{
-        gestureEnabled: true,
+        gestureEnabled: false,
+        swipeEnabled: false,
         gestureDirection: 'horizontal',
         transitionSpec: {
           open: config,
@@ -89,6 +90,7 @@ const AuthScreen = ({navigation}) => {
       <Auth.Screen name="signin" component={Signin} />
       <Auth.Screen name="signup" component={Signup} />
     </Auth.Navigator>
+    
   );
 };
 const Drawer = createDrawerNavigator();
@@ -109,11 +111,9 @@ const HomeScreen = () => (
 
 const App = () => {
   const {checkUser} = useContext(AuthContext);
-
   const check = async () => {
-    // RNBootSplash.show();
     await checkUser();
-    // await RNBootSplash.hide({duration: 250});
+    SplashScreen.hide();
   };
 
   useEffect(() => {
@@ -127,7 +127,8 @@ const App = () => {
         height,
         backgroundColor: '#261D2A',
       }}>
-      <StatusBar hidden />
+        
+      <StatusBar backgroundColor="#2B2B35" hidden/>
       <NavigationContainer
         ref={(navigator) => {
           setNavigator(navigator);
@@ -145,7 +146,7 @@ const App = () => {
           // initialRouteName="cpus"
           headerMode="none">
           <Stack.Screen name="language" component={Language} />
-          <Stack.Screen name="auth" component={AuthScreen} />
+          <Stack.Screen name="auth" component={AuthScreen} options={{gestureEnabled: false}}/>
           <Stack.Screen name="otp" component={OtpVerification} />
           <Stack.Screen name="slider" component={Slider} />
           <Stack.Screen name="home" component={HomeScreen} />
@@ -170,7 +171,6 @@ const App = () => {
           <Stack.Screen name="alertMessage" component={AlertMessage} />
           <Stack.Screen name="changePasswordNumber" component={changePasswordNumber} />
           <Stack.Screen name="address" component={Address} />
-
         </Stack.Navigator>
       </NavigationContainer>
     </View>
@@ -180,11 +180,11 @@ const App = () => {
 export default () => {
   return (
     <Provider store={store}>
-    <AuthProvider>
-      <SafeAreaView style={{flex:1, backgroundColor: '#2A2D39'}}>
-      <App />
-      </SafeAreaView>
-    </AuthProvider>
+      <AuthProvider>
+        <SafeAreaProvider>
+          <App />
+        </SafeAreaProvider>
+      </AuthProvider>
     </Provider>
   );
 };

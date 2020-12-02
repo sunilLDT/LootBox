@@ -11,7 +11,6 @@ import {
 import {Context as AuthContext} from '../api/contexts/authContext';
 
 const App = ({msg, hideBtn}) => {
-  console.log(msg);
   const [modalVisible, setModalVisible] = useState(true);
   const {removeError,setValidationError} = useContext(AuthContext);
 
@@ -25,7 +24,6 @@ const App = ({msg, hideBtn}) => {
         <TouchableWithoutFeedback
           onPress={() => {
             // if (hideBtn) {
-            setModalVisible(!modalVisible);
             removeError();
             setValidationError(null)
             // }
@@ -37,7 +35,7 @@ const App = ({msg, hideBtn}) => {
               <TouchableOpacity
                 style={{...styles.openButton}}
                 onPress={() => {
-                  setModalVisible(!modalVisible);
+                  setValidationError(null)
                   removeError();
                 }}>
                 <Text style={styles.textStyle}>

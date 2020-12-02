@@ -8,13 +8,14 @@ import {
   Dimensions,
   ImageBackground,
   StyleSheet,
+  FlatList,
 } from 'react-native';
 import {} from 'react-native-animatable';
 import PriceArrowImage from '../../assets/ic_arrow1.png';
 import DetailsInfoCard from '../../assets/buildYourPc/details_info_card.png';
 import {packageListByGames} from '../../api/buildYourPc';
 import PlayableImg from '../../assets/playable.png';
-
+import Thumbnail from '../../assets/thumbnail.png';
 
 const {width, height} = Dimensions.get('window');
 
@@ -33,7 +34,11 @@ const PcDetails = ({navigation, route}) => {
   React.useEffect(() => {
     packageListByGames(selectedGames).then((response) => {
       setPackageData(response.data);
-      setItems(response.data[0].items);
+      if(packageData.length !== 0){
+        setItems(response.data[0].items);
+      }
+    }).catch((error) => {
+        console.log("Package list by games" + error)
     });
   }, [selectedGames]);
 
@@ -85,23 +90,34 @@ const PcDetails = ({navigation, route}) => {
                 source={DetailsInfoCard}
                 >
                 <View style={styles.container}>
-                    <Image style={styles.images} source={{uri:cpuDetail.image}}/>
+                    {cpuDetail.image?(
+                        <Image style={styles.images} source={{uri:cpuDetail.image}}/>
+                    ):(
+                        <Image source={require('../../assets/thumbnail.png')} style={styles.images}/>
+                    )}
                     <View style={styles.detailsContainer}>
                         <Text numberOfLines={3} style={styles.detailsText}>{cpuDetail.name}</Text>
                         <Text style={styles.detailsText1}>KD {TotalPrice.toFixed(3)}</Text>
                         <Image style={styles.arrow} source={PriceArrowImage}/>
                     </View>
                 </View>
-                {cpuDetail.items.map((details,i) => {
-                    return (
-                        <View key={i} style={styles.attributesView}>
-                            <View style={styles.attributesViewTouch}>
-                                <Text style={styles.attrHeading}>{Object.entries(cpuDetail.items).length === 0?"categoryName":details.name}</Text>
-                                <Text style={styles.attrText}>{Object.entries(cpuDetail.items).length === 0?"Name":details.brand}</Text>
+                {/* <ScrollView horizontal showsHorizontalScrollIndicator={false}> */}
+                <FlatList
+                    style={styles.parentView}
+                    data={cpuDetail.items}
+                    renderItem={({item},index) => {
+                        return (
+                            <View key={index} style={styles.attributesView}>
+                                <View style={styles.attributesViewTouch}>
+                                    <Text style={styles.attrHeading}>{item.name}</Text>
+                                    <Text style={styles.attrText}>{item.brand}</Text>
+                                </View>
                             </View>
-                        </View>
-                    );
-                })}
+                        );
+                    }}
+                    numColumns={2}
+                />
+                {/* </ScrollView> */}
                 <View style={styles.playableView}>
                     <ImageBackground
                         source={PlayableImg}
@@ -120,7 +136,9 @@ const PcDetails = ({navigation, route}) => {
             </TouchableOpacity>
           );
         })}
-        {packageData.length === 0?<Text style={{color:"#fff",lineHeight: 32,fontFamily:'Michroma-Regular',fontSize:15}}>No PACKAGE AVAILABLE FOR THIS GAME</Text>:null}
+        {packageData.length === 0?(
+            <Text style={{color:"#fff",lineHeight: 32,fontFamily:'Michroma-Regular',fontSize:15}}>No PACKAGE AVAILABLE FOR THIS GAME</Text>
+        ):null}
         </ImageBackground>   
       </ScrollView>
       
@@ -137,58 +155,52 @@ const styles = StyleSheet.create({
     },
     images:{
         width:width*0.4,
-        height:height*0.4,
-        resizeMode:"contain",
-        position:'absolute',
-        top:"-51%",
-        right:"50%",
-
+        height:height*0.2,
+        resizeMode:'contain',
     },
     container:{
         display: 'flex',
-        alignItems: 'flex-end',
-        flexDirection: 'column',
+        alignItems:'center',
+        flexDirection: 'row',
     },
     linearGradient:{
         height:255,
         marginVertical:"5%",
-        
     },
     detailsContainer:{
         display:'flex',
-        alignItems:'center',
+        alignItems:'flex-start',
         flexDirection:'column',
+        marginHorizontal:"5%",
     },
     detailsText:{
-        alignItems:'flex-end',
         color:'white',
         fontSize:15,
-        marginTop:"5%",
         fontFamily: 'Michroma-Regular',
         fontWeight:"100",
-        width:150,
-        marginLeft:"28%",
+        paddingRight:"40%",
     },
     detailsText1:{
         color:'#75788E',
         marginVertical:7,
         fontFamily:'Michroma-Regular',
-        marginLeft:"12%",
         fontSize:10,
+    },
+    parentView:{
+        marginLeft:'10%',
+        // marginVertical:'2%'
+        marginBottom:20,
     },
     attributesView:{
         display:'flex',
-        alignSelf:'center',
         flexDirection:'row',
-        marginLeft:"4%",
-        marginTop:"2%",
-        
+        justifyContent:'center',
+        marginLeft:"2%",
+        marginVertical:"1%"
     },
     attributesViewTouch:{
         display:'flex',
-        alignItems:'center',
         flexDirection:'row',
-        marginLeft:"5%",
     }, 
     attrHeading:{
         color:'#ECDBFA',
@@ -214,7 +226,7 @@ const styles = StyleSheet.create({
     },
     arrow:{
         marginBottom:"3%",
-        marginLeft:"-5%",
+        marginLeft:'-1%',
     },
     playableView:{
         flex:1,

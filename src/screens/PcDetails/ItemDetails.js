@@ -17,6 +17,8 @@ import IcDetailCard from '../../assets/ic_details_card.png';
 import Btn from '../../screens/btn';
 import { connect } from 'react-redux';
 import { cartActions } from '../../actions/user';
+import ViewMoreText from 'react-native-view-more-text';
+
 
 const { width, height } = Dimensions.get('window');
 const ItemDetails = (props) => {
@@ -24,6 +26,17 @@ const ItemDetails = (props) => {
     const refRBSheet = useRef();
     const [itemDetails,setItemDetails] = React.useState({});
     const [customFieldsValue,setCustomFieldsValue] =  React.useState([]);
+
+    const renderViewMore = (onPress) => {
+        return(
+          <Text style={styles.moreLess} onPress={onPress}>more</Text>
+        )
+      };
+    const renderViewLess = (onPress) => {
+        return(
+          <Text style={styles.moreLess} onPress={onPress}>less</Text>
+        )
+      };
 
     const GetItemDetails = () => {
         refRBSheet.current.open();
@@ -57,6 +70,16 @@ const ItemDetails = (props) => {
             animationType="fade"
             height={500}
             closeOnPressMask={true}
+            customStyles={{
+                draggableIcon: {
+                  backgroundColor: "#2E2E3A"
+                },
+                container:{
+                    backgroundColor: "#2E2E3A", 
+                    borderTopLeftRadius:30,
+                    borderTopRightRadius:30,
+                }
+              }}
         >
             <ScrollView style={styles.scrollViewContainer}>
                 <View style={styles.imageTextContainer}>
@@ -65,7 +88,7 @@ const ItemDetails = (props) => {
                         source={{uri:itemDetails.image}}
                         style={styles.image}
                         />
-                        <Text style={styles.item}>{itemDetails.name}</Text>
+                        <Text numberOfLines={2} style={styles.item}>{itemDetails.name}</Text>
                         <Text style={styles.brand}>{itemDetails.brand}</Text>
                     </View>
                     <View style={styles.brandItem}>
@@ -79,7 +102,16 @@ const ItemDetails = (props) => {
                 </View>
                 <View style={styles.desToBtn}>
                     <View style={styles.description}>
-                        <Text style={styles.descriptionText}>{itemDetails.description}</Text>
+                        <ViewMoreText
+                            numberOfLines={3}
+                            renderViewMore={renderViewMore}
+                            renderViewLess={renderViewLess}
+                            textStyle={{textAlign:'left'}}
+                        >
+                            <Text style={styles.descriptionText}>
+                            {itemDetails.description} 
+                            </Text>
+                        </ViewMoreText>
                     </View>
                     <ImageBackground
                     source={IcDetailCard}
@@ -130,9 +162,6 @@ const styles = StyleSheet.create({
         height:13,
     },
     scrollViewContainer:{
-        backgroundColor:"#2E2E3A",
-        borderTopLeftRadius:20,
-        borderTopRightRadius:20,
     },
     bottomSheet:{
         backgroundColor: "transparent",
@@ -162,15 +191,18 @@ const styles = StyleSheet.create({
     },
     item:{
         position:'relative',
-        fontSize:20,
+        fontSize:17,
         color:'#fff',
         marginVertical:5,
+        fontFamily:'Michroma-Regular',
+        width:width*0.5
     },
     brand:{
         position:'relative',
         fontSize:15,
         color: 'rgba(255,255,255,0.3)', 
-        marginVertical:5,   
+        marginVertical:5,
+        fontFamily:'Michroma-Regular',   
     },
     cross:{
         position:'relative',
@@ -180,10 +212,11 @@ const styles = StyleSheet.create({
         marginVertical:5,
     },
     price:{
-        fontSize:18,
+        fontSize:12,
         position:'relative',
         color: 'rgba(255,255,255,0.3)',
         marginVertical:5,
+        fontFamily:'Michroma-Regular',
     },
     description:{
         paddingHorizontal:"10%",
@@ -237,6 +270,10 @@ const styles = StyleSheet.create({
     btn:{
         marginHorizontal:"7%",
     },
+    moreLess:{
+        color:'#fff',
+        fontWeight:'bold',
+    }
 });
 
 const mapStateToProps = (state) => ({

@@ -21,15 +21,15 @@ const SmallLGBtn = ({text,selected}) => {
             alignItems: 'center',
             justifyContent: 'center',
             elevation: 100,
-            width: 57,
+            padding:10
           }}>
           <Text
             style={{
-             
               fontSize: 12,
               lineHeight: 16,
               color: '#fff',
-              opacity: 0.87,
+              fontWeight:'bold',
+              letterSpacing:1,
             }}>
             {text}
           </Text>
@@ -45,15 +45,16 @@ const SmallLGBtn = ({text,selected}) => {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            // elevation: 100,
-            width: 57,
+            // elevation: 100
+            padding:10
           }}>
           <Text
             style={{
              
               fontSize: 12,
               lineHeight: 16,
-              color: '#fff',
+              color: '#DF2EDC',
+              letterSpacing:1,
               opacity: 0.87,
             }}>
             {text}

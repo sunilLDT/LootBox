@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "201119561571",
+    "firebase_url": "https://lootbox-820ff.firebaseio.com",
+    "project_id": "lootbox-820ff",
+    "storage_bucket": "lootbox-820ff.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:201119561571:android:2dd3ede6186d17fbeb0556",
+        "android_client_info": {
+          "package_name": "com.projtest"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "201119561571-tpnhmei9en63u5m7p93217fq473dn8jg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.projtest",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "201119561571-i15v7unj24qm39dt32bsvqtcbsqntkg0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBuOHMnb7B5uCihf70F3pgy4IZnPd1Amtw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "201119561571-i15v7unj24qm39dt32bsvqtcbsqntkg0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

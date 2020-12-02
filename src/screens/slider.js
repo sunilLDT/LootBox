@@ -6,10 +6,9 @@ import {
   Dimensions,
   Animated,
   Text,
-  TouchableOpacity,
+  TouchableWithoutFeedback
 } from 'react-native';
-
-import LinearGradient from 'react-native-linear-gradient';
+import Btn from '../screens/btn';
 
 const {width, height} = Dimensions.get('window');
 
@@ -27,7 +26,7 @@ export default class Slideshow extends React.Component {
     const {navigation} = this.props;
 
     return (
-      <View>
+      <View >
         <View>
           <ScrollView
             horizontal={true}
@@ -40,7 +39,7 @@ export default class Slideshow extends React.Component {
             scrollEventThrottle={16}>
             {images.map((x, i) => {
               return (
-                <View key={i}>
+                <View key={i} >
                   <ImageBackground
                     source={x}
                     style={{
@@ -51,61 +50,27 @@ export default class Slideshow extends React.Component {
                   />
                   <View
                     style={{
-                      position: 'absolute',
-                      zIndex: 12,
-                      bottom: height * 0.1,
+                      bottom: height * 0.2,
                       width: width,
                       display: 'flex',
                       alignItems: 'center',
-                      justifyContent: 'center',
-                      textAlign: 'center',
                     }}>
                     <Text
                       style={{
                         color: '#ECDBFA',
                         marginLeft: width * 0.15,
-                        // fontFamily: 'Michroma Regular',
+                        fontFamily:'Michroma-Regular',
                         fontSize: 20,
                         lineHeight: 28,
                       }}>
                       Lorem ipsum dolor sit amet, consectetur{' '}
                     </Text>
-                    <LinearGradient
-                      start={{x: 0, y: 1}}
-                      end={{x: 1, y: 0}}
-                      colors={['#C01C8A', '#865CF4']}
-                      style={{
-                        height: height * 0.09,
-                        borderRadius: 10,
-                        alignSelf: 'center',
-                        // marginLeft:width * 0.06,
-                        marginTop: 25,
-                        elevation: 100,
-                        width: width * 0.75,
-                      }}>
-                      <TouchableOpacity
-                        onPress={() => {
-                          navigation.navigate('home');
-                        }}
-                        style={{
-                          width: '100%',
-                          height: height * 0.09,
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                        }}>
-                        <Text
-                          style={{
-                            fontWeight: 'bold',
-                            color: '#fff',
-                            letterSpacing: 0.5,
-                            fontStyle: 'italic',
-                          }}>
-                          GET STARTED
-                        </Text>
-                      </TouchableOpacity>
-                    </LinearGradient>
-                  </View>
+                    <TouchableWithoutFeedback onPress={() => {navigation.navigate('home')}}>
+                        <View style={{width:'75%'}}>
+                          <Btn  text="GET STARTED" pay=""/>
+                        </View>
+                    </TouchableWithoutFeedback> 
+                    </View>
                 </View>
               );
             })}
@@ -119,7 +84,7 @@ export default class Slideshow extends React.Component {
             alignItems: 'center',
             justifyContent: 'center',
             margin: 'auto',
-            top: 40,
+            top: 10,
             width: width,
             // left: width * 0.2,
           }}>
