@@ -12,6 +12,7 @@ import {
 import BackgroundImage from '../../assets/buildYourPc/triangleBg.png';
 import Btn from '../btn';
 import ExpandImage from '../../assets/ic_expand1.png';
+import CloseImage from '../../assets/ic-3copy.png';
 import { ScrollView } from 'react-native-gesture-handler';
 import ItemCard from '../../assets/ic_card.png';
 import { packageDetailsById,addToCart } from '../../api/buildYourPc';
@@ -37,6 +38,10 @@ const ProductDetails = (props) => {
 
   const [open, setOpen] = useState();
 
+  const [upwardImage,setUpwardImage] = useState(true);
+
+  var imgSource = upwardImage?ExpandImage:CloseImage;
+
   useEffect(() => {
     packageDetailsById(PackageId).then((response) => {
       setPackageDetails(response.data.items);
@@ -59,6 +64,7 @@ const ProductDetails = (props) => {
   }
 
   const openClose = (item_id) => {
+    setUpwardImage(!upwardImage)
     setOpen("");
     setOpen(item_id);
     setShowCpuProcesserList(!showCpuPerocessersList)
@@ -124,7 +130,7 @@ const ProductDetails = (props) => {
                   <ImageBackground
                     source={ItemCard}
                     style={{
-                      width: 357,
+                      width: width * 0.9,
                       height: 51,
                       borderTopLeftRadius:20,
                       borderBottomLeftRadius:15,
@@ -188,7 +194,7 @@ const ProductDetails = (props) => {
                           right: -6,
                         }}>
                         <Image
-                          source={ExpandImage}
+                          source={imgSource}
                           width={100}
                           height={100}
                           style={{ width: 29, height: 11 }}
@@ -198,6 +204,7 @@ const ProductDetails = (props) => {
                   </ImageBackground>
                     {showCpuPerocessersList && open == item.item_id ? (
                         <ListDetails
+                          key={Math.floor((Math.random() * 100) + 1)}
                           data={item} 
                           navigation={props.navigation}
                         ></ListDetails>

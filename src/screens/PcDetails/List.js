@@ -20,6 +20,7 @@ var sel = [];
 const ListDetails = (props) => {
     const [categoryItems, setCategoyItems] = useState([]);
     const [selectedItems, setSelectedItems] = useState([0]);
+    console.log(selectedItems);
 
     useEffect(() => {
         getCategoriesItem(props.data.sub_category_id, props.data.item_id, props.data.sub_category_name).then((response) => {
@@ -34,11 +35,11 @@ const ListDetails = (props) => {
             "item_id": id,
             "quantity": 1
         };
-        setSelectedItems([selectedItems, id]);
-        props.add(item)
-       
-        // console.log(selectedItems);   
-        console.log(props.cart);
+        // setSelectedItems([...selectedItems, id]);
+        selectedItems[0] = id;
+        setSelectedItems([...selectedItems]);
+        
+        // props.add(item)  add to cart
     }
 
     const selectDisplay = (id) => {
@@ -61,7 +62,7 @@ const ListDetails = (props) => {
                 <View
                     style={{ flexDirection: 'row', justifyContent: 'flex-start' }}>
                     <Text
-                        style={{ fontSize: 12, color: '#D2D7F9', fontWeight: '300' }}>
+                        style={{ fontSize: 14, color: '#D2D7F9', fontWeight: '300' }}>
                         List Of {props.data.sub_category_name}
                     </Text>
                     <TouchableOpacity
@@ -74,9 +75,10 @@ const ListDetails = (props) => {
                         }}>
                         <Text
                             style={{
-                                fontSize: 10,
+                                fontSize: 12,
                                 color: '#DF2EDC',
                                 fontWeight: '300',
+                                fontStyle:'italic'
                             }}>
                             View all
                         </Text>
@@ -97,17 +99,83 @@ const ListDetails = (props) => {
                     </TouchableOpacity>
                 </View>
             </View>
-            <ScrollView horizontal={true} style={{}}>
-                {categoryItems.map((processer, index) => {  
+            <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} >
+                {categoryItems.map((processer, index) => {
+                    // {selectHandler(processer.item_id) } 
                     const maxlimit = 22;
                     return (
-                    <TouchableOpacity
+                        <>
+                        {processer.selected === 1?(
+                        <TouchableOpacity
+                            key={index}
+                            onPress={() => {}}
+                            style={{ padding: 20 }}
+                        >
+                            <ImageBackground
+                                source={selectedIcCardImage}
+                                style={{ width: 139, height: 151 }}
+                            >
+                                <View
+                                    style={{
+                                        alignSelf: 'center',
+                                        justifyContent: 'center',
+                                        alignContent: 'center',
+                                        marginTop: 30,
+                                    }}>
+                                    <Image
+                                        source={{ uri: processer.image }}
+                                        style={{ width: 48, height: 40, marginBottom: 10,alignSelf:'center' }}
+                                    />
+                                    <Text
+                                        style={{
+                                            fontSize: 12,
+                                            fontWeight: '700',
+                                            color: '#FFFFFF',
+                                            marginBottom: 10,
+                                            alignSelf:'center'
+                                        }}>
+                                        {((processer.name).length > maxlimit)?(((processer.name).substring(0,maxlimit-3)) + '...'):processer.name}
+
+                                    </Text>
+                                    <Text
+                                        style={{
+                                            fontSize: 10,
+                                            fontWeight: '700',
+                                            color: '#FFFFFF',
+                                            marginBottom: 10,
+                                            opacity: 0.5,
+                                            fontStyle: 'italic',
+                                            textAlign: 'center',
+                                        }}>
+                                        {processer.brand}
+                                    </Text>
+                                    <Text
+                                        style={{
+                                            fontSize: 12,
+                                            fontWeight: '400',
+                                            color: '#FFFFFF',
+                                            fontStyle: 'italic',
+                                            textAlign: 'center',
+                                            marginBottom:40,
+                                        }}>
+                                        +KD {processer.price}
+                                    </Text>
+                                </View>
+                            </ImageBackground>
+                            <ItemDetails
+                                itemid={processer.item_id}
+                                addToSelected={selectHandler}
+                            />
+                        </TouchableOpacity>
+                        
+                        ):(
+                        <TouchableOpacity
                         key={index}
-                        onPress={() => { selectHandler(processer.item_id) }}
+                        onPressIn={() => {selectHandler(processer.item_id) }}
                         style={{ padding: 20 }}
-                    >
+                        >
                         <ImageBackground
-                            source={!selectDisplay(processer.item_id) ? selectedIcCardImage : IcCardImage}
+                            source={IcCardImage}
                             style={{ width: 139, height: 151 }}
                         >
                             <View
@@ -162,6 +230,8 @@ const ListDetails = (props) => {
                             addToSelected={selectHandler}
                         />
                     </TouchableOpacity>
+                        )}
+                    </>
                     );
                 })}
             </ScrollView>

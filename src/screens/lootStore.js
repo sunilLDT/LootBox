@@ -12,10 +12,11 @@ import {
 } from 'react-native';
 import GradientCircle from '../components/gradientCircle';
 import LinearGradient from 'react-native-linear-gradient';
-import SmallBtn from '../svgs/smallBtn';
 import {Context as AuthContext} from '../api/contexts/authContext';
 import SmallLGBtn from './smallLGBtn';
 import {showCartData} from '../api/buildYourPc';
+import SaveButton from '../components/SaveBtn';
+import { SearchBar } from 'react-native-elements';
 
 const {width, height} = Dimensions.get('window');
 
@@ -24,7 +25,6 @@ const options = [
   require('../assets/ic_cart2.png'),
   require('../assets/ic_search.png'),
   require('../assets/ic_filter.png'),
-  
 ];
 
 const LootStore = ({navigation}) => {
@@ -44,7 +44,7 @@ const LootStore = ({navigation}) => {
   const maxlimit = 22;
   const subCategoryId = "";
   const [lastPage,setlastPage] = useState("");
-  // console.log(items);
+  const [search, setSearch] = useState('');
 
   useEffect(() => {
     showCartData().then((response) => {
@@ -113,8 +113,9 @@ const LootStore = ({navigation}) => {
       setPage(page + 1);
     }
     fetchData1();
-    // console.warn(page);
-  }
+  };
+
+  
 
   return (
     <View
@@ -249,6 +250,7 @@ const LootStore = ({navigation}) => {
                     onPress={() => {
                       setCurrent(i.index);
                       setSelectedSubCategory(0);
+                      setPage(1);
                     }}
                     key={i.index}>
                     {i.index === current && (
@@ -303,12 +305,10 @@ const LootStore = ({navigation}) => {
                         }}
                         key={k}
                         onPress={() => {
-                          // console.log(k + 1);
                           setSelectedSubCategory(k + 1);
                         }}>
                         <SmallLGBtn
                           text={i.name}
-                          // text={i.name.substring(0, 5)}
                           selected={selectedSubCategory === k + 1}
                         />
                       </TouchableOpacity>
@@ -321,6 +321,7 @@ const LootStore = ({navigation}) => {
                   <ActivityIndicator color="#ECDBFA" size="small" />
                 </View>
               ) : (
+                <>
                 <View
                   style={{
                     display: 'flex',
@@ -458,10 +459,19 @@ const LootStore = ({navigation}) => {
                               ),
                           )}
                        </View>
-                       {selectedSubCategory === 0?<Button title="Load More" onPress={() => {handleLodeMore()}}/>:null}
                       </>
                   )}
                 </View>
+                {selectedSubCategory === 0 && lastPage !== 1?(
+                  <View style={{paddingBottom:20,flex:1,justifyContent:'flex-end'}}>
+                    <TouchableOpacity onPress={() => {handleLodeMore()}}>
+                      <SaveButton text="Load More" x="120"/>
+                    </TouchableOpacity>
+                  </View>
+                  )
+                  :null
+                }
+                </>
               )}
             </View>
           ) : (
