@@ -25,6 +25,7 @@ import ImagePicker from "react-native-image-picker";
 import {uploadImageApi}  from '../api/buildYourPc';
 import {Context as AuthContext} from '../api/contexts/authContext';
 import AddressList from '../components/AddressList';
+import SaveBtn from '../components/SaveBtn';
 
 
 const {width, height} = Dimensions.get('window');
@@ -127,38 +128,10 @@ const Profile = ({navigation}) => {
                 <Input placeholder="Confirm Password" password onChangeText={(confPassword) => setconfirmPassword(confPassword)}/>
               </View>
               <TouchableWithoutFeedback
-              onPress={() => changePassword()}
-                style={{
-                  width: '100%',
-                  height: height * 0.09,
-                  display: 'flex',
-                }}>
-                <LinearGradient
-                  start={{x: 0, y: 0}}
-                  end={{x: 1, y: 0}}
-                  colors={['rgba(184,37,154,0.16)', 'rgba(184,37,154,0.16)']}
-                  style={{
-                    height: height * 0.09,
-                    borderRadius: 10,
-                    borderColor: '#C01C8A',
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    borderWidth: 1.5,
-                    marginTop: 18,
-                    elevation: 100,
-                    width: width * 0.8,
-                  }}>
-                  <Text
-                    style={{
-                      fontWeight: 'bold',
-                      color: '#fff',
-                      letterSpacing: 0.5,
-                      fontStyle: 'italic',
-                    }}>
-                    Save
-                  </Text>
-                </LinearGradient>
+              onPress={() => changePassword()}>
+                  <View style={{marginVertical:5}}>
+                    <SaveBtn text="Save"/>
+                  </View>
               </TouchableWithoutFeedback>
             </View>
           </DialogContent>
@@ -191,7 +164,7 @@ const Profile = ({navigation}) => {
             <Text
               style={{
                 fontFamily:'Montserrat-LightItalic',
-                fontSize: 14,
+                fontSize: 13,
                 lineHeight: 16,
                 opacity: 0.4,
                 color: '#ECDBFA',
@@ -355,37 +328,10 @@ const Profile = ({navigation}) => {
           </LinearGradient>
           <TouchableWithoutFeedback
             onPress={() => ProfileUpdate()}
-            style={{
-              width: '100%',
-              height: height * 0.09,
-              display: 'flex',
-            }}>
-            <LinearGradient
-              start={{x: 0, y: 0}}
-              end={{x: 1, y: 0}}
-              colors={['rgba(184,37,154,0.16)', 'rgba(184,37,154,0.16)']}
-              style={{
-                height: height * 0.09,
-                borderRadius: 10,
-                borderColor: '#C01C8A',
-                flexDirection: 'row',
-                alignItems: 'center',
-                justifyContent: 'center',
-                borderWidth: 1.5,
-                marginTop: 18,
-                elevation: 100,
-                width: width * 0.8,
-              }}>
-              <Text
-                style={{
-                  fontWeight: 'bold',
-                  color: '#fff',
-                  letterSpacing: 0.5,
-                  fontStyle: 'italic',
-                }}>
-                Save
-              </Text>
-            </LinearGradient>
+          >
+            <View style={{marginVertical:15,width:"85%"}}>
+              <SaveBtn text="Save"/>
+            </View>
           </TouchableWithoutFeedback>
         </ImageBackground>
         {show && (

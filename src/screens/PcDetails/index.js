@@ -85,7 +85,7 @@ const PcDetails = ({navigation, route}) => {
             <TouchableOpacity
              key={index}
              onPress={() => navigation.navigate('ProductDetails',{PackageId:cpuDetail.package_id})}
-             >
+             >  
                 <ImageBackground style={styles.linearGradient}
                 source={DetailsInfoCard}
                 >
@@ -164,7 +164,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
     },
     linearGradient:{
-        height:255,
+        height:height * 0.30,
         marginVertical:"5%",
     },
     detailsContainer:{
@@ -188,8 +188,8 @@ const styles = StyleSheet.create({
     },
     parentView:{
         marginLeft:'10%',
-        // marginVertical:'2%'
-        marginBottom:20,
+        paddingBottom:"2%"
+        // marginBottom:10,
     },
     attributesView:{
         display:'flex',

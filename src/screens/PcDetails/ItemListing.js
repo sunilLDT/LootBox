@@ -15,6 +15,8 @@ import { cartActions } from '../../actions/user';
 import selectedIcCardImage from '../../assets/Rectangle.png';
 import searchIcon from '../../assets/ic_search.png';
 import filterIcon from '../../assets/ic_filter.png';
+import filter from 'lodash.filter';
+import { SearchBar } from 'react-native-elements';
 
 
 const { width, height } = Dimensions.get('window');
@@ -23,6 +25,9 @@ const ItemListing = (props) => {
   const [selectedItems, setSelectedItems] = useState([0]);
   const { items } = props.route.params;
   const { sub_category_name } = props.route.params;
+  const [data, setData] = useState(items);
+  const [query, setQuery] = useState('');
+  const [open,setOpen] = useState(false);
 
   const selectHandler = (id) => {
     let item = {
@@ -42,7 +47,39 @@ const ItemListing = (props) => {
       return false;
     }
   }
-
+  const handleSearch = text => {
+    const formattedQuery = text.toLowerCase();
+    const filteredData = filter(items, item => {
+      return contains(item, formattedQuery);
+    });
+    setData(filteredData);
+    setQuery(text);
+  };
+  const contains = ({ name }, query) => {
+    if (name.toLowerCase().includes(query)) {
+      return true;
+    }
+    return false;
+  };
+  const  renderHeader = () => {
+    return (
+      <>
+       {open?(
+         <SearchBar 
+         placeholder="Type here..."
+         lightTheme round editable={true}
+         value={query}
+         onChangeText={queryText => handleSearch(queryText)}
+         containerStyle={{borderRadius:22,height:50,marginBottom:20,marginHorizontal:20}}
+         inputContainerStyle={{height:30}}
+       />
+       ):null}
+      </>
+    );
+  };
+  const openClose = () => {
+    setOpen(!open)
+  }
   return (
     <ImageBackground
       source={require('../../assets/plainBg.png')}
@@ -58,7 +95,7 @@ const ItemListing = (props) => {
                   display: 'flex',
                   alignItems: 'center',
                   flexDirection: 'row',
-                  marginLeft:'-5%'
+                  marginLeft:"-5%"
               }}>
             <TouchableOpacity
               onPress={() => {
@@ -79,31 +116,29 @@ const ItemListing = (props) => {
               display: 'flex',
               alignItems: 'center',
               flexDirection: 'row',
-              justifyContent:'space-between'
+              justifyContent:'space-between',
+              marginLeft:"13%"
             }}>
-              <TouchableOpacity onPress={() => {
-
-              }}>
-                  <Image
-                   style={styles.icons}  
-                   source={searchIcon}
-                   resizeMode="contain"
-                   />
-              </TouchableOpacity>
-              <TouchableOpacity onPress={() => {
-
-              }}>
-                  <Image 
+              <TouchableOpacity onPress={() => openClose()}>
+                <Image
                   style={styles.icons}  
-                  source={filterIcon}
+                  source={searchIcon}
                   resizeMode="contain"
                   />
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => {}}>
+                <Image 
+                style={styles.icons}  
+                source={filterIcon}
+                resizeMode="contain"
+                />
               </TouchableOpacity>
             </View>
         </View>
       <FlatList
         keyExtractor={(item) => item.name}
-        data={items || []}
+        ListHeaderComponent={renderHeader()}
+        data={data}
         showsVerticalScrollIndicator={false}
         renderItem={({ item }, index) => {
           const maxlimit = 22;
