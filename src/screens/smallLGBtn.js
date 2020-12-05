@@ -15,9 +15,7 @@ const SmallLGBtn = ({text,selected}) => {
           style={{
             height: 36,
             borderRadius: 10,
-            // marginTop: 25,
-            display: 'flex',
-            // height: height * 0.09,
+            display: 'flex',        
             alignItems: 'center',
             justifyContent: 'center',
             elevation: 100,

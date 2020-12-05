@@ -26,7 +26,7 @@ import {uploadImageApi}  from '../api/buildYourPc';
 import {Context as AuthContext} from '../api/contexts/authContext';
 import AddressList from '../components/AddressList';
 import SaveBtn from '../components/SaveBtn';
-
+import bgImage from '../assets/signup.png';
 
 const {width, height} = Dimensions.get('window');
 
@@ -45,7 +45,10 @@ const Profile = ({navigation}) => {
   var formattedDOB = format(DOB, "d-MM-yyyy");
 
   const ProfileUpdate = () => {
-    if(email == "" || !/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)){
+    if(!email){
+      alert("Please Fill the email")
+    }
+    else if(email == "" || !/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)){
       alert("Invalid Email Address")
     }
     else if(gender == ""){
@@ -141,7 +144,7 @@ const Profile = ({navigation}) => {
           backgroundColor: '#261D2A',
         }}>
         <ImageBackground
-          source={require('../assets/plainBg.png')}
+          source={bgImage}
           style={{
             paddingLeft: width * 0.1,
           }}>
@@ -288,9 +291,8 @@ const Profile = ({navigation}) => {
             end={{x: 1, y: 0}}
             colors={['rgba(255,255,255,0.069)', 'rgba(255,255,255,0.003) ']}
             style={{
-              width: width * 0.7,
+              width: width * 0.82,
               marginVertical: 15,
-              
               justifyContent: 'space-around',
               paddingLeft: 20,
               paddingVertical: 10,
@@ -329,7 +331,7 @@ const Profile = ({navigation}) => {
           <TouchableWithoutFeedback
             onPress={() => ProfileUpdate()}
           >
-            <View style={{marginVertical:15,width:"85%"}}>
+            <View style={{marginVertical:15,width:"90%"}}>
               <SaveBtn text="Save"/>
             </View>
           </TouchableWithoutFeedback>

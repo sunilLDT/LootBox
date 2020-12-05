@@ -23,7 +23,7 @@ const options = [
   },
   {
     name: 'My Orders',
-    path: 'orderSuccess',
+    path: 'orders',
   },
   {
     name: "FAQ's",

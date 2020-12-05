@@ -1,4 +1,4 @@
-import React , {useState} from 'react';
+import React , {useState,useEffect} from 'react';
 import {
   View,
   Text,
@@ -9,6 +9,7 @@ import {
   ImageBackground,
   StyleSheet,
   FlatList,
+  ActivityIndicator
 } from 'react-native';
 import {} from 'react-native-animatable';
 import PriceArrowImage from '../../assets/ic_arrow1.png';
@@ -23,24 +24,27 @@ const {width, height} = Dimensions.get('window');
 const PcDetails = ({navigation, route}) => {
 
   const {selectedGames} = route.params;
-
   const [packageData, setPackageData] = React.useState([]);
-
   const [item, setItems] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const TotalPrice = item.reduce((Price, item) => Price + parseInt(item.price), 0);
 
 
-  React.useEffect(() => {
+    useEffect(() => {
+        setLoading(true)
     packageListByGames(selectedGames).then((response) => {
       setPackageData(response.data);
       if(packageData.length !== 0){
         setItems(response.data[0].items);
       }
+      setLoading(false)
     }).catch((error) => {
         console.log("Package list by games" + error)
+        setLoading(false)
     });
   }, [selectedGames]);
+    
 
   return (
     <ScrollView
@@ -83,9 +87,9 @@ const PcDetails = ({navigation, route}) => {
         {packageData.map((cpuDetail, index) => {
           return (
             <TouchableOpacity
-             key={index}
-             onPress={() => navigation.navigate('ProductDetails',{PackageId:cpuDetail.package_id})}
-             >  
+            key={index}
+            onPress={() => navigation.navigate('ProductDetails',{PackageId:cpuDetail.package_id})}
+            >  
                 <ImageBackground style={styles.linearGradient}
                 source={DetailsInfoCard}
                 >
@@ -136,8 +140,12 @@ const PcDetails = ({navigation, route}) => {
             </TouchableOpacity>
           );
         })}
-        {packageData.length === 0?(
-            <Text style={{color:"#fff",lineHeight: 32,fontFamily:'Michroma-Regular',fontSize:15}}>No PACKAGE AVAILABLE FOR THIS GAME</Text>
+        {loading ? (
+        <View style={{marginTop: height * 0.37}}>
+            <ActivityIndicator color="#ECDBFA" size="small" />
+        </View>
+        ) :packageData.length === 0?(
+            <Text style={{color:"#fff",lineHeight: 32,fontFamily:'Michroma-Regular',fontSize:15,marginTop: height * 0.32}}>No PACKAGE AVAILABLE FOR THIS GAME</Text>
         ):null}
         </ImageBackground>   
       </ScrollView>
@@ -162,6 +170,7 @@ const styles = StyleSheet.create({
         display: 'flex',
         alignItems:'center',
         flexDirection: 'row',
+        marginBottom:-13
     },
     linearGradient:{
         height:height * 0.30,
@@ -188,8 +197,7 @@ const styles = StyleSheet.create({
     },
     parentView:{
         marginLeft:'10%',
-        paddingBottom:"2%"
-        // marginBottom:10,
+        paddingBottom:"2%",
     },
     attributesView:{
         display:'flex',

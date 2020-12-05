@@ -26,12 +26,16 @@ const BuildYourPc = ({ navigation }) => {
   const [selected, setSelected] = useState([]);
   const [resolution, setResolution] = useState('1080P');
   const [gameData, setGameData] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    setLoading(true)
     getAllGames(resolution).then((response) => {
       setGameData(response.data);
+      setLoading(false)
     }).catch((error) => {
       console.log("getAllGames" +error);
+      setLoading(false)
     });
   }, [resolution]);
 
@@ -112,7 +116,6 @@ const BuildYourPc = ({ navigation }) => {
           }}>
           Select graphics and games to build your PC
           </Text>
-
         <View
           style={{
             display: 'flex',

@@ -229,9 +229,10 @@ const styles = StyleSheet.create({
     fontStyle: 'italic',
   },
   cardConatiner: {
-    width: width*0.34,
+    width: width*0.38,
     height: height*0.20,
-    margin:"8%"
+    margin:"6%",
+    marginTop:"10%"
   },
   pageName:{
     fontStyle: 'italic',

@@ -56,13 +56,11 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    // marginTop: 22,
   },
   modalView: {
     margin: 20,
     marginVertical: 40,
     backgroundColor: '#393743',
-    // opacity:0.4,
     borderRadius: 20,
     paddingHorizontal: 30,
     paddingVertical: 50,
@@ -74,7 +72,6 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
-    // elevation: 5,
   },
   textStyle: {
     color: '#fff',

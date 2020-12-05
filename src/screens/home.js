@@ -10,7 +10,6 @@ import {
 import LinearGradient from 'react-native-linear-gradient';
 import {showCartData} from '../api/buildYourPc';
 
-
 const {height, width} = Dimensions.get('window');
 
 const Home = ({navigation}) => {

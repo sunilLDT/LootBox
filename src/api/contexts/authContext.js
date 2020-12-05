@@ -360,7 +360,6 @@ const fetchCategories = (dispatch) => async () => {
 };
 
 const fetchItems = (dispatch) => async (category_id, subcategory_id,page) => {
-  console.log(page);
   try {
     if (subcategory_id) {
       const response = await Api.get(`app/items/list?category_id=${category_id}&&sub_category_id=${subcategory_id}`);
@@ -390,6 +389,41 @@ const fetchItemsInfo = (dispatch) => async (id) => {
     console.log(e);
   }
 };
+const sendEmail = (dispatch) => async (title, description) => {
+  try {
+    dispatch({
+      type: 'toggle_loading',
+    });
+    if (title,description){
+      const res = await Api.post('app/user/email-conatact-us', {
+        title,
+        description
+      });
+      if (res.data.success) {
+        dispatch({
+          type: 'add_msg',
+          payload: res.data.message,
+        });
+        dispatch({
+          type: 'toggle_loading',
+        });
+      }else{
+        dispatch({
+          type: 'add_msg',
+          payload: "Something went wrong",
+        });
+        dispatch({
+          type: 'toggle_loading',
+        });
+      }
+    }
+  } catch (e) {
+    console.log(e);
+    dispatch({
+      type: 'toggle_loading',
+    });
+  }
+};
 
 export const {Context, Provider} = createDataContext(
   reducer,
@@ -398,6 +432,7 @@ export const {Context, Provider} = createDataContext(
     signup,
     removeError,
     signout,
+    sendEmail,
     fetchItemsInfo,
     checkUser,
     fetchCategories,

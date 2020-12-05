@@ -15,11 +15,11 @@ import {
   Platform
 } from 'react-native';
 import Logo from '../assets/launch_screen.png';
-import PlanBg from '../assets/plainBg.png'
 import Input from '../components/input';
 import {Context as AuthContext} from '../api/contexts/authContext';
 import Btn from './btn';
 import ContinueBtn from '../components/ContinueGmailBtn';
+import bgImage from '../assets/signup.png';
 
 const {height, width} = Dimensions.get('window');
 
@@ -55,14 +55,13 @@ const Signup = ({navigation, route}) => {
 
   return (
     <ImageBackground
-    source={PlanBg}
+    source={bgImage}
     style={{
       width: width,
       minHeight: height,
       overflowX: 'hidden',
       display: 'flex',
       alignItems: 'center',
-      // justifyContent:'center'
     }}
     >
       <KeyboardAvoidingView
@@ -222,8 +221,8 @@ const Signup = ({navigation, route}) => {
                   width: width * 0.7,
                   flexWrap: 'wrap',
                   position: 'relative',
-                  zIndex: 333,
                   fontStyle:'italic',
+                  zIndex: 333,
                 }}>
                 By clicking signup you agree to our{' '}
                 <Text
@@ -232,6 +231,7 @@ const Signup = ({navigation, route}) => {
                     color: '#fff',
                     marginLeft: 5,
                     fontStyle:'normal',
+                    opacity:1,
                   }}>
                   Terms & Conditions{' '}
                 </Text>

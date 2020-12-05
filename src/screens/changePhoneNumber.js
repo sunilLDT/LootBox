@@ -13,6 +13,7 @@ import {
 import Input from '../components/input';
 import LinearGradient from 'react-native-linear-gradient';
 import {changeNumberApi} from '../api/buildYourPc';
+import SaveBtn from '../components/SaveBtn'
 
 const {width, height} = Dimensions.get('window');
 
@@ -85,39 +86,10 @@ const ChangePhoneNumber = ({navigation}) => {
                 </View>
                 <View style={styles.btnView}>
                     <TouchableWithoutFeedback
-                        onPress={() => numberChange()}
-                        style={{
-                        width: '100%',
-                        height: height * 0.09,
-                        display: 'flex',
-                        }}>
-                        <LinearGradient
-                        start={{x: 0, y: 0}}
-                        end={{x: 1, y: 0}}
-                        colors={['rgba(184,37,154,0.16)', 'rgba(184,37,154,0.16)']}
-                        style={{
-                            height: height * 0.09,
-                            borderRadius: 10,
-                            borderColor: '#C01C8A',
-                            flexDirection: 'row',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            borderWidth: 1.5,
-                            marginTop: 18,
-                            elevation: 100,
-                            width: width * 0.8,
-                        }}>
-                        <Text
-                            style={{
-                            fontWeight: 'bold',
-                            color: '#fff',
-                            letterSpacing: 0.5,
-                            fontStyle: 'italic',
-                            fontSize:18
-                            }}>
-                            Save Changes
-                        </Text>
-                        </LinearGradient>
+                        onPress={() => numberChange()}>
+                        <View>
+                            <SaveBtn text="Save Changes" x="115.848624"/>
+                        </View>
                     </TouchableWithoutFeedback>
                 </View>
             </ImageBackground>

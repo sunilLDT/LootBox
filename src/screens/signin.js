@@ -12,16 +12,16 @@ import {
   KeyboardAvoidingView,
   ActivityIndicator,
   BackHandler,
-  Alert
+  Alert,
+  ImageBackground,
 } from 'react-native';
 import Logo from '../assets/launch_screen.png';
-import LinearGradient from 'react-native-linear-gradient';
 import Input from '../components/input';
 import {Context as AuthContext} from '../api/contexts/authContext';
 import Modal from '../components/modal';
 import Btn from './btn';
-import SafeAreaView from 'react-native-safe-area-view';
 import ContinueBtn from '../components/ContinueGmailBtn';
+import bgImage from '../assets/signup.png';
 
 const {height, width} = Dimensions.get('window');
 
@@ -97,18 +97,16 @@ const Signin = ({navigation}) => {
       onPress={() => {
         Keyboard.dismiss();
       }}>
-      <SafeAreaView style={{ flex: 1 }}>
-      <LinearGradient
-        colors={['#2A2D39', '#261D2A']}
-        style={{
+      
+      <ImageBackground source={bgImage} style={{
           width: width,
           minHeight: height,
           overflowX: 'hidden',
           display: 'flex',
           alignItems: 'center',
-        }}>
+        }}
+        >
         <ScrollView>
-          
           {state.msg ? (
             <Modal msg={state.msg} hideBtn />
           ) : validationError ? (
@@ -248,8 +246,8 @@ const Signin = ({navigation}) => {
               </View>
             </TouchableWithoutFeedback>
         </ScrollView>
-      </LinearGradient>
-      </SafeAreaView>
+      </ImageBackground>
+      
     </TouchableWithoutFeedback>
   );
 };

@@ -1,6 +1,6 @@
 import React, {useEffect, useContext } from 'react';
 import {NavigationContainer} from '@react-navigation/native';
-import {Easing,Platform } from 'react-native';
+import {Easing,Platform,Dimensions, View, StatusBar,SafeAreaView  } from 'react-native';
 import {
   createStackNavigator,
   TransitionPresets,
@@ -14,7 +14,6 @@ import OtpVerification from './src/screens/otpVerification';
 import Slider from './src/screens/slider';
 import Home from './src/screens/home';
 import CustomDrawerContent from './src/components/drawer';
-import {Dimensions, View, StatusBar} from 'react-native';
 import {Provider as AuthProvider} from './src/api/contexts/authContext';
 import {setNavigator} from './src/api/contexts/navigationRef';
 import {Context as AuthContext} from './src/api/contexts/authContext';
@@ -42,7 +41,7 @@ import OrderDetails from './src/screens/OrderDetails';
 import { store, persistedStore } from './src/store/index';
 import { Provider } from 'react-redux';
 import SplashScreen from 'react-native-splash-screen';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
+import Email from './src/screens/email';
 
 const {width, height} = Dimensions.get('window');
 
@@ -128,7 +127,7 @@ const App = () => {
         backgroundColor: '#261D2A',
       }}>
         
-      <StatusBar backgroundColor="#2B2B35" hidden={true}/>
+      <StatusBar  hidden/>
       <NavigationContainer
         ref={(navigator) => {
           setNavigator(navigator);
@@ -173,6 +172,7 @@ const App = () => {
           <Stack.Screen name="alertMessage" component={AlertMessage} />
           <Stack.Screen name="changePasswordNumber" component={changePasswordNumber} />
           <Stack.Screen name="address" component={Address} />
+          <Stack.Screen name="email" component={Email} />
         </Stack.Navigator>
       </NavigationContainer>
     </View>
