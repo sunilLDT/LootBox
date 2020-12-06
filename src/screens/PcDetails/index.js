@@ -173,7 +173,7 @@ const styles = StyleSheet.create({
         marginBottom:-13
     },
     linearGradient:{
-        height:height * 0.30,
+        height:height * 0.33,
         marginVertical:"5%",
     },
     detailsContainer:{

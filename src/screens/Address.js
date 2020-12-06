@@ -92,7 +92,7 @@ const Address = ({navigation,route}) => {
     }
 
     const addAddress = (address_id) => {
-        if(city == "" || email == "" || name == "" ||block == "" || street == "" || building =="" || floor=="" || apartment==""){
+        if(city == "" || email == "" || name == "" ||block == "" || street == "" || building ==""){
             alert("Please fill all fields");
           }
           else if(email &&

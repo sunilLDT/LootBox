@@ -39,32 +39,32 @@ const Signin = ({navigation}) => {
 
     if(isNaN(email)){
       if(!email){
-        setValidationError('Please fill the Email or Phone Number');
+        alert('Please fill the Email or Phone Number');
       }
       else if(password && (password.length < 8)){
-        setValidationError('Password must be at least 8 characters',);
+        alert('Password must be at least 8 characters',);
       }
       else if(!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)){
-          setValidationError('Invalid Email Address ')
+          alert('Invalid Email Address ')
       }
       else if(!password){ 
-        setValidationError('All fields are required')
+        alert('All fields are required')
       }
       else{
         signin({email, password});
       }
     }else {
       if(email && !(email.length == 8)){
-        setValidationError('Invalid  Phone number')
+        alert('Invalid  Phone number')
       }
       else if(!password){ 
-        setValidationError('All fields are required')
+        alert('All fields are required')
       }
       else if(!email){
-        setValidationError('Please fill the Email or Phone Number');
+        alert('Please fill the Email or Phone Number');
       }
       else if(password && (password.length < 8)){
-        setValidationError('Password must be at least 8 characters',);
+        alert('Password must be at least 8 characters',);
       }
       else{
         signin({email, password});

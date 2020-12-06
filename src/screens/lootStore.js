@@ -394,7 +394,7 @@ const LootStore = ({navigation}) => {
                         data={filteredDataSource}
                         keyExtractor={(item) => item.item_id}
                         renderItem={({item:i },k) => {
-                          if(i.status === 1){
+                          // if(i.status === 1){
                           return (
                           <View key={k}>
                             <TouchableOpacity
@@ -482,7 +482,7 @@ const LootStore = ({navigation}) => {
                             </TouchableOpacity>
                           </View>
                           );
-                        }
+                        // }
                         }
                         }
                       numColumns={2}
