@@ -78,6 +78,8 @@ const googleSignIn = (dispatch) => async () => {
   try {
     await GoogleSignin.configure({
       webClientId: '201119561571-i15v7unj24qm39dt32bsvqtcbsqntkg0.apps.googleusercontent.com',
+      //webClientId: '201119561571-56nv0io5rjjsoq1et7qb734ok04s4ore.apps.googleusercontent.com',
+      iosClientId:'201119561571-56nv0io5rjjsoq1et7qb734ok04s4ore.apps.googleusercontent.com',
     });
     await GoogleSignin.hasPlayServices();
     const userInfo = await GoogleSignin.signIn();
@@ -125,6 +127,7 @@ const googleSignIn = (dispatch) => async () => {
     await GoogleSignin.revokeAccess();
     await GoogleSignin.signOut();
   } catch (error) {
+    console.log(error)
     if (error.code === statusCodes.SIGN_IN_CANCELLED) {
       console.log("user cancelled the login flow");
     } else if (error.code === statusCodes.IN_PROGRESS) {

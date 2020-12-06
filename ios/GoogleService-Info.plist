@@ -3,21 +3,23 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>923512146027-fuugcq753lgo84urhlbgj8v9ajl76eau.apps.googleusercontent.com</string>
+	<string>201119561571-56nv0io5rjjsoq1et7qb734ok04s4ore.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.923512146027-fuugcq753lgo84urhlbgj8v9ajl76eau</string>
+	<string>com.googleusercontent.apps.201119561571-56nv0io5rjjsoq1et7qb734ok04s4ore</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>201119561571-tpnhmei9en63u5m7p93217fq473dn8jg.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
-	<string>AIzaSyCvzBlzBLaPoBm9a_0fmEj3-CsuW_FmBJk</string>
+	<string>AIzaSyArGSbZdo8xNwATETtppaREEuXroVPBjCM</string>
 	<key>GCM_SENDER_ID</key>
-	<string>923512146027</string>
+	<string>201119561571</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>org.reactjs.native.example.Lootbox</string>
+	<string>com.projtest</string>
 	<key>PROJECT_ID</key>
-	<string>lootbox-e9bd6</string>
+	<string>lootbox-820ff</string>
 	<key>STORAGE_BUCKET</key>
-	<string>lootbox-e9bd6.appspot.com</string>
+	<string>lootbox-820ff.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,8 +31,8 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:923512146027:ios:6320af336fc97caca5092e</string>
+	<string>1:201119561571:ios:2b405acdeb250967eb0556</string>
 	<key>DATABASE_URL</key>
-	<string>https://lootbox-e9bd6.firebaseio.com</string>
+	<string>https://lootbox-820ff.firebaseio.com</string>
 </dict>
 </plist>

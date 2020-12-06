@@ -27,7 +27,7 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>com.googleusercontent.apps.923512146027-fuugcq753lgo84urhlbgj8v9ajl76eau</string>
+				<string>com.googleusercontent.apps.201119561571-56nv0io5rjjsoq1et7qb734ok04s4ore</string>
 			</array>
 		</dict>
 	</array>
@@ -49,7 +49,7 @@
 		</dict>
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string/>
+	<string></string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Feather.ttf</string>
