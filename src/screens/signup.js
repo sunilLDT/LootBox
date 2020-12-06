@@ -249,6 +249,7 @@ const Signup = ({navigation, route}) => {
 
             <TouchableOpacity
               onPress={() => {
+               
                 if (
                   selected &&
                   first_name &&
@@ -260,9 +261,12 @@ const Signup = ({navigation, route}) => {
                   password.length >= 8 &&
                   phone.length == 8
                 ) {
+                  alert("Hello");
                   signup(data);
                 } else {
+                  
                   if (password && password.length < 8) {
+                    //alert(password && password.length < 8)
                     setValidationError(
                       'Password must be at least 8 characters',
                     );
