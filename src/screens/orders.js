@@ -124,7 +124,8 @@ const Orders = () => {
                 <Text
                   style={{
                     color: '#ECDBFA',
-                    // fontFamily: 'Michroma-Regular',                    fontSize: 16,
+                    fontFamily: 'Michroma-Regular',
+                    fontSize: 16,
                     lineHeight: 20,
                   }}>
                   2344552
@@ -132,7 +133,8 @@ const Orders = () => {
                 <Text
                   style={{
                     color: '#ECDBFA',
-                    // fontFamily: 'Michroma-Regular',                    fontSize: 16,
+                    fontFamily: 'Michroma-Regular',
+                    fontSize: 16,
                     lineHeight: 20,
                   }}>
                   KD 4,500

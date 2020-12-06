@@ -15,11 +15,11 @@ import {
   Platform
 } from 'react-native';
 import Logo from '../assets/launch_screen.png';
-import PlanBg from '../assets/plainBg.png'
 import Input from '../components/input';
 import {Context as AuthContext} from '../api/contexts/authContext';
 import Btn from './btn';
 import ContinueBtn from '../components/ContinueGmailBtn';
+import bgImage from '../assets/signup.png';
 
 const {height, width} = Dimensions.get('window');
 
@@ -37,7 +37,7 @@ const Signup = ({navigation, route}) => {
   const [last_name, setLastName] = useState(
     route.params ? route.params.lastName : null,
   );
-  const [phone, setPhone] = useState('97523476');
+  const [phone, setPhone] = useState('');
   const [email, setEmail] = useState(route.params ? route.params.email : null);
   const [password, setPassword] = useState(null);
   const [user_type, setUserType] = useState(1);
@@ -55,14 +55,13 @@ const Signup = ({navigation, route}) => {
 
   return (
     <ImageBackground
-    source={PlanBg}
+    source={bgImage}
     style={{
       width: width,
       minHeight: height,
       overflowX: 'hidden',
       display: 'flex',
       alignItems: 'center',
-      // justifyContent:'center'
     }}
     >
       <KeyboardAvoidingView
@@ -222,8 +221,8 @@ const Signup = ({navigation, route}) => {
                   width: width * 0.7,
                   flexWrap: 'wrap',
                   position: 'relative',
-                  zIndex: 333,
                   fontStyle:'italic',
+                  zIndex: 333,
                 }}>
                 By clicking signup you agree to our{' '}
                 <Text
@@ -232,6 +231,7 @@ const Signup = ({navigation, route}) => {
                     color: '#fff',
                     marginLeft: 5,
                     fontStyle:'normal',
+                    opacity:1,
                   }}>
                   Terms & Conditions{' '}
                 </Text>
@@ -266,42 +266,44 @@ const Signup = ({navigation, route}) => {
                 } else {
                   
                   if (password && password.length < 8) {
-                    //alert(password && password.length < 8)
-                    setValidationError(
+                    alert(
                       'Password must be at least 8 characters',
                     );
                   }
-                  if (
+                  else if (
                     email &&
                     !/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)
                   ) {
-                    setValidationError('Invalid Email Address');
+                    alert('Invalid Email Address');
                   }
-                  if (phone && !(phone.length == 8)) {
-                    setValidationError('Enter a valid phone number');
+                  else if (phone && !(phone.length == 8)) {
+                    alert('Enter a valid phone number');
                   }
-                  if (!selected) {
-                    setValidationError('Agree to our terms and conditions');
-                  }
-                  if (!first_name) {
-                    setValidationError('All fields are required');
+                  else if (!first_name) {
+                    alert('All fields are required');
                     // setValidationError('First Name Is Required');
                   }
-                  if (!last_name) {
-                    setValidationError('All fields are required');
+                  else if (!last_name) {
+                    alert('All fields are required');
                     // setValidationError('Last Name Is Required');
                   }
-                  if (!phone) {
-                    setValidationError('All fields are required');
+                  else if (!phone) {
+                    alert('All fields are required');
                     // setValidationError('Phone Number Is Required');
                   }
-                  if (!email) {
-                    setValidationError('All fields are required');
+                  else if (!email) {
+                    alert('All fields are required');
                     // setValidationError('Email Address Is Required');
                   }
-                  if (!password) {
-                    setValidationError('All fields are required');
+                  else if (!password) {
+                    alert('All fields are required');
                     // setValidationError('Password Is Required');
+                  }
+                  else if (!selected) {
+                    alert('Agree to our terms and conditions');
+                  }
+                  else {
+                    console.log("error");
                   }
                 }
                 // navigation.navigate('otp');

@@ -12,14 +12,15 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView,
   ActivityIndicator,
-  ImageBackground
+  ImageBackground,
+  Alert 
 } from 'react-native';
 import Logo from '../assets/launch_screen.png';
 import Input from '../components/input';
-import {Fonts} from '../utils/Fonts';
 import {Context as AuthContext} from '../api/contexts/authContext';
 import Modal from '../components/modal';
 import Btn from '../screens/btn';
+import bgImage from '../assets/signup.png';
 
 const {height, width} = Dimensions.get('window');
 
@@ -39,7 +40,7 @@ const ForgotPassword = ({navigation}) => {
           overflowX: 'hidden',
           paddingHorizontal: width * 0.09,
         }}
-        source={require('../assets/dottedBackground.png')}>
+        source={bgImage}>
           <View
             style={{display: 'flex',alignItems:'center', flexDirection: 'row'}}>
             <TouchableOpacity
@@ -89,13 +90,27 @@ const ForgotPassword = ({navigation}) => {
             <TouchableOpacity
               onPress={() => {
                 if (!email) {
-                  setValidationError('Email Address is Required');
+                  Alert.alert(
+                    "Required",
+                    "Email Address is Required",
+                    [
+                      { text: "OK", onPress: () => console.log("OK Pressed") }
+                    ],
+                    { cancelable: false }
+                  );
                 }
                 else if (
                   email &&
                   !/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)
                 ) {
-                  setValidationError(' Invalid Email Address');
+                  Alert.alert(
+                    "Invalid",
+                    "Invalid Email Address",
+                    [
+                      { text: "OK", onPress: () => console.log("OK Pressed") }
+                    ],
+                    { cancelable: false }
+                  );
                 }
                 else {
                   forgotPassword(email);

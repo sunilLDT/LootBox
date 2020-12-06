@@ -15,6 +15,7 @@ import {Context as AuthContext} from '../api/contexts/authContext';
 import OtpInput from '../components/otp';
 import Modal from '../components/modal';
 import Btn from '../screens/btn';
+import bgImage from '../assets/signup.png';
 
 const {height, width} = Dimensions.get('window');
 
@@ -64,7 +65,7 @@ const Otp = ({navigation}) => {
           overflowX: 'hidden',
           paddingHorizontal: width * 0.09,
         }}
-        source={require('../assets/dottedBackground.png')}>
+        source={bgImage}>
         <View
           style={{display: 'flex',alignItems:'center', flexDirection: 'row'}}>
           <TouchableOpacity
@@ -161,7 +162,7 @@ const Otp = ({navigation}) => {
 const styles = StyleSheet.create({
   btnContainer:{
     position:'relative',
-    marginTop:"77%"
+    marginTop:"98%"
 
   }
 })

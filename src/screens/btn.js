@@ -5,8 +5,6 @@ import {SvgXml} from 'react-native-svg';
 const {width, height} = Dimensions.get('window');
 
 export default ({text, x,pay}) => {
-
-   // var message = text && pay ? text
     
   const xml = `
 <?xml version="1.0" encoding="UTF-8"?>

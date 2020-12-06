@@ -8,6 +8,7 @@ import {
   Image,
   Text,
   StyleSheet,
+  ActivityIndicator,
 } from 'react-native';
 import Btn from './btn';
 import ItemCard from '../assets/ic_card.png';
@@ -30,15 +31,19 @@ const Cart = ({navigation}) => {
   const [cartData,setCartData] = useState({});
   const [addressModal, setaddressModal] = useState(false);
   const [allAddress,setAllAddress] = useState([]);
+  const [loading, setLoading] = useState(true);
   const maxlimit = 22;
 
   useEffect(() => {
+    setLoading(true)
     showCartData().then((response) => {
       setcartItems(response.data.items) 
       setCartPackage(response.data.package)
       setCartData(response.data)
+      setLoading(false)
     }).catch((error) => {
       console.log("showCartData" + error);
+      setLoading(false)
     });
   }, []);
   const checkout = () => {
@@ -83,6 +88,11 @@ const Cart = ({navigation}) => {
         overflowX: 'hidden',
       }}>
       <ScrollView showsVerticalScrollIndicator={false}>
+      {loading ? (
+        <View style={{marginTop: height * 0.47}}>
+            <ActivityIndicator color="#ECDBFA" size="small" />
+        </View>)
+        :
         <View
           style={{
             width,
@@ -282,7 +292,7 @@ const Cart = ({navigation}) => {
           ))}
           </View>
           }
-        {Object.keys(cartData).length === 0?<View style={{flex:1,flexDirection:'row',alignSelf:'center'}}>
+          {Object.keys(cartData).length === 0?<View style={{flex:1,flexDirection:'row',alignSelf:'center'}}>
           <Text style={{color:"#fff",fontSize:20,fontFamily:'Michroma-Regular'}}>Your Cart is empty</Text>
         </View>:
           <ImageBackground
@@ -328,7 +338,7 @@ const Cart = ({navigation}) => {
                   fontSize: 12,
                   color: '#DF2EDC',
                 }}>
-                Change
+                {allAddress.length === 0?"Add Address":"Change"}
               </Text>
             </TouchableOpacity>
           </ImageBackground>
@@ -473,6 +483,7 @@ const Cart = ({navigation}) => {
             </TouchableOpacity>
           </View>
         </View>
+      }
       </ScrollView>
     </ImageBackground>
   );

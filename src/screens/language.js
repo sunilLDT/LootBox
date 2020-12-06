@@ -10,7 +10,6 @@ import {
 import LinearGradient from 'react-native-linear-gradient';
 import {Context as AuthContext} from '../api/contexts/authContext';
 import LanguageCard from '../svgs/cardLang';
-import SafeAreaView from 'react-native-safe-area-view';
 
 const {height, width} = Dimensions.get('window');
 

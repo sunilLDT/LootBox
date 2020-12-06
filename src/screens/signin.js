@@ -12,16 +12,16 @@ import {
   KeyboardAvoidingView,
   ActivityIndicator,
   BackHandler,
-  Alert
+  Alert,
+  ImageBackground,
 } from 'react-native';
 import Logo from '../assets/launch_screen.png';
-import LinearGradient from 'react-native-linear-gradient';
 import Input from '../components/input';
 import {Context as AuthContext} from '../api/contexts/authContext';
 import Modal from '../components/modal';
 import Btn from './btn';
-import SafeAreaView from 'react-native-safe-area-view';
 import ContinueBtn from '../components/ContinueGmailBtn';
+import bgImage from '../assets/signup.png';
 
 const {height, width} = Dimensions.get('window');
 
@@ -39,32 +39,32 @@ const Signin = ({navigation}) => {
 
     if(isNaN(email)){
       if(!email){
-        setValidationError('Please fill the Email or Phone Number');
+        alert('Please fill the Email or Phone Number');
       }
       else if(password && (password.length < 8)){
-        setValidationError('Password must be at least 8 characters',);
+        alert('Password must be at least 8 characters',);
       }
       else if(!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)){
-          setValidationError('Invalid Email Address ')
+          alert('Invalid Email Address ')
       }
       else if(!password){ 
-        setValidationError('All fields are required')
+        alert('All fields are required')
       }
       else{
         signin({email, password});
       }
     }else {
       if(email && !(email.length == 8)){
-        setValidationError('Invalid  Phone number')
+        alert('Invalid  Phone number')
       }
       else if(!password){ 
-        setValidationError('All fields are required')
+        alert('All fields are required')
       }
       else if(!email){
-        setValidationError('Please fill the Email or Phone Number');
+        alert('Please fill the Email or Phone Number');
       }
       else if(password && (password.length < 8)){
-        setValidationError('Password must be at least 8 characters',);
+        alert('Password must be at least 8 characters',);
       }
       else{
         signin({email, password});
@@ -97,18 +97,16 @@ const Signin = ({navigation}) => {
       onPress={() => {
         Keyboard.dismiss();
       }}>
-      <SafeAreaView style={{ flex: 1 }}>
-      <LinearGradient
-        colors={['#2A2D39', '#261D2A']}
-        style={{
+      
+      <ImageBackground source={bgImage} style={{
           width: width,
           minHeight: height,
           overflowX: 'hidden',
           display: 'flex',
           alignItems: 'center',
-        }}>
+        }}
+        >
         <ScrollView>
-          
           {state.msg ? (
             <Modal msg={state.msg} hideBtn />
           ) : validationError ? (
@@ -248,8 +246,8 @@ const Signin = ({navigation}) => {
               </View>
             </TouchableWithoutFeedback>
         </ScrollView>
-      </LinearGradient>
-      </SafeAreaView>
+      </ImageBackground>
+      
     </TouchableWithoutFeedback>
   );
 };

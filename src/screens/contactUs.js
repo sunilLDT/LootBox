@@ -8,7 +8,7 @@ import {
   Image,
   ImageBackground,
 } from 'react-native';
-import Input from '../components/input';
+import LinearGradient from 'react-native-linear-gradient';
 
 const {width, height} = Dimensions.get('window');
 
@@ -24,7 +24,7 @@ const ContactUs = ({navigation}) => {
           width,
           height,
           overflow: 'hidden',
-          paddingHorizontal: width * 0.07,
+          padding: width * 0.1,
         }}>
         <View
           style={{display: 'flex', alignItems: 'center', flexDirection: 'row'}}>
@@ -46,7 +46,7 @@ const ContactUs = ({navigation}) => {
               opacity: 0.4,
               color: '#ECDBFA',
               marginLeft: 10,
-             
+              fontFamily: 'Montserrat-Italic',
             }}>
             CONTACT US
           </Text>
@@ -65,7 +65,7 @@ const ContactUs = ({navigation}) => {
 
         <Text
           style={{
-           
+            fontFamily: 'Montserrat-Regular',
             fontSize: 12,
             lineHeight: 16,
             color: '#ECDBFA',
@@ -76,19 +76,83 @@ const ContactUs = ({navigation}) => {
         </Text>
 
         <View style={{marginVertical: 15}}>
-          <Input
-            placeholder="FAQ's"
-            multiline
-            style={{
-              height: height * 0.15,
+          <TouchableOpacity style={{zIndex: 1}}>
+            <LinearGradient
+              start={{x: 0, y: 0}}
+              end={{x: 1, y: 0}}
+              colors={['rgba(255,255,255,0.069)', 'rgba(255,255,255,0.003) ']}
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                borderRadius: 10,
+                height: height * 0.15,
+                width: width * 0.75,
+                padding: '10%',
+              }}>
+              <Text
+                style={{
+                  fontSize: 13,
+                  fontFamily: 'Montserrat-Regular',
+                  color: '#ECDBFA',
+                }}>
+                FAQ's
+              </Text>
+            </LinearGradient>
+          </TouchableOpacity>
+        </View>
+        <View style={{marginVertical: 15}}>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate('email');
             }}
-          />
+            style={{zIndex: 1}}>
+            <LinearGradient
+              start={{x: 0, y: 0}}
+              end={{x: 1, y: 0}}
+              colors={['rgba(255,255,255,0.069)', 'rgba(255,255,255,0.003) ']}
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                borderRadius: 10,
+                height: height * 0.1,
+                width: width * 0.75,
+                padding: '10%',
+              }}>
+              <Text
+                style={{
+                  fontSize: 13,
+                  fontFamily: 'Montserrat-Regular',
+                  color: '#ECDBFA',
+                }}>
+                Email
+              </Text>
+            </LinearGradient>
+          </TouchableOpacity>
         </View>
         <View style={{marginVertical: 15}}>
-          <Input placeholder="Email" email />
-        </View>
-        <View style={{marginVertical: 15}}>
-          <Input placeholder="Whatsapp" tel />
+          <TouchableOpacity style={{zIndex: 1}}>
+            <LinearGradient
+              start={{x: 0, y: 0}}
+              end={{x: 1, y: 0}}
+              colors={['rgba(255,255,255,0.069)', 'rgba(255,255,255,0.003) ']}
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                borderRadius: 10,
+                height: height * 0.1,
+                width: width * 0.75,
+                padding: '10%',
+              }}>
+              <Text
+                style={{
+                  fontSize: 13,
+                  fontFamily: 'Montserrat-Regular',
+                  color: '#ECDBFA',
+                }}>
+                Whatsapp
+              </Text>
+            </LinearGradient>
+          </TouchableOpacity>
         </View>
       </ImageBackground>
     </View>

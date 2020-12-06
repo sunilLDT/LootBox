@@ -8,7 +8,7 @@ import {
   ImageBackground,
   ActivityIndicator,
   ScrollView,
-  Button
+  FlatList
 } from 'react-native';
 import GradientCircle from '../components/gradientCircle';
 import LinearGradient from 'react-native-linear-gradient';
@@ -34,10 +34,9 @@ const LootStore = ({navigation}) => {
   const [subCategories, setSubCategories] = useState([]);
   const [current, setCurrent] = useState(0);
   const [items, setItems] = useState([]);
-  const [categoryId, setCategoryId] = useState(null);
+  const [filteredDataSource, setFilteredDataSource] = useState([]);
   const [selectedSubCategory, setSelectedSubCategory] = useState(0);
   const [loading, setLoading] = useState(false);
-  const [Bottomloading, setBottomLoading] = useState(true);
   const [cartItems,setcartItems] = useState([]);
   const [cartData,setCartData] = useState([]);
   const [page,setPage] = useState(1);
@@ -45,6 +44,7 @@ const LootStore = ({navigation}) => {
   const subCategoryId = "";
   const [lastPage,setlastPage] = useState("");
   const [search, setSearch] = useState('');
+  const [open,setOpen] = useState(false);
 
   useEffect(() => {
     showCartData().then((response) => {
@@ -84,6 +84,7 @@ const LootStore = ({navigation}) => {
       }
       if (itemData) {
         setItems(itemData.data);
+        setFilteredDataSource(itemData.data);
       }
 
       var y = categories.map((i) => {
@@ -98,7 +99,6 @@ const LootStore = ({navigation}) => {
       });
       setSubCategories(y);
       setLoading(false);
-      setBottomLoading(false);
     }
   };
 
@@ -115,7 +115,27 @@ const LootStore = ({navigation}) => {
     fetchData1();
   };
 
-  
+  const openClose = () => {
+    setOpen(!open)
+  }
+
+  const searchFilterFunction = (text) => {
+    if (text) {
+      const newData = items.filter(
+        function (item) {
+          const itemData = item.name
+            ? item.name.toUpperCase()
+            : ''.toUpperCase();
+          const textData = text.toUpperCase();
+          return itemData.indexOf(textData) > -1;
+      });
+      setFilteredDataSource(newData);
+      setSearch(text);
+    } else {
+      setFilteredDataSource(items);
+      setSearch(text);
+    }
+  };
 
   return (
     <View
@@ -171,7 +191,7 @@ const LootStore = ({navigation}) => {
               {options.map(
                 (i, k) =>
                   k !== 0 && (
-                    <TouchableOpacity key={k} onPress={() => {k === 1?navigation.navigate('cart'):{}}}>
+                    <TouchableOpacity key={k} onPress={() => {k === 1?navigation.navigate('cart'):k ===2? openClose():{}}}>
                       {k === 1 && (
                         <LinearGradient
                           start={{x: 0, y: 1}}
@@ -212,6 +232,15 @@ const LootStore = ({navigation}) => {
               )}
             </View>
           </View>
+          {open?(
+          <SearchBar
+            placeholder="Type here..."
+            lightTheme round editable={true}
+            value={search}
+            onChangeText={(text) => searchFilterFunction(text)}
+            containerStyle={{borderRadius:22,height:50,marginBottom:20}}
+            inputContainerStyle={{height:30}} 
+          />):null}
           <Text
             style={{
               color: '#ECDBFA',
@@ -361,105 +390,104 @@ const LootStore = ({navigation}) => {
                     </View>
                   ) : (
                     <>
-                      <View
-                        style={{
-                          display: 'flex',
-                          flexDirection: 'row',
-                          justifyContent: 'space-between',
-                          flexWrap: 'wrap',
-                      }}>
-                        {items.map(
-                            (i, k) =>
-                              i.status === 1 && (
-                                <View key={k}>
-                                  <TouchableOpacity
-                                    onPress={() => {
-                                      navigation.navigate('itemDesc', {
-                                        price: i.price,
-                                        description: i.description,
-                                        brand: i.brand,
-                                        name: i.name,
-                                        value: i.value_en,
-                                        id: i.item_id,
-                                        image: i.image,
-                                      });
-                                    }}>
-                                    <ImageBackground
-                                      source={require('../assets/ic_card_a0.png')}
-                                      resizeMode="contain"
-                                      style={{
-                                        height: 195,
-                                        display: 'flex',
-                                        paddingLeft: 20,
-                                        marginHorizontal:5,
-                                        paddingTop: 20,
-                                        width: width * 0.36,
-                                        marginVertical: 20,
-                                      }}>
-                                      {i.image ? (
-                                        <Image
-                                          resizeMode="contain"
-                                          source={{
-                                            uri: i.image,
-                                          }}
-                                          style={{
-                                            width: 108,
-                                            height: 81,
-                                            position: 'absolute',
-                                            top: -24,
-                                            left: '14%',
-                                          }}
-                                        />
-                                      ) : (
-                                        <Image
-                                          resizeMode="contain"
-                                          source={require('../assets/thumbnail1.png')}
-                                          style={{
-                                            width: 108,
-                                            height: 81,
-                                            position: 'absolute',
-                                            top: -24,
-                                            left: '14%',
-                                          }}
-                                        />
-                                      )}
-                                      <Text
-                                        style={{
-                                          fontFamily: 'Montserrat-Regular',
-                                          color: '#D2D7F9',
-                                          opacity: 0.5,
-                                          fontSize: 14,
-                                          marginTop: 60,
-                                        }}>
-                                        {i.brand}
-                                      </Text>
-                                      <Text
-                                      numberOfLines={2}
-                                        style={{
-                                          fontSize: 16,
-                                          color: '#ECDBFA',
-                                          fontFamily: 'Montserrat-Bold',
-                                          marginTop:2,
-                                          marginRight:"2%"
-                                        }}>
-                                        {((i.name).length > maxlimit)?(((i.name).substring(0,maxlimit-3)) + '...'):i.name}
-                                      </Text>
-                                      <Text
-                                        style={{
-                                          color: '#DF2EDC',
-                                          fontSize: 12,
-                                          fontFamily: 'Montserrat-Regular',
-                                          marginVertical:10
-                                        }}>
-                                        KD {i.price}
-                                      </Text>
-                                    </ImageBackground>
-                                  </TouchableOpacity>
-                                </View>
-                              ),
-                          )}
-                       </View>
-                      </>
+                      <FlatList
+                        data={filteredDataSource}
+                        keyExtractor={(item) => item.item_id}
+                        renderItem={({item:i },k) => {
+                          // if(i.status === 1){
+                          return (
+                          <View key={k}>
+                            <TouchableOpacity
+                              onPress={() => {
+                                navigation.navigate('itemDesc', {
+                                  price: i.price,
+                                  description: i.description,
+                                  brand: i.brand,
+                                  name: i.name,
+                                  value: i.value_en,
+                                  id: i.item_id,
+                                  image: i.image,
+                                });
+                              }}>
+                              <ImageBackground
+                                source={require('../assets/ic_card_a0.png')}
+                                resizeMode="contain"
+                                style={{
+                                  height: 195,
+                                  display: 'flex',
+                                  paddingLeft: 20,
+                                  marginHorizontal:10,
+                                  paddingTop: 20,
+                                  width: width * 0.36,
+                                  marginVertical: i.image ? 20 : 10,
+                                }}>
+                                {i.image ? (
+                                  <Image
+                                    resizeMode="contain"
+                                    source={{
+                                      uri: i.image,
+                                    }}
+                                    style={{
+                                      width: 108,
+                                      height: 81,
+                                      position: 'absolute',
+                                      top: -24,
+                                      left: '14%',
+                                    }}
+                                  />
+                                ) : (
+                                  <Image
+                                    resizeMode="contain"
+                                    source={require('../assets/thumbnail1.png')}
+                                    style={{
+                                      width: 108,
+                                      height: 81,
+                                      position: 'absolute',
+                                      top: -24,
+                                      left: '14%',
+                                    }}
+                                  />
+                                )}
+                                <Text
+                                  style={{
+                                    fontFamily: 'Montserrat-Regular',
+                                    color: '#D2D7F9',
+                                    opacity: 0.5,
+                                    fontSize: 14,
+                                    marginTop: 60,
+                                  }}>
+                                  {i.brand}
+                                </Text>
+                                <Text
+                                numberOfLines={2}
+                                  style={{
+                                    fontSize: 16,
+                                    color: '#ECDBFA',
+                                    fontFamily: 'Montserrat-Bold',
+                                    marginTop:2,
+                                    marginRight:"2%"
+                                  }}>
+                                  {((i.name).length > maxlimit)?(((i.name).substring(0,maxlimit-3)) + '...'):i.name}
+                                </Text>
+                                <Text
+                                  style={{
+                                    color: '#DF2EDC',
+                                    fontSize: 12,
+                                    fontFamily: 'Montserrat-Regular',
+                                    marginVertical:10
+                                  }}>
+                                  KD {i.price}
+                                </Text>
+                              </ImageBackground>
+                            </TouchableOpacity>
+                          </View>
+                          );
+                        // }
+                        }
+                        }
+                      numColumns={2}
+                      />
+                    </>
                   )}
                 </View>
                 {selectedSubCategory === 0 && lastPage !== 1?(

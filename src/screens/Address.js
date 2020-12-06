@@ -14,6 +14,7 @@ import {Picker} from '@react-native-picker/picker';
 import Input from '../components/input';
 import LinearGradient from 'react-native-linear-gradient';
 import {cityApi,addAddressApi,getSpecificAddress} from '../api/buildYourPc';
+import SaveBtn from '../components/SaveBtn';
 
 
 const {width, height} = Dimensions.get('window');
@@ -91,7 +92,7 @@ const Address = ({navigation,route}) => {
     }
 
     const addAddress = (address_id) => {
-        if(city == "" || email == "" || name == "" ||block == "" || street == "" || building =="" || floor=="" || apartment==""){
+        if(city == "" || email == "" || name == "" ||block == "" || street == "" || building ==""){
             alert("Please fill all fields");
           }
           else if(email &&
@@ -299,78 +300,12 @@ const Address = ({navigation,route}) => {
                         </Picker>
                     </LinearGradient>
                 <View style={styles.btnView}>
-                    {/* {Object.keys(specficAddress).length == 0?( */}
-                        <TouchableWithoutFeedback
-                        onPress={() => addAddress(specficAddress.address_id)}
-                        style={{
-                        width: '100%',
-                        height: height * 0.09,
-                        display: 'flex',
-                        }}>
-                        <LinearGradient
-                        start={{x: 0, y: 0}}
-                        end={{x: 1, y: 0}}
-                        colors={['rgba(184,37,154,0.16)', 'rgba(184,37,154,0.16)']}
-                        style={{
-                            height: height * 0.09,
-                            borderRadius: 10,
-                            borderColor: '#C01C8A',
-                            flexDirection: 'row',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            borderWidth: 1.5,
-                            marginTop: 18,
-                            width: width * 0.8,
-                        }}>
-                        <Text
-                            style={{
-                            fontWeight: 'bold',
-                            color: '#fff',
-                            letterSpacing: 0.5,
-                            fontStyle: 'italic',
-                            fontSize:18
-                            }}>
-                            Save
-                        </Text>
-                        </LinearGradient>
+                    <TouchableWithoutFeedback
+                    onPress={() => addAddress(specficAddress.address_id)}>
+                        <View>
+                            <SaveBtn text="Save"/>
+                        </View>
                     </TouchableWithoutFeedback>
-                    {/* ):( */}
-                        {/* <TouchableWithoutFeedback
-                        onPress={() => updateAddress()}
-                        style={{
-                        width: '100%',
-                        height: height * 0.09,
-                        display: 'flex',
-                        }}>
-                        <LinearGradient
-                        start={{x: 0, y: 0}}
-                        end={{x: 1, y: 0}}
-                        colors={['rgba(184,37,154,0.16)', 'rgba(184,37,154,0.16)']}
-                        style={{
-                            height: height * 0.09,
-                            borderRadius: 10,
-                            borderColor: '#C01C8A',
-                            flexDirection: 'row',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            borderWidth: 1.5,
-                            marginTop: 18,
-                            width: width * 0.8,
-                        }}>
-                        <Text
-                            style={{
-                            fontWeight: 'bold',
-                            color: '#fff',
-                            letterSpacing: 0.5,
-                            fontStyle: 'italic',
-                            fontSize:18
-                            }}>
-                            Save Changes
-                        </Text>
-                        </LinearGradient>
-                    </TouchableWithoutFeedback> */}
-                    {/* )} */}
-                    
                 </View>
           </ImageBackground>
       </ScrollView>
