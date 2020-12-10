@@ -44,7 +44,7 @@ const PcDetails = ({navigation, route}) => {
   const TotalPrice = item.reduce((Price, item) => Price + parseInt(item.price), 0);
 
   return (
-    <View style={{width,height}}>
+    <View style={{backgroundColor:'#292633', width:'100%', height:'100%'}}>
     <ScrollView
     showsVerticalScrollIndicator={false}
     style={{width, height, overflowX: 'hidden'}}

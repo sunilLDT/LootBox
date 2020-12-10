@@ -54,6 +54,7 @@ const Signup = ({navigation, route}) => {
   };
 
   return (
+    <View style={{backgroundColor:'#292633', width:'100%', height:'100%'}}>
     <ImageBackground
     source={bgImage}
     style={{
@@ -338,6 +339,7 @@ const Signup = ({navigation, route}) => {
         </ScrollView>
       </KeyboardAvoidingView>
     </ImageBackground>
+    </View>
   );
 };
 

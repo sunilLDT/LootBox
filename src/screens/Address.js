@@ -123,6 +123,7 @@ const Address = ({navigation,route}) => {
         }
     }
     return (
+        <View style={{backgroundColor:'#292633', width:'100%', height:'100%'}}>
         <ScrollView
             style={{
                 width,
@@ -328,6 +329,7 @@ const Address = ({navigation,route}) => {
                 </View>
           </ImageBackground>
       </ScrollView>
+      </View>
     );
 }
 

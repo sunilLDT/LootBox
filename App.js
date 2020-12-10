@@ -133,9 +133,9 @@ const App = () => {
           setNavigator(navigator);
         }}>
         <Stack.Navigator
+        
           screenOptions={{
-            cardStyle: { backgroundColor: 'black' },
-
+            
             transitionSpec: {
               open: closeConfig,
               close: closeConfig,

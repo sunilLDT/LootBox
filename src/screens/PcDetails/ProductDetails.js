@@ -83,6 +83,7 @@ const ProductDetails = (props) => {
 
 
   return (
+    <View style={{backgroundColor:'#292633', width:'100%', height:'100%'}}>
     <ImageBackground source={BackgroundImage} style={styles.container}>
       <TouchableOpacity
         onPress={() => {
@@ -178,6 +179,7 @@ const ProductDetails = (props) => {
 
       </ScrollView>
     </ImageBackground>
+    </View>
   );
 };
 
