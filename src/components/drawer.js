@@ -14,6 +14,7 @@ import * as Animatable from 'react-native-animatable'
 import {useIsDrawerOpen} from '@react-navigation/drawer';
 import LinearGradient from 'react-native-linear-gradient';
 import {Context as AuthContext} from '../api/contexts/authContext';
+import EditBtn from '../components/EditBtn';
 
 const {width, height} = Dimensions.get('window');
 const options = [
@@ -69,26 +70,19 @@ const Drawer = ({navigation, progress}) => {
               navigation.navigate('profile')
             }}
             style={{
-              marginTop: 18,
-              width: width * 0.3,
-              borderRadius: 7,
-              borderColor: '#C01C8A',
-              borderWidth: 1.5,
+              width: width * 0.2,
               height: height * 0.045,
               display: 'flex',
               flexDirection: 'row',
               alignItems: 'center',
               justifyContent: 'center',
-              backgroundColor: 'rgba(184,37,154,0.1)',
             }}>
-            <Text
-              style={{
-                fontWeight: 'bold',
-                color: '#fff',
-                fontStyle: 'italic',
+              <View style={{
+                 width: width * 0.5,
+                 height: 25,
               }}>
-              Edit Profile
-            </Text>
+                <EditBtn />
+              </View>
           </TouchableOpacity>
 
           <View

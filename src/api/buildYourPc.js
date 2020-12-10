@@ -144,3 +144,10 @@ export async function pcPartSubcategoryApi(){
   const response = await Api.get('app/advance-builder/pc-part-subcategory');
   return response.data;
 }
+
+export async function getItemsSubCatApi(id){
+  const response = await Api.post('app/advance-builder/get-items',{
+    sub_category_id:id
+  });
+  return response.data;
+}
