@@ -66,7 +66,7 @@ const Signup = ({navigation, route}) => {
     >
       <KeyboardAvoidingView
         behavior={Platform.OS == "ios" ? "padding" : "height"}
-        keyboardVerticalOffset={50}
+        // keyboardVerticalOffset={20}
         style={styles.screen}>
         <ScrollView
           style={{width, height: height}}
@@ -261,7 +261,6 @@ const Signup = ({navigation, route}) => {
                   password.length >= 8 &&
                   phone.length == 8
                 ) {
-                  alert("Hello");
                   signup(data);
                 } else {
                   

@@ -9,23 +9,28 @@ import {
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import {showCartData} from '../api/buildYourPc';
+import {connect} from 'react-redux';
+import { cartActions } from '../actions/user';
 
 const {height, width} = Dimensions.get('window');
 
-const Home = ({navigation}) => {
+const Home = (props) => {
 
-  const [cartItems,setcartItems] = useState([]);
-
-  const [cartData,setCartData] = useState([]);
-
+  const [cartItems,setcartItems] = useState(0);
+  
   useEffect(() => {
     showCartData().then((response) => {
-      setcartItems(response.data.items)
-      setCartData(response.data); 
+      if(response.data.length !== 0){
+        setcartItems(response.data.total_items);
+      }
     }).catch((error) => {
       console.log("showCartDataOnHome" + error);
     });
+    return () => {
+      console.log('componentWillUnmount');
+  };
   }, []);
+
   return (
     <View
       style={{
@@ -38,7 +43,7 @@ const Home = ({navigation}) => {
       }}>
       <TouchableOpacity
         onPress={() => {
-          navigation.navigate('buildYourPc');
+          props.navigation.navigate('buildYourPc');
         }}>
         <ImageBackground
           source={require('../assets/img_4.png')}
@@ -53,7 +58,7 @@ const Home = ({navigation}) => {
           }}>
           <TouchableOpacity
             onPress={() => {
-              navigation.toggleDrawer();
+              props.navigation.toggleDrawer();
             }}>
             <Image
               resizeMode="contain"
@@ -99,7 +104,7 @@ const Home = ({navigation}) => {
       </TouchableOpacity>
       <TouchableOpacity
         onPress={() => {
-          navigation.navigate('lootStore');
+          props.navigation.navigate('lootStore');
         }}>
         <ImageBackground
           source={require('../assets/img_5.png')}
@@ -123,7 +128,7 @@ const Home = ({navigation}) => {
             }}>
             <TouchableOpacity
               onPress={() => {
-                navigation.push('notifications');
+                props.navigation.push('notifications');
               }}>
               <Image
                 resizeMode="contain"
@@ -133,7 +138,7 @@ const Home = ({navigation}) => {
               />
             </TouchableOpacity>
             <View>
-              <TouchableOpacity onPress={() => navigation.navigate('cart')}>
+              <TouchableOpacity onPress={() => props.navigation.navigate('cart')}>
                 <Image
                   resizeMode="contain"
                   source={require('../assets/ic_cart1.png')}
@@ -161,7 +166,8 @@ const Home = ({navigation}) => {
                     color: '#fff',
                     fontSize: 12,
                   }}>
-                  {cartData.length == 0?"0":cartItems.length}
+                  {/* {props.cart.length} */}
+                  {cartItems}
                 </Text>
               </LinearGradient>
             </View>
@@ -204,5 +210,12 @@ const Home = ({navigation}) => {
     </View>
   );
 };
+const mapStateToProps = (state) => ({
+  cart: state.cartReducer.cart,
+})
+const actionCreators = {
+  add: cartActions.showCart,
 
-export default Home;
+};
+
+export default connect(mapStateToProps,actionCreators)(Home);

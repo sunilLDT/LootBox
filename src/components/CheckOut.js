@@ -9,7 +9,6 @@ import {
 const CheckOut = ({navigation,route}) => {
 
     const {paymentUrl} = route.params;
-
     const _onNavigationStateChange = (webViewState) => {
         var fullUrl  = webViewState.url;
         var msgUrl =  fullUrl.substring(0,56);

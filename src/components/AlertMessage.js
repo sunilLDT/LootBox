@@ -17,7 +17,6 @@ import { cartActions } from '../actions/user';
 const {width, height} = Dimensions.get('window');
 
 const AlertMessage = (props) => {
-    
     useEffect(() => {
         props.empty();
       }, []);
@@ -38,7 +37,7 @@ const AlertMessage = (props) => {
                         {msgUrl == "https://test-api.loot-box.co/api/hesabe-success-callback"?<Text style={styles.line}>Your Order will be delivered{"\n"}between 48-72 Hours</Text>:null}
                     </View>
                     <View style={styles.btnCotainer}>
-                        <TouchableOpacity onPress={() => props.navigation.navigate('home')}>
+                        <TouchableOpacity onPress={() => props.navigation.navigate('orders')}>
                             <Btn style={styles.btn} text="View Order" pay=""/>
                         </TouchableOpacity>
                     </View>

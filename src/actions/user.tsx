@@ -4,7 +4,7 @@ import { cartConstants } from './actionTypes';
 export const cartActions = {
   initCartAction,
   addCartAction,
-  emptyCartAction
+  emptyCartAction,
 };
 
 function addCartAction(id) {

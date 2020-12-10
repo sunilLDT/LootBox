@@ -189,7 +189,7 @@ const BuildYourPc = ({ navigation }) => {
           ))}
           {gameData.length === 0?(
           <View style={{marginTop: height * 0.27}}>
-            <ActivityIndicator color="#ECDBFA" size="large" />
+            <ActivityIndicator color="#ECDBFA" size="small" />
           </View>):
           (
           <View style={styles.bottom}>
