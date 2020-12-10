@@ -159,6 +159,7 @@ const Signin = ({navigation}) => {
                     Login
                   </Text>
                 </TouchableOpacity>
+                <Text style={{color:'#ffffff', fontSize:30}}>|</Text>
                 <TouchableOpacity
                   onPress={() => {
                     navigation.navigate('signup');

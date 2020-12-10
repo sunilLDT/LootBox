@@ -224,7 +224,7 @@ const Cart = ({navigation}) => {
               <Text
                 style={{
                   color: '#ECDBFA',
-                  fontFamily:'Michroma-Regular',
+                  fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma',
                 }}>
                 {cartPackage.name}
               </Text>
@@ -234,7 +234,7 @@ const Cart = ({navigation}) => {
                 style={{
                   color: '#ECDBFA',
                   opacity: 0.5,
-                  fontFamily:'Michroma-Regular',
+                  fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma',
                   fontSize:12,
                 }}>
                 KD {cartData.grand_total}
@@ -331,7 +331,7 @@ const Cart = ({navigation}) => {
             alignSelf:'center',
             marginTop:"55%",
             }}>
-          <Text style={{color:"#fff",fontSize:20,fontFamily:'Michroma-Regular'}}>Your Cart is empty</Text>
+          <Text style={{color:"#fff",fontSize:20,fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma'}}>Your Cart is empty</Text>
         </View>:
           <ImageBackground
             source={ItemCard}

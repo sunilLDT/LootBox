@@ -134,10 +134,13 @@ const App = () => {
         }}>
         <Stack.Navigator
           screenOptions={{
+            cardStyle: { backgroundColor: 'black' },
+
             transitionSpec: {
               open: closeConfig,
               close: closeConfig,
             },
+           
             gestureEnabled: true,
             gestureDirection: 'horizontal',
             ...TransitionPresets.SlideFromRightIOS,

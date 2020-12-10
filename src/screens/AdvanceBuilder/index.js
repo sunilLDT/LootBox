@@ -151,7 +151,7 @@ const styles = StyleSheet.create({
   },
   advanceBuilderText:{
     fontSize:20,
-    fontFamily:'Michroma-Regular',
+    fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma',
     color:'#fff',
     paddingHorizontal: width * 0.1,
   },

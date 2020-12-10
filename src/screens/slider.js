@@ -59,7 +59,7 @@ export default class Slideshow extends React.Component {
                       style={{
                         color: '#ECDBFA',
                         marginLeft: width * 0.15,
-                        fontFamily:'Michroma-Regular',
+                        fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma',
                         fontSize: 20,
                         lineHeight: 28,
                       }}>

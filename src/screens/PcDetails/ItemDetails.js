@@ -194,7 +194,7 @@ const styles = StyleSheet.create({
         fontSize:17,
         color:'#fff',
         marginVertical:5,
-        fontFamily:'Michroma-Regular',
+        fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma',
         width:width*0.5
     },
     brand:{
@@ -202,7 +202,7 @@ const styles = StyleSheet.create({
         fontSize:15,
         color: 'rgba(255,255,255,0.3)', 
         marginVertical:5,
-        fontFamily:'Michroma-Regular',   
+        fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma', 
     },
     cross:{
         position:'relative',
@@ -216,7 +216,7 @@ const styles = StyleSheet.create({
         position:'relative',
         color: 'rgba(255,255,255,0.3)',
         marginVertical:5,
-        fontFamily:'Michroma-Regular',
+        fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma',
     },
     description:{
         paddingHorizontal:"10%",
