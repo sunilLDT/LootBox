@@ -69,7 +69,7 @@ const Home = ({navigation}) => {
                 width: '80%',
                 fontSize: 28,
                 textAlign: 'left',
-                fontFamily: 'Michroma-Regular',           
+                fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma',        
                  }}>
               Build Your PC
             </Text>
@@ -174,7 +174,7 @@ const Home = ({navigation}) => {
                 // width:'90%',
                 fontSize: 28,
                 textAlign: 'right',
-                fontFamily: 'Michroma-Regular',        
+                fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma',        
                     }}>
               Loot Store
             </Text>

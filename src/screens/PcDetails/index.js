@@ -145,7 +145,7 @@ const PcDetails = ({navigation, route}) => {
             <ActivityIndicator color="#ECDBFA" size="small" />
         </View>
         ) :packageData.length === 0?(
-            <Text style={{color:"#fff",lineHeight: 32,fontFamily:'Michroma-Regular',fontSize:15,marginTop: height * 0.32}}>No PACKAGE AVAILABLE FOR THIS GAME</Text>
+            <Text style={{color:"#fff",lineHeight: 32,fontFamily:Platform.OS=='android'?'Michroma-Regular':'Michroma',fontSize:15,marginTop: height * 0.32}}>No PACKAGE AVAILABLE FOR THIS GAME</Text>
         ):null}
         </ImageBackground>   
       </ScrollView>
@@ -185,14 +185,14 @@ const styles = StyleSheet.create({
     detailsText:{
         color:'white',
         fontSize:15,
-        fontFamily: 'Michroma-Regular',
+        fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma',
         fontWeight:"100",
         paddingRight:"40%",
     },
     detailsText1:{
         color:'#75788E',
         marginVertical:7,
-        fontFamily:'Michroma-Regular',
+        fontFamily:Platform.OS=='android'?'Michroma-Regular':'Michroma',
         fontSize:10,
     },
     parentView:{

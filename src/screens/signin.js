@@ -153,7 +153,7 @@ const Signin = ({navigation}) => {
                       paddingRight:20,
                       borderRightColor: '#373843',
                       borderRightWidth: 1,
-                      fontFamily:'Michroma-Regular',
+                      fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma',
                     
                     }}>
                     Login
@@ -169,7 +169,7 @@ const Signin = ({navigation}) => {
                       fontSize: 20,
                       paddingLeft:20,
                       opacity: 0.24,
-                      fontFamily:'Michroma-Regular',
+                      fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma',
                     
                     }}>
                     Signup

@@ -95,11 +95,11 @@ const BuildYourPc = ({ navigation }) => {
               colors={['rgba(184,37,154,0.16)', 'rgba(184,37,154,0.16)']}>
               <Text
                 style={{
-                  fontSize: 12,
+                  fontSize: 14,
                   color: '#fff',
                   opacity: 0.87,
                   fontWeight: 'bold',
-                  fontFamily:'Michroma-Regular',
+                  //fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma',
                 }}>
                 Advanced Builder
               </Text>
@@ -112,7 +112,7 @@ const BuildYourPc = ({ navigation }) => {
             color: '#ECDBFA',
             fontSize: 20,
             lineHeight: 28,
-            fontFamily: 'Michroma-Regular',
+            fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma',
           }}>
           Select graphics and games to build your PC
           </Text>

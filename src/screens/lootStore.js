@@ -254,7 +254,7 @@ const LootStore = ({navigation}) => {
             style={{
               color: '#ECDBFA',
               fontSize: 20,
-              fontFamily: 'Michroma-Regular',
+              fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma',
             }}>
             Loot Store
           </Text>

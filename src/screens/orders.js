@@ -124,7 +124,7 @@ const Orders = () => {
                 <Text
                   style={{
                     color: '#ECDBFA',
-                    fontFamily: 'Michroma-Regular',
+                    fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma',
                     fontSize: 16,
                     lineHeight: 20,
                   }}>
@@ -133,7 +133,7 @@ const Orders = () => {
                 <Text
                   style={{
                     color: '#ECDBFA',
-                    fontFamily: 'Michroma-Regular',
+                    fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma',
                     fontSize: 16,
                     lineHeight: 20,
                   }}>

@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontWeight: 'bold',
     textAlign: 'center',
-    fontFamily: 'Michroma-Regular',  
+    fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma',  
   },
   modalText: {
     marginBottom: 15,

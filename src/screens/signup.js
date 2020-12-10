@@ -104,7 +104,7 @@ const Signup = ({navigation, route}) => {
                       fontSize: 20,
                       paddingRight:20,
                       opacity: 0.24,
-                      fontFamily:'Michroma-Regular',
+                      fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma',
                     }}>
                     Login
                   </Text>
@@ -117,7 +117,7 @@ const Signup = ({navigation, route}) => {
                       paddingLeft:20,
                       borderLeftColor: '#373843',
                       borderLeftWidth: 1,
-                      fontFamily:'Michroma-Regular',
+                      fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma',
                     }}>
                     Signup
                   </Text>

@@ -1,5 +1,6 @@
 import React, {useContext} from 'react';
 import {
+  Platform,
   View,
   Text,
   Dimensions,
@@ -51,7 +52,7 @@ const Language = ({navigation}) => {
                 lineHeight: 28,
                 fontSize: 20,
                 color: '#ECDBFA',
-                fontFamily: 'Michroma-Regular',
+                fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma',
               }}>
               Choose your language
             </Text>
