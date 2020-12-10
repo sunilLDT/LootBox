@@ -1,4 +1,4 @@
-import React,{useState,useEffect} from 'react';
+import React,{useState,useEffect,useFocusEffect} from 'react';
 import {
   ImageBackground,
   View,
@@ -21,6 +21,7 @@ import Dialog, {
   SlideAnimation,
 } from 'react-native-popup-dialog';
 import Icon from 'react-native-vector-icons/Feather';
+import SaveBtn from '../components/SaveBtn';
 
 const {width, height} = Dimensions.get('window');
 
@@ -47,12 +48,24 @@ const Cart = ({navigation}) => {
     });
   }, []);
   const checkout = () => {
-    orderPlace().then((response) => {
-      navigation.navigate('checkout',{paymentUrl:response.data.data.paymenturl})
-    }).catch((error) => {
-      console.log("orderPlace" + error);
-    });
+    if(allAddress.length === 0){
+      alert("Please add address for the Delivery")
+    }else{
+      orderPlace().then((response) => {
+        navigation.navigate('checkout',{paymentUrl:response.data.data.paymenturl})
+      }).catch((error) => {
+        console.log("orderPlace" + error);
+      });
+    }
   };
+
+  useEffect(() => {
+    addressListApi().then((response) => {
+      setAllAddress(response.data)
+    }).catch((error) => {
+      console.log("allAddressList" + error);
+    })
+  },[]);
 
   const changeAddressPop = () => {
     setaddressModal(!addressModal)
@@ -61,7 +74,14 @@ const Cart = ({navigation}) => {
     }).catch((error) => {
       console.log("allAddressList" + error);
     })
-  };
+  }
+  const onDialougeShut = () => {
+    addressListApi().then((response) => {
+      setAllAddress(response.data)
+    }).catch((error) => {
+      console.log("allAddressList" + error);
+    })
+  }
 
   const gotoAddress = () => {
     setaddressModal(!addressModal)
@@ -77,6 +97,11 @@ const Cart = ({navigation}) => {
     }).catch((error) => {
       console.log("defaultAddressCartPAGE" + error)
     })
+  };
+
+  const handlePress = () => {
+    setaddressModal(!addressModal)
+    return true;
   }
 
   return (
@@ -93,6 +118,7 @@ const Cart = ({navigation}) => {
             <ActivityIndicator color="#ECDBFA" size="small" />
         </View>)
         :
+        <>
         <View
           style={{
             width,
@@ -106,7 +132,9 @@ const Cart = ({navigation}) => {
               dialogAnimation={new SlideAnimation({
                   slideFrom: 'bottom',
               })}
+              onHardwareBackPress={() => handlePress()}
               onTouchOutside={() => {setaddressModal(!addressModal)}}
+              onDismiss={() => onDialougeShut()}
               >
               <DialogContent>
                   <View style={styles.addressDialouge}>
@@ -196,6 +224,7 @@ const Cart = ({navigation}) => {
               <Text
                 style={{
                   color: '#ECDBFA',
+                  fontFamily:'Michroma-Regular',
                 }}>
                 {cartPackage.name}
               </Text>
@@ -205,6 +234,8 @@ const Cart = ({navigation}) => {
                 style={{
                   color: '#ECDBFA',
                   opacity: 0.5,
+                  fontFamily:'Michroma-Regular',
+                  fontSize:12,
                 }}>
                 KD {cartData.grand_total}
               </Text>
@@ -257,6 +288,7 @@ const Cart = ({navigation}) => {
                         fontSize: 14,
                         color: '#D2D7F9',
                         opacity: 0.87,
+                        fontFamily:'Montserrat-Bold',
                       }}>
                       {items.brand}
                     </Text>
@@ -266,6 +298,7 @@ const Cart = ({navigation}) => {
                         color: '#D2D7F9',
                         opacity: 0.5,
                         alignSelf: 'center',
+                        fontFamily:'Montserrat-Medium',
                       }}>
                       {items.name}
                       {items.quantity > 1?<Text style={{color:'#fff'}}> ({items.quantity})</Text>:null}
@@ -276,7 +309,7 @@ const Cart = ({navigation}) => {
                       color: 'rgba(255,255,255,0.3)',
                       fontSize: 12,
                     }}>
-                   KD {items.price*items.quantity}
+                   KD {items.price*items.quantity+".000"}
                   </Text>):
                   <Text
                     style={{
@@ -292,7 +325,12 @@ const Cart = ({navigation}) => {
           ))}
           </View>
           }
-          {Object.keys(cartData).length === 0?<View style={{flex:1,flexDirection:'row',alignSelf:'center'}}>
+          {Object.keys(cartData).length === 0?<View style={{
+            flex:1,
+            flexDirection:'row',
+            alignSelf:'center',
+            marginTop:"55%",
+            }}>
           <Text style={{color:"#fff",fontSize:20,fontFamily:'Michroma-Regular'}}>Your Cart is empty</Text>
         </View>:
           <ImageBackground
@@ -323,6 +361,7 @@ const Cart = ({navigation}) => {
                       fontSize: 14,
                       color: '#D2D7F9',
                       opacity: 0.87,
+                      fontFamily:'Montserrat-Bold',
                     }}>{addValues.area_name},{addValues.block},{addValues.street}</Text>:null}
                 </View>
                 );
@@ -337,6 +376,7 @@ const Cart = ({navigation}) => {
                 style={{
                   fontSize: 12,
                   color: '#DF2EDC',
+                  fontFamily:'Montserrat-Medium',
                 }}>
                 {allAddress.length === 0?"Add Address":"Change"}
               </Text>
@@ -363,9 +403,10 @@ const Cart = ({navigation}) => {
                   color: '#fff',
                   fontSize: 12,
                   opacity: 0.8,
+                  fontFamily:'Montserrat-Medium',
                 }}>
                 Package Details ({Object.keys(cartData).length === 0?"0":cartItems.length }
-                 {Object.keys(cartData).length > 1?" items":" item"})
+                 {Object.keys(cartData).length === 1?" item":" items"})
               </Text>
             </View>
 
@@ -389,6 +430,7 @@ const Cart = ({navigation}) => {
                     style={{
                       color: 'rgba(255,255,255,0.8)',
                       fontSize: 15,
+                      fontFamily:'Montserrat-Regular'
                     }}>
                     {((items.name).length > maxlimit)?(((items.name).substring(0,maxlimit-3)) + '...'):items.name}
                     {items.quantity > 1?<Text style={{color:'#fff'}}> ({items.quantity})</Text>:null}
@@ -399,12 +441,13 @@ const Cart = ({navigation}) => {
                       color: 'rgba(255,255,255,0.3)',
                       fontSize: 12,
                     }}>
-                   KD {items.price*items.quantity}
+                   KD {items.price*items.quantity+".000"}
                   </Text>):
                   <Text
                     style={{
                       color: 'rgba(255,255,255,0.3)',
                       fontSize: 12,
+                      fontFamily:'Montserrat-Regular',
                     }}>
                    KD {items.price}
                   </Text>
@@ -422,6 +465,7 @@ const Cart = ({navigation}) => {
                   style={{
                   color: 'rgba(255,255,255,0.8)',
                   fontSize: 15,
+                  fontFamily:'Montserrat-Regular',
                   }}
                   >Delivery Fees
                   </Text>
@@ -429,6 +473,7 @@ const Cart = ({navigation}) => {
                     style={{
                       color: 'rgba(255,255,255,0.3)',
                       fontSize: 12,
+                      fontFamily:'Montserrat-Regular',
                     }}>
                    KD {cartData.delivery_charge}
                   </Text> 
@@ -447,6 +492,7 @@ const Cart = ({navigation}) => {
                   style={{
                     color: 'rgba(255,255,255,0.8)',
                     fontSize: 14,
+                    fontFamily:'Montserrat-Regular',
                   }}>
                   Total
                 </Text>
@@ -463,26 +509,23 @@ const Cart = ({navigation}) => {
         }
         {Object.keys(cartData).length === 0?null:
           <TouchableOpacity onPress={() => checkout()}>
-            <Btn  text={cartData.grand_total} pay="PAY                " />
+            <View style={{width:"105%"}}>
+              <Btn  text={cartData.grand_total} pay="PAY                " />
+            </View>
           </TouchableOpacity>
-        }
-          <Text
-            style={{
-              marginTop: 20,
-              textAlign: 'center',
-
-              fontSize: 12,
-              color: '#fff',
-              opacity: 0.5,
-            }}>
-            Forgot to add something?
-          </Text>
-          <View style={styles.bottom}>
-            <TouchableOpacity onPress={() => navigation.navigate('home')}>
-              <Btn text="Continue Shopping" pay="" x="0"  />
-            </TouchableOpacity>
-          </View>
+        } 
         </View>
+        <View style={styles.bottom}>
+        <Text style={styles.forgotText}>
+          Forgot to add something?
+        </Text>
+        <View>
+          <TouchableOpacity style={{marginTop:10}} onPress={() => navigation.navigate('home')}>
+            <SaveBtn text="Continue Shopping" x="100" />
+          </TouchableOpacity>
+        </View>
+      </View>
+        </>
       }
       </ScrollView>
     </ImageBackground>
@@ -532,9 +575,17 @@ const styles = StyleSheet.create({
     padding:10,
   },
   bottom:{
-    flex: 1,
-    justifyContent: 'flex-end',
-  }
+    flex:1,
+    justifyContent:'flex-end',
+    marginBottom:15,
+  },
+  forgotText:{
+    textAlign: 'center',
+    fontSize: 14,
+    color: '#fff',
+    opacity: 0.5,
+    fontFamily:'Montserrat-Medium',
+  },
 });
 
 export default connect(mapStateToProps, actionCreators)(Cart)

@@ -19,8 +19,6 @@ import PlayableImg from '../../assets/playable.png';
 import Thumbnail from '../../assets/thumbnail.png';
 
 const {width, height} = Dimensions.get('window');
-
-
 const PcDetails = ({navigation, route}) => {
 
   const {selectedGames} = route.params;
@@ -28,25 +26,25 @@ const PcDetails = ({navigation, route}) => {
   const [item, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const TotalPrice = item.reduce((Price, item) => Price + parseInt(item.price), 0);
-
-
     useEffect(() => {
-        setLoading(true)
+    setLoading(true)
     packageListByGames(selectedGames).then((response) => {
       setPackageData(response.data);
-      if(packageData.length !== 0){
-        setItems(response.data[0].items);
-      }
+      setItems(response.data[0].items);
       setLoading(false)
     }).catch((error) => {
         console.log("Package list by games" + error)
         setLoading(false)
     });
+    return () => {
+        console.log("willUnMount");
+    }
   }, [selectedGames]);
-    
+
+  const TotalPrice = item.reduce((Price, item) => Price + parseInt(item.price), 0);
 
   return (
+    <View style={{width,height}}>
     <ScrollView
     showsVerticalScrollIndicator={false}
     style={{width, height, overflowX: 'hidden'}}
@@ -84,7 +82,8 @@ const PcDetails = ({navigation, route}) => {
             Packages
         </Text>
         </View>
-        {packageData.map((cpuDetail, index) => {
+        {packageData.map((cpuDetail, index) =>{
+        // if(cpuDetail.status === 1){
           return (
             <TouchableOpacity
             key={index}
@@ -105,23 +104,50 @@ const PcDetails = ({navigation, route}) => {
                         <Image style={styles.arrow} source={PriceArrowImage}/>
                     </View>
                 </View>
-                {/* <ScrollView horizontal showsHorizontalScrollIndicator={false}> */}
-                <FlatList
-                    style={styles.parentView}
-                    data={cpuDetail.items}
-                    renderItem={({item},index) => {
-                        return (
-                            <View key={index} style={styles.attributesView}>
-                                <View style={styles.attributesViewTouch}>
-                                    <Text style={styles.attrHeading}>{item.name}</Text>
-                                    <Text style={styles.attrText}>{item.brand}</Text>
+                <View style={{width:'100%'}}>
+                    {/* <ScrollView 
+                        contentContainerStyle={{
+                            display: 'flex',
+                            flexDirection: 'row',
+                            width: '100%',
+                            justifyContent: 'space-between',
+                            paddingHorizontal: width * 0.1,
+                          }}
+                          horizontal
+                        >
+                        {cpuDetail.items.map((item,index) => {
+                            return (
+                                <View key={index} style={styles.attributesView}>
+                                    <View style={styles.attributesViewTouch}>
+                                        <Text style={styles.attrHeading}>{item.name}</Text>
+                                        <Text style={styles.attrText}>{item.brand}</Text>
+                                    </View>
                                 </View>
-                            </View>
-                        );
-                    }}
-                    numColumns={2}
-                />
-                {/* </ScrollView> */}
+                            );
+                        })} */}
+                        <ScrollView horizontal={true}
+                            contentContainerStyle={{
+                                width: '100%',
+                            }}
+                        >
+                        <FlatList
+                            style={styles.parentView}
+                            data={cpuDetail.items}
+                            renderItem={({item},index) => {
+                                return (
+                                    <View key={index} style={styles.attributesView}>
+                                        <View style={styles.attributesViewTouch}>
+                                            <Text style={styles.attrHeading}>{item.name}</Text>
+                                            <Text style={styles.attrText}>{item.brand}</Text>
+                                        </View>
+                                    </View>
+                                );
+                            }}
+                            numColumns= {2}
+                        />
+                        </ScrollView>
+                    {/* </ScrollView> */}
+                </View>
                 <View style={styles.playableView}>
                     <ImageBackground
                         source={PlayableImg}
@@ -139,6 +165,7 @@ const PcDetails = ({navigation, route}) => {
                 </ImageBackground>
             </TouchableOpacity>
           );
+        //   }
         })}
         {loading ? (
         <View style={{marginTop: height * 0.37}}>
@@ -149,6 +176,7 @@ const PcDetails = ({navigation, route}) => {
         ):null}
         </ImageBackground>   
       </ScrollView>
+      </View>
       
   );
 };
@@ -170,7 +198,7 @@ const styles = StyleSheet.create({
         display: 'flex',
         alignItems:'center',
         flexDirection: 'row',
-        marginBottom:-13
+        marginBottom:-11
     },
     linearGradient:{
         height:height * 0.33,
@@ -204,7 +232,7 @@ const styles = StyleSheet.create({
         flexDirection:'row',
         justifyContent:'center',
         marginLeft:"2%",
-        marginVertical:"1%"
+        marginVertical:"1%",
     },
     attributesViewTouch:{
         display:'flex',

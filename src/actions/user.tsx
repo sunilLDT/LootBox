@@ -3,7 +3,7 @@ import { cartConstants } from './actionTypes';
 
 export const cartActions = {
   addCartAction,
-  emptyCartAction
+  emptyCartAction,
 };
 
 function addCartAction(id) {

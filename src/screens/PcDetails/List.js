@@ -102,7 +102,7 @@ const ListDetails = (props) => {
             <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} >
                 {categoryItems.map((processer, index) => {
                     // {selectHandler(processer.item_id) } 
-                    const maxlimit = 22;
+                    const maxlimit = 20;
                     return (
                         <>
                         {processer.selected === 1?(
@@ -156,7 +156,7 @@ const ListDetails = (props) => {
                                             color: '#FFFFFF',
                                             fontStyle: 'italic',
                                             textAlign: 'center',
-                                            marginBottom:40,
+                                            marginBottom:"40%",
                                         }}>
                                         +KD {processer.price}
                                     </Text>
@@ -167,7 +167,6 @@ const ListDetails = (props) => {
                                 addToSelected={selectHandler}
                             />
                         </TouchableOpacity>
-                        
                         ):(
                         <TouchableOpacity
                         key={index}
@@ -219,7 +218,7 @@ const ListDetails = (props) => {
                                         color: '#FFFFFF',
                                         fontStyle: 'italic',
                                         textAlign: 'center',
-                                        marginBottom:40,
+                                        marginBottom:"40%",
                                     }}>
                                     +KD {processer.price}
                                 </Text>

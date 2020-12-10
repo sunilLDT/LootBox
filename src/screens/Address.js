@@ -92,6 +92,7 @@ const Address = ({navigation,route}) => {
     }
 
     const addAddress = (address_id) => {
+        console.log(addressType);
         if(city == "" || email == "" || name == "" ||block == "" || street == "" || building ==""){
             alert("Please fill all fields");
           }
@@ -99,12 +100,21 @@ const Address = ({navigation,route}) => {
             !/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)){
                 alert("Invalid Email Address");
           }
+          else if(addressType == ""){
+              alert("Please select address type");
+          }
+          else if(selectedCity == ""){
+            alert("Please select City");
+        }
+        else if(selectedArea == ""){
+            alert("Please select area");
+        }
           else{
             addAddressApi(selectedCity,selectedArea,addressType,email,name,block,street,building,floor,apartment,address_id).then((response) => {
                 console.log(response.message);
                 alert(response.message);
                 if(response.message){
-                    navigation.navigate('profile');
+                    navigation.pop();
                 }
             }).catch((error) => {
                 alert("something went wrong");
@@ -192,6 +202,7 @@ const Address = ({navigation,route}) => {
                             sendCityId(itemValue)
                         }
                         >
+                        <Picker.Item label='Select City' value='' />
                         {city.map((cityWithArea,index) => {
                             return(
                                 <Picker.Item 
@@ -233,6 +244,7 @@ const Address = ({navigation,route}) => {
                             setSelectedArea(itemValue)
                         }
                         >
+                        <Picker.Item label='Select area' value='' />
                         {areas.map((areasValues,index) => {
                             return(
                                 <Picker.Item 
@@ -293,7 +305,8 @@ const Address = ({navigation,route}) => {
                         onValueChange={(itemValue, itemIndex) =>
                             setAddressType(itemValue)
                         }
-                        >   
+                        >
+                            <Picker.Item label='Address Type' value='' />
                             <Picker.Item label="Home" value="Home" />
                             <Picker.Item label="Office" value="Office" />
                             <Picker.Item label="Other" value="Other" />

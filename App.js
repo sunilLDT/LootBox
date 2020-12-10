@@ -1,5 +1,5 @@
 import React, {useEffect, useContext } from 'react';
-import {NavigationContainer} from '@react-navigation/native';
+import {NavigationContainer,useIsFocused } from '@react-navigation/native';
 import {Easing,Platform,Dimensions, View, StatusBar,SafeAreaView  } from 'react-native';
 import {
   createStackNavigator,

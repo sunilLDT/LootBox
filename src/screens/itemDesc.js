@@ -62,12 +62,11 @@ const processorDetails = [
 const data = [performanceDetails, processorDetails];
 
 
-const ItemDesc = ({route, navigation}) => {
+const ItemDesc = (props) => {
   const {fetchItemsInfo} = useContext(AuthContext);
   const [itemData, setData] = useState([]);
   const [qty, setQty] = useState(1);
-  const [cartItems,setcartItems] = useState([]);
-  const [cartData,setCartData] = useState([]);
+  const [cartItems,setcartItems] = useState(0);
   const [AddItems,setAddItems] = useState([]);
 
   const renderViewMore = (onPress) => {
@@ -82,7 +81,7 @@ const renderViewLess = (onPress) => {
   };
 
   const fetchData = async () => {
-    const data1 = await fetchItemsInfo(route.params.id);
+    const data1 = await fetchItemsInfo(props.route.params.id);
     if (data1 && data1.length > 0) {
       setData(data1);
     }
@@ -94,24 +93,26 @@ const renderViewLess = (onPress) => {
 
   useEffect(() => {
     showCartData().then((response) => {
-      setcartItems(response.data.items)
-      setCartData(response.data)
+      if(response.data.length !== 0){
+        setcartItems(response.data.total_items);
+      }
     }).catch((error) => {
       console.log("showCartOnItemDesc" + error);
     });
   }, []);
 
   const isUpdate = false;
-  const items = [
+  const item = [
           {
-              "item_id":route.params.id,
+              "item_id":props.route.params.id,
               "quantity":qty
           }, 
         ];
+
   const addIntoCart = () => {
-    addToCartForStore(isUpdate,items).then((response) => {
+    addToCartForStore(isUpdate,item).then((response) => {
       setAddItems(response.data)
-      navigation.navigate('cart');
+      props.navigation.navigate('cart');
     }).catch((error) => {
       console.log("addToCartForStore" + error);
     });
@@ -141,7 +142,7 @@ const renderViewLess = (onPress) => {
           }}>
           <TouchableOpacity
             onPress={() => {
-              navigation.goBack();
+              props.navigation.goBack();
             }}>
             <Image
               resizeMode="contain"
@@ -153,7 +154,7 @@ const renderViewLess = (onPress) => {
             />
           </TouchableOpacity>
           <View>
-            <TouchableOpacity onPress={() => navigation.navigate('cart')}>
+            <TouchableOpacity onPress={() => props.navigation.navigate('cart')}>
               <Image
                 resizeMode="contain"
                 source={require('../assets/ic_cart2.png')}
@@ -180,9 +181,8 @@ const renderViewLess = (onPress) => {
                   fontWeight: 'bold',
                   color: '#fff',
                   fontSize: 12,
-                 
                 }}>
-                {cartData.length == 0?"0":cartItems.length}
+                {cartItems}
               </Text>
             </LinearGradient>
           </View>
@@ -195,10 +195,10 @@ const renderViewLess = (onPress) => {
             flexDirection: 'row',
             marginTop: height * 0.05,
           }}>
-          {route.params.image ? (
+          {props.route.params.image ? (
             <Image
               source={{
-                uri: route.params.image,
+                uri: props.route.params.image,
               }}
               style={{
                 height: 126,
@@ -213,8 +213,8 @@ const renderViewLess = (onPress) => {
               //     'https://cdn.pixabay.com/photo/2015/03/21/06/27/technology-683243_960_720.png',
               // }}
               source={
-                route.params.image
-                  ? route.params.image
+                props.route.params.image
+                  ? props.route.params.image
                   : require('../assets/thumbnail1.png')
               }
               style={{
@@ -234,7 +234,7 @@ const renderViewLess = (onPress) => {
                   fontFamily: 'Michroma-Regular',        
                   }}
             >
-              {route.params.name}
+              {props.route.params.name}
             </Text>
             <Text
               style={{
@@ -243,7 +243,7 @@ const renderViewLess = (onPress) => {
                 opacity: 0.5,
                 fontFamily: 'Michroma-Regular',       
                      }}>
-              {route.params.brand}
+              {props.route.params.brand}
             </Text>
           </View>
         </View>
@@ -271,7 +271,7 @@ const renderViewLess = (onPress) => {
               fontFamily: 'Michroma-Regular',            
                 color: '#ECDBFA',
             }}>
-            KD {route.params.price}
+            KD {props.route.params.price}
           </Text>
         </View>
         <View
@@ -357,7 +357,7 @@ const renderViewLess = (onPress) => {
              fontSize: 12,
              color: 'rgba(236,219,250,0.5)',
             }}>
-              {route.params.description}
+              {props.route.params.description}
             </Text>
           </ViewMoreText>
         </View>

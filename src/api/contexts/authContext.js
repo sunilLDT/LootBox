@@ -78,7 +78,6 @@ const googleSignIn = (dispatch) => async () => {
   try {
     await GoogleSignin.configure({
       webClientId: '201119561571-i15v7unj24qm39dt32bsvqtcbsqntkg0.apps.googleusercontent.com',
-      //webClientId: '201119561571-56nv0io5rjjsoq1et7qb734ok04s4ore.apps.googleusercontent.com',
       iosClientId:'201119561571-56nv0io5rjjsoq1et7qb734ok04s4ore.apps.googleusercontent.com',
     });
     await GoogleSignin.hasPlayServices();
@@ -228,7 +227,6 @@ const resendOtp = (dispatch) => async () => {
     const res = await Api.post('app/user/resend-otp', {
       user_id: parseInt(user_id),
     });
-    // console.log(res.data.success);
     if (res.data.success) {
       dispatch({
         type: 'add_msg',
@@ -260,7 +258,6 @@ const signup = (dispatch) => async (data) => {
     //  console.log(res.data)
     if (res.data.data.is_otp_verified) {
       await AsyncStorage.setItem('token', res.data.data.token);
-      // console.log
       navigate({name: 'slider'});
     } else {
       await AsyncStorage.setItem('userId', res.data.data.user_id.toString());

@@ -12,7 +12,7 @@ import Circle from '../components/gradientCircle';
 
 const {width, height} = Dimensions.get('window');
 
-const Orders = () => {
+const Orders = ({navigation}) => {
   const [selected, setSelected] = useState(0);
 
   return (
@@ -31,7 +31,7 @@ const Orders = () => {
           //   paddingVertical: height * 0.1,
         }}
         showsVerticalScrollIndicator={false}>
-        <TouchableOpacity onPress={() => {}}>
+        <TouchableOpacity onPress={() => {navigation.pop()}}>
           <Image
             resizeMode="contain"
             style={{

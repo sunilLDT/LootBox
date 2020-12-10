@@ -103,10 +103,7 @@ export async function cityApi(){
   return response.data;
 }
 
-export async function addAddressApi(city,areas,addressType,email,name,block,street,building,floor,apartment,addressid){
-  if(addressid == ""){
-    addressid == "";
-  }
+export async function addAddressApi(city,areas,addressType,email,name,block,street,building,floor,apartment,addressid){  
   const response = await Api.post('app/user/add-address',{
     address_id:addressid,
     city:city,
@@ -140,5 +137,10 @@ export async function getSpecificAddress(addressId){
   const response = await Api.post('app/user/get-address',{
     address_id:addressId
   });
+  return response.data;
+}
+
+export async function pcPartSubcategoryApi(){
+  const response = await Api.get('app/advance-builder/pc-part-subcategory');
   return response.data;
 }

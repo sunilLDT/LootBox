@@ -89,7 +89,7 @@ const Profile = ({navigation}) => {
     const options = {
       noData: true,
     };
-    ImagePicker.launchImageLibrary(options,response => {
+    ImagePicker.launchImageLibrary(options,(response) => {
       if(response.uri){
         setPhoto(response.uri)
         uploadImageApi(photo).then((response) => {
@@ -97,6 +97,9 @@ const Profile = ({navigation}) => {
         }).catch((error) => {
           console.log("ImageUploadProfile" + error);
         });
+      }
+      else{
+        console.log(response);
       }
     })
   }

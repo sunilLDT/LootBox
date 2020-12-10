@@ -161,8 +161,8 @@ const Otp = ({navigation}) => {
 
 const styles = StyleSheet.create({
   btnContainer:{
-    position:'relative',
-    marginTop:"98%"
+    flex:1,
+    justifyContent:'flex-end',
 
   }
 })

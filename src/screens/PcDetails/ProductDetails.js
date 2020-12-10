@@ -20,6 +20,7 @@ import ListDetails from '../PcDetails/List';
 import { connect } from 'react-redux';
 import { cartActions } from '../../actions/user';
 
+
 const { width, height } = Dimensions.get('window');
 
 const ProductDetails = (props) => {
@@ -40,16 +41,20 @@ const ProductDetails = (props) => {
 
   const [upwardImage,setUpwardImage] = useState(true);
 
+  const [loading, setLoading] = useState(true);
+
   var imgSource = upwardImage?ExpandImage:CloseImage;
 
   useEffect(() => {
+    setLoading(true)
     packageDetailsById(PackageId).then((response) => {
       setPackageDetails(response.data.items);
       setPackageDetailsData(response.data);
       setCoverImage(response.data.cover_image);
-      
+    setLoading(false)
     }).catch((error) => {
       console.log("PackageDetails" + error);
+      setLoading(false)
     });
   }, [PackageId]);
 
@@ -89,6 +94,11 @@ const ProductDetails = (props) => {
       <ScrollView
         style={styles.scrollViewContainer}
         showsHorizontalScrollIndicator={false}>
+          <>
+          {loading?(
+          <View style={{marginTop: height * 0.4}}>
+              <ActivityIndicator color="#ECDBFA" size="small" />
+          </View>):(
             <View>
               <View >
                 <Image
@@ -213,11 +223,6 @@ const ProductDetails = (props) => {
                 </View>
                 );
               })}
-            </View>
-        {packageDetails.length === 0?(
-        <View style={{marginTop: height * 0}}>
-            <ActivityIndicator color="#ECDBFA" size="large" />
-        </View>):(
           <View style={styles.bottom}>
             <TouchableOpacity
               activeOpacity={0.1}
@@ -225,8 +230,9 @@ const ProductDetails = (props) => {
               <Btn  text="BUILD YOUR PC" pay=""/>
             </TouchableOpacity>
           </View>
-        )}
-        
+          </View>
+          )}
+        </>
       </ScrollView>
     </ImageBackground>
   );
