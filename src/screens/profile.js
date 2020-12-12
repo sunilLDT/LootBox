@@ -122,7 +122,7 @@ const Profile = ({navigation}) => {
           <DialogContent>
             <View>
               <View style={{marginTop:15}}>
-                <Text style={{color:'#fff',fontSize:20,alignSelf:'center',fontFamily:'Michroma-Regular'}}>Change Password</Text>
+                <Text style={{color:'#fff',fontSize:20,alignSelf:'center',fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma'}}>Change Password</Text>
               </View>
               <View style={{marginVertical: 15}}>
                 <Input placeholder="Current Password" password onChangeText={(oldPassword) => setOldPassword(oldPassword)}/>
@@ -191,7 +191,7 @@ const Profile = ({navigation}) => {
             <View>
               <Text
                 style={{
-                  fontFamily: 'Michroma-Regular',
+                  fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma',
                   fontSize: 20,
                   lineHeight: 28,
                   color: '#ECDBFA',

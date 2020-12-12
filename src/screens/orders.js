@@ -31,7 +31,7 @@ const Orders = ({navigation}) => {
           //   paddingVertical: height * 0.1,
         }}
         showsVerticalScrollIndicator={false}>
-        <TouchableOpacity onPress={() => {navigation.pop()}}>
+        <TouchableOpacity onPress={() => {navigation.navigate('home')}}>
           <Image
             resizeMode="contain"
             style={{
@@ -124,7 +124,7 @@ const Orders = ({navigation}) => {
                 <Text
                   style={{
                     color: '#ECDBFA',
-                    fontFamily: 'Michroma-Regular',
+                    fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma',
                     fontSize: 16,
                     lineHeight: 20,
                   }}>
@@ -133,7 +133,7 @@ const Orders = ({navigation}) => {
                 <Text
                   style={{
                     color: '#ECDBFA',
-                    fontFamily: 'Michroma-Regular',
+                    fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma',
                     fontSize: 16,
                     lineHeight: 20,
                   }}>

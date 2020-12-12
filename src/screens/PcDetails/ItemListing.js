@@ -17,25 +17,49 @@ import searchIcon from '../../assets/ic_search.png';
 import filterIcon from '../../assets/ic_filter.png';
 import filter from 'lodash.filter';
 import { SearchBar } from 'react-native-elements';
+import { packageActions } from '../../actions/package';
 
-
+function useForceUpdate(){
+  const [value, setValue] = useState(0); // integer state
+  return () => setValue(value => ++value); // update the state to force render
+}
 const { width, height } = Dimensions.get('window');
 
 const ItemListing = (props) => {
-  const [selectedItems, setSelectedItems] = useState([0]);
+  // const [selectedItems, setSelectedItems] = useState({
+  //   "item_id": 1,
+  //   "quantity": 1
+  // });
   const { items } = props.route.params;
+  const { pIndex } = props.route.params;
+  console.log(pIndex);
+
   const { sub_category_name } = props.route.params;
   const [data, setData] = useState(items);
   const [query, setQuery] = useState('');
-  const [open,setOpen] = useState(false);
+  const [open, setOpen] = useState(false);
+  const forceUpdate = useForceUpdate();
+  const selectHandler = (id, name, price) => {
+    let ar = [];
+    ar = props.packages;
+    ar[pIndex].item_id = id;
+    ar[pIndex].name = name;
+    ar[pIndex].price = price;
+    ar[pIndex].quantity = 1;
+    //setSelectedItems(item);
+    //setName(name);
+    //setPrice(price);
 
-  const selectHandler = (id) => {
-    let item = {
-      "item_id": id,
-      "quantity": 1
-    };
-    setSelectedItems([...selectedItems, id]);
-    props.add(item);
+    props.updatePackages(ar);
+    //props.navigation.goBack();
+    forceUpdate();
+
+  }
+
+  const idExists = (id) => {
+    return props.packages.some(function (el) {
+      return el.item_id === id;
+    });
   }
 
   const selectDisplay = (id) => {
@@ -61,19 +85,19 @@ const ItemListing = (props) => {
     }
     return false;
   };
-  const  renderHeader = () => {
+  const renderHeader = () => {
     return (
       <>
-       {open?(
-         <SearchBar 
-         placeholder="Type here..."
-         lightTheme round editable={true}
-         value={query}
-         onChangeText={queryText => handleSearch(queryText)}
-         containerStyle={{borderRadius:22,height:50,marginBottom:20,marginHorizontal:20}}
-         inputContainerStyle={{height:30}}
-       />
-       ):null}
+        {open ? (
+          <SearchBar
+            placeholder="Type here..."
+            lightTheme round editable={true}
+            value={query}
+            onChangeText={queryText => handleSearch(queryText)}
+            containerStyle={{ borderRadius: 22, height: 50, marginBottom: 20, marginHorizontal: 20 }}
+            inputContainerStyle={{ height: 30 }}
+          />
+        ) : null}
       </>
     );
   };
@@ -84,57 +108,57 @@ const ItemListing = (props) => {
     <ImageBackground
       source={require('../../assets/plainBg.png')}
       style={styles.container}>
-        <View style={{
-          display:'flex',
-          flexDirection:'row',
-          alignItems:'center',
-          justifyContent:'space-around'
-        }}>
-          <View
-              style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  flexDirection: 'row',
-                  marginLeft:"-5%"
-              }}>
-            <TouchableOpacity
-              onPress={() => {
-                props.navigation.goBack();
-              }}>
-                <Image
-                  source={require('../../assets/back.png')}
-                  resizeMode="contain"
-                  style={styles.backImage}
-                />
-            </TouchableOpacity>
-            <Text style={styles.pageName}>
-              {sub_category_name}
-              </Text>
-          </View>
-          <View 
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              flexDirection: 'row',
-              justifyContent:'space-between',
-              marginLeft:"13%"
+      <View style={{
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-around'
+      }}>
+        <View
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            flexDirection: 'row',
+            marginLeft: "-5%"
+          }}>
+          <TouchableOpacity
+            onPress={() => {
+              props.navigation.goBack();
             }}>
-              <TouchableOpacity onPress={() => openClose()}>
-                <Image
-                  style={styles.icons}  
-                  source={searchIcon}
-                  resizeMode="contain"
-                  />
-              </TouchableOpacity>
-              <TouchableOpacity onPress={() => {}}>
-                <Image 
-                style={styles.icons}  
-                source={filterIcon}
-                resizeMode="contain"
-                />
-              </TouchableOpacity>
-            </View>
+            <Image
+              source={require('../../assets/back.png')}
+              resizeMode="contain"
+              style={styles.backImage}
+            />
+          </TouchableOpacity>
+          <Text style={styles.pageName}>
+            {sub_category_name}
+          </Text>
         </View>
+        <View
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            marginLeft: "13%"
+          }}>
+          <TouchableOpacity onPress={() => openClose()}>
+            <Image
+              style={styles.icons}
+              source={searchIcon}
+              resizeMode="contain"
+            />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => { }}>
+            <Image
+              style={styles.icons}
+              source={filterIcon}
+              resizeMode="contain"
+            />
+          </TouchableOpacity>
+        </View>
+      </View>
       <FlatList
         keyExtractor={(item) => item.name}
         ListHeaderComponent={renderHeader()}
@@ -142,62 +166,66 @@ const ItemListing = (props) => {
         showsVerticalScrollIndicator={false}
         renderItem={({ item }, index) => {
           const maxlimit = 22;
+          if(item.status === 1){
           return (
-          <TouchableOpacity
-            key={index}
-            onPress={() => { selectHandler(item.item_id) }}
-          >
-            <ImageBackground
-            onPress={() => { selectHandler(item.item_id) }}
-            source={!selectDisplay(item.item_id) ? selectedIcCardImage : IcCardImage}
-              style={styles.cardConatiner}
-              key={index}>
-              <View
-                style={{
-                  alignSelf: 'center',
-                  justifyContent: 'center',
-                  alignContent: 'center',
-                }}>
-                <Image
-                  source={{ uri: item.image }}
-                  style={{ width: 65, height: 45, marginBottom: 30, alignSelf: 'center',marginTop:'-10%' }}
-                />
-                <Text
+            <TouchableOpacity
+              key={index}
+              onPressIn={() => { selectHandler(item.item_id, item.name, item.price) }}
+            >
+              <ImageBackground
+                //onPress={() => { selectHandler(item.item_id) }}
+                source={idExists(item.item_id) ? selectedIcCardImage : IcCardImage}
+                style={styles.cardConatiner}
+                key={index}>
+                <View
                   style={{
-                    fontSize: 12,
-                    fontWeight: 'bold',
-                    color: '#FFFFFF',
-                    marginBottom: 5,
-                    alignSelf:'center',
+                    alignSelf: 'center',
+                    justifyContent: 'center',
+                    alignContent: 'center',
                   }}>
-                  {((item.name).length > maxlimit)?(((item.name).substring(0,maxlimit-3)) + '...'):item.name}
-                </Text>
-                <Text
-                  style={{
-                    fontSize: 13,
-                    fontWeight: '700',
-                    color: '#FFFFFF',
-                    marginBottom: 10,
-                    opacity: 0.5,
-                    textAlign: 'center',
-                    fontWeight:'300',
-                  }}>
-                  {item.brand}
-                </Text>
-                <Text
-                  style={{
-                    fontSize: 12,
-                    fontWeight: '400',
-                    color: '#FFFFFF',
-                    marginBottom: 20,
-                    textAlign: 'center',
-                  }}>
-                  KD {item.price}
-                </Text>
-              </View>
-            </ImageBackground>
+                  <Image
+                    source={{ uri: item.image }}
+                    style={{ width: 65, height: 45, marginBottom: 30, alignSelf: 'center', marginTop: '-10%' }}
+                  />
+                  <Text
+                  numberOfLines={5}
+                  adjustsFontSizeToFit={true}
+                    style={{
+                      fontSize: 11,
+                      fontWeight: 'bold',
+                      color: '#FFFFFF',
+                      marginBottom: 5,
+                      alignSelf: 'center',
+                    }}>
+                    {item.name ? (((item.name).substring(0, maxlimit - 3)) + '...') : (((item.name).substring(0, maxlimit - 3)) + '...')}
+                  </Text>
+                  <Text
+                    style={{
+                      fontSize: 13,
+                      fontWeight: '700',
+                      color: '#FFFFFF',
+                      marginBottom: 10,
+                      opacity: 0.5,
+                      textAlign: 'center',
+                      fontWeight: '300',
+                    }}>
+                    {item.brand}
+                  </Text>
+                  <Text
+                    style={{
+                      fontSize: 12,
+                      fontWeight: '400',
+                      color: '#FFFFFF',
+                      marginBottom: 20,
+                      textAlign: 'center',
+                    }}>
+                    KD {item.price}
+                  </Text>
+                </View>
+              </ImageBackground>
             </TouchableOpacity>
           );
+        }
         }}
         numColumns={2}
       />
@@ -229,33 +257,37 @@ const styles = StyleSheet.create({
     fontStyle: 'italic',
   },
   cardConatiner: {
-    width: width*0.38,
-    height: height*0.20,
-    margin:"6%",
-    marginTop:"10%"
+    width: 139, //width*0.38,
+    height: 151, //height*0.20,
+    margin: "6%",
+    marginTop: "10%",
+    borderRadius: 20
   },
-  pageName:{
+  pageName: {
     fontStyle: 'italic',
     fontSize: 12,
     color: '#ECDBFA',
-    marginLeft:10,
-    textTransform:'uppercase',
+    marginLeft: 10,
+    textTransform: 'uppercase',
   },
-  icons:{
-    width:40,
-    height:40,
-    marginLeft:10
+  icons: {
+    width: 40,
+    height: 40,
+    marginLeft: 10
   },
 });
 
 const mapStateToProps = (state) => ({
   cart: state.cartReducer.cart,
+  packages: state.packageReducer.packages,
 
 })
 
 const actionCreators = {
   add: cartActions.addCartAction,
+  updatePackages: packageActions.updatePackages,
 
 };
 
-export default connect(mapStateToProps, actionCreators)(ItemListing);
+export default connect(mapStateToProps, actionCreators)(React.memo(ItemListing))
+

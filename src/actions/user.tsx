@@ -2,6 +2,7 @@ import { cartConstants } from './actionTypes';
 
 
 export const cartActions = {
+  initCartAction,
   addCartAction,
   emptyCartAction,
 };
@@ -16,7 +17,7 @@ function addCartAction(id) {
     return { type: cartConstants.CART_ADD_REQUEST, id };
   }
   function success(id) {
-    return { type: cartConstants.CART_ADD_SUCCESS, id };
+    return { type: cartConstants.CART_ADD_SUCCESS,id};
   }
 
   function failure(error) {
@@ -24,6 +25,20 @@ function addCartAction(id) {
   }
 }
 
+function initCartAction(id) {
+  return (dispatch) => {
+    //dispatch(request(id));
+    dispatch(success(id));
+  };
+
+  function success(id) {
+    return { type: cartConstants.CART_ADD_INIT,id};
+  }
+
+  function failure(error) {
+    return { type: cartConstants.CART_ADD_FAILURE, error };
+  }
+}
 
 function emptyCartAction() {
   return (dispatch) => {
@@ -37,3 +52,17 @@ function emptyCartAction() {
   
 }
 
+
+function amountAddAction(item) {
+  return (dispatch) => {
+    dispatch(success(item));
+  };
+
+  function success(item) {
+    return { type: cartConstants.AMOUNT_ADD_SUCCESS, item };
+  }
+
+  function failure(error) {
+    return { type: cartConstants.AMOUNT_ADD_FAILURE, error };
+  }
+}

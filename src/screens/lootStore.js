@@ -250,7 +250,7 @@ const LootStore = ({ navigation }) => {
               color: '#ECDBFA',
               fontSize: 12,
               lineHeight: 16,
-              fontFamily: 'Montserrat-LightItalic',
+              fontFamily: Platform.OS=='android'?'Montserrat-LightItalic':'Montserrat',
               paddingHorizontal: width * 0.1,
             }}>
             DISCOVER
@@ -259,7 +259,7 @@ const LootStore = ({ navigation }) => {
             style={{
               color: '#ECDBFA',
               fontSize: 20,
-              fontFamily: 'Michroma-Regular',
+              fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma',
               paddingHorizontal: width * 0.1,
             }}>
             Loot Store

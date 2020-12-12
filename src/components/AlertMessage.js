@@ -8,9 +8,10 @@ import {
     SafeAreaView,
     TouchableOpacity,
     ImageBackground,
+    Platform,
 } from 'react-native'; 
 import Icons from 'react-native-vector-icons/Feather';
-import Btn from '../../src/screens/btn';
+import ViewBtn from '../components/SaveBtn';
 import { connect } from 'react-redux';
 import { cartActions } from '../actions/user';
 
@@ -25,7 +26,7 @@ const AlertMessage = (props) => {
 
     return (
         <ImageBackground
-            source={require('../assets/plainBg.png')}
+            source={require('../assets/signup.png')}
             style={styles.imageBg}>
             <SafeAreaView style={styles.mainContainer}>
                 
@@ -34,14 +35,13 @@ const AlertMessage = (props) => {
                                 style={styles.cross}  
                                 />}
                         {msgUrl == "https://test-api.loot-box.co/api/hesabe-success-callback"?<Text style={styles.msg}>Order{"\n"}Successful</Text>:<Text style={styles.msg}>Order{"\n"}Failed</Text>}
-                        {msgUrl == "https://test-api.loot-box.co/api/hesabe-success-callback"?<Text style={styles.line}>Your Order will be delivered{"\n"}between 48-72 Hours</Text>:null}
+                        {msgUrl == "https://test-api.loot-box.co/api/hesabe-success-callback"?<Text style={styles.line}>Your Order will be delivered{"\n"}between 48-72 Hours</Text>:<Text style={styles.line}>You can try again !</Text>}
                     </View>
                     <View style={styles.btnCotainer}>
                         <TouchableOpacity onPress={() => props.navigation.navigate('orders')}>
-                            <Btn style={styles.btn} text="View Order" pay=""/>
+                            <ViewBtn  text="View Order" x="117"/>
                         </TouchableOpacity>
                     </View>
-                
             </SafeAreaView>
         </ImageBackground>
     );
@@ -68,6 +68,7 @@ const styles = StyleSheet.create({
     msg:{
         fontSize:20,
         color:'#fff',
+        fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma', 
     },
     line:{
         marginVertical:"3%",
@@ -81,9 +82,10 @@ const styles = StyleSheet.create({
         color: '#842D8A',
     },
     btnCotainer:{
-        width:width*0.6,
-        marginHorizontal:"18%",
-        marginTop:"70%",
+        width:width*0.84,
+        flex:1,
+        justifyContent:'flex-end',
+        marginVertical:30,
     }
 });
 

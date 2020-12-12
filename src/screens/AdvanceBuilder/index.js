@@ -18,6 +18,8 @@ import {pcPartSubcategoryApi,getItemsSubCatApi} from '../../api/buildYourPc';
 import LinearGradient from 'react-native-linear-gradient';
 import cardImage from '../../assets/ic_card_a0.png';
 import thumbnail from '../../assets/thumbnail.png';
+import NextBtn from '../../components/NextBtn';
+import SubCatBg from '../../assets/buildYourPc/Rectangle.png';
 
 const {width, height} = Dimensions.get('window');
 
@@ -51,7 +53,6 @@ const AdvanceBuilder = ({navigation}) => {
     });
   }
   
-
   return (
       <ImageBackground
       source={require('../../assets/dottedBackground.png')}
@@ -94,48 +95,60 @@ const AdvanceBuilder = ({navigation}) => {
                   </TouchableOpacity>
               </View>
           </View>
-
+          {loading ? (
+          <View style={{marginTop: height * 0.37}}>
+              <ActivityIndicator color="#ECDBFA" size="small" />
+          </View>
+            ):(
+          <>
           <View>
             <Text style={styles.advanceBuilderText}>Advance Builder</Text>
             <Text style={styles.lineText}>Select the configuration you like the most.</Text>
           </View>
 
           <View style={styles.mainContainer}>
-            <View style={styles.subCategoriesView}>
-              {pcPartSubcategory.map((part,index) => {
-                if(part.status === 1){
-                  return(
-                    <TouchableOpacity key={index} onPress={() => subCategoryFun(part.sub_category_id)}>
-                      <View style={styles.box} >
-                        {subCategoryId === part.sub_category_id?(
-                        <LinearGradient
-                            start={{ x: 0, y: 1 }}
-                            end={{ x: 1, y: 0 }}
-                            colors={['#C01C8A', '#865CF4']}
-                            style={{
-                              width: 8,
-                              height: 8,
-                              position: 'absolute',
-                              right:17,
-                              top: 20,
-                              zIndex: 100,
-                              borderRadius:50,
-                              alignItems: 'center',
-                              justifyContent: 'center',
-                            }}>
-                          </LinearGradient>
-                          ):null}
-                          <Image style={styles.subImage}
-                            resizeMode="contain"
-                            source={filterImage}
-                          />
-                          <Text style={styles.subName}>{part.name}</Text>
-                      </View>
-                    </TouchableOpacity>
-                  );
-                }
-              })}
-            </View>
+            <ImageBackground source={SubCatBg} style={{width:"50%"}}>
+              <View style={styles.subCategoriesView}>
+                {pcPartSubcategory.map((part,index) => {
+                  if(part.status === 1){
+                    return(
+                      <TouchableOpacity key={index} onPress={() => subCategoryFun(part.sub_category_id)}>
+                        <View style={styles.box} >
+                          {subCategoryId === part.sub_category_id?(
+                          <LinearGradient
+                              start={{ x: 0, y: 1 }}
+                              end={{ x: 1, y: 0 }}
+                              colors={['#C01C8A', '#865CF4']}
+                              style={{
+                                width: 8,
+                                height: 8,
+                                position: 'absolute',
+                                right:18,
+                                top: 29,
+                                zIndex: 100,
+                                borderRadius:50,
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                              }}>
+                            </LinearGradient>
+                            ):null}
+                            <Image style={styles.subImage}
+                              resizeMode="contain"
+                              source={filterImage}
+                            />
+                            <Text
+                            style={styles.subName}
+                            numberOfLines={2}
+                            >
+                            {part.name}
+                            </Text>
+                        </View>
+                      </TouchableOpacity>
+                    );
+                  }
+                })}
+              </View>
+            </ImageBackground>
 
             <View style={styles.flatlistContainer}>
               <FlatList
@@ -207,8 +220,13 @@ const AdvanceBuilder = ({navigation}) => {
                 }}
                 numColumns={2}
               />
+              <View style={styles.nextBtn}>
+                <NextBtn/>
+              </View>
             </View>          
           </View>
+          </>
+          )}
         </ScrollView>
       </ImageBackground>
   );
@@ -236,7 +254,7 @@ const styles = StyleSheet.create({
   },
   advanceBuilderText:{
     fontSize:20,
-    fontFamily:'Michroma-Regular',
+    fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma',
     color:'#fff',
     paddingHorizontal: width * 0.1,
   },
@@ -262,7 +280,7 @@ const styles = StyleSheet.create({
   },
   box:{
     width:width*0.24,
-    height:height*0.17,
+    height:height*0.15,
     borderBottomWidth:0.6,
     borderBottomColor:"#D2D7F9",
     flex:1,
@@ -270,18 +288,18 @@ const styles = StyleSheet.create({
     alignItems:'center',
   },
   subImage:{
-    width:50,
-    height:50,
+    width:35,
+    height:35,
   },
   subName:{
     color:'#fff',
-    fontSize:12,
-    marginTop:2
+    fontSize:11,
+    paddingHorizontal:12
   },
   cardConatiner: {
-    width: width*0.30,
-    height: height*0.22,
-    margin:"4%",
+    width: width*0.34,
+    height: height*0.20,
+    marginLeft:'1%',
   },
   itemImage:{
     width: 65,
@@ -290,6 +308,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     marginTop:'-10%',
   },
+ 
 });
 
 export default AdvanceBuilder;

@@ -115,7 +115,7 @@ const Drawer = ({navigation, progress}) => {
 
           <Text
             style={{
-              fontFamily: 'Michroma-Regular',
+              fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma',
               fontSize: 16,
               lineHeight: 27.2,
               color: '#ECDBFA',

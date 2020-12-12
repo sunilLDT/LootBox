@@ -15,12 +15,11 @@ import ExpandImage from '../../assets/ic_expand1.png';
 import CloseImage from '../../assets/ic-3copy.png';
 import { ScrollView } from 'react-native-gesture-handler';
 import ItemCard from '../../assets/ic_card.png';
-import { packageDetailsById,addToCart } from '../../api/buildYourPc';
+import { packageDetailsById, addToCart } from '../../api/buildYourPc';
 import ListDetails from '../PcDetails/List';
 import { connect } from 'react-redux';
 import { cartActions } from '../../actions/user';
-
-
+import { packageActions } from '../../actions/package';
 const { width, height } = Dimensions.get('window');
 
 const ProductDetails = (props) => {
@@ -31,41 +30,48 @@ const ProductDetails = (props) => {
 
   const [packageDetails, setPackageDetails] = useState([]);
 
-  const [coverImage,setCoverImage] = useState([]);
+  const [packageDetailsTemp, setPackageDetailsTemp] = useState([]);
 
-  const [addItems,setAddItems] = useState();
+  const [coverImage, setCoverImage] = useState([]);
 
-  const [showCpuPerocessersList, setShowCpuProcesserList] = useState(false,);
+  const [addItems, setAddItems] = useState();
+
+  const [finalData, setFinalData] = useState([]);
+
+  const [showCpuPerocessersList, setShowCpuProcesserList] = useState(false);
 
   const [open, setOpen] = useState();
+  const [totalPrice, setTotalPrice] = useState(0);
 
-  const [upwardImage,setUpwardImage] = useState(true);
-
+  const [upwardImage, setUpwardImage] = useState(true);
   const [loading, setLoading] = useState(true);
-
-  var imgSource = upwardImage?ExpandImage:CloseImage;
+  const maxlimit = 12;
+  var imgSource = upwardImage ? ExpandImage : CloseImage;
 
   useEffect(() => {
     setLoading(true)
-    packageDetailsById(PackageId).then((response) => {
-      setPackageDetails(response.data.items);
-      setPackageDetailsData(response.data);
-      setCoverImage(response.data.cover_image);
+    props.getPackages(PackageId);
     setLoading(false)
-    }).catch((error) => {
-      console.log("PackageDetails" + error);
-      setLoading(false)
-    });
   }, [PackageId]);
-
   
+
+
   const addIntoCart = () => {
-    addToCart(PackageId,props.cart).then((response) => {
-      setAddItems(response.data);
-      props.navigation.navigate('cart');
-    }).catch((error) => {
-      console.log("addToCart" + error);
-    });
+    console.log(props.packages)
+    let result = props.packages.map(({ item_id, quantity }) => ({item_id, quantity:1}));
+    console.log(result);
+      addToCart(PackageId,result).then((response) => {
+        props.navigation.navigate('cart');
+      }).catch((error) => {
+        console.log("addToCart" + error);
+        setLoading(false)
+      });
+  }
+
+  const changeData = (item) => {
+    //setFinalData([finalData,...item]);
+    //setFinalData([...finalData, item]);
+    //setTotalPrice(finalData.reduce( function(cnt,o){ return cnt + parseInt(o.price); }, 0))
   }
 
   const openClose = (item_id) => {
@@ -74,10 +80,8 @@ const ProductDetails = (props) => {
     setOpen(item_id);
     setShowCpuProcesserList(!showCpuPerocessersList)
   }
-
-  const TotalPrice = packageDetails.reduce((Price, packageDetails) => Price + parseInt(packageDetails.price), 0);
-
   return (
+    <View style={{backgroundColor:'#292633', width:'100%', height:'100%'}}>
     <ImageBackground source={BackgroundImage} style={styles.container}>
       <TouchableOpacity
         onPress={() => {
@@ -91,157 +95,101 @@ const ProductDetails = (props) => {
           />
         </View>
       </TouchableOpacity>
+      {loading ? (
+        <View style={{marginTop: height * 0.37}}>
+            <ActivityIndicator color="#ECDBFA" size="small" />
+        </View>):(
       <ScrollView
         style={styles.scrollViewContainer}
         showsHorizontalScrollIndicator={false}>
-          <>
-          {loading?(
-          <View style={{marginTop: height * 0.4}}>
-              <ActivityIndicator color="#ECDBFA" size="small" />
-          </View>):(
-            <View>
-              <View >
-                <Image
-                  source={{ uri: packageDetailsData.image }}
-                  width={100}
-                  height={100}
-                  style={{
-                    width: 312,
-                    height: 200,
-                    alignSelf: 'center',
-                  }}
-                />
-                <View
-                  style={{
-                    marginVertical: 20,
-                    flexDirection: 'row',
-                    justifyContent: 'space-around',
-                  }}>
-                  <View style={{ alignSelf: 'center',paddingLeft:'2%' }}>
-                    <Text style={styles.brandTitle}>{packageDetailsData.name}</Text>
-                    <Text style={styles.price}>KD {TotalPrice.toFixed(3)}</Text>
-                  </View>
-                  <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-                    {coverImage.map((cImages,index) => {
-                      return(
-                        <Image
-                          key={index}
-                          source={{uri:cImages.image_path}}
-                          style={styles.coverImage}
-                        />
-                      );
-                    })}
-                  </ScrollView>
-                </View>
+        <View>
+          <View >
+            <Image
+              source={{ uri: props.packageData.image }}
+              width={100}
+              height={100}
+              style={{
+                width: 312,
+                height: 200,
+                alignSelf: 'center',
+              }}
+            />
+            <View
+              style={{
+                marginVertical: 20,
+                flexDirection: 'row',
+                justifyContent: 'space-around',
+              }}>
+              <View style={{ alignSelf: 'center', paddingLeft: '2%' }}>
+                <Text style={styles.brandTitle}>{props.packageData.name}</Text>
+                <Text style={styles.price}>KD {props.totalPrice.toFixed(3)}</Text>
               </View>
-              {packageDetails.map((item, index) => {
-                return (
-                <View key={index}>
-                  <ImageBackground
-                    source={ItemCard}
-                    style={{
-                      width: width * 0.9,
-                      height: 51,
-                      borderTopLeftRadius:20,
-                      borderBottomLeftRadius:15,
-                      marginBottom: 20,
-                      alignContent: 'center',
-                      padding: 15,
-                      overflow: 'hidden'
-                    }}>
-                    <View
-                      style={{
-                        flexDirection: 'row',
-                        justifyContent: 'space-around',
-                        alignItems: 'center',
-                      }}>
-                      <Text
-                        style={{
-                          textAlign: 'center',
-                          textAlignVertical: 'center',
-                          color: '#D2D7F9',
-                          fontSize: 14,
-                          fontStyle: 'italic',
-                          fontWeight:"bold",
-                          // borderRightWidth:1,
-                          // borderRightColor:'#D2D7F9',
-                        }}>
-                        {item.sub_category_name}
-                      </Text>
-                      <Text
-                        style={{
-                          textAlign: 'center',
-                          textAlignVertical: 'center',
-                          color: '#D2D7F9',
-                          fontSize: 14,
-                          fontStyle: 'italic',
-                          opacity: 0.5,
-                          fontFamily:'Michroma-Regular',
-                          // borderRightWidth:1,
-                          // borderRightColor:'#D2D7F9',
-                        }}>
-                        {item.name}
-                      </Text>
-                      <Text
-                        style={{
-                          textAlign: 'center',
-                          textAlignVertical: 'center',
-                          color: '#D2D7F9',
-                          fontSize: 14,
-                          fontStyle: 'italic',
-                          opacity: 0.5,
-                        }}>
-                        KD {item.price}
-                      </Text>
-                    </View>
-                    <TouchableOpacity
-                      onPress={() => openClose(item.item_id)}>
-                      <View
-                        style={{
-                          alignSelf: 'flex-end',
-                          justifyContent: 'flex-end',
-                          bottom: -6,
-                          right: -6,
-                        }}>
-                        <Image
-                          source={imgSource}
-                          width={100}
-                          height={100}
-                          style={{ width: 29, height: 11 }}
-                        />
-                      </View>
-                    </TouchableOpacity>
-                  </ImageBackground>
-                    {showCpuPerocessersList && open == item.item_id ? (
-                        <ListDetails
-                          key={Math.floor((Math.random() * 100) + 1)}
-                          data={item} 
-                          navigation={props.navigation}
-                        ></ListDetails>
-                    ) : null}
-                  
-                </View>
-                );
-              })}
-          <View style={styles.bottom}>
-            <TouchableOpacity
-              activeOpacity={0.1}
-              onPress={() =>addIntoCart()}>
-              <Btn  text="BUILD YOUR PC" pay=""/>
-            </TouchableOpacity>
+              <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+                {props.coverImage ? props.coverImage.map((cImages, index) => {
+                  return (
+                    <Image
+                      key={index}
+                      source={{ uri: cImages.image_path }}
+                      style={styles.coverImage}
+                    />
+                  );
+                }) : null}
+              </ScrollView>
+            </View>
           </View>
-          </View>
+          {props.packages.map((item, index) => {
+            let i = {
+              "item_id": item.item_id,
+              "quantity": 1,
+              "price": item.price
+            };
+            console.log("Calling prop add")
+            //props.add(i);
+            return (
+              <View key={index}>
+
+                <ListDetails
+                  key={Math.floor((Math.random() * 100) + 1)}
+                  data={item}
+                  navigation={props.navigation}
+                  parentIndex={index}
+                  parentMethod={changeData}
+                  imData={packageDetailsData.image}
+                  packName={packageDetailsData.name}
+                  coverImage={coverImage}
+                  price={totalPrice}
+                > 
+                </ListDetails>
+              </View>
+            );
+          })}
+        </View>
+        {props.packages.length === 0 ? (
+          <View style={{ marginTop: height * 0 }}>
+            <ActivityIndicator color="#ECDBFA" size="large" />
+          </View>) : (
+            <View style={styles.bottom}>
+              <TouchableOpacity
+                activeOpacity={0.1}
+                onPress={() => addIntoCart()}>
+                <Btn text="BUILD YOUR PC" pay="" />
+              </TouchableOpacity>
+            </View>
           )}
-        </>
+
       </ScrollView>
+      )}
     </ImageBackground>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     width,
-    height: height,
+    minHeight: height,
+    overflow: 'hidden',
+    backgroundColor: '#2A2D39',
   },
   backButtonContentConatiner: {
     flexDirection: 'row',
@@ -260,17 +208,17 @@ const styles = StyleSheet.create({
     fontStyle: 'italic',
   },
   brandTitle: {
-    fontSize: 20,
+    fontSize: 18,
     color: '#ECDBFA',
     textAlign: 'left',
     width: 139,
-    fontFamily:'Michroma-Regular',
+    fontFamily: Platform.OS == 'android' ? 'Michroma-Regular' : 'Michroma',
   },
   price: {
     fontSize: 12,
     color: 'rgba(255,255,255,0.3)',
     marginTop: 5,
-    fontFamily:'Michroma-Regular',
+    fontFamily: Platform.OS == 'android' ? 'Michroma-Regular' : 'Michroma',
   },
   scrollViewContainer: {
     width: '100%',
@@ -278,25 +226,30 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingBottom: 20,
   },
-  coverImage:{
-    width:80,
-    height:100,
-    margin:3,
-    borderRadius:10,
-    marginHorizontal:5
+  coverImage: {
+    width: 80,
+    height: 100,
+    margin: 3,
+    borderRadius: 10,
+    marginHorizontal: 5
   },
-  bottom:{
+  bottom: {
     flex: 1,
     justifyContent: 'flex-end',
   }
 });
 const mapStateToProps = (state) => ({
   cart: state.cartReducer.cart,
+  packages: state.packageReducer.packages,
+  packageData: state.packageReducer.packageData,
+  coverImage: state.packageReducer.coverImage,
+  totalPrice: state.packageReducer.totalPrice
 
 })
 
 const actionCreators = {
-  add: cartActions.addCartAction,
+  add: cartActions.initCartAction,
+  getPackages: packageActions.getPackages,
 
 };
 

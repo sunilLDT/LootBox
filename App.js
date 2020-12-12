@@ -133,11 +133,14 @@ const App = () => {
           setNavigator(navigator);
         }}>
         <Stack.Navigator
+        
           screenOptions={{
+            
             transitionSpec: {
               open: closeConfig,
               close: closeConfig,
             },
+           
             gestureEnabled: true,
             gestureDirection: 'horizontal',
             ...TransitionPresets.SlideFromRightIOS,

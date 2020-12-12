@@ -10,7 +10,6 @@ import {
   ScrollView,
   StyleSheet,
 } from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
 import Testing from './testing';
 import Card from './card';
 import Btn from './btn';
@@ -47,6 +46,7 @@ const BuildYourPc = ({ navigation }) => {
   }
 
   return (
+    <View style={{backgroundColor:'#292633', width:'100%', height:'100%'}}>
     <ScrollView
     showsVerticalScrollIndicator={false}
     style={{ width, height, overflowX: 'hidden' }}
@@ -97,7 +97,7 @@ const BuildYourPc = ({ navigation }) => {
             color: '#ECDBFA',
             fontSize: 20,
             lineHeight: 28,
-            fontFamily: 'Michroma-Regular',
+            fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma',
           }}>
           Select graphics and games to build your PC
           </Text>
@@ -190,6 +190,7 @@ const BuildYourPc = ({ navigation }) => {
           )}
       </ImageBackground>
     </ScrollView>
+    </View>
   );
 };
 const styles = StyleSheet.create({

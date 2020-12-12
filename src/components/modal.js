@@ -1,53 +1,25 @@
 import React, {useState, useContext} from 'react';
 import {
-  Alert,
-  Modal,
   StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-  TouchableWithoutFeedback,
 } from 'react-native';
 import {Context as AuthContext} from '../api/contexts/authContext';
+import SimpleAlert from './SimpleAlert';
 
 const App = ({msg, hideBtn}) => {
   const [modalVisible, setModalVisible] = useState(true);
   const {removeError,setValidationError} = useContext(AuthContext);
 
   return (
-    <View style={styles.centeredView}>
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => {}}>
-        <TouchableWithoutFeedback
-          onPress={() => {
-            // if (hideBtn) {
-            removeError();
-            setValidationError(null)
-            // }
-          }}>
-          <View style={styles.centeredView}>
-            <View style={styles.modalView}>
-              <Text style={styles.modalText}>{msg}</Text>
-              {/* {!hideBtn && ( */}
-              <TouchableOpacity
-                style={{...styles.openButton}}
-                onPress={() => {
-                  setValidationError(null)
-                  removeError();
-                }}>
-                <Text style={styles.textStyle}>
-                  {!hideBtn ? 'Try Again' : "OK"}
-                </Text>
-              </TouchableOpacity>
-              {/* )} */}
-            </View>
-          </View>
-        </TouchableWithoutFeedback>
-      </Modal>
-    </View>
+    <>
+    {modalVisible?(
+      <SimpleAlert 
+      msg={msg} 
+      removeError={removeError()} 
+      setValid={setValidationError(null)}
+      />
+    ):null}
+    
+    </>
   );
 };
 
@@ -77,7 +49,7 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontWeight: 'bold',
     textAlign: 'center',
-    fontFamily: 'Michroma-Regular',  
+    fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma',  
   },
   modalText: {
     marginBottom: 15,

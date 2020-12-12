@@ -92,7 +92,7 @@ const Otp = ({navigation}) => {
             color: '#ECDBFA',
             lineHeight: 28,
             marginTop:20,
-            fontFamily:'Michroma-Regular',
+            fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma',
           }}>
           Verification OTP sent to your mobile number
         </Text>

@@ -7,6 +7,7 @@ import {
     StyleSheet,
     Dimensions,
     TouchableOpacity,
+    ActivityIndicator,
 } from 'react-native';
 import Expand from '../../assets/ic-3copy.png';
 import RBSheet from 'react-native-raw-bottom-sheet';
@@ -14,7 +15,7 @@ import { getItemDetails } from '../../api/buildYourPc';
 import Icons from 'react-native-vector-icons/Feather';
 import { ScrollView } from 'react-native-gesture-handler';
 import IcDetailCard from '../../assets/ic_details_card.png';
-import Btn from '../../screens/btn';
+import SelectBtn from '../../components/SelectTheBtn';
 import { connect } from 'react-redux';
 import { cartActions } from '../../actions/user';
 import ViewMoreText from 'react-native-view-more-text';
@@ -23,7 +24,9 @@ import ViewMoreText from 'react-native-view-more-text';
 const { width, height } = Dimensions.get('window');
 const ItemDetails = (props) => {
     const itemId = props.itemid;
+    const sub_category_name = props.sub_category_name;
     const refRBSheet = useRef();
+    const [loading, setLoading] = useState(true);
     const [itemDetails,setItemDetails] = React.useState({});
     const [customFieldsValue,setCustomFieldsValue] =  React.useState([]);
 
@@ -40,11 +43,14 @@ const ItemDetails = (props) => {
 
     const GetItemDetails = () => {
         refRBSheet.current.open();
+        setLoading(true)
         getItemDetails(itemId).then((response) => {
             setItemDetails(response.data);
             setCustomFieldsValue(response.data.custom_fields_values);
+            setLoading(false)
         }).catch((error) => {
             console.log("getItemDetails" + error);
+            setLoading(false)
         });
     }
 
@@ -53,7 +59,7 @@ const ItemDetails = (props) => {
             "item_id": id,
             "quantity": 1
         };
-        setSelectedItems([...selectedItems, id]);
+        // setSelectedItems([...selectedItems, id]);
         props.add(item);
         refRBSheet.current.close()
     }
@@ -65,7 +71,7 @@ const ItemDetails = (props) => {
         </TouchableOpacity>
         <RBSheet
             ref={refRBSheet}
-            closeOnDragDown={true}
+            // closeOnDragDown={true}
             style={styles.bottomSheet}
             animationType="fade"
             height={500}
@@ -81,7 +87,12 @@ const ItemDetails = (props) => {
                 }
               }}
         >
-            <ScrollView style={styles.scrollViewContainer}>
+            {loading ? (
+            <View style={{marginTop: height * 0.26}}>
+                <ActivityIndicator color="#ECDBFA" size="small" />
+            </View>
+                ):(
+            <ScrollView style={styles.scrollViewContainer} showsVerticalScrollIndicator={false}>
                 <View style={styles.imageTextContainer}>
                     <View style={styles.brandItem}>
                         <Image
@@ -147,10 +158,11 @@ const ItemDetails = (props) => {
                     </ImageBackground>
 
                     <TouchableOpacity style={styles.btn} onPress={() => {selectItem(itemId)}}>
-                        <Btn text="Select this CPU" pay=""/>
+                        <SelectBtn subCat={sub_category_name} x="-10"/>
                     </TouchableOpacity>
                 </View>
             </ScrollView>
+                )}
         </RBSheet>
     </View>
     );
@@ -162,6 +174,7 @@ const styles = StyleSheet.create({
         height:13,
     },
     scrollViewContainer:{
+        width:width,
     },
     bottomSheet:{
         backgroundColor: "transparent",
@@ -194,29 +207,29 @@ const styles = StyleSheet.create({
         fontSize:17,
         color:'#fff',
         marginVertical:5,
-        fontFamily:'Michroma-Regular',
-        width:width*0.5
+        fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma',
+        width:width*0.4
     },
     brand:{
         position:'relative',
         fontSize:15,
         color: 'rgba(255,255,255,0.3)', 
         marginVertical:5,
-        fontFamily:'Michroma-Regular',   
+        fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma', 
     },
     cross:{
         position:'relative',
         left:"80%",
         top:"-20%",
         color: '#842D8A',
-        marginVertical:5,
+       
     },
     price:{
         fontSize:12,
         position:'relative',
         color: 'rgba(255,255,255,0.3)',
         marginVertical:5,
-        fontFamily:'Michroma-Regular',
+        fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma',
     },
     description:{
         paddingHorizontal:"10%",

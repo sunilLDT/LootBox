@@ -54,6 +54,7 @@ const Signup = ({navigation, route}) => {
   };
 
   return (
+    <View style={{backgroundColor:'#292633', width:'100%', height:'100%'}}>
     <ImageBackground
     source={bgImage}
     style={{
@@ -104,11 +105,12 @@ const Signup = ({navigation, route}) => {
                       fontSize: 20,
                       paddingRight:20,
                       opacity: 0.24,
-                      fontFamily:'Michroma-Regular',
+                      fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma',
                     }}>
                     Login
                   </Text>
                 </TouchableOpacity>
+                <Text style={{color:'#ffffff', fontSize:30}}>|</Text>
                 <TouchableOpacity>
                   <Text
                     style={{
@@ -117,7 +119,7 @@ const Signup = ({navigation, route}) => {
                       paddingLeft:20,
                       borderLeftColor: '#373843',
                       borderLeftWidth: 1,
-                      fontFamily:'Michroma-Regular',
+                      fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma',
                     }}>
                     Signup
                   </Text>
@@ -337,6 +339,7 @@ const Signup = ({navigation, route}) => {
         </ScrollView>
       </KeyboardAvoidingView>
     </ImageBackground>
+    </View>
   );
 };
 

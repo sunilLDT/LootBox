@@ -65,7 +65,7 @@ const OrderDetails = ({navigation}) => {
                 fontSize: 12,
                 lineHeight: 24,
                 marginBottom: 20,
-                fontFamily: 'Michroma-Regular',
+                fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma',
                 color: '#ECDBFA',
               }}>
               Confirmed
@@ -74,7 +74,7 @@ const OrderDetails = ({navigation}) => {
               style={{
                 color: '#DF2EDC',
                 fontSize: 16,
-                fontFamily: 'Michroma-Regular',
+                fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma',
                 lineHeight: 24,
               }}>
               On the Way
@@ -98,7 +98,7 @@ const OrderDetails = ({navigation}) => {
             </Text>
             <Text
               style={{
-                fontFamily: 'Michroma-Regular',
+                fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma',
                 lineHeight: 14,
                 color: '#ECDBFA',
                 fontSize: 12,
@@ -118,7 +118,7 @@ const OrderDetails = ({navigation}) => {
             }}>
             <Text
               style={{
-                fontFamily: 'Michroma-Regular',
+                fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma',
                 fontSize: 20,
                 lineHeight: 28,
                 color: '#ECDBFA',
@@ -127,7 +127,7 @@ const OrderDetails = ({navigation}) => {
             </Text>
             <Text
               style={{
-                fontFamily: 'Michroma-Regular',
+                fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma',
                 fontSize: 12,
                 opacity: 0.5,
                 lineHeight: 28,

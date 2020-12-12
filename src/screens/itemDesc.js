@@ -231,7 +231,7 @@ const renderViewLess = (onPress) => {
               style={{
                   color: '#ECDBFA',
                   fontSize: 18,
-                  fontFamily: 'Michroma-Regular',        
+                  fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma',        
                   }}
             >
               {props.route.params.name}
@@ -241,7 +241,7 @@ const renderViewLess = (onPress) => {
                 color: '#ECDBFA',
                 fontSize: 14,
                 opacity: 0.5,
-                fontFamily: 'Michroma-Regular',       
+                fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma',       
                      }}>
               {props.route.params.brand}
             </Text>
@@ -259,7 +259,7 @@ const renderViewLess = (onPress) => {
           <Text
             style={{
               fontSize: 14,
-              fontFamily: 'Michroma-Regular',       
+              fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma',   
                      color: '#ECDBFA',
               opacity: 0.5,
             }}>
@@ -268,7 +268,7 @@ const renderViewLess = (onPress) => {
           <Text
             style={{
               fontSize: 14,
-              fontFamily: 'Michroma-Regular',            
+              fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma',           
                 color: '#ECDBFA',
             }}>
             KD {props.route.params.price}
@@ -285,7 +285,7 @@ const renderViewLess = (onPress) => {
           <Text
             style={{
               fontSize: 14,
-              fontFamily: 'Michroma-Regular',       
+              fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma',     
                      color: '#ECDBFA',
               opacity: 0.5,
             }}>
@@ -314,7 +314,7 @@ const renderViewLess = (onPress) => {
             <Text
               style={{
                 fontSize: 14,
-                fontFamily: 'Michroma-Regular',   
+                fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma', 
                 color: '#ECDBFA',
                 marginHorizontal: 10,
               }}>
@@ -338,7 +338,7 @@ const renderViewLess = (onPress) => {
         <Text
           style={{
             fontSize: 14,
-            fontFamily: 'Michroma-Regular',    
+            fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma',    
                     color: '#ECDBFA',
             opacity: 0.5,
             marginTop: 20,

@@ -10,7 +10,7 @@ import {
   StyleSheet,
   ActivityIndicator,
 } from 'react-native';
-import Btn from './btn';
+import PayBtn from '../components/PayBtn';
 import ItemCard from '../assets/ic_card.png';
 import IcDetailCard from '../assets/ic_details_card.png';
 import {showCartData,orderPlace,addressListApi,defaultAddressApi} from '../api/buildYourPc';
@@ -224,7 +224,7 @@ const Cart = ({navigation}) => {
               <Text
                 style={{
                   color: '#ECDBFA',
-                  fontFamily:'Michroma-Regular',
+                  fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma',
                 }}>
                 {cartPackage.name}
               </Text>
@@ -234,7 +234,7 @@ const Cart = ({navigation}) => {
                 style={{
                   color: '#ECDBFA',
                   opacity: 0.5,
-                  fontFamily:'Michroma-Regular',
+                  fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma',
                   fontSize:12,
                 }}>
                 KD {cartData.grand_total}
@@ -331,7 +331,7 @@ const Cart = ({navigation}) => {
             alignSelf:'center',
             marginTop:"55%",
             }}>
-          <Text style={{color:"#fff",fontSize:20,fontFamily:'Michroma-Regular'}}>Your Cart is empty</Text>
+          <Text style={{color:"#fff",fontSize:20,fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma'}}>Your Cart is empty</Text>
         </View>:
           <ImageBackground
             source={ItemCard}
@@ -509,8 +509,8 @@ const Cart = ({navigation}) => {
         }
         {Object.keys(cartData).length === 0?null:
           <TouchableOpacity onPress={() => checkout()}>
-            <View style={{width:"105%"}}>
-              <Btn  text={cartData.grand_total} pay="PAY                " />
+            <View style={{width:"110%"}}>
+              <PayBtn  price={cartData.grand_total} />
             </View>
           </TouchableOpacity>
         } 
@@ -520,8 +520,10 @@ const Cart = ({navigation}) => {
           Forgot to add something?
         </Text>
         <View>
-          <TouchableOpacity style={{marginTop:10}} onPress={() => navigation.navigate('home')}>
-            <SaveBtn text="Continue Shopping" x="100" />
+          <TouchableOpacity style={{marginTop:10,marginLeft:40}} onPress={() => navigation.navigate('home')}>
+            <View style={{width:"87%",}}>
+              <SaveBtn text="Continue Shopping" x="100" />
+            </View>
           </TouchableOpacity>
         </View>
       </View>

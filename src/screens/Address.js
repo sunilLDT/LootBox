@@ -123,6 +123,7 @@ const Address = ({navigation,route}) => {
         }
     }
     return (
+        <View style={{backgroundColor:'#292633', width:'100%', height:'100%'}}>
         <ScrollView
             style={{
                 width,
@@ -193,11 +194,13 @@ const Address = ({navigation,route}) => {
                         placeholder="Please select City"
                         selectedValue={selectedCity}    
                         style={{
-                            height: 65,
+                            height: Platform.OS=='android'?65:250,
                             width: "85%",
+                            marginTop: Platform.OS=='android'?0:33,
                             color:'#ECDBFA',
                             marginLeft:'2%',
                         }}
+                        itemStyle={{color:'#ffffff'}}
                         onValueChange={(itemValue, itemIndex) =>
                             sendCityId(itemValue)
                         }
@@ -235,11 +238,13 @@ const Address = ({navigation,route}) => {
                         placeholder="Please select area"
                         selectedValue={selectedArea}
                         style={{
-                            height: 65,
+                            height: Platform.OS=='android'?65:250,
                             width: "85%",
+                            marginTop: Platform.OS=='android'?0:30,
                             color:'#ECDBFA',
                             marginLeft:'2%',
                         }}
+                        itemStyle={{color:'#ffffff'}}
                         onValueChange={(itemValue, itemIndex) =>
                             setSelectedArea(itemValue)
                         }
@@ -297,11 +302,13 @@ const Address = ({navigation,route}) => {
                         mode="dropdown"
                         selectedValue={addressType}
                         style={{
-                            height: 65,
+                            height: Platform.OS=='android'?65:250,
                             width: "85%",
+                            marginTop: Platform.OS=='android'?0:30,
                             color:'#ECDBFA',
                             marginLeft:'2%',
                         }}
+                        itemStyle={{color:'#ffffff'}}
                         onValueChange={(itemValue, itemIndex) =>
                             setAddressType(itemValue)
                         }
@@ -313,15 +320,16 @@ const Address = ({navigation,route}) => {
                         </Picker>
                     </LinearGradient>
                 <View style={styles.btnView}>
-                    <TouchableWithoutFeedback
+                    <TouchableOpacity
                     onPress={() => addAddress(specficAddress.address_id)}>
                         <View>
                             <SaveBtn text="Save"/>
                         </View>
-                    </TouchableWithoutFeedback>
+                    </TouchableOpacity>
                 </View>
           </ImageBackground>
       </ScrollView>
+      </View>
     );
 }
 

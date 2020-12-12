@@ -54,7 +54,7 @@ const ContactUs = ({navigation}) => {
 
         <Text
           style={{
-            fontFamily: 'Michroma-Regular',
+            fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma',
             fontSize: 20,
             lineHeight: 28,
             color: '#ECDBFA',

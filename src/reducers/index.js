@@ -1,11 +1,14 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import {combineReducers} from 'redux';
 import cartReducer from './cart';
+import packageReducer from './package';
+
 import * as types from '../actions/actionTypes';
 
 
 const AppReducer = combineReducers({
     cartReducer: cartReducer,
+    packageReducer:packageReducer
 
 });
 

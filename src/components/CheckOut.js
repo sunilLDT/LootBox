@@ -11,7 +11,7 @@ const CheckOut = ({navigation,route}) => {
     const {paymentUrl} = route.params;
     const _onNavigationStateChange = (webViewState) => {
         var fullUrl  = webViewState.url;
-        var msgUrl =  fullUrl.substring(0,56);
+        var msgUrl =  fullUrl.substring(0,54);
         if(msgUrl == "https://test-api.loot-box.co/api/hesabe-success-callback" || msgUrl == "https://test-api.loot-box.co/api/hesabe-error-callback"){
             navigation.navigate('alertMessage',{msgUrl:msgUrl});
         }

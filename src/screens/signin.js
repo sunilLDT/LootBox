@@ -93,6 +93,7 @@ const Signin = ({navigation}) => {
   }, []);
 
   return (
+    <View style={{backgroundColor:'#292633', width:'100%', height:'100%'}}>
     <TouchableWithoutFeedback
       onPress={() => {
         Keyboard.dismiss();
@@ -153,12 +154,13 @@ const Signin = ({navigation}) => {
                       paddingRight:20,
                       borderRightColor: '#373843',
                       borderRightWidth: 1,
-                      fontFamily:'Michroma-Regular',
+                      fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma',
                     
                     }}>
                     Login
                   </Text>
                 </TouchableOpacity>
+                <Text style={{color:'#ffffff', fontSize:30}}>|</Text>
                 <TouchableOpacity
                   onPress={() => {
                     navigation.navigate('signup');
@@ -169,7 +171,7 @@ const Signin = ({navigation}) => {
                       fontSize: 20,
                       paddingLeft:20,
                       opacity: 0.24,
-                      fontFamily:'Michroma-Regular',
+                      fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma',
                     
                     }}>
                     Signup
@@ -249,6 +251,7 @@ const Signin = ({navigation}) => {
       </ImageBackground>
       
     </TouchableWithoutFeedback>
+    </View>
   );
 };
 

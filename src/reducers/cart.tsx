@@ -15,22 +15,30 @@ export default function (state = initialState, action) {
         ...state,
         loading: true,
       };
-    case cartConstants.CART_ADD_SUCCESS:
+    case cartConstants.CART_ADD_INIT:
+
       return {
         ...state,
-        cart: [...state.cart,action.id]
+        cart: action.id
+      };
+    case cartConstants.CART_ADD_SUCCESS:
+      console.log(state.cart)
+      console.log(action.id)
+      return {
+        ...state,
+        cart: action.id
       };
 
     case cartConstants.CART_EMPTY_SUCCESS:
-        return {
-          ...state,
-          cart: []
-        };
+      return {
+        ...state,
+        cart: []
+      };
     case cartConstants.CART_REMOVE_SUCCESS:
       return {
         ...state,
         loading: false,
-        cart:state.cart.filter((item, i)=>  i !== action.id.item_id),      
+        cart: state.cart.filter((item, i) => i !== action.id.item_id),
       };
 
     case cartConstants.CART_ADD_FAILURE:
