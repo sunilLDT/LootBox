@@ -461,7 +461,7 @@ const LootStore = ({ navigation }) => {
                                             )}
                                           <Text
                                             style={{
-                                              fontFamily: 'Montserrat-Regular',
+                                              fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma', 
                                               color: '#D2D7F9',
                                               opacity: 0.5,
                                               fontSize: 14,
@@ -474,7 +474,7 @@ const LootStore = ({ navigation }) => {
                                             style={{
                                               fontSize: 16,
                                               color: '#ECDBFA',
-                                              fontFamily: 'Montserrat-Bold',
+                                              fontFamily: Platform.OS=='android'?'Montserrat-Bold':'Montserrat',
                                               marginTop: 2,
                                               marginRight: "2%"
                                             }}>
@@ -484,7 +484,7 @@ const LootStore = ({ navigation }) => {
                                             style={{
                                               color: '#DF2EDC',
                                               fontSize: 12,
-                                              fontFamily: 'Montserrat-Regular',
+                                              fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma',
                                               marginVertical: 10
                                             }}>
                                             KD {i.price}

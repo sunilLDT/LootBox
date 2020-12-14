@@ -41,7 +41,6 @@ const ListDetails = (props) => {
 
     var imgSource = upwardImage ? ExpandImage : CloseImage;
     useEffect(() => {
-
         getCategoriesItem(props.data.sub_category_id, props.data.item_id, props.data.sub_category_name).then((response) => {
             setCategoyItems(response.data);
             let item = {
