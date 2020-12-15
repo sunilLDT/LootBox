@@ -1,4 +1,4 @@
-import React, {useState,useContext} from 'react';
+import React, {useState,useContext,useEffect} from 'react';
 import {
   Text,
   View,
@@ -8,7 +8,8 @@ import {
   Image,
   ImageBackground,
   ScrollView,
-  TouchableWithoutFeedback
+  TouchableWithoutFeedback,
+  ActivityIndicator
 } from 'react-native';
 import Input from '../components/input';
 import InputCard from '../components/InputCard';
@@ -27,6 +28,7 @@ import {Context as AuthContext} from '../api/contexts/authContext';
 import AddressList from '../components/AddressList';
 import SaveBtn from '../components/SaveBtn';
 import bgImage from '../assets/signup.png';
+import { getProfilApi } from '../api/buildYourPc';
 
 const {width, height} = Dimensions.get('window');
 
@@ -40,9 +42,26 @@ const Profile = ({navigation}) => {
   const [newPassword,setnewPassword] = useState("");
   const [confirmPassword,setconfirmPassword] = useState("");
   const [photo,setPhoto] = useState({});
-  const {signout} = useContext(AuthContext)
+  const [profileDetails,setProfileDetails] = useState({});
+  const [loading, setLoading] = useState(true);
+  const {signout} = useContext(AuthContext);
 
   var formattedDOB = format(DOB, "d-MM-yyyy");
+
+  useEffect(() => {
+    setLoading(true)
+    getProfilApi().then((response) => {
+      setProfileDetails(response.data);
+      profileDetails(response.data);
+      setLoading(false)
+    }).catch((error) => {
+      console.log("profileDetails" +error);
+      setLoading(false)
+    });
+    return () => {
+      console.log("willUnMount")
+    }
+  }, [])
 
   const ProfileUpdate = () => {
     if(!email){
@@ -61,7 +80,7 @@ const Profile = ({navigation}) => {
         console.log("profileUpdate" + error);
       });
     }
-  }
+  };
 
   const changePassword = () => {
     if(newPassword !== confirmPassword){
@@ -81,8 +100,7 @@ const Profile = ({navigation}) => {
       }).catch((error) => {
         console.log("ChangePassword" + error);
       })
-    } 
-    
+    }
   };
 
   const handleChoosePhoto = () => {
@@ -151,6 +169,11 @@ const Profile = ({navigation}) => {
           style={{
             paddingLeft: width * 0.1,
           }}>
+          {loading ? (
+          <View style={{marginTop: height * 0.37}}>
+              <ActivityIndicator color="#ECDBFA" size="small" />
+          </View>):(
+          <>  
           <View
             style={{
               display: 'flex',
@@ -180,7 +203,7 @@ const Profile = ({navigation}) => {
               EDIT PROFILE
             </Text>
           </View>
-
+          
           <View
             style={{
               display: 'flex',
@@ -197,7 +220,7 @@ const Profile = ({navigation}) => {
                   color: '#ECDBFA',
                   marginBottom: 10,
                 }}>
-                John Doe
+                {profileDetails.full_name}
               </Text>
               <Text
                 style={{
@@ -207,10 +230,11 @@ const Profile = ({navigation}) => {
                   opacity: 0.5,
                   marginBottom: 20,
                 }}>
-                Jondoe@gmail.com
+                {profileDetails.email}
               </Text>
             </View>
             <TouchableOpacity onPress={handleChoosePhoto}>
+              {profileDetails.profile_image == ""?(
               <Image
               // resizeMode="contain"
                 source={{
@@ -223,6 +247,18 @@ const Profile = ({navigation}) => {
                   borderBottomLeftRadius:10,
                 }}
               />
+              ):(
+                <Image
+              // resizeMode="contain"
+                source={{uri:profileDetails.profile_image}}
+                style={{
+                  height: height * 0.14,
+                  width: width * 0.4,
+                  borderTopLeftRadius:10,
+                  borderBottomLeftRadius:10,
+                }}
+              />
+              )}
             </TouchableOpacity>
           </View>
           <View style={{marginBottom:10,marginTop:20}}>
@@ -231,7 +267,7 @@ const Profile = ({navigation}) => {
           <View style={{marginVertical: 10}}>
             <TouchableOpacity  onPress={() => {setpasswordModal(!passwordModal)}}>
             <InputCard 
-            placeholder="Password" />
+            placeholder="***********" />
             </TouchableOpacity>
           </View>
           <View style={{marginVertical: 10}}>
@@ -285,7 +321,7 @@ const Profile = ({navigation}) => {
           </LinearGradient>
           <View style={{marginVertical: 10}}>
             <TouchableOpacity onPress={() => navigation.navigate('changePasswordNumber')}>
-              <InputCard placeholder="Phone Number"/>
+              <InputCard placeholder={profileDetails.phone}/>
             </TouchableOpacity>
           </View>
 
@@ -338,6 +374,8 @@ const Profile = ({navigation}) => {
               <SaveBtn text="Save"/>
             </View>
           </TouchableWithoutFeedback>
+          </>
+          )} 
         </ImageBackground>
         {show && (
           <DateTimePicker

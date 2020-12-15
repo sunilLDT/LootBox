@@ -179,7 +179,7 @@ const AdvanceBuilder = ({navigation}) => {
                                   i7-432k
                                 </Text>
                               </View>
-                              <Text>
+                              <Text style={styles.sidePrice}>
                                 KD 2,200
                               </Text>
                             </View>
@@ -242,7 +242,7 @@ const AdvanceBuilder = ({navigation}) => {
                 }}
                 numColumns={2}
               />
-              <TouchableOpacity onPress={() => {}}>
+              <TouchableOpacity onPress={() => {navigation.navigate('addToCart')}}>
                 <View style={styles.nextBtn}>
                   <NextBtn/>
                 </View>
@@ -303,9 +303,9 @@ const styles = StyleSheet.create({
     width:width*0.71,
   },
   box:{
-    width:width*0.26,
-    height:height*0.15,
-    borderBottomWidth:0.3,
+    width:width*0.3,
+    height:height*0.25,
+    borderBottomWidth:1,
     borderBottomColor:"#3D3E48",
     flex:1,
     justifyContent:'center',
@@ -318,11 +318,11 @@ const styles = StyleSheet.create({
   subName:{
     color:'#fff',
     fontSize:11,
-    paddingHorizontal:12
+    paddingHorizontal:12,
+    marginTop:5,
   },
   cardConatiner: {
     width: width*0.30,
-    height: height*0.18,
     marginTop:40,
     marginLeft:10
   },
@@ -332,7 +332,6 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     position:'relative',
     bottom:20
-    
   },
   brand:{
     fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma', 
@@ -353,6 +352,12 @@ const styles = StyleSheet.create({
     fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma',
     paddingVertical: 10,
   },
+  sidePrice:{
+    color: '#DF2EDC',
+    fontSize: 9,
+    fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma',
+    paddingTop:5
+  },
   selectedDetails:{
     display:'flex',
     flexDirection:'column',
@@ -366,6 +371,7 @@ const styles = StyleSheet.create({
   sideDetails:{
     color:'#fff',
     paddingLeft:2.5,
+    paddingTop:5
   }
  
 });

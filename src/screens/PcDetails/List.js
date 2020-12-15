@@ -20,6 +20,7 @@ import ItemDetails from './ItemDetails';
 import { connect } from 'react-redux';
 import { cartActions } from '../../actions/user';
 import { packageActions } from '../../actions/package';
+import thumbnail from '../../assets/thumbnail.png';
 var sel = [];
 const maxlimit = 12;
 const { width, height } = Dimensions.get('window');
@@ -277,10 +278,16 @@ const ListDetails = (props) => {
                                                     alignContent: 'center',
                                                     marginTop: 30,
                                                 }}>
+                                                {processer.image == ""?(
+                                                <Image
+                                                source={thumbnail}
+                                                style={{ width: 48, height: 40, marginBottom: 10, alignSelf: 'center' }}
+                                                />):(
                                                 <Image
                                                     source={{ uri: processer.image }}
                                                     style={{ width: 48, height: 40, marginBottom: 10, alignSelf: 'center' }}
                                                 />
+                                                )}
                                                 <Text
                                                     adjustsFontSizeToFit={true}
                                                     numberOfLines={2}

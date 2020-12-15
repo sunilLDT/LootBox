@@ -151,3 +151,8 @@ export async function getItemsSubCatApi(id){
   });
   return response.data;
 }
+
+export async function getProfilApi(){
+  const response = await Api.get('app/user/profile');
+  return response.data;
+}

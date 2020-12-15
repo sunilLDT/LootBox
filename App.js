@@ -42,6 +42,7 @@ import { store, persistedStore } from './src/store/index';
 import { Provider } from 'react-redux';
 import SplashScreen from 'react-native-splash-screen';
 import Email from './src/screens/email';
+import AddToCart from './src/screens/AdvanceBuilder/addToCart';
 
 const {width, height} = Dimensions.get('window');
 
@@ -176,6 +177,7 @@ const App = () => {
           <Stack.Screen name="changePasswordNumber" component={changePasswordNumber} />
           <Stack.Screen name="address" component={Address} />
           <Stack.Screen name="email" component={Email} />
+          <Stack.Screen name="addToCart" component={AddToCart} />
         </Stack.Navigator>
       </NavigationContainer>
     </View>

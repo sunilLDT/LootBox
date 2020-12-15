@@ -510,7 +510,7 @@ const Cart = ({navigation}) => {
         {Object.keys(cartData).length === 0?null:
           <TouchableOpacity onPress={() => checkout()}>
             <View style={{width:"110%"}}>
-              <PayBtn  price={cartData.grand_total} />
+              <PayBtn  price={cartData.grand_total} text="PAY" />
             </View>
           </TouchableOpacity>
         } 
