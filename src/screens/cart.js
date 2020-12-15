@@ -10,7 +10,7 @@ import {
   StyleSheet,
   ActivityIndicator,
 } from 'react-native';
-import Btn from './btn';
+import PayBtn from '../components/PayBtn';
 import ItemCard from '../assets/ic_card.png';
 import IcDetailCard from '../assets/ic_details_card.png';
 import {showCartData,orderPlace,addressListApi,defaultAddressApi} from '../api/buildYourPc';
@@ -534,8 +534,10 @@ const Cart = ({navigation}) => {
           Forgot to add something?
         </Text>
         <View>
-          <TouchableOpacity style={{marginTop:10}} onPress={() => navigation.navigate('home')}>
-            <SaveBtn text="Continue Shopping" x="100" />
+          <TouchableOpacity style={{marginTop:10,marginLeft:40}} onPress={() => navigation.navigate('home')}>
+            <View style={{width:"87%",}}>
+              <SaveBtn text="Continue Shopping" x="100" />
+            </View>
           </TouchableOpacity>
         </View>
       </View>

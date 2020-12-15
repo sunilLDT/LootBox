@@ -83,7 +83,7 @@ const PcDetails = ({navigation, route}) => {
         </Text>
         </View>
         {packageData.map((cpuDetail, index) =>{
-        // if(cpuDetail.status === 1){
+        if(cpuDetail.status === 1){
           return (
          <TouchableOpacity
             key={index}
@@ -172,14 +172,21 @@ const PcDetails = ({navigation, route}) => {
                 </ImageBackground>
        </TouchableOpacity>
           );
-        //   }
+          }
         })}
         {loading ? (
         <View style={{marginTop: height * 0.37}}>
             <ActivityIndicator color="#ECDBFA" size="small" />
         </View>
         ) :packageData.length === 0?(
-            <Text style={{color:"#fff",lineHeight: 32,fontFamily:Platform.OS=='android'?'Michroma-Regular':'Michroma',fontSize:15,marginTop: height * 0.32}}>No PACKAGE AVAILABLE FOR THIS GAME</Text>
+            <Text style={{
+                color:"#fff",
+                lineHeight: 32,
+                fontFamily:Platform.OS=='android'?'Michroma-Regular':'Michroma',
+                fontSize:15,marginTop: height * 0.32
+            }}
+            >No PACKAGE AVAILABLE FOR THIS GAME
+            </Text>
         ):null}
         </ImageBackground>   
      </ScrollView>

@@ -10,7 +10,6 @@ import {
   ScrollView,
   StyleSheet,
 } from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
 import Testing from './testing';
 import Card from './card';
 import Btn from './btn';
@@ -18,6 +17,7 @@ import Option1 from './1080P';
 import Option2 from './2K';
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import { getAllGames } from '../api/buildYourPc';
+import AdvanceBuilderButton from '../components/AdvanceBuilderBtn';
 
 
 const { width, height } = Dimensions.get('window');
@@ -81,30 +81,14 @@ const BuildYourPc = ({ navigation }) => {
             </TouchableOpacity>
             <TouchableOpacity
             onPress={() => navigation.navigate('AdvanceBuilder')}>
-            <LinearGradient
-              start={{ x: 0, y: 0 }}
-              end={{ x: 1, y: 0 }}
-              style={{
-                borderRadius: 10,
-                borderColor: '#C01C8A',
-                borderWidth: 1.5,
-                height: 32,
-                width: 153,
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
-              colors={['rgba(184,37,154,0.16)', 'rgba(184,37,154,0.16)']}>
-              <Text
-                style={{
-                  fontSize: 14,
-                  color: '#fff',
-                  opacity: 0.87,
-                  fontWeight: 'bold',
-                  //fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma',
+              <View style={{
+                  height: 32,
+                  width: 153,
+                  alignItems: 'center',
+                  justifyContent: 'center',
                 }}>
-                Advanced Builder
-              </Text>
-            </LinearGradient>
+                <AdvanceBuilderButton />
+              </View>
           </TouchableOpacity>
           </View>
 

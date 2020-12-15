@@ -26,15 +26,15 @@ function useForceUpdate(){
 const { width, height } = Dimensions.get('window');
 
 const ItemListing = (props) => {
-  const [selectedItems, setSelectedItems] = useState({
-    "item_id": 1,
-    "quantity": 1
-  });
+  // const [selectedItems, setSelectedItems] = useState({
+  //   "item_id": 1,
+  //   "quantity": 1
+  // });
   const { items } = props.route.params;
   const { pIndex } = props.route.params;
+  console.log(pIndex);
 
   const { sub_category_name } = props.route.params;
-  //const { sub_category_name } = props.route.params;
   const [data, setData] = useState(items);
   const [query, setQuery] = useState('');
   const [open, setOpen] = useState(false);
@@ -166,6 +166,7 @@ const ItemListing = (props) => {
         showsVerticalScrollIndicator={false}
         renderItem={({ item }, index) => {
           const maxlimit = 22;
+          if(item.status === 1){
           return (
             <TouchableOpacity
               key={index}
@@ -196,7 +197,7 @@ const ItemListing = (props) => {
                       marginBottom: 5,
                       alignSelf: 'center',
                     }}>
-                    {item.name /*((item.name).length > maxlimit) ? (((item.name).substring(0, maxlimit - 3)) + '...') : item.name*/}
+                    {item.name ? (((item.name).substring(0, maxlimit - 3)) + '...') : (((item.name).substring(0, maxlimit - 3)) + '...')}
                   </Text>
                   <Text
                     style={{
@@ -224,6 +225,7 @@ const ItemListing = (props) => {
               </ImageBackground>
             </TouchableOpacity>
           );
+        }
         }}
         numColumns={2}
       />

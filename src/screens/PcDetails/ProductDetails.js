@@ -40,11 +40,12 @@ const ProductDetails = (props) => {
   var imgSource = upwardImage ? ExpandImage : CloseImage;
 
   useEffect(() => {
-
+    setLoading(true)
     props.getPackages(PackageId);
 
 
   }, [PackageId]);
+  
 
 
   const addIntoCart = () => {
@@ -70,8 +71,6 @@ const ProductDetails = (props) => {
     setOpen(item_id);
     setShowCpuProcesserList(!showCpuPerocessersList)
   }
-
-
   return (
     <View style={{ backgroundColor: '#292633', width: '100%', height: '100%' }}>
       <ImageBackground source={BackgroundImage} style={styles.container}>
@@ -189,7 +188,9 @@ const ProductDetails = (props) => {
 const styles = StyleSheet.create({
   container: {
     width,
-    height: height,
+    minHeight: height,
+    overflow: 'hidden',
+    backgroundColor: '#2A2D39',
   },
   backButtonContentConatiner: {
     flexDirection: 'row',
@@ -208,7 +209,7 @@ const styles = StyleSheet.create({
     fontStyle: 'italic',
   },
   brandTitle: {
-    fontSize: 20,
+    fontSize: 18,
     color: '#ECDBFA',
     textAlign: 'left',
     width: 139,

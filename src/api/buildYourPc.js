@@ -145,6 +145,7 @@ export async function pcPartSubcategoryApi(){
   return response.data;
 }
 
+<<<<<<< HEAD
 export async function getOrderList(listType){
   const response = await Api.post('app/order/list',{
     list_type:listType
@@ -155,6 +156,11 @@ export async function getOrderList(listType){
 export async function sendEmail(listType){
   const response = await Api.post('app/order/list',{
     list_type:listType
+=======
+export async function getItemsSubCatApi(id){
+  const response = await Api.post('app/advance-builder/get-items',{
+    sub_category_id:id
+>>>>>>> 23f8e31ffd8aebdfa5c23c90c580c4c467a10a82
   });
   return response.data;
 }

@@ -41,7 +41,6 @@ const ListDetails = (props) => {
 
     var imgSource = upwardImage ? ExpandImage : CloseImage;
     useEffect(() => {
-
         getCategoriesItem(props.data.sub_category_id, props.data.item_id, props.data.sub_category_name).then((response) => {
             setCategoyItems(response.data);
             let item = {
@@ -245,7 +244,8 @@ const ListDetails = (props) => {
                                     props.navigation.navigate('ItemListing', {
                                         items: categoryItems,
                                         sub_category_name: props.data.sub_category_name,
-                                        
+                                        selected: selectedItems,
+                                        pIndex:props.parentIndex
                                     });
                                 }}>
                                 <Image
@@ -257,11 +257,10 @@ const ListDetails = (props) => {
                     </View>
                     <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} >
                         {categoryItems.map((processer, index) => {
-                            // {selectHandler(processer.item_id) } 
-                            const maxlimit = 10;
+                            const maxlimit = 22;
+                            if(processer.status === 1){
                             return (
                                 <>
-
                                     <TouchableOpacity
                                         key={index}
                                         onPressIn={() => { selectHandler(processer.item_id, processer.name, processer.price) }}
@@ -293,8 +292,7 @@ const ListDetails = (props) => {
                                                         marginBottom: 10,
                                                         alignSelf: 'center'
                                                     }}>
-                                                    {processer.name/*((processer.name).length > maxlimit) ? (((processer.name).substring(0, maxlimit - 3)) + '...') : processer.name*/}
-
+                                                    {processer.name ? (((processer.name).substring(0, maxlimit - 3)) + '...') : (((processer.name).substring(0, maxlimit - 3)) + '...')}
                                                 </Text>
                                                 <Text
                                                     style={{
@@ -323,12 +321,13 @@ const ListDetails = (props) => {
                                         </ImageBackground>
                                         <ItemDetails
                                             itemid={processer.item_id}
-                                            addToSelected={selectHandler}
+                                            sub_category_name={props.data.sub_category_name}
                                         />
                                     </TouchableOpacity>
                                     {/* )*/}
                                 </>
-                            );
+                            );  
+                        }
                         })}
                     </ScrollView>
                 </View>
