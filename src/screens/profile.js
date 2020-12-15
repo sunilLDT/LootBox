@@ -104,6 +104,7 @@ const Profile = ({navigation}) => {
     })
   }
   return (
+    <View style={{backgroundColor:'#292633', width:'100%', height:'100%'}}>
     <ScrollView
       style={{
         width,
@@ -355,6 +356,7 @@ const Profile = ({navigation}) => {
         )}
       </View>
     </ScrollView>
+    </View>
   );
 };
 

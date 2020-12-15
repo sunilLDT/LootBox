@@ -43,7 +43,9 @@ function getPackagesList(id) {
     return (dispatch) => {
         dispatch(request(id));
         getCategoriesItem(id.sub_category_id, id.item_id, id.sub_category_name).then((response) => {
+            console.log('###########################');
             console.log(response.data);
+            console.log('###########################');
             dispatch(success({
                 items: response.data,                
             }));

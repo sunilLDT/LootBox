@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState,useEffect } from 'react';
 import {
   ImageBackground,
   Dimensions,
@@ -9,13 +9,43 @@ import {
   View,
 } from 'react-native';
 import Circle from '../components/gradientCircle';
+import {getOrderList} from '../api/buildYourPc';
+const { width, height } = Dimensions.get('window');
 
-const {width, height} = Dimensions.get('window');
-
-const Orders = ({navigation}) => {
+const Orders = ({ navigation }) => {
   const [selected, setSelected] = useState(0);
+  const [orderList, setOrderList] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    setLoading(true);
+    console.log('======================');
+    getOrderList(2).then((response) => {
+      console.log(response.data);
+      setOrderList(response.data)       
+      setLoading(false)
+    }).catch((error) => {
+      console.log("Order List" + error);
+      setLoading(false)
+    });
+  }, []);
+
+
+  getOrderListApi=(type)=>{
+    setLoading(true)
+    getOrderList(2).then((response) => {
+      setOrderList(response.data) 
+      console.log(response.data)      
+      setLoading(false)
+    }).catch((error) => {
+      console.log("Order List" + error);
+      setLoading(false)
+    });
+
+  }
 
   return (
+    <View style={{backgroundColor:'#292633', width:'100%', height:'100%'}}>
     <ImageBackground
       source={require('../assets/dottedBackground.png')}
       style={{
@@ -31,7 +61,7 @@ const Orders = ({navigation}) => {
           //   paddingVertical: height * 0.1,
         }}
         showsVerticalScrollIndicator={false}>
-        <TouchableOpacity onPress={() => {navigation.pop()}}>
+        <TouchableOpacity onPress={() => { navigation.pop() }}>
           <Image
             resizeMode="contain"
             style={{
@@ -58,12 +88,12 @@ const Orders = ({navigation}) => {
             marginVertical: 20,
           }}>
           <TouchableOpacity
-            style={{marginRight: 20}}
+            style={{ marginRight: 20 }}
             onPress={() => {
-              setSelected(0);
+              getOrderListApi(1);
             }}>
             {selected === 0 && (
-              <View style={{position: 'absolute', top: 0}}>
+              <View style={{ position: 'absolute', top: 0 }}>
                 <Circle />
               </View>
             )}
@@ -74,17 +104,17 @@ const Orders = ({navigation}) => {
                 color: '#ECDBFA',
                 opacity: selected === 0 ? 1 : 0.4,
                 marginLeft: 10,
-               
+
               }}>
               Active
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => {
-              setSelected(1);
+              getOrderListApi(2);
             }}>
             {selected === 1 && (
-              <View style={{position: 'absolute', top: 0}}>
+              <View style={{ position: 'absolute', top: 0 }}>
                 <Circle />
               </View>
             )}
@@ -94,14 +124,14 @@ const Orders = ({navigation}) => {
                 color: '#ECDBFA',
                 opacity: selected === 1 ? 1 : 0.4,
                 marginLeft: 10,
-               
+
               }}>
               Past
             </Text>
           </TouchableOpacity>
         </View>
 
-        {[...Array(3).keys()].map((i, k) => (
+        {orderList.map((i, k) => (
           <View
             key={k}
             style={{
@@ -124,20 +154,20 @@ const Orders = ({navigation}) => {
                 <Text
                   style={{
                     color: '#ECDBFA',
-                    fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma',
+                    fontFamily: Platform.OS == 'android' ? 'Michroma-Regular' : 'Michroma',
                     fontSize: 16,
                     lineHeight: 20,
                   }}>
-                  2344552
+                  {i.order_number}
                 </Text>
                 <Text
                   style={{
                     color: '#ECDBFA',
-                    fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma',
+                    fontFamily: Platform.OS == 'android' ? 'Michroma-Regular' : 'Michroma',
                     fontSize: 16,
                     lineHeight: 20,
                   }}>
-                  KD 4,500
+                  KD {parseFloat(i.grand_total).toFixed(2)}
                 </Text>
               </View>
               <View
@@ -150,7 +180,7 @@ const Orders = ({navigation}) => {
                 <Text
                   style={{
                     color: '#ECDBFA',
-                   
+
                     fontSize: 12,
                     opacity: 0.5,
                     lineHeight: 20,
@@ -160,19 +190,19 @@ const Orders = ({navigation}) => {
                 <Text
                   style={{
                     color: '#ECDBFA',
-                   
+
                     fontSize: 12,
                     opacity: 0.5,
                     lineHeight: 20,
                   }}>
-                  4 Items
+                  {i.items_count} Items
                 </Text>
               </View>
             </View>
             <Text
               style={{
                 color: '#ECDBFA',
-               
+
                 fontSize: 12,
                 opacity: 0.5,
                 lineHeight: 20,
@@ -183,6 +213,7 @@ const Orders = ({navigation}) => {
         ))}
       </ScrollView>
     </ImageBackground>
+    </View>
   );
 };
 

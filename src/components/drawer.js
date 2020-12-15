@@ -19,7 +19,7 @@ const {width, height} = Dimensions.get('window');
 const options = [
   {
     name: 'My Cart',
-    path: 'home',
+    path: 'cart',
   },
   {
     name: 'My Orders',
@@ -27,7 +27,7 @@ const options = [
   },
   {
     name: "FAQ's",
-    path: 'home',
+    path: 'Faq',
   },
   {
     name: 'Contact Us',

@@ -361,10 +361,13 @@ const fetchCategories = (dispatch) => async () => {
 
 const fetchItems = (dispatch) => async (category_id, subcategory_id,page) => {
   try {
+      console.log(page)
     if (subcategory_id) {
+      console.log("1111111")
       const response = await Api.get(`app/items/list?category_id=${category_id}&&sub_category_id=${subcategory_id}`);
       return response.data;
     } else {
+      console.log("222222")
       const response = await Api.get(`app/items/list?category_id=${category_id}&&page=${page}`);
       return response.data;
     }

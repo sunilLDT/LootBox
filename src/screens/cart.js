@@ -48,10 +48,12 @@ const Cart = ({navigation}) => {
     });
   }, []);
   const checkout = () => {
+    setLoading(true)
     if(allAddress.length === 0){
       alert("Please add address for the Delivery")
     }else{
       orderPlace().then((response) => {
+        setLoading(false)
         navigation.navigate('checkout',{paymentUrl:response.data.data.paymenturl})
       }).catch((error) => {
         console.log("orderPlace" + error);
@@ -510,7 +512,19 @@ const Cart = ({navigation}) => {
         {Object.keys(cartData).length === 0?null:
           <TouchableOpacity onPress={() => checkout()}>
             <View style={{width:"105%"}}>
-              <Btn  text={cartData.grand_total} pay="PAY                " />
+             
+              {!loading ? (
+                     <Btn  text={cartData.grand_total} pay="PAY                " />
+                  ) : (
+                      <>
+                        <Btn text={' '} x="54" pay="" />
+                        <ActivityIndicator
+                          color="#ECDBFA"
+                          size="small"
+                          style={{ bottom: 63 }}
+                        />
+                      </>
+                    )}
             </View>
           </TouchableOpacity>
         } 

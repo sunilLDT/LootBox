@@ -25,47 +25,37 @@ const { width, height } = Dimensions.get('window');
 const ProductDetails = (props) => {
 
   const { PackageId } = props.route.params;
-
   const [packageDetailsData, setPackageDetailsData] = useState({});
-
   const [packageDetails, setPackageDetails] = useState([]);
-
   const [packageDetailsTemp, setPackageDetailsTemp] = useState([]);
-
   const [coverImage, setCoverImage] = useState([]);
-
   const [addItems, setAddItems] = useState();
-
   const [finalData, setFinalData] = useState([]);
-
   const [showCpuPerocessersList, setShowCpuProcesserList] = useState(false);
-
   const [open, setOpen] = useState();
   const [totalPrice, setTotalPrice] = useState(0);
-
   const [upwardImage, setUpwardImage] = useState(true);
+  const [loading, setLoading] = useState(false);
   const maxlimit = 12;
   var imgSource = upwardImage ? ExpandImage : CloseImage;
 
   useEffect(() => {
 
     props.getPackages(PackageId);
-  
+
 
   }, [PackageId]);
 
 
   const addIntoCart = () => {
-    console.log(props.packages)
-    let result = props.packages.map(({ item_id, quantity }) => ({item_id, quantity:1}));
-
- 
-    console.log(result);
-      addToCart(PackageId,result).then((response) => {
-        props.navigation.navigate('cart');
-      }).catch((error) => {
-        console.log("addToCart" + error);
-      });
+    setLoading(true);
+    let result = props.packages.map(({ item_id, quantity }) => ({ item_id, quantity: 1 }));
+    addToCart(PackageId, result).then((response) => {
+      setLoading(false);
+      props.navigation.navigate('cart');
+    }).catch((error) => {
+      console.log("addToCart" + error);
+    });
   }
 
   const changeData = (item) => {
@@ -83,102 +73,115 @@ const ProductDetails = (props) => {
 
 
   return (
-    <View style={{backgroundColor:'#292633', width:'100%', height:'100%'}}>
-    <ImageBackground source={BackgroundImage} style={styles.container}>
-      <TouchableOpacity
-        onPress={() => {
-          props.navigation.goBack();
-        }}>
-        <View style={styles.backButtonContentConatiner}>
-          <Image
-            source={require('../../assets/back.png')}
-            resizeMode="contain"
-            style={styles.backImage}
-          />
-        </View>
-      </TouchableOpacity>
-      <ScrollView
-        style={styles.scrollViewContainer}
-        showsHorizontalScrollIndicator={false}>
-        <View>
-
-          <View >
+    <View style={{ backgroundColor: '#292633', width: '100%', height: '100%' }}>
+      <ImageBackground source={BackgroundImage} style={styles.container}>
+        <TouchableOpacity
+          onPress={() => {
+            props.navigation.goBack();
+          }}>
+          <View style={styles.backButtonContentConatiner}>
             <Image
-              source={{ uri: props.packageData.image }}
-              width={100}
-              height={100}
-              style={{
-                width: 312,
-                height: 200,
-                alignSelf: 'center',
-              }}
+              source={require('../../assets/back.png')}
+              resizeMode="contain"
+              style={styles.backImage}
             />
-            <View
-              style={{
-                marginVertical: 20,
-                flexDirection: 'row',
-                justifyContent: 'space-around',
-              }}>
-              <View style={{ alignSelf: 'center', paddingLeft: '2%' }}>
-                <Text style={styles.brandTitle}>{props.packageData.name}</Text>
-                <Text style={styles.brandTitle}>{props.totalPrice}</Text>
-              </View>
-              <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-                {props.coverImage ? props.coverImage.map((cImages, index) => {
-                  return (
-                    <Image
-                      key={index}
-                      source={{ uri: cImages.image_path }}
-                      style={styles.coverImage}
-                    />
-                  );
-                }) : null}
-              </ScrollView>
-            </View>
           </View>
-          {props.packages.map((item, index) => {
-            let i = {
-              "item_id": item.item_id,
-              "quantity": 1,
-              "price": item.price
-            };
-            console.log("Calling prop add")
-            //props.add(i);
-            return (
-              <View key={index}>
+        </TouchableOpacity>
+        <ScrollView
+          style={styles.scrollViewContainer}
+          showsHorizontalScrollIndicator={false}>
+          <View>
 
-                <ListDetails
-                  key={Math.floor((Math.random() * 100) + 1)}
-                  data={item}
-                  navigation={props.navigation}
-                  parentIndex={index}
-                  parentMethod={changeData}
-                  imData={packageDetailsData.image}
-                  packName={packageDetailsData.name}
-                  coverImage={coverImage}
-                  price={totalPrice}
-                ></ListDetails>
-
-
+            <View >
+              <Image
+                source={{ uri: props.packageData.image }}
+                width={100}
+                height={100}
+                style={{
+                  width: 312,
+                  height: 200,
+                  alignSelf: 'center',
+                }}
+              />
+              <View
+                style={{
+                  marginVertical: 20,
+                  flexDirection: 'row',
+                  justifyContent: 'space-around',
+                }}>
+                <View style={{ alignSelf: 'center', paddingLeft: '2%' }}>
+                  <Text style={styles.brandTitle}>{props.packageData.name}</Text>
+                  <Text style={styles.brandTitle}>{props.totalPrice}</Text>
+                </View>
+                <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+                  {props.coverImage ? props.coverImage.map((cImages, index) => {
+                    return (
+                      <Image
+                        key={index}
+                        source={{ uri: cImages.image_path }}
+                        style={styles.coverImage}
+                      />
+                    );
+                  }) : null}
+                </ScrollView>
               </View>
-            );
-          })}
-        </View>
-        {props.packages.length === 0 ? (
-          <View style={{ marginTop: height * 0 }}>
-            <ActivityIndicator color="#ECDBFA" size="large" />
-          </View>) : (
-            <View style={styles.bottom}>
-              <TouchableOpacity
-                activeOpacity={0.1}
-                onPress={() => addIntoCart()}>
-                <Btn text="BUILD YOUR PC" pay="" />
-              </TouchableOpacity>
             </View>
-          )}
+            {props.packages.map((item, index) => {
+              let i = {
+                "item_id": item.item_id,
+                "quantity": 1,
+                "price": item.price
+              };
+              console.log("Calling prop add")
+              //props.add(i);
+              return (
+                <View key={index}>
 
-      </ScrollView>
-    </ImageBackground>
+                  <ListDetails
+                    key={Math.floor((Math.random() * 100) + 1)}
+                    data={item}
+                    navigation={props.navigation}
+                    parentIndex={index}
+                    parentMethod={changeData}
+                    imData={packageDetailsData.image}
+                    packName={packageDetailsData.name}
+                    coverImage={coverImage}
+                    price={totalPrice}
+                  ></ListDetails>
+
+
+                </View>
+              );
+            })}
+          </View>
+          {props.packages.length === 0 ? (
+            <View style={{ marginTop: height * 0 }}>
+              <ActivityIndicator color="#ECDBFA" size="large" />
+            </View>) : (
+              <View style={styles.bottom}>
+                <TouchableOpacity
+                  activeOpacity={0.1}
+                  onPress={() => addIntoCart()}>
+                  {!loading ? (
+                    <Btn text="BUILD YOUR PC" pay="" />
+                  ) : (
+                      <>
+                        <Btn text={' '} x="54" pay="" />
+                        <ActivityIndicator
+                          color="#ECDBFA"
+                          size="small"
+                          style={{ bottom: 63 }}
+                        />
+                      </>
+                    )}
+
+
+                </TouchableOpacity>
+              </View>
+            )}
+
+        </ScrollView>
+      </ImageBackground>
     </View>
   );
 };

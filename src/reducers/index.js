@@ -2,14 +2,15 @@ import AsyncStorage from '@react-native-community/async-storage';
 import {combineReducers} from 'redux';
 import cartReducer from './cart';
 import packageReducer from './package';
+import languageReducer from './language';
 
 import * as types from '../actions/actionTypes';
 
 
 const AppReducer = combineReducers({
     cartReducer: cartReducer,
-    packageReducer:packageReducer
-
+    packageReducer:packageReducer,
+    languageReducer:languageReducer
 });
 
 // Clean state when user logs out

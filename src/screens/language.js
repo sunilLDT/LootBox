@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, { useContext ,useState} from 'react';
 import {
   Platform,
   View,
@@ -9,13 +9,19 @@ import {
   StyleSheet,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import {Context as AuthContext} from '../api/contexts/authContext';
+import { Context as AuthContext } from '../api/contexts/authContext';
 import LanguageCard from '../svgs/cardLang';
+import AsyncStorage from '@react-native-community/async-storage';
+import { languageRestart } from '../components/languageRestart';
 
-const {height, width} = Dimensions.get('window');
 
-const Language = ({navigation}) => {
-  const {state, checkUser, setLanguage} = useContext(AuthContext);
+const { height, width } = Dimensions.get('window');
+
+const Language = ({ navigation }) => {
+
+  const { state, checkUser, setLanguage } = useContext(AuthContext);
+  const [LocalLanguage, setLocalLanguage] = useState('');
+
 
   const data = [
     {
@@ -27,6 +33,19 @@ const Language = ({navigation}) => {
       image: require('../assets/englishFlag.png'),
     },
   ];
+
+  const languageChange = (isOn) => {
+    AsyncStorage.setItem('language', isOn ? 'en' : 'ar');
+    languageRestart(isOn);
+    setLanguage(isOn ? 'en' : 'ar');
+    if(state.token) {
+      navigation.navigate('home');
+    } else {
+      navigation.navigate('auth', {
+        screen: 'signin',
+      });
+    }
+  };
 
   return (
     <LinearGradient
@@ -41,76 +60,72 @@ const Language = ({navigation}) => {
         justifyContent: 'center',
         flex: 1
       }}>
-        <View
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-          }}>
-          <View>
-            <Text
-              style={{
-                lineHeight: 28,
-                fontSize: 20,
-                color: '#ECDBFA',
-                fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma',
-              }}>
-              Choose your language
+      <View
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+        }}>
+        <View>
+          <Text
+            style={{
+              lineHeight: 28,
+              fontSize: 20,
+              color: '#ECDBFA',
+              fontFamily: Platform.OS == 'android' ? 'Michroma-Regular' : 'Michroma',
+            }}>
+            Choose your language
             </Text>
 
-            {data.map((i, k) => (
-              <TouchableOpacity
-                key={k}
+          {data.map((i, k) => (
+            <TouchableOpacity
+              key={k}
+              style={{
+                marginTop: 30,
+              }}
+              onPress={() => {
+
+                languageChange(LocalLanguage == 'en' ? false : true)
+
+
+              }}>
+              <View
                 style={{
-                  marginTop: 30,
-                }}
-                onPress={() => {
-                  setLanguage(i.title);
-                  {
-                    state.token
-                      ? navigation.navigate('home')
-                      : navigation.navigate('auth', {
-                          screen: 'signin',
-                        });
-                  }
+                  position: 'absolute',
+                  ...StyleSheet.absoluteFillObject,
                 }}>
-                <View
+                <LanguageCard />
+              </View>
+              <View
+                style={{
+                  width: '100%',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  flexDirection: 'row',
+                  display: 'flex',
+                  marginTop: 10,
+                }}>
+                <Image
+                  resizeMode="contain"
                   style={{
-                    position: 'absolute',
-                    ...StyleSheet.absoluteFillObject,
-                  }}>
-                  <LanguageCard />
-                </View>
-                <View
+                    width: 72,
+                  }}
+                  source={i.image}
+                />
+                <Text
                   style={{
-                    width: '100%',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    flexDirection: 'row',
-                    display: 'flex',
-                    marginTop: 10,
+                    color: '#ECDBFA',
+                    fontSize: 24,
+                    lineHeight: 32,
+                    marginLeft: 10,
+
                   }}>
-                  <Image
-                    resizeMode="contain"
-                    style={{
-                      width: 72,
-                    }}
-                    source={i.image}
-                  />
-                  <Text
-                    style={{
-                      color: '#ECDBFA',
-                      fontSize: 24,
-                      lineHeight: 32,
-                      marginLeft: 10,
-                     
-                    }}>
-                    {i.title}
-                  </Text>
-                </View>
-              </TouchableOpacity>
-            ))}
-          </View>
+                  {i.title}
+                </Text>
+              </View>
+            </TouchableOpacity>
+          ))}
         </View>
+      </View>
     </LinearGradient>
   );
 };

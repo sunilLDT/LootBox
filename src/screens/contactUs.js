@@ -1,6 +1,7 @@
 import React from 'react';
 import {
   Text,
+  Linking,
   View,
   StyleSheet,
   TouchableOpacity,
@@ -76,7 +77,11 @@ const ContactUs = ({navigation}) => {
         </Text>
 
         <View style={{marginVertical: 15}}>
-          <TouchableOpacity style={{zIndex: 1}}>
+          <TouchableOpacity 
+          onPress={() => {
+            navigation.navigate('Faq');
+          }}
+          style={{zIndex: 1}}>
             <LinearGradient
               start={{x: 0, y: 0}}
               end={{x: 1, y: 0}}
@@ -114,7 +119,7 @@ const ContactUs = ({navigation}) => {
                 display: 'flex',
                 justifyContent: 'center',
                 borderRadius: 10,
-                height: height * 0.1,
+                height: height * 0.15,
                 width: width * 0.75,
                 padding: '10%',
               }}>
@@ -130,7 +135,14 @@ const ContactUs = ({navigation}) => {
           </TouchableOpacity>
         </View>
         <View style={{marginVertical: 15}}>
-          <TouchableOpacity style={{zIndex: 1}}>
+          <TouchableOpacity
+           onPress={() => {
+            Linking.openURL('whatsapp://send?text=hello&phone=9877361109')
+
+
+          }}
+          
+          style={{zIndex: 1}}>
             <LinearGradient
               start={{x: 0, y: 0}}
               end={{x: 1, y: 0}}
@@ -139,7 +151,7 @@ const ContactUs = ({navigation}) => {
                 display: 'flex',
                 justifyContent: 'center',
                 borderRadius: 10,
-                height: height * 0.1,
+                height: height * 0.15,
                 width: width * 0.75,
                 padding: '10%',
               }}>

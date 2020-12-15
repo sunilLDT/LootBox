@@ -85,10 +85,11 @@ const PcDetails = ({navigation, route}) => {
         {packageData.map((cpuDetail, index) =>{
         // if(cpuDetail.status === 1){
           return (
-            <TouchableOpacity
+         <TouchableOpacity
             key={index}
             onPress={() => navigation.navigate('ProductDetails',{PackageId:cpuDetail.package_id})}
-            >  
+            //onPress={() => navigation.navigate('ProductDetails',{PackageId:cpuDetail.package_id})}
+          >  
                 <ImageBackground style={styles.linearGradient}
                 source={DetailsInfoCard}
                 >
@@ -104,7 +105,7 @@ const PcDetails = ({navigation, route}) => {
                         <Image style={styles.arrow} source={PriceArrowImage}/>
                     </View>
                 </View>
-                <View style={{width:'100%'}}>
+                <View style={{zIndex:8000,marginLeft:50}}>
                     {/* <ScrollView 
                         contentContainerStyle={{
                             display: 'flex',
@@ -125,12 +126,17 @@ const PcDetails = ({navigation, route}) => {
                                 </View>
                             );
                         })} */}
-                        <ScrollView horizontal={true}
+                        <ScrollView horizontal
                             contentContainerStyle={{
-                                width: '100%',
+                                width: 500,
+                                borderWidth:0,
+                                borderColor:'#ffffff',
+                                zIndex:9000
                             }}
                         >
+                            <View onStartShouldSetResponder={() => true}>
                         <FlatList
+                        
                             style={styles.parentView}
                             data={cpuDetail.items}
                             renderItem={({item},index) => {
@@ -145,6 +151,7 @@ const PcDetails = ({navigation, route}) => {
                             }}
                             numColumns= {2}
                         />
+                        </View>
                         </ScrollView>
                     {/* </ScrollView> */}
                 </View>
@@ -163,7 +170,7 @@ const PcDetails = ({navigation, route}) => {
                     </ImageBackground>
                 </View>
                 </ImageBackground>
-            </TouchableOpacity>
+       </TouchableOpacity>
           );
         //   }
         })}
@@ -175,7 +182,7 @@ const PcDetails = ({navigation, route}) => {
             <Text style={{color:"#fff",lineHeight: 32,fontFamily:Platform.OS=='android'?'Michroma-Regular':'Michroma',fontSize:15,marginTop: height * 0.32}}>No PACKAGE AVAILABLE FOR THIS GAME</Text>
         ):null}
         </ImageBackground>   
-      </ScrollView>
+     </ScrollView>
       </View>
       
   );
@@ -226,6 +233,7 @@ const styles = StyleSheet.create({
     parentView:{
         marginLeft:'10%',
         paddingBottom:"2%",
+        zIndex:9000
     },
     attributesView:{
         display:'flex',

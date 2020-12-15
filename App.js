@@ -1,12 +1,12 @@
-import React, {useEffect, useContext } from 'react';
-import {NavigationContainer,useIsFocused } from '@react-navigation/native';
-import {Easing,Platform,Dimensions, View, StatusBar,SafeAreaView  } from 'react-native';
+import React, { useEffect, useContext } from 'react';
+import { NavigationContainer, useIsFocused } from '@react-navigation/native';
+import { Easing, Platform, Dimensions, View, StatusBar, SafeAreaView } from 'react-native';
 import {
   createStackNavigator,
   TransitionPresets,
   // CardStyleInterpolators,
 } from '@react-navigation/stack';
-import {createDrawerNavigator} from '@react-navigation/drawer';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 import Signin from './src/screens/signin';
 import Signup from './src/screens/signup';
 import Language from './src/screens/language';
@@ -14,11 +14,12 @@ import OtpVerification from './src/screens/otpVerification';
 import Slider from './src/screens/slider';
 import Home from './src/screens/home';
 import CustomDrawerContent from './src/components/drawer';
-import {Provider as AuthProvider} from './src/api/contexts/authContext';
-import {setNavigator} from './src/api/contexts/navigationRef';
-import {Context as AuthContext} from './src/api/contexts/authContext';
+import { Provider as AuthProvider } from './src/api/contexts/authContext';
+import { setNavigator } from './src/api/contexts/navigationRef';
+import { Context as AuthContext } from './src/api/contexts/authContext';
 import BuildYourPc from './src/screens/buildYourPc';
 import ContactUs from './src/screens/contactUs';
+import Faq from './src/screens/faq';
 import Profile from './src/screens/profile';
 import OrderSuccess from './src/screens/orderSuccess';
 import Notifications from './src/screens/notifications';
@@ -43,7 +44,7 @@ import { Provider } from 'react-redux';
 import SplashScreen from 'react-native-splash-screen';
 import Email from './src/screens/email';
 
-const {width, height} = Dimensions.get('window');
+const { width, height } = Dimensions.get('window');
 
 const Stack = createStackNavigator();
 const Auth = createStackNavigator();
@@ -68,7 +69,7 @@ const closeConfig = {
   },
 };
 
-const AuthScreen = ({navigation}) => {
+const AuthScreen = ({ navigation }) => {
   return (
     <Auth.Navigator
       initialRouteName="signin"
@@ -89,7 +90,7 @@ const AuthScreen = ({navigation}) => {
       <Auth.Screen name="signin" component={Signin} />
       <Auth.Screen name="signup" component={Signup} />
     </Auth.Navigator>
-    
+
   );
 };
 const Drawer = createDrawerNavigator();
@@ -109,7 +110,7 @@ const HomeScreen = () => (
 );
 
 const App = () => {
-  const {checkUser} = useContext(AuthContext);
+  const { checkUser } = useContext(AuthContext);
   const check = async () => {
     await checkUser();
     SplashScreen.hide();
@@ -126,31 +127,31 @@ const App = () => {
         height,
         backgroundColor: '#261D2A',
       }}>
-        
-      <StatusBar  hidden/>
+
+      <StatusBar hidden />
       <NavigationContainer
         ref={(navigator) => {
           setNavigator(navigator);
         }}>
         <Stack.Navigator
         
+
           screenOptions={{
-            
+            headerShown: false,
+
             transitionSpec: {
               open: closeConfig,
               close: closeConfig,
             },
-           
+
             gestureEnabled: true,
             gestureDirection: 'horizontal',
             ...TransitionPresets.SlideFromRightIOS,
           }}
-          headerMode="none"
-          
-          // initialRouteName="cpus"
-          headerMode="none">
+          //headerMode="none"
+          >
           <Stack.Screen name="language" component={Language} />
-          <Stack.Screen name="auth" component={AuthScreen} options={{gestureEnabled: false}}/>
+          <Stack.Screen name="auth" component={AuthScreen} options={{ gestureEnabled: false }} />
           <Stack.Screen name="otp" component={OtpVerification} />
           <Stack.Screen name="slider" component={Slider} />
           <Stack.Screen name="home" component={HomeScreen} />
@@ -171,7 +172,31 @@ const App = () => {
           <Stack.Screen name="ProductDetails" component={ProductDetails} />
           <Stack.Screen name="ItemListing" component={ItemListing} />
           <Stack.Screen name="OrderDetails" component={OrderDetails} />
-          <Stack.Screen name="checkout" component={CheckOut} />
+          <Stack.Screen name="Faq" 
+          
+          options={{
+            headerShown: true,
+            headerStyle: {
+              backgroundColor: '#292633',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma',
+            },
+            title: 'FAQ'
+            }} 
+          component={Faq} />
+          <Stack.Screen  options={{
+            headerShown: true,
+            headerStyle: {
+              backgroundColor: '#292633',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma',
+            },
+            title: 'Payment'
+            }}  name="checkout" component={CheckOut} />
           <Stack.Screen name="alertMessage" component={AlertMessage} />
           <Stack.Screen name="changePasswordNumber" component={changePasswordNumber} />
           <Stack.Screen name="address" component={Address} />
@@ -186,7 +211,7 @@ export default () => {
   return (
     <Provider store={store}>
       <AuthProvider>
-          <App />
+        <App />
       </AuthProvider>
     </Provider>
   );

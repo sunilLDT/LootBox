@@ -17,6 +17,7 @@ import SmallLGBtn from './smallLGBtn';
 import { showCartData } from '../api/buildYourPc';
 import SaveButton from '../components/SaveBtn';
 import { SearchBar } from 'react-native-elements';
+import { connectAdvanced } from 'react-redux';
 
 const { width, height } = Dimensions.get('window');
 
@@ -42,12 +43,16 @@ const LootStore = ({ navigation }) => {
   const maxlimit = 22;
   const subCategoryId = "";
   const [lastPage, setlastPage] = useState("");
+  const [totalPage, setToalPage] = useState(0);
   const [search, setSearch] = useState('');
   const [open, setOpen] = useState(false);
+  const [callOnScrollEnd, setCallOnScrollEnd] = useState(false);
+
 
   useEffect(() => {
     showCartData().then((response) => {
       if (response.data.length !== 0) {
+       
         setcartItems(response.data.total_items);
       }
     }).catch((error) => {
@@ -81,11 +86,18 @@ const LootStore = ({ navigation }) => {
       } else {
         itemData = await fetchItems(x[current].id, subCategoryId, page);
         setlastPage(itemData.parameter.last_page);
+        //setlastPage(itemData.parameter.to)
 
       }
+      //console.log(itemData);
+
       if (itemData) {
-        setItems(itemData.data);
-        setFilteredDataSource(itemData.data);
+        let temp = filteredDataSource;
+        var final = temp.concat(itemData.data) ;
+       //
+       //console.log(final)
+        setItems(final);
+        setFilteredDataSource(final);
       }
 
       var y = categories.map((i) => {
@@ -111,13 +123,18 @@ const LootStore = ({ navigation }) => {
   }, [fetchData]);
 
   const handleLodeMore = () => {
+    console.log(page+'======================================='+page);
+    console.log(page+'======================================='+lastPage);
+    console.log(page+'======================================='+lastPage);
     if (page !== lastPage) {
       setPage(page + 1);
+      fetchData1();
     }
-    else {
-      setPage(1);
-    }
-    fetchData1();
+    //else {
+   //   setPage(1);
+   // }
+   // setPage(1);
+    
   };
 
   const openClose = () => {
@@ -143,18 +160,8 @@ const LootStore = ({ navigation }) => {
   };
 
   return (
-    <View
-      style={{
-        backgroundColor: '#261D2A',
-        width: width,
-        overflowX: 'hidden',
-      }}>
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        style={{
-          width,
-          height,
-        }}>
+    <View style={{backgroundColor:'#292633', width:'100%', height:'100%'}}>
+    
         <ImageBackground
           source={require('../assets/dottedBackground.png')}
           style={{
@@ -399,15 +406,29 @@ const LootStore = ({ navigation }) => {
                         </View>
                       ) : (
                           <>
+                          <View style={{flex:1}}>
+
                             <FlatList
+                             style={{height:380,borderWidth:0, borderColor:'######',marginBottom:0}}
+                              contentContainerStyle={{
+                                marginBottom: 10
+                               
+                              }}
+                              scrollEnabled={true}
                               data={filteredDataSource}
-                              // onEndThreshold={0}
-                              // onEndReached={() => handleLodeMore()}
+                              onEndThreshold={0.5}
+                             // onMomentumScrollEnd={() => handleLodeMore()}
+                              onEndReached={() => setCallOnScrollEnd(true)}
+                              onMomentumScrollEnd={() => {
+                                callOnScrollEnd && handleLodeMore()
+                                setCallOnScrollEnd(false)
+                              }}
+
                               keyExtractor={(item) => item.item_id}
                               renderItem={({ item: i }, k) => {
-                                if (i.status === 1) {
+                                //if (i.status === 1) {
                                   return (
-                                    <View key={k}>
+                                    <View  style={{flexGrow:1}} key={k}>
                                       <TouchableOpacity
                                         onPress={() => {
                                           navigation.navigate('itemDesc', {
@@ -493,11 +514,12 @@ const LootStore = ({ navigation }) => {
                                       </TouchableOpacity>
                                     </View>
                                   );
-                                }
+                                //}
                               }
                               }
                               numColumns={2}
                             />
+                            </View>
                           </>
                         )}
                     </View>
@@ -519,7 +541,6 @@ const LootStore = ({ navigation }) => {
               </View>
             )}
         </ImageBackground>
-      </ScrollView>
     </View>
   );
 };
