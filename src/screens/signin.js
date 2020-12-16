@@ -152,15 +152,13 @@ const Signin = ({navigation}) => {
                       color: '#ECDBFA',
                       fontSize: 20,
                       paddingRight:20,
-                      borderRightColor: '#373843',
-                      borderRightWidth: 1,
                       fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma',
                     
                     }}>
                     Login
                   </Text>
                 </TouchableOpacity>
-                <Text style={{color:'#ffffff', fontSize:30}}>|</Text>
+                <Text style={{color:'#373843', fontSize:30}}>|</Text>
                 <TouchableOpacity
                   onPress={() => {
                     navigation.navigate('signup');

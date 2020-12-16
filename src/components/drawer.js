@@ -46,12 +46,10 @@ const Drawer = ({navigation, progress}) => {
   const {signout,state} = useContext(AuthContext)
   const isDrawerOpen=useIsDrawerOpen()
   const [profileDetails,setProfileDetails] = useState({});
-  console.log(profileDetails);
 
   useEffect(() => {
     getProfilApi().then((response) => {
       setProfileDetails(response.data);
-      profileDetails(response.data)
     }).catch((error) => {
       console.log("profileDetailsDrawer" +error);
     });

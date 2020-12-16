@@ -9,7 +9,7 @@ import {
   ImageBackground,
   ScrollView,
   TouchableWithoutFeedback,
-  ActivityIndicator
+  ActivityIndicator,
 } from 'react-native';
 import Input from '../components/input';
 import InputCard from '../components/InputCard';
@@ -33,6 +33,7 @@ import { getProfilApi } from '../api/buildYourPc';
 const {width, height} = Dimensions.get('window');
 
 const Profile = ({navigation}) => {
+  const [profileDetails,setProfileDetails] = useState({});
   const [DOB, setDOB] = useState(new Date());
   const [show, setShow] = useState(false);
   const [email,setEmail] = useState("");
@@ -42,7 +43,7 @@ const Profile = ({navigation}) => {
   const [newPassword,setnewPassword] = useState("");
   const [confirmPassword,setconfirmPassword] = useState("");
   const [photo,setPhoto] = useState({});
-  const [profileDetails,setProfileDetails] = useState({});
+  
   const [loading, setLoading] = useState(true);
   const {signout} = useContext(AuthContext);
 
@@ -52,7 +53,9 @@ const Profile = ({navigation}) => {
     setLoading(true)
     getProfilApi().then((response) => {
       setProfileDetails(response.data);
-      profileDetails(response.data);
+      setEmail(response.data.email)
+      setDOB(new Date(response.data.date_of_birth?response.data.date_of_birth:""))
+      setGender(response.data.gender)
       setLoading(false)
     }).catch((error) => {
       console.log("profileDetails" +error);
@@ -61,7 +64,7 @@ const Profile = ({navigation}) => {
     return () => {
       console.log("willUnMount")
     }
-  }, [])
+  }, []);
 
   const ProfileUpdate = () => {
     if(!email){
@@ -170,7 +173,7 @@ const Profile = ({navigation}) => {
             paddingLeft: width * 0.1,
           }}>
           {loading ? (
-          <View style={{marginTop: height * 0.37}}>
+          <View style={{margin: height * 0.45,alignSelf:'center'}}>
               <ActivityIndicator color="#ECDBFA" size="small" />
           </View>):(
           <>  
@@ -230,7 +233,7 @@ const Profile = ({navigation}) => {
                   opacity: 0.5,
                   marginBottom: 20,
                 }}>
-                {profileDetails.email}
+                {email}
               </Text>
             </View>
             <TouchableOpacity onPress={handleChoosePhoto}>
@@ -316,7 +319,6 @@ const Profile = ({navigation}) => {
               >   
                   <Picker.Item label="Male" value="1" />
                   <Picker.Item label="Female" value="2" />
-                  <Picker.Item label="TransGender" value="3" />
               </Picker>
           </LinearGradient>
           <View style={{marginVertical: 10}}>

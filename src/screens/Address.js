@@ -8,7 +8,7 @@ import {
   Image,
   ImageBackground,
   ScrollView,
-  TouchableWithoutFeedback
+  ActivityIndicator,
 } from 'react-native';
 import {Picker} from '@react-native-picker/picker';
 import Input from '../components/input';
@@ -20,61 +20,47 @@ import SaveBtn from '../components/SaveBtn';
 const {width, height} = Dimensions.get('window');
 
 const Address = ({navigation,route}) => {
-
     const { addressId } = route.params;
     const [specficAddress,setSpecficAddress] = useState({});
+    const [loading, setLoading] = useState(false); 
     if(addressId && addressId !== ""){
         useEffect(() => {
+            setLoading(true)
             getSpecificAddress(addressId).then((response) => {
                 setSpecficAddress(response.data);
+                setAddressType(response.data.address_type);
+                setName(response.data.name);
+                setEmail(response.data.email);
+                setselectedCity(response.data.city_id);
+                setBlock(response.data.block);
+                setStreet(response.data.street);
+                setBuilding(response.data.building);
+                setFloor(response.data.floor);
+                setapartment(response.data.apartment);
+                setSelectedArea(response.data.area_id);
+                setLoading(false)
             }).catch((error) => {
                 console.log("specficAddress" + error)
+                setLoading(false)
             });
+            return () => {
+                console.log("willUnMount")
+              }
         }, []);
-    }
-
-    const getDetails = (type)=>{
-        if(addressId && addressId !== ""){
-            switch(type){
-                case "name":
-                    return specficAddress.name;
-                case "email":
-                    return specficAddress.email;
-                case "block":
-                    return specficAddress.block;
-                case "street":
-                    return specficAddress.street;
-                case "building":
-                    return specficAddress.building;
-                case "floor":
-                    return specficAddress.floor;
-                case "apartment":
-                    return specficAddress.apartment;
-                case "addressType":
-                    return specficAddress.address_type;
-                case "area":
-                    return specficAddress.area_id;
-                case "city":
-                    return specficAddress.city_id;
-                default:
-                    return "nothing";
-            }
-        }
-        return "";
     }
 
     const [city,setCity] = useState([]);
     const [areas,setAreas] = useState([]);
-    const [addressType,setAddressType] = useState(getDetails("addressType"));
-    const [selectedArea,setSelectedArea] = useState(getDetails('area'));
-    const [selectedCity,setselectedCity] = useState(getDetails('city'));
-    const [email,setEmail] = useState(getDetails("email"));
-    const [name,setName] = useState(getDetails("name"));
-    const [block,setBlock] = useState(getDetails("block"));
-    const [street,setStreet] = useState(getDetails("street"));
-    const [building,setBuilding] = useState(getDetails("building"));
-    const [floor,setFloor] = useState(getDetails("floor"));
-    const [apartment,setapartment] = useState(getDetails("apartment"));
+    const [addressType,setAddressType] = useState();
+    const [selectedArea,setSelectedArea] = useState();
+    const [selectedCity,setselectedCity] = useState();
+    const [email,setEmail] = useState();
+    const [name,setName] = useState();
+    const [block,setBlock] = useState();
+    const [street,setStreet] = useState();
+    const [building,setBuilding] = useState();
+    const [floor,setFloor] = useState();
+    const [apartment,setapartment] = useState();
 
     useEffect(() => {
         cityApi().then((response) => {
@@ -135,7 +121,11 @@ const Address = ({navigation,route}) => {
                     width,
                     minHeight: height,
                 }}>
-                
+                {loading ? (
+                <View style={{margin: height * 0.45,alignSelf:'center'}}>
+                    <ActivityIndicator color="#ECDBFA" size="small" />
+                </View>):(
+                <>
                 <View
                     style={{
                     display: 'flex',
@@ -162,7 +152,7 @@ const Address = ({navigation,route}) => {
                         color: '#ECDBFA',
                         marginLeft: 10,
                     }}>
-                    ADD ADDRESS
+                    {addressId && addressId !== ""?"UPDATE ADDRESS":"ADD ADDRESS"}
                     </Text>
                 </View>
                     <View style={{marginVertical: 15,paddingHorizontal:'7%',}}>
@@ -323,10 +313,12 @@ const Address = ({navigation,route}) => {
                     <TouchableOpacity
                     onPress={() => addAddress(specficAddress.address_id)}>
                         <View>
-                            <SaveBtn text="Save"/>
+                            <SaveBtn text={addressId && addressId !== ""?"UPDATE":"SAVE"}/>
                         </View>
                     </TouchableOpacity>
                 </View>
+                </>
+                )}
           </ImageBackground>
       </ScrollView>
       </View>

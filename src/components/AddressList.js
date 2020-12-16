@@ -40,7 +40,7 @@ const AddressList = ({navigation}) => {
                             color: '#ECDBFA',
                             
                         }}>
-                    {values.area_name},{values.street}
+                    {values.area_name},{values.city_name}
                     </Text>
                 </View>
             ):(
@@ -59,7 +59,7 @@ const AddressList = ({navigation}) => {
                             color: '#ECDBFA',
                             opacity: 0.5,
                         }}>
-                    {values.area_name},{values.street}
+                    {values.area_name},{values.city_name}
                     </Text>
                 </View>
             )}  
