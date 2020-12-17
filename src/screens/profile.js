@@ -54,8 +54,8 @@ const Profile = ({navigation}) => {
     getProfilApi().then((response) => {
       setProfileDetails(response.data);
       setEmail(response.data.email)
-      setDOB(new Date(response.data.date_of_birth?response.data.date_of_birth:""))
-      setGender(response.data.gender)
+      setDOB(new Date(response.data.date_of_birth !== null?response.data.date_of_birth:""))
+      setGender(response.data.gender?response.data.gender:1)
       setLoading(false)
     }).catch((error) => {
       console.log("profileDetails" +error);
@@ -108,7 +108,13 @@ const Profile = ({navigation}) => {
 
   const handleChoosePhoto = () => {
     const options = {
+      title:'Select Image',
       noData: true,
+      storageOptions:{
+        skipBackup: true,
+        path:'images'
+      },
+      
     };
     ImagePicker.launchImageLibrary(options,(response) => {
       if(response.uri){
@@ -118,6 +124,9 @@ const Profile = ({navigation}) => {
         }).catch((error) => {
           console.log("ImageUploadProfile" + error);
         });
+      }
+      else if(response.errorCode){
+        console.log(errorCode);
       }
       else{
         console.log(response);
@@ -241,7 +250,7 @@ const Profile = ({navigation}) => {
               <Image
               // resizeMode="contain"
                 source={{
-                  uri:Object.keys(photo).length === 0?"https://reactnative.dev/img/tiny_logo.png":photo,
+                  uri:Object.keys(photo).length === 0?"https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcR861VGFylgAJKnC4o90ssB-_ZIcLQi6075ig&usqp=CAU":photo,
                 }}
                 style={{
                   height: height * 0.14,

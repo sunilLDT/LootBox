@@ -46,7 +46,6 @@ const Drawer = ({navigation, progress}) => {
   const {signout,state} = useContext(AuthContext)
   const isDrawerOpen=useIsDrawerOpen()
   const [profileDetails,setProfileDetails] = useState({});
-
   useEffect(() => {
     getProfilApi().then((response) => {
       setProfileDetails(response.data);
@@ -79,15 +78,15 @@ const Drawer = ({navigation, progress}) => {
           }}>
           <TouchableOpacity
             onPress={() => {
-              navigation.navigate('profile')
+              navigation.navigate('profile',{dob:profileDetails.date_of_birth})
             }}
             style={{
-              width: width * 0.2,
-              height: height * 0.045,
+              marginTop:'35%',
               display: 'flex',
               flexDirection: 'row',
               alignItems: 'center',
               justifyContent: 'center',
+              marginRight:'35%'
             }}>
               <View style={{
                  width: width * 0.5,
