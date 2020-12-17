@@ -8,9 +8,13 @@ export async function getAllGames(type) {
 }
 
 export async function packageListByGames(gameIds) {
+
+  console.log('########################')
+  console.log(gameIds)
   const response = await Api.post('app/build-pc/get-packages', {
     game_ids:gameIds,
   });
+  console.log(response);
   return response.data;
 }
 
@@ -153,7 +157,6 @@ export async function advancedBuilderItems(id){
   return response.data;
 }
 
-<<<<<<< HEAD
 export async function getOrderList(listType){
   const response = await Api.post('app/order/list',{
     list_type:listType
@@ -169,9 +172,7 @@ export async function sendEmail(data){
 }
 
 
-=======
 export async function getProfilApi(){
   const response = await Api.get('app/user/profile');
   return response.data;
 }
->>>>>>> ecaa559668b0c2bacfe308d326ee18ca60a45e86

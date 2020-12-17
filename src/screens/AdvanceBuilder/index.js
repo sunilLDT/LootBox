@@ -25,7 +25,7 @@ import { connect } from 'react-redux';
 import { packageActions } from '../../actions/package';
 const { width, height } = Dimensions.get('window');
 
-function useForceUpdate(){
+function useForceUpdate() {
   const [value, setValue] = useState(0); // integer state
   return () => setValue(value => ++value); // update the state to force render
 }
@@ -37,7 +37,7 @@ const AdvanceBuilder = (props) => {
   const [selectedItem, setSelectedItem] = useState({});
   const [allSubCategoriesId, SetAllSubCategoriesId] = useState([]);
   const [itemList, setItemList] = useState([])
-  const [clickedIndex, setClickedIndex] = useState(0)
+  const [clickedIndex, setClickedIndex] = useState([])
   const forceUpdate = useForceUpdate();
 
   useEffect(() => {
@@ -49,29 +49,62 @@ const AdvanceBuilder = (props) => {
 
 
   const subCategoryFun = (subCatId, index) => {
-    
     advancedBuilderItems(subCatId).then((response) => {
+      console.log(response.data)
       let d = {
         "name": response.data[0].name,
         "price": response.data[0].price,
-        "sub_category_id":response.data[0].sub_category_id
+        "sub_category_id": response.data[0].sub_category_id
       }
       setSelectedItem(d)
-      
       setItems(response.data)
-  })
-}
+    })
+  }
 
-  const selectItem = (name, price, sub_category_id) => {
+  const selectItem = (i) => {
+    console.log(i)
+    console.log(i.sub_category_id)
     let d = {
-      "name": name,
-      "price": price,
-      "sub_category_id":sub_category_id
+      "name": i.name,
+      "price": i.price,
+      "sub_category_id": i.sub_category_id
     }
     setSelectedItem(d);
-    setItemList()
-  
+    let a = itemList;
+    var data = [];
+
+    if (a.length == 0) {
+      a.push(i);
+      setItemList([i])
+     // setClickedIndex([i.sub_category_id])
+
+    } else {
+      for (j = 0; j < a.length; j++) {
+        if (a[j].sub_category_id === i.sub_category_id) {
+          a.splice(j);
+        } else {
+          data.push(a[j]);
+        }
+
+      }
+      data.push(i);
+      console.log(data)
+      setItemList(data);
+
+    }
+
   }
+
+  const handleLodeMore = () => {
+    console.log(page+'======================================='+page);
+    console.log(page+'======================================='+lastPage);
+    console.log(page+'======================================='+lastPage);
+    if (page !== lastPage) {
+      setPage(page + 1);
+      fetchData1();
+    }
+    
+  };
 
   return (
     <ImageBackground
@@ -167,16 +200,16 @@ const AdvanceBuilder = (props) => {
                                   {part.subName}
                                 </Text>
                                 <Text style={styles.sideDetails}>
-                                {part.sub_category_id == selectedItem.sub_category_id?selectedItem.name:null}
+                                  {part.sub_category_id == selectedItem.sub_category_id ? selectedItem.name : null}
 
                                 </Text>
                               </View>
                               <Text>
-                            {part.sub_category_id == selectedItem.sub_category_id?
-                              <Text> KD {selectedItem.price}</Text>
-                            
-                            
-                            :null}
+                                {(part.sub_category_id == selectedItem.sub_category_id) || (itemList.some(e => e.sub_category_id === part.sub_category_id)) ?
+                                  <Text> KD {selectedItem.price}</Text>
+
+
+                                  : null}
 
                               </Text>
                             </View>
@@ -196,7 +229,7 @@ const AdvanceBuilder = (props) => {
                       renderItem={({ item }, index) => {
                         const maxlimit = 22;
                         return (
-                          <TouchableOpacity onPress={() => selectItem(item.name, item.price, item.sub_category_id)}>
+                          <TouchableOpacity onPress={() => selectItem(item)}>
                             <ImageBackground
                               onPress={() => { }}
                               source={cardImage}
