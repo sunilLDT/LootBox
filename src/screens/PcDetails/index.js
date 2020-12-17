@@ -83,7 +83,7 @@ const PcDetails = ({navigation, route}) => {
         </Text>
         </View>
         {packageData.map((cpuDetail, index) =>{
-        if(cpuDetail.status === 1){
+       // if(cpuDetail.status === 1){
           return (
          <TouchableOpacity
             key={index}
@@ -172,7 +172,7 @@ const PcDetails = ({navigation, route}) => {
                 </ImageBackground>
        </TouchableOpacity>
           );
-          }
+        //  }
         })}
         {loading ? (
         <View style={{marginTop: height * 0.37}}>

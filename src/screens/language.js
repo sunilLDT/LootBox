@@ -36,7 +36,7 @@ const Language = ({ navigation }) => {
 
   const languageChange = (isOn) => {
     AsyncStorage.setItem('language', isOn ? 'en' : 'ar');
-    languageRestart(isOn);
+    //languageRestart(isOn);
     setLanguage(isOn ? 'en' : 'ar');
     if(state.token) {
       navigation.navigate('home');

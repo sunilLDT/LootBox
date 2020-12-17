@@ -145,7 +145,14 @@ export async function pcPartSubcategoryApi(){
   return response.data;
 }
 
-<<<<<<< HEAD
+export async function advancedBuilderItems(id){
+  const response = await Api.post('app/advance-builder/get-items',{
+    "sub_category_id":id
+  });
+ // console.log(response)
+  return response.data;
+}
+
 export async function getOrderList(listType){
   const response = await Api.post('app/order/list',{
     list_type:listType
@@ -153,14 +160,11 @@ export async function getOrderList(listType){
   return response.data;
 }
 
-export async function sendEmail(listType){
+export async function sendEmail(data){
   const response = await Api.post('app/order/list',{
-    list_type:listType
-=======
-export async function getItemsSubCatApi(id){
-  const response = await Api.post('app/advance-builder/get-items',{
-    sub_category_id:id
->>>>>>> 23f8e31ffd8aebdfa5c23c90c580c4c467a10a82
+    data
   });
   return response.data;
 }
+
+
