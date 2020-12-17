@@ -57,6 +57,7 @@ const AdvanceBuilder = (props) => {
         "sub_category_id":response.data[0].sub_category_id
       }
       setSelectedItem(d)
+      
       setItems(response.data)
   })
 }
@@ -67,7 +68,8 @@ const AdvanceBuilder = (props) => {
       "price": price,
       "sub_category_id":sub_category_id
     }
-    setSelectedItem(d)
+    setSelectedItem(d);
+    setItemList()
   
   }
 

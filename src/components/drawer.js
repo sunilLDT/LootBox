@@ -1,4 +1,4 @@
-import React,{useContext} from 'react';
+import React,{useContext,useState,useEffect} from 'react';
 import {
   View,
   Dimensions,
@@ -15,6 +15,7 @@ import {useIsDrawerOpen} from '@react-navigation/drawer';
 import LinearGradient from 'react-native-linear-gradient';
 import {Context as AuthContext} from '../api/contexts/authContext';
 import EditBtn from '../components/EditBtn';
+import { getProfilApi } from '../api/buildYourPc';
 
 const {width, height} = Dimensions.get('window');
 const options = [
@@ -44,7 +45,17 @@ const Drawer = ({navigation, progress}) => {
 
   const {signout,state} = useContext(AuthContext)
   const isDrawerOpen=useIsDrawerOpen()
-  
+  const [profileDetails,setProfileDetails] = useState({});
+  useEffect(() => {
+    getProfilApi().then((response) => {
+      setProfileDetails(response.data);
+    }).catch((error) => {
+      console.log("profileDetailsDrawer" +error);
+    });
+    return () => {
+      console.log("willUnMount")
+    }
+  }, [])
 
   return (
     <Animatable.View
@@ -67,15 +78,15 @@ const Drawer = ({navigation, progress}) => {
           }}>
           <TouchableOpacity
             onPress={() => {
-              navigation.navigate('profile')
+              navigation.navigate('profile',{dob:profileDetails.date_of_birth})
             }}
             style={{
-              width: width * 0.2,
-              height: height * 0.045,
+              marginTop:'35%',
               display: 'flex',
               flexDirection: 'row',
               alignItems: 'center',
               justifyContent: 'center',
+              marginRight:'35%'
             }}>
               <View style={{
                  width: width * 0.5,
@@ -99,6 +110,7 @@ const Drawer = ({navigation, progress}) => {
               marginTop: height * 0.1,
               marginBottom: height * 0.02,
             }}>
+            {profileDetails.profile_image == ""?(
             <Image
               resizeMode="contain"
               source={{
@@ -111,6 +123,17 @@ const Drawer = ({navigation, progress}) => {
                 width: 64,
               }}
             />
+            ):(
+              <Image
+              resizeMode="contain"
+              source={{uri:profileDetails.profile_image}}
+              style={{
+                borderRadius: 11,
+                height: 64,
+                width: 64,
+              }}
+            />
+            )}
           </View>
 
           <Text
@@ -120,7 +143,7 @@ const Drawer = ({navigation, progress}) => {
               lineHeight: 27.2,
               color: '#ECDBFA',
             }}>
-            John Doe
+            {profileDetails.full_name}
           </Text>
 
           <Text
@@ -132,7 +155,7 @@ const Drawer = ({navigation, progress}) => {
               opacity: 0.32,
               marginBottom: height * 0.1,
             }}>
-            Johndoe@gmail.com
+            {profileDetails.email}
           </Text>
 
           {options.map((i, k) => (

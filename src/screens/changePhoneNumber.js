@@ -56,7 +56,6 @@ const ChangePhoneNumber = ({navigation}) => {
                     display: 'flex',
                     alignItems: 'center',
                     flexDirection: 'row',
-                    padding:'4%',
                     }}>
                     <TouchableOpacity
                     onPress={() => {

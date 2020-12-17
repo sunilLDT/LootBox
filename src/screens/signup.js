@@ -110,15 +110,13 @@ const Signup = ({navigation, route}) => {
                     Login
                   </Text>
                 </TouchableOpacity>
-                <Text style={{color:'#ffffff', fontSize:30}}>|</Text>
+                <Text style={{color:'#373843', fontSize:30}}>|</Text>
                 <TouchableOpacity>
                   <Text
                     style={{
                       color: '#ECDBFA',
                       fontSize: 20,
                       paddingLeft:20,
-                      borderLeftColor: '#373843',
-                      borderLeftWidth: 1,
                       fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma',
                     }}>
                     Signup

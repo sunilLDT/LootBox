@@ -4,7 +4,7 @@ import {SvgXml} from 'react-native-svg';
 
 const {width, height} = Dimensions.get('window');
 
-export default ({price, x}) => {
+export default ({price, x,text}) => {
     
   const xml = `
   <?xml version="1.0" encoding="UTF-8"?>
@@ -31,7 +31,7 @@ export default ({price, x}) => {
               <g id="Group-14-Copy" transform="translate(32.000000, 14.400000)" fill="#FFFFFF" font-family="Montserrat-Bold, Montserrat" font-size="16" font-weight="bold" line-spacing="16" opacity="0.870000005">
                   <g id="Group-2-Copy-2" transform="translate(0.135120, 0.000000)">
                       <text id="Pay">
-                          <tspan x="0.864880163" y="15.6">PAY</tspan>
+                          <tspan x="0.864880163" y="15.6">${text?text:"PAY"}</tspan>
                       </text>
                       <text id="KWD-30,400">
                           <tspan x=${x ? x : '145.86488'} y="15.6">KD ${price?price:"000"}</tspan>
