@@ -28,6 +28,7 @@ const AddToCart = (props) => {
     const[categoryItems, setCategoryItems]=useState([]);
     const[name, setName]=useState('');
     const[price, setPrice]=useState('');
+    const [totalPrice,setTotalPrice]=useState(0);
     const[cat, setCat]=useState('');
     const maxlimit=22;
     var imgSource = upwardImage ? ExpandImage : CloseImage;
@@ -37,13 +38,15 @@ const AddToCart = (props) => {
     }
     useEffect(() => {
         console.log(props.route.params.data);
+        setCat(props.route.params.data[0].sub_category_name);
         setName(props.route.params.data[0].name)
         setPrice(props.route.params.data[0].price)
         setCategoryItems(props.route.params.data);
+        setTotalPrice(props.route.params.data.reduce(function (cnt, o) { return cnt + parseInt(o.price); }, 0));
       }, []);
 
       const selectHandler = (id, name, price) => {
-       setCat(id);
+        setCat(id);
         setName(name);
         setPrice(price);
        
@@ -74,7 +77,7 @@ const AddToCart = (props) => {
                 </View>
                 <View>
                     <Text style={styles.advanceBuilderText}>Advance Builder</Text>
-                    <Text style={styles.lineText}>KD 2.200</Text>
+                    <Text style={styles.lineText}>KD {totalPrice}</Text>
                 </View>
 
                 <ImageBackground
@@ -176,7 +179,13 @@ const AddToCart = (props) => {
                             </Text>
                             <TouchableOpacity
                                 style={{ marginHorizontal: 10 }}
-                                onPress={() => {}}>
+                                onPress={() => {
+                                    props.navigation.navigate('advanceListing', {
+                                        items: categoryItems,
+                                        //sub_category_name: props.data.sub_category_name,
+                                        //selected: selectedItems,
+                                        //pIndex:props.parentIndex
+                                    })}}>
                                 <Text
                                     style={{
                                         fontSize: 12,
@@ -277,7 +286,7 @@ const AddToCart = (props) => {
                 ):null}
                 <View style={styles.bottom}>
                     <TouchableOpacity  onPress={() => {}}>
-                        <PayBtn price="2,200" text="ADD TO CART" x="175"/>             
+                        <PayBtn price={totalPrice} text="ADD TO CART" x="175"/>             
                     </TouchableOpacity>
                 </View>  
             </View>            

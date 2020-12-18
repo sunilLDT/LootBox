@@ -44,7 +44,7 @@ import { Provider } from 'react-redux';
 import SplashScreen from 'react-native-splash-screen';
 import Email from './src/screens/email';
 import AddToCart from './src/screens/AdvanceBuilder/addToCart';
-
+import AddvanceListing from './src/screens/AdvanceBuilder/advanceListing';
 const { width, height } = Dimensions.get('window');
 
 const Stack = createStackNavigator();
@@ -203,6 +203,8 @@ const App = () => {
           <Stack.Screen name="address" component={Address} />
           <Stack.Screen name="email" component={Email} />
           <Stack.Screen name="addToCart" component={AddToCart} />
+          <Stack.Screen name="advanceListing" component={AddvanceListing} />
+          
         </Stack.Navigator>
       </NavigationContainer>
     </View>
