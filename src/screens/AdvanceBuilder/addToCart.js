@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React,{useState,useEffect} from 'react';
 import {
   View,
   Text,
@@ -20,7 +20,7 @@ import CloseImage from '../../assets/ic-3copy.png';
 
 const {width, height} = Dimensions.get('window');
 
-const categoryItems = [
+/*const /* = [
     {
       "item_id": 21,
       "sub_category_id": 4,
@@ -57,17 +57,22 @@ const categoryItems = [
         "status": "1",
         "selected": 0
       }
-  ]
+  ]*/
 
-const AddToCart = ({navigation}) => {
+const AddToCart = (props) => {
     const [showCpuPerocessersList, setShowCpuProcesserList] = useState(false);
     const [upwardImage, setUpwardImage] = useState(true);
+    const[categoryItems, setCategoryItems]=useState([]);
+    
 
     var imgSource = upwardImage ? ExpandImage : CloseImage;
     const openClose = () => {
         setUpwardImage(!upwardImage)
         setShowCpuProcesserList(!showCpuPerocessersList)
     }
+    useEffect(() => {
+        setCategoryItems(props.route.params.data);
+      }, []);
 
     return(
         <ImageBackground
@@ -79,7 +84,7 @@ const AddToCart = ({navigation}) => {
             >
                 <View style={styles.topContainer}>
                     <View>
-                        <TouchableOpacity onPress={() => {navigation.goBack()}}>
+                        <TouchableOpacity onPress={() => {props.navigation.goBack()}}>
                             <Image
                                 resizeMode="contain"
                                 source={backImage}

@@ -42,7 +42,7 @@ const ProductDetails = (props) => {
   useEffect(() => {
     setLoading(true)
     props.getPackages(PackageId);
-
+    setLoading(false)
 
   }, [PackageId]);
   
@@ -51,7 +51,7 @@ const ProductDetails = (props) => {
   const addIntoCart = () => {
     setLoading(true);
     let result = props.packages.map(({ item_id, quantity }) => ({ item_id, quantity: 1 }));
-    addToCart(PackageId, result).then((response) => {
+    addToCart(PackageId, result, true).then((response) => {
       setLoading(false);
       props.navigation.navigate('cart');
     }).catch((error) => {
@@ -223,7 +223,7 @@ const styles = StyleSheet.create({
   },
   scrollViewContainer: {
     width: '100%',
-    marginBottom: 20,
+    marginBottom: 80,
     paddingHorizontal: 20,
     paddingBottom: 20,
   },

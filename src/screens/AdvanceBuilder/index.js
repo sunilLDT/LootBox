@@ -11,6 +11,8 @@ import {
   FlatList,
   ActivityIndicator
 } from 'react-native';
+import IcCardImage from '../../assets/ic3.png';
+import selectedIcCardImage from '../../assets/Rectangle.png'
 import backImage from '../../assets/back.png';
 import searchImage from '../../assets/ic_search.png';
 import filterImage from '../../assets/ic_filter.png';
@@ -22,7 +24,9 @@ import NextBtn from '../../components/NextBtn';
 import SubCatBg from '../../assets/buildYourPc/Rectangle.png';
 import SelectedImage from '../../assets/Rectangle.png';
 import { connect } from 'react-redux';
+import { SearchBar } from 'react-native-elements';
 import { packageActions } from '../../actions/package';
+
 const { width, height } = Dimensions.get('window');
 
 function useForceUpdate() {
@@ -39,6 +43,10 @@ const AdvanceBuilder = (props) => {
   const [itemList, setItemList] = useState([])
   const [clickedIndex, setClickedIndex] = useState([])
   const forceUpdate = useForceUpdate();
+  const [search, setSearch] = useState('');
+  const [filteredDataSource, setFilteredDataSource] = useState([]);
+  const [open, setOpen] = useState(false);
+
 
   useEffect(() => {
     setLoading(true);
@@ -56,10 +64,21 @@ const AdvanceBuilder = (props) => {
         "price": response.data[0].price,
         "sub_category_id": response.data[0].sub_category_id
       }
-      setSelectedItem(d)
+     // setSelectedItem(d);
+     // setItemList([d]);
       setItems(response.data)
+      setFilteredDataSource(response.data)
     })
   }
+
+  const openClose = () => {
+    setOpen(!open)
+  }
+
+  const submitNow = () => {
+    props.navigation.navigate('addToCart', { data: itemList });
+  }
+
 
   const selectItem = (i) => {
     console.log(i)
@@ -95,6 +114,27 @@ const AdvanceBuilder = (props) => {
 
   }
 
+
+  const searchFilterFunction = (text) => {
+    console.log(text)
+    if (text) {
+      const newData = items.filter(
+        function (item) {
+          const itemData = item.name
+            ? item.name.toUpperCase()
+            : ''.toUpperCase();
+          const textData = text.toUpperCase();
+          return itemData.indexOf(textData) > -1;
+        });
+      setItems(newData);
+      setSearch(text);
+    } else {
+      setItems(items);
+      setSearch(text);
+    }
+  };
+
+
   const handleLodeMore = () => {
     console.log(page+'======================================='+page);
     console.log(page+'======================================='+lastPage);
@@ -106,7 +146,39 @@ const AdvanceBuilder = (props) => {
     
   };
 
+  const getName = (id) => {
+    let a = itemList;
+    for (j = 0; j < a.length; j++) {  
+      if (a[j].sub_category_id === id) {
+        return a[j].name;
+        break;
+      }
+    }
+    return ''
+  };
+
+  const getPrice = (id) => {
+    let a = itemList;
+    for (j = 0; j < a.length; j++) {  
+      if (a[j].sub_category_id === id) {
+        return 'KD' +a[j].price;
+        break;
+      }
+    }
+    return ''
+  };
+
+  const idExists=(id)=> {
+    return itemList.some(function(el) {
+      return el.item_id === id;
+    }); 
+  }
+
   return (
+    <View
+    style={{
+      backgroundColor: '#261D2A',
+    }}>
     <ImageBackground
       source={require('../../assets/dottedBackground.png')}
       style={styles.background}
@@ -128,8 +200,10 @@ const AdvanceBuilder = (props) => {
             </TouchableOpacity>
           </View>
           <View style={styles.searchFilter}>
-            <TouchableOpacity>
+          <TouchableOpacity  onPress={() => openClose()}>
+
               <Image
+             
                 resizeMode="contain"
                 source={searchImage}
                 style={{
@@ -147,7 +221,17 @@ const AdvanceBuilder = (props) => {
               />
             </TouchableOpacity>
           </View>
+
         </View>
+        {open ? 
+        <SearchBar
+              placeholder="Type here..."
+              lightTheme round editable={true}
+              value={search}
+              onChangeText={(text) => searchFilterFunction(text)}
+              containerStyle={{ borderRadius: 22, height: 50, marginBottom: 20, marginHorizontal: width * 0.1 }}
+              inputContainerStyle={{ height: 30, }}
+            />:null}
         {loading ? (
           <View style={{ marginTop: height * 0.37 }}>
             <ActivityIndicator color="#ECDBFA" size="small" />
@@ -200,17 +284,16 @@ const AdvanceBuilder = (props) => {
                                   {part.subName}
                                 </Text>
                                 <Text style={styles.sideDetails}>
-                                  {part.sub_category_id == selectedItem.sub_category_id ? selectedItem.name : null}
+                                  { getName(part.sub_category_id) }
 
                                 </Text>
                               </View>
                               <Text>
-                                {(part.sub_category_id == selectedItem.sub_category_id) || (itemList.some(e => e.sub_category_id === part.sub_category_id)) ?
-                                  <Text> KD {selectedItem.price}</Text>
+                                
+                                  <Text>  { getPrice(part.sub_category_id) }</Text>
 
 
-                                  : null}
-
+                                 
                               </Text>
                             </View>
                           </View>
@@ -232,7 +315,7 @@ const AdvanceBuilder = (props) => {
                           <TouchableOpacity onPress={() => selectItem(item)}>
                             <ImageBackground
                               onPress={() => { }}
-                              source={cardImage}
+                              source={idExists(item.item_id) ? selectedIcCardImage : IcCardImage}
                               style={styles.cardConatiner}
                               key={index}
                             >
@@ -272,17 +355,18 @@ const AdvanceBuilder = (props) => {
                       }}
                       numColumns={2}
                     />
-                    <TouchableOpacity onPress={() => { }}>
+                    <TouchableOpacity onPress={() => { submitNow()}}>
                       <View style={styles.nextBtn}>
                         <NextBtn />
                       </View>
                     </TouchableOpacity>
-                  </View> : null}
+                  </View> :<ActivityIndicator color="#ECDBFA" size="large" />}
               </View>
             </>
           )}
       </ScrollView>
     </ImageBackground>
+    </View>
   );
 
 };
