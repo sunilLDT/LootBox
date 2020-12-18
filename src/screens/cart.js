@@ -10,7 +10,7 @@ import {
   StyleSheet,
   ActivityIndicator,
 } from 'react-native';
-import PayBtn from '../components/PayBtn';
+import Btn from '../components/PayBtn';
 import ItemCard from '../assets/ic_card.png';
 import IcDetailCard from '../assets/ic_details_card.png';
 import {showCartData,orderPlace,addressListApi,defaultAddressApi} from '../api/buildYourPc';

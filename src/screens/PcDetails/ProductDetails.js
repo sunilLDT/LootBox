@@ -41,9 +41,7 @@ const ProductDetails = (props) => {
 
   useEffect(() => {
     setLoading(true)
-    console.log(PackageId)
     props.getPackages(PackageId);
-    
     setLoading(false)
 
   }, [PackageId]);
