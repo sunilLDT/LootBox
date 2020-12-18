@@ -14,6 +14,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import com.reactcommunity.rndatetimepicker.RNDateTimePickerPackage;
 import org.devio.rn.splashscreen.SplashScreenReactPackage;
+import com.babisoft.ReactNativeLocalization.ReactNativeLocalizationPackage;
 
 public class MainApplication extends Application implements ReactApplication {
 
@@ -32,6 +33,7 @@ public class MainApplication extends Application implements ReactApplication {
           // packages.add(new MyReactNativePackage());
            //packages.add(new RNDateTimePickerPackage());
             // new SplashScreenReactPackage()
+          new ReactNativeLocalizationPackage();
           return packages;
         }
 

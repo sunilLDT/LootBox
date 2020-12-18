@@ -18,6 +18,7 @@ import Option2 from './2K';
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import { getAllGames } from '../api/buildYourPc';
 import AdvanceBuilderButton from '../components/AdvanceBuilderBtn';
+import strings from '../languages/index';
 
 
 const { width, height } = Dimensions.get('window');
@@ -99,7 +100,7 @@ const BuildYourPc = ({ navigation }) => {
             lineHeight: 28,
             fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma',
           }}>
-          Select graphics and games to build your PC
+          {strings.buildHeading}
           </Text>
         <View
           style={{

@@ -335,8 +335,6 @@ const styles = StyleSheet.create({
     inputView:{
         marginVertical: 15,
         width:"35%",
-       
-
     },
     input:{
         width:"100%",

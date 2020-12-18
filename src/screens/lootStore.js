@@ -17,6 +17,7 @@ import SmallLGBtn from './smallLGBtn';
 import { showCartData } from '../api/buildYourPc';
 import SaveButton from '../components/SaveBtn';
 import { SearchBar } from 'react-native-elements';
+import strings from '../languages/index';
 
 const { width, height } = Dimensions.get('window');
 
@@ -262,7 +263,7 @@ const LootStore = ({ navigation }) => {
               fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma',
               paddingHorizontal: width * 0.1,
             }}>
-            Loot Store
+            {strings.lootStore}
           </Text>
 
           {data ? (

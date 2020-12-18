@@ -29,7 +29,7 @@ const PcDetails = ({navigation, route}) => {
     useEffect(() => {
     setLoading(true)
     packageListByGames(selectedGames).then((response) => {
-      setPackageData(response.data);
+      setPackageData(response.data)
       setItems(response.data[0].items);
       setLoading(false)
     }).catch((error) => {
@@ -83,7 +83,6 @@ const PcDetails = ({navigation, route}) => {
         </Text>
         </View>
         {packageData.map((cpuDetail, index) =>{
-        if(cpuDetail.status === 1){
           return (
             <TouchableOpacity
             key={index}
@@ -105,26 +104,6 @@ const PcDetails = ({navigation, route}) => {
                     </View>
                 </View>
                 <View style={{width:'100%'}}>
-                    {/* <ScrollView 
-                        contentContainerStyle={{
-                            display: 'flex',
-                            flexDirection: 'row',
-                            width: '100%',
-                            justifyContent: 'space-between',
-                            paddingHorizontal: width * 0.1,
-                          }}
-                          horizontal
-                        >
-                        {cpuDetail.items.map((item,index) => {
-                            return (
-                                <View key={index} style={styles.attributesView}>
-                                    <View style={styles.attributesViewTouch}>
-                                        <Text style={styles.attrHeading}>{item.name}</Text>
-                                        <Text style={styles.attrText}>{item.brand}</Text>
-                                    </View>
-                                </View>
-                            );
-                        })} */}
                         <ScrollView horizontal={true}
                             contentContainerStyle={{
                                 width: '100%',
@@ -146,7 +125,6 @@ const PcDetails = ({navigation, route}) => {
                             numColumns= {2}
                         />
                         </ScrollView>
-                    {/* </ScrollView> */}
                 </View>
                 <View style={styles.playableView}>
                     <ImageBackground
@@ -165,7 +143,6 @@ const PcDetails = ({navigation, route}) => {
                 </ImageBackground>
             </TouchableOpacity>
           );
-          }
         })}
         {loading ? (
         <View style={{marginTop: height * 0.37}}>

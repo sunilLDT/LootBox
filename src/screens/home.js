@@ -11,6 +11,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import {showCartData} from '../api/buildYourPc';
 import {connect} from 'react-redux';
 import { cartActions } from '../actions/user';
+import strings from '../languages/index';
 
 const {height, width} = Dimensions.get('window');
 
@@ -76,7 +77,7 @@ const Home = (props) => {
                 textAlign: 'left',
                 fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma',        
                  }}>
-              Build Your PC
+              {strings.buildYourPc}
             </Text>
             <Text
               style={{

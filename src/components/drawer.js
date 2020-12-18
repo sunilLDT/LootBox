@@ -10,21 +10,24 @@ import {
   Image,
 } from 'react-native';
 
-import * as Animatable from 'react-native-animatable'
+import * as Animatable from 'react-native-animatable';
 import {useIsDrawerOpen} from '@react-navigation/drawer';
 import LinearGradient from 'react-native-linear-gradient';
 import {Context as AuthContext} from '../api/contexts/authContext';
 import EditBtn from '../components/EditBtn';
 import { getProfilApi } from '../api/buildYourPc';
+import englishImage from '../assets/english.png';
+import arabicImage from '../assets/arabic.png';
+import strings,{ changeLaguage } from '../languages/index';
 
 const {width, height} = Dimensions.get('window');
 const options = [
   {
-    name: 'My Cart',
+    name: strings.cart,
     path: 'home',
   },
   {
-    name: 'My Orders',
+    name: strings.order,
     path: 'orders',
   },
   {
@@ -46,6 +49,8 @@ const Drawer = ({navigation, progress}) => {
   const {signout,state} = useContext(AuthContext)
   const isDrawerOpen=useIsDrawerOpen()
   const [profileDetails,setProfileDetails] = useState({});
+  const [languageImage,setLanguageImage] = useState(true);
+  
   useEffect(() => {
     getProfilApi().then((response) => {
       setProfileDetails(response.data);
@@ -55,7 +60,16 @@ const Drawer = ({navigation, progress}) => {
     return () => {
       console.log("willUnMount")
     }
-  }, [])
+  }, []);
+
+  const arabicLang = () => {
+    setLanguageImage(!languageImage);
+    changeLaguage('it')
+  }
+  const englishLang = () => {
+    setLanguageImage(!languageImage);
+    changeLaguage('en')
+  };
 
   return (
     <Animatable.View
@@ -81,7 +95,6 @@ const Drawer = ({navigation, progress}) => {
               navigation.navigate('profile',{dob:profileDetails.date_of_birth})
             }}
             style={{
-              marginTop:'35%',
               display: 'flex',
               flexDirection: 'row',
               alignItems: 'center',
@@ -148,11 +161,11 @@ const Drawer = ({navigation, progress}) => {
 
           <Text
             style={{
-              fontFamily: 'Futura-Medium',
-              fontSize: 12,
+              fontFamily: Platform.OS=='android'?'Futura-Medium':'Futura',
+              fontSize: 14,
               lineHeight: 16,
               color: '#ECDBFA',
-              opacity: 0.32,
+              opacity: 0.6,
               marginBottom: height * 0.1,
             }}>
             {profileDetails.email}
@@ -173,6 +186,22 @@ const Drawer = ({navigation, progress}) => {
               </Text>
             </TouchableOpacity>
           ))}
+          <View style={{marginVertical:20,marginLeft:-10}}>
+            {languageImage?(
+              <TouchableOpacity onPress={() => arabicLang()}>
+                <Image
+                  source={englishImage}
+                />
+              </TouchableOpacity>
+            ):(
+              <TouchableOpacity onPress={() => englishLang()}>
+                <Image
+                  source={arabicImage}
+                />
+              </TouchableOpacity>
+            )}
+            
+          </View>
         </View>
         ) : (
           <>

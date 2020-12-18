@@ -110,11 +110,6 @@ const Profile = ({navigation}) => {
     const options = {
       title:'Select Image',
       noData: true,
-      storageOptions:{
-        skipBackup: true,
-        path:'images'
-      },
-      
     };
     ImagePicker.launchImageLibrary(options,(response) => {
       if(response.uri){
@@ -242,7 +237,7 @@ const Profile = ({navigation}) => {
                   opacity: 0.5,
                   marginBottom: 20,
                 }}>
-                {email}
+                {profileDetails.email}
               </Text>
             </View>
             <TouchableOpacity onPress={handleChoosePhoto}>

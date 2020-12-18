@@ -74,7 +74,7 @@ const Signin = ({navigation}) => {
   }
 
   const backAction = () => {
-    Alert.alert("Hold on!", "Are you sure you want exit from App?", [
+    Alert.alert("LootBox", "Are you sure you want exit from App?", [
       {
         text: "Cancel",
         onPress: () => null,
