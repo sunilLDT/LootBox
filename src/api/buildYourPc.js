@@ -44,7 +44,7 @@ export async function addToCart(packageId,items, is_package){
   let a = {
     is_package:is_package,
     package:{
-      package_id:6,
+      package_id:packageId,
       quantity:1,
       items:items
     }

@@ -41,7 +41,9 @@ const ProductDetails = (props) => {
 
   useEffect(() => {
     setLoading(true)
+    console.log(PackageId)
     props.getPackages(PackageId);
+    
     setLoading(false)
 
   }, [PackageId]);
@@ -51,6 +53,9 @@ const ProductDetails = (props) => {
   const addIntoCart = () => {
     setLoading(true);
     let result = props.packages.map(({ item_id, quantity }) => ({ item_id, quantity: 1 }));
+    console.log("++++++++++++++++++");
+    console.log(PackageId);
+    console.log("++++++++++++++++++");
     addToCart(PackageId, result, true).then((response) => {
       setLoading(false);
       props.navigation.navigate('cart');

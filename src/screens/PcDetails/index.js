@@ -29,6 +29,8 @@ const PcDetails = ({navigation, route}) => {
     useEffect(() => {
     setLoading(true)
     packageListByGames(selectedGames).then((response) => {
+        console.log("+++++++++++++++++++++++")
+        console.log(response.data)
       setPackageData(response.data);
       setItems(response.data[0].items);
       setLoading(false)
