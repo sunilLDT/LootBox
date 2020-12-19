@@ -108,7 +108,7 @@ const PcDetails = ({navigation, route}) => {
                     </View>
                 </View>
                 <View style={{zIndex:8000,marginLeft:50}}>
-                        <ScrollView horizontal
+                        <ScrollView horizontal showsHorizontalScrollIndicator={false}
                             contentContainerStyle={{
                                 width: 500,
                                 borderWidth:0,

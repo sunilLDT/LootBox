@@ -22,18 +22,28 @@ import Dialog, {
 } from 'react-native-popup-dialog';
 import Icon from 'react-native-vector-icons/Feather';
 import SaveBtn from '../components/SaveBtn';
+import ExpandImage from '../assets/ic_expand1.png';
+import CloseImage from '../assets/ic-3copy.png';
+import IcCardImage from '../assets/ic3.png';
+import thumbnail from '../assets/thumbnail.png';
 
 const {width, height} = Dimensions.get('window');
 
 const Cart = ({navigation}) => {
 
   const [cartItems,setcartItems] = useState([]);
-  const [cartPackage,setCartPackage] = useState({});
+  const [upwardImage, setUpwardImage] = useState(true);
+  const [cartPackage,setCartPackage] = useState([]);
   const [cartData,setCartData] = useState({});
   const [addressModal, setaddressModal] = useState(false);
   const [allAddress,setAllAddress] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [open, setOpen] = useState();
+  const [showCpuPerocessersList, setShowCpuProcesserList] = useState(false);
+  const [packageItems,setPackageItems] = useState([])
   const maxlimit = 22;
+  
+  var imgSource = upwardImage ? ExpandImage : CloseImage;
 
   useEffect(() => {
     setLoading(true)
@@ -47,6 +57,7 @@ const Cart = ({navigation}) => {
       setLoading(false)
     });
   }, []);
+
   const checkout = () => {
     setLoading(true)
     if(allAddress.length === 0){
@@ -105,6 +116,16 @@ const Cart = ({navigation}) => {
     setaddressModal(!addressModal)
     return true;
   }
+
+  const openClose = (packageId) => {
+    setOpen("");
+    setOpen(packageId);
+    setUpwardImage(!upwardImage)
+    setShowCpuProcesserList(!showCpuPerocessersList)
+    // setOpen("");
+    // setOpen(item_id);
+    // setShowCpuProcesserList(!showCpuPerocessersList)
+}
 
   return (
     <ImageBackground
@@ -200,51 +221,167 @@ const Cart = ({navigation}) => {
               </Text>
             </View>
           </View>
-        {Object.keys(cartData).length === 0?null:
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-            }}>
-            {cartPackage == null?null:
-            <Image
-              resizeMode="contain"
-              source={{uri:cartPackage.image}}
-              style={{
-                width: 139,
-                height: 86,
-              }}
-            />
-            } 
-            <View
-              style={{
-                alignSelf: 'center',
-                right: 20,
-                width:"40%",
-              }}>
-              {cartPackage == null?null:
-              <Text
-                style={{
-                  color: '#ECDBFA',
-                  fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma',
-                }}>
-                {cartPackage.name}
-              </Text>
-              }
-              {cartPackage == null?null:
-              <Text
-                style={{
-                  color: '#ECDBFA',
-                  opacity: 0.5,
-                  fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma',
-                  fontSize:12,
-                }}>
-                KD {cartData.grand_total}
-              </Text>
-              } 
+          {Object.keys(cartData).length === 0?null:(
+            <View>
+              {cartPackage.map((packages,k) => {
+                console.log(packages);
+                return(
+                <View
+                key={k}
+                >
+                <ImageBackground
+                  source={ItemCard}
+                  style={{
+                    width: 351,
+                    height: 75,
+                    marginVertical: 10,
+                    flexDirection: 'row',
+                  }}>
+                  <Image
+                    resizeMode="contain"
+                    source={{uri:packages.image}}
+                    style={{
+                      width: 63,
+                      height: 60,
+                      position: 'relative',
+                      right: 30,
+                      alignSelf: 'center',
+                      justifyContent: 'center',
+                    }}
+                  />
+                  <View
+                    style={{
+                      alignSelf: 'center',
+                      right: 30,
+                      display: 'flex',
+                      flexDirection: 'row',
+                      justifyContent: 'space-between',
+                      width: '72%',
+                    }}>
+                    <View
+                      style={{
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        paddingLeft: 10,
+                      }}>
+                      <Text
+                        style={{
+                          fontSize: 12,
+                          color: '#D2D7F9',
+                          opacity: 0.5,
+                          alignSelf: 'center',
+                          fontFamily:'Montserrat-Medium',
+                        }}>
+                        {packages.name}
+                        {packages.quantity > 1?<Text style={{color:'#fff'}}> ({packages.quantity})</Text>:null}
+                      </Text>
+                    </View>
+                  </View>
+                  <TouchableOpacity
+                    onPress={() => openClose(packages.cart_package_id)}>
+                    <View
+                        style={{
+                            flex:1,
+                            justifyContent:"flex-end"
+                        }}>
+                        <Image
+                            source={imgSource}
+                            width={100}
+                            height={100}
+                            style={{ width: 29, height: 11 }}
+                        />
+                    </View>
+                </TouchableOpacity>
+                </ImageBackground>
+
+
+                {/* ===========================
+                //start of details  package
+                =========================== */}
+
+
+                {showCpuPerocessersList && open == packages.cart_package_id?(
+                <View>
+                    <View
+                        style={{
+                            flexDirection: 'row',
+                            justifyContent: 'space-between',
+                        }}>
+                    </View>
+                    <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} >
+                    {packages.cart_package_items.map((packageItems,i) => {
+                      return(
+                                    <TouchableOpacity
+                                        key={i}
+                                        onPressIn={() => {}}
+                                        style={{ padding: 20 }}>
+
+                                        <ImageBackground
+                                            source = {IcCardImage}
+                                           style={{ width: 139, height: 151 }}>
+                                            <View
+                                                style={{
+                                                    alignSelf: 'center',
+                                                    justifyContent: 'center',
+                                                    alignContent: 'center',
+                                                    marginTop: 30,
+                                                }}>
+                                                <Image
+                                                source={{uri:packageItems.image}}
+                                                style={{ width: 48, height: 40, marginBottom: 10, alignSelf: 'center' }}/>
+                                                <Text
+                                                    adjustsFontSizeToFit={true}
+                                                    numberOfLines={2}
+                                                    
+                                                    style={{
+                                                        fontSize: 11,
+                                                        fontWeight: '700',
+                                                        color: '#FFFFFF',
+                                                        marginBottom: 10,
+                                                        alignSelf: 'center'
+                                                    }}>
+                                                      {packageItems.name}
+                                                </Text>
+                                                <Text
+                                                    style={{
+                                                        fontSize: 10,
+                                                        fontWeight: '700',
+                                                        color: '#FFFFFF',
+                                                        marginBottom: 10,
+                                                        opacity: 0.5,
+                                                        fontStyle: 'italic',
+                                                        textAlign: 'center',
+                                                    }}>
+                                                    {packageItems.brand}
+                                                </Text>
+                                                <Text
+                                                    style={{
+                                                        fontSize: 12,
+                                                        fontWeight: '400',
+                                                        color: '#FFFFFF',
+                                                        fontStyle: 'italic',
+                                                        textAlign: 'center',
+                                                        marginBottom: 40,
+                                                    }}>
+                                                    +KD {packageItems.price}
+                                                </Text>
+                                            </View>
+                                        </ImageBackground>     
+                                    </TouchableOpacity>
+                                    );
+                            })}
+                    </ScrollView>
+                </View>
+                ):null}
+
+                {/* ===========================
+                //end of details  package
+                =========================== */}
+              </View>
+              );
+              })}
             </View>
-          </View>
-         } 
+           )} 
           {Object.keys(cartData).length === 0?null:<View>
           {cartItems.map((items, k) => (
             <View
