@@ -20,61 +20,41 @@ import CloseImage from '../../assets/ic-3copy.png';
 
 const {width, height} = Dimensions.get('window');
 
-/*const /* = [
-    {
-      "item_id": 21,
-      "sub_category_id": 4,
-      "sub_category_name": "CPU",
-      "brand": "Intel",
-      "link_item_id": null,
-      "name": "I7 6469K",
-      "price": "2000.000",
-      "image": "",
-      "status": "1",
-      "selected": 1
-    },
-    {
-      "item_id": 20,
-      "sub_category_id": 4,
-      "sub_category_name": "CPU",
-      "brand": "Intel",
-      "link_item_id": 21,
-      "name": "I7 646998K",
-      "price": "2000.000",
-      "image": "",
-      "status": "1",
-      "selected": 0
-    },
-    {
-        "item_id": 20,
-        "sub_category_id": 4,
-        "sub_category_name": "CPU",
-        "brand": "Intel",
-        "link_item_id": 21,
-        "name": "I7 646998K",
-        "price": "2000.000",
-        "image": "",
-        "status": "1",
-        "selected": 0
-      }
-  ]*/
+
 
 const AddToCart = (props) => {
     const [showCpuPerocessersList, setShowCpuProcesserList] = useState(false);
     const [upwardImage, setUpwardImage] = useState(true);
     const[categoryItems, setCategoryItems]=useState([]);
-    
-
+    const[name, setName]=useState('');
+    const[price, setPrice]=useState('');
+    const [totalPrice,setTotalPrice]=useState(0);
+    const[cat, setCat]=useState('');
+    const maxlimit=22;
     var imgSource = upwardImage ? ExpandImage : CloseImage;
     const openClose = () => {
         setUpwardImage(!upwardImage)
         setShowCpuProcesserList(!showCpuPerocessersList)
     }
     useEffect(() => {
+        console.log(props.route.params.data);
+        setCat(props.route.params.data[0].sub_category_name);
+        setName(props.route.params.data[0].name)
+        setPrice(props.route.params.data[0].price)
         setCategoryItems(props.route.params.data);
+        setTotalPrice(props.route.params.data.reduce(function (cnt, o) { return cnt + parseInt(o.price); }, 0));
       }, []);
 
+      const selectHandler = (id, name, price) => {
+        setCat(id);
+        setName(name);
+        setPrice(price);
+       
+    }
+
+
     return(
+        
         <ImageBackground
         source={require('../../assets/signup.png')}
         style={styles.background}
@@ -97,7 +77,7 @@ const AddToCart = (props) => {
                 </View>
                 <View>
                     <Text style={styles.advanceBuilderText}>Advance Builder</Text>
-                    <Text style={styles.lineText}>KD 2.200</Text>
+                    <Text style={styles.lineText}>KD {totalPrice}</Text>
                 </View>
 
                 <ImageBackground
@@ -131,8 +111,7 @@ const AddToCart = (props) => {
                                 // borderRightWidth:1,
                                 // borderRightColor:'#D2D7F9',
                             }}>
-                            {/* {(((props.data.sub_category_name).substring(0, maxlimit - 3)) + '...')} */}
-                            Monitor
+                            {(((name).substring(0, maxlimit - 3)) + '...')}
                         </Text>
                         <Text
                             ellipsizeMode='tail' numberOfLines={2}
@@ -148,8 +127,9 @@ const AddToCart = (props) => {
                                 // borderRightWidth:1,
                                 // borderRightColor:'#D2D7F9',
                             }}>
+                            {(((cat).substring(0, maxlimit - 3)) + '...')}
+
                             {/* {props.data.name ? (((props.data.name).substring(0, maxlimit - 3)) + '...') : (((props.data.name).substring(0, maxlimit - 3)) + '...')} */}
-                            i7-452k
                         </Text>
                         <Text
                             style={{
@@ -161,7 +141,7 @@ const AddToCart = (props) => {
                                 opacity: 0.5,
                             }}>
                             {/* KD {props.data.price ? props.data.price : props.data.price} */}
-                            KD 2,200
+                            KD  {(((price).substring(0, maxlimit - 3)) + '...')}
                         </Text>
                     </View>
                     <TouchableOpacity
@@ -195,11 +175,17 @@ const AddToCart = (props) => {
                             style={{ flexDirection: 'row', justifyContent: 'flex-start' }}>
                             <Text
                                 style={{ fontSize: 14, color: '#D2D7F9', fontWeight: '300' }}>
-                                List Of Monitor
+                                List of Items
                             </Text>
                             <TouchableOpacity
                                 style={{ marginHorizontal: 10 }}
-                                onPress={() => {}}>
+                                onPress={() => {
+                                    props.navigation.navigate('advanceListing', {
+                                        items: categoryItems,
+                                        //sub_category_name: props.data.sub_category_name,
+                                        //selected: selectedItems,
+                                        //pIndex:props.parentIndex
+                                    })}}>
                                 <Text
                                     style={{
                                         fontSize: 12,
@@ -228,7 +214,7 @@ const AddToCart = (props) => {
                                 <>
                                     <TouchableOpacity
                                         key={index}
-                                        onPressIn={() => {}}
+                                        onPress={() =>  {selectHandler(processer.sub_category_name, processer.name, processer.price) }}
                                         style={{ padding: 20 }}>
 
                                         <ImageBackground
@@ -300,7 +286,7 @@ const AddToCart = (props) => {
                 ):null}
                 <View style={styles.bottom}>
                     <TouchableOpacity  onPress={() => {}}>
-                        <PayBtn price="2,200" text="ADD TO CART" x="175"/>             
+                        <PayBtn price={totalPrice} text="ADD TO CART" x="175"/>             
                     </TouchableOpacity>
                 </View>  
             </View>            

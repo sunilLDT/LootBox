@@ -40,21 +40,15 @@ export async function getItemDetails(itemId){
   return response.data;
 }
 
-export async function addToCart(packageId,items, is_package){
-  let a = {
+export async function addToCart(packageId,data, is_package){
+
+  const response = await Api.post('app/cart/add-to-cart',{
     is_package:is_package,
     package:{
       package_id:packageId,
       quantity:1,
-      items:items
+      items:data
     }
-   };
-  
-   console.log(items)
-  
-console.log(a)
-  const response = await Api.post('app/cart/add-to-cart',{
-    a
   });
   return response.data;
 }
