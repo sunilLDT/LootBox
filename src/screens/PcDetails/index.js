@@ -29,7 +29,9 @@ const PcDetails = ({navigation, route}) => {
     useEffect(() => {
     setLoading(true)
     packageListByGames(selectedGames).then((response) => {
-      setPackageData(response.data)
+        console.log("+++++++++++++++++++++++")
+        console.log(response.data)
+      setPackageData(response.data);
       setItems(response.data[0].items);
       setLoading(false)
     }).catch((error) => {
@@ -83,11 +85,13 @@ const PcDetails = ({navigation, route}) => {
         </Text>
         </View>
         {packageData.map((cpuDetail, index) =>{
+       // if(cpuDetail.status === 1){
           return (
-            <TouchableOpacity
+         <TouchableOpacity
             key={index}
             onPress={() => navigation.navigate('ProductDetails',{PackageId:cpuDetail.package_id})}
-            >  
+            //onPress={() => navigation.navigate('ProductDetails',{PackageId:cpuDetail.package_id})}
+          >  
                 <ImageBackground style={styles.linearGradient}
                 source={DetailsInfoCard}
                 >
@@ -103,13 +107,18 @@ const PcDetails = ({navigation, route}) => {
                         <Image style={styles.arrow} source={PriceArrowImage}/>
                     </View>
                 </View>
-                <View style={{width:'100%'}}>
-                        <ScrollView horizontal={true}
+                <View style={{zIndex:8000,marginLeft:50}}>
+                        <ScrollView horizontal
                             contentContainerStyle={{
-                                width: '100%',
+                                width: 500,
+                                borderWidth:0,
+                                borderColor:'#ffffff',
+                                zIndex:9000
                             }}
                         >
+                            <View onStartShouldSetResponder={() => true}>
                         <FlatList
+                        
                             style={styles.parentView}
                             data={cpuDetail.items}
                             renderItem={({item},index) => {
@@ -124,6 +133,7 @@ const PcDetails = ({navigation, route}) => {
                             }}
                             numColumns= {2}
                         />
+                        </View>
                         </ScrollView>
                 </View>
                 <View style={styles.playableView}>
@@ -141,8 +151,9 @@ const PcDetails = ({navigation, route}) => {
                     </ImageBackground>
                 </View>
                 </ImageBackground>
-            </TouchableOpacity>
+       </TouchableOpacity>
           );
+        //  }
         })}
         {loading ? (
         <View style={{marginTop: height * 0.37}}>
@@ -159,7 +170,7 @@ const PcDetails = ({navigation, route}) => {
             </Text>
         ):null}
         </ImageBackground>   
-      </ScrollView>
+     </ScrollView>
       </View>
       
   );
@@ -210,6 +221,7 @@ const styles = StyleSheet.create({
     parentView:{
         marginLeft:'10%',
         paddingBottom:"2%",
+        zIndex:9000
     },
     attributesView:{
         display:'flex',

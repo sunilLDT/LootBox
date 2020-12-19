@@ -8,9 +8,13 @@ export async function getAllGames(type) {
 }
 
 export async function packageListByGames(gameIds) {
+
+  console.log('########################')
+  console.log(gameIds)
   const response = await Api.post('app/build-pc/get-packages', {
     game_ids:gameIds,
   });
+  console.log(response);
   return response.data;
 }
 
@@ -36,10 +40,21 @@ export async function getItemDetails(itemId){
   return response.data;
 }
 
-export async function addToCart(packageId,items){
+export async function addToCart(packageId,items, is_package){
+  let a = {
+    is_package:is_package,
+    package:{
+      package_id:packageId,
+      quantity:1,
+      items:items
+    }
+   };
+  
+   console.log(items)
+  
+console.log(a)
   const response = await Api.post('app/cart/add-to-cart',{
-    items:items,
-    package_id:packageId
+    a
   });
   return response.data;
 }
@@ -145,12 +160,28 @@ export async function pcPartSubcategoryApi(){
   return response.data;
 }
 
-export async function getItemsSubCatApi(id){
+export async function advancedBuilderItems(id){
   const response = await Api.post('app/advance-builder/get-items',{
-    sub_category_id:id
+    "sub_category_id":id
+  });
+ // console.log(response)
+  return response.data;
+}
+
+export async function getOrderList(listType){
+  const response = await Api.post('app/order/list',{
+    list_type:listType
   });
   return response.data;
 }
+
+export async function sendEmail(data){
+  const response = await Api.post('app/order/list',{
+    data
+  });
+  return response.data;
+}
+
 
 export async function getProfilApi(){
   const response = await Api.get('app/user/profile');

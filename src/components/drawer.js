@@ -32,7 +32,7 @@ const options = [
   },
   {
     name: "FAQ's",
-    path: 'home',
+    path: 'Faq',
   },
   {
     name: 'Contact Us',
@@ -50,7 +50,7 @@ const Drawer = ({navigation, progress}) => {
   const isDrawerOpen=useIsDrawerOpen()
   const [profileDetails,setProfileDetails] = useState({});
   const [languageImage,setLanguageImage] = useState(true);
-  
+
   useEffect(() => {
     getProfilApi().then((response) => {
       setProfileDetails(response.data);

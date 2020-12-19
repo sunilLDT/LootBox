@@ -4,6 +4,7 @@ import {
   TouchableOpacity,
   Dimensions,
   Image,
+  Text,
   ImageBackground,
   ActivityIndicator,
 } from 'react-native';
@@ -58,6 +59,18 @@ const Email = ({navigation}) => {
               source={require('../assets/back.png')}
             />
           </TouchableOpacity>
+          <Text
+            style={{
+              fontStyle: 'italic',
+              fontSize: 16,
+              lineHeight: 16,
+              opacity: 0.4,
+              color: '#ECDBFA',
+              marginLeft: 10,
+              fontFamily: 'Montserrat-Italic',
+            }}>
+            CONTACT US
+          </Text>
         </View>
         {state.msg ? (
           <Modal msg={state.msg} hideBtn />
@@ -85,7 +98,8 @@ const Email = ({navigation}) => {
             <View style={{marginVertical: 15}}>
               <Input
                 placeholder="Description"
-                multiline
+                multiline={true}
+                numberOfLines={4}
                 value={description}
                 onChangeText={setDescription}
                 style={{
