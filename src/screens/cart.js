@@ -38,6 +38,7 @@ const Cart = ({navigation}) => {
   useEffect(() => {
     setLoading(true)
     showCartData().then((response) => {
+      console.log(response.data)
       setcartItems(response.data.items) 
       setCartPackage(response.data.package)
       setCartData(response.data)
