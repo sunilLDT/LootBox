@@ -118,7 +118,6 @@ const PcDetails = ({navigation, route}) => {
                         >
                             <View onStartShouldSetResponder={() => true}>
                         <FlatList
-                        
                             style={styles.parentView}
                             data={cpuDetail.items}
                             renderItem={({item},index) => {

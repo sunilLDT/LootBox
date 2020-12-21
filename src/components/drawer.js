@@ -23,11 +23,11 @@ import strings,{ changeLaguage } from '../languages/index';
 const {width, height} = Dimensions.get('window');
 const options = [
   {
-    name: strings.cart,
+    name: strings.myCart,
     path: 'home',
   },
   {
-    name: strings.order,
+    name: strings.myOrder,
     path: 'orders',
   },
   {

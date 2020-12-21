@@ -54,7 +54,7 @@ const Profile = ({navigation}) => {
     getProfilApi().then((response) => {
       setProfileDetails(response.data);
       setEmail(response.data.email)
-      setDOB(new Date(response.data.date_of_birth !== null?response.data.date_of_birth:""))
+      setDOB(new Date())
       setGender(response.data.gender?response.data.gender:1)
       setLoading(false)
     }).catch((error) => {

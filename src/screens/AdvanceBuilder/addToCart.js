@@ -17,10 +17,9 @@ import SearchImage from '../../assets/buildYourPc/search.png';
 import IcCardImage from '../../assets/ic3.png';
 import thumbnail from '../../assets/thumbnail.png';
 import CloseImage from '../../assets/ic-3copy.png';
+import {addToCart } from '../../api/buildYourPc';
 
 const {width, height} = Dimensions.get('window');
-
-
 
 const AddToCart = (props) => {
     const [showCpuPerocessersList, setShowCpuProcesserList] = useState(false);
@@ -37,7 +36,7 @@ const AddToCart = (props) => {
         setShowCpuProcesserList(!showCpuPerocessersList)
     }
     useEffect(() => {
-        console.log(props.route.params.data);
+        // console.log(props.route.params.data);
         setCat(props.route.params.data[0].sub_category_name);
         setName(props.route.params.data[0].name)
         setPrice(props.route.params.data[0].price)
@@ -45,13 +44,11 @@ const AddToCart = (props) => {
         setTotalPrice(props.route.params.data.reduce(function (cnt, o) { return cnt + parseInt(o.price); }, 0));
       }, []);
 
-      const selectHandler = (id, name, price) => {
+    const selectHandler = (id, name, price) => {
         setCat(id);
         setName(name);
         setPrice(price);
-       
     }
-
 
     return(
         
@@ -77,7 +74,7 @@ const AddToCart = (props) => {
                 </View>
                 <View>
                     <Text style={styles.advanceBuilderText}>Advance Builder</Text>
-                    <Text style={styles.lineText}>KD {totalPrice}</Text>
+                    <Text style={styles.lineText}>KD {totalPrice}.000</Text>
                 </View>
 
                 <ImageBackground
@@ -195,15 +192,6 @@ const AddToCart = (props) => {
                                     }}>
                                     View all
                         </Text>
-                            </TouchableOpacity>
-                        </View>
-                        <View>
-                            <TouchableOpacity
-                                onPress={() => {}}>
-                                <Image
-                                    source={SearchImage}
-                                    style={{ width: 20, height: 20 }}
-                                />
                             </TouchableOpacity>
                         </View>
                     </View>

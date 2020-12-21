@@ -26,6 +26,7 @@ import ExpandImage from '../assets/ic_expand1.png';
 import CloseImage from '../assets/ic-3copy.png';
 import IcCardImage from '../assets/ic3.png';
 import thumbnail from '../assets/thumbnail.png';
+import PayBtn from '../components/PayBtn';
 
 const {width, height} = Dimensions.get('window');
 
@@ -649,12 +650,11 @@ const Cart = ({navigation}) => {
         {Object.keys(cartData).length === 0?null:
           <TouchableOpacity onPress={() => checkout()}>
             <View style={{width:"105%"}}>
-             
               {!loading ? (
-                     <Btn  text={cartData.grand_total} pay="PAY                " />
+                  <PayBtn text="PAY" price={cartData.grand_total}/>
                   ) : (
                       <>
-                        <Btn text={' '} x="54" pay="" />
+                        <PayBtn text={' '} x="54" price=""/>
                         <ActivityIndicator
                           color="#ECDBFA"
                           size="small"

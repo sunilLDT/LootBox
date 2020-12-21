@@ -45,7 +45,7 @@ const AdvanceBuilder = (props) => {
   const [search, setSearch] = useState('');
   const [filteredDataSource, setFilteredDataSource] = useState([]);
   const [open, setOpen] = useState(false);
-
+  const maxlimit = 20;
   useEffect(() => {
     setLoading(true);
     props.categoryList();
@@ -135,7 +135,7 @@ const AdvanceBuilder = (props) => {
     let a = itemList;
     for (j = 0; j < a.length; j++) {  
       if (a[j].sub_category_id === id) {
-        return a[j].name;
+        return a[j].name.lenght> maxlimit?(((a[j].name).substring(0,maxlimit-3)) + '...') :a[j].name;
         break;
       }
     }
@@ -227,7 +227,8 @@ const AdvanceBuilder = (props) => {
               </View>
 
               <View style={styles.mainContainer}>
-                  <ImageBackground source={SubCatBg} style={styles.subCategoriesView}>
+                <View style={styles.subCategoriesView}>
+                  <ImageBackground source={SubCatBg} style={{}}>
                     {!props.loadingCat ? props.categories.map((part, index) => {
                       return (
                         <TouchableOpacity key={index} onPress={() => subCategoryFun(part.sub_category_id, index)}>
@@ -242,7 +243,7 @@ const AdvanceBuilder = (props) => {
                                   height: 8,
                                   position: 'absolute',
                                   right: 22,
-                                  top: 12,
+                                  top: 22,
                                   zIndex: 100,
                                   borderRadius: 50,
                                   alignItems: 'center',
@@ -270,7 +271,7 @@ const AdvanceBuilder = (props) => {
                                 </Text>
                               </View>
                               <Text>
-                                  <Text>  { getPrice(part.sub_category_id) }</Text>
+                                  <Text style={styles.price}>{ getPrice(part.sub_category_id) }</Text>
                               </Text>
                             </View>
                           </View>
@@ -278,6 +279,7 @@ const AdvanceBuilder = (props) => {
                       );
                     }) : null}
                   </ImageBackground>
+                </View>
                 {items ?
                   <View style={styles.flatlistContainer}>
                     <FlatList
@@ -288,7 +290,7 @@ const AdvanceBuilder = (props) => {
                         return (
                           <TouchableOpacity onPress={() => selectItem(item)}>
                             <ImageBackground
-                              onPress={() => { }}
+                              onPress={() => {}}
                               source={idExists(item.item_id) ? selectedIcCardImage : IcCardImage}
                               style={styles.cardConatiner}
                               key={index}
@@ -394,12 +396,12 @@ const styles = StyleSheet.create({
   box: {
     width: width * 0.26,
     height: height * 0.12,
-    borderBottomWidth: 0.3,
-    borderBottomColor: "#3D3E48",
+    // borderBottomWidth: 0.3,
+    // borderBottomColor: "#3D3E48",
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    paddingTop:40
+    paddingTop:40,
   },
   subImage: {
     width: 35,
@@ -411,8 +413,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12
   },
   cardConatiner: {
-    width: width * 0.30,
-    height: height * 0.18,
+    width: width * 0.32,
+    height: height * 0.17,
     marginTop: 40,
     marginLeft: 10
   },

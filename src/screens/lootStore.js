@@ -415,6 +415,7 @@ const LootStore = ({ navigation }) => {
                                 marginBottom: 10
                                
                               }}
+                              showsVerticalScrollIndicator={false}
                               scrollEnabled={true}
                               data={filteredDataSource}
                               onEndThreshold={0.5}
@@ -524,7 +525,7 @@ const LootStore = ({ navigation }) => {
                           </>
                         )}
                     </View>
-                    {selectedSubCategory === 0 && lastPage !== 1 ? (
+                    {/* {selectedSubCategory === 0 && lastPage !== 1 ? (
                       <View style={{ paddingBottom: 20, flex: 1, justifyContent: 'flex-end' }}>
                         <TouchableOpacity onPress={() => { handleLodeMore() }}>
                           <SaveButton text="Load More" x="120" />
@@ -532,7 +533,7 @@ const LootStore = ({ navigation }) => {
                       </View>
                     )
                       : null
-                    }
+                    } */}
                   </>
                 )}
             </View>
