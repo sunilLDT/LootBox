@@ -33,7 +33,20 @@ const Language = ({ navigation }) => {
     },
   ];
 
-
+  const languageChange = (isOn) => {
+    //AsyncStorage.setItem('language', isOn ? 'en' : 'ar');
+    //languageRestart(isOn);
+    //languageRestart(isOn);
+    console.log(state.token)
+    setLanguage(isOn ? 'en' : 'ar');
+    if(state.token) {
+      navigation.navigate('home');
+    } else {
+      navigation.navigate('auth', {
+        screen: 'signin',
+      });
+    }
+  };
 
   return (
     <LinearGradient
