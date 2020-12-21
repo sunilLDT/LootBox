@@ -54,7 +54,8 @@ const Profile = ({navigation}) => {
     getProfilApi().then((response) => {
       setProfileDetails(response.data);
       setEmail(response.data.email)
-      setDOB(new Date(response.data.date_of_birth !== null?response.data.date_of_birth:""))
+    console.log(response.data)
+     // setDOB(new Date(response.data.date_of_birth !== null?response.data.date_of_birth:""))
       setGender(response.data.gender?response.data.gender:1)
       setLoading(false)
     }).catch((error) => {
@@ -114,6 +115,7 @@ const Profile = ({navigation}) => {
     ImagePicker.launchImageLibrary(options,(response) => {
       if(response.uri){
         setPhoto(response.uri)
+        console.log(response.uri)
         uploadImageApi(photo).then((response) => {
           alert(response.message);
         }).catch((error) => {
@@ -294,6 +296,22 @@ const Profile = ({navigation}) => {
                   .replace(/ /g, '-')
               }`}
             />
+             {show && (
+          <DateTimePicker
+            testID="datetimepicker"
+            value={DOB}
+            style={{ color: '#ffffff' }}
+            textColor="white" 
+            mode="date"
+            display="spinner"
+            format="DD-MM-YYYY"
+            onChange={(e, x) => {
+              setShow(false);
+              if (x) setDOB(x);
+              console.log(x);
+            }}
+          />
+        )}
           </View>
           <LinearGradient
               start={{x: 0, y: 0}}
@@ -313,11 +331,14 @@ const Profile = ({navigation}) => {
               mode="dropdown"
               selectedValue={gender}
               style={{
-                  height: 65,
-                  width: "85%",
-                  color:'#ECDBFA',
-                  marginLeft:'2%',
+                height: Platform.OS=='android'?65:250,
+                width: "85%",
+                marginTop: Platform.OS=='android'?0:30,
+                color:'#ECDBFA',
+                marginLeft:'2%',
+              
               }}
+              itemStyle={{color:'#ffffff'}}
               onValueChange={(itemValue, itemIndex) =>
                 setGender(itemValue)
               }
@@ -384,20 +405,7 @@ const Profile = ({navigation}) => {
           </>
           )} 
         </ImageBackground>
-        {show && (
-          <DateTimePicker
-            testID="datetimepicker"
-            value={DOB}
-            mode="date"
-            display="spinner"
-            format="DD-MM-YYYY"
-            onChange={(e, x) => {
-              setShow(false);
-              if (x) setDOB(x);
-              console.log(x);
-            }}
-          />
-        )}
+       
       </View>
     </ScrollView>
     </View>
