@@ -7,7 +7,10 @@ export default {
       lootStore:"متجر نهب",
       faq:'أسئلة مكررة',
       contactUs:'اتصل بنا',
-      logout:'تسجيل خروج'
+      logout:'تسجيل خروج',
+      langEng:'English',
+      langAr:'Arabic',
+      chooseLang:'Choose your language'
     },
     en: {
  
@@ -18,6 +21,9 @@ export default {
     lootStore:"Loot Store",
     faq:"FAQ's",
     contactUs:'Contact Us',
-    logout:'Log Out'
+    logout:'Log Out',
+    langEng:'English',
+    langAr:'Arabic',
+    chooseLang:'Choose your language'
     }
 }
