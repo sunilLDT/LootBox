@@ -41,7 +41,8 @@ const Cart = (props) => {
   const [loading, setLoading] = useState(true);
   const [open, setOpen] = useState();
   const [showCpuPerocessersList, setShowCpuProcesserList] = useState(false);
-  const [packageItems,setPackageItems] = useState([])
+  const [packagePrice, setPackagePrice] = useState([]);
+  // console.log(Number(packagePrice));
   const maxlimit = 22;
   var imgSource = upwardImage ? ExpandImage : CloseImage;
 
@@ -50,6 +51,11 @@ const Cart = (props) => {
     showCartData().then((response) => {
       setcartItems(response.data.items) 
       setCartPackage(response.data.package)
+      {response.data.package.map((packagePri,i) => {
+        packagePri.cart_package_items.map((Pprice,k) => {
+          setPackagePrice([...packagePrice,Pprice]);
+        });
+      })}
       setCartData(response.data)
       setLoading(false)
     }).catch((error) => {
@@ -290,13 +296,9 @@ const Cart = (props) => {
                     </View>
                 </TouchableOpacity>
                 </ImageBackground>
-
-
                 {/* ===========================
                 //start of details  package
                 =========================== */}
-
-
                 {showCpuPerocessersList && open == packages.cart_package_id?(
                 <View>
                     <View
@@ -307,6 +309,7 @@ const Cart = (props) => {
                     </View>
                     <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} >
                     {packages.cart_package_items.map((packageItems,i) => {
+                      console.log(packageItems.price);
                       return(
                       <TouchableOpacity
                           key={i}
@@ -541,8 +544,8 @@ const Cart = (props) => {
                   opacity: 0.8,
                   fontFamily:'Montserrat-Medium',
                 }}>
-                Package Details ({Object.keys(cartData).length === 0?"0":cartItems.length }
-                 {Object.keys(cartData).length === 1?" item":" items"})
+                Package Details ({Object.keys(cartData).length === 0?"0":cartData.total_items }
+                 {cartData.total_items === 1?" item":" items"})
               </Text>
             </View>
 

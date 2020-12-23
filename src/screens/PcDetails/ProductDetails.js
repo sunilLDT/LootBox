@@ -146,8 +146,6 @@ const ProductDetails = (props) => {
                     coverImage={coverImage}
                     price={totalPrice}
                   ></ListDetails>
-
-
                 </View>
               );
             })}
