@@ -46,6 +46,11 @@ import SplashScreen from 'react-native-splash-screen';
 import Email from './src/screens/email';
 import AddToCart from './src/screens/AdvanceBuilder/addToCart';
 import AddvanceListing from './src/screens/AdvanceBuilder/advanceListing';
+import { initLanguages, LanguageProvider } from '@language';
+import { languages } from '@config';
+
+const strings = initLanguages(languages);
+
 const { width, height } = Dimensions.get('window');
 
 const Stack = createStackNavigator();
@@ -214,10 +219,14 @@ const App = () => {
 
 export default () => {
   return (
+    <LanguageProvider 
+      strings={strings}
+      language="en">
     <Provider store={store}>
       <AuthProvider>
         <App />
       </AuthProvider>
     </Provider>
+    </LanguageProvider>
   );
 };

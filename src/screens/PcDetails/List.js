@@ -259,7 +259,6 @@ const ListDetails = (props) => {
                     <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} >
                         {categoryItems.map((processer, index) => {
                             const maxlimit = 22;
-                            if(processer.status === 1){
                             return (
                                 <>
                                     <TouchableOpacity
@@ -269,7 +268,6 @@ const ListDetails = (props) => {
 
                                         <ImageBackground
                                             source = {idExists(processer.item_id) ? selectedIcCardImage : IcCardImage}
-
                                            style={{ width: 139, height: 151 }}>
                                             <View
                                                 style={{
@@ -291,7 +289,6 @@ const ListDetails = (props) => {
                                                 <Text
                                                     adjustsFontSizeToFit={true}
                                                     numberOfLines={2}
-                                                    
                                                     style={{
                                                         fontSize: 11,
                                                         fontWeight: '700',
@@ -334,7 +331,6 @@ const ListDetails = (props) => {
                                     {/* )*/}
                                 </>
                             );  
-                        }
                         })}
                     </ScrollView>
                 </View>

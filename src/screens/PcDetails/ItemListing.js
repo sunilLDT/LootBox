@@ -166,14 +166,13 @@ const ItemListing = (props) => {
         showsVerticalScrollIndicator={false}
         renderItem={({ item }, index) => {
           const maxlimit = 22;
-          if(item.status === 1){
           return (
             <TouchableOpacity
               key={index}
               onPressIn={() => { selectHandler(item.item_id, item.name, item.price) }}
             >
               <ImageBackground
-                //onPress={() => { selectHandler(item.item_id) }}
+                // onPress={() => { selectHandler(item.item_id) }}
                 source={idExists(item.item_id) ? selectedIcCardImage : IcCardImage}
                 style={styles.cardConatiner}
                 key={index}>
@@ -225,7 +224,6 @@ const ItemListing = (props) => {
               </ImageBackground>
             </TouchableOpacity>
           );
-        }
         }}
         numColumns={2}
       />

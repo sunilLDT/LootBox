@@ -12,15 +12,16 @@ import LinearGradient from 'react-native-linear-gradient';
 import { Context as AuthContext } from '../api/contexts/authContext';
 import LanguageCard from '../svgs/cardLang';
 import { languageRestart } from '../components/languageRestart';
-
+import strings,{ changeLaguage } from '../languages/index';
+import { connect } from '@language';
 
 const { height, width } = Dimensions.get('window');
 
-const Language = ({ navigation }) => {
+const Language = (props) => {
 
   const { state, checkUser, setLanguage } = useContext(AuthContext);
   const [LocalLanguage, setLocalLanguage] = useState('');
-
+  let { strings, language } = props;
 
   const data = [
     {
@@ -33,7 +34,35 @@ const Language = ({ navigation }) => {
     },
   ];
 
+  const languageChange = (isOn) => {
+    //AsyncStorage.setItem('language', isOn ? 'en' : 'ar');
+    //languageRestart(isOn);
+    //languageRestart(isOn);
+    console.log(state.token)
+    language.setLanguage(isOn ? 'en' : 'ar');
+    changeLaguage(isOn ? 'en' : 'ar');
+    if(state.token) {
+      
+      props.navigation.navigate('home');
+    } else {
+      props.navigation.navigate('auth', {
+        screen: 'signin',
+      });
+    }
+  };
 
+  const arabicLang = () => {
+    language.setLanguage('it')
+    changeLaguage('it');
+    setLang('it')
+
+  }
+  const englishLang = () => {
+    language.setLanguage('en')
+    setLanguageImage(!languageImage);
+    changeLaguage('en');
+    //RNRestart.Restart();
+  };
 
   return (
     <LinearGradient
@@ -61,7 +90,7 @@ const Language = ({ navigation }) => {
               color: '#ECDBFA',
               fontFamily: Platform.OS == 'android' ? 'Michroma-Regular' : 'Michroma',
             }}>
-            Choose your language
+           {strings.chooseLang}
             </Text>
 
           {data.map((i, k) => (
@@ -116,4 +145,4 @@ const Language = ({ navigation }) => {
   );
 };
 
-export default Language;
+export default connect(Language);

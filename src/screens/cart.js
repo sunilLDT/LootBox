@@ -27,11 +27,11 @@ import CloseImage from '../assets/ic-3copy.png';
 import IcCardImage from '../assets/ic3.png';
 import thumbnail from '../assets/thumbnail.png';
 import PayBtn from '../components/PayBtn';
+import { startClock } from 'react-native-reanimated';
 
 const {width, height} = Dimensions.get('window');
 
-const Cart = ({navigation}) => {
-
+const Cart = (props) => {
   const [cartItems,setcartItems] = useState([]);
   const [upwardImage, setUpwardImage] = useState(true);
   const [cartPackage,setCartPackage] = useState([]);
@@ -43,7 +43,6 @@ const Cart = ({navigation}) => {
   const [showCpuPerocessersList, setShowCpuProcesserList] = useState(false);
   const [packageItems,setPackageItems] = useState([])
   const maxlimit = 22;
-  
   var imgSource = upwardImage ? ExpandImage : CloseImage;
 
   useEffect(() => {
@@ -63,10 +62,12 @@ const Cart = ({navigation}) => {
     setLoading(true)
     if(allAddress.length === 0){
       alert("Please add address for the Delivery")
+      setLoading(false)
     }else{
       orderPlace().then((response) => {
+        console.log(response)
         setLoading(false)
-        navigation.navigate('checkout',{paymentUrl:response.data.data.paymenturl})
+        props.navigation.navigate('checkout',{paymentUrl:response.data.data.paymenturl})
       }).catch((error) => {
         console.log("orderPlace" + error);
       });
@@ -99,12 +100,11 @@ const Cart = ({navigation}) => {
 
   const gotoAddress = () => {
     setaddressModal(!addressModal)
-    navigation.navigate('address',{addressId:""})
+    props.navigation.navigate('address',{addressId:""})
   };
 
   const defaultAddressfun = (id) => {
     defaultAddressApi(id).then((response) => {
-      console.log(response.message)
       if(response.message){
         setaddressModal(!addressModal)
       }
@@ -123,9 +123,6 @@ const Cart = ({navigation}) => {
     setOpen(packageId);
     setUpwardImage(!upwardImage)
     setShowCpuProcesserList(!showCpuPerocessersList)
-    // setOpen("");
-    // setOpen(item_id);
-    // setShowCpuProcesserList(!showCpuPerocessersList)
 }
 
   return (
@@ -204,7 +201,7 @@ const Cart = ({navigation}) => {
                 alignItems: 'center',
                 flexDirection: 'row',
               }}>
-              <TouchableOpacity onPress={() => navigation.goBack()}>
+              <TouchableOpacity onPress={() => props.navigation.goBack()}>
                 <Image
                   resizeMode="contain"
                   style={{width: 48}}
@@ -225,7 +222,6 @@ const Cart = ({navigation}) => {
           {Object.keys(cartData).length === 0?null:(
             <View>
               {cartPackage.map((packages,k) => {
-                console.log(packages);
                 return(
                 <View
                 key={k}
@@ -304,73 +300,73 @@ const Cart = ({navigation}) => {
                 {showCpuPerocessersList && open == packages.cart_package_id?(
                 <View>
                     <View
-                        style={{
-                            flexDirection: 'row',
-                            justifyContent: 'space-between',
-                        }}>
+                      style={{
+                          flexDirection: 'row',
+                          justifyContent: 'space-between',
+                      }}>
                     </View>
                     <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} >
                     {packages.cart_package_items.map((packageItems,i) => {
                       return(
-                                    <TouchableOpacity
-                                        key={i}
-                                        onPressIn={() => {}}
-                                        style={{ padding: 20 }}>
-
-                                        <ImageBackground
-                                            source = {IcCardImage}
-                                           style={{ width: 139, height: 151 }}>
-                                            <View
-                                                style={{
-                                                    alignSelf: 'center',
-                                                    justifyContent: 'center',
-                                                    alignContent: 'center',
-                                                    marginTop: 30,
-                                                }}>
-                                                <Image
-                                                source={{uri:packageItems.image}}
-                                                style={{ width: 48, height: 40, marginBottom: 10, alignSelf: 'center' }}/>
-                                                <Text
-                                                    adjustsFontSizeToFit={true}
-                                                    numberOfLines={2}
-                                                    
-                                                    style={{
-                                                        fontSize: 11,
-                                                        fontWeight: '700',
-                                                        color: '#FFFFFF',
-                                                        marginBottom: 10,
-                                                        alignSelf: 'center'
-                                                    }}>
-                                                      {packageItems.name}
-                                                </Text>
-                                                <Text
-                                                    style={{
-                                                        fontSize: 10,
-                                                        fontWeight: '700',
-                                                        color: '#FFFFFF',
-                                                        marginBottom: 10,
-                                                        opacity: 0.5,
-                                                        fontStyle: 'italic',
-                                                        textAlign: 'center',
-                                                    }}>
-                                                    {packageItems.brand}
-                                                </Text>
-                                                <Text
-                                                    style={{
-                                                        fontSize: 12,
-                                                        fontWeight: '400',
-                                                        color: '#FFFFFF',
-                                                        fontStyle: 'italic',
-                                                        textAlign: 'center',
-                                                        marginBottom: 40,
-                                                    }}>
-                                                    +KD {packageItems.price}
-                                                </Text>
-                                            </View>
-                                        </ImageBackground>     
-                                    </TouchableOpacity>
-                                    );
-                            })}
+                      <TouchableOpacity
+                          key={i}
+                          style={{ padding: 20 }}
+                      >
+                        <ImageBackground
+                            source = {IcCardImage}
+                            style={{ width: 139, height: 151 }}
+                        >
+                          <View
+                              style={{
+                                  alignSelf: 'center',
+                                  justifyContent: 'center',
+                                  alignContent: 'center',
+                                  marginTop: 30,
+                              }}>
+                              <Image
+                              source={{uri:packageItems.image}}
+                              style={{ width: 48, height: 40, marginBottom: 10, alignSelf: 'center' }}/>
+                              <Text
+                                  adjustsFontSizeToFit={true}
+                                  numberOfLines={2}
+                                  style={{
+                                      fontSize: 11,
+                                      fontWeight: '700',
+                                      color: '#FFFFFF',
+                                      marginBottom: 10,
+                                      alignSelf: 'center'
+                                  }}
+                              >
+                                {((packageItems.name).length > maxlimit)?(((packageItems.name).substring(0,maxlimit-3)) + '...'):packageItems.name}
+                              </Text>
+                              <Text
+                                  style={{
+                                      fontSize: 10,
+                                      fontWeight: '700',
+                                      color: '#FFFFFF',
+                                      marginBottom: 10,
+                                      opacity: 0.5,
+                                      fontStyle: 'italic',
+                                      textAlign: 'center',
+                                  }}>
+                                  {packageItems.brand}
+                              </Text>
+                              <Text
+                                  style={{
+                                      fontSize: 12,
+                                      fontWeight: '400',
+                                      color: '#FFFFFF',
+                                      fontStyle: 'italic',
+                                      textAlign: 'center',
+                                      marginBottom: 40,
+                                  }}>
+                                  +KD {packageItems.price}
+                              </Text>
+                          </View>
+                        </ImageBackground>     
+                      </TouchableOpacity>
+                      );
+                      })}
                     </ScrollView>
                 </View>
                 ):null}
@@ -556,6 +552,39 @@ const Cart = ({navigation}) => {
                 borderBottomColor: 'rgba(255,255,255,0.3)',
                 borderBottomWidth: 0.3,
               }}>
+                {cartPackage.map((packages,k) => {
+                return(
+                  <View
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    marginVertical: 8,
+                  }}
+                  key={k}
+                  >
+                    <Text
+                      style={{
+                        color: 'rgba(255,255,255,0.8)',
+                        fontSize: 15,
+                        fontFamily:'Montserrat-Regular'
+                      }}>
+                      {((packages.name).length > maxlimit)?(((packages.name).substring(0,maxlimit-3)) + '...'):packages.name}
+                    </Text>
+                    <Text
+                      style={{
+                        color: 'rgba(255,255,255,0.3)',
+                        fontSize: 12,
+                        fontFamily:'Montserrat-Regular',
+                      }}>
+                      KD {packages.price}
+                    </Text>
+                  </View>
+                );
+                })}
+              {/* // ===============
+              // item details start
+              // =============== */}
               {Object.keys(cartData).length === 0?null:cartItems.map((items, k) => (
                 <View
                   style={{
@@ -594,6 +623,9 @@ const Cart = ({navigation}) => {
                   }
                 </View>
                ))}
+              {/* // ===============
+              // item details end
+              // =============== */}
                <View
                 style={{
                   display: 'flex',
@@ -671,7 +703,7 @@ const Cart = ({navigation}) => {
           Forgot to add something?
         </Text>
         <View>
-          <TouchableOpacity style={{marginTop:10,marginLeft:40}} onPress={() => navigation.navigate('home')}>
+          <TouchableOpacity style={{marginTop:10,marginLeft:40}} onPress={() => props.navigation.navigate('home')}>
             <View style={{width:"87%",}}>
               <SaveBtn text="Continue Shopping" x="100" />
             </View>

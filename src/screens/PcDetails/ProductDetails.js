@@ -110,7 +110,7 @@ const ProductDetails = (props) => {
                 }}>
                 <View style={{ alignSelf: 'center', paddingLeft: '2%' }}>
                   <Text style={styles.brandTitle}>{props.packageData.name}</Text>
-                  <Text style={styles.brandTitle}>{props.totalPrice}</Text>
+                  <Text style={styles.brandPrice}>KD {props.totalPrice}.000</Text>
                 </View>
                 <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
                   {props.coverImage ? props.coverImage.map((cImages, index) => {
@@ -135,7 +135,6 @@ const ProductDetails = (props) => {
               //props.add(i);
               return (
                 <View key={index}>
-
                   <ListDetails
                     key={Math.floor((Math.random() * 100) + 1)}
                     data={item}
@@ -213,6 +212,12 @@ const styles = StyleSheet.create({
     color: '#ECDBFA',
     textAlign: 'left',
     width: 139,
+    fontFamily: Platform.OS == 'android' ? 'Michroma-Regular' : 'Michroma',
+  },
+  brandPrice:{
+    fontSize: 14,
+    color: 'rgba(255,255,255,0.3)',
+    marginTop: 5,
     fontFamily: Platform.OS == 'android' ? 'Michroma-Regular' : 'Michroma',
   },
   price: {

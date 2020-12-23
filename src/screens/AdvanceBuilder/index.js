@@ -26,6 +26,7 @@ import SelectedImage from '../../assets/Rectangle.png';
 import { connect } from 'react-redux';
 import { SearchBar } from 'react-native-elements';
 import { packageActions } from '../../actions/package';
+import TickImage from '../../assets/tick.png';
 
 const { width, height } = Dimensions.get('window');
 
@@ -40,14 +41,29 @@ const AdvanceBuilder = (props) => {
   const [items, setItems] = useState([]);
   const [selectedItem, setSelectedItem] = useState({});
   const [itemList, setItemList] = useState([]);
-  const [clickedIndex, setClickedIndex] = useState([]);
   const forceUpdate = useForceUpdate();
   const [search, setSearch] = useState('');
   const [filteredDataSource, setFilteredDataSource] = useState([]);
   const [open, setOpen] = useState(false);
+  const [tick,setTick] = useState([]);
+
   const maxlimit = 20;
   useEffect(() => {
     setLoading(true);
+    props.categories.map((subCat,i) =>{
+      if(i == 0){
+        setSubCategoryid(subCat.sub_category_id)
+        advancedBuilderItems(subCat.sub_category_id).then((response) => {
+          let d = {
+            "name": response.data[0].name,
+            "price": response.data[0].price,
+            "sub_category_id": response.data[0].sub_category_id
+          }
+          setItems(response.data)
+          setFilteredDataSource(response.data)
+        })
+      }
+    });
     props.categoryList();
     setLoading(false)
   }, []);
@@ -73,11 +89,14 @@ const AdvanceBuilder = (props) => {
   }
 
   const submitNow = () => {
-    props.navigation.navigate('addToCart', { data: itemList });
+    if(Object.keys(selectedItem).length !== 0){
+      props.navigation.navigate('addToCart', { data: itemList });
+    }
   }
 
 
   const selectItem = (i) => {
+    setTick([...tick,i.sub_category_id]);
     let d = {
       "name": i.name,
       "price": i.price,
@@ -146,7 +165,7 @@ const AdvanceBuilder = (props) => {
     let a = itemList;
     for (j = 0; j < a.length; j++) {  
       if (a[j].sub_category_id === id) {
-        return 'KD' +a[j].price;
+        return 'KD ' +a[j].price;
         break;
       }
     }
@@ -250,7 +269,12 @@ const AdvanceBuilder = (props) => {
                                   justifyContent: 'center',
                                 }}>
                               </LinearGradient>
-                             ) : null}
+                             ) : tick === part.sub_category_id?(
+                               <Image 
+                                source={TickImage}
+                                style={styles.tick}
+                               />
+                             ):null}
                             <Image style={styles.subImage}
                               resizeMode="contain"
                               source={filterImage}
@@ -458,6 +482,15 @@ const styles = StyleSheet.create({
   sideDetails: {
     color: '#fff',
     paddingLeft: 2.5,
+  },
+  tick:{
+    position: 'absolute',
+    right: 10,
+    top: 12,
+    zIndex: 100,
+    borderRadius: 50,
+    alignItems: 'center',
+    justifyContent: 'center',
   }
 
 });

@@ -78,7 +78,6 @@ const Address = ({navigation,route}) => {
     }
 
     const addAddress = (address_id) => {
-        console.log(addressType);
         if(city == "" || email == "" || name == "" ||block == "" || street == "" || building ==""){
             alert("Please fill all fields");
           }
@@ -86,8 +85,8 @@ const Address = ({navigation,route}) => {
             !/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)){
                 alert("Invalid Email Address");
           }
-          else if(addressType == ""){
-              alert("Please select address type");
+          else if(typeof addressType == "undefined"){
+              alert("Please fill all fields");
           }
           else if(selectedCity == ""){
             alert("Please select City");

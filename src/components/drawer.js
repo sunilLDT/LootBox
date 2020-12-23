@@ -1,4 +1,4 @@
-import React,{useContext,useState,useEffect} from 'react';
+import React,{useContext,useState,useEffect,useReducer} from 'react';
 import {
   View,
   Dimensions,
@@ -19,6 +19,8 @@ import { getProfilApi } from '../api/buildYourPc';
 import englishImage from '../assets/english.png';
 import arabicImage from '../assets/arabic.png';
 import strings,{ changeLaguage } from '../languages/index';
+import RNRestart from 'react-native-restart';
+import { connect } from '@language';
 
 const {width, height} = Dimensions.get('window');
 const options = [
@@ -44,12 +46,44 @@ const options = [
   },
 ];
 
-const Drawer = ({navigation, progress}) => {
+
+function useForceUpdate() {
+  const [value, setValue] = useState(0); // integer state
+  return () => setValue(value => ++value); // update the state to force render
+}
+
+
+const Drawer = (props) => {
 
   const {signout,state} = useContext(AuthContext)
   const isDrawerOpen=useIsDrawerOpen()
   const [profileDetails,setProfileDetails] = useState({});
+  const [lang,setLang] = useState('en');
   const [languageImage,setLanguageImage] = useState(true);
+  const [ignored, forceUpdate] = useReducer(x => x + 1, 0);
+  let { strings, language } = props;
+  const options = [
+    {
+      name: strings.cart,
+      path: 'home',
+    },
+    {
+      name: strings.order,
+      path: 'orders',
+    },
+    {
+      name:strings.faq,
+      path: 'Faq',
+    },
+    {
+      name: strings.contactUs,
+      path: 'contact',
+    },
+    {
+      name: strings.logout,
+      path: '',
+    },
+  ];
 
   useEffect(() => {
     getProfilApi().then((response) => {
@@ -60,15 +94,22 @@ const Drawer = ({navigation, progress}) => {
     return () => {
       console.log("willUnMount")
     }
-  }, []);
+  }, []); 
 
   const arabicLang = () => {
+    language.setLanguage('it')
     setLanguageImage(!languageImage);
-    changeLaguage('it')
+    changeLaguage('it');
+    setLang('it')
+    
+    //RNRestart.Restart();
+    
   }
   const englishLang = () => {
+    language.setLanguage('en')
     setLanguageImage(!languageImage);
-    changeLaguage('en')
+    changeLaguage('en');
+    //RNRestart.Restart();
   };
 
   return (
@@ -76,6 +117,7 @@ const Drawer = ({navigation, progress}) => {
       animation={isDrawerOpen ? 'fadeIn':'fadeOut'}
       delay={900}
       >
+        
       <LinearGradient
         start={{x: 0, y: 0}}
         end={{x: 1, y: 0}}
@@ -92,7 +134,7 @@ const Drawer = ({navigation, progress}) => {
           }}>
           <TouchableOpacity
             onPress={() => {
-              navigation.navigate('profile',{dob:profileDetails.date_of_birth})
+              props.navigation.navigate('profile',{dob:profileDetails.date_of_birth})
             }}
             style={{
               display: 'flex',
@@ -170,10 +212,11 @@ const Drawer = ({navigation, progress}) => {
             }}>
             {profileDetails.email}
           </Text>
+          <Text>{strings.changeLanguage}</Text>
 
           {options.map((i, k) => (
             <TouchableOpacity key={k} onPress={() => {
-              k===options.length-1 ? signout():navigation.navigate(i.path)
+              k===options.length-1 ? signout():props.navigation.navigate(i.path)
             }}>
               <Text
                 style={{
@@ -223,7 +266,7 @@ const Drawer = ({navigation, progress}) => {
             // alignSelf: 'flex-end'
           }}
           onPress={() => {
-            navigation.toggleDrawer();
+            props.navigation.toggleDrawer();
           }}>
           <ImageBackground
             source={require('../assets/menuImage.png')}
@@ -250,4 +293,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Drawer;
+export default connect(Drawer);

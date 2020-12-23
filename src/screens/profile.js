@@ -10,6 +10,7 @@ import {
   ScrollView,
   TouchableWithoutFeedback,
   ActivityIndicator,
+  PermissionsAndroid
 } from 'react-native';
 import Input from '../components/input';
 import InputCard from '../components/InputCard';
@@ -43,7 +44,6 @@ const Profile = ({navigation}) => {
   const [newPassword,setnewPassword] = useState("");
   const [confirmPassword,setconfirmPassword] = useState("");
   const [photo,setPhoto] = useState({});
-  
   const [loading, setLoading] = useState(true);
   const {signout} = useContext(AuthContext);
 
@@ -52,9 +52,9 @@ const Profile = ({navigation}) => {
   useEffect(() => {
     setLoading(true)
     getProfilApi().then((response) => {
-      setProfileDetails(response.data);
+      setProfileDetails(response.data)
       setEmail(response.data.email)
-      setDOB(new Date())
+      response.data.date_of_birth !== null?setDOB(new Date(response.data.date_of_birth)):setDOB(new Date())
       setGender(response.data.gender?response.data.gender:1)
       setLoading(false)
     }).catch((error) => {
@@ -110,23 +110,48 @@ const Profile = ({navigation}) => {
     const options = {
       title:'Select Image',
       noData: true,
+      storageOptions: {
+        skipBackup: true,
+        path: 'images',
+      },
     };
-    ImagePicker.launchImageLibrary(options,(response) => {
-      if(response.uri){
-        setPhoto(response.uri)
-        uploadImageApi(photo).then((response) => {
-          alert(response.message);
-        }).catch((error) => {
-          console.log("ImageUploadProfile" + error);
-        });
-      }
-      else if(response.errorCode){
-        console.log(errorCode);
-      }
-      else{
-        console.log(response);
-      }
-    })
+    const requestExternalWritePermission = async () => {
+      if (Platform.OS === 'android') {
+        try {
+          const granted = await PermissionsAndroid.request(
+            PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+            {
+              title: 'External Storage Write Permission',
+              message: 'App needs write permission',
+            },
+          );
+          return granted === PermissionsAndroid.RESULTS.GRANTED;
+        } catch (err) {
+          alert('Write permission err', err);
+        }
+        return false;
+      } else return true;
+    };
+
+    let isStoragePermitted =  requestExternalWritePermission();
+    if(isStoragePermitted){
+      ImagePicker.launchImageLibrary(options,(response) => {
+        if(response.uri){
+          setPhoto(response.uri)
+          uploadImageApi(photo).then((response) => {
+            alert(response.message);
+          }).catch((error) => {
+            console.log("ImageUploadProfile" + error);
+          });
+        }
+        else if(response.errorCode){
+          console.log(errorCode);
+        }
+        else{
+          console.log(response);
+        }
+      })
+    }
   }
   return (
     <View style={{backgroundColor:'#292633', width:'100%', height:'100%'}}>
@@ -294,6 +319,22 @@ const Profile = ({navigation}) => {
                   .replace(/ /g, '-')
               }`}
             />
+             {show && (
+          <DateTimePicker
+            testID="datetimepicker"
+            value={DOB}
+            style={{ color: '#ffffff' }}
+            textColor="white" 
+            mode="date"
+            display="spinner"
+            format="DD-MM-YYYY"
+            onChange={(e, x) => {
+              setShow(false);
+              if (x) setDOB(x);
+              console.log(x);
+            }}
+          />
+        )}
           </View>
           <LinearGradient
               start={{x: 0, y: 0}}
@@ -313,11 +354,14 @@ const Profile = ({navigation}) => {
               mode="dropdown"
               selectedValue={gender}
               style={{
-                  height: 65,
-                  width: "85%",
-                  color:'#ECDBFA',
-                  marginLeft:'2%',
+                height: Platform.OS=='android'?65:250,
+                width: "85%",
+                marginTop: Platform.OS=='android'?0:30,
+                color:'#ECDBFA',
+                marginLeft:'2%',
+              
               }}
+              itemStyle={{color:'#ffffff'}}
               onValueChange={(itemValue, itemIndex) =>
                 setGender(itemValue)
               }
@@ -384,20 +428,7 @@ const Profile = ({navigation}) => {
           </>
           )} 
         </ImageBackground>
-        {show && (
-          <DateTimePicker
-            testID="datetimepicker"
-            value={DOB}
-            mode="date"
-            display="spinner"
-            format="DD-MM-YYYY"
-            onChange={(e, x) => {
-              setShow(false);
-              if (x) setDOB(x);
-              console.log(x);
-            }}
-          />
-        )}
+       
       </View>
     </ScrollView>
     </View>

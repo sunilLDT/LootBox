@@ -8,9 +8,6 @@ export async function getAllGames(type) {
 }
 
 export async function packageListByGames(gameIds) {
-
-  console.log('########################')
-  console.log(gameIds)
   const response = await Api.post('app/build-pc/get-packages', {
     game_ids:gameIds,
   });

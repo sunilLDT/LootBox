@@ -29,8 +29,6 @@ const PcDetails = ({navigation, route}) => {
     useEffect(() => {
     setLoading(true)
     packageListByGames(selectedGames).then((response) => {
-        console.log("+++++++++++++++++++++++")
-        console.log(response.data)
       setPackageData(response.data);
       setItems(response.data[0].items);
       setLoading(false)
@@ -85,12 +83,10 @@ const PcDetails = ({navigation, route}) => {
         </Text>
         </View>
         {packageData.map((cpuDetail, index) =>{
-       // if(cpuDetail.status === 1){
           return (
          <TouchableOpacity
             key={index}
             onPress={() => navigation.navigate('ProductDetails',{PackageId:cpuDetail.package_id})}
-            //onPress={() => navigation.navigate('ProductDetails',{PackageId:cpuDetail.package_id})}
           >  
                 <ImageBackground style={styles.linearGradient}
                 source={DetailsInfoCard}
@@ -152,7 +148,6 @@ const PcDetails = ({navigation, route}) => {
                 </ImageBackground>
        </TouchableOpacity>
           );
-        //  }
         })}
         {loading ? (
         <View style={{marginTop: height * 0.37}}>
