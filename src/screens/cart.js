@@ -41,8 +41,6 @@ const Cart = (props) => {
   const [loading, setLoading] = useState(true);
   const [open, setOpen] = useState();
   const [showCpuPerocessersList, setShowCpuProcesserList] = useState(false);
-  const [packagePrice, setPackagePrice] = useState([]);
-  // console.log(Number(packagePrice));
   const maxlimit = 22;
   var imgSource = upwardImage ? ExpandImage : CloseImage;
 
@@ -51,11 +49,7 @@ const Cart = (props) => {
     showCartData().then((response) => {
       setcartItems(response.data.items) 
       setCartPackage(response.data.package)
-      {response.data.package.map((packagePri,i) => {
-        packagePri.cart_package_items.map((Pprice,k) => {
-          setPackagePrice([...packagePrice,Pprice]);
-        });
-      })}
+      
       setCartData(response.data)
       setLoading(false)
     }).catch((error) => {
@@ -293,10 +287,7 @@ Array.prototype.sum = function (prop) {
                           fontFamily:'Montserrat-Medium',
                         }}>
                         {packages.name}
-                        <Text style={{color:'#fff'}}>  </Text>
                       </Text>
-
-                      
                     </View>
                     <View
                       style={{
@@ -312,10 +303,8 @@ Array.prototype.sum = function (prop) {
                           alignSelf: 'center',
                           fontFamily:'Montserrat-Medium',
                         }}>
-                        
-                        <Text style={{color:'#fff'}}> KD {sum(packages.cart_package_items)}</Text>
+                         KD {sum(packages.cart_package_items)}
                       </Text>
-
                       
                     </View>
                   </View>
