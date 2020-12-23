@@ -19,7 +19,6 @@ const Orders = ({ navigation }) => {
 
   useEffect(() => {
     setLoading(true);
-    console.log('======================');
     getOrderList(2).then((response) => {
       console.log(response.data);
       setOrderList(response.data)       
@@ -31,7 +30,7 @@ const Orders = ({ navigation }) => {
   }, []);
 
 
-  getOrderListApi=(type)=>{
+  const getOrderListApi=(type)=>{
     setLoading(true)
     getOrderList(2).then((response) => {
       setOrderList(response.data) 

@@ -31,7 +31,7 @@ import { startClock } from 'react-native-reanimated';
 
 const {width, height} = Dimensions.get('window');
 
-const Cart = (props) => {
+const CartList = (props) => {
   const [cartItems,setcartItems] = useState([]);
   const [upwardImage, setUpwardImage] = useState(true);
   const [cartPackage,setCartPackage] = useState([]);
@@ -118,23 +118,6 @@ const Cart = (props) => {
       console.log("defaultAddressCartPAGE" + error)
     })
   };
-
-  const sum=(data)=> {
-   // return data.reduce((a, b) => a + (b['price'] || 0), 0);
-   var total = 0
-  for ( var i = 0, _len = data.length; i < _len; i++ ) {
-      total += parseFloat(data[i]['price']);
-  }
-  return total.toFixed(3);
-}
-
-Array.prototype.sum = function (prop) {
-  var total = 0
-  for ( var i = 0, _len = this.length; i < _len; i++ ) {
-      total += this[i][prop]
-  }
-  return total
-}
 
   const handlePress = () => {
     setaddressModal(!addressModal)
@@ -293,27 +276,7 @@ Array.prototype.sum = function (prop) {
                           fontFamily:'Montserrat-Medium',
                         }}>
                         {packages.name}
-                        <Text style={{color:'#fff'}}>  </Text>
-                      </Text>
-
-                      
-                    </View>
-                    <View
-                      style={{
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                        paddingLeft: 10,
-                      }}>
-                      <Text
-                        style={{
-                          fontSize: 12,
-                          color: '#D2D7F9',
-                          opacity: 0.5,
-                          alignSelf: 'center',
-                          fontFamily:'Montserrat-Medium',
-                        }}>
-                        
-                        <Text style={{color:'#fff'}}> KD {sum(packages.cart_package_items)}</Text>
+                        <Text style={{color:'#fff'}}> {packages.quantity}</Text>
                       </Text>
 
                       
@@ -619,7 +582,7 @@ Array.prototype.sum = function (prop) {
                         fontSize: 12,
                         fontFamily:'Montserrat-Regular',
                       }}>
-                      KD {sum(packages.cart_package_items)}
+                      KD {packages.price}
                     </Text>
                   </View>
                 );
@@ -815,4 +778,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default connect(mapStateToProps, actionCreators)(Cart)
+export default connect(mapStateToProps, actionCreators)(CartList)

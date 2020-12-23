@@ -30,6 +30,7 @@ export default function (state = initialState, action) {
       };
 
     case cartConstants.CART_EMPTY_SUCCESS:
+      console.log('Cart is+######################################')
       return {
         ...state,
         cart: []
