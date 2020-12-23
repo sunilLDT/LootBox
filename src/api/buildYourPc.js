@@ -178,3 +178,10 @@ export async function getProfilApi(){
   const response = await Api.get('app/user/profile');
   return response.data;
 }
+
+export async function getBannerApi(){
+  const response = await Api.get('app/banner/list');
+  return response.data;
+}
+
+

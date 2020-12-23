@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useEffect} from 'react';
 import {
   View,
   ImageBackground,
@@ -9,25 +9,45 @@ import {
   TouchableWithoutFeedback
 } from 'react-native';
 import Btn from '../screens/btn';
-
+import {getBannerApi} from './../api/buildYourPc'
 const {width, height} = Dimensions.get('window');
 
-const images = [
+/*const images = [
   require('../assets/img_1.png'),
   require('../assets/img_2.png'),
   require('../assets/img_3.png'),
-];
+];*/
 
 export default class Slideshow extends React.Component {
   scrollX = new Animated.Value(0);
 
+  constructor(props) { 
+    super(props); 
+    this.state = { 
+      images:[]
+    }; 
+} 
+  componentDidMount() {
+    getBannerApi().then((response) => {
+      this.setState({
+        images:response.data
+      })
+    }).catch((error) => {
+      console.log("allAddressList" + error);
+    })
+}
+  
+
+
+
+
   render() {
     let position = Animated.divide(this.scrollX, width);
     const {navigation} = this.props;
-
+     const {images} = this.state
     return (
       <View >
-        <View>
+       <View>
           <ScrollView
             horizontal={true}
             pagingEnabled={true}
@@ -37,14 +57,16 @@ export default class Slideshow extends React.Component {
               {useNativeDriver: false},
             )}
             scrollEventThrottle={16}>
-            {images.map((x, i) => {
-              return (
+             {this.state.images.map((x, i) => (
+  
                 <View key={i} >
+                  
                   <ImageBackground
-                    source={x}
+                    source={{ uri: x.image }}
                     style={{
                       width,
                       height,
+                      resizeMode: 'cover',
                       backgroundColor: '#261D2A',
                     }}
                   />
@@ -63,7 +85,7 @@ export default class Slideshow extends React.Component {
                         lineHeight: 28,
                         marginHorizontal:60
                       }}>
-                      Lorem ipsum dolor sit amet, consectetur{' '}
+                      {x.title}
                     </Text>
                     <TouchableWithoutFeedback onPress={() => {navigation.navigate('home')}}>
                         <View style={{width:'75%'}}>
@@ -72,8 +94,8 @@ export default class Slideshow extends React.Component {
                     </TouchableWithoutFeedback> 
                     </View>
                 </View>
-              );
-            })}
+           
+             ))}
           </ScrollView>
         </View>
         <View
@@ -88,7 +110,7 @@ export default class Slideshow extends React.Component {
             width: width,
             // left: width * 0.2,
           }}>
-          {images.map((_, i) => {
+          {this.state.images?this.state.images.map((_, i) => {
             let opacity = position.interpolate({
               inputRange: [i - 1, i, i + 1],
               outputRange: [0.27, 1, 0.27],
@@ -106,7 +128,7 @@ export default class Slideshow extends React.Component {
                   borderRadius: 5,
                 }}></Animated.View>
             );
-          })}
+          }):null}
         </View>
       </View>
     );

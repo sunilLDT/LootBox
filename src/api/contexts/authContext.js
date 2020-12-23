@@ -65,14 +65,14 @@ console.log(language)
 console.log(token)
   if (language) {
     if (token && token.length > 0) {
-      navigate({name: 'home'});
+      navigate({name: 'slider'});
     } else {
       // navigate({name: 'orderDetails'});
       // navigate({name: 'auth'});
     }
   } else {
     if (token && token.length > 0) {
-      navigate({name: 'home'});
+      navigate({name: 'slider'});
     } else{
     navigate({name: 'language'});
     }
