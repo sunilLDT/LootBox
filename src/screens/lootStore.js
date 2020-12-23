@@ -41,7 +41,7 @@ const LootStore = ({ navigation }) => {
   const [loading, setLoading] = useState(false);
   const [cartItems, setcartItems] = useState(0);
   const [page, setPage] = useState(1);
-  const maxlimit = 22;
+  const maxlimit = 14;
   const subCategoryId = "";
   const [lastPage, setlastPage] = useState("");
   const [totalPage, setToalPage] = useState(0);
@@ -93,12 +93,8 @@ const LootStore = ({ navigation }) => {
       //console.log(itemData);
 
       if (itemData) {
-        let temp = filteredDataSource;
-        var final = temp.concat(itemData.data) ;
-       //
-       //console.log(final)
-        setItems(final);
-        setFilteredDataSource(final);
+        setItems(itemData.data);
+        setFilteredDataSource(itemData.data);
       }
 
       var y = categories.map((i) => {
@@ -124,9 +120,6 @@ const LootStore = ({ navigation }) => {
   }, [fetchData]);
 
   const handleLodeMore = () => {
-    console.log(page+'======================================='+page);
-    console.log(page+'======================================='+lastPage);
-    console.log(page+'======================================='+lastPage);
     if (page !== lastPage) {
       setPage(page + 1);
       fetchData1();
@@ -166,7 +159,7 @@ const LootStore = ({ navigation }) => {
         <ImageBackground
           source={require('../assets/dottedBackground.png')}
           style={{
-
+            height:height,
           }}>
           <View
             style={{
@@ -428,7 +421,6 @@ const LootStore = ({ navigation }) => {
 
                               keyExtractor={(item) => item.item_id}
                               renderItem={({ item: i }, k) => {
-                                //if (i.status === 1) {
                                   return (
                                     <View  style={{flexGrow:1}} key={k}>
                                       <TouchableOpacity
@@ -495,7 +487,7 @@ const LootStore = ({ navigation }) => {
                                           <Text
                                             numberOfLines={2}
                                             style={{
-                                              fontSize: 16,
+                                              fontSize: 14,
                                               color: '#ECDBFA',
                                               fontFamily: Platform.OS=='android'?'Montserrat-Bold':'Montserrat',
                                               marginTop: 2,
