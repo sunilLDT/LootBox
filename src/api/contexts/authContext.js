@@ -61,7 +61,8 @@ const checkUser = (dispatch) => async () => {
       payload: {token},
     });
   }
-
+console.log(language)
+console.log(token)
   if (language) {
     if (token && token.length > 0) {
       navigate({name: 'home'});
@@ -70,7 +71,11 @@ const checkUser = (dispatch) => async () => {
       // navigate({name: 'auth'});
     }
   } else {
+    if (token && token.length > 0) {
+      navigate({name: 'home'});
+    } else{
     navigate({name: 'language'});
+    }
   }
 };
 

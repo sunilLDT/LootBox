@@ -43,6 +43,7 @@ const ListDetails = (props) => {
     var imgSource = upwardImage ? ExpandImage : CloseImage;
     useEffect(() => {
         getCategoriesItem(props.data.sub_category_id, props.data.item_id, props.data.sub_category_name).then((response) => {
+            console.log(response.data)
             setCategoyItems(response.data);
             let item = {
                 "item_id": response.data[0].item_id,
@@ -72,6 +73,8 @@ const ListDetails = (props) => {
     }
 
     const idExists=(id)=> {
+        console.log("== props.packages == console.log(props.packages)==")
+        console.log(props.packages)
         return props.packages.some(function(el) {
           return el.item_id === id;
         }); 
@@ -137,6 +140,8 @@ const ListDetails = (props) => {
                             padding: 15,
                             overflow: 'hidden'
                         }}>
+                            <TouchableOpacity
+                            onPress={() => openClose(props.data.item_id)}>
                         <View
                             style={{
                                 flexDirection: 'row',
@@ -185,8 +190,7 @@ const ListDetails = (props) => {
                                 KD {props.data.price ? props.data.price : props.data.price}
                             </Text>
                         </View>
-                        <TouchableOpacity
-                            onPress={() => openClose(props.data.item_id)}>
+                        
                             <View
                                 style={{
                                     alignSelf: 'flex-end',
@@ -286,6 +290,7 @@ const ListDetails = (props) => {
                                                     style={{ width: 48, height: 40, marginBottom: 10, alignSelf: 'center' }}
                                                 />
                                                 )}
+                                                
                                                 <Text
                                                     adjustsFontSizeToFit={true}
                                                     numberOfLines={2}

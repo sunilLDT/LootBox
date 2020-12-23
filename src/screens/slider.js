@@ -50,7 +50,7 @@ export default class Slideshow extends React.Component {
                   />
                   <View
                     style={{
-                      bottom: height * 0.2,
+                      bottom: height * 0.3,
                       width: width,
                       display: 'flex',
                       alignItems: 'center',

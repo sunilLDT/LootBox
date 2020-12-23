@@ -106,7 +106,7 @@ const PcDetails = ({navigation, route}) => {
                 <View style={{zIndex:8000,marginLeft:50}}>
                         <ScrollView horizontal showsHorizontalScrollIndicator={false}
                             contentContainerStyle={{
-                                width: 500,
+                                width: 550,
                                 borderWidth:0,
                                 borderColor:'#ffffff',
                                 zIndex:9000
@@ -213,6 +213,7 @@ const styles = StyleSheet.create({
         fontSize:10,
     },
     parentView:{
+        marginTop:5   ,
         marginLeft:'10%',
         paddingBottom:"2%",
         zIndex:9000
