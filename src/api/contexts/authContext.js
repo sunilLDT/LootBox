@@ -65,14 +65,14 @@ console.log(language)
 console.log(token)
   if (language) {
     if (token && token.length > 0) {
-      navigate({name: 'slider'});
+      navigate({name: 'home'});
     } else {
       // navigate({name: 'orderDetails'});
       // navigate({name: 'auth'});
     }
   } else {
     if (token && token.length > 0) {
-      navigate({name: 'slider'});
+      navigate({name: 'home'});
     } else{
     navigate({name: 'language'});
     }
@@ -106,6 +106,7 @@ const googleSignIn = (dispatch) => async () => {
         },
       });
     } else if (data.token) {
+      console.log(data)
       dispatch({
         type: 'signin',
         payload: {
@@ -160,6 +161,8 @@ const signin = (dispatch) => async ({email, password}) => {
       password,
     });
     if (res.data.data.token) {
+      console.log('+++++++++++++++++++++++++++++++++++++++++++++++++++++++')
+      console.log(res.data)
       dispatch({
         type: 'signin',
         payload: {token: res.data.data.token},
