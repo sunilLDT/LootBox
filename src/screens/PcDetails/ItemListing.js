@@ -33,7 +33,7 @@ const ItemListing = (props) => {
   // });
   const { items } = props.route.params;
   const { pIndex } = props.route.params;
-  console.log(pIndex);
+  // console.log(pIndex);
 
   const { sub_category_name } = props.route.params;
   const [data, setData] = useState(items);

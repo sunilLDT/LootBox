@@ -453,6 +453,7 @@ const OrderDetails = ({navigation,route}) => {
                 }}>
                 Name
               </Text>
+              {orderDetails.address !== null?(
               <Text
                 style={{
                   fontFamily: 'Montserrat-SemiBold',
@@ -461,6 +462,16 @@ const OrderDetails = ({navigation,route}) => {
                 }}>
                 {orderDetails.address.name}
               </Text>
+              ):(
+                <Text
+                style={{
+                  fontFamily: 'Montserrat-SemiBold',
+                  fontSize: 14,
+                  color: '#ECDBFA',
+                }}>
+                Jhone
+              </Text>
+              )}
             </View>
             <View style={{marginVertical: 7}}>
               <Text
@@ -472,11 +483,14 @@ const OrderDetails = ({navigation,route}) => {
                 }}>
                 Shipping Address
               </Text>
+              {orderDetails.address !== null?(
               <Text
                 style={{
-                  fontFamily: 'Montserrat-SemiBold',
+                  fontFamily: 'Montserrat-Bold',
                   fontSize: 14,
-                  color: '#ECDBFA',
+                  color: '#D2D7F9',
+                  opacity: 0.87,
+                  // paddingLeft:20,
                 }}>
                 {orderDetails.address.city_name},
                 {orderDetails.address.building},
@@ -485,6 +499,16 @@ const OrderDetails = ({navigation,route}) => {
                 {orderDetails.address.apartment},
                 {orderDetails.address.floor}
               </Text>
+              ):<Text
+                  style={{
+                    fontFamily: 'Montserrat-Bold',
+                    fontSize: 14,
+                    color: '#D2D7F9',
+                    opacity: 0.87,
+                  }}
+                >
+                Delivery Address not added 
+                </Text>}
             </View>
 
             <View style={{marginVertical: 7}}>
@@ -524,6 +548,7 @@ const OrderDetails = ({navigation,route}) => {
                   flexDirection: 'row',
                   justifyContent: 'space-between',
                 }}>
+                {orderDetails.address !== null?(
                 <Text
                   style={{
                     fontFamily: 'Montserrat-SemiBold',
@@ -532,6 +557,17 @@ const OrderDetails = ({navigation,route}) => {
                   }}>
                   {orderDetails.address.email}
                 </Text>
+                ):(
+                  <Text
+                  style={{
+                    fontFamily: 'Montserrat-SemiBold',
+                    fontSize: 14,
+                    color: '#ECDBFA',
+                  }}>
+                  Jhone@noemail.com
+                </Text>
+                )}
+                
                 <Text
                   style={{
                     fontFamily: 'Montserrat-SemiBold',
