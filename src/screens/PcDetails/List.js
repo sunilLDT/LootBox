@@ -74,7 +74,6 @@ const ListDetails = (props) => {
 
     const idExists=(id)=> {
         console.log("== props.packages == console.log(props.packages)==")
-        console.log(props.packages)
         return props.packages.some(function(el) {
           return el.item_id === id;
         }); 
@@ -86,7 +85,6 @@ const ListDetails = (props) => {
         setOpen(item_id);
         setShowCpuProcesserList(!showCpuPerocessersList)
     }
-
 
     return (
         <View>
@@ -267,7 +265,7 @@ const ListDetails = (props) => {
                                 <>
                                     <TouchableOpacity
                                         key={index}
-                                        onPressIn={() => { selectHandler(processer.item_id, processer.name, processer.price) }}
+                                        onPress={() => { selectHandler(processer.item_id, processer.name, processer.price) }}
                                         style={{ padding: 20 }}>
 
                                         <ImageBackground

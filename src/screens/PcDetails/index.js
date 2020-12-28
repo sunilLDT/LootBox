@@ -41,7 +41,21 @@ const PcDetails = ({navigation, route}) => {
     }
   }, [selectedGames]);
 
-  const TotalPrice = item.reduce((Price, item) => Price + parseInt(item.price), 0);
+  const sum = (pack) => {
+    var total = 0
+    for ( var i = 0, _len = pack.length; i < _len; i++ ) {
+        total += parseFloat(pack[i]['price']);
+    }
+    return total.toFixed(3);
+  }
+
+  Array.prototype.sum = function (prop) {
+    var total = 0
+    for ( var i = 0, _len = this.length; i < _len; i++ ) {
+        total += this[i][prop]
+    }
+    return total
+  }
 
   return (
     <View style={{backgroundColor:'#292633', width:'100%', height:'100%'}}>
@@ -56,7 +70,8 @@ const PcDetails = ({navigation, route}) => {
             minHeight: height,
             overflowX: 'hidden',
             backgroundColor: '#2A2D39',
-            paddingHorizontal: width * 0.09,
+            // paddingHorizontal: width * 0.09,
+            paddingLeft:width*0.09,
         }}>
         
         <View
@@ -99,21 +114,22 @@ const PcDetails = ({navigation, route}) => {
                     )}
                     <View style={styles.detailsContainer}>
                         <Text numberOfLines={3} style={styles.detailsText}>{cpuDetail.name}</Text>
-                        <Text style={styles.detailsText1}>KD {TotalPrice.toFixed(3)}</Text>
+                        <Text style={styles.detailsText1}>{sum(cpuDetail.items)}</Text>
                         <Image style={styles.arrow} source={PriceArrowImage}/>
                     </View>
                 </View>
                 <View style={{zIndex:8000,marginLeft:50}}>
-                        <ScrollView horizontal showsHorizontalScrollIndicator={false}
-                            contentContainerStyle={{
-                                width: 550,
-                                borderWidth:0,
-                                borderColor:'#ffffff',
-                                zIndex:9000
-                            }}
-                        >
-                            <View onStartShouldSetResponder={() => true}>
+                    <ScrollView horizontal showsHorizontalScrollIndicator={false}
+                        contentContainerStyle={{
+                            width: 550,
+                            borderWidth:0,
+                            borderColor:'#ffffff',
+                            zIndex:9000
+                        }}
+                    >
+                    <View onStartShouldSetResponder={() => true}>
                         <FlatList
+                            keyExtractor={() => item.item_id}
                             style={styles.parentView}
                             data={cpuDetail.items}
                             renderItem={({item},index) => {
@@ -128,8 +144,8 @@ const PcDetails = ({navigation, route}) => {
                             }}
                             numColumns= {2}
                         />
-                        </View>
-                        </ScrollView>
+                    </View>
+                    </ScrollView>
                 </View>
                 <View style={styles.playableView}>
                     <ImageBackground
@@ -190,7 +206,9 @@ const styles = StyleSheet.create({
         marginBottom:-11
     },
     linearGradient:{
-        height:height * 0.33,
+        // height:height * 0.33,
+        width:351.21,
+        height:268,
         marginVertical:"5%",
     },
     detailsContainer:{
@@ -213,10 +231,10 @@ const styles = StyleSheet.create({
         fontSize:10,
     },
     parentView:{
-        marginTop:5   ,
         marginLeft:'10%',
-        paddingBottom:"2%",
-        zIndex:9000
+        // paddingBottom:"2%",
+        zIndex:9000,
+        marginVertical:13
     },
     attributesView:{
         display:'flex',

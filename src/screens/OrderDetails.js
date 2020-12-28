@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState,useEffect } from 'react';
 import {
   View,
   Text,
@@ -7,12 +7,41 @@ import {
   TouchableOpacity,
   Dimensions,
   ScrollView,
+  ActivityIndicator,
 } from 'react-native';
 import Btn from './btn';
+import {getOrderDetails} from '../api/buildYourPc';
+import ItemCard from '../assets/ic_card.png';
+import IcDetailCard from '../assets/ic_details_card.png';
 
 const {height, width} = Dimensions.get('window');
 
-const OrderDetails = ({navigation}) => {
+const OrderDetails = ({navigation,route}) => {
+
+  const {orderId} = route.params;
+  const [loading, setLoading] = useState(true);
+  const [orderDetails, setorderDetails] = useState({});
+  const [items, setitems] = useState([]);
+  const [packageItems, setpackageItems] = useState([])
+  const maxlimit = 22;
+
+  console.log(orderDetails);
+
+  useEffect(() => {
+    setLoading(true);
+    getOrderDetails(orderId).then((response) => {
+      setorderDetails(response.data)
+      setpackageItems(response.data.order_package_items)
+      setitems(response.data.items)
+      setLoading(false)
+    }).catch((error) => {
+      console.log("Order Details" + error);
+      setLoading(false)
+    });
+  }, []);
+  var dateTime = Object.keys(orderDetails).length === 0?" ": orderDetails.created_at.substring(0, 10);
+
+  
   return (
     <ImageBackground
       style={{
@@ -21,12 +50,15 @@ const OrderDetails = ({navigation}) => {
         overflowX: 'hidden',
       }}
       source={require('../assets/plainBg.png')}>
+      {loading ? (
+      <View style={{margin: height * 0.50,alignSelf:'center'}}>
+          <ActivityIndicator color="#ECDBFA" size="small" />
+      </View>):(
       <ScrollView
         showsVerticalScrollIndicator={false}
         style={{
           height,
           width,
-          //   padding: width * 0.1,
         }}>
         <View
           style={{
@@ -40,7 +72,7 @@ const OrderDetails = ({navigation}) => {
               flexDirection: 'row',
               alignItems: 'center',
             }}>
-            <TouchableOpacity onPress={() => navigation.navigate('home')}>
+            <TouchableOpacity onPress={() => navigation.navigate('orders')}>
               <Image
                 resizeMode="contain"
                 style={{width: 48, height: 48}}
@@ -55,7 +87,7 @@ const OrderDetails = ({navigation}) => {
                 marginLeft: 10,
                 fontFamily: 'Montserrat-Regular',
               }}>
-              Order ID 2344552
+              Order ID {orderId}
             </Text>
           </View>
 
@@ -123,7 +155,7 @@ const OrderDetails = ({navigation}) => {
                 lineHeight: 28,
                 color: '#ECDBFA',
               }}>
-              Alpha Fury
+              Items
             </Text>
             <Text
               style={{
@@ -133,34 +165,54 @@ const OrderDetails = ({navigation}) => {
                 lineHeight: 28,
                 color: '#ECDBFA',
               }}>
-              KD 4,500
+              KD {orderDetails.sub_total}
             </Text>
           </View>
 
-          {[...Array(3).keys()].map((i, k) => (
+          {items.map((i, k) => (
             <View
               key={k}
               style={{
-                backgroundColor: '#000',
                 width: '100%',
                 height: height * 0.12,
-                borderTopLeftRadius: 10,
-                borderBottomLeftRadius: 10,
                 marginVertical: 10,
                 display: 'flex',
                 flexDirection: 'row',
               }}>
-              <Image
-                resizeMode="contain"
-                source={require('../assets/thumbnail.png')}
+              <ImageBackground
+                source={ItemCard}
                 style={{
-                  //   width: 127,
-                  position: 'relative',
-                  right: 30,
-                  alignSelf: 'center',
-                  justifyContent: 'center',
-                }}
-              />
+                  width: 351,
+                  height: 75,
+                  marginVertical: 10,
+                  flexDirection: 'row',
+                }}>
+                {i.image !== ""?(
+                  <Image
+                    resizeMode="contain"
+                    source={{uri:i.image}}
+                    style={{
+                      width:70,
+                      height:50,
+                      position: 'relative',
+                      right: 30,
+                      alignSelf: 'center',
+                      justifyContent: 'center',
+                    }}
+                  />
+                ):(
+                  <Image
+                    resizeMode="contain"
+                    source={require('../assets/thumbnail.png')}
+                    style={{
+                      //   width: 127,
+                      position: 'relative',
+                      right: 30,
+                      alignSelf: 'center',
+                      justifyContent: 'center',
+                    }}
+                  />
+                )}
               <View
                 style={{
                   alignSelf: 'center',
@@ -181,8 +233,9 @@ const OrderDetails = ({navigation}) => {
                       fontSize: 14,
                       color: '#D2D7F9',
                       opacity: 0.87,
+                      paddingLeft:5,
                     }}>
-                    Alpha Fury
+                    {((i.name).length > maxlimit)?(((i.name).substring(0,maxlimit-3)) + '...'):i.name}
                   </Text>
                   <Text
                     style={{
@@ -190,8 +243,9 @@ const OrderDetails = ({navigation}) => {
                       fontSize: 12,
                       color: '#D2D7F9',
                       opacity: 0.5,
+                      paddingLeft:5,
                     }}>
-                    KD 4,500
+                    {i.brand}
                   </Text>
                 </View>
                 <Text
@@ -201,25 +255,30 @@ const OrderDetails = ({navigation}) => {
                     color: '#D2D7F9',
                     opacity: 0.5,
                   }}>
-                  KD 2,520
+                  KD {i.price}
                 </Text>
               </View>
+              </ImageBackground>
             </View>
           ))}
 
           <View
             style={{
-              backgroundColor: '#000',
               width: '100%',
               height: height * 0.12,
-              borderRadius: 20,
               marginVertical: 10,
               display: 'flex',
               flexDirection: 'row',
-              padding: 27,
               justifyContent: 'space-between',
               alignItems: 'center',
             }}>
+            <ImageBackground
+              source={ItemCard}
+              style={{
+                width: 351,
+                height: 75,
+                flexDirection: 'row',
+              }}>
             <View style={{}}>
               <Text
                 style={{
@@ -227,28 +286,49 @@ const OrderDetails = ({navigation}) => {
                   fontSize: 12,
                   color: '#D2D7F9',
                   opacity: 0.5,
+                  paddingLeft:20,
+                  marginVertical:5
                 }}>
                 Deliver to
               </Text>
+              {orderDetails.address !== null?(
               <Text
                 style={{
                   fontFamily: 'Montserrat-Bold',
                   fontSize: 14,
                   color: '#D2D7F9',
                   opacity: 0.87,
+                  paddingLeft:20,
                 }}>
-                1295 Mateo Summit{' '}
+                {orderDetails.address.city_name},
+                {orderDetails.address.building},
+                {orderDetails.address.street},
+                {orderDetails.address.building},
+                {orderDetails.address.apartment},
+                {orderDetails.address.floor}
               </Text>
+              ):<Text
+                  style={{
+                    fontFamily: 'Montserrat-Bold',
+                    fontSize: 14,
+                    color: '#D2D7F9',
+                    opacity: 0.87,
+                    paddingLeft:20,
+                  }}
+                >
+                Delivery Address not added 
+                </Text>}
             </View>
+            </ImageBackground>
           </View>
-
-          <View
+          
+          <ImageBackground
+            source={IcDetailCard}
             style={{
-              backgroundColor: '#000',
-              width: '100%',
-              //   minHeight: height * 0.4,
+              width: 345,
               borderRadius: 10,
               marginVertical: 10,
+              overflow: 'hidden',
             }}>
             <View
               style={{
@@ -263,7 +343,7 @@ const OrderDetails = ({navigation}) => {
                   fontSize: 12,
                   opacity: 0.8,
                 }}>
-                Package Details (4 Items)
+                Package Details ({orderDetails.items_qty} Items)
               </Text>
             </View>
 
@@ -273,7 +353,7 @@ const OrderDetails = ({navigation}) => {
                 borderBottomColor: 'rgba(255,255,255,0.3)',
                 borderBottomWidth: 0.3,
               }}>
-              {[...Array(4).keys()].map((i, k) => (
+              {items.map((i, k) => (
                 <View
                   style={{
                     display: 'flex',
@@ -288,7 +368,7 @@ const OrderDetails = ({navigation}) => {
                       fontSize: 14,
                       fontFamily: 'Montserrat-Regular',
                     }}>
-                    Alpha Fury
+                    {i.name}
                   </Text>
                   <Text
                     style={{
@@ -296,10 +376,34 @@ const OrderDetails = ({navigation}) => {
                       fontSize: 12,
                       fontFamily: 'Montserrat-Regular',
                     }}>
-                    KD 2,500
+                    KD {i.price}
                   </Text>
                 </View>
               ))}
+                <View
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    marginVertical: 8,
+                  }}>
+                  <Text  
+                    style={{
+                    color: 'rgba(255,255,255,0.8)',
+                    fontSize: 15,
+                    fontFamily:'Montserrat-Regular',
+                    }}
+                    >Delivery Fees
+                    </Text>
+                    <Text
+                      style={{
+                        color: 'rgba(255,255,255,0.3)',
+                        fontSize: 12,
+                        fontFamily:'Montserrat-Regular',
+                      }}>
+                    KD {orderDetails.delivery_charge}
+                    </Text> 
+                  </View>
             </View>
 
             <View style={{paddingHorizontal: 20}}>
@@ -324,17 +428,20 @@ const OrderDetails = ({navigation}) => {
                     fontSize: 14,
                     fontFamily: 'Montserrat-Regular',
                   }}>
-                  KD 10,000
+                  KD {orderDetails.grand_total}
                 </Text>
               </View>
             </View>
-          </View>
-
-          <View
+          </ImageBackground>
+          
+          <ImageBackground
+            source={IcDetailCard}
             style={{
-              backgroundColor: '#000',
-              padding: 20,
+              width: 345,
               borderRadius: 10,
+              marginVertical: 10,
+              padding: 20,
+              overflow: 'hidden',
             }}>
             <View style={{marginVertical: 7}}>
               <Text
@@ -352,7 +459,7 @@ const OrderDetails = ({navigation}) => {
                   fontSize: 14,
                   color: '#ECDBFA',
                 }}>
-                Johndoe
+                {orderDetails.address.name}
               </Text>
             </View>
             <View style={{marginVertical: 7}}>
@@ -371,7 +478,12 @@ const OrderDetails = ({navigation}) => {
                   fontSize: 14,
                   color: '#ECDBFA',
                 }}>
-                393 Kristoffer Freeway Apt. 485
+                {orderDetails.address.city_name},
+                {orderDetails.address.building},
+                {orderDetails.address.street},
+                {orderDetails.address.building},
+                {orderDetails.address.apartment},
+                {orderDetails.address.floor}
               </Text>
             </View>
 
@@ -391,7 +503,7 @@ const OrderDetails = ({navigation}) => {
                   fontSize: 14,
                   color: '#ECDBFA',
                 }}>
-                By Credit Card
+                By {orderDetails.payment_type_text}
               </Text>
             </View>
 
@@ -418,7 +530,7 @@ const OrderDetails = ({navigation}) => {
                     fontSize: 14,
                     color: '#ECDBFA',
                   }}>
-                  johndoe@gmail.com
+                  {orderDetails.address.email}
                 </Text>
                 <Text
                   style={{
@@ -447,7 +559,7 @@ const OrderDetails = ({navigation}) => {
                   fontSize: 14,
                   color: '#ECDBFA',
                 }}>
-                #45777hh
+                {orderDetails.payment_id}
               </Text>
             </View>
 
@@ -467,16 +579,17 @@ const OrderDetails = ({navigation}) => {
                   fontSize: 14,
                   color: '#ECDBFA',
                 }}>
-                29 Sep 2020
+                {dateTime}
               </Text>
             </View>
-          </View>
+          </ImageBackground>
 
-          <TouchableOpacity onPress={() => {}}>
+          <TouchableOpacity onPress={() => navigation.navigate('contact')}>
             <Btn text="Need any help?" x="15" pay="" />
           </TouchableOpacity>
         </View>
       </ScrollView>
+      )}
     </ImageBackground>
   );
 };

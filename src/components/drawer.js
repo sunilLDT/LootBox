@@ -23,28 +23,6 @@ import RNRestart from 'react-native-restart';
 import { connect } from '@language';
 
 const {width, height} = Dimensions.get('window');
-const options = [
-  {
-    name: strings.myCart,
-    path: 'home',
-  },
-  {
-    name: strings.myOrder,
-    path: 'orders',
-  },
-  {
-    name: "FAQ's",
-    path: 'Faq',
-  },
-  {
-    name: 'Contact Us',
-    path: 'contact',
-  },
-  {
-    name: 'Log Out',
-    path: '',
-  },
-];
 
 
 function useForceUpdate() {
@@ -65,7 +43,7 @@ const Drawer = (props) => {
   const options = [
     {
       name: strings.cart,
-      path: 'home',
+      path: 'cart',
     },
     {
       name: strings.order,
@@ -158,7 +136,7 @@ const Drawer = (props) => {
               borderRadius: 11,
               borderWidth: 2,
               height: 70,
-              width: 70,
+              width: 80,
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -209,6 +187,8 @@ const Drawer = (props) => {
               color: '#ECDBFA',
               opacity: 0.6,
               marginBottom: height * 0.1,
+              width: width * 0.6,
+              marginTop:8,
             }}>
             {profileDetails.email}
           </Text>

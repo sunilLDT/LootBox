@@ -33,7 +33,11 @@ export const cartConstants = {
   CAT_REQUEST:'CAT_REQUEST', 
   CAT_SUCCESS: 'CAT_SUCCESS',
   CAT_FAILED: 'CAT_FAILED',
-  CAT_UPDATE: 'CAT_UPDATE'
+  CAT_UPDATE: 'CAT_UPDATE',
 
 };
+
+export const AddressConstant = {
+  ADD_ADDRESS:'ADD_ADDRESS',
+}
 

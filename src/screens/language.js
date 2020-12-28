@@ -42,7 +42,6 @@ const Language = (props) => {
     language.setLanguage(isOn ? 'en' : 'ar');
     changeLaguage(isOn ? 'en' : 'ar');
     if(state.token) {
-      
       props.navigation.navigate('home');
     } else {
       props.navigation.navigate('auth', {

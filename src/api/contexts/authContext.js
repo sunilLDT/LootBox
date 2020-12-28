@@ -62,7 +62,6 @@ const checkUser = (dispatch) => async () => {
     });
   }
 console.log(language)
-console.log(token)
   if (language) {
     if (token && token.length > 0) {
       navigate({name: 'home'});
@@ -208,7 +207,7 @@ const verifyOtp = (dispatch) => async ({otp}) => {
         otp,
 
       });
-      // console.log(user_id, res.data.success, otp);
+      console.log(user_id, res.data.success, otp);
       if (res.data.success) {
         await AsyncStorage.setItem('userId', '');
         await AsyncStorage.setItem('token', res.data.data.token);
@@ -263,7 +262,6 @@ const signup = (dispatch) => async (data) => {
       type: 'toggle_loading',
     });
     const res = await Api.post('app/user/register', data);
-    //  console.log(res.data)
     if (res.data.data.is_otp_verified) {
       await AsyncStorage.setItem('token', res.data.data.token);
       navigate({name: 'slider'});
@@ -371,11 +369,9 @@ const fetchItems = (dispatch) => async (category_id, subcategory_id,page) => {
   try {
       console.log(page)
     if (subcategory_id) {
-      console.log("1111111")
       const response = await Api.get(`app/items/list?category_id=${category_id}&&sub_category_id=${subcategory_id}`);
       return response.data;
     } else {
-      console.log("222222")
       const response = await Api.get(`app/items/list?category_id=${category_id}&&page=${page}`);
       return response.data;
     }

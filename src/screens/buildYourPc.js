@@ -53,7 +53,7 @@ const BuildYourPc = ({ navigation }) => {
     style={{ width, height, overflowX: 'hidden' }}
     >
       <ImageBackground
-        source={require('../assets/dottedBackground.png')}
+        source={require('../assets/signup.png')}
         style={{
           width,
           minHeight: height,
@@ -102,6 +102,7 @@ const BuildYourPc = ({ navigation }) => {
           }}>
           {strings.buildHeading}
           </Text>
+        
         <View
           style={{
             display: 'flex',
@@ -152,6 +153,20 @@ const BuildYourPc = ({ navigation }) => {
                 />
               </TouchableOpacity>
         </View>
+        {loading?(
+        <View style={{marginTop: height * 0.19}}>
+          <ActivityIndicator color="#ECDBFA" size="small" />
+        </View>):gameData.length === 0?(
+          <Text style={{
+            color:"#fff",
+            lineHeight: 32,
+            fontFamily:Platform.OS=='android'?'Michroma-Regular':'Michroma',
+            fontSize:15,marginTop: height * 0.18
+        }}
+        >No GAMES AVAILABLE OF THIS QUALITY
+        </Text>
+        ):(
+        <>
           {gameData.map((i, k) => (
             <View key={k} style={{width: '100%', marginVertical: 10}}>
               {!selected.includes(i.game_id) ? (
@@ -173,11 +188,7 @@ const BuildYourPc = ({ navigation }) => {
                 )}
             </View>
           ))}
-          {gameData.length === 0?(
-          <View style={{marginTop: height * 0.27}}>
-            <ActivityIndicator color="#ECDBFA" size="small" />
-          </View>):
-          (
+          
           <View style={styles.bottom}>
             <TouchableOpacity
               activeOpacity={0.1}
@@ -188,6 +199,7 @@ const BuildYourPc = ({ navigation }) => {
               
             </TouchableOpacity>
           </View>
+          </>
           )}
       </ImageBackground>
     </ScrollView>

@@ -20,12 +20,12 @@ const ContactUs = ({navigation}) => {
         backgroundColor: '#261D2A',
       }}>
       <ImageBackground
-        source={require('../assets/dottedBackground.png')}
+        source={require('../assets/signup.png')}
         style={{
           width,
           height,
           overflow: 'hidden',
-          padding: width * 0.1,
+          paddingHorizontal: width * 0.1,
         }}>
         <View
           style={{display: 'flex', alignItems: 'center', flexDirection: 'row'}}>
@@ -41,13 +41,14 @@ const ContactUs = ({navigation}) => {
           </TouchableOpacity>
           <Text
             style={{
-              fontStyle: 'italic',
               fontSize: 16,
               lineHeight: 16,
               opacity: 0.4,
+              letterSpacing:0,
               color: '#ECDBFA',
               marginLeft: 10,
-              fontFamily: 'Montserrat-Italic',
+              fontFamily: Platform.OS=='android'?'Montserrat Italic':'Montserrat',
+              fontStyle:'italic'
             }}>
             CONTACT US
           </Text>
@@ -66,8 +67,8 @@ const ContactUs = ({navigation}) => {
 
         <Text
           style={{
-            fontFamily: 'Montserrat-Regular',
-            fontSize: 12,
+            fontFamily: Platform.OS=='android'?'Montserrat Regular':'Montserrat',
+            fontSize: 14,
             lineHeight: 16,
             color: '#ECDBFA',
             opacity: 0.5,
@@ -97,7 +98,7 @@ const ContactUs = ({navigation}) => {
               <Text
                 style={{
                   fontSize: 13,
-                  fontFamily: 'Montserrat-Regular',
+                  fontFamily:  Platform.OS=='android'?'Montserrat-Regular':'Montserrat',
                   color: '#ECDBFA',
                 }}>
                 FAQ's
@@ -126,7 +127,7 @@ const ContactUs = ({navigation}) => {
               <Text
                 style={{
                   fontSize: 13,
-                  fontFamily: 'Montserrat-Regular',
+                  fontFamily: Platform.OS=='android'?'Montserrat-Regular':'Montserrat',
                   color: '#ECDBFA',
                 }}>
                 Email
@@ -138,8 +139,6 @@ const ContactUs = ({navigation}) => {
           <TouchableOpacity
            onPress={() => {
             Linking.openURL('whatsapp://send?text=hello&phone=9877361109')
-
-
           }}
           
           style={{zIndex: 1}}>

@@ -29,6 +29,7 @@ const ItemDetails = (props) => {
     const [loading, setLoading] = useState(true);
     const [itemDetails,setItemDetails] = React.useState({});
     const [customFieldsValue,setCustomFieldsValue] =  React.useState([]);
+    const maxlimit =25;
 
     const renderViewMore = (onPress) => {
         return(
@@ -144,12 +145,11 @@ const ItemDetails = (props) => {
                                 key={index}>
                                 <Text
                                     style={styles.performaceItem}>
-                                   {customValues.name}
+                                   {((customValues.name).length > maxlimit)?(((customValues.name).substring(0,maxlimit-3)) + '...'):customValues.name}
                                 </Text>
-                                
                                 <Text
                                     style={styles.itemData}>
-                                    {customValues.value}
+                                    {((customValues.value).length > maxlimit)?(((customValues.value).substring(0,maxlimit-3)) + '...'):customValues.value}
                                 </Text>
                                 </View>
                                 );
@@ -158,7 +158,7 @@ const ItemDetails = (props) => {
                     </ImageBackground>
 
                     <TouchableOpacity style={styles.btn} onPress={() => {selectItem(itemId)}}>
-                        <SelectBtn subCat={sub_category_name} x="-10"/>
+                        <SelectBtn subCat={""} x="50"/>
                     </TouchableOpacity>
                 </View>
             </ScrollView>
@@ -189,6 +189,7 @@ const styles = StyleSheet.create({
         width:width*0.2,
         height:height*0.1,
         position:'relative',
+        marginVertical:10,
 
     },
     imageTextContainer:{
