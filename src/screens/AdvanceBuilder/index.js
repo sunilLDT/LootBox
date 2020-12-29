@@ -46,6 +46,7 @@ const AdvanceBuilder = (props) => {
   const [filteredDataSource, setFilteredDataSource] = useState([]);
   const [open, setOpen] = useState(false);
   const [tick,setTick] = useState([]);
+  const [selectedIndex,setSelectedIndex] = useState(0);
 
   const maxlimit = 20;
   useEffect(() => {
@@ -72,6 +73,7 @@ const AdvanceBuilder = (props) => {
   const subCategoryFun = (subCatId, index) => {
     setSubCategoryid(subCatId)
     advancedBuilderItems(subCatId).then((response) => {
+      console.log(response.data)
       let d = {
         "name": response.data[0].name,
         "price": response.data[0].price,
@@ -89,11 +91,30 @@ const AdvanceBuilder = (props) => {
   }
 
   const submitNow = () => {
-    if(Object.keys(selectedItem).length !== 0){
-      props.navigation.navigate('addToCart', { data: itemList });
-    }
+
+    let subCatId=props.categories[selectedIndex];
+    console.log("===========================================>")
+    console.log(props.categories)
+    console.log('------------------------------------------')
+    console.log(subCatId)
+    console.log(subCatId.sub_category_id+'  <=====> '+selectedIndex)
+    console.log("===========================================>")
+    subCategoryFun(subCatId.sub_category_id,selectedIndex);
+    let i = selectedIndex;
+    i=i+1;
+    setSelectedIndex(i);
+    setTick([...tick,subCatId.sub_category_id]);
+   // if(Object.keys(selectedItem).length !== 0){
+    //  props.navigation.navigate('addToCart', { data: itemList });
+    //}
+
   }
 
+  const checkSelectedForNext=()=>{
+    return itemList.some(function(el) {
+      return el.sub_category_id === subCategoryId;
+    }); 
+  }
 
   const selectItem = (i) => {
     setTick([...tick,i.sub_category_id]);
@@ -123,6 +144,12 @@ const AdvanceBuilder = (props) => {
       data.push(i);
       setItemList(data);
     }
+  }
+
+
+  const checkNextButton =()=>{ 
+     
+    
   }
 
   const searchFilterFunction = (text) => {
@@ -281,17 +308,17 @@ const AdvanceBuilder = (props) => {
                             />
                             <Text
                               style={styles.subName}
-                              numberOfLines={2}
-                            >
-                              {part.name}
+                              numberOfLines={1}
+                            > {((part.name).length > maxlimit) ? (((part.name).substring(0, 12 - 3)) + '...') : part.name}
                             </Text>
                             <View style={styles.selectedDetails}>
                               <View style={styles.sideBrand}>
                                 <Text style={styles.sideDetails}>
                                   {part.subName}
                                 </Text>
-                                <Text style={styles.sideDetails}>
-                                  { getName(part.sub_category_id) }
+                                <Text ellipsizeMode='tail' numberOfLines={1} style={styles.sideDetails}>
+                                {(( getName(part.sub_category_id)).length > maxlimit) ? ((( getName(part.sub_category_id)).substring(0, 12 - 3)) + '...') : getName(part.sub_category_id)}
+                                  { }
                                 </Text>
                               </View>
                               <Text>
@@ -340,9 +367,9 @@ const AdvanceBuilder = (props) => {
                                   style={styles.brand}>
                                   {item.brand}
                                 </Text>
-                                <Text
+                                <Text ellipsizeMode='tail' numberOfLines={1}
                                   style={styles.name}>
-                                  {((item.name).length > maxlimit) ? (((item.name).substring(0, maxlimit - 3)) + '...') : item.name}
+                                  {((item.name).length > maxlimit) ? (((item.name).substring(0, 12 - 3)) + '...') : item.name}
                                 </Text>
                                 <Text
                                   style={styles.price}>
@@ -355,11 +382,13 @@ const AdvanceBuilder = (props) => {
                       }}
                       numColumns={2}
                     />
+                    {checkSelectedForNext()?
                     <TouchableOpacity onPress={() => { submitNow()}}>
                       <View style={styles.nextBtn}>
-                        <NextBtn />
+                        <NextBtn  />
                       </View>
                     </TouchableOpacity>
+                    :null}
                   </View> :<ActivityIndicator color="#ECDBFA" size="large" />}
               </View>
             </>
@@ -482,6 +511,7 @@ const styles = StyleSheet.create({
   sideDetails: {
     color: '#fff',
     paddingLeft: 2.5,
+    fontSize:9
   },
   tick:{
     position: 'absolute',

@@ -15,6 +15,9 @@ function getPackages(id) {
     return (dispatch) => {
         dispatch(request(id));
         packageDetailsById(id).then((response) => {
+            console.log('============><===========')
+            console.log(response.data)
+            console.log('============><===========')
             dispatch(success({
                 items: response.data.items,
                 packageData: response.data,

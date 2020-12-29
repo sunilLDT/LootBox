@@ -358,6 +358,7 @@ const fetchCategories = (dispatch) => async () => {
   try {
     const response = await Api('app/category/subcategory-list');
     if (response.data.success) {
+      console.log(response.data.data);
       return response.data.data;
     } else {
       return null;
@@ -369,15 +370,23 @@ const fetchCategories = (dispatch) => async () => {
 
 const fetchItems = (dispatch) => async (category_id, subcategory_id,page) => {
   try {
-      console.log(page)
+      console.log('===================================')
+      console.log('Category Id     :'+category_id)
+      console.log('Sub Category Id :'+subcategory_id)
+      console.log('Page Number     :'+page);
+       console.log('===================================')
+        
     if (subcategory_id) {
-      console.log("1111111")
       const response = await Api.get(`app/items/list?category_id=${category_id}&&sub_category_id=${subcategory_id}`);
+      console.log(response.data)
+      console.log(response.data.parameter.last_page)
       return response.data;
     } else {
-      console.log("222222")
       const response = await Api.get(`app/items/list?category_id=${category_id}&&page=${page}`);
+      console.log(response.data)
+      console.log(response.data.parameter.last_page)
       return response.data;
+
     }
   } catch (e) {
     console.log(e);

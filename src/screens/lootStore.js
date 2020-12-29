@@ -43,7 +43,7 @@ const LootStore = ({ navigation }) => {
   const [page, setPage] = useState(1);
   const maxlimit = 14;
   const subCategoryId = "";
-  const [lastPage, setlastPage] = useState("");
+  const [lastPage, setlastPage] = useState(0);
   const [totalPage, setToalPage] = useState(0);
   const [search, setSearch] = useState('');
   const [open, setOpen] = useState(false);
@@ -71,6 +71,18 @@ const LootStore = ({ navigation }) => {
     }
   }, [selectedSubCategory, current]);
 
+  const changeCategory=(id)=>{
+    setSelectedSubCategory(id);
+    setPage(1);
+    setlastPage(0)
+  }
+
+  const changeSubCategory=(id)=>{
+    setSelectedSubCategory(id);
+    setPage(1)
+    setlastPage(0)
+  }
+
   const fetchData1 = async (b) => {
     setLoading(true);
     const categories = await fetchCategories();
@@ -81,7 +93,7 @@ const LootStore = ({ navigation }) => {
       });
       setCategories(x);
       var itemData = null;
-
+      console.log("B is value os "+x[current].id)
       if (b) {
         itemData = await fetchItems(x[current].id, b);
       } else {
@@ -120,7 +132,8 @@ const LootStore = ({ navigation }) => {
   }, [fetchData]);
 
   const handleLodeMore = () => {
-    if (page !== lastPage) {
+    console.log(page +'   '+lastPage)
+    if (page <= lastPage) {
       setPage(page + 1);
       fetchData1();
     }
@@ -286,7 +299,7 @@ const LootStore = ({ navigation }) => {
                   <TouchableOpacity
                     onPress={() => {
                       setCurrent(i.index);
-                      setSelectedSubCategory(0);
+                      changeCategory(0);
                       setPage(1);
                     }}
                     key={i.index}>
@@ -327,7 +340,7 @@ const LootStore = ({ navigation }) => {
                       marginRight: 10,
                     }}
                     onPress={() => {
-                      setSelectedSubCategory(0);
+                      changeSubCategory(0);
                     }}>
                     <SmallLGBtn
                       text="All"
