@@ -33,7 +33,7 @@ import IcCardImage from '../assets/ic3.png';
 import thumbnail from '../assets/thumbnail.png';
 import PayBtn from '../components/PayBtn';
 import Icon from 'react-native-vector-icons/Feather';
-
+import strings from '../languages/index';
 
 const {width, height} = Dimensions.get('window');
 
@@ -207,9 +207,9 @@ const removePackage = (id) => {
               >
               <DialogContent>
                   <View style={styles.addressDialouge}>
-                      <Text style={styles.address}>Address</Text>
+                      <Text style={styles.address}>{strings.address}</Text>
                       <TouchableOpacity onPress={gotoAddress}>
-                        <Text style={styles.addAddress}>Add Address</Text>
+                        <Text style={styles.addAddress}>{strings.addAddress}</Text>
                       </TouchableOpacity>
                   </View>
                   {allAddress.map((addValues,index) => {
@@ -262,7 +262,7 @@ const removePackage = (id) => {
                   color: '#ECDBFA',
                   marginLeft: 10,
                 }}>
-                YOUR CART  
+                {strings.yourCart}
               </Text>
               <Text> </Text>
               <Text
@@ -272,7 +272,7 @@ const removePackage = (id) => {
                   fontStyle:'italic',
                 }}
               >
-                 ({Object.keys(cartData).length === 0?"0":cartData.total_items} {cartData.total_items > 1?" items":" item"})
+                 ({Object.keys(cartData).length === 0?"0":cartData.total_items} {cartData.total_items > 1?strings.items:" item"})
               </Text>
             </View>
           </View>
@@ -596,7 +596,7 @@ const removePackage = (id) => {
                 opacity: 0.5,
               }}
               >
-                Deliver to
+               {strings.deliveryTo}
               </Text>
               {allAddress.map((addValues,index) => {
                 return(
@@ -658,8 +658,8 @@ const removePackage = (id) => {
                   opacity: 0.8,
                   fontFamily:'Montserrat-Medium',
                 }}>
-                Package Details ({Object.keys(cartData).length === 0?"0":cartData.total_items }
-                 {cartData.total_items === 1?" item":" items"})
+               {strings.packageDetails}({Object.keys(cartData).length === 0?"0":cartData.total_items }
+                 {cartData.total_items === 1?" item":strings.items})
               </Text>
             </View>
 
@@ -756,7 +756,7 @@ const removePackage = (id) => {
                   fontSize: 15,
                   fontFamily:'Montserrat-Regular',
                   }}
-                  >Delivery Fees
+                  >{stringsDeliveryFees}
                   </Text>
                   <Text
                     style={{
@@ -783,7 +783,7 @@ const removePackage = (id) => {
                     fontSize: 14,
                     fontFamily:'Montserrat-Regular',
                   }}>
-                  Total
+                  {strings.total}
                 </Text>
                 <Text
                   style={{
@@ -800,7 +800,7 @@ const removePackage = (id) => {
           <TouchableOpacity onPress={() => checkout()}>
             <View style={{width:"105%"}}>
               {!loading ? (
-                  <PayBtn text="PAY" price={cartData.grand_total}/>
+                  <PayBtn text={strings.pay} price={cartData.grand_total}/>
                   ) : (
                       <>
                         <PayBtn text={' '} x="54" price=""/>
@@ -817,12 +817,12 @@ const removePackage = (id) => {
         </View>
         <View style={styles.bottom}>
         <Text style={styles.forgotText}>
-          Forgot to add something?
+          {strings.forgotToAdd}
         </Text>
         <View>
           <TouchableOpacity style={{marginTop:10,marginLeft:40}} onPress={() => props.navigation.navigate('home')}>
             <View style={{width:"87%",}}>
-              <SaveBtn text="Continue Shopping" x="100" />
+              <SaveBtn text={strings.continueShoping} x="100" />
             </View>
           </TouchableOpacity>
         </View>

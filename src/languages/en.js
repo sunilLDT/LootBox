@@ -101,4 +101,7 @@ export default {
     dateTime:"Date & Time",
     notificatiion:"Notificatiions",
     Sale:"Sale",
+    English:"English",
+    Arabic:"Arabic",
+    NoGameAvailable:'NO GAMES AVAILABLE OF THIS QUALITY'
     }

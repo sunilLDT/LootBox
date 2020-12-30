@@ -215,7 +215,7 @@ const Drawer = (props) => {
               <TouchableOpacity onPress={() => arabicLang()}>
                 <Image
                   source={englishImage}
-                  style={{transform:[{scaleX: -1}]}}
+                  //style={{transform:[{scaleX: -1}]}}
                 />
               </TouchableOpacity>
             ):(

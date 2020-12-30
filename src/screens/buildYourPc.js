@@ -195,7 +195,7 @@ const BuildYourPc = ({ navigation }) => {
               onPress={() =>
                 submitGames()
               }>
-                <Btn text="BUILD YOUR PC" pay= "" />
+                <Btn text={strings.BuildYourPc} pay= "" />
               
             </TouchableOpacity>
           </View>

@@ -68,6 +68,7 @@ const ItemDesc = (props) => {
   const [qty, setQty] = useState(1);
   const [cartItems,setcartItems] = useState(0);
   const [AddItems,setAddItems] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const renderViewMore = (onPress) => {
     return(
@@ -81,10 +82,13 @@ const renderViewLess = (onPress) => {
   };
 
   const fetchData = async () => {
+    setLoading(true)
     const data1 = await fetchItemsInfo(props.route.params.id);
     if (data1 && data1.length > 0) {
       setData(data1);
+      setLoading(false)
     }
+    setLoading(false)
   };
 
   useEffect(() => {
@@ -401,46 +405,48 @@ const renderViewLess = (onPress) => {
                     width: '100%',
                     minHeight: height * 0.27,
                   }}>
-                  {itemData.length > 0 ? (
-                    itemData.map((a, b) => (
-                      <View
-                        key={b}
-                        style={{
-                          width: '100%',
-                          justifyContent: 'space-between',
-                          flexDirection: 'row',
-                          marginVertical: 10,
-                          display: 'flex',
-                        }}>
-                        <Text
-                          style={{
-                            width: '50%',
-                            color: '#ECDBFA',
-                            fontSize: 12,
-                           
-                            opacity: 0.5,
-                          }}>
-                          {a.name}
-                        </Text>
-                        <Text
-                          style={{
-                            width: '50%',
-                            color: '#ECDBFA',
-                            fontSize: 12,
-                           
-                            opacity: 0.5,
-                            textAlign: 'right',
-                            paddingLeft: 20,
-                          }}>
-                          {a.value ? a.value : 0}
-                        </Text>
-                      </View>
-                    ))
-                  ) : (
-                    <View style={{width: '100%', marginTop: height * 0.1}}>
-                      <ActivityIndicator color="#ECDBFA" size="small" />
+                  {loading?(
+                  <View style={{width: '100%', marginTop: height * 0.1}}>
+                    <ActivityIndicator color="#ECDBFA" size="small" />
+                  </View>):itemData.length === 0 ?(
+                    <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
+                      <Text style={{color:'#ECDBFA',fontSize:20}}>No Records</Text>
                     </View>
-                  )}
+                  ):
+                  itemData.map((a, b) => (
+                    <View
+                      key={b}
+                      style={{
+                        width: '100%',
+                        justifyContent: 'space-between',
+                        flexDirection: 'row',
+                        marginVertical: 10,
+                        display: 'flex',
+                      }}>
+                      <Text
+                        style={{
+                          width: '50%',
+                          color: '#ECDBFA',
+                          fontSize: 12,
+                          
+                          opacity: 0.5,
+                        }}>
+                        {a.name}
+                      </Text>
+                      <Text
+                        style={{
+                          width: '50%',
+                          color: '#ECDBFA',
+                          fontSize: 12,
+                          
+                          opacity: 0.5,
+                          textAlign: 'right',
+                          paddingLeft: 20,
+                        }}>
+                        {a.value ? a.value : 0}
+                      </Text>
+                    </View>
+                  ))}
                 </View>
               </LinearGradient>
             ),

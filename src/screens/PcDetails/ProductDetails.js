@@ -20,6 +20,7 @@ import ListDetails from '../PcDetails/List';
 import { connect } from 'react-redux';
 import { cartActions } from '../../actions/user';
 import { packageActions } from '../../actions/package';
+import strings from '../languages/index';
 const { width, height } = Dimensions.get('window');
 
 const ProductDetails = (props) => {
@@ -50,6 +51,9 @@ const ProductDetails = (props) => {
     let result = props.packages.map(({ item_id, quantity }) => ({ item_id, quantity: 1 }));
     addToCart(PackageId, result, true).then((response) => {
       setLoading(false);
+      console.log('================================')
+      props.add('hi');
+      console.log('================================')
       props.navigation.navigate('cart');
     }).catch((error) => {
       console.log("addToCart" + error);
@@ -156,7 +160,7 @@ const ProductDetails = (props) => {
                   activeOpacity={0.1}
                   onPress={() => addIntoCart()}>
                   {!loading ? (
-                    <Btn text="BUILD YOUR PC" pay="" />
+                    <Btn text={strings.BuidYourPc} pay="" />
                   ) : (
                       <>
                         <Btn text={' '} x="54" pay="" />
@@ -249,7 +253,7 @@ const mapStateToProps = (state) => ({
 })
 
 const actionCreators = {
-  add: cartActions.initCartAction,
+  add: cartActions.addCartAction,
   getPackages: packageActions.getPackages,
 
 };

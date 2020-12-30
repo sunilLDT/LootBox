@@ -28,7 +28,7 @@ const Home = (props) => {
       }
     }).catch((error) => {
       console.log("showCartDataOnHome" + error);
-    });
+    }); 
     return () => {
       console.log('componentWillUnmount');
   };
@@ -58,7 +58,7 @@ const Home = (props) => {
             justifyContent: 'space-between',
             paddingLeft: width * 0.08,
             paddingVertical: height * 0.02,
-            transform:[{scaleX: - 1}]
+          
           }}>
           <TouchableOpacity
             onPress={() => {
@@ -92,7 +92,7 @@ const Home = (props) => {
                 textAlign: 'left',
                 fontFamily:Platform.OS=='android'?'Montserrat Regular':'Montserrat',
               }}>
-              Custom PC of your own needs
+             {strings.buildYourPcSubHeading}
             </Text>
             <Image
               resizeMode="contain"
@@ -185,7 +185,7 @@ const Home = (props) => {
                 textAlign: 'right',
                 fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma',        
                     }}>
-              Loot Store
+             {strings.lootStore}
             </Text>
             <Text
               style={{
@@ -197,7 +197,7 @@ const Home = (props) => {
                 textAlign: 'right', 
                 fontFamily:Platform.OS=='android'?'Montserrat Regular':'Montserrat',
               }}>
-              Buy items
+              {strings.BuyItems}
             </Text>
             <Image
               resizeMode="contain"

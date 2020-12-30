@@ -87,13 +87,14 @@ export default class Slideshow extends React.Component {
                     bottom:15,
                   }}>
                     <Text
+                      numberOfLines={2}
                       style={{
                         color: '#ECDBFA',
                         fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma',
                         fontSize: 20,
-                        lineHeight: 28,
+                        lineHeight: 38,
                         marginHorizontal:20,
-                        paddingBottom:20
+                        paddingBottom:40
                       }}>
                       {x.title}
                     </Text>

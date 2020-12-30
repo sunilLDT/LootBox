@@ -17,7 +17,7 @@ import DetailsInfoCard from '../../assets/buildYourPc/details_info_card.png';
 import {packageListByGames} from '../../api/buildYourPc';
 import PlayableImg from '../../assets/playable.png';
 import Thumbnail from '../../assets/thumbnail.png';
-
+import strings from '../languages/index';
 const {width, height} = Dimensions.get('window');
 const PcDetails = ({navigation, route}) => {
 
@@ -94,7 +94,7 @@ const PcDetails = ({navigation, route}) => {
         </TouchableOpacity>
         <Text
             style={styles.screenName}>
-            Packages
+            {stringspackages}
         </Text>
         </View>
         {packageData.map((cpuDetail, index) =>{
@@ -114,7 +114,7 @@ const PcDetails = ({navigation, route}) => {
                     )}
                     <View style={styles.detailsContainer}>
                         <Text numberOfLines={3} style={styles.detailsText}>{cpuDetail.name}</Text>
-                        <Text style={styles.detailsText1}>{sum(cpuDetail.items)}</Text>
+                        <Text style={styles.detailsText1}>KD {sum(cpuDetail.items)}</Text>
                         <Image style={styles.arrow} source={PriceArrowImage}/>
                     </View>
                 </View>
@@ -207,8 +207,9 @@ const styles = StyleSheet.create({
     },
     linearGradient:{
         // height:height * 0.33,
-        width:351.21,
-        height:268,
+        // width:351.21,
+        width:372,
+        height:278,
         marginVertical:"5%",
     },
     detailsContainer:{

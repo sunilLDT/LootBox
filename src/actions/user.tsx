@@ -1,5 +1,5 @@
 import { cartConstants } from './actionTypes';
-
+import {showCartData} from '../api/buildYourPc';
 
 export const cartActions = {
   initCartAction,
@@ -8,8 +8,19 @@ export const cartActions = {
 };
 
 function addCartAction(id) {
-  return (dispatch) => {
-    dispatch(request(id));
+    return (dispatch) => {
+      dispatch(request(id));
+
+      showCartData().then((response) => {
+
+          console.log(response.data);
+          console.log("*****************")
+      }).catch((error) => {
+        console.log("showCartDataOnHome" + error);
+      });
+      return () => {
+        console.log('componentWillUnmount');
+    };
     dispatch(success(id));
   };
 

@@ -32,10 +32,11 @@ import bgImage from '../assets/signup.png';
 import { getProfilApi } from '../api/buildYourPc';
 import { RNS3 } from 'react-native-aws3';
 import { uploadFile } from 'react-s3';
-
+import strings,{ changeLaguage } from '../languages/index';
+import { string } from 'prop-types';
 const {width, height} = Dimensions.get('window');
 
-const Profile = ({navigation}) => {
+const Profile = (props) => {
   const [profileDetails,setProfileDetails] = useState({});
   const [DOB, setDOB] = useState(new Date());
   const [show, setShow] = useState(false);
@@ -50,9 +51,8 @@ const Profile = ({navigation}) => {
   const {signout} = useContext(AuthContext);
   const [loadingBtn,setLoadingBtn] = useState(false);
 
+
   var formattedDOB = format(DOB, "d-MM-yyyy");
-  console.log(profileDetails);
-  console.log("**************");
 
   useEffect(() => {
     setLoading(true)
@@ -115,6 +115,7 @@ const Profile = ({navigation}) => {
         }
       }).catch((error) => {
         console.log("ChangePassword" + error);
+        alert("The current password is not match with old password")
       })
     }
   };
@@ -253,7 +254,7 @@ const Profile = ({navigation}) => {
             }}>
             <TouchableOpacity
               onPress={() => {
-                navigation.pop()
+                props.navigation.pop()
               }}>
               <Image
                 style={{width: 48}}
@@ -271,7 +272,7 @@ const Profile = ({navigation}) => {
                 marginLeft: 10,
                
               }}>
-              EDIT PROFILE
+               {strings.editProfile}
             </Text>
           </View>
           
@@ -416,7 +417,7 @@ const Profile = ({navigation}) => {
               </Picker>
           </LinearGradient>
           <View style={{marginVertical: 10}}>
-            <TouchableOpacity onPress={() => navigation.navigate('changePasswordNumber')}>
+            <TouchableOpacity onPress={() => props.navigation.navigate('changePasswordNumber')}>
               <InputCard placeholder={profileDetails.phone}/>
             </TouchableOpacity>
           </View>
@@ -447,20 +448,20 @@ const Profile = ({navigation}) => {
                   color: '#ECDBFA',
                   opacity: 0.5,
                 }}>
-                Address
+                {strings.address}
               </Text>
-              <TouchableOpacity onPress={() => navigation.navigate('address',{addressId:""})} activeOpacity={0.4}>
+              <TouchableOpacity onPress={() => props.navigation.navigate('address',{addressId:""})} activeOpacity={0.4}>
                 <Text
                   style={{
                     fontSize: 10,
                     color: '#DF2EDC',
                     fontStyle: 'italic',
                   }}>
-                  +Add More
+                  + {strings.address}
                 </Text>
               </TouchableOpacity>
             </View>
-            <AddressList  navigation={navigation}/>
+            <AddressList  navigation={props.navigation}/>
           </LinearGradient>
           <TouchableWithoutFeedback
             onPress={() => ProfileUpdate()}

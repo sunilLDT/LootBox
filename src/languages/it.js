@@ -101,4 +101,10 @@ export default {
     dateTime:"الوقت والتاريخ",
     notificatiion:"الاشعارات",
     Sale:"خصومات",
+    English:"الإنجليزية",
+    Arabic:"عربى",
+    NoGameAvailable:'NO GAMES AVAILABLE OF THIS QUALITY'
+
+
+   
     }
