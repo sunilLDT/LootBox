@@ -3,6 +3,7 @@ import {combineReducers} from 'redux';
 import cartReducer from './cart';
 import packageReducer from './package';
 import languageReducer from './language';
+import AddressReducer from './address';
 
 import * as types from '../actions/actionTypes';
 
@@ -10,7 +11,8 @@ import * as types from '../actions/actionTypes';
 const AppReducer = combineReducers({
     cartReducer: cartReducer,
     packageReducer:packageReducer,
-    languageReducer:languageReducer
+    languageReducer:languageReducer,
+    addressReducer:AddressReducer
 });
 
 // Clean state when user logs out

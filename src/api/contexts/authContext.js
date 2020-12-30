@@ -1,3 +1,4 @@
+import React from 'react';
 import createDataContext from './createDataContext';
 import Api from '../index';
 import {navigate} from './navigationRef';
@@ -207,7 +208,6 @@ const verifyOtp = (dispatch) => async ({otp}) => {
         otp,
 
       });
-      console.log(user_id, res.data.success, otp);
       if (res.data.success) {
         await AsyncStorage.setItem('userId', '');
         await AsyncStorage.setItem('token', res.data.data.token);

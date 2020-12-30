@@ -5,6 +5,7 @@ const initialState = {
   cart: [],
   loginError: false,
   loading: false,
+  totalItems:0,
 
 };
 
@@ -16,7 +17,6 @@ export default function (state = initialState, action) {
         loading: true,
       };
     case cartConstants.CART_ADD_INIT:
-
       return {
         ...state,
         cart: action.id
@@ -26,11 +26,11 @@ export default function (state = initialState, action) {
       console.log(action.id)
       return {
         ...state,
-        cart: action.id
+        cart: action.id,
+        totalItems:action.id,
       };
 
     case cartConstants.CART_EMPTY_SUCCESS:
-      console.log('Cart is+######################################')
       return {
         ...state,
         cart: []

@@ -491,6 +491,4 @@ const Profile = (props) => {
   );
 };
 
-const styles = StyleSheet.create({});
-
 export default Profile;

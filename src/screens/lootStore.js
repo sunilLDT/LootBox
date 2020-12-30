@@ -19,6 +19,8 @@ import SaveButton from '../components/SaveBtn';
 import { SearchBar } from 'react-native-elements';
 import strings from '../languages/index';
 import { connectAdvanced } from 'react-redux';
+import { connect } from 'react-redux';
+import { cartActions } from '../actions/user';
 
 const { width, height } = Dimensions.get('window');
 
@@ -29,7 +31,7 @@ const options = [
   require('../assets/ic_filter.png'),
 ];
 
-const LootStore = ({ navigation }) => {
+const LootStore = (props) => {
   const { fetchCategories, fetchItems } = useContext(AuthContext);
   const [data, setData] = useState(null);
   const [categories, setCategories] = useState([]);
@@ -39,7 +41,6 @@ const LootStore = ({ navigation }) => {
   const [filteredDataSource, setFilteredDataSource] = useState([]);
   const [selectedSubCategory, setSelectedSubCategory] = useState(0);
   const [loading, setLoading] = useState(false);
-  const [cartItems, setcartItems] = useState(0);
   const [page, setPage] = useState(1);
   const maxlimit = 15;
   const subCategoryId = "";
@@ -48,18 +49,6 @@ const LootStore = ({ navigation }) => {
   const [search, setSearch] = useState('');
   const [open, setOpen] = useState(false);
   const [callOnScrollEnd, setCallOnScrollEnd] = useState(false);
-
-
-  useEffect(() => {
-    showCartData().then((response) => {
-      if (response.data.length !== 0) {
-       
-        setcartItems(response.data.total_items);
-      }
-    }).catch((error) => {
-      console.log("showCartDataOnHome" + error);
-    });
-  }, []);
 
   const fetchData = useCallback(async () => {
     if (selectedSubCategory === 0) {
@@ -187,7 +176,7 @@ const LootStore = ({ navigation }) => {
                 k === 0 && (
                   <TouchableOpacity
                     key={k}
-                    onPress={() => { navigation.goBack() }}>
+                    onPress={() => { props.navigation.goBack() }}>
                     <Image
                       resizeMode="contain"
                       source={i}
@@ -209,7 +198,7 @@ const LootStore = ({ navigation }) => {
               {options.map(
                 (i, k) =>
                   k !== 0 && (
-                    <TouchableOpacity key={k} onPress={() => { k === 1 ? navigation.navigate('cart') : k === 2 ? openClose() : {} }}>
+                    <TouchableOpacity key={k} onPress={() => { k === 1 ? props.navigation.navigate('cart') : k === 2 ? openClose() : {} }}>
                       {k === 1 && (
                         <LinearGradient
                           start={{ x: 0, y: 1 }}
@@ -233,7 +222,7 @@ const LootStore = ({ navigation }) => {
                               fontSize: 12,
                               fontFamily: 'Montserrat-Bold',
                             }}>
-                            {cartItems}
+                            {props.itemCount}
                           </Text>
                         </LinearGradient>
                       )}
@@ -437,7 +426,7 @@ const LootStore = ({ navigation }) => {
                                     <View  style={{flexGrow:1}} key={k}>
                                       <TouchableOpacity
                                         onPress={() => {
-                                          navigation.navigate('itemDesc', {
+                                          props.navigation.navigate('itemDesc', {
                                             price: i.price,
                                             description: i.description,
                                             brand: i.brand,
@@ -528,15 +517,6 @@ const LootStore = ({ navigation }) => {
                           </>
                         )}
                     </View>
-                    {/* {selectedSubCategory === 0 && lastPage !== 1 ? (
-                      <View style={{ paddingBottom: 20, flex: 1, justifyContent: 'flex-end' }}>
-                        <TouchableOpacity onPress={() => { handleLodeMore() }}>
-                          <SaveButton text="Load More" x="120" />
-                        </TouchableOpacity>
-                      </View>
-                    )
-                      : null
-                    } */}
                   </>
                 )}
             </View>
@@ -549,4 +529,13 @@ const LootStore = ({ navigation }) => {
     </View>
   );
 };
-export default LootStore;
+const mapStateToProps = (state) => ({
+  cart: state.cartReducer.cart,
+  itemCount:state.cartReducer.totalItems,
+})
+const actionCreators = {
+  add: cartActions.showCart,
+
+};
+
+export default connect(mapStateToProps,actionCreators)(LootStore);

@@ -38,6 +38,7 @@ const ProductDetails = (props) => {
   const [upwardImage, setUpwardImage] = useState(true);
   const [loading, setLoading] = useState(false);
   const maxlimit = 12;
+  const kd = "KD ";
   var imgSource = upwardImage ? ExpandImage : CloseImage;
 
   useEffect(() => {
@@ -111,7 +112,7 @@ const ProductDetails = (props) => {
                 }}>
                 <View style={{ alignSelf: 'center', paddingLeft: '2%' }}>
                   <Text style={styles.brandTitle}>{props.packageData.name}</Text>
-                  <Text style={styles.brandPrice}>KD {props.totalPrice}</Text>
+                  <Text style={styles.brandPrice}>{kd}{props.totalPrice}</Text>
                 </View>
                 <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
                   {props.coverImage ? props.coverImage.map((cImages, index) => {
@@ -255,7 +256,6 @@ const mapStateToProps = (state) => ({
 const actionCreators = {
   add: cartActions.addCartAction,
   getPackages: packageActions.getPackages,
-
 };
 
 export default connect(mapStateToProps, actionCreators)(ProductDetails)
