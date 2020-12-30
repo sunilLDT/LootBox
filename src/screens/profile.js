@@ -35,7 +35,7 @@ import { uploadFile } from 'react-s3';
 
 const {width, height} = Dimensions.get('window');
 
-const Profile = ({navigation}) => {
+const Profile = (props) => {
   const [profileDetails,setProfileDetails] = useState({});
   const [DOB, setDOB] = useState(new Date());
   const [show, setShow] = useState(false);
@@ -247,7 +247,7 @@ const Profile = ({navigation}) => {
             }}>
             <TouchableOpacity
               onPress={() => {
-                navigation.pop()
+                props.navigation.pop()
               }}>
               <Image
                 style={{width: 48}}
@@ -410,7 +410,7 @@ const Profile = ({navigation}) => {
               </Picker>
           </LinearGradient>
           <View style={{marginVertical: 10}}>
-            <TouchableOpacity onPress={() => navigation.navigate('changePasswordNumber')}>
+            <TouchableOpacity onPress={() => props.navigation.navigate('changePasswordNumber')}>
               <InputCard placeholder={profileDetails.phone}/>
             </TouchableOpacity>
           </View>
@@ -443,7 +443,7 @@ const Profile = ({navigation}) => {
                 }}>
                 Address
               </Text>
-              <TouchableOpacity onPress={() => navigation.navigate('address',{addressId:""})} activeOpacity={0.4}>
+              <TouchableOpacity onPress={() => props.navigation.navigate('address',{addressId:""})} activeOpacity={0.4}>
                 <Text
                   style={{
                     fontSize: 10,
@@ -454,7 +454,7 @@ const Profile = ({navigation}) => {
                 </Text>
               </TouchableOpacity>
             </View>
-            <AddressList  navigation={navigation}/>
+            <AddressList  navigation={props.navigation}/>
           </LinearGradient>
           <TouchableWithoutFeedback
             onPress={() => ProfileUpdate()}
@@ -483,7 +483,5 @@ const Profile = ({navigation}) => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({});
 
 export default Profile;

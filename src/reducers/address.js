@@ -1,18 +1,28 @@
-import { AddressConstant } from '../actions/actionTypes';
+import { cartConstants } from '../actions/actionTypes';
 
 const initialState = {
     address: [],
-    Error: false,
-    loading: false,
-  
+    addAddressError: false,
   };
 
   export default function (state = initialState, action) {
     switch (action.type) {
-        case AddressConstant.ADD_ADDRESS:
+        case cartConstants.SHOW_ADDRESS_REQUEST:
         return {
             ...state,
-            loading: true,
+            address:action.addresses,
         };
-    }
+        case cartConstants.SHOW_ADDRESS_FAILURE:
+        return {
+            ...state,
+            addAddressError:true,
+        };
+        case cartConstants.SHOW_ADDRESS_SUCCESS:
+        return {
+            ...state,
+            address:action.addresses,
+        };
+        default:
+            return state;
+        }
   }

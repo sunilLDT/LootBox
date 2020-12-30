@@ -22,6 +22,7 @@ import {showCartData,
 } from '../api/buildYourPc';
 import { connect } from 'react-redux';
 import { cartActions } from '../actions/user';
+import { addressActions } from '../actions/address';
 import Dialog, {
   DialogContent, 
   SlideAnimation,
@@ -33,6 +34,7 @@ import IcCardImage from '../assets/ic3.png';
 import thumbnail from '../assets/thumbnail.png';
 import PayBtn from '../components/PayBtn';
 import Icon from 'react-native-vector-icons/Feather';
+
 
 
 const {width, height} = Dimensions.get('window');
@@ -69,7 +71,7 @@ const Cart = (props) => {
 
   const checkout = () => {
     setLoading(true)
-    if(allAddress.length === 0){
+    if(props.address.length === 0){
       alert("Please add address for the Delivery")
       setLoading(false)
     }
@@ -88,8 +90,9 @@ const Cart = (props) => {
   };
 
   useEffect(() => {
+    props.showAddress();
     addressListApi().then((response) => {
-      setAllAddress(response.data)
+      setAllAddress(props.address)
     }).catch((error) => {
       console.log("allAddressList" + error);
     })
@@ -212,7 +215,7 @@ const removePackage = (id) => {
                         <Text style={styles.addAddress}>Add Address</Text>
                       </TouchableOpacity>
                   </View>
-                  {allAddress.map((addValues,index) => {
+                  {props.address?props.address.map((addValues,index) => {
                     return(
                       <TouchableOpacity key={index} onPress={() => defaultAddressfun(addValues.address_id)}>
                         <View style={styles.addressDialouge} >
@@ -232,7 +235,7 @@ const removePackage = (id) => {
                         </View>
                     </TouchableOpacity>
                     );
-                  })}
+                  }):null}
               </DialogContent>
           </Dialog>
           <View
@@ -833,13 +836,7 @@ const removePackage = (id) => {
     </ImageBackground>
   );
 };
-const mapStateToProps = (state) => ({
-  cart: state.cartReducer.cart,
-})
 
-const actionCreators = {
-  add: cartActions.addCartAction,
-};
 
 const styles = StyleSheet.create({
   addressDialouge:{
@@ -894,5 +891,16 @@ const styles = StyleSheet.create({
    right:-5,
   }
 });
+
+const mapStateToProps = (state) => ({
+  cart: state.cartReducer.cart,
+  address: state.addressReducer.address,
+})
+
+const actionCreators = {
+  add: cartActions.addCartAction,
+  showAddress: addressActions.showAddress,
+};
+
 
 export default connect(mapStateToProps, actionCreators)(Cart)

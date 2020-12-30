@@ -223,7 +223,7 @@ const styles = StyleSheet.create({
         fontSize:15,
         fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma',
         fontWeight:"100",
-        paddingRight:"40%",
+        paddingRight:"43%",
     },
     detailsText1:{
         color:'#75788E',

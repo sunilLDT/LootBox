@@ -5,24 +5,21 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from 'react-native';
-import {addressListApi} from '../api/buildYourPc';
-const AddressList = ({navigation}) => {
-    const [addressList,setAddressList] = useState([]);
+import { connect } from 'react-redux';
+import { addressActions } from '../actions/address';
+
+const AddressList = (props) => {
 
     useEffect(() => {
-        addressListApi().then((response) => {
-          setAddressList(response.data)
-        }).catch((erroe) => {
-          console.log("AddressList" + erroe)
-        })
+        props.showAddress();
     },[]);
     return(
         <View>
-            {addressList.map((values,i) => {
+            {props.address?props.address.map((values,i) => {
             return(
             <TouchableOpacity 
             key={i}
-            onPress={() => navigation.navigate('address',{addressId:values.address_id})}
+            onPress={() => props.navigation.navigate('address',{addressId:values.address_id})}
             >
             {values.is_default == 1?(
                 <View style={styles.viewStyle}>
@@ -64,8 +61,8 @@ const AddressList = ({navigation}) => {
                 </View>
             )}  
             </TouchableOpacity>
-            );
-        })}
+            )
+        }):null}
         </View>
     );
 }
@@ -81,4 +78,12 @@ const styles = StyleSheet.create({
     },
 });
 
-export default AddressList;
+const mapStateToProps = (state) => ({
+    address: state.addressReducer.address,
+  })
+  const actionCreators = {
+    showAddress: addressActions.showAddress,
+  
+  };
+  
+export default connect(mapStateToProps,actionCreators)(AddressList);

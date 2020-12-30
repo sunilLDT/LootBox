@@ -10,9 +10,8 @@ export const cartActions = {
 function addCartAction(id) {
     return (dispatch) => {
       dispatch(request(id));
-
       showCartData().then((response) => {
-        
+          dispatch(success(response.data.total_items));
           console.log(response.data);
           console.log("*****************")
       }).catch((error) => {
@@ -21,7 +20,7 @@ function addCartAction(id) {
       return () => {
         console.log('componentWillUnmount');
     };
-    dispatch(success(id));
+    
   };
 
   function request(id) {
@@ -38,7 +37,6 @@ function addCartAction(id) {
 
 function initCartAction(id) {
   return (dispatch) => {
-    //dispatch(request(id));
     dispatch(success(id));
   };
 

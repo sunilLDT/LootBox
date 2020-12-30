@@ -9,7 +9,7 @@ import {
   TouchableOpacity,
   FlatList,
 } from 'react-native';
-import IcCardImage from '../../assets/ic-3.png';
+import IcCardImage from '../../assets/ic3.png';
 import { connect } from 'react-redux';
 import { cartActions } from '../../actions/user';
 import selectedIcCardImage from '../../assets/Rectangle.png';
@@ -19,6 +19,7 @@ import filter from 'lodash.filter';
 import { SearchBar } from 'react-native-elements';
 import { packageActions } from '../../actions/package';
 import thumbnail from '../../assets/thumbnail.png';
+import ItemDetails from './ItemDetails';
 
 function useForceUpdate(){
   const [value, setValue] = useState(0); // integer state
@@ -171,11 +172,13 @@ const ItemListing = (props) => {
           return (
             <TouchableOpacity
               key={index}
+              style={styles.cardConatiner}
               onPress={() => { selectHandler(item.item_id, item.name, item.price) }}
             >
               <ImageBackground
                 source={idExists(item.item_id) ? selectedIcCardImage : IcCardImage}
-                style={styles.cardConatiner}
+                // style={styles.cardConatiner}
+                style={{}}
                 key={index}>
                 <View
                   style={{
@@ -232,6 +235,10 @@ const ItemListing = (props) => {
                   </Text>
                 </View>
               </ImageBackground>
+              <ItemDetails
+                  itemid={item.item_id}
+                  sub_category_name={sub_category_name}
+              />
             </TouchableOpacity>
           );
         }}

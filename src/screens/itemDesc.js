@@ -14,6 +14,8 @@ import Btn from './btn';
 import {Context as AuthContext} from '../api/contexts/authContext';
 import {showCartData,addToCartForStore} from '../api/buildYourPc';
 import ViewMoreText from 'react-native-view-more-text';
+import { connect } from 'react-redux';
+import { cartActions } from '../actions/user';
 
 const {width, height} = Dimensions.get('window');
 
@@ -66,7 +68,6 @@ const ItemDesc = (props) => {
   const {fetchItemsInfo} = useContext(AuthContext);
   const [itemData, setData] = useState([]);
   const [qty, setQty] = useState(1);
-  const [cartItems,setcartItems] = useState(0);
   const [AddItems,setAddItems] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -95,16 +96,6 @@ const renderViewLess = (onPress) => {
     fetchData();
   }, []);
 
-  useEffect(() => {
-    showCartData().then((response) => {
-      if(response.data.length !== 0){
-        setcartItems(response.data.total_items);
-      }
-    }).catch((error) => {
-      console.log("showCartOnItemDesc" + error);
-    });
-  }, []);
-
   const isUpdate = false;
   const item = [
           {
@@ -117,6 +108,7 @@ const renderViewLess = (onPress) => {
     addToCartForStore(isUpdate,item).then((response) => {
       setAddItems(response.data)
       props.navigation.navigate('cart');
+      props.add();
     }).catch((error) => {
       console.log("addToCartForStore" + error);
     });
@@ -186,7 +178,7 @@ const renderViewLess = (onPress) => {
                   color: '#fff',
                   fontSize: 12,
                 }}>
-                {cartItems}
+                {props.itemCount}
               </Text>
             </LinearGradient>
           </View>
@@ -428,7 +420,6 @@ const renderViewLess = (onPress) => {
                           width: '50%',
                           color: '#ECDBFA',
                           fontSize: 12,
-                          
                           opacity: 0.5,
                         }}>
                         {a.name}
@@ -460,4 +451,12 @@ const renderViewLess = (onPress) => {
   );
 };
 
-export default ItemDesc;
+const mapStateToProps = (state) => ({
+  cart: state.cartReducer.cart,
+  itemCount:state.cartReducer.totalItems,
+})
+const actionCreators = {
+  add: cartActions.addCartAction,
+};
+
+export default connect(mapStateToProps,actionCreators)(ItemDesc);

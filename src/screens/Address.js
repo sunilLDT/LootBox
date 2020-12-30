@@ -15,12 +15,13 @@ import Input from '../components/input';
 import LinearGradient from 'react-native-linear-gradient';
 import {cityApi,addAddressApi,getSpecificAddress} from '../api/buildYourPc';
 import SaveBtn from '../components/SaveBtn';
-
+import { connect } from 'react-redux';
+import { addressActions } from '../actions/address';
 
 const {width, height} = Dimensions.get('window');
 
-const Address = ({navigation,route}) => {
-    const { addressId } = route.params;
+const Address = (props) => {
+    const { addressId } = props.route.params;
     const [specficAddress,setSpecficAddress] = useState({});
     const [loading, setLoading] = useState(false); 
     if(addressId && addressId !== ""){
@@ -98,10 +99,11 @@ const Address = ({navigation,route}) => {
           else{
             setLoadingBtn(true)
             addAddressApi(selectedCity,selectedArea,addressType,email,name,block,street,building,floor,apartment,address_id).then((response) => {
+                props.showAddress();
                 setLoadingBtn(false)
                 alert(response.message);
                 if(response.message){
-                    navigation.pop();
+                    props.navigation.pop();
                 }
             }).catch((error) => {
                 alert("something went wrong");
@@ -137,7 +139,7 @@ const Address = ({navigation,route}) => {
                     }}>
                     <TouchableOpacity
                     onPress={() => {
-                        navigation.pop()
+                        props.navigation.pop()
                     }}>
                     <Image
                         style={{width: 48}}
@@ -360,5 +362,13 @@ const styles = StyleSheet.create({
         marginVertical: 15,
     }
 });
+  
+const mapStateToProps = (state) => ({
+    address: state.addressReducer.address,
+  })
+  const actionCreators = {
+    showAddress: addressActions.showAddress,
+  };
+  
+export default connect(mapStateToProps,actionCreators)(Address);
 
-export default Address;

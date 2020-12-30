@@ -10,29 +10,13 @@ import {
   Alert,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import {showCartData} from '../api/buildYourPc';
-import {connect} from 'react-redux';
-import { cartActions } from '../actions/user';
 import strings from '../languages/index';
+import { connect } from 'react-redux';
+import { cartActions } from '../actions/user';
 
 const {height, width} = Dimensions.get('window');
 
 const Home = (props) => {
-
-  const [cartItems,setcartItems] = useState(0);
-  
-  useEffect(() => {
-    showCartData().then((response) => {
-      if(response.data.length !== 0){
-        setcartItems(response.data.total_items);
-      }
-    }).catch((error) => {
-      console.log("showCartDataOnHome" + error);
-    });
-    return () => {
-      console.log('componentWillUnmount');
-  };
-  }, []);
 
   return (
     <View
@@ -168,8 +152,7 @@ const Home = (props) => {
                     color: '#fff',
                     fontSize: 12,
                   }}>
-                  {/* {props.cart.length} */}
-                  {cartItems}
+                  {props.itemCount}
                 </Text>
               </LinearGradient>
             </View>
@@ -215,6 +198,7 @@ const Home = (props) => {
 };
 const mapStateToProps = (state) => ({
   cart: state.cartReducer.cart,
+  itemCount:state.cartReducer.totalItems,
 })
 const actionCreators = {
   add: cartActions.showCart,
