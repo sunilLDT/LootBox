@@ -521,7 +521,7 @@ const removePackage = (id) => {
                       color: 'rgba(255,255,255,0.3)',
                       fontSize: 12,
                     }}>
-                   KD {items.price*items.quantity+".000"}
+                   KD {items.sub_total}
                   </Text>):
                   <Text
                     style={{
@@ -727,7 +727,7 @@ const removePackage = (id) => {
                       color: 'rgba(255,255,255,0.3)',
                       fontSize: 12,
                     }}>
-                   KD {items.price*items.quantity+".000"}
+                   KD {items.sub_total}
                   </Text>):
                   <Text
                     style={{

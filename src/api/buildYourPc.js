@@ -81,7 +81,6 @@ export async function profileUpdateApi(email,dob,gender){
 }
 
 export async function changePasswordApi(currPass,newPass,confPass){
-  console.log(currPass + newPass + confPass)
   const response = await Api.post('app/user/change-password',{
     current_password:currPass,
     new_password:newPass,

@@ -30,6 +30,8 @@ import AddressList from '../components/AddressList';
 import SaveBtn from '../components/SaveBtn';
 import bgImage from '../assets/signup.png';
 import { getProfilApi } from '../api/buildYourPc';
+import { RNS3 } from 'react-native-aws3';
+import { uploadFile } from 'react-s3';
 
 const {width, height} = Dimensions.get('window');
 
@@ -49,6 +51,8 @@ const Profile = ({navigation}) => {
   const [loadingBtn,setLoadingBtn] = useState(false);
 
   var formattedDOB = format(DOB, "d-MM-yyyy");
+  console.log(profileDetails);
+  console.log("**************");
 
   useEffect(() => {
     setLoading(true)
@@ -102,46 +106,71 @@ const Profile = ({navigation}) => {
     else{
       changePasswordApi(oldPassword,newPassword,confirmPassword).then((response) => {
         setpasswordModal(!passwordModal)
-        alert(response.message);
-        signout()
+        console.log(response)
+        console.log(response.success)
+        console.log(response.message)
+        alert(response.message)
+        if(response.success == true){
+            signout()
+        }
       }).catch((error) => {
         console.log("ChangePassword" + error);
       })
     }
   };
 
+  const handlePress = () => {
+    setpasswordModal(!passwordModal)
+    return true;
+  }
+
   const handleChoosePhoto = () => {
     const options = {
-      title:'Select Image',
       noData: true,
       storageOptions: {
         skipBackup: true,
-        path: 'images',
       },
     };
-    const requestExternalWritePermission = async () => {
-      if (Platform.OS === 'android') {
-        try {
-          const granted = await PermissionsAndroid.request(
-            PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
-            {
-              title: 'External Storage Write Permission',
-              message: 'App needs write permission',
-            },
-          );
-          return granted === PermissionsAndroid.RESULTS.GRANTED;
-        } catch (err) {
-          alert('Write permission err', err);
-        }
-        return false;
-      } else return true;
-    };
-
-    let isStoragePermitted =  requestExternalWritePermission();
-    if(isStoragePermitted){
       ImagePicker.launchImageLibrary(options,(response) => {
         if(response.uri){
+          console.log(response.path)
           setPhoto(response.uri)
+
+          // const config = {
+          //   bucketName: 'lootbox-s3',
+          //   dirName: 'user/profile/', /* optional */
+          //   region: 'us-east-2',
+          //   accessKeyId: 'AKIA3JWMPNMIYUFSR54M',
+          //   secretAccessKey: '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',
+          // }
+
+          // uploadFile(response.path, config)
+          //   .then(data => console.log(data))
+          //   .catch(err => console.error("s3 bucket error"+err))
+
+          const file = {
+            uri: response.uri,
+            name: response.fileName,
+            type: "image/jpeg"
+          }
+          
+
+          const options = {
+            keyPrefix:'profile/',
+            bucket:'lootbox-s3',
+            region:'us-east-2',
+            accessKey:'AKIA3JWMPNMIYUFSR54M',
+            secretKey:'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',
+            successActionStatus:201,
+          }
+
+          RNS3.put(file, options).then(response => {
+            if(response.status !== 201){
+              throw new Error('Failed to upload image to S3',response)
+            }
+            console.log("****Body*****",response.body.postResponse.location)
+          }).catch(err => console.log(err));
+
           uploadImageApi(photo).then((response) => {
             alert(response.message);
           }).catch((error) => {
@@ -155,7 +184,6 @@ const Profile = ({navigation}) => {
           console.log(response);
         }
       })
-    }
   }
   return (
     <View style={{backgroundColor:'#292633', width:'100%', height:'100%'}}>
@@ -168,6 +196,7 @@ const Profile = ({navigation}) => {
          <Dialog
           visible={passwordModal}
           containerStyle={{zIndex: 10, elevation: 10}}
+          onHardwareBackPress={() =>handlePress()}
           dialogStyle={{backgroundColor:'#272732'}}
           dialogAnimation={new SlideAnimation({
             slideFrom: 'bottom',
@@ -331,20 +360,20 @@ const Profile = ({navigation}) => {
               />
             </TouchableOpacity>
              {show && (
-          <DateTimePicker
-            testID="datetimepicker"
-            value={DOB}
-            style={{ color: '#ffffff' }}
-            textColor="white" 
-            mode="date"
-            display="spinner"
-            format="DD-MM-YYYY"
-            onChange={(e, x) => {
-              setShow(false);
-              if (x) setDOB(x);
-              console.log(x);
-            }}
-          />
+            <DateTimePicker
+              testID="datetimepicker"
+              value={DOB}
+              style={{ color: '#ffffff' }}
+              textColor="white" 
+              mode="date"
+              display="spinner"
+              format="DD-MM-YYYY"
+              onChange={(e, x) => {
+                setShow(false);
+                if (x) setDOB(x);
+                console.log(x);
+              }}
+            />
         )}
           </View>
           <LinearGradient
