@@ -139,6 +139,13 @@ export async function defaultAddressApi(addId){
   return response.data;
 }
 
+export async function deliveryAddressApi(addId){
+  const response = await Api.post('app/cart/set-address-cart',{
+    address_id:addId
+  });
+  return response.data;
+}
+
 export async function getSpecificAddress(addressId){
   const response = await Api.post('app/user/get-address',{
     address_id:addressId
@@ -166,6 +173,11 @@ export async function getOrderList(listType){
   return response.data;
 }
 
+export async function getOrderDetails(id){
+  const response = await Api.get('app/order/details?order_id='+id);
+  return response.data;
+}
+
 export async function sendEmail(data){
   const response = await Api.post('app/order/list',{
     data
@@ -184,4 +196,17 @@ export async function getBannerApi(){
   return response.data;
 }
 
+export async function removeItemAPI(id){
+  const response = await Api.post('app/cart/remove-item-cart',{
+    "cart_item_id":id,
+  });
+  return response.data;
+}
+
+export async function removePackageApi(id){
+  const response = await Api.post('app/cart/remove-package-cart',{
+    "cart_package_id":id,
+  });
+  return response.data;
+}
 

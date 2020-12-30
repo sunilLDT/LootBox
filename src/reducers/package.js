@@ -99,7 +99,6 @@ export default function (state = initialState, action) {
     case cartConstants.SUBCAT_SUCCESS:
       console.log('response.data ###########################');
       console.log(action.subcat.items);
-      console.log(action.subcat.items)
       return {
         ...state,
         subCategories: action.subcat.items,

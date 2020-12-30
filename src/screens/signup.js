@@ -221,7 +221,7 @@ const Signup = ({navigation, route}) => {
                   width: width * 0.7,
                   flexWrap: 'wrap',
                   position: 'relative',
-                  fontStyle:'italic',
+                  fontFamily:Platform.OS=='android'?'Montserrat SemiBold':'Montserrat',
                   zIndex: 333,
                 }}>
                 By clicking signup you agree to our{' '}
@@ -231,6 +231,7 @@ const Signup = ({navigation, route}) => {
                     color: '#fff',
                     marginLeft: 5,
                     fontStyle:'normal',
+                    fontFamily:Platform.OS=='android'?'Montserrat SemiBold':'Montserrat',
                     opacity:1,
                   }}>
                   Terms & Conditions{' '}
@@ -246,10 +247,8 @@ const Signup = ({navigation, route}) => {
                 </Text>
               </Text>
             </View>
-
             <TouchableOpacity
               onPress={() => {
-               
                 if (
                   selected &&
                   first_name &&

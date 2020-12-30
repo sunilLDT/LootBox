@@ -43,10 +43,7 @@ const ProductDetails = (props) => {
     setLoading(true)
     props.getPackages(PackageId);
     setLoading(false)
-
   }, [PackageId]);
-  
-
 
   const addIntoCart = () => {
     setLoading(true);
@@ -110,7 +107,7 @@ const ProductDetails = (props) => {
                 }}>
                 <View style={{ alignSelf: 'center', paddingLeft: '2%' }}>
                   <Text style={styles.brandTitle}>{props.packageData.name}</Text>
-                  <Text style={styles.brandPrice}>KD {props.totalPrice}.000</Text>
+                  <Text style={styles.brandPrice}>KD {props.totalPrice}</Text>
                 </View>
                 <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
                   {props.coverImage ? props.coverImage.map((cImages, index) => {

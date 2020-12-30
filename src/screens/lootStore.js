@@ -41,10 +41,14 @@ const LootStore = ({ navigation }) => {
   const [loading, setLoading] = useState(false);
   const [cartItems, setcartItems] = useState(0);
   const [page, setPage] = useState(1);
-  const maxlimit = 14;
+  const maxlimit = 15;
   const subCategoryId = "";
+<<<<<<< HEAD
   const [lastPage, setlastPage] = useState(0);
   const [totalPage, setToalPage] = useState(0);
+=======
+  const [lastPage, setlastPage] = useState("");
+>>>>>>> 9b805bec01daeb67a30406ceee237bbce1f2265e
   const [search, setSearch] = useState('');
   const [open, setOpen] = useState(false);
   const [callOnScrollEnd, setCallOnScrollEnd] = useState(false);
@@ -414,9 +418,8 @@ const LootStore = ({ navigation }) => {
                       ) : (
                           <>
                           <View style={{flex:1}}>
-
                             <FlatList
-                             style={{height:380,borderWidth:0, borderColor:'######',marginBottom:0}}
+                             style={{height:height*0.65,marginTop:-15}}
                               contentContainerStyle={{
                                 marginBottom: 10
                                
@@ -489,7 +492,7 @@ const LootStore = ({ navigation }) => {
                                             )}
                                           <Text
                                             style={{
-                                              fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma', 
+                                              fontFamily: Platform.OS=='android'?'Montserrat Regular':'Montserrat', 
                                               color: '#D2D7F9',
                                               opacity: 0.5,
                                               fontSize: 14,
@@ -500,7 +503,7 @@ const LootStore = ({ navigation }) => {
                                           <Text
                                             numberOfLines={2}
                                             style={{
-                                              fontSize: 14,
+                                              fontSize: 16,
                                               color: '#ECDBFA',
                                               fontFamily: Platform.OS=='android'?'Montserrat-Bold':'Montserrat',
                                               marginTop: 2,
@@ -512,7 +515,7 @@ const LootStore = ({ navigation }) => {
                                             style={{
                                               color: '#DF2EDC',
                                               fontSize: 12,
-                                              fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma',
+                                              fontFamily: Platform.OS=='android'?'Montserrat Regular':'Montserrat',
                                               marginVertical: 10
                                             }}>
                                             KD {i.price}
@@ -521,7 +524,6 @@ const LootStore = ({ navigation }) => {
                                       </TouchableOpacity>
                                     </View>
                                   );
-                                //}
                               }
                               }
                               numColumns={2}
@@ -551,6 +553,4 @@ const LootStore = ({ navigation }) => {
     </View>
   );
 };
-
-
 export default LootStore;

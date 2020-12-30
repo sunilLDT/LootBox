@@ -9,9 +9,9 @@ import {
   ImageBackground,
   TouchableWithoutFeedback,
   ScrollView,
+  ActivityIndicator,
 } from 'react-native';
 import Input from '../components/input';
-import LinearGradient from 'react-native-linear-gradient';
 import {changeNumberApi} from '../api/buildYourPc';
 import SaveBtn from '../components/SaveBtn'
 
@@ -20,6 +20,7 @@ const {width, height} = Dimensions.get('window');
 const ChangePhoneNumber = ({navigation}) => {
 
     const [phoneNumber,setPhoneNumber] = useState("");
+    const [loadingBtn,setLoadingBtn] = useState(false);
     
     const numberChange = () => {
         if(phoneNumber == ""){
@@ -29,11 +30,14 @@ const ChangePhoneNumber = ({navigation}) => {
             alert("Phone number must be greater then 8 digits");
         }
         else{
+            setLoadingBtn(true)
             changeNumberApi(phoneNumber).then((response) => {
-                console.log(response.data);
+                setLoadingBtn(false)
                 alert(response.message)
+                // navigation.navigate('otp')
             }).catch((error) => {
                 console.log("PhoneNumberChange" + error);
+                setLoadingBtn(false)
             })
         }
     }
@@ -56,6 +60,7 @@ const ChangePhoneNumber = ({navigation}) => {
                     display: 'flex',
                     alignItems: 'center',
                     flexDirection: 'row',
+                    paddingHorizontal:width*0.1,
                     }}>
                     <TouchableOpacity
                     onPress={() => {
@@ -87,7 +92,18 @@ const ChangePhoneNumber = ({navigation}) => {
                     <TouchableWithoutFeedback
                         onPress={() => numberChange()}>
                         <View>
+                            {loadingBtn?(
+                            <View style={{bottom:-24}}> 
+                                <SaveBtn text={' '} />
+                                <ActivityIndicator
+                                    color="#ECDBFA"
+                                    size="small"
+                                    style={{ bottom: 38 }}
+                                />
+                            </View>
+                            ):(
                             <SaveBtn text="Save Changes" x="115.848624"/>
+                            )}
                         </View>
                     </TouchableWithoutFeedback>
                 </View>

@@ -10,24 +10,30 @@ import {
   StyleSheet,
   ActivityIndicator,
 } from 'react-native';
-import Btn from '../components/PayBtn';
 import ItemCard from '../assets/ic_card.png';
 import IcDetailCard from '../assets/ic_details_card.png';
-import {showCartData,orderPlace,addressListApi,defaultAddressApi} from '../api/buildYourPc';
+import {showCartData,
+  orderPlace,
+  addressListApi,
+  defaultAddressApi,
+  deliveryAddressApi,
+  removeItemAPI,
+  removePackageApi,
+} from '../api/buildYourPc';
 import { connect } from 'react-redux';
 import { cartActions } from '../actions/user';
 import Dialog, {
   DialogContent, 
   SlideAnimation,
 } from 'react-native-popup-dialog';
-import Icon from 'react-native-vector-icons/Feather';
 import SaveBtn from '../components/SaveBtn';
 import ExpandImage from '../assets/ic_expand1.png';
 import CloseImage from '../assets/ic-3copy.png';
 import IcCardImage from '../assets/ic3.png';
 import thumbnail from '../assets/thumbnail.png';
 import PayBtn from '../components/PayBtn';
-import { startClock } from 'react-native-reanimated';
+import Icon from 'react-native-vector-icons/Feather';
+
 
 const {width, height} = Dimensions.get('window');
 
@@ -41,7 +47,7 @@ const Cart = (props) => {
   const [loading, setLoading] = useState(true);
   const [open, setOpen] = useState();
   const [showCpuPerocessersList, setShowCpuProcesserList] = useState(false);
-  const maxlimit = 22;
+  const maxlimit = 20;
   var imgSource = upwardImage ? ExpandImage : CloseImage;
 
   useEffect(() => {
@@ -49,7 +55,6 @@ const Cart = (props) => {
     showCartData().then((response) => {
       setcartItems(response.data.items) 
       setCartPackage(response.data.package)
-      
       setCartData(response.data)
       setLoading(false)
     }).catch((error) => {
@@ -58,14 +63,22 @@ const Cart = (props) => {
     });
   }, []);
 
+  var y = allAddress.map((i) => {
+    return i.is_default === 1?true:false;
+  });
+
   const checkout = () => {
     setLoading(true)
     if(allAddress.length === 0){
       alert("Please add address for the Delivery")
       setLoading(false)
-    }else{
+    }
+    else if(!y.includes(true)){
+      alert("Please select the Delivery address")
+      setLoading(false)
+    }
+    else{
       orderPlace().then((response) => {
-        console.log(response)
         setLoading(false)
         props.navigation.navigate('checkout',{paymentUrl:response.data.data.paymenturl})
       }).catch((error) => {
@@ -111,6 +124,12 @@ const Cart = (props) => {
     }).catch((error) => {
       console.log("defaultAddressCartPAGE" + error)
     })
+
+    deliveryAddressApi(id).then((response) => {
+      console.log(response.data)
+    }).catch((error) => {
+      console.log("deliveryAddressApi" + error)
+    })
   };
 
   const sum=(data)=> {
@@ -140,6 +159,18 @@ Array.prototype.sum = function (prop) {
     setOpen(packageId);
     setUpwardImage(!upwardImage)
     setShowCpuProcesserList(!showCpuPerocessersList)
+}
+
+const removeItem = (id) => {
+  removeItemAPI(id).then((response) => {
+    console.log(response.data)
+  })
+};
+
+const removePackage = (id) => {
+  removePackageApi(id).then((response) => {
+    console.log(response.data)
+  })
 }
 
   return (
@@ -202,7 +233,6 @@ Array.prototype.sum = function (prop) {
                     </TouchableOpacity>
                     );
                   })}
-                  
               </DialogContent>
           </Dialog>
           <View
@@ -232,7 +262,17 @@ Array.prototype.sum = function (prop) {
                   color: '#ECDBFA',
                   marginLeft: 10,
                 }}>
-                YOUR CART
+                YOUR CART  
+              </Text>
+              <Text> </Text>
+              <Text
+                style={{
+                  color:'#fff',
+                  opacity:0.4,
+                  fontStyle:'italic',
+                }}
+              >
+                 ({Object.keys(cartData).length === 0?"0":cartData.total_items} {cartData.total_items > 1?" items":" item"})
               </Text>
             </View>
           </View>
@@ -243,6 +283,8 @@ Array.prototype.sum = function (prop) {
                 <View
                 key={k}
                 >
+                <TouchableOpacity
+                    onPress={() => openClose(packages.cart_package_id)}>
                 <ImageBackground
                   source={ItemCard}
                   style={{
@@ -286,7 +328,7 @@ Array.prototype.sum = function (prop) {
                           alignSelf: 'center',
                           fontFamily:'Montserrat-Medium',
                         }}>
-                        {packages.name}
+                        {((packages.name).length > maxlimit)?(((packages.name).substring(0,maxlimit-3)) + '...'):packages.name}
                       </Text>
                     </View>
                     <View
@@ -308,22 +350,26 @@ Array.prototype.sum = function (prop) {
                       
                     </View>
                   </View>
-                  <TouchableOpacity
-                    onPress={() => openClose(packages.cart_package_id)}>
-                    <View
-                        style={{
-                            flex:1,
-                            justifyContent:"flex-end"
-                        }}>
-                        <Image
-                            source={imgSource}
-                            width={100}
-                            height={100}
-                            style={{ width: 29, height: 11 }}
-                        />
-                    </View>
+                  <View style={{direction:'flex',flexDirection:'column',justifyContent:'space-between'}}>
+                    <TouchableOpacity  onPress={() => removePackage(packages.cart_package_id)}>
+                        <Icon name="circle" size={25} color="#fff" />
+                    </TouchableOpacity>
+                    
+                      <View
+                          style={{
+                              flex:1,
+                              justifyContent:"flex-end",
+                          }}>
+                          <Image
+                              source={imgSource}
+                              width={100}
+                              height={100}
+                              style={{ width: 29, height: 11 }}
+                          />
+                      </View>
+                  </View>
+                  </ImageBackground>
                 </TouchableOpacity>
-                </ImageBackground>
                 {/* ===========================
                 //start of details  package
                 =========================== */}
@@ -337,7 +383,6 @@ Array.prototype.sum = function (prop) {
                     </View>
                     <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} >
                     {packages.cart_package_items.map((packageItems,i) => {
-                      console.log(packageItems.price);
                       return(
                       <TouchableOpacity
                           key={i}
@@ -467,7 +512,7 @@ Array.prototype.sum = function (prop) {
                         alignSelf: 'center',
                         fontFamily:'Montserrat-Medium',
                       }}>
-                      {items.name}
+                      {((items.name).length > maxlimit)?(((items.name).substring(0,maxlimit-3)) + '...'):items.name}
                       {items.quantity > 1?<Text style={{color:'#fff'}}> ({items.quantity})</Text>:null}
                     </Text>
                   </View>
@@ -486,58 +531,97 @@ Array.prototype.sum = function (prop) {
                    KD {items.price}
                   </Text>
                   }
+                  
                 </View>
+                <TouchableOpacity onPress={() => removeItem(items.cart_item_id)}>
+                  <Icon name="circle" size={25} color="#fff" style={styles.crossIcon}/>
+                </TouchableOpacity>
               </ImageBackground>
             </View>
           ))}
           </View>
           }
-          {Object.keys(cartData).length === 0?<View style={{
+          {Object.keys(cartData).length === 0?(
+            <View style={{
+              flex:1,
+              flexDirection:'row',
+              alignSelf:'center',
+              marginTop:"55%",
+              }}>
+            <Text style={{
+              color:"#fff",
+              fontSize:20,
+              fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma'
+              }}
+            >Your Cart is empty
+            </Text>
+          </View>
+          ):cartPackage.length === 0  && cartItems.length === 0?<View style={{
             flex:1,
             flexDirection:'row',
             alignSelf:'center',
             marginTop:"55%",
             }}>
-          <Text style={{color:"#fff",fontSize:20,fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma'}}>Your Cart is empty</Text>
+          <Text style={{
+            color:"#fff",
+            fontSize:20,
+            fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma'
+            }}
+          >Your Cart is empty
+          </Text>
         </View>:
-          <ImageBackground
-            source={ItemCard}
-            style={{
-              width: 351,
-              height: 75,
-              marginVertical: 10,
-              flexDirection: 'row',
-              padding: 30,
-              justifyContent: 'space-between',
-              alignItems: 'center',
+        <ImageBackground
+        source={ItemCard}
+        style={{
+          width: 351,
+          height: 75,
+          marginVertical: 10,
+          padding: 20,
+          paddingTop:10
+        }}>
+          <View style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            width:"100%",
+          }}>
+            <View style={{
+              width:"70%",
+              flexDirection: 'column',
             }}>
-            <View style={{}}>
               <Text
-                style={{
-                  fontSize: 12,
-                  color: '#D2D7F9',
-                  opacity: 0.5,
-                }}>
+              style={{
+                fontSize: 12,
+                color: '#D2D7F9',
+                opacity: 0.5,
+              }}
+              >
                 Deliver to
               </Text>
               {allAddress.map((addValues,index) => {
                 return(
-                <View key={index}>
+                <View key={index} >
                   {addValues.is_default == 1?<Text
                     style={{
                       fontSize: 14,
                       color: '#D2D7F9',
                       opacity: 0.87,
                       fontFamily:'Montserrat-Bold',
-                    }}>{addValues.area_name},{addValues.block},{addValues.street}</Text>:null}
-                </View>
-                );
-               })} 
+                      flexShrink: 1,
+                    }}>
+                      {addValues.area_name},
+                      {addValues.block},
+                      {addValues.street}
+                      {addValues.building},
+                      {addValues.apartment},
+                      {addValues.floor}
+                      </Text>:null}
+                  </View>
+                  );
+                })}
             </View>
+            <View>
             <TouchableOpacity
-              style={{
-                alignSelf: 'flex-end',
-              }}
               onPress={() => changeAddressPop()}>
               <Text
                 style={{
@@ -548,9 +632,11 @@ Array.prototype.sum = function (prop) {
                 {allAddress.length === 0?"Add Address":"Change"}
               </Text>
             </TouchableOpacity>
-          </ImageBackground>
+            </View>
+          </View>
+        </ImageBackground>
         }
-        {Object.keys(cartData).length === 0?null:
+        {Object.keys(cartData).length === 0?null:cartPackage.length === 0 && cartItems.length === 0 || Object.keys(cartData).length === 0?null:
           <ImageBackground
             source={IcDetailCard}
             style={{
@@ -710,7 +796,7 @@ Array.prototype.sum = function (prop) {
             </View>
           </ImageBackground>
         }
-        {Object.keys(cartData).length === 0?null:
+        {Object.keys(cartData).length === 0?null:cartPackage.length === 0 && cartItems.length === 0 ?null:
           <TouchableOpacity onPress={() => checkout()}>
             <View style={{width:"105%"}}>
               {!loading ? (
@@ -749,12 +835,10 @@ Array.prototype.sum = function (prop) {
 };
 const mapStateToProps = (state) => ({
   cart: state.cartReducer.cart,
-
 })
 
 const actionCreators = {
   add: cartActions.addCartAction,
-
 };
 
 const styles = StyleSheet.create({
@@ -802,6 +886,13 @@ const styles = StyleSheet.create({
     opacity: 0.5,
     fontFamily:'Montserrat-Medium',
   },
+  crossIconForPackage:{
+   display:'flex',
+   alignSelf:'flex-end',
+   position:'relative',
+   top:-55,
+   right:-5,
+  }
 });
 
 export default connect(mapStateToProps, actionCreators)(Cart)

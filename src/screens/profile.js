@@ -46,6 +46,7 @@ const Profile = ({navigation}) => {
   const [photo,setPhoto] = useState({});
   const [loading, setLoading] = useState(true);
   const {signout} = useContext(AuthContext);
+  const [loadingBtn,setLoadingBtn] = useState(false);
 
   var formattedDOB = format(DOB, "d-MM-yyyy");
 
@@ -77,10 +78,13 @@ const Profile = ({navigation}) => {
       alert("Please choose the Gender");
     }
     else{
+      setLoadingBtn(true)
       profileUpdateApi(email,formattedDOB,gender).then((response) => {
+        setLoadingBtn(false)
         alert(response.message);
       }).catch((error) => {
         console.log("profileUpdate" + error);
+        setLoadingBtn(false)
       });
     }
   };
@@ -187,7 +191,7 @@ const Profile = ({navigation}) => {
               <TouchableWithoutFeedback
               onPress={() => changePassword()}>
                   <View style={{marginVertical:5}}>
-                    <SaveBtn text="Save"/>
+                      <SaveBtn text="Save"/>
                   </View>
               </TouchableWithoutFeedback>
             </View>
@@ -244,8 +248,12 @@ const Profile = ({navigation}) => {
               flexDirection: 'row',
               justifyContent: 'space-between',
             }}>
-            <View>
+            <View style={{
+              width:"60%"
+            }}>
               <Text
+                numberOfLines={2}
+                ellipsizeMode='middle'
                 style={{
                   fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma',
                   fontSize: 20,
@@ -255,7 +263,9 @@ const Profile = ({navigation}) => {
                 }}>
                 {profileDetails.full_name}
               </Text>
-              <Text
+              <Text 
+                numberOfLines={2}
+                ellipsizeMode='middle'
                 style={{
                   fontSize: 16,
                   lineHeight: 16,
@@ -266,7 +276,9 @@ const Profile = ({navigation}) => {
                 {profileDetails.email}
               </Text>
             </View>
-            <TouchableOpacity onPress={handleChoosePhoto}>
+            <TouchableOpacity
+              style={{width:"40%"}}
+               onPress={handleChoosePhoto}>
               {profileDetails.profile_image == ""?(
               <Image
               // resizeMode="contain"
@@ -304,21 +316,20 @@ const Profile = ({navigation}) => {
             </TouchableOpacity>
           </View>
           <View style={{marginVertical: 10}}>
-            <Input
-              onFocus={() => {
-                setShow(true);
-              }}
-              placeholder={`Date of Birth : ${
-                DOB &&
-                DOB
-                  .toLocaleDateString('en', {
-                    day: 'numeric',
-                    month: 'short',
-                    year: 'numeric',
-                  })
-                  .replace(/ /g, '-')
-              }`}
-            />
+            <TouchableOpacity onPress={() => {setShow(true)}}>
+              <InputCard
+                placeholder={`Date of Birth : ${
+                  DOB &&
+                  DOB
+                    .toLocaleDateString('en', {
+                      day: 'numeric',
+                      month: 'short',
+                      year: 'numeric',
+                    })
+                    .replace(/ /g, '-')
+                }`}
+              />
+            </TouchableOpacity>
              {show && (
           <DateTimePicker
             testID="datetimepicker"
@@ -399,7 +410,6 @@ const Profile = ({navigation}) => {
               <Text
                 style={{
                   fontSize: 12,
-                 
                   color: '#ECDBFA',
                   opacity: 0.5,
                 }}>
@@ -422,7 +432,18 @@ const Profile = ({navigation}) => {
             onPress={() => ProfileUpdate()}
           >
             <View style={{marginVertical:15,width:"90%"}}>
+            {loadingBtn?(
+              <>
+              <SaveBtn text={' '}  />
+              <ActivityIndicator
+                color="#ECDBFA"
+                size="small"
+                style={{ bottom: 38 }}
+              />
+            </>
+            ):(
               <SaveBtn text="Save"/>
+            )}
             </View>
           </TouchableWithoutFeedback>
           </>

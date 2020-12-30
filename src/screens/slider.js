@@ -6,10 +6,13 @@ import {
   Dimensions,
   Animated,
   Text,
-  TouchableWithoutFeedback
+  TouchableWithoutFeedback,
+  TouchableOpacity,
+  ActivityIndicator,
 } from 'react-native';
 import Btn from '../screens/btn';
-import {getBannerApi} from './../api/buildYourPc'
+import {getBannerApi} from './../api/buildYourPc';
+import plainImage from '../assets/plainBg.png';
 const {width, height} = Dimensions.get('window');
 
 /*const images = [
@@ -24,29 +27,35 @@ export default class Slideshow extends React.Component {
   constructor(props) { 
     super(props); 
     this.state = { 
-      images:[]
+      images:[],
+      loading:true,
     }; 
 } 
   componentDidMount() {
     getBannerApi().then((response) => {
       this.setState({
-        images:response.data
+        images:response.data,
+        loading:false
       })
     }).catch((error) => {
-      console.log("allAddressList" + error);
+      console.log("banner" + error);
     })
 }
   
-
-
-
-
   render() {
     let position = Animated.divide(this.scrollX, width);
     const {navigation} = this.props;
      const {images} = this.state
     return (
-      <View >
+      <ImageBackground
+        source={plainImage}
+        style={{}}
+      >
+      {this.state.loading ? (
+        <View style={{margin: height * 0.47,alignSelf:'center'}}>
+            <ActivityIndicator color="#ECDBFA" size="small" />
+        </View>):
+        <>
        <View>
           <ScrollView
             horizontal={true}
@@ -58,9 +67,7 @@ export default class Slideshow extends React.Component {
             )}
             scrollEventThrottle={16}>
              {this.state.images.map((x, i) => (
-  
                 <View key={i} >
-                  
                   <ImageBackground
                     source={{ uri: x.image }}
                     style={{
@@ -70,31 +77,41 @@ export default class Slideshow extends React.Component {
                       backgroundColor: '#261D2A',
                     }}
                   />
-                  <View
-                    style={{
-                      bottom: height * 0.3,
-                      width: width,
-                      display: 'flex',
-                      alignItems: 'center',
-                    }}>
+                  <View style={{
+                    flex:1,
+                    flexDirection:'column',
+                    justifyContent:'flex-end',
+                    alignSelf:'center',
+                    position:'relative',
+                    width: width,
+                    bottom:15,
+                  }}>
                     <Text
                       style={{
                         color: '#ECDBFA',
                         fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma',
                         fontSize: 20,
                         lineHeight: 28,
-                        marginHorizontal:60
+                        marginHorizontal:20,
+                        paddingBottom:20
                       }}>
                       {x.title}
                     </Text>
-                    <TouchableWithoutFeedback onPress={() => {navigation.navigate('home')}}>
-                        <View style={{width:'75%'}}>
-                          <Btn  text="GET STARTED" pay=""/>
-                        </View>
-                    </TouchableWithoutFeedback> 
-                    </View>
+                    <TouchableOpacity style={{
+                      width:'95%',
+                      height:50,
+                      marginHorizontal:10,
+                      }} 
+                      onPress={() => {navigation.navigate('home')}}
+                    >
+                      <View style={{
+                        marginTop:-20,
+                      }}>
+                        <Btn  text="GET STARTED" pay=""/>
+                      </View>
+                    </TouchableOpacity> 
+                  </View>
                 </View>
-           
              ))}
           </ScrollView>
         </View>
@@ -130,7 +147,9 @@ export default class Slideshow extends React.Component {
             );
           }):null}
         </View>
-      </View>
+        </>
+      }
+      </ImageBackground>
     );
   }
 }

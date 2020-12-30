@@ -61,6 +61,7 @@ const Address = ({navigation,route}) => {
     const [building,setBuilding] = useState();
     const [floor,setFloor] = useState();
     const [apartment,setapartment] = useState();
+    const [loadingBtn,setLoadingBtn] = useState(false);
 
     useEffect(() => {
         cityApi().then((response) => {
@@ -95,8 +96,9 @@ const Address = ({navigation,route}) => {
             alert("Please select area");
         }
           else{
+            setLoadingBtn(true)
             addAddressApi(selectedCity,selectedArea,addressType,email,name,block,street,building,floor,apartment,address_id).then((response) => {
-                console.log(response.message);
+                setLoadingBtn(false)
                 alert(response.message);
                 if(response.message){
                     navigation.pop();
@@ -104,6 +106,7 @@ const Address = ({navigation,route}) => {
             }).catch((error) => {
                 alert("something went wrong");
                 console.log("AddAddress" + error)
+                setLoadingBtn(false)
             })
         }
     }
@@ -312,7 +315,18 @@ const Address = ({navigation,route}) => {
                     <TouchableOpacity
                     onPress={() => addAddress(specficAddress.address_id)}>
                         <View>
-                            <SaveBtn text={addressId && addressId !== ""?"UPDATE":"SAVE"}/>
+                        {loadingBtn?(
+                            <>
+                                <SaveBtn text={' '}  />
+                                <ActivityIndicator
+                                    color="#ECDBFA"
+                                    size="small"
+                                    style={{ bottom: 38 }}
+                                />
+                            </>
+                            ):(
+                                <SaveBtn text={addressId && addressId !== ""?"UPDATE":"SAVE"}/>
+                            )}
                         </View>
                     </TouchableOpacity>
                 </View>

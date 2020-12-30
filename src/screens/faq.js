@@ -8,8 +8,6 @@ import {
 } from "react-native";
 
 const Faq = ({ navigation, route }) => {
-
-   
     return (
         <>
            <SafeAreaView >

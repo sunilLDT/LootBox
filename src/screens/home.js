@@ -6,6 +6,8 @@ import {
   ImageBackground,
   Dimensions,
   TouchableOpacity,
+  BackHandler,
+  Alert,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import {showCartData} from '../api/buildYourPc';
@@ -84,10 +86,10 @@ const Home = (props) => {
                 color: '#ECDBFA',
                 lineHeight: 18,
                 width: '80%',
-                fontSize: 12,
+                fontSize: 14,
                 opacity: 0.5,
                 textAlign: 'left',
-               
+                fontFamily:Platform.OS=='android'?'Montserrat Regular':'Montserrat',
               }}>
               Custom PC of your own needs
             </Text>
@@ -135,7 +137,6 @@ const Home = (props) => {
                 resizeMode="contain"
                 source={require('../assets/ic_noti.png')}
                 style={{width: 40, position: 'relative', zIndex: 10}}
-
               />
             </TouchableOpacity>
             <View>
@@ -190,9 +191,10 @@ const Home = (props) => {
                 color: '#ECDBFA',
                 lineHeight: 32,
                 // width:'90%',
-                fontSize: 12,
+                fontSize: 14,
                 opacity: 0.5,
                 textAlign: 'right', 
+                fontFamily:Platform.OS=='android'?'Montserrat Regular':'Montserrat',
               }}>
               Buy items
             </Text>

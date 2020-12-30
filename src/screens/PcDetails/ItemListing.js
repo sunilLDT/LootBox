@@ -18,6 +18,7 @@ import filterIcon from '../../assets/ic_filter.png';
 import filter from 'lodash.filter';
 import { SearchBar } from 'react-native-elements';
 import { packageActions } from '../../actions/package';
+import thumbnail from '../../assets/thumbnail.png';
 
 function useForceUpdate(){
   const [value, setValue] = useState(0); // integer state
@@ -32,7 +33,7 @@ const ItemListing = (props) => {
   // });
   const { items } = props.route.params;
   const { pIndex } = props.route.params;
-  console.log(pIndex);
+  // console.log(pIndex);
 
   const { sub_category_name } = props.route.params;
   const [data, setData] = useState(items);
@@ -165,14 +166,14 @@ const ItemListing = (props) => {
         data={data}
         showsVerticalScrollIndicator={false}
         renderItem={({ item }, index) => {
-          const maxlimit = 22;
+          console.log(item);
+          const maxlimit = 18;
           return (
             <TouchableOpacity
               key={index}
-              onPressIn={() => { selectHandler(item.item_id, item.name, item.price) }}
+              onPress={() => { selectHandler(item.item_id, item.name, item.price) }}
             >
               <ImageBackground
-                // onPress={() => { selectHandler(item.item_id) }}
                 source={idExists(item.item_id) ? selectedIcCardImage : IcCardImage}
                 style={styles.cardConatiner}
                 key={index}>
@@ -182,19 +183,26 @@ const ItemListing = (props) => {
                     justifyContent: 'center',
                     alignContent: 'center',
                   }}>
+                  {item.image !== "" && item.image?(
                   <Image
                     source={{ uri: item.image }}
                     style={{ width: 65, height: 45, marginBottom: 30, alignSelf: 'center', marginTop: '-10%' }}
                   />
+                  ):(
+                    <Image
+                    source={thumbnail}
+                    style={{ width: 65, height: 45, marginBottom: 30, alignSelf: 'center', marginTop: '-15%' }}
+                  />
+                  )}
                   <Text
                   numberOfLines={5}
                   adjustsFontSizeToFit={true}
                     style={{
-                      fontSize: 11,
-                      fontWeight: 'bold',
-                      color: '#FFFFFF',
+                      fontSize: 14,
+                      color: '#D2D7F9',
                       marginBottom: 5,
                       alignSelf: 'center',
+                      fontFamily:Platform.OS=='android'?'Montserrat Bold':'Montserrat',
                     }}>
                     {item.name ? (((item.name).substring(0, maxlimit - 3)) + '...') : (((item.name).substring(0, maxlimit - 3)) + '...')}
                   </Text>
@@ -207,6 +215,7 @@ const ItemListing = (props) => {
                       opacity: 0.5,
                       textAlign: 'center',
                       fontWeight: '300',
+                      fontFamily:Platform.OS=='android'?'Montserrat Regular':'Montserrat',
                     }}>
                     {item.brand}
                   </Text>
@@ -214,9 +223,10 @@ const ItemListing = (props) => {
                     style={{
                       fontSize: 12,
                       fontWeight: '400',
-                      color: '#FFFFFF',
+                      color: '#D2D7F9',
                       marginBottom: 20,
                       textAlign: 'center',
+                      fontFamily:Platform.OS=='android'?'Montserrat Regular':'Montserrat',
                     }}>
                     KD {item.price}
                   </Text>
@@ -257,9 +267,9 @@ const styles = StyleSheet.create({
   cardConatiner: {
     width: 139, //width*0.38,
     height: 151, //height*0.20,
-    margin: "6%",
-    marginTop: "10%",
-    borderRadius: 20
+    marginHorizontal:"8%",
+    marginVertical:"10%",
+    borderRadius: 20,
   },
   pageName: {
     fontStyle: 'italic',
