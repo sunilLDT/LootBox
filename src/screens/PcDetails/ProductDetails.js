@@ -50,6 +50,7 @@ const ProductDetails = (props) => {
     let result = props.packages.map(({ item_id, quantity }) => ({ item_id, quantity: 1 }));
     addToCart(PackageId, result, true).then((response) => {
       setLoading(false);
+      props.add();
       props.navigation.navigate('cart');
     }).catch((error) => {
       console.log("addToCart" + error);

@@ -91,7 +91,7 @@ const ForgotPassword = ({navigation}) => {
               onPress={() => {
                 if (!email) {
                   Alert.alert(
-                    "Required",
+                    "Lootbox",
                     "Email Address is Required",
                     [
                       { text: "OK", onPress: () => console.log("OK Pressed") }
@@ -104,10 +104,10 @@ const ForgotPassword = ({navigation}) => {
                   !/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)
                 ) {
                   Alert.alert(
-                    "Invalid",
+                    "Lootbox",
                     "Invalid Email Address",
                     [
-                      { text: "OK", onPress: () => console.log("OK Pressed") }
+                      { text: "OK", onPress: () => {console.log("clicked")} }
                     ],
                     { cancelable: false }
                   );

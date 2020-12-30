@@ -8,7 +8,7 @@ const SimpleAlert = ({msg,removeError,setValid}) => {
         setValid;
     }
     Alert.alert(
-        "LootBox",
+        "Lootbox",
         msg,
         [
             { text: "OK", onPress: () => errorMsg() }

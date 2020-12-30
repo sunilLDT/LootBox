@@ -51,8 +51,6 @@ const Profile = ({navigation}) => {
   const [loadingBtn,setLoadingBtn] = useState(false);
 
   var formattedDOB = format(DOB, "d-MM-yyyy");
-  console.log(profileDetails);
-  console.log("**************");
 
   useEffect(() => {
     setLoading(true)
@@ -115,6 +113,7 @@ const Profile = ({navigation}) => {
         }
       }).catch((error) => {
         console.log("ChangePassword" + error);
+        alert("The current password is not match with old password")
       })
     }
   };
@@ -133,7 +132,7 @@ const Profile = ({navigation}) => {
     };
       ImagePicker.launchImageLibrary(options,(response) => {
         if(response.uri){
-          console.log(response.path)
+          console.log(response.uri)
           setPhoto(response.uri)
 
           // const config = {

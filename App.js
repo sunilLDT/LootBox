@@ -140,8 +140,6 @@ const App = () => {
           setNavigator(navigator);
         }}>
         <Stack.Navigator
-        
-
           screenOptions={{
             headerShown: false,
 
