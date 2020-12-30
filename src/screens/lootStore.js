@@ -43,12 +43,8 @@ const LootStore = ({ navigation }) => {
   const [page, setPage] = useState(1);
   const maxlimit = 15;
   const subCategoryId = "";
-<<<<<<< HEAD
   const [lastPage, setlastPage] = useState(0);
   const [totalPage, setToalPage] = useState(0);
-=======
-  const [lastPage, setlastPage] = useState("");
->>>>>>> 9b805bec01daeb67a30406ceee237bbce1f2265e
   const [search, setSearch] = useState('');
   const [open, setOpen] = useState(false);
   const [callOnScrollEnd, setCallOnScrollEnd] = useState(false);

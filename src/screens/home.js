@@ -58,6 +58,7 @@ const Home = (props) => {
             justifyContent: 'space-between',
             paddingLeft: width * 0.08,
             paddingVertical: height * 0.02,
+            transform:[{scaleX: - 1}]
           }}>
           <TouchableOpacity
             onPress={() => {

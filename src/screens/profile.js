@@ -133,8 +133,8 @@ const Profile = ({navigation}) => {
     };
       ImagePicker.launchImageLibrary(options,(response) => {
         if(response.uri){
-          console.log(response.path)
           setPhoto(response.uri)
+          console.log(response.uri.replace("file://", "/private"))
 
           // const config = {
           //   bucketName: 'lootbox-s3',
@@ -149,12 +149,14 @@ const Profile = ({navigation}) => {
           //   .catch(err => console.error("s3 bucket error"+err))
 
           const file = {
-            uri: response.uri,
-            name: response.fileName,
+            //uri: Platform.OS=='ios'?response.uri.replace("file://", "/private"):response.uri, //name: response.fileName, type: 'image/jpg' ,   
+            //uri: "assets-library://asset/asset.PNG?id=655DBE66-8008-459C-9358-914E1FB532DD&ext=PNG",
+            uri:response.uri.replace("file://", "/private"),
+            fileName: response.fileName,
             type: "image/jpeg"
           }
           
-
+          //dataForm.append('file', { uri: Platform.OS=='ios'?photo.uri.replace("file://", "/private"):photo.uri, name: 'photo.jpg', type: 'image/jpg' });
           const options = {
             keyPrefix:'profile/',
             bucket:'lootbox-s3',
@@ -163,13 +165,16 @@ const Profile = ({navigation}) => {
             secretKey:'SklpCNgMo4arYfrcDOvLaeFw6xbLxHizCtAQt0YF',
             successActionStatus:201,
           }
-
+          console.log("****Body*****",response)
           RNS3.put(file, options).then(response => {
+            console.log(response.status)
             if(response.status !== 201){
               throw new Error('Failed to upload image to S3',response)
             }
             console.log("****Body*****",response.body.postResponse.location)
-          }).catch(err => console.log(err));
+          }).catch(err => {
+            console.log('bvmvbxcmvbxmncvbmnxbvcxmbvxmn');
+            console.log(err)});
 
           uploadImageApi(photo).then((response) => {
             alert(response.message);
