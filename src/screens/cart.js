@@ -899,6 +899,7 @@ const mapStateToProps = (state) => ({
 
 const actionCreators = {
   add: cartActions.addCartAction,
+  emptyCart:cartActions.emptyCartAction,
   showAddress: addressActions.showAddress,
 };
 

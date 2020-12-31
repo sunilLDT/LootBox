@@ -41,6 +41,7 @@ const ProductDetails = (props) => {
   const kd = "KD ";
   var imgSource = upwardImage ? ExpandImage : CloseImage;
 
+
   useEffect(() => {
     setLoading(true)
     props.getPackages(PackageId);
@@ -112,7 +113,7 @@ const ProductDetails = (props) => {
                 }}>
                 <View style={{ alignSelf: 'center', paddingLeft: '2%' }}>
                   <Text style={styles.brandTitle}>{props.packageData.name}</Text>
-                  <Text style={styles.brandPrice}>{kd}{props.totalPrice}</Text>
+                  <Text style={styles.brandPrice}>{kd}{props.totalPrice}.000</Text>
                 </View>
                 <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
                   {props.coverImage ? props.coverImage.map((cImages, index) => {
@@ -161,7 +162,7 @@ const ProductDetails = (props) => {
                   activeOpacity={0.1}
                   onPress={() => addIntoCart()}>
                   {!loading ? (
-                    <Btn text={strings.BuidYourPc} pay="" />
+                    <Btn text={strings.BuildYourPc} pay="" />
                   ) : (
                       <>
                         <Btn text={' '} x="54" pay="" />

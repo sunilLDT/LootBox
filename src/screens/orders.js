@@ -68,7 +68,7 @@ const Orders = ({ navigation }) => {
           //   paddingVertical: height * 0.1,
         }}
         showsVerticalScrollIndicator={false}>
-        <TouchableOpacity onPress={() => { navigation.pop() }}>
+        <TouchableOpacity onPress={() => { navigation.navigate('home') }}>
           <Image
             resizeMode="contain"
             style={{

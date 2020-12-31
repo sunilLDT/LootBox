@@ -22,8 +22,6 @@ export default function (state = initialState, action) {
         cart: action.id
       };
     case cartConstants.CART_ADD_SUCCESS:
-      console.log(state.cart)
-      console.log(action.id)
       return {
         ...state,
         cart: action.id,

@@ -6,8 +6,7 @@ import {
   ImageBackground,
   Dimensions,
   TouchableOpacity,
-  BackHandler,
-  Alert,
+
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import strings from '../languages/index';
@@ -17,6 +16,7 @@ import { cartActions } from '../actions/user';
 const {height, width} = Dimensions.get('window');
 
 const Home = (props) => {
+  console.log(props.itemCount);
 
   const [cartItems,setcartItems] = useState(0);
   
@@ -169,7 +169,7 @@ const Home = (props) => {
                     color: '#fff',
                     fontSize: 12,
                   }}>
-                  {props.itemCount}
+                  {props.itemCount == undefined ?"0":props.itemCount}
                 </Text>
               </LinearGradient>
             </View>
