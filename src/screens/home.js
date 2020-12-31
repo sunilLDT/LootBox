@@ -21,8 +21,8 @@ const Home = (props) => {
   const [cartItems,setcartItems] = useState(0);
   
   useEffect(() => {
-    
-   /* showCartData().then((response) => {
+    props.add()
+  /* showCartData().then((response) => {
       if(response.data.length !== 0){
         setcartItems(response.data.total_items);
       }
@@ -218,7 +218,7 @@ const mapStateToProps = (state) => ({
   itemCount:state.cartReducer.totalItems,
 })
 const actionCreators = {
-  add: cartActions.showCart,
+  add: cartActions.addCartAction,
 
 };
 
