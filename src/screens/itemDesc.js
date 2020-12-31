@@ -178,7 +178,7 @@ const renderViewLess = (onPress) => {
                   color: '#fff',
                   fontSize: 12,
                 }}>
-                {props.itemCount}
+                {props.itemCount == undefined?"0":props.itemCount}
               </Text>
             </LinearGradient>
           </View>

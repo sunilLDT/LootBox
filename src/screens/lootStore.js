@@ -222,7 +222,7 @@ const LootStore = (props) => {
                               fontSize: 12,
                               fontFamily: 'Montserrat-Bold',
                             }}>
-                            {props.itemCount}
+                            {props.itemCount == undefined?"0":props.itemCount}
                           </Text>
                         </LinearGradient>
                       )}

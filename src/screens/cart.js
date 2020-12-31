@@ -759,7 +759,7 @@ const removePackage = (id) => {
                   fontSize: 15,
                   fontFamily:'Montserrat-Regular',
                   }}
-                  >{stringsDeliveryFees}
+                  >{strings.DeliveryFees}
                   </Text>
                   <Text
                     style={{
@@ -899,6 +899,7 @@ const mapStateToProps = (state) => ({
 
 const actionCreators = {
   add: cartActions.addCartAction,
+  emptyCart:cartActions.emptyCartAction,
   showAddress: addressActions.showAddress,
 };
 

@@ -10,8 +10,6 @@ function showAddress(addresses) {
       dispatch(request(addresses));
       addressListApi().then((response) => {
           dispatch(success(response.data));
-          console.log(response.data);
-          console.log("***********")
       }).catch((error) => {
         console.log("address" + error);
       });

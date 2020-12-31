@@ -21,14 +21,13 @@ const { width, height } = Dimensions.get('window');
 const AlertMessage = (props) => {
     useEffect(() => {
         props.empty();
+        props.add();
         BackHandler.addEventListener('hardwareBackPress', handleBackButton);
-
     }, []);
 
     const handleBackButton = () => {
         console.log('Back button is pressed');
         return true;
-
     }
 
     const { msgUrl } = props.route.params;
@@ -109,12 +108,11 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => ({
     cart: state.cartReducer.cart,
-
 })
 
 const actionCreators = {
     empty: cartActions.emptyCartAction,
-
+    add: cartActions.addCartAction,
 };
 
 export default connect(mapStateToProps, actionCreators)(AlertMessage)

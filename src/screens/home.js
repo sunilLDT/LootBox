@@ -6,8 +6,7 @@ import {
   ImageBackground,
   Dimensions,
   TouchableOpacity,
-  BackHandler,
-  Alert,
+
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import strings from '../languages/index';
@@ -17,25 +16,8 @@ import { cartActions } from '../actions/user';
 const {height, width} = Dimensions.get('window');
 
 const Home = (props) => {
+  console.log(props.itemCount);
 
-<<<<<<< HEAD
-  const [cartItems,setcartItems] = useState(0);
-  
-  useEffect(() => {
-    showCartData().then((response) => {
-      if(response.data.length !== 0){
-        setcartItems(response.data.total_items);
-      }
-    }).catch((error) => {
-      console.log("showCartDataOnHome" + error);
-    }); 
-    return () => {
-      console.log('componentWillUnmount');
-  };
-  }, []);
-
-=======
->>>>>>> 7ed814c208c8d33561ef7bd81b8fb37660220a95
   return (
     <View
       style={{
@@ -171,7 +153,7 @@ const Home = (props) => {
                     color: '#fff',
                     fontSize: 12,
                   }}>
-                  {props.itemCount}
+                  {props.itemCount == undefined ?"0":props.itemCount}
                 </Text>
               </LinearGradient>
             </View>

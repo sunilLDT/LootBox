@@ -20,7 +20,7 @@ import ListDetails from '../PcDetails/List';
 import { connect } from 'react-redux';
 import { cartActions } from '../../actions/user';
 import { packageActions } from '../../actions/package';
-import strings from '../languages/index';
+import strings from '../../languages/index';
 const { width, height } = Dimensions.get('window');
 
 const ProductDetails = (props) => {
@@ -40,6 +40,7 @@ const ProductDetails = (props) => {
   const maxlimit = 12;
   const kd = "KD ";
   var imgSource = upwardImage ? ExpandImage : CloseImage;
+
 
   useEffect(() => {
     setLoading(true)
@@ -112,7 +113,7 @@ const ProductDetails = (props) => {
                 }}>
                 <View style={{ alignSelf: 'center', paddingLeft: '2%' }}>
                   <Text style={styles.brandTitle}>{props.packageData.name}</Text>
-                  <Text style={styles.brandPrice}>{kd}{props.totalPrice}</Text>
+                  <Text style={styles.brandPrice}>{kd}{props.totalPrice}.000</Text>
                 </View>
                 <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
                   {props.coverImage ? props.coverImage.map((cImages, index) => {
@@ -161,7 +162,7 @@ const ProductDetails = (props) => {
                   activeOpacity={0.1}
                   onPress={() => addIntoCart()}>
                   {!loading ? (
-                    <Btn text={strings.BuidYourPc} pay="" />
+                    <Btn text={strings.BuildYourPc} pay="" />
                   ) : (
                       <>
                         <Btn text={' '} x="54" pay="" />

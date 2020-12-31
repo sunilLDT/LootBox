@@ -175,7 +175,7 @@ const OrderDetails = ({navigation,route}) => {
               style={{
                 width: '100%',
                 height: height * 0.12,
-                marginVertical: 10,
+                // marginVertical: 10,
                 display: 'flex',
                 flexDirection: 'row',
               }}>
@@ -266,7 +266,7 @@ const OrderDetails = ({navigation,route}) => {
             style={{
               width: '100%',
               height: height * 0.12,
-              marginVertical: 10,
+              // marginVertical: 10,
               display: 'flex',
               flexDirection: 'row',
               justifyContent: 'space-between',
@@ -343,7 +343,7 @@ const OrderDetails = ({navigation,route}) => {
                   fontSize: 12,
                   opacity: 0.8,
                 }}>
-                Package Details ({orderDetails.items_qty} Items)
+                Package Details ({orderDetails.items_qty} {orderDetails.items_qty > 1? "items":"item"})
               </Text>
             </View>
 
