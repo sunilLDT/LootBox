@@ -20,7 +20,7 @@ import ListDetails from '../PcDetails/List';
 import { connect } from 'react-redux';
 import { cartActions } from '../../actions/user';
 import { packageActions } from '../../actions/package';
-import strings from '../languages/index';
+import strings from '../../languages/index';
 const { width, height } = Dimensions.get('window');
 
 const ProductDetails = (props) => {

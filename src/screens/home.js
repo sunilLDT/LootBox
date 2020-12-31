@@ -18,11 +18,11 @@ const {height, width} = Dimensions.get('window');
 
 const Home = (props) => {
 
-<<<<<<< HEAD
   const [cartItems,setcartItems] = useState(0);
   
   useEffect(() => {
-    showCartData().then((response) => {
+    
+   /* showCartData().then((response) => {
       if(response.data.length !== 0){
         setcartItems(response.data.total_items);
       }
@@ -31,11 +31,9 @@ const Home = (props) => {
     }); 
     return () => {
       console.log('componentWillUnmount');
-  };
+  };*/
   }, []);
 
-=======
->>>>>>> 7ed814c208c8d33561ef7bd81b8fb37660220a95
   return (
     <View
       style={{

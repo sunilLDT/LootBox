@@ -17,7 +17,7 @@ import DetailsInfoCard from '../../assets/buildYourPc/details_info_card.png';
 import {packageListByGames} from '../../api/buildYourPc';
 import PlayableImg from '../../assets/playable.png';
 import Thumbnail from '../../assets/thumbnail.png';
-import strings from '../languages/index';
+import strings from '../../languages/index';
 const {width, height} = Dimensions.get('window');
 const PcDetails = ({navigation, route}) => {
 
@@ -94,7 +94,7 @@ const PcDetails = ({navigation, route}) => {
         </TouchableOpacity>
         <Text
             style={styles.screenName}>
-            {stringspackages}
+            {strings.packages}
         </Text>
         </View>
         {packageData.map((cpuDetail, index) =>{

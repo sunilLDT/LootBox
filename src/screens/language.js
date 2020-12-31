@@ -39,8 +39,8 @@ const Language = (props) => {
     //languageRestart(isOn);
     //languageRestart(isOn);
     console.log(state.token)
-    language.setLanguage(isOn ? 'en' : 'ar');
-    changeLaguage(isOn ? 'en' : 'ar');
+    //language.setLanguage(isOn ? 'en' : 'ar');
+    //changeLaguage(isOn ? 'en' : 'ar');
     if(state.token) {
       props.navigation.navigate('home');
     } else {

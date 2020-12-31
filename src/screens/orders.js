@@ -79,7 +79,7 @@ const Orders = ({ navigation }) => {
         </TouchableOpacity>
         <Text
           style={{
-            fontFamily: 'Michroma-Regular',            
+            fontFamily: Platform.OS == 'android' ? 'Michroma-Regular' : 'Michroma',           
             fontSize: 20,
             lineHeight: 28,
             color: '#ECDBFA',
@@ -141,7 +141,7 @@ const Orders = ({ navigation }) => {
               alignSelf:'center',
               }}>
               <Text style={{
-                fontFamily: 'Michroma-Regular',            
+                fontFamily: Platform.OS == 'android' ? 'Michroma-Regular' : 'Michroma',           
                 fontSize: 20,
                 lineHeight: 28,
                 color: '#ECDBFA',

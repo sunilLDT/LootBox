@@ -759,7 +759,7 @@ const removePackage = (id) => {
                   fontSize: 15,
                   fontFamily:'Montserrat-Regular',
                   }}
-                  >{stringsDeliveryFees}
+                  >{strings.DeliveryFees}
                   </Text>
                   <Text
                     style={{
