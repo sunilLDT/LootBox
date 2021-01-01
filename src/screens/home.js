@@ -16,7 +16,8 @@ import { cartActions } from '../actions/user';
 const {height, width} = Dimensions.get('window');
 
 const Home = (props) => {
-  console.log(props.itemCount);
+  
+  
 
   return (
     <View

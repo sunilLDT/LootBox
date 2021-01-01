@@ -354,10 +354,51 @@ const removePackage = (id) => {
                     </View>
                   </View>
                   <View style={{direction:'flex',flexDirection:'column',justifyContent:'space-between'}}>
-                    <TouchableOpacity  onPress={() => removePackage(packages.cart_package_id)}>
-                        <Icon name="circle" size={25} color="#fff" />
+                  <View
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      flexDirection: 'row',
+                      justifyContent: 'space-between',
+                      marginLeft:"-300%",
+                    }}>
+                    <TouchableOpacity
+                      onPress={() => {
+                        // qty > 1 && setQty(qty - 1);
+                      }}>
+                      <Image
+                        source={require('../assets/ic_sub.png')}
+                        resizeMode="contain"
+                        style={{
+                          width: 38,
+                          height: 24,
+                        }}
+                      />
                     </TouchableOpacity>
-                    
+                    <Text
+                      style={{
+                        fontSize: 14,
+                        fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma', 
+                        color: '#ECDBFA',
+                        marginHorizontal: 10,
+                      }}>
+                      {/* {qty} */}
+                      2
+                    </Text>
+                    <TouchableOpacity
+                      onPress={() => {
+                        // setQty(qty + 1);
+                      }}>
+                      <Image
+                        source={require('../assets/ic_add.png')}
+                        resizeMode="contain"
+                        style={{
+                          width: 38,
+                          height: 24,
+                        }}
+                      />
+                    </TouchableOpacity>
+                  </View>
                       <View
                           style={{
                               flex:1,

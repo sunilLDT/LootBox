@@ -37,7 +37,7 @@ const Address = (props) => {
                 setStreet(response.data.street);
                 setBuilding(response.data.building);
                 setFloor(response.data.floor);
-                setapartment(response.data.apartment);
+                setapartment(response.data.apartment); 
                 setSelectedArea(response.data.area_id);
                 setLoading(false)
             }).catch((error) => {
