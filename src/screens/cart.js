@@ -49,6 +49,7 @@ const Cart = (props) => {
   const [loading, setLoading] = useState(true);
   const [open, setOpen] = useState();
   const [showCpuPerocessersList, setShowCpuProcesserList] = useState(false);
+  const [Packageqty, setPackageqty] = useState(1);
   const maxlimit = 20;
   var imgSource = upwardImage ? ExpandImage : CloseImage;
 
@@ -92,7 +93,7 @@ const Cart = (props) => {
   useEffect(() => {
     props.showAddress();
     addressListApi().then((response) => {
-      setAllAddress(props.address)
+      setAllAddress(response.data)
     }).catch((error) => {
       console.log("allAddressList" + error);
     })
@@ -354,17 +355,34 @@ const removePackage = (id) => {
                     </View>
                   </View>
                   <View style={{direction:'flex',flexDirection:'column',justifyContent:'space-between'}}>
+                  <TouchableOpacity  onPress={() => removePackage(packages.cart_package_id)}>
+                      <Icon name="circle" size={25} color="#fff" />
+                  </TouchableOpacity>
+                      <View
+                          style={{
+                              flex:1,
+                              justifyContent:"flex-end",
+                          }}>
+                          <Image
+                              source={imgSource}
+                              width={100}
+                              height={100}
+                              style={{ width: 29, height: 11 }}
+                          />
+                      </View>
+                  </View>
+                  </ImageBackground>
+                </TouchableOpacity>
                   <View
                     style={{
                       display: 'flex',
                       alignItems: 'center',
                       flexDirection: 'row',
-                      justifyContent: 'space-between',
-                      marginLeft:"-300%",
+                      justifyContent:'flex-end',
                     }}>
                     <TouchableOpacity
                       onPress={() => {
-                        // qty > 1 && setQty(qty - 1);
+                        Packageqty > 1 && setPackageqty(Packageqty - 1);
                       }}>
                       <Image
                         source={require('../assets/ic_sub.png')}
@@ -382,12 +400,11 @@ const removePackage = (id) => {
                         color: '#ECDBFA',
                         marginHorizontal: 10,
                       }}>
-                      {/* {qty} */}
-                      2
+                      {Packageqty}
                     </Text>
                     <TouchableOpacity
                       onPress={() => {
-                        // setQty(qty + 1);
+                        setPackageqty(Packageqty + 1);
                       }}>
                       <Image
                         source={require('../assets/ic_add.png')}
@@ -399,21 +416,6 @@ const removePackage = (id) => {
                       />
                     </TouchableOpacity>
                   </View>
-                      <View
-                          style={{
-                              flex:1,
-                              justifyContent:"flex-end",
-                          }}>
-                          <Image
-                              source={imgSource}
-                              width={100}
-                              height={100}
-                              style={{ width: 29, height: 11 }}
-                          />
-                      </View>
-                  </View>
-                  </ImageBackground>
-                </TouchableOpacity>
                 {/* ===========================
                 //start of details  package
                 =========================== */}
@@ -575,13 +577,13 @@ const removePackage = (id) => {
                    KD {items.price}
                   </Text>
                   }
-                  
                 </View>
                 <TouchableOpacity onPress={() => removeItem(items.cart_item_id)}>
                   <Icon name="circle" size={25} color="#fff" style={styles.crossIcon}/>
                 </TouchableOpacity>
               </ImageBackground>
             </View>
+            
           ))}
           </View>
           }

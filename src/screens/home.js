@@ -16,23 +16,11 @@ import { cartActions } from '../actions/user';
 const {height, width} = Dimensions.get('window');
 
 const Home = (props) => {
-  
-  
 
   const [cartItems,setcartItems] = useState(0);
   
   useEffect(() => {
     props.add()
-  /* showCartData().then((response) => {
-      if(response.data.length !== 0){
-        setcartItems(response.data.total_items);
-      }
-    }).catch((error) => {
-      console.log("showCartDataOnHome" + error);
-    }); 
-    return () => {
-      console.log('componentWillUnmount');
-  };*/
   }, []);
 
   return (
