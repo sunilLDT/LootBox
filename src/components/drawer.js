@@ -20,6 +20,7 @@ import englishImage from '../assets/english.png';
 import arabicImage from '../assets/arabic.png';
 import strings,{ changeLaguage } from '../languages/index';
 import RNRestart from 'react-native-restart';
+
 import { connect } from '@language';
 
 const {width, height} = Dimensions.get('window');
