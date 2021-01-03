@@ -11,12 +11,12 @@ import {
   FlatList,
   ActivityIndicator
 } from 'react-native';
-import IcCardImage from '../../assets/ic3.png';
-import selectedIcCardImage from '../../assets/Rectangle.png'
+import IcCardImage from '../../assets/ic_card_a0.png';
+import selectedIcCardImage from '../../assets/ic-3.png'
 import backImage from '../../assets/back.png';
 import searchImage from '../../assets/ic_search.png';
 import filterImage from '../../assets/ic_filter.png';
-import { pcPartSubcategoryApi, advancedBuilderItems } from '../../api/buildYourPc';
+import { pcPartSubcategoryApi, addToCartAdvance, advancedBuilderItems } from '../../api/buildYourPc';
 import LinearGradient from 'react-native-linear-gradient';
 import cardImage from '../../assets/ic_card_a0.png';
 import thumbnail from '../../assets/thumbnail.png';
@@ -26,8 +26,8 @@ import SelectedImage from '../../assets/Rectangle.png';
 import { connect } from 'react-redux';
 import { SearchBar } from 'react-native-elements';
 import { packageActions } from '../../actions/package';
+import { cartActions } from '../../actions/user';
 import TickImage from '../../assets/tick.png';
-
 const { width, height } = Dimensions.get('window');
 
 function useForceUpdate() {
@@ -45,14 +45,21 @@ const AdvanceBuilder = (props) => {
   const [search, setSearch] = useState('');
   const [filteredDataSource, setFilteredDataSource] = useState([]);
   const [open, setOpen] = useState(false);
-  const [tick,setTick] = useState([]);
-  const [selectedIndex,setSelectedIndex] = useState(0);
+  const [tick, setTick] = useState([]);
+  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [maxIndex, setMaxIndex] = useState(0);
+  const [linkedItems, setLinkedItems] = useState({});
+  const [showSubmit, setShowSubmit] = useState(false);
+  const [totalPrice, setTotalPrice] = useState(0);
 
   const maxlimit = 20;
   useEffect(() => {
     setLoading(true);
-    props.categories.map((subCat,i) =>{
-      if(i == 0){
+
+    setMaxIndex(props.categories.length);
+    props.categories.map((subCat, i) => {
+
+      if (i == 0) {
         setSubCategoryid(subCat.sub_category_id)
         advancedBuilderItems(subCat.sub_category_id).then((response) => {
           let d = {
@@ -62,7 +69,11 @@ const AdvanceBuilder = (props) => {
           }
           setItems(response.data)
           setFilteredDataSource(response.data)
+          if (subCat.link_item_available) {
+            setLinkedItems({ catId: subCat.sub_category_id, linkedItemId: subCat.link_sub_category_id })
+          }
         })
+        //setSelectedIndex(0);
       }
     });
     props.categoryList();
@@ -71,18 +82,25 @@ const AdvanceBuilder = (props) => {
 
 
   const subCategoryFun = (subCatId, index) => {
-    setSubCategoryid(subCatId)
-    advancedBuilderItems(subCatId).then((response) => {
-      console.log(response.data)
+    setSubCategoryid(subCatId);
+    let id = subCatId;
+    //Opn for new Logic
+    /* if (subCatId == linkedItems.linkedItemId) {
+ 
+       let result = itemList.find(x => x.sub_category_id === linkedItems.catId);
+       id = result.item_id;
+     }*/
+    console.log(id)
+    advancedBuilderItems(id).then((response) => {
+      console.log(response)
       let d = {
         "name": response.data[0].name,
         "price": response.data[0].price,
         "sub_category_id": response.data[0].sub_category_id
       }
-     // setSelectedItem(d);
-     // setItemList([d]);
       setItems(response.data)
       setFilteredDataSource(response.data)
+
     })
   }
 
@@ -90,39 +108,48 @@ const AdvanceBuilder = (props) => {
     setOpen(!open)
   }
 
-  const submitNow = () => {
-
-    let subCatId=props.categories[selectedIndex];
-    console.log("===========================================>")
-    console.log(props.categories)
-    console.log('------------------------------------------')
-    console.log(subCatId)
-    console.log(subCatId.sub_category_id+'  <=====> '+selectedIndex)
-    console.log("===========================================>")
-    subCategoryFun(subCatId.sub_category_id,selectedIndex);
-    let i = selectedIndex;
-    i=i+1;
-    setSelectedIndex(i);
-    setTick([...tick,subCatId.sub_category_id]);
-   // if(Object.keys(selectedItem).length !== 0){
-    //  props.navigation.navigate('addToCart', { data: itemList });
-    //}
+  const finalSubmit = () => {
+    let result = itemList.map(({ item_id, quantity }) => ({ item_id, quantity: 1 }));
+    addToCartAdvance(result).then((response) => {
+      if (response.code == 200) {
+        props.add()
+        props.navigation.navigate('cart');
+      }
+    })
 
   }
 
-  const checkSelectedForNext=()=>{
-    return itemList.some(function(el) {
+  const submitNow = () => {
+    console.log(selectedIndex)
+    let i = selectedIndex;
+    i = i + 1;
+    setSelectedIndex(i);
+
+    let subCatId = props.categories[i];
+
+    if (subCatId.link_item_available) {
+      setLinkedItems({ catId: subCatId.sub_category_id, linkedItemId: subCatId.link_item_available })
+    }
+    subCategoryFun(subCatId.sub_category_id, i);
+    setTick([...tick, subCatId.sub_category_id]);
+
+
+  }
+
+  const checkSelectedForNext = () => {
+    return itemList.some(function (el) {
       return el.sub_category_id === subCategoryId;
-    }); 
+    });
   }
 
   const selectItem = (i) => {
-    setTick([...tick,i.sub_category_id]);
+    setTick([...tick, i.sub_category_id]);
     let d = {
       "name": i.name,
       "price": i.price,
       "sub_category_id": i.sub_category_id
     }
+
     setSelectedItem(d);
     let a = itemList;
     var data = [];
@@ -130,9 +157,11 @@ const AdvanceBuilder = (props) => {
     if (a.length == 0) {
       a.push(i);
       setItemList([i])
-     // setClickedIndex([i.sub_category_id])
+      setTotalPrice(parseFloat(i.price))
+      // setClickedIndex([i.sub_category_id])
 
     } else {
+
       for (j = 0; j < a.length; j++) {
         if (a[j].sub_category_id === i.sub_category_id) {
           a.splice(j);
@@ -142,14 +171,30 @@ const AdvanceBuilder = (props) => {
 
       }
       data.push(i);
+      var total = 0
+      for (var i = 0, _len = data.length; i < _len; i++) {
+        total += parseFloat(data[i]['price'])
+      }
+      console.log('price is', total)
+      setTotalPrice(total.toFixed(3))
       setItemList(data);
+
+      if (selectedIndex == maxIndex - 1) {
+        setShowSubmit(true)
+      }
+
+
     }
+
+
+
   }
 
 
-  const checkNextButton =()=>{ 
-     
-    
+  const getTotal = () => {
+
+
+
   }
 
   const searchFilterFunction = (text) => {
@@ -179,9 +224,9 @@ const AdvanceBuilder = (props) => {
 
   const getName = (id) => {
     let a = itemList;
-    for (j = 0; j < a.length; j++) {  
+    for (j = 0; j < a.length; j++) {
       if (a[j].sub_category_id === id) {
-        return a[j].name.lenght> maxlimit?(((a[j].name).substring(0,maxlimit-3)) + '...') :a[j].name;
+        return a[j].name.lenght > maxlimit ? (((a[j].name).substring(0, maxlimit - 3)) + '...') : a[j].name;
         break;
       }
     }
@@ -190,211 +235,228 @@ const AdvanceBuilder = (props) => {
 
   const getPrice = (id) => {
     let a = itemList;
-    for (j = 0; j < a.length; j++) {  
+    for (j = 0; j < a.length; j++) {
       if (a[j].sub_category_id === id) {
-        return 'KD ' +a[j].price;
+        return 'KD ' + a[j].price;
         break;
       }
     }
     return ''
   };
 
-  const idExists=(id)=> {
-    return itemList.some(function(el) {
+  const idExists = (id) => {
+    return itemList.some(function (el) {
       return el.item_id === id;
-    }); 
+    });
   }
 
+  const subCatExists = (id) => {
+    return itemList.some(function (el) {
+      return el.sub_category_id === id;
+    });
+  }
   return (
     <View
-    style={{
-      backgroundColor: '#261D2A',
-    }}>
-    <ImageBackground
-      source={require('../../assets/dottedBackground.png')}
-      style={styles.background}
-    >
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        style={{ width, height, overflowX: 'hidden' }}
+      style={{
+        backgroundColor: '#261D2A',
+      }}>
+      <ImageBackground
+        source={require('../../assets/dottedBackground.png')}
+        style={styles.background}
       >
-        <View style={styles.topContainer}>
-          <View>
-            <TouchableOpacity onPress={() => { props.navigation.goBack() }}>
-              <Image
-                resizeMode="contain"
-                source={backImage}
-                style={{
-                  width: 48,
-                }}
-              />
-            </TouchableOpacity>
-          </View>
-          <View style={styles.searchFilter}>
-          <TouchableOpacity  onPress={() => openClose()}>
-              <Image
-                resizeMode="contain"
-                source={searchImage}
-                style={{
-                  width: 48,
-                }}
-              />
-            </TouchableOpacity>
-            <TouchableOpacity>
-              <Image
-                resizeMode="contain"
-                source={filterImage}
-                style={{
-                  width: 48,
-                }}
-              />
-            </TouchableOpacity>
-          </View>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          style={{ width, height, overflowX: 'hidden' }}
+        >
+          <View style={styles.topContainer}>
+            <View>
+              <TouchableOpacity onPress={() => { props.navigation.goBack() }}>
+                <Image
+                  resizeMode="contain"
+                  source={backImage}
+                  style={{
+                    width: 48,
+                  }}
+                />
+              </TouchableOpacity>
+            </View>
+            <View style={styles.searchFilter}>
+              <TouchableOpacity onPress={() => openClose()}>
+                <Image
+                  resizeMode="contain"
+                  source={searchImage}
+                  style={{
+                    width: 48,
+                  }}
+                />
+              </TouchableOpacity>
+              <TouchableOpacity>
+                <Image
+                  resizeMode="contain"
+                  source={filterImage}
+                  style={{
+                    width: 48,
+                  }}
+                />
+              </TouchableOpacity>
+            </View>
 
-        </View>
-        {open ? 
-        <SearchBar
+          </View>
+          {open ?
+            <SearchBar
               placeholder="Type here..."
               lightTheme round editable={true}
               value={search}
               onChangeText={(text) => searchFilterFunction(text)}
               containerStyle={{ borderRadius: 22, height: 50, marginBottom: 20, marginHorizontal: width * 0.1 }}
               inputContainerStyle={{ height: 30, }}
-            />:null}
-        {loading ? (
-          <View style={{ marginTop: height * 0.37 }}>
-            <ActivityIndicator color="#ECDBFA" size="small" />
-          </View>
-        ) : (
-            <>
-              <View>
-                <Text style={styles.advanceBuilderText}>Advance Builder</Text>
-                <Text style={styles.lineText}>Select the configuration you like the most.</Text>
-              </View>
-
-              <View style={styles.mainContainer}>
-                <View style={styles.subCategoriesView}>
-                  <ImageBackground source={SubCatBg} style={{}}>
-                    {!props.loadingCat ? props.categories.map((part, index) => {
-                      return (
-                        <TouchableOpacity key={index} onPress={() => subCategoryFun(part.sub_category_id, index)}>
-                          <View style={styles.box}>
-                            {subCategoryId === part.sub_category_id ? (
-                              <LinearGradient
-                                start={{ x: 0, y: 1 }}
-                                end={{ x: 1, y: 0 }}
-                                colors={['#C01C8A', '#865CF4']}
-                                style={{
-                                  width: 8,
-                                  height: 8,
-                                  position: 'absolute',
-                                  right: 22,
-                                  top: 22,
-                                  zIndex: 100,
-                                  borderRadius: 50,
-                                  alignItems: 'center',
-                                  justifyContent: 'center',
-                                }}>
-                              </LinearGradient>
-                             ) : tick === part.sub_category_id?(
-                               <Image 
-                                source={TickImage}
-                                style={styles.tick}
-                               />
-                             ):null}
-                            <Image style={styles.subImage}
-                              resizeMode="contain"
-                              source={filterImage}
-                            />
-                            <Text
-                              style={styles.subName}
-                              numberOfLines={1}
-                            > {((part.name).length > maxlimit) ? (((part.name).substring(0, 12 - 3)) + '...') : part.name}
-                            </Text>
-                            <View style={styles.selectedDetails}>
-                              <View style={styles.sideBrand}>
-                                <Text style={styles.sideDetails}>
-                                  {part.subName}
-                                </Text>
-                                <Text ellipsizeMode='tail' numberOfLines={1} style={styles.sideDetails}>
-                                {(( getName(part.sub_category_id)).length > maxlimit) ? ((( getName(part.sub_category_id)).substring(0, 12 - 3)) + '...') : getName(part.sub_category_id)}
-                                  { }
-                                </Text>
-                              </View>
-                              <Text>
-                                  <Text style={styles.price}>{ getPrice(part.sub_category_id) }</Text>
-                              </Text>
-                            </View>
-                          </View>
-                        </TouchableOpacity>
-                      );
-                    }) : null}
-                  </ImageBackground>
+            /> : null}
+          {loading ? (
+            <View style={{ marginTop: height * 0.37 }}>
+              <ActivityIndicator color="#ECDBFA" size="small" />
+            </View>
+          ) : (
+              <>
+                <View>
+                  <Text style={styles.advanceBuilderText}>Advance Builder</Text>
+                  <Text style={styles.lineText}>Select the configuration you like the most.</Text>
                 </View>
-                {items ?
-                  <View style={styles.flatlistContainer}>
-                    <FlatList
-                      keyExtractor={(item) => item.item_id}
-                      data={items}
-                      renderItem={({ item }, index) => {
-                        const maxlimit = 22;
+
+                <View style={styles.mainContainer}>
+                  <View style={styles.subCategoriesView}>
+                    <ImageBackground source={SubCatBg} style={{ width: 100 }}>
+                      {!props.loadingCat ? props.categories.map((part, index) => {
                         return (
-                          <TouchableOpacity onPress={() => selectItem(item)}>
-                            <ImageBackground
-                              onPress={() => {}}
-                              source={idExists(item.item_id) ? selectedIcCardImage : IcCardImage}
-                              style={styles.cardConatiner}
-                              key={index}
-                            >
-                              <View
-                                style={{
-                                  justifyContent: 'flex-start',
-                                  alignContent: 'flex-start',
-                                  paddingHorizontal: 10,
-                                }}>
-                                {item.image && item.image !== "" ? (
-                                  <Image
-                                    source={{ uri: item.image }}
-                                    style={styles.itemImage}
-                                  />
-                                ) : (
-                                    <Image
-                                      source={thumbnail}
-                                      style={styles.itemImage}
-                                    />
-                                  )}
-                                <Text
-                                  style={styles.brand}>
-                                  {item.brand}
-                                </Text>
-                                <Text ellipsizeMode='tail' numberOfLines={1}
-                                  style={styles.name}>
-                                  {((item.name).length > maxlimit) ? (((item.name).substring(0, 12 - 3)) + '...') : item.name}
-                                </Text>
-                                <Text
-                                  style={styles.price}>
-                                  KD {item.price}
+                          <TouchableOpacity key={index} /*onPress={() => subCategoryFun(part.sub_category_id, index)}*/>
+                            <View style={styles.box}>
+                              {subCategoryId === part.sub_category_id ? (
+                                <LinearGradient
+                                  start={{ x: 0, y: 1 }}
+                                  end={{ x: 1, y: 0 }}
+                                  colors={['#C01C8A', '#865CF4']}
+                                  style={{
+                                    width: 8,
+                                    height: 8,
+                                    position: 'absolute',
+                                    right: 22,
+                                    top: 22,
+                                    zIndex: 100,
+                                    borderRadius: 50,
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                  }}>
+                                </LinearGradient>
+                              ) : tick === part.sub_category_id ? (
+                                <Image
+                                  source={TickImage}
+                                  style={styles.tick}
+                                />
+                              ) : null}
+                              {subCatExists(part.sub_category_id)? <Image
+                                  source={TickImage}
+                                  style={styles.tick}
+                                />:null}
+
+                              <Image style={styles.subImage}
+                                resizeMode="contain"
+                                source={filterImage}
+                              />
+                              <Text
+                                style={styles.subName}
+                                numberOfLines={1}
+                              > {((part.name).length > maxlimit) ? (((part.name).substring(0, 12 - 3)) + '...') : part.name}
+                              </Text>
+                              <View style={styles.selectedDetails}>
+                                <View style={styles.sideBrand}>
+                                  <Text style={styles.sideDetails}>
+                                    {part.subName}
+                                  </Text>
+                                  <Text ellipsizeMode='tail' numberOfLines={1} style={styles.sideDetails}>
+                                    {((getName(part.sub_category_id)).length > maxlimit) ? (((getName(part.sub_category_id)).substring(0, 12 - 3)) + '...') : getName(part.sub_category_id)}
+                                    {}
+                                  </Text>
+                                </View>
+                                <Text>
+                                  <Text style={styles.price}>{getPrice(part.sub_category_id)}</Text>
                                 </Text>
                               </View>
-                            </ImageBackground>
+                            </View>
+                            <View style={{ width: '100%', height: 1, borderColor: '#424242', marginTop: 40, borderWidth: 0.5 }}></View>
                           </TouchableOpacity>
                         );
-                      }}
-                      numColumns={2}
-                    />
-                    {checkSelectedForNext()?
-                    <TouchableOpacity onPress={() => { submitNow()}}>
-                      <View style={styles.nextBtn}>
-                        <NextBtn  />
-                      </View>
-                    </TouchableOpacity>
-                    :null}
-                  </View> :<ActivityIndicator color="#ECDBFA" size="large" />}
-              </View>
-            </>
-          )}
-      </ScrollView>
-    </ImageBackground>
+                      }) : null}
+                    </ImageBackground>
+                  </View>
+                  {items ?
+                    <View style={styles.flatlistContainer}>
+                      <FlatList
+                        keyExtractor={(item) => item.item_id}
+                        data={items}
+                        renderItem={({ item }, index) => {
+                          const maxlimit = 22;
+                          return (
+                            <TouchableOpacity onPress={() => selectItem(item)}>
+                              <ImageBackground
+                                onPress={() => { }}
+                                source={idExists(item.item_id) ? selectedIcCardImage : IcCardImage}
+                                style={styles.cardConatiner}
+                                key={index}
+                              >
+                                <View
+                                  style={{
+                                    justifyContent: 'flex-start',
+                                    alignContent: 'flex-start',
+                                    paddingHorizontal: 10,
+                                  }}>
+                                  {item.image && item.image !== "" ? (
+                                    <Image
+                                      source={{ uri: item.image }}
+                                      style={styles.itemImage}
+                                    />
+                                  ) : (
+                                      <Image
+                                        source={thumbnail}
+                                        style={styles.itemImage}
+                                      />
+                                    )}
+                                  <Text
+                                    style={styles.brand}>
+                                    {item.brand}
+                                  </Text>
+                                  <Text ellipsizeMode='tail' numberOfLines={1}
+                                    style={styles.name}>
+                                    {((item.name).length > maxlimit) ? (((item.name).substring(0, 12 - 3)) + '...') : item.name}
+                                  </Text>
+                                  <Text
+                                    style={styles.price}>
+                                    KD {item.price}
+                                  </Text>
+                                </View>
+                              </ImageBackground>
+                            </TouchableOpacity>
+                          );
+                        }}
+                        numColumns={2}
+                      />
+                      {showSubmit ?
+                        <TouchableOpacity onPress={() => { finalSubmit() }}>
+                          <View style={styles.nextBtn}>
+                            <NextBtn name='Submit' price={totalPrice} />
+                          </View>
+                        </TouchableOpacity> :
+                        checkSelectedForNext() ?
+                          <TouchableOpacity onPress={() => { submitNow() }}>
+                            <View style={styles.nextBtn}>
+                              <NextBtn name='Next' price={totalPrice} />
+                            </View>
+                          </TouchableOpacity>
+                          : null}
+                    </View> : <ActivityIndicator color="#ECDBFA" size="large" />}
+                </View>
+              </>
+            )}
+        </ScrollView>
+      </ImageBackground>
     </View>
   );
 
@@ -454,22 +516,26 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    paddingTop:40,
+    paddingTop: 40,
   },
   subImage: {
     width: 35,
     height: 35,
   },
   subName: {
-    color: '#fff',
-    fontSize: 11,
-    paddingHorizontal: 12
+    fontFamily: Platform.OS == 'android' ? 'Michroma-Regular' : 'Michroma',
+    color: '#e6e6e6',
+    fontSize: 9,
+    paddingHorizontal: 12,
+
   },
   cardConatiner: {
-    width: width * 0.32,
-    height: height * 0.17,
+    width: 122,//width * 0.32,
+    height: 150,//height * 0.17,
     marginTop: 40,
-    marginLeft: 10
+    marginLeft: 10,
+    borderRadius: 20,
+    resizeMode: 'center',
   },
   itemImage: {
     width: 65,
@@ -507,13 +573,15 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
+
   },
   sideDetails: {
-    color: '#fff',
     paddingLeft: 2.5,
-    fontSize:9
+    fontSize: 9,
+    color: '#ffffff',
+
   },
-  tick:{
+  tick: {
     position: 'absolute',
     right: 10,
     top: 12,
@@ -534,6 +602,7 @@ const actionCreators = {
   categoryList: packageActions.getAdvanceCatList,
   categorySubCatgoryList: packageActions.getAdvanceSubCatList,
   updateCat: packageActions.updateCat,
+  add: cartActions.addCartAction,
 
 };
 

@@ -29,6 +29,7 @@ const ForgotPassword = ({navigation}) => {
   const {state, forgotPassword, setValidationError} = useContext(AuthContext);
 
   return (
+    <View style={{backgroundColor:'#292633', width:'100%', height:'100%'}}>
     <TouchableWithoutFeedback
       onPress={() => {
         Keyboard.dismiss();
@@ -136,6 +137,7 @@ const ForgotPassword = ({navigation}) => {
         </ScrollView>
       </ImageBackground>
     </TouchableWithoutFeedback>
+    </View>
   );
 };
 

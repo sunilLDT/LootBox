@@ -4,7 +4,7 @@ import {SvgXml} from 'react-native-svg';
 
 const {width, height} = Dimensions.get('window');
 
-export default () => {
+export default ({name,price}) => {
     const xml = `<?xml version="1.0" encoding="UTF-8"?>
     <svg width="281px" height="90px" viewBox="0 0 281 90" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
         <title>verify copy 2</title>
@@ -28,9 +28,12 @@ export default () => {
                 </g>
                 <g id="Group-14-Copy" transform="translate(99.000000, 15.400000)" fill="#FFFFFF" font-family="Montserrat-Bold, Montserrat" font-size="16" font-weight="bold" line-spacing="16" opacity="0.870000005">
                     <g id="Group-2-Copy-2" transform="translate(0.135120, 0.000000)">
-                        <text id="Next">
-                            <tspan x="0" y="15">NEXT</tspan>
-                        </text>
+                    <text id="Pay">
+                    <tspan x="-65" y="15.6">${name}</tspan>
+                </text>
+                <text id="KWD-30,400">
+                    <tspan x=23 y="15.6">KD ${price?price:"000"}</tspan>
+                </text>
                     </g>
                 </g>
             </g>

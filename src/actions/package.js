@@ -98,7 +98,9 @@ function getAdvanceCatList() {
     return (dispatch) => {
         dispatch(request());
         pcPartSubcategoryApi().then((response) => {
+            console.log('++++++++++++++++++++++++++++++++++++++++')
             console.log(response.data);
+            console.log('++++++++++++++++++++++++++++++++++++++++')
             dispatch(success({
                 items: response.data,
             }));

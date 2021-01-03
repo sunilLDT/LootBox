@@ -19,6 +19,9 @@ import {showCartData,
   deliveryAddressApi,
   removeItemAPI,
   removePackageApi,
+  addToCart,
+  addPackage,
+  addToCartAdvance
 } from '../api/buildYourPc';
 import { connect } from 'react-redux';
 import { cartActions } from '../actions/user';
@@ -98,6 +101,20 @@ const Cart = (props) => {
     })
   },[]);
 
+  const reloadData=()=>{
+   // setLoading(true)
+    showCartData().then((response) => {
+      setcartItems(response.data.items) 
+      setCartPackage(response.data.package)
+      setCartData(response.data)
+      props.add();
+      //setLoading(false)
+    }).catch((error) => {
+      console.log("showCartData" + error);
+     // setLoading(false)
+    });
+  }
+
   const changeAddressPop = () => {
     setaddressModal(!addressModal)
     addressListApi().then((response) => {
@@ -166,12 +183,32 @@ Array.prototype.sum = function (prop) {
 
 const removeItem = (id) => {
   removeItemAPI(id).then((response) => {
+    reloadData();
+    console.log(response.data)
+  })
+};
+
+const addItem = (id) => {
+  console.log(id)
+  let data=[];
+  data.push({item_id:id.item_id,quantity:1})
+
+  addToCartAdvance(data).then((response) => {
+    reloadData();
     console.log(response.data)
   })
 };
 
 const removePackage = (id) => {
   removePackageApi(id).then((response) => {
+    reloadData();
+    console.log(response.data)
+  })
+}
+
+const addPackages = (id,data) => {
+  addPackage(id,1).then((response) => {
+    reloadData();
     console.log(response.data)
   })
 }
@@ -350,14 +387,63 @@ const removePackage = (id) => {
                         }}>
                          KD {sum(packages.cart_package_items)}
                       </Text>
+                      <View
+            style={{
+              display: 'flex',
+              alignItems:'flex-end',
+              flexDirection: 'row',
+              justifyContent:'flex-end',
+              position:"absolute",
+              marginLeft:-10,
+              marginTop:20,
+              width:100,
+              borderColor:'#ffffff',
+              borderWidth:0,
+              
+            }}>
+            <TouchableOpacity
+              onPress={() => {
+                removePackage(packages.cart_package_id)
+              }}>
+              <Image
+                source={require('../assets/ic_sub.png')}
+                resizeMode="contain"
+                style={{
+                  width: 38,
+                  height: 24,
+                }}
+              />
+            </TouchableOpacity>
+            <Text
+              style={{
+                fontSize: 14,
+                fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma', 
+                color: '#ECDBFA',
+                marginHorizontal: 10,
+              }}>
+            
+            </Text>
+            <TouchableOpacity
+              onPress={() => {
+                addPackages(packages.cart_package_id,packages.cart_package_items)
+              }}>
+              <Image
+                source={require('../assets/ic_add.png')}
+                resizeMode="contain"
+                style={{
+                  width: 38,
+                  height: 24,
+                }}
+              />
+            </TouchableOpacity>
+          </View>
                       
                     </View>
                   </View>
+                  
                   <View style={{direction:'flex',flexDirection:'column',justifyContent:'space-between'}}>
-                    <TouchableOpacity  onPress={() => removePackage(packages.cart_package_id)}>
-                        <Icon name="circle" size={25} color="#fff" />
-                    </TouchableOpacity>
-                    
+                   
+                   
                       <View
                           style={{
                               flex:1,
@@ -536,11 +622,58 @@ const removePackage = (id) => {
                   }
                   
                 </View>
-                <TouchableOpacity onPress={() => removeItem(items.cart_item_id)}>
-                  <Icon name="circle" size={25} color="#fff" style={styles.crossIcon}/>
-                </TouchableOpacity>
+                
+                <View
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              position:'relative',
+              marginLeft:-125,
+              marginTop:30
+            }}>
+            <TouchableOpacity
+              onPress={() => {
+                removeItem(items.cart_item_id)
+              }}>
+              <Image
+                source={require('../assets/ic_sub.png')}
+                resizeMode="contain"
+                style={{
+                  width: 38,
+                  height: 24,
+                }}
+              />
+            </TouchableOpacity>
+            <Text
+              style={{
+                fontSize: 14,
+                fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma', 
+                color: '#ECDBFA',
+                marginHorizontal: 10,
+              }}>
+             
+            </Text>
+            <TouchableOpacity
+              onPress={() => {
+                props.add()
+                addItem(items)
+              }}>
+              <Image
+                source={require('../assets/ic_add.png')}
+                resizeMode="contain"
+                style={{
+                  width: 38,
+                  height: 24,
+                }}
+              />
+            </TouchableOpacity>
+          </View>
               </ImageBackground>
+              
             </View>
+            
           ))}
           </View>
           }

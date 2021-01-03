@@ -38,7 +38,9 @@ export async function getItemDetails(itemId){
 }
 
 export async function addToCart(packageId,data, is_package){
-
+console.log(packageId)
+console.log(data)
+console.log(is_package)
   const response = await Api.post('app/cart/add-to-cart',{
     is_package:is_package,
     package:{
@@ -49,6 +51,26 @@ export async function addToCart(packageId,data, is_package){
   });
   return response.data;
 }
+
+export async function addToCartAdvance(data){
+console.log(data)
+  const response = await Api.post('app/cart/add-to-cart',{
+    is_package:false,
+    items:data
+    
+  });
+  return response.data;
+}
+
+export async function addPackage(id,qty){
+    const response = await Api.post('app/cart/update-package-qty',{
+      cart_package_id:id,
+      quantity:qty
+      
+    });
+    return response.data;
+  }
+  
 
 export async function addToCartForStore(isUpdate,items){
   const response = await Api.post('app/cart/add-to-cart',{
@@ -158,10 +180,12 @@ export async function pcPartSubcategoryApi(){
 }
 
 export async function advancedBuilderItems(id){
+  
   const response = await Api.post('app/advance-builder/get-items',{
-    "sub_category_id":id
+    "sub_category_id":id,
+   // "link_item_id":linkedId
   });
- // console.log(response)
+
   return response.data;
 }
 

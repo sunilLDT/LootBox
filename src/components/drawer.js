@@ -20,6 +20,7 @@ import englishImage from '../assets/english.png';
 import arabicImage from '../assets/arabic.png';
 import strings,{ changeLaguage } from '../languages/index';
 import RNRestart from 'react-native-restart';
+import {I18nManager} from "react-native"
 
 import { connect } from '@language';
 
@@ -80,14 +81,15 @@ const Drawer = (props) => {
     setLanguageImage(!languageImage);
     changeLaguage('it');
     setLang('it')
-    
-    //RNRestart.Restart();
+   // I18nManager.forceRTL(true)
+   // RNRestart.Restart();
     
   }
   const englishLang = () => {
     language.setLanguage('en')
     setLanguageImage(!languageImage);
     changeLaguage('en');
+    // I18nManager.forceRTL(false)
     //RNRestart.Restart();
   };
 
