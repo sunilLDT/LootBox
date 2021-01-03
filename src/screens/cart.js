@@ -460,7 +460,7 @@ const addPackages = (id,data) => {
                   </View>
                   </ImageBackground>
                 </TouchableOpacity>
-                  <View
+                  {/*<View
                     style={{
                       display: 'flex',
                       alignItems: 'center',
@@ -502,7 +502,7 @@ const addPackages = (id,data) => {
                         }}
                       />
                     </TouchableOpacity>
-                  </View>
+                      </View>*/}
                 {/* ===========================
                 //start of details  package
                 =========================== */}
