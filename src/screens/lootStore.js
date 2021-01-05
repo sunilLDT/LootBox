@@ -121,7 +121,6 @@ const LootStore = (props) => {
   }, [fetchData]);
 
   const handleLodeMore = () => {
-    console.log(page +'   '+lastPage)
     if (page <= lastPage) {
       setPage(page + 1);
       fetchData1();
@@ -412,7 +411,7 @@ const LootStore = (props) => {
                               showsVerticalScrollIndicator={false}
                               scrollEnabled={true}
                               data={filteredDataSource}
-                              onEndThreshold={0.5}
+                              onEndThreshold={0.0}
                              // onMomentumScrollEnd={() => handleLodeMore()}
                               onEndReached={() => setCallOnScrollEnd(true)}
                               onMomentumScrollEnd={() => {

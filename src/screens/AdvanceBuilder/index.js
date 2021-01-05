@@ -12,7 +12,7 @@ import {
   ActivityIndicator
 } from 'react-native';
 import IcCardImage from '../../assets/ic_card_a0.png';
-import selectedIcCardImage from '../../assets/ic-3.png'
+import selectedIcCardImage from '../../assets/Rectangle.png'
 import backImage from '../../assets/back.png';
 import searchImage from '../../assets/ic_search.png';
 import filterImage from '../../assets/ic_filter.png';
@@ -398,6 +398,7 @@ const AdvanceBuilder = (props) => {
                             <TouchableOpacity onPress={() => selectItem(item)}>
                               <ImageBackground
                                 onPress={() => { }}
+                                style={{}}
                                 source={idExists(item.item_id) ? selectedIcCardImage : IcCardImage}
                                 style={styles.cardConatiner}
                                 key={index}
@@ -503,7 +504,7 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   subCategoriesView: {
-    width: width * 0.29,
+    width: width * 0.3,
   },
   flatlistContainer: {
     width: width * 0.71,
@@ -530,11 +531,11 @@ const styles = StyleSheet.create({
 
   },
   cardConatiner: {
-    width: 122,//width * 0.32,
-    height: 150,//height * 0.17,
+    width: 118,//width * 0.32,122,
+    height: 145,//height * 0.17,150,
     marginTop: 40,
-    marginLeft: 10,
     borderRadius: 20,
+    marginLeft:5,
     resizeMode: 'center',
   },
   itemImage: {
@@ -579,6 +580,7 @@ const styles = StyleSheet.create({
     paddingLeft: 2.5,
     fontSize: 9,
     color: '#ffffff',
+    fontFamily:Platform.OS == 'android' ?'Montserrat Regular':'Montserrat',
 
   },
   tick: {

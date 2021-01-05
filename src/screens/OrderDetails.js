@@ -22,7 +22,8 @@ const OrderDetails = ({navigation,route}) => {
   const [loading, setLoading] = useState(true);
   const [orderDetails, setorderDetails] = useState({});
   const [items, setitems] = useState([]);
-  const [packageItems, setpackageItems] = useState([])
+  const [packageItems, setpackageItems] = useState([]);
+  const [cartPackage,setCartPackage] = useState([]);
   const maxlimit = 22;
 
   console.log(orderDetails);
@@ -31,8 +32,13 @@ const OrderDetails = ({navigation,route}) => {
     setLoading(true);
     getOrderDetails(orderId).then((response) => {
       setorderDetails(response.data)
+      console.log("******* cart package trying *****");
+      console.log(response.data)
       setpackageItems(response.data.order_package_items)
       setitems(response.data.items)
+      // 
+      // console.log(response.data.order_package_items[0].items);
+      // setCartPackage(response.data.package)
       setLoading(false)
     }).catch((error) => {
       console.log("Order Details" + error);
@@ -58,7 +64,7 @@ const OrderDetails = ({navigation,route}) => {
         showsVerticalScrollIndicator={false}
         style={{
           height,
-          width,
+          
         }}>
         <View
           style={{
@@ -245,7 +251,7 @@ const OrderDetails = ({navigation,route}) => {
                       opacity: 0.5,
                       paddingLeft:5,
                     }}>
-                    {i.brand}
+                    {((i.brand).length > maxlimit)?(((i.brand).substring(0,maxlimit-3)) + '...'):i.brand}
                   </Text>
                 </View>
                 <Text
@@ -295,7 +301,7 @@ const OrderDetails = ({navigation,route}) => {
               <Text
                 style={{
                   fontFamily: 'Montserrat-Bold',
-                  fontSize: 14,
+                  fontSize: 12,
                   color: '#D2D7F9',
                   opacity: 0.87,
                   paddingLeft:20,
@@ -368,7 +374,8 @@ const OrderDetails = ({navigation,route}) => {
                       fontSize: 14,
                       fontFamily: 'Montserrat-Regular',
                     }}>
-                    {i.name}
+                    
+                    {((i.name).length > maxlimit)?(((i.name).substring(0,maxlimit-3)) + '...'):i.name}
                   </Text>
                   <Text
                     style={{

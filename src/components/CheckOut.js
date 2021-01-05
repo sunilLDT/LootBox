@@ -13,7 +13,6 @@ const CheckOut = ({ navigation, route }) => {
     const _onNavigationStateChange = (webViewState) => {
         var fullUrl = webViewState.url;
         var msgUrl = fullUrl.substring(0, 56);
-        console.log(msgUrl)
         // if(msgUrl == "https://test-api.loot-box.co/api/hesabe-success-callback" || msgUrl == "https://test-api.loot-box.co/api/hesabe-error-callback"){
         if (msgUrl.includes('hesabe-success-callback') || msgUrl.includes('hesabe-error-callback')) {
             navigation.navigate('alertMessage', { msgUrl: msgUrl });

@@ -30,7 +30,8 @@ export default function (state = initialState, action) {
         packages: action.packages.items,
         packageData: action.packages.packageData,
         coverImage: action.packages.coverImage,
-        totalPrice: action.packages.totalPrice
+        totalPrice: action.packages.totalPrice,
+        loading:false,
       };
 
     case cartConstants.PACKGE_UPDATE_SUCCESS:

@@ -1,6 +1,7 @@
 import { cartConstants } from './actionTypes';
 import { packageDetailsById } from '../api/buildYourPc'
 import { getCategoriesItem, advancedBuilderItems, pcPartSubcategoryApi } from '../api/buildYourPc';
+import { addEmitHelper } from 'typescript';
 
 export const packageActions = {
     getPackages,
@@ -15,14 +16,16 @@ function getPackages(id) {
     return (dispatch) => {
         dispatch(request(id));
         packageDetailsById(id).then((response) => {
-            console.log('============><===========')
-            console.log(response.data)
-            console.log('============><===========')
             dispatch(success({
                 items: response.data.items,
                 packageData: response.data,
                 coverImage: response.data.cover_image,
-                totalPrice: response.data.items.reduce(function (cnt, o) { return cnt + parseInt(o.price); }, 0)
+                totalPrice: response.data.items.reduce(function (cnt, o) { 
+                    let a = parseFloat(cnt) + parseFloat(o.price);
+                   
+                    return a.toFixed(3) ;
+                
+                }, 0)
             }));
         }).catch((error) => {
             console.log("PackageDetails" + error);
@@ -76,7 +79,13 @@ function updatePackages(id) {
         console.log(id);
         dispatch(success({
             items: id,
-            totalPrice: id.reduce(function (cnt, o) { return cnt + parseInt(o.price); }, 0)
+            totalPrice: id.reduce(function (cnt, o) { 
+                console.log('>>>>>>>>>>>>>>>>>>>>')
+                console.log(cnt)
+                let a = parseFloat(cnt) + parseFloat(o.price);
+                console.log(a.toFixed(3))
+                return a.toFixed(3);
+             }, 0)
         }));
     };
 

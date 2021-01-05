@@ -81,16 +81,17 @@ const Drawer = (props) => {
     setLanguageImage(!languageImage);
     changeLaguage('it');
     setLang('it')
-   // I18nManager.forceRTL(true)
-   // RNRestart.Restart();
+  //  I18nManager.forceRTL(true)
+  //  RNRestart.Restart();
     
   }
   const englishLang = () => {
     language.setLanguage('en')
     setLanguageImage(!languageImage);
     changeLaguage('en');
+    setLang('en')
     // I18nManager.forceRTL(false)
-    //RNRestart.Restart();
+    // RNRestart.Restart();
   };
 
   return (

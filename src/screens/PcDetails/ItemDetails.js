@@ -133,7 +133,7 @@ const ItemDetails = (props) => {
                             style={styles.headingView}>
                             <Text
                                 style={styles.packageText}>
-                                Package Details ({customFieldsValue.length} items)
+                                Performance{/*  ({customFieldsValue.length} items) */}
                             </Text>
                         </View>
                         <View
