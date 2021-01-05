@@ -161,7 +161,7 @@ const ProductDetails = (props) => {
                   activeOpacity={0.1}
                   onPress={() => addIntoCart()}>
                   {!loading ? (
-                    <Btn text={strings.BuidYourPc} pay="" />
+                    <Btn text={'BUILD YOUR PC'} pay="" />
                   ) : (
                       <>
                         <Btn text={strings.Pay} x="54" pay="" />

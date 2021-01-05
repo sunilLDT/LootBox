@@ -299,9 +299,11 @@ const OrderDetails = ({navigation,route}) => {
               </Text>
               {orderDetails.address !== null?(
               <Text
+              numberOfLines={3}
                 style={{
+                  
                   fontFamily: 'Montserrat-Bold',
-                  fontSize: 12,
+                  fontSize: 10,
                   color: '#D2D7F9',
                   opacity: 0.87,
                   paddingLeft:20,

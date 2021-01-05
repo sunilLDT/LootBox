@@ -805,15 +805,19 @@ const addPackages = (id,data) => {
               {allAddress.map((addValues,index) => {
                 return(
                 <View key={index} >
-                  {addValues.is_default == 1?<Text
+                  {addValues.is_default == 1?
+                  <Text
+                    numberOfLines={3}
                     style={{
-                      fontSize: 12,
+                      fontSize: 10,
+                      width:200,
+              
                       color: '#D2D7F9',
                       opacity: 0.87,
                       fontFamily:'Montserrat-Bold',
                       flexShrink: 1,
                     }}>
-                      {addValues.city_name}
+                      {addValues.city_name},
                       {addValues.area_name},
                       {addValues.block},
                       {addValues.street}
