@@ -433,6 +433,7 @@ const Profile = (props) => {
               paddingLeft: 20,
               paddingVertical: 10,
               borderRadius: 10,
+              paddingBottom:30
             }}>
             <View
               style={{
