@@ -813,6 +813,7 @@ const addPackages = (id,data) => {
                       fontFamily:'Montserrat-Bold',
                       flexShrink: 1,
                     }}>
+                      {addValues.city_name}
                       {addValues.area_name},
                       {addValues.block},
                       {addValues.street}
