@@ -41,11 +41,8 @@ const ProductDetails = (props) => {
   const kd = "KD ";
   var imgSource = upwardImage ? ExpandImage : CloseImage;
 
-
   useEffect(() => {
-    setLoading(true)
     props.getPackages(PackageId);
-    setLoading(false)
   }, [PackageId]);
 
   const addIntoCart = () => {
@@ -53,9 +50,6 @@ const ProductDetails = (props) => {
     let result = props.packages.map(({ item_id, quantity }) => ({ item_id, quantity: 1 }));
     addToCart(PackageId, result, true).then((response) => {
       setLoading(false);
-      console.log('================================')
-      props.add('hi');
-      console.log('================================')
       props.navigation.navigate('cart');
     }).catch((error) => {
       console.log("addToCart" + error);
@@ -92,8 +86,12 @@ const ProductDetails = (props) => {
         <ScrollView
           style={styles.scrollViewContainer}
           showsHorizontalScrollIndicator={false}>
+            {props.loading?(
+              <View style={{ marginTop: height * 0.4 }}>
+                <ActivityIndicator color="#ECDBFA" size="large" />
+              </View>
+            ):(
           <View>
-
             <View >
               <Image
                 source={{ uri: props.packageData.image }}
@@ -113,7 +111,7 @@ const ProductDetails = (props) => {
                 }}>
                 <View style={{ alignSelf: 'center', paddingLeft: '2%' }}>
                   <Text style={styles.brandTitle}>{props.packageData.name}</Text>
-                  <Text style={styles.brandPrice}>{kd}{props.totalPrice}.000</Text>
+                  <Text style={styles.brandPrice}>{kd}{props.totalPrice}</Text>
                 </View>
                 <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
                   {props.coverImage ? props.coverImage.map((cImages, index) => {
@@ -134,7 +132,7 @@ const ProductDetails = (props) => {
                 "quantity": 1,
                 "price": item.price
               };
-              console.log("Calling prop add")
+              // console.log("Calling prop add")
               //props.add(i);
               return (
                 <View key={index}>
@@ -153,6 +151,7 @@ const ProductDetails = (props) => {
               );
             })}
           </View>
+          )}
           {props.packages.length === 0 ? (
             <View style={{ marginTop: height * 0 }}>
               <ActivityIndicator color="#ECDBFA" size="large" />
@@ -173,7 +172,6 @@ const ProductDetails = (props) => {
                         />
                       </>
                     )}
-
 
                 </TouchableOpacity>
               </View>
@@ -250,8 +248,8 @@ const mapStateToProps = (state) => ({
   packages: state.packageReducer.packages,
   packageData: state.packageReducer.packageData,
   coverImage: state.packageReducer.coverImage,
-  totalPrice: state.packageReducer.totalPrice
-
+  totalPrice: state.packageReducer.totalPrice,
+  loading:state.packageReducer.loading
 })
 
 const actionCreators = {

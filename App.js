@@ -148,7 +148,7 @@ const App = () => {
               close: closeConfig,
             },
 
-            gestureEnabled: true,
+            gestureEnabled: false,
             gestureDirection: 'horizontal',
             ...TransitionPresets.SlideFromRightIOS,
           }}

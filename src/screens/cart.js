@@ -56,6 +56,7 @@ const Cart = (props) => {
   const maxlimit = 20;
   var imgSource = upwardImage ? ExpandImage : CloseImage;
 
+
   useEffect(() => {
     setLoading(true)
     showCartData().then((response) => {
@@ -97,6 +98,16 @@ const Cart = (props) => {
     props.showAddress();
     addressListApi().then((response) => {
       setAllAddress(response.data)
+      response.data.map((address,i) => {
+        if(address.is_default === 1){
+          const deliveryAddress = address.address_id;
+          deliveryAddressApi(deliveryAddress).then((response) => {
+          }).catch((error) => {
+            console.log("deliveryAddressApi in useEffect" + error)
+          })
+        }
+      })
+
     }).catch((error) => {
       console.log("allAddressList" + error);
     })
@@ -147,7 +158,6 @@ const Cart = (props) => {
     })
 
     deliveryAddressApi(id).then((response) => {
-      console.log(response.data)
     }).catch((error) => {
       console.log("deliveryAddressApi" + error)
     })
@@ -209,6 +219,8 @@ const removePackage = (id) => {
 
 const addPackages = (id,data) => {
   addPackage(id,1).then((response) => {
+    console.log("+++ add package")
+    console.log(response.message);
     reloadData();
     console.log(response.data)
   })
@@ -231,9 +243,9 @@ const addPackages = (id,data) => {
         <>
         <View
           style={{
-            width,
             paddingVertical: width * 0.05,
-            paddingHorizontal: width * 0.1,
+            paddingHorizontal:width * 0.1,
+            
           }}>
             <Dialog
               visible={addressModal}
@@ -395,7 +407,7 @@ const addPackages = (id,data) => {
               flexDirection: 'row',
               justifyContent:'flex-end',
               position:"absolute",
-              marginLeft:-10,
+              marginLeft:3,
               marginTop:20,
               width:100,
               borderColor:'#ffffff',
@@ -673,7 +685,7 @@ const addPackages = (id,data) => {
               flexDirection: 'row',
               justifyContent: 'space-between',
               position:'relative',
-              marginLeft:-125,
+              marginLeft:-96,
               marginTop:30
             }}>
             <TouchableOpacity
@@ -689,15 +701,28 @@ const addPackages = (id,data) => {
                 }}
               />
             </TouchableOpacity>
-            <Text
-              style={{
-                fontSize: 14,
-                fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma', 
-                color: '#ECDBFA',
-                marginHorizontal: 10,
-              }}>
-             
+            {items.quantity > 1?(
+              <Text
+                style={{
+                  fontSize: 14,
+                  fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma', 
+                  color: '#ECDBFA',
+                  marginHorizontal: 10,
+                }}>
+                {items.quantity}
             </Text>
+            ):(
+              <Text
+                style={{
+                  fontSize: 14,
+                  fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma', 
+                  color: '#ECDBFA',
+                  marginHorizontal: 10,
+                }}>
+                1
+            </Text>
+            )}
+            
             <TouchableOpacity
               onPress={() => {
                 props.add()
@@ -755,14 +780,14 @@ const addPackages = (id,data) => {
           width: 351,
           height: 75,
           marginVertical: 10,
-          padding: 20,
-          paddingTop:10
+          paddingTop:10,
         }}>
           <View style={{
             flexDirection: 'row',
             justifyContent: 'space-between',
             alignItems: 'center',
             width:"100%",
+            paddingHorizontal:width*0.1,
           }}>
             <View style={{
               width:"70%",
@@ -782,7 +807,7 @@ const addPackages = (id,data) => {
                 <View key={index} >
                   {addValues.is_default == 1?<Text
                     style={{
-                      fontSize: 14,
+                      fontSize: 12,
                       color: '#D2D7F9',
                       opacity: 0.87,
                       fontFamily:'Montserrat-Bold',
@@ -823,6 +848,7 @@ const addPackages = (id,data) => {
               borderRadius: 10,
               marginVertical: 10,
               overflow: 'hidden',
+              // paddingHorizontal:5,
             }}>
             <View
               style={{

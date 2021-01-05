@@ -59,6 +59,7 @@ const ListDetails = (props) => {
     }, []);
 
     const selectHandler = (id, name, price) => {
+        console.log(price);
         let ar = [];
         ar = props.packages;
         console.log(ar[props.parentIndex]);
@@ -68,6 +69,7 @@ const ListDetails = (props) => {
         ar[props.parentIndex].quantity = 1;
         setName(name);
         setPrice(price);
+        console.log('+++++++++++++++++++++++++++++++++++++++++');
         console.log(ar);
         props.updatePackages(ar);
     }

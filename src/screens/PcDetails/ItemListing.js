@@ -42,6 +42,7 @@ const ItemListing = (props) => {
   const [open, setOpen] = useState(false);
   const forceUpdate = useForceUpdate();
   const selectHandler = (id, name, price) => {
+    
     let ar = [];
     ar = props.packages;
     ar[pIndex].item_id = id;
