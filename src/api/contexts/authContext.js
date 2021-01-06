@@ -372,7 +372,7 @@ const fetchItems = (dispatch) => async (category_id, subcategory_id,page) => {
       console.log('Category Id     :'+category_id)
       console.log('Sub Category Id :'+subcategory_id)
       console.log('Page Number     :'+page);
-       console.log('===================================')
+      console.log('===================================')
         
     if (subcategory_id) {
       const response = await Api.get(`app/items/list?category_id=${category_id}&&sub_category_id=${subcategory_id}`);
