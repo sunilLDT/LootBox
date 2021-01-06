@@ -47,6 +47,7 @@ const AddressList = (props) => {
                         fontSize: 14,
                         color: '#ECDBFA',
                         opacity: 0.5,
+                        
                         }}>
                         {values.address_type}
                     </Text>
@@ -55,10 +56,52 @@ const AddressList = (props) => {
                             fontSize: 12,
                             color: '#ECDBFA',
                             opacity: 0.5,
+                            
                         }}>
                     {values.area_name},{values.city_name}
                     </Text>
                 </View>
+                //<>
+            //         <View style={styles.viewStyle}>
+            //         <Text
+            //             style={{
+            //             fontSize: 14,
+            //             color: '#ECDBFA',
+            //             opacity: 0.5,
+            //             position:'relative',
+            //             marginLeft:-10
+            //             }}>
+            //             {values.address_type} 
+            //         </Text>
+            //         <Text>:</Text>
+            //        </View>
+                   
+            //         <View style={{}}>
+                    
+            //         <Text
+            //         numberOfLines={1}
+            //         style={{
+            //           fontSize: 10,
+            //           width:200,
+              
+            //           color: '#D2D7F9',
+            //           opacity: 0.87,
+            //           fontFamily:'Montserrat-Bold',
+            //           flexShrink: 1,
+            //           marginLeft:10
+            //         }}>
+            //          {values.city_name},
+            //           {values.area_name},
+            //           {values.block},
+            //           {values.street}
+            //           {values.building},
+            //           {values.apartment},
+            //           {values.floor}
+            //         </Text>
+                    
+            //     </View>
+               
+            //     </>
             )}  
             </TouchableOpacity>
             )
@@ -74,7 +117,13 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         width: '100%',
-        marginVertical:5
+        marginVertical:5,
+        borderColor:'#ffffff',
+        borderWidth:0,
+        marginLeft:10,
+        flex:1,
+        marginTop:20,
+        justifyContent:'space-between'
     },
 });
 

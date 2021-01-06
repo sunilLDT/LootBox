@@ -54,6 +54,22 @@ const OrderDetails = ({navigation,route}) => {
     setShowCpuProcesserList(!showCpuPerocessersList)
   }
 
+  const sum = (data) => {
+    var total = 0
+    for (var i = 0, _len = data.length; i < _len; i++) {
+      total += parseFloat(data[i]['price']);
+    }
+    return total.toFixed(3);
+  }
+
+  Array.prototype.sum = function (prop) {
+    var total = 0
+    for (var i = 0, _len = this.length; i < _len; i++) {
+      total += this[i][prop]
+    }
+    return total
+  }
+
   var dateTime = Object.keys(orderDetails).length === 0?" ": orderDetails.created_at.substring(0, 10);
 
   
@@ -246,21 +262,16 @@ const OrderDetails = ({navigation,route}) => {
                                 justifyContent: 'space-between',
                                 paddingLeft: 10,
                               }}>
-                              <View
-                                style={{
-                                  display: 'flex',
-                                  alignItems: 'flex-end',
-                                  flexDirection: 'row',
-                                  justifyContent: 'flex-end',
-                                  position: "absolute",
-                                  marginLeft: 3,
-                                  marginTop: 20,
-                                  width: 100,
-                                  borderColor: '#ffffff',
-                                  borderWidth: 0,
-
-                                }}>
-                              </View>
+                              <Text
+                                  style={{
+                                    fontSize: 12,
+                                    color: '#D2D7F9',
+                                    opacity: 0.5,
+                                    alignSelf: 'center',
+                                    fontFamily: 'Montserrat-Medium',
+                                  }}>
+                                  KD {sum(packages.items)}
+                                </Text>
                             </View>
                           </View>
 
@@ -365,6 +376,7 @@ const OrderDetails = ({navigation,route}) => {
                 })}
               </View>
               {/* // end */}
+          
 
           {items.map((i, k) => (
             <View
@@ -489,9 +501,11 @@ const OrderDetails = ({navigation,route}) => {
               </Text>
               {orderDetails.address !== null?(
               <Text
+              numberOfLines={3}
                 style={{
+                  
                   fontFamily: 'Montserrat-Bold',
-                  fontSize: 12,
+                  fontSize: 10,
                   color: '#D2D7F9',
                   opacity: 0.87,
                   paddingLeft:20,
@@ -549,6 +563,38 @@ const OrderDetails = ({navigation,route}) => {
                 borderBottomColor: 'rgba(255,255,255,0.3)',
                 borderBottomWidth: 0.3,
               }}>
+              {packageItems.map((j,k)=>{
+                console.log("jjjjjjjj")
+                console.log(j)
+                return(
+                <View
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    marginVertical: 8,
+                  }}
+                  key={k}>
+                  <Text
+                    style={{
+                      color: 'rgba(255,255,255,0.8)',
+                      fontSize: 14,
+                      fontFamily: 'Montserrat-Regular',
+                    }}>
+                    
+                    {((j.name).length > maxlimit)?(((j.name).substring(0,maxlimit-3)) + '...'):j.name}
+                  </Text>
+                  <Text
+                    style={{
+                      color: 'rgba(255,255,255,0.3)',
+                      fontSize: 12,
+                      fontFamily: 'Montserrat-Regular',
+                    }}>
+                    KD {sum(j.items)}
+                  </Text>
+                </View>
+                );
+              })}
               {items.map((i, k) => (
                 <View
                   style={{

@@ -733,48 +733,50 @@ const Cart = (props) => {
                 }}
                 >Your Cart is empty
           </Text>
-              </View> :
-                  <ImageBackground
-                    source={ItemCard}
+        </View>:
+        <ImageBackground
+        source={ItemCard}
+        style={{
+          width: 351,
+          height: 75,
+          marginVertical: 10,
+          paddingTop:10,
+        }}>
+          <View style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            width:"100%",
+            paddingHorizontal:width*0.1,
+          }}>
+            <View style={{
+              width:"70%",
+              flexDirection: 'column',
+            }}>
+              <Text
+              style={{
+                fontSize: 12,
+                color: '#D2D7F9',
+                opacity: 0.5,
+              }}
+              >
+               {strings.deliveryTo}
+              </Text>
+              {allAddress.map((addValues,index) => {
+                return(
+                <View key={index} >
+                  {addValues.is_default == 1?
+                  <Text
+                    numberOfLines={3}
                     style={{
-                      width: 351,
-                      height: 75,
-                      marginVertical: 10,
-                      paddingTop: 10,
+                      fontSize: 10,
+                      width:200,
+                      color: '#D2D7F9',
+                      opacity: 0.87,
+                      fontFamily:'Montserrat-Bold',
+                      flexShrink: 1,
                     }}>
-                    <View style={{
-                      flexDirection: 'row',
-                      justifyContent: 'space-between',
-                      alignItems: 'center',
-                      width: "100%",
-                      paddingHorizontal: width * 0.1,
-                    }}>
-                      <View style={{
-                        width: "70%",
-                        flexDirection: 'column',
-                      }}>
-                        <Text
-                          style={{
-                            fontSize: 12,
-                            color: '#D2D7F9',
-                            opacity: 0.5,
-                          }}
-                        >
-                          {strings.deliveryTo}
-                        </Text>
-                        {allAddress.map((addValues, index) => {
-                          console.log(addValues)
-                          return (
-                            <View key={index} >
-                              {addValues.is_default == 1 ? <Text
-                                style={{
-                                  fontSize: 12,
-                                  color: '#D2D7F9',
-                                  opacity: 0.87,
-                                  fontFamily: 'Montserrat-Bold',
-                                  flexShrink: 1,
-                                }}>
-                                {addValues.city_name},
+                      {addValues.city_name},
                       {addValues.area_name},
                       {addValues.block},
                       {addValues.street},

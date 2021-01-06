@@ -49,12 +49,9 @@ import { initLanguages, LanguageProvider } from '@language';
 import { languages } from '@config';
 
 const strings = initLanguages(languages);
-
 const { width, height } = Dimensions.get('window');
-
 const Stack = createStackNavigator();
 const Auth = createStackNavigator();
-
 const config = {
   animation: 'spring',
   config: {

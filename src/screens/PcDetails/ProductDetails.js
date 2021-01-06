@@ -86,7 +86,7 @@ const ProductDetails = (props) => {
         </TouchableOpacity>
         {props.loading?(
           <View style={{ marginTop: height * 0.4 }}>
-            <ActivityIndicator color="#ECDBFA" size="large" />
+            <ActivityIndicator color="#ECDBFA" size="small" />
           </View>
         ):(
         <ScrollView
@@ -161,10 +161,10 @@ const ProductDetails = (props) => {
                   activeOpacity={0.1}
                   onPress={() => addIntoCart()}>
                   {!loading ? (
-                    <Btn text={strings.BuildYourPc} pay="" />
+                    <Btn text={'BUILD YOUR PC'} pay=" " />
                   ) : (
                       <>
-                        <Btn text={' '} x="54" pay="" />
+                        <Btn text={''}  pay=" " />
                         <ActivityIndicator
                           color="#ECDBFA"
                           size="small"
