@@ -202,14 +202,14 @@ const OrderDetails = ({navigation,route}) => {
               {/* // start */}
               <View>
                 {packageItems.map((packages, k) => {
-                  console.log("******")
+                  console.log("nownownonwonw")
                   console.log(packages)
                   return (
                     <View
                       key={k}
                     >
                       <TouchableOpacity
-                        onPress={() => openClose(packages.cart_package_id)}>
+                        onPress={() => openClose(packages.package_id)}>
                         <ImageBackground
                           source={ItemCard}
                           style={{
@@ -294,7 +294,7 @@ const OrderDetails = ({navigation,route}) => {
                       {/* ===========================
               //start of details  package
               =========================== */}
-                      {showCpuPerocessersList && open == packages.cart_package_id ? (
+                      {showCpuPerocessersList && open == packages.package_id ? (
                         <View>
                           <View
                             style={{
@@ -564,8 +564,6 @@ const OrderDetails = ({navigation,route}) => {
                 borderBottomWidth: 0.3,
               }}>
               {packageItems.map((j,k)=>{
-                console.log("jjjjjjjj")
-                console.log(j)
                 return(
                 <View
                   style={{
