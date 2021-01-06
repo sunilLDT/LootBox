@@ -13,6 +13,11 @@ import Btn from './btn';
 import {getOrderDetails} from '../api/buildYourPc';
 import ItemCard from '../assets/ic_card.png';
 import IcDetailCard from '../assets/ic_details_card.png';
+import { endOfDay } from 'date-fns';
+import ExpandImage from '../assets/ic_expand1.png';
+import CloseImage from '../assets/ic-3copy.png';
+import IcCardImage from '../assets/ic3.png';
+
 
 const {height, width} = Dimensions.get('window');
 
@@ -20,31 +25,35 @@ const OrderDetails = ({navigation,route}) => {
 
   const {orderId} = route.params;
   const [loading, setLoading] = useState(true);
+  const [upwardImage, setUpwardImage] = useState(true);
   const [orderDetails, setorderDetails] = useState({});
   const [items, setitems] = useState([]);
   const [packageItems, setpackageItems] = useState([]);
-  const [cartPackage,setCartPackage] = useState([]);
+  const [showCpuPerocessersList, setShowCpuProcesserList] = useState(false);
+  const [open, setOpen] = useState();
   const maxlimit = 22;
-
-  console.log(orderDetails);
+  var imgSource = upwardImage ? ExpandImage : CloseImage;
 
   useEffect(() => {
     setLoading(true);
     getOrderDetails(orderId).then((response) => {
       setorderDetails(response.data)
-      console.log("******* cart package trying *****");
-      console.log(response.data)
       setpackageItems(response.data.order_package_items)
       setitems(response.data.items)
-      // 
-      // console.log(response.data.order_package_items[0].items);
-      // setCartPackage(response.data.package)
       setLoading(false)
     }).catch((error) => {
       console.log("Order Details" + error);
       setLoading(false)
     });
   }, []);
+
+  const openClose = (packageId) => {
+    setOpen("");
+    setOpen(packageId);
+    setUpwardImage(!upwardImage)
+    setShowCpuProcesserList(!showCpuPerocessersList)
+  }
+
   var dateTime = Object.keys(orderDetails).length === 0?" ": orderDetails.created_at.substring(0, 10);
 
   
@@ -174,6 +183,188 @@ const OrderDetails = ({navigation,route}) => {
               KD {orderDetails.sub_total}
             </Text>
           </View>
+              {/* // start */}
+              <View>
+                {packageItems.map((packages, k) => {
+                  console.log("******")
+                  console.log(packages)
+                  return (
+                    <View
+                      key={k}
+                    >
+                      <TouchableOpacity
+                        onPress={() => openClose(packages.cart_package_id)}>
+                        <ImageBackground
+                          source={ItemCard}
+                          style={{
+                            width: 351,
+                            height: 75,
+                            marginVertical: 10,
+                            flexDirection: 'row',
+                          }}>
+                          <Image
+                            resizeMode="contain"
+                            source={{ uri: packages.image }}
+                            style={{
+                              width: 63,
+                              height: 60,
+                              position: 'relative',
+                              right: 30,
+                              alignSelf: 'center',
+                              justifyContent: 'center',
+                            }}
+                          />
+                          <View
+                            style={{
+                              alignSelf: 'center',
+                              right: 30,
+                              display: 'flex',
+                              flexDirection: 'row',
+                              justifyContent: 'space-between',
+                              width: '72%',
+                            }}>
+                            <View
+                              style={{
+                                display: 'flex',
+                                justifyContent: 'space-between',
+                                paddingLeft: 10,
+                              }}>
+                              <Text
+                                style={{
+                                  fontSize: 12,
+                                  color: '#D2D7F9',
+                                  opacity: 0.5,
+                                  alignSelf: 'center',
+                                  fontFamily: 'Montserrat-Medium',
+                                }}>
+                                {((packages.name).length > maxlimit) ? (((packages.name).substring(0, maxlimit - 3)) + '...') : packages.name}
+                              </Text>
+                            </View>
+                            <View
+                              style={{
+                                display: 'flex',
+                                justifyContent: 'space-between',
+                                paddingLeft: 10,
+                              }}>
+                              <View
+                                style={{
+                                  display: 'flex',
+                                  alignItems: 'flex-end',
+                                  flexDirection: 'row',
+                                  justifyContent: 'flex-end',
+                                  position: "absolute",
+                                  marginLeft: 3,
+                                  marginTop: 20,
+                                  width: 100,
+                                  borderColor: '#ffffff',
+                                  borderWidth: 0,
+
+                                }}>
+                              </View>
+                            </View>
+                          </View>
+
+                          <View style={{ direction: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                            <View
+                              style={{
+                                flex: 1,
+                                justifyContent: "flex-end",
+                              }}>
+                              <Image
+                                source={imgSource}
+                                width={100}
+                                height={100}
+                                style={{ width: 29, height: 11 }}
+                              />
+                            </View>
+                          </View>
+                        </ImageBackground>
+                      </TouchableOpacity>
+                      {/* ===========================
+              //start of details  package
+              =========================== */}
+                      {showCpuPerocessersList && open == packages.cart_package_id ? (
+                        <View>
+                          <View
+                            style={{
+                              flexDirection: 'row',
+                              justifyContent: 'space-between',
+                            }}>
+                          </View>
+                          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} >
+                            {packages.items.map((packageItems, i) => {
+                              return (
+                                <TouchableOpacity
+                                  key={i}
+                                  style={{ padding: 20 }}
+                                >
+                                  <ImageBackground
+                                    source={IcCardImage}
+                                    style={{ width: 139, height: 151 }}
+                                  >
+                                    <View
+                                      style={{
+                                        alignSelf: 'center',
+                                        justifyContent: 'center',
+                                        alignContent: 'center',
+                                        marginTop: 30,
+                                      }}>
+                                      <Image
+                                        source={{ uri: packageItems.image }}
+                                        style={{ width: 48, height: 40, marginBottom: 10, alignSelf: 'center' }} />
+                                      <Text
+                                        adjustsFontSizeToFit={true}
+                                        numberOfLines={2}
+                                        style={{
+                                          fontSize: 11,
+                                          fontWeight: '700',
+                                          color: '#FFFFFF',
+                                          marginBottom: 10,
+                                          alignSelf: 'center'
+                                        }}
+                                      >
+                                        {((packageItems.name).length > maxlimit) ? (((packageItems.name).substring(0, maxlimit - 3)) + '...') : packageItems.name}
+                                      </Text>
+                                      <Text
+                                        style={{
+                                          fontSize: 10,
+                                          fontWeight: '700',
+                                          color: '#FFFFFF',
+                                          marginBottom: 10,
+                                          opacity: 0.5,
+                                          fontStyle: 'italic',
+                                          textAlign: 'center',
+                                        }}>
+                                        {packageItems.brand}
+                                      </Text>
+                                      <Text
+                                        style={{
+                                          fontSize: 12,
+                                          fontWeight: '400',
+                                          color: '#FFFFFF',
+                                          fontStyle: 'italic',
+                                          textAlign: 'center',
+                                          marginBottom: 40,
+                                        }}>
+                                        +KD {packageItems.price}
+                                      </Text>
+                                    </View>
+                                  </ImageBackground>
+                                </TouchableOpacity>
+                              );
+                            })}
+                          </ScrollView>
+                        </View>
+                      ) : null}
+
+                      {/* ===========================
+              //end of details  package
+              =========================== */}
+                    </View>
+                  );
+                })}
+              </View>
+              {/* // end */}
 
           {items.map((i, k) => (
             <View
@@ -181,7 +372,6 @@ const OrderDetails = ({navigation,route}) => {
               style={{
                 width: '100%',
                 height: height * 0.12,
-                // marginVertical: 10,
                 display: 'flex',
                 flexDirection: 'row',
               }}>

@@ -17,13 +17,15 @@ import {cityApi,addAddressApi,getSpecificAddress} from '../api/buildYourPc';
 import SaveBtn from '../components/SaveBtn';
 import { connect } from 'react-redux';
 import { addressActions } from '../actions/address';
+import {addressListApi,deliveryAddressApi,defaultAddressApi} from '../api/buildYourPc';
 
 const {width, height} = Dimensions.get('window');
 
 const Address = (props) => {
     const { addressId } = props.route.params;
     const [specficAddress,setSpecficAddress] = useState({});
-    const [loading, setLoading] = useState(false); 
+    const [loading, setLoading] = useState(false);
+    const [allAddress,setAllAddress] = useState([]); 
     if(addressId && addressId !== ""){
         useEffect(() => {
             setLoading(true)
@@ -101,9 +103,19 @@ const Address = (props) => {
             addAddressApi(selectedCity,selectedArea,addressType,email,name,block,street,building,floor,apartment,address_id).then((response) => {
                 props.showAddress();
                 setLoadingBtn(false)
-                alert(response.message);
                 if(response.message){
-                    props.navigation.pop();
+                    alert(response.message);
+                    addressListApi().then((response) =>{
+                        response.data.map((address,i) => {
+                            if(response.data.length === 1){
+                                deliveryAddressApi(address.address_id).then((response) => {
+                                }).catch((error) => {
+                                  console.log("deliveryAddressApi at address" + error)
+                                })
+                            }
+                        })
+                    })
+                    props.navigation.goBack();
                 }
             }).catch((error) => {
                 alert("something went wrong");

@@ -50,6 +50,7 @@ const ProductDetails = (props) => {
     let result = props.packages.map(({ item_id, quantity }) => ({ item_id, quantity: 1 }));
     addToCart(PackageId, result, true).then((response) => {
       setLoading(false);
+      props.add()
       props.navigation.navigate('cart');
     }).catch((error) => {
       console.log("addToCart" + error);
@@ -83,14 +84,14 @@ const ProductDetails = (props) => {
             />
           </View>
         </TouchableOpacity>
+        {props.loading?(
+          <View style={{ marginTop: height * 0.4 }}>
+            <ActivityIndicator color="#ECDBFA" size="large" />
+          </View>
+        ):(
         <ScrollView
           style={styles.scrollViewContainer}
           showsHorizontalScrollIndicator={false}>
-            {props.loading?(
-              <View style={{ marginTop: height * 0.4 }}>
-                <ActivityIndicator color="#ECDBFA" size="large" />
-              </View>
-            ):(
           <View>
             <View >
               <Image
@@ -151,7 +152,6 @@ const ProductDetails = (props) => {
               );
             })}
           </View>
-          )}
           {props.packages.length === 0 ? (
             <View style={{ marginTop: height * 0 }}>
               <ActivityIndicator color="#ECDBFA" size="large" />
@@ -178,6 +178,7 @@ const ProductDetails = (props) => {
             )}
 
         </ScrollView>
+        )}
       </ImageBackground>
     </View>
   );
