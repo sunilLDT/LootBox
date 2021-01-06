@@ -40,47 +40,68 @@ const AddressList = (props) => {
                     {values.area_name},{values.city_name}
                     </Text>
                 </View>
-            ):(<>
-                    <View style={styles.viewStyle}>
+            ):(
+                <View style={styles.viewStyle}>
                     <Text
                         style={{
                         fontSize: 14,
                         color: '#ECDBFA',
                         opacity: 0.5,
-                        position:'relative',
-                        marginLeft:-10
+                        
                         }}>
-                        {values.address_type} 
+                        {values.address_type}
                     </Text>
-                    <Text>:</Text>
-                   </View>
-                   
-                    <View style={{}}>
-                    
                     <Text
-                    numberOfLines={1}
-                    style={{
-                      fontSize: 10,
-                      width:200,
-              
-                      color: '#D2D7F9',
-                      opacity: 0.87,
-                      fontFamily:'Montserrat-Bold',
-                      flexShrink: 1,
-                      marginLeft:10
-                    }}>
-                     {values.city_name},
-                      {values.area_name},
-                      {values.block},
-                      {values.street}
-                      {values.building},
-                      {values.apartment},
-                      {values.floor}
+                        style={{
+                            fontSize: 12,
+                            color: '#ECDBFA',
+                            opacity: 0.5,
+                            
+                        }}>
+                    {values.area_name},{values.city_name}
                     </Text>
-                    
                 </View>
+                //<>
+            //         <View style={styles.viewStyle}>
+            //         <Text
+            //             style={{
+            //             fontSize: 14,
+            //             color: '#ECDBFA',
+            //             opacity: 0.5,
+            //             position:'relative',
+            //             marginLeft:-10
+            //             }}>
+            //             {values.address_type} 
+            //         </Text>
+            //         <Text>:</Text>
+            //        </View>
+                   
+            //         <View style={{}}>
+                    
+            //         <Text
+            //         numberOfLines={1}
+            //         style={{
+            //           fontSize: 10,
+            //           width:200,
+              
+            //           color: '#D2D7F9',
+            //           opacity: 0.87,
+            //           fontFamily:'Montserrat-Bold',
+            //           flexShrink: 1,
+            //           marginLeft:10
+            //         }}>
+            //          {values.city_name},
+            //           {values.area_name},
+            //           {values.block},
+            //           {values.street}
+            //           {values.building},
+            //           {values.apartment},
+            //           {values.floor}
+            //         </Text>
+                    
+            //     </View>
                
-                </>
+            //     </>
             )}  
             </TouchableOpacity>
             )

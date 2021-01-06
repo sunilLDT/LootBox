@@ -69,8 +69,6 @@ const ListDetails = (props) => {
         ar[props.parentIndex].quantity = 1;
         setName(name);
         setPrice(price);
-        console.log('+++++++++++++++++++++++++++++++++++++++++');
-        console.log(ar);
         props.updatePackages(ar);
     }
 
