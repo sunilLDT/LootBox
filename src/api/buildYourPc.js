@@ -53,8 +53,8 @@ console.log(is_package)
 }
 
 export async function addToCartAdvance(data){
-console.log(data)
   const response = await Api.post('app/cart/add-to-cart',{
+    is_update:true,
     is_package:false,
     items:data
     

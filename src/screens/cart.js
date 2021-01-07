@@ -55,7 +55,7 @@ const Cart = (props) => {
   const [showCpuPerocessersList, setShowCpuProcesserList] = useState(false);
   const maxlimit = 20;
   var imgSource = upwardImage ? ExpandImage : CloseImage;
-
+  
 
   useEffect(() => {
     setLoading(true)
@@ -80,10 +80,10 @@ const Cart = (props) => {
       alert("Please add address for the Delivery")
       setLoading(false)
     }
-    else if (!y.includes(true)) {
-      alert("Please select the Delivery address")
-      setLoading(false)
-    }
+    // else if (!y.includes(true)) {
+    //   alert("Please select the Delivery address")
+    //   setLoading(false)
+    // }
     else {
       orderPlace().then((response) => {
         setLoading(false)
@@ -114,21 +114,18 @@ const Cart = (props) => {
   }, []);
 
   const reloadData = () => {
-    // setLoading(true)
     showCartData().then((response) => {
       setcartItems(response.data.items)
       setCartPackage(response.data.package)
       setCartData(response.data)
       props.add();
-      //setLoading(false)
     }).catch((error) => {
       console.log("showCartData" + error);
-      // setLoading(false)
     });
   }
 
   const changeAddressPop = () => {
-    props.showAddress();
+    props.showAddress()
     setaddressModal(!addressModal)
     addressListApi().then((response) => {
       setAllAddress(response.data)
@@ -138,7 +135,7 @@ const Cart = (props) => {
     })
   }
   const onDialougeShut = () => {
-    props.showAddress();
+    props.showAddress()
     addressListApi().then((response) => {
       setAllAddress(response.data)
     }).catch((error) => {
@@ -167,10 +164,9 @@ const Cart = (props) => {
   };
 
   const sum = (data) => {
-    // return data.reduce((a, b) => a + (b['price'] || 0), 0);
     var total = 0
     for (var i = 0, _len = data.length; i < _len; i++) {
-      total += parseFloat(data[i]['price']);
+      total += parseFloat(data[i]['sub_total']);
     }
     return total.toFixed(3);
   }
@@ -179,6 +175,22 @@ const Cart = (props) => {
     var total = 0
     for (var i = 0, _len = this.length; i < _len; i++) {
       total += this[i][prop]
+    }
+    return total
+  }
+
+  const quantity = (data) => {
+    var total = 0
+    for (var i = 0, _len = data.length; i < _len; i++) {
+      total = parseFloat(data[i]['quantity']);
+    }
+    return total;
+  }
+
+  Array.prototype.quantity = function (prop) {
+    var total = 0
+    for (var i = 0, _len = this.length; i < _len; i++) {
+      total = this[i][prop]
     }
     return total
   }
@@ -203,15 +215,24 @@ const Cart = (props) => {
   };
 
   const addItem = (id) => {
-    console.log(id)
+    let remainingQuantity = id.quantity + 1;
     let data = [];
-    data.push({ item_id: id.item_id, quantity: 1 })
-
+    data.push({ item_id: id.item_id,quantity:remainingQuantity})
     addToCartAdvance(data).then((response) => {
       reloadData();
-      console.log(response.data)
     })
   };
+
+  const decreaseItem = (itemData) => {
+    let remainingQuantity = itemData.quantity - 1;
+    let data = [];
+    data.push({ item_id: itemData.item_id, quantity: remainingQuantity })
+    addToCartAdvance(data).then((response) => {
+      reloadData();
+    }).catch((error) => {
+      console.log("decreaseItem" + error)
+    })
+  }
 
   const removePackage = (id) => {
     removePackageApi(id).then((response) => {
@@ -220,12 +241,17 @@ const Cart = (props) => {
     })
   }
 
-  const addPackages = (id, data) => {
-    addPackage(id, 1).then((response) => {
-      console.log("+++ add package")
-      console.log(response.message);
+  const addPackages = (id,quantity) => {
+    let remaningPackage = quantity + 1;
+    addPackage(id, remaningPackage).then((response) => {
       reloadData();
-      console.log(response.data)
+    })
+  }
+
+  const decreasePackage = (id,quantity) => {
+    let remaningPackage = quantity - 1;
+    addPackage(id, remaningPackage).then((response) => {
+      reloadData();
     })
   }
 
@@ -421,7 +447,7 @@ const Cart = (props) => {
                                   }}>
                                   <TouchableOpacity
                                     onPress={() => {
-                                      removePackage(packages.cart_package_id)
+                                      decreasePackage(packages.cart_package_id,quantity(packages.cart_package_items))
                                     }}>
                                     <Image
                                       source={require('../assets/ic_sub.png')}
@@ -439,11 +465,12 @@ const Cart = (props) => {
                                       color: '#ECDBFA',
                                       marginHorizontal: 10,
                                     }}>
-
+                                     {quantity(packages.cart_package_items)} 
                                   </Text>
                                   <TouchableOpacity
                                     onPress={() => {
-                                      addPackages(packages.cart_package_id, packages.cart_package_items)
+                                      props.add()
+                                      addPackages(packages.cart_package_id,quantity(packages.cart_package_items))
                                     }}>
                                     <Image
                                       source={require('../assets/ic_add.png')}
@@ -650,7 +677,9 @@ const Cart = (props) => {
                         }}>
                         <TouchableOpacity
                           onPress={() => {
-                            removeItem(items.cart_item_id)
+                            props.add()
+                            // removeItem(items.cart_item_id)
+                            decreaseItem(items)
                           }}>
                           <Image
                             source={require('../assets/ic_sub.png')}
@@ -762,64 +791,68 @@ const Cart = (props) => {
               >
                {strings.deliveryTo}
               </Text>
-              {allAddress.map((addValues,index) => {
+              {props.address?props.address.length === 1?(
+              <View >
+                <Text
+                  numberOfLines={3}
+                  style={{
+                    fontSize: 10,
+                    width:200,
+                    color: '#D2D7F9',
+                    opacity: 0.87,
+                    fontFamily:'Montserrat-Bold',
+                    flexShrink: 1,
+                }}>
+                  {props.address[0].city_name},
+                  {props.address[0].area_name},
+                  {props.address[0].block},
+                  {props.address[0].street},
+                  {props.address[0].building},
+                  {props.address[0].apartment},
+                  {props.address[0].floor}
+                </Text>
+              </View>
+              ):props.address?props.address.map((addValues,index) => {
                 return(
-                <View key={index} >
-                  {addValues.is_default == 1?
-                  <Text
-                    numberOfLines={3}
-                    style={{
-                      fontSize: 10,
-                      width:200,
-                      color: '#D2D7F9',
-                      opacity: 0.87,
-                      fontFamily:'Montserrat-Bold',
-                      flexShrink: 1,
-                    }}>
-                      {addValues.city_name},
-                      {addValues.area_name},
-                      {addValues.block},
-                      {addValues.street},
-                      {addValues.building},
-                      {addValues.apartment},
-                      {addValues.floor}
-                              </Text> : index === 0 ? (
-                                <Text
-                                  style={{
-                                    fontSize: 12,
-                                    color: '#D2D7F9',
-                                    opacity: 0.87,
-                                    fontFamily: 'Montserrat-Bold',
-                                    flexShrink: 1,
-                                  }}>
-                                  {addValues.city_name},
-                                  {addValues.area_name},
-                                  {addValues.block},
-                                  {addValues.street},
-                                  {addValues.building},
-                                  {addValues.apartment},
-                                  {addValues.floor}
-                                </Text>
-                              ) : null}
-                            </View>
-                          );
-                        })}
-                      </View>
-                      <View>
-                        <TouchableOpacity
-                          onPress={() => changeAddressPop()}>
-                          <Text
-                            style={{
-                              fontSize: 12,
-                              color: '#DF2EDC',
-                              fontFamily: 'Montserrat-Medium',
-                            }}>
-                            {allAddress.length === 0 ? "Add Address" : "Change"}
-                          </Text>
-                        </TouchableOpacity>
-                      </View>
-                    </View>
-                  </ImageBackground>
+                  <View key={index} >
+                    {addValues.is_default == 1?
+                    <Text
+                      numberOfLines={3}
+                      style={{
+                        fontSize: 10,
+                        width:200,
+                        color: '#D2D7F9',
+                        opacity: 0.87,
+                        fontFamily:'Montserrat-Bold',
+                        flexShrink: 1,
+                      }}>
+                        {addValues.city_name},
+                        {addValues.area_name},
+                        {addValues.block},
+                        {addValues.street},
+                        {addValues.building},
+                        {addValues.apartment},
+                        {addValues.floor}
+                    </Text>: null}
+                  </View>
+                );
+              }):null:null}
+            </View>
+                <View>
+                  <TouchableOpacity
+                    onPress={() => changeAddressPop()}>
+                    <Text
+                      style={{
+                        fontSize: 12,
+                        color: '#DF2EDC',
+                        fontFamily: 'Montserrat-Medium',
+                      }}>
+                      {props.address?props.address.length === 0 ? "Add Address" : "Change":null}
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            </ImageBackground>
               }
               {Object.keys(cartData).length === 0 ? null : cartPackage.length === 0 && cartItems.length === 0 || Object.keys(cartData).length === 0 ? null :
                 <ImageBackground
@@ -873,6 +906,7 @@ const Cart = (props) => {
                               fontFamily: 'Montserrat-Regular'
                             }}>
                             {((packages.name).length > maxlimit) ? (((packages.name).substring(0, maxlimit - 3)) + '...') : packages.name}
+                            {packages.package_qty > 1 ? <Text style={{ color: '#fff' }}> ({packages.package_qty})</Text> : null}
                           </Text>
                           <Text
                             style={{
