@@ -218,7 +218,8 @@ const Address = (props) => {
                         marginVertical: 15,
                         marginHorizontal:"7%",
                     }}>
-                    {/* <Picker
+                    {Platform.OS == "android"?(
+                    <Picker
                         dropdownIconColor="#ECDBFA"
                         iosHeader="Please select City"
                         mode="dropdown"
@@ -246,7 +247,9 @@ const Address = (props) => {
                                 />
                             );
                         })}
-                    </Picker> */}
+                    </Picker>
+                    ):(
+                    
                     <View >
                         <RNPickerSelect
                             onValueChange={(itemValue) =>
@@ -271,6 +274,7 @@ const Address = (props) => {
                               }
                         />
                     </View>
+                    )}
                     </LinearGradient>
                     <LinearGradient
                         start={{x: 0, y: 0}}
@@ -286,7 +290,8 @@ const Address = (props) => {
                         marginVertical: 15,
                         marginHorizontal:"7%",
                     }}>
-                    {/* <Picker
+                    {Platform.OS == "android"?(
+                    <Picker
                         dropdownIconColor="#ECDBFA"
                         iosHeader="Please select area"
                         mode="dropdown"
@@ -314,7 +319,8 @@ const Address = (props) => {
                                 />
                             );
                         })}
-                    </Picker> */}
+                    </Picker>
+                    ):(
                     <View >
                         <RNPickerSelect
                             onValueChange={(itemValue) =>
@@ -343,6 +349,7 @@ const Address = (props) => {
                             }}
                         />
                     </View>
+                    )}
                     </LinearGradient>
                     <View style={styles.blockStreet}>
                         <View style={styles.inputView}>
@@ -380,7 +387,8 @@ const Address = (props) => {
                         marginVertical: 15,
                         marginHorizontal:"7%",
                         }}>
-                        {/* <Picker
+                        {Platform.OS == "android"?(
+                        <Picker
                         dropdownIconColor="#ECDBFA"
                         mode="dropdown"
                         selectedValue={addressType}
@@ -400,7 +408,8 @@ const Address = (props) => {
                             <Picker.Item label="Home" value="Home" />
                             <Picker.Item label="Office" value="Office" />
                             <Picker.Item label="Other" value="Other" />
-                        </Picker> */}
+                        </Picker>
+                        ):(
                         <View >
                             <RNPickerSelect
                                 onValueChange={(itemValue, itemIndex) =>
@@ -428,6 +437,7 @@ const Address = (props) => {
                                 }}
                             />
                         </View>
+                        )}
 
                     </LinearGradient>
                 <View style={styles.btnView}>

@@ -398,7 +398,8 @@ const Profile = (props) => {
               width: width * 0.85,
               marginVertical: 10,
           }}>
-              {/* <Picker
+            {Platform.OS == "android"?(
+              <Picker
               dropdownIconColor="#ECDBFA"
               mode="dropdown"
               selectedValue={gender}
@@ -417,7 +418,8 @@ const Profile = (props) => {
               >   
                   <Picker.Item label="Male" value="1" />
                   <Picker.Item label="Female" value="2" />
-              </Picker> */}
+              </Picker>
+            ):(
               <View>
                   <RNPickerSelect
                       onValueChange={(value) =>
@@ -449,6 +451,7 @@ const Profile = (props) => {
                       }}
                   />
               </View>
+            )}
           </LinearGradient>
           <View style={{marginVertical: 10}}>
             <TouchableOpacity onPress={() => props.navigation.navigate('changePasswordNumber')}>
