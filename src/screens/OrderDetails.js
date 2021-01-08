@@ -17,6 +17,9 @@ import { endOfDay } from 'date-fns';
 import ExpandImage from '../assets/ic_expand1.png';
 import CloseImage from '../assets/ic-3copy.png';
 import IcCardImage from '../assets/ic3.png';
+import Bar1 from '../components/bar1';
+import Bar2 from '../components/bar2';
+import Bar3 from '../components/bar3';
 
 
 const {height, width} = Dimensions.get('window');
@@ -57,7 +60,7 @@ const OrderDetails = ({navigation,route}) => {
   const sum = (data) => {
     var total = 0
     for (var i = 0, _len = data.length; i < _len; i++) {
-      total += parseFloat(data[i]['price']);
+      total += parseFloat(data[i]['sub_total']);
     }
     return total.toFixed(3);
   }
@@ -121,56 +124,121 @@ const OrderDetails = ({navigation,route}) => {
               Order ID {orderId}
             </Text>
           </View>
-
-          <View>
-            <Text
-              style={{
-                fontSize: 12,
-                lineHeight: 24,
-                marginBottom: 20,
-                fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma',
-                color: '#ECDBFA',
-              }}>
-              Confirmed
-            </Text>
-            <Text
-              style={{
-                color: '#DF2EDC',
-                fontSize: 16,
-                fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma',
-                lineHeight: 24,
-              }}>
-              On the Way
-            </Text>
-            <Text
-              style={{
-                fontFamily: 'Montserrat-Regular',
-                lineHeight: 14,
-                color: '#ECDBFA',
-                fontSize: 12,
-                opacity: 0.5,
-                marginTop: 5,
-              }}>
-              Will be delivered{' '}
+          <View style={{
+            display:'flex',
+            flexDirection:'row',
+            alignItems:'center',
+          }}>
+            <View style={{
+              display:'flex',
+              flexDirection:'row',
+              alignSelf:'center',
+              width:'13%',
+              marginTop:'-4%',
+            }}>
+              <Bar1/>
+            </View>
+            <View style={{
+              display:'flex',
+              flexDirection:'column',
+              justifyContent:'space-between',
+            }}>
               <Text
                 style={{
-                  fontFamily: 'Montserrat-Bold',
+                  fontSize: 12,
+                  lineHeight: 24,
+                  marginBottom: 20,
+                  fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma',
+                  color: orderDetails.order_status == 0?'#DF2EDC':'#ECDBFA',
                 }}>
-                tomorrow, 06:00 PM
+                Confirmed
               </Text>
-            </Text>
-            <Text
-              style={{
-                fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma',
-                lineHeight: 14,
-                color: '#ECDBFA',
-                fontSize: 12,
-                opacity: 0.24,
-                marginTop: 20,
-              }}>
-              Delivered{' '}
-            </Text>
+            </View>
           </View>
+
+          <View style={{
+            display:'flex',
+            flexDirection:'row',
+            alignItems:'center',
+          }}>
+            <View style={{
+              display:'flex',
+              flexDirection:'row',
+              alignSelf:'center',
+              width:'13%',
+              marginTop:'2%',
+            }}>
+              {orderDetails.order_status == 1?(
+                <Bar1/>
+              ):(
+                <Bar2/>
+              )}
+            </View>
+            <View style={{
+              display:'flex',
+              flexDirection:'column',
+              justifyContent:'space-between',
+            }}>
+              <Text
+                style={{
+                  fontFamily: 'Montserrat-Regular',
+                  lineHeight: 14,
+                  color: orderDetails.order_status == 1?'#DF2EDC':'#ECDBFA',
+                  fontSize: 12,
+                  opacity: 0.5,
+                  marginTop: 5,
+                }}>
+                Will be delivered{' '}
+                <Text
+                  style={{
+                    fontFamily: 'Montserrat-Bold',
+                  }}>
+                  tomorrow, 06:00 PM
+                </Text>
+              </Text>
+            </View>
+          </View>
+
+          {/* third bar */}
+          <View style={{
+            display:'flex',
+            flexDirection:'row',
+            alignItems:'center',
+          }}>
+            <View style={{
+              display:'flex',
+              flexDirection:'row',
+              alignSelf:'center',
+              width:'13%',
+              marginTop:'6%',
+            }}>
+              {orderDetails.order_status == 2?(
+                <Bar1/>
+              ):(
+                <Bar3/>
+              )}
+            </View>
+            <View style={{
+              display:'flex',
+              flexDirection:'column',
+              justifyContent:'space-between',
+            }}>
+              <Text
+                style={{
+                  fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma',
+                  lineHeight: 14,
+                  color: orderDetails.order_status == 2?'#DF2EDC':'#ECDBFA',
+                  fontSize: 12,
+                  opacity: orderDetails.order_status == 2?1:0.24,
+                  marginTop: 20,
+                }}>
+                Delivered{' '}
+              </Text>
+            </View>
+          </View>
+
+          {/* third end */}
+          
 
           <View
             style={{
@@ -202,8 +270,6 @@ const OrderDetails = ({navigation,route}) => {
               {/* // start */}
               <View>
                 {packageItems.map((packages, k) => {
-                  console.log("nownownonwonw")
-                  console.log(packages)
                   return (
                     <View
                       key={k}
@@ -254,6 +320,7 @@ const OrderDetails = ({navigation,route}) => {
                                   fontFamily: 'Montserrat-Medium',
                                 }}>
                                 {((packages.name).length > maxlimit) ? (((packages.name).substring(0, maxlimit - 3)) + '...') : packages.name}
+                                {packages.quantity > 1 ? <Text style={{ color: '#fff' }}> ({packages.quantity})</Text> : null}
                               </Text>
                             </View>
                             <View
@@ -444,6 +511,7 @@ const OrderDetails = ({navigation,route}) => {
                       paddingLeft:5,
                     }}>
                     {((i.name).length > maxlimit)?(((i.name).substring(0,maxlimit-3)) + '...'):i.name}
+                    {i.quantity > 1 ? <Text style={{ color: '#fff' }}> ({i.quantity})</Text> : null}
                   </Text>
                   <Text
                     style={{
@@ -463,7 +531,7 @@ const OrderDetails = ({navigation,route}) => {
                     color: '#D2D7F9',
                     opacity: 0.5,
                   }}>
-                  KD {i.price}
+                  KD {i.sub_total}
                 </Text>
               </View>
               </ImageBackground>
@@ -553,7 +621,7 @@ const OrderDetails = ({navigation,route}) => {
                   fontSize: 12,
                   opacity: 0.8,
                 }}>
-                Package Details ({orderDetails.items_qty} {orderDetails.items_qty > 1? "items":"item"})
+                Package Details ({orderDetails.items_count} {orderDetails.items_count > 1? "items":"item"})
               </Text>
             </View>
 
@@ -581,6 +649,7 @@ const OrderDetails = ({navigation,route}) => {
                     }}>
                     
                     {((j.name).length > maxlimit)?(((j.name).substring(0,maxlimit-3)) + '...'):j.name}
+                    
                   </Text>
                   <Text
                     style={{
@@ -610,6 +679,7 @@ const OrderDetails = ({navigation,route}) => {
                     }}>
                     
                     {((i.name).length > maxlimit)?(((i.name).substring(0,maxlimit-3)) + '...'):i.name}
+                    {i.quantity > 1 ? <Text style={{ color: '#fff' }}> ({i.quantity})</Text> : null}
                   </Text>
                   <Text
                     style={{
@@ -617,7 +687,7 @@ const OrderDetails = ({navigation,route}) => {
                       fontSize: 12,
                       fontFamily: 'Montserrat-Regular',
                     }}>
-                    KD {i.price}
+                    KD {i.sub_total}
                   </Text>
                 </View>
               ))}

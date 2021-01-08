@@ -109,9 +109,14 @@ const Address = (props) => {
                         response.data.map((address,i) => {
                             if(response.data.length === 1){
                                 deliveryAddressApi(address.address_id).then((response) => {
+                                props.showAddress();
                                 }).catch((error) => {
                                   console.log("deliveryAddressApi at address" + error)
                                 })
+                                defaultAddressApi(address.address_id).then((response) => {
+                                  }).catch((error) => {
+                                    console.log("defaultAddressCartPAGE" + error)
+                                  })
                             }
                         })
                     })
