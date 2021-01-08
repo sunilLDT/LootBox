@@ -9,6 +9,7 @@ import {
   ImageBackground,
   ScrollView,
   ActivityIndicator,
+  Platform,
 } from 'react-native';
 import {Picker} from '@react-native-picker/picker';
 import Input from '../components/input';
@@ -18,6 +19,7 @@ import SaveBtn from '../components/SaveBtn';
 import { connect } from 'react-redux';
 import { addressActions } from '../actions/address';
 import {addressListApi,deliveryAddressApi,defaultAddressApi} from '../api/buildYourPc';
+import RNPickerSelect from 'react-native-picker-select';
 
 const {width, height} = Dimensions.get('window');
 
@@ -66,6 +68,22 @@ const Address = (props) => {
     const [apartment,setapartment] = useState();
     const [loadingBtn,setLoadingBtn] = useState(false);
 
+    let cityaArea = [];
+    city.map((i,k) => {
+        cityaArea.push({
+            label: i.areas[0].name,
+            value: i.areas[0].city_id,
+          });
+    });
+
+    let areasArray = [];
+    {areas.map((areasValues,index) => {
+        areasArray.push({
+                label:areasValues.name,
+                value:areasValues.area_id,
+            })
+    })}
+
     useEffect(() => {
         cityApi().then((response) => {
             setCity(response.data);
@@ -73,6 +91,8 @@ const Address = (props) => {
             console.log("cityWithArea" + error)
         });
       }, []);
+
+      
 
     const sendCityId = (itemValue) => {
         setselectedCity(itemValue)
@@ -198,7 +218,7 @@ const Address = (props) => {
                         marginVertical: 15,
                         marginHorizontal:"7%",
                     }}>
-                    <Picker
+                    {/* <Picker
                         dropdownIconColor="#ECDBFA"
                         iosHeader="Please select City"
                         mode="dropdown"
@@ -226,7 +246,31 @@ const Address = (props) => {
                                 />
                             );
                         })}
-                    </Picker>
+                    </Picker> */}
+                    <View >
+                        <RNPickerSelect
+                            onValueChange={(itemValue) =>
+                                sendCityId(itemValue)
+                            }
+                            onUpArrow={() => {
+                                this.inputRefs.firstTextInput.focus();
+                              }}
+                              onDownArrow={() => {
+                                this.inputRefs.favSport1.togglePicker();
+                              }}
+                            placeholder={{
+                                label: 'Please Select City',
+                                value: null,
+                            }}
+                            value={selectedCity}
+                            items={cityaArea}
+                            style={
+                                Platform.OS === 'ios'
+                                  ? styles.inputIOS
+                                  : styles.inputAndroid
+                              }
+                        />
+                    </View>
                     </LinearGradient>
                     <LinearGradient
                         start={{x: 0, y: 0}}
@@ -242,7 +286,7 @@ const Address = (props) => {
                         marginVertical: 15,
                         marginHorizontal:"7%",
                     }}>
-                    <Picker
+                    {/* <Picker
                         dropdownIconColor="#ECDBFA"
                         iosHeader="Please select area"
                         mode="dropdown"
@@ -270,11 +314,39 @@ const Address = (props) => {
                                 />
                             );
                         })}
-                    </Picker>
+                    </Picker> */}
+                    <View >
+                        <RNPickerSelect
+                            onValueChange={(itemValue) =>
+                                setSelectedArea(itemValue)
+                            }
+                            placeholder={{
+                                label: 'Please Select Area',
+                                value: null,
+                            }}
+                            style={
+                                Platform.OS === 'ios'
+                                  ? styles.inputIOS
+                                  : styles.inputAndroid
+                              }
+                            value={selectedArea}
+                            items={areasArray}
+                            inputIOS = {{
+                                color: 'white',
+                                marginLeft:100,
+                                borderRadius: 5,
+                            }}
+                            inputAndroid = {{
+                                color: 'white',
+                                paddingHorizontal: 10,
+                                borderRadius: 5,
+                            }}
+                        />
+                    </View>
                     </LinearGradient>
                     <View style={styles.blockStreet}>
                         <View style={styles.inputView}>
-                            <Input placeholder="Block"  style={styles.input} value={block} onChangeText={(Block) => setBlock(Block)}/>
+                            <Input placeholder="Block"  style={styles.inputBlock} value={block} onChangeText={(Block) => setBlock(Block)}/>
                         </View>
                         <View style={styles.inputView}>
                             <Input placeholder="Street"  style={styles.input} value={street} onChangeText={(Street) => setStreet(Street)} />
@@ -308,7 +380,7 @@ const Address = (props) => {
                         marginVertical: 15,
                         marginHorizontal:"7%",
                         }}>
-                        <Picker
+                        {/* <Picker
                         dropdownIconColor="#ECDBFA"
                         mode="dropdown"
                         selectedValue={addressType}
@@ -328,7 +400,35 @@ const Address = (props) => {
                             <Picker.Item label="Home" value="Home" />
                             <Picker.Item label="Office" value="Office" />
                             <Picker.Item label="Other" value="Other" />
-                        </Picker>
+                        </Picker> */}
+                        <View >
+                            <RNPickerSelect
+                                onValueChange={(itemValue, itemIndex) =>
+                                    setAddressType(itemValue)
+                                }
+                                placeholder={{
+                                    label: 'Please Select Address Type',
+                                    value: null,
+                                }}
+                                value={addressType}
+                                items={[
+                                    {"label": "Home", "value": "Home"},
+                                    {"label": "Office", "value": "Office"},
+                                    {"label": "Other", "value": "Other"},
+                                  ]}
+                                inputIOS = {{
+                                    color: 'white',
+                                    marginLeft:100,
+                                    borderRadius: 5,
+                                }}
+                                inputAndroid = {{
+                                    color: 'white',
+                                    paddingHorizontal: 10,
+                                    borderRadius: 5,
+                                }}
+                            />
+                        </View>
+
                     </LinearGradient>
                 <View style={styles.btnView}>
                     <TouchableOpacity
@@ -370,14 +470,39 @@ const styles = StyleSheet.create({
     },
     input:{
         width:"100%",
-        paddingLeft:"115%"
+        paddingLeft:"115%",
+        zIndex:1000,
+    },
+    inputBlock:{
+        width:"100%",
+        paddingLeft:"115%",
     },
     btnView:{
         paddingHorizontal:'10%',
         justifyContent:'flex-end',
         position:'relative',
         marginVertical: 15,
-    }
+    },
+    inputIOS: {
+        fontSize: 16,
+        paddingVertical: 12,
+        paddingHorizontal: 10,
+        borderWidth: 1,
+        borderColor: 'gray',
+        borderRadius: 4,
+        color: 'black',
+        paddingRight: 30, // to ensure the text is never behind the icon
+      },
+      inputAndroid: {
+        fontSize: 16,
+        paddingHorizontal: 10,
+        paddingVertical: 8,
+        borderWidth: 0.5,
+        borderColor: 'purple',
+        borderRadius: 8,
+        color: 'black',
+        paddingRight: 30, // to ensure the text is never behind the icon
+      },
 });
   
 const mapStateToProps = (state) => ({

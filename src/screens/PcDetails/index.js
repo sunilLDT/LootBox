@@ -208,7 +208,7 @@ const styles = StyleSheet.create({
     linearGradient:{
         // height:height * 0.33,
         // width:351.21,
-        width:372,
+        width:Platform.OS=='android'?372:356,
         height:278,
         marginVertical:"5%",
     },

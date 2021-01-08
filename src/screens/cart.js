@@ -273,7 +273,7 @@ const Cart = (props) => {
             <View
               style={{
                 paddingVertical: width * 0.05,
-                paddingHorizontal: width * 0.1,
+                paddingHorizontal: Platform.OS == 'android' ?width * 0.1:width *0.07,
 
               }}>
               <Dialog
@@ -1100,13 +1100,13 @@ const styles = StyleSheet.create({
     opacity: 0.5,
     fontFamily: 'Montserrat-Medium',
   },
-  crossIconForPackage: {
-    display: 'flex',
-    alignSelf: 'flex-end',
-    position: 'relative',
-    top: -55,
-    right: -5,
-  }
+  // crossIconForPackage: {
+  //   display: 'flex',
+  //   alignSelf: 'flex-end',
+  //   position: 'relative',
+  //   top: -55,
+  //   right: -5,
+  // }
 });
 
 const mapStateToProps = (state) => ({

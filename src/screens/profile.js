@@ -10,7 +10,8 @@ import {
   ScrollView,
   TouchableWithoutFeedback,
   ActivityIndicator,
-  PermissionsAndroid
+  PermissionsAndroid,
+  Platform,
 } from 'react-native';
 import Input from '../components/input';
 import InputCard from '../components/InputCard';
@@ -34,6 +35,7 @@ import { RNS3 } from 'react-native-aws3';
 import { uploadFile } from 'react-s3';
 import strings,{ changeLaguage } from '../languages/index';
 import { string } from 'prop-types';
+import RNPickerSelect from 'react-native-picker-select';
 const {width, height} = Dimensions.get('window');
 
 const Profile = (props) => {
@@ -50,6 +52,7 @@ const Profile = (props) => {
   const [loading, setLoading] = useState(true);
   const {signout} = useContext(AuthContext);
   const [loadingBtn,setLoadingBtn] = useState(false);
+  console.log(gender)
 
 
   var formattedDOB = format(DOB, "d-MM-yyyy");
@@ -395,7 +398,7 @@ const Profile = (props) => {
               width: width * 0.85,
               marginVertical: 10,
           }}>
-              <Picker
+              {/* <Picker
               dropdownIconColor="#ECDBFA"
               mode="dropdown"
               selectedValue={gender}
@@ -414,7 +417,38 @@ const Profile = (props) => {
               >   
                   <Picker.Item label="Male" value="1" />
                   <Picker.Item label="Female" value="2" />
-              </Picker>
+              </Picker> */}
+              <View>
+                  <RNPickerSelect
+                      onValueChange={(value) =>
+                        setGender(value)
+                      }
+                      value={gender}
+                      placeholder={{
+                          label: 'Please Select Gender',
+                          value: null,
+                      }}
+                      style={
+                        Platform.OS === 'ios'
+                          ? styles.inputIOS
+                          : styles.inputAndroid
+                      }
+                      items={[
+                        {"label": "Male", "value": 1},
+                        {"label": "Female", "value": 2}
+                      ]}
+                      inputIOS = {{
+                          color: 'white',
+                          marginLeft:100,
+                          borderRadius: 5,
+                      }}
+                      inputAndroid = {{
+                          color: 'white',
+                          paddingHorizontal: 10,
+                          borderRadius: 5,
+                      }}
+                  />
+              </View>
           </LinearGradient>
           <View style={{marginVertical: 10}}>
             <TouchableOpacity onPress={() => props.navigation.navigate('changePasswordNumber')}>
@@ -491,5 +525,27 @@ const Profile = (props) => {
     </View>
   );
 };
+const styles = StyleSheet.create({
+  inputIOS: {
+    fontSize: 16,
+    paddingVertical: 12,
+    paddingHorizontal: 10,
+    borderWidth: 1,
+    borderColor: 'gray',
+    borderRadius: 4,
+    color: 'black',
+    paddingRight: 30, // to ensure the text is never behind the icon
+  },
+  inputAndroid: {
+    fontSize: 16,
+    paddingHorizontal: 10,
+    paddingVertical: 8,
+    borderWidth: 0.5,
+    borderColor: 'purple',
+    borderRadius: 8,
+    color: 'black',
+    paddingRight: 30, // to ensure the text is never behind the icon
+  },
+})
 
 export default Profile;

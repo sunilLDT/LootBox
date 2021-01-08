@@ -96,7 +96,7 @@ const OrderDetails = ({navigation,route}) => {
         }}>
         <View
           style={{
-            padding: width * 0.1,
+            padding:Platform.OS == "ios"?width * 0.08: width * 0.1,
             paddingRight: 20,
           }}>
           <View
@@ -453,6 +453,7 @@ const OrderDetails = ({navigation,route}) => {
                 height: height * 0.12,
                 display: 'flex',
                 flexDirection: 'row',
+                marginVertical:Platform.OS === 'ios'?7:0,
               }}>
               <ImageBackground
                 source={ItemCard}
@@ -542,7 +543,7 @@ const OrderDetails = ({navigation,route}) => {
             style={{
               width: '100%',
               height: height * 0.12,
-              // marginVertical: 10,
+              marginTop: Platform.OS == "ios"?10:0,
               display: 'flex',
               flexDirection: 'row',
               justifyContent: 'space-between',
