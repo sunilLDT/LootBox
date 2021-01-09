@@ -1,4 +1,4 @@
-import React, {useState, useContext,useEffect} from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import {
   View,
   Text,
@@ -8,69 +8,71 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
   Keyboard,
-  ScrollView, 
+  ScrollView,
   KeyboardAvoidingView,
   ActivityIndicator,
   BackHandler,
   Alert,
-  ImageBackground,
+  ImageBackground
 } from 'react-native';
 import Logo from '../assets/launch_screen.png';
 import Input from '../components/input';
-import {Context as AuthContext} from '../api/contexts/authContext';
+import { Context as AuthContext } from '../api/contexts/authContext';
 import Modal from '../components/modal';
 import Btn from './btn';
 import ContinueBtn from '../components/ContinueGmailBtn';
 import bgImage from '../assets/signup.png';
+import Icons  from 'react-native-vector-icons/FontAwesome';
 
-const {height, width} = Dimensions.get('window');
+const { height, width } = Dimensions.get('window');
 
-const Signin = ({navigation}) => {
+const Signin = ({ navigation }) => {
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
+  const [showPassword, setPasswordVisibility] = useState(false)
 
-  const {signin, state, googleSignIn, setValidationError} = useContext(
+  const { signin, state, googleSignIn, setValidationError } = useContext(
     AuthContext,
   );
 
-  const {validationError} = state;
+  const { validationError } = state;
 
   const checkLoginFun = () => {
 
-    if(isNaN(email)){
-      if(!email){
+    if (isNaN(email)) {
+      if (!email) {
         alert('Please fill the Email or Phone Number');
       }
-      else if(password && (password.length < 8)){
+      else if (password && (password.length < 8)) {
         alert('Password must be at least 8 characters',);
       }
-      else if(!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)){
-          alert('Invalid Email Address ')
+      else if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
+        alert('Invalid Email Address ')
       }
-      else if(!password){ 
+      else if (!password) {
         alert('All fields are required')
       }
-      else{
-        signin({email, password});
+      else {
+        signin({ email, password });
       }
-    }else {
-      if(email && !(email.length == 8)){
+    } else {
+      if (email && !(email.length == 8)) {
         alert('Invalid  Phone number')
       }
-      else if(!password){ 
+      else if (!password) {
         alert('All fields are required')
       }
-      else if(!email){
+      else if (!email) {
         alert('Please fill the Email or Phone Number');
       }
-      else if(password && (password.length < 8)){
+      else if (password && (password.length < 8)) {
         alert('Password must be at least 8 characters',);
       }
-      else{
-        signin({email, password});
+      else {
+        signin({ email, password });
       }
     }
-    
+
   }
 
   const backAction = () => {
@@ -93,13 +95,13 @@ const Signin = ({navigation}) => {
   }, []);
 
   return (
-    <View style={{backgroundColor:'#292633', width:'100%', height:'100%'}}>
-    <TouchableWithoutFeedback
-      onPress={() => {
-        Keyboard.dismiss();
-      }}>
-      
-      <ImageBackground source={bgImage} style={{
+    <View style={{ backgroundColor: '#292633', width: '100%', height: '100%' }}>
+      <TouchableWithoutFeedback
+        onPress={() => {
+          Keyboard.dismiss();
+        }}>
+
+        <ImageBackground source={bgImage} style={{
           width: width,
           minHeight: height,
           overflowX: 'hidden',
@@ -107,12 +109,12 @@ const Signin = ({navigation}) => {
           alignItems: 'center',
         }}
         >
-        <ScrollView>
-          {state.msg ? (
-            <Modal msg={state.msg} hideBtn />
-          ) : validationError ? (
-            <Modal msg={validationError} />
-          ) : null}
+          <ScrollView>
+            {state.msg ? (
+              <Modal msg={state.msg} hideBtn />
+            ) : validationError ? (
+              <Modal msg={validationError} />
+            ) : null}
             <KeyboardAvoidingView
               behavior="position"
               keyboardVerticalOffset={50}
@@ -143,22 +145,22 @@ const Signin = ({navigation}) => {
                   marginLeft: 3,
                 }}>
                 <TouchableOpacity
-                  // onPress={() => {
-                  //   navigation.replace('signin');
-                  // }}
-                  >
+                // onPress={() => {
+                //   navigation.replace('signin');
+                // }}
+                >
                   <Text
                     style={{
                       color: '#ECDBFA',
                       fontSize: 20,
-                      paddingRight:20,
-                      fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma',
-                    
+                      paddingRight: 20,
+                      fontFamily: Platform.OS == 'android' ? 'Michroma-Regular' : 'Michroma',
+
                     }}>
                     Login
                   </Text>
                 </TouchableOpacity>
-                <Text style={{color:'#373843', fontSize:30}}>|</Text>
+                <Text style={{ color: '#373843', fontSize: 30 }}>|</Text>
                 <TouchableOpacity
                   onPress={() => {
                     navigation.navigate('signup');
@@ -167,10 +169,10 @@ const Signin = ({navigation}) => {
                     style={{
                       color: '#ECDBFA',
                       fontSize: 20,
-                      paddingLeft:20,
+                      paddingLeft: 20,
                       opacity: 0.24,
-                      fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma',
-                    
+                      fontFamily: Platform.OS == 'android' ? 'Michroma-Regular' : 'Michroma',
+
                     }}>
                     Signup
                   </Text>
@@ -183,17 +185,17 @@ const Signin = ({navigation}) => {
                 placeholder="Phone Number Or Email"
               />
 
-              <View style={{marginTop: 20}}>
+              <View style={{ marginTop: 20, position: 'relative' }}>
                 <Input
                   value={password}
                   onChangeText={setPassword}
                   placeholder="Password"
-                  password
-                  
+                  password={showPassword}
+
                 />
-                {/* <TouchableOpacity onPress={() => setPasswordVisibility()}>
-                  <Icon name="eye-off" size={20} color="#fff" style={styles.icon}/>
-                </TouchableOpacity> */}
+                <TouchableOpacity style={styles.icon} onPress={() => setPasswordVisibility(!showPassword)}>
+                  <Icons name={showPassword ? 'eye' : 'eye-slash'} size={20} color="#fff" />
+                </TouchableOpacity>
               </View>
             </KeyboardAvoidingView>
 
@@ -211,7 +213,7 @@ const Signin = ({navigation}) => {
                   color: '#897E95',
                   fontSize: 12,
                   fontWeight: 'bold',
-                
+
                 }}>
                 Forgot Password?
               </Text>
@@ -226,29 +228,29 @@ const Signin = ({navigation}) => {
               {!state.loading ? (
                 <Btn text="LOGIN" pay="" x="54" />
               ) : (
-                <>
-                  <Btn text={' '} x="54" pay="" />
-                  <ActivityIndicator
-                    color="#ECDBFA"
-                    size="small"
-                    style={{bottom: 63}}
-                  />
-                </>
-              )}
+                  <>
+                    <Btn text={' '} x="54" pay="" />
+                    <ActivityIndicator
+                      color="#ECDBFA"
+                      size="small"
+                      style={{ bottom: 63 }}
+                    />
+                  </>
+                )}
             </TouchableOpacity>
             <TouchableWithoutFeedback
               onPress={() => {
                 googleSignIn();
               }}
             >
-              <View style={{marginVertical:10}}>
-                  <ContinueBtn text="Continue With Gmail"/>
+              <View style={{ marginVertical: 10 }}>
+                <ContinueBtn text="Continue With Gmail" />
               </View>
             </TouchableWithoutFeedback>
-        </ScrollView>
-      </ImageBackground>
-      
-    </TouchableWithoutFeedback>
+          </ScrollView>
+        </ImageBackground>
+
+      </TouchableWithoutFeedback>
     </View>
   );
 };
@@ -257,15 +259,17 @@ const styles = StyleSheet.create({
   screen: {
     flex: 1,
   },
-  // icon:{
-  //   position: 'absolute',
-  //   right: 10,
-  //   height:25,
-  //   width: 35,
-  //   padding: 2,
-  //   bottom:17,
-  //   zIndex:1,
-  // }
+  icon: {
+    position: 'absolute',
+    right: 10,
+    height: 25,
+    width: 35,
+    padding: 2,
+    bottom: 25,
+    zIndex: 100,
+    display: 'flex',
+    justifyContent: 'flex-end'
+  }
 });
 
 export default Signin;

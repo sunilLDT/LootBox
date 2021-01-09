@@ -52,6 +52,8 @@ const Profile = (props) => {
   const [loading, setLoading] = useState(true);
   const {signout} = useContext(AuthContext);
   const [loadingBtn,setLoadingBtn] = useState(false);
+  const [first_name, setFirstName] = useState();
+  const [last_name, setLastName] = useState()
   console.log(gender)
 
 
@@ -62,6 +64,8 @@ const Profile = (props) => {
     getProfilApi().then((response) => {
       setProfileDetails(response.data)
       setEmail(response.data.email)
+      setFirstName(response.data.first_name)
+      setLastName(response.data.last_name)
       response.data.date_of_birth !== null?setDOB(new Date(response.data.date_of_birth)):setDOB(new Date())
       setGender(response.data.gender?response.data.gender:1)
       setLoading(false)
@@ -86,7 +90,7 @@ const Profile = (props) => {
     }
     else{
       setLoadingBtn(true)
-      profileUpdateApi(email,formattedDOB,gender).then((response) => {
+      profileUpdateApi(email,formattedDOB,gender, first_name, last_name).then((response) => {
         setLoadingBtn(false)
         alert(response.message);
       }).catch((error) => {
@@ -343,6 +347,12 @@ const Profile = (props) => {
               />
               )}
             </TouchableOpacity>
+          </View>
+          <View style={{marginBottom:10,marginTop:20}}>
+            <Input placeholder="firstName" value={first_name} onChangeText={(first_name) => setFirstName(first_name)}/>
+          </View>
+          <View style={{marginBottom:10,marginTop:20}}>
+            <Input placeholder="lastName" value={last_name} onChangeText={(last_name) => setLastName(last_name)}/>
           </View>
           <View style={{marginBottom:10,marginTop:20}}>
             <Input placeholder="Email" email value={email} onChangeText={(email) => setEmail(email)}/>
