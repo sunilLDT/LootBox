@@ -520,7 +520,7 @@ const Cart = (props) => {
 
                             <View style={{ direction: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
                               <TouchableOpacity onPress={()=> {removePackage(packages.cart_package_id)}}>
-                                <Icon name="crosshair" size={25} color="white" />
+                              <Text style={{color:'#ffffff',marginTop:10, marginLeft:5}}>X</Text>
                               </TouchableOpacity>
                               <View
                                 style={{
@@ -777,7 +777,7 @@ const Cart = (props) => {
                         right:5
                       }}>
                         <TouchableOpacity onPress={()=> {removeItem(items.cart_item_id)}}>
-                            <Icon name="crosshair" size={25} color="white" />
+                            <Text style={{color:'#ffffff',marginTop:5, right:10}}>X</Text>
                         </TouchableOpacity>
                       </View>
                     </ImageBackground>

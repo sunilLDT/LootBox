@@ -10,6 +10,7 @@ import {
   ScrollView,
   ActivityIndicator,
   Platform,
+  KeyboardAvoidingView
 } from 'react-native';
 import {Picker} from '@react-native-picker/picker';
 import Input from '../components/input';
@@ -196,6 +197,10 @@ const Address = (props) => {
                     {addressId && addressId !== ""?"UPDATE ADDRESS":"ADD ADDRESS"}
                     </Text>
                 </View>
+                {/* <KeyboardAvoidingView
+                behavior="position"
+                keyboardVerticalOffset={50}
+                style={styles.screen}> */}
                     <View style={{marginVertical: 15,paddingHorizontal:'7%',}}>
                         <TouchableOpacity >
                         <Input placeholder="Name" value={name} onChangeText={(Name) => setName(Name)} />
@@ -440,6 +445,7 @@ const Address = (props) => {
                         )}
 
                     </LinearGradient>
+                {/* </KeyboardAvoidingView> */}
                 <View style={styles.btnView}>
                     <TouchableOpacity
                     onPress={() => addAddress(specficAddress.address_id)}>
