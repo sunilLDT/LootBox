@@ -267,11 +267,7 @@ const Address = (props) => {
                             }}
                             value={selectedCity}
                             items={cityaArea}
-                            style={
-                                Platform.OS === 'ios'
-                                  ? styles.inputIOS
-                                  : styles.inputAndroid
-                              }
+                            style={pickerStyle}
                         />
                     </View>
                     )}
@@ -330,11 +326,7 @@ const Address = (props) => {
                                 label: 'Please Select Area',
                                 value: null,
                             }}
-                            style={
-                                Platform.OS === 'ios'
-                                  ? styles.inputIOS
-                                  : styles.inputAndroid
-                              }
+                            style={pickerStyle}
                             value={selectedArea}
                             items={areasArray}
                             inputIOS = {{

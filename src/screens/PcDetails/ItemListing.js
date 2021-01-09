@@ -168,7 +168,7 @@ const ItemListing = (props) => {
         data={data}
         showsVerticalScrollIndicator={false}
         renderItem={({ item }, index) => {
-          console.log(item);
+          
           const maxlimit = 18;
           return (
             <TouchableOpacity
@@ -179,7 +179,7 @@ const ItemListing = (props) => {
               <ImageBackground
                 source={idExists(item.item_id) ? selectedIcCardImage : IcCardImage}
                 // style={styles.cardConatiner}
-                style={{}}
+                style={{ width: 139, height: 151 }}
                 key={index}>
                 <View
                   style={{
