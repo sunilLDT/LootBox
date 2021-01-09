@@ -194,7 +194,7 @@ const Signin = ({ navigation }) => {
 
                 />
                 <TouchableOpacity style={styles.icon} onPress={() => setPasswordVisibility(!showPassword)}>
-                  <Icons name={showPassword ? 'eye' : 'eye-off'} size={20} color="#fff" />
+                  <Icons name={showPassword ? 'eye' : 'eye-slash'} size={20} color="#fff" />
                 </TouchableOpacity>
               </View>
             </KeyboardAvoidingView>

@@ -20,6 +20,7 @@ import {Context as AuthContext} from '../api/contexts/authContext';
 import Btn from './btn';
 import ContinueBtn from '../components/ContinueGmailBtn';
 import bgImage from '../assets/signup.png';
+import Icons  from 'react-native-vector-icons/FontAwesome';
 
 const {height, width} = Dimensions.get('window');
 
@@ -42,6 +43,7 @@ const Signup = ({navigation, route}) => {
   const [password, setPassword] = useState(null);
   const [user_type, setUserType] = useState(1);
   const [is_google, setIsGoogle] = useState(0);
+  const [showPassword, setPasswordVisibility] = useState(false)
 
   const data = {
     first_name,
@@ -164,10 +166,12 @@ const Signup = ({navigation, route}) => {
                   <Input
                     placeholder="Password"
                     onChangeText={setPassword}
-                    password
-                    // defaultValue={password}
+                    password={!showPassword}
                     style={{width:width * 0.95,paddingRight:'15%'}}
                   />
+                   <TouchableOpacity style={styles.icon} onPress={() => setPasswordVisibility(!showPassword)}>
+                  <Icons name={showPassword ? 'eye' : 'eye-slash'} size={20} color="#fff" />
+                </TouchableOpacity>
                 </View>
             </View>
 
@@ -346,6 +350,17 @@ const styles = StyleSheet.create({
     display: 'flex',
     alignItems: 'center',
   },
+  icon: {
+    position: 'absolute',
+    right: 10,
+    height: 25,
+    width: 35,
+    padding: 2,
+    bottom: 25,
+    zIndex: 100,
+    display: 'flex',
+    justifyContent: 'flex-end'
+  }
 });
 
 export default Signup;
