@@ -93,11 +93,14 @@ export async function orderPlace(){
   return response.data;
 }
 
-export async function profileUpdateApi(email,dob,gender){
+export async function profileUpdateApi(email,dob,gender, first_Name,
+  last_name){
   const response = await Api.post('app/user/update-profile',{
     email:email,
     date_of_birth:dob,
-    gender:gender
+    gender:gender,
+    first_name: first_Name,
+    last_name: last_name
   });
   return response.data;
 }

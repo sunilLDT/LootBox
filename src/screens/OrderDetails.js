@@ -37,6 +37,8 @@ const OrderDetails = ({navigation,route}) => {
   const maxlimit = 22;
   var imgSource = upwardImage ? ExpandImage : CloseImage;
 
+  console.log(orderDetails.order_package_items)
+
   useEffect(() => {
     setLoading(true);
     getOrderDetails(orderId).then((response) => {
@@ -312,6 +314,8 @@ const OrderDetails = ({navigation,route}) => {
                                 paddingLeft: 10,
                               }}>
                               <Text
+                                numberOfLines={2}
+                                ellipsizeMode='tail'
                                 style={{
                                   fontSize: 12,
                                   color: '#D2D7F9',
@@ -511,10 +515,11 @@ const OrderDetails = ({navigation,route}) => {
                       opacity: 0.87,
                       paddingLeft:5,
                     }}>
-                    {((i.name).length > maxlimit)?(((i.name).substring(0,maxlimit-3)) + '...'):i.name}
-                    {i.quantity > 1 ? <Text style={{ color: '#fff' }}> ({i.quantity})</Text> : null}
+                    {((i.brand).length > maxlimit)?(((i.brand).substring(0,maxlimit-3)) + '...'):i.brand}
                   </Text>
                   <Text
+                    numberOfLines={2}
+                    ellipsizeMode='tail'
                     style={{
                       fontFamily: 'Montserrat-Regular',
                       fontSize: 12,
@@ -522,7 +527,8 @@ const OrderDetails = ({navigation,route}) => {
                       opacity: 0.5,
                       paddingLeft:5,
                     }}>
-                    {((i.brand).length > maxlimit)?(((i.brand).substring(0,maxlimit-3)) + '...'):i.brand}
+                    {((i.name).length > maxlimit)?(((i.name).substring(0,maxlimit-3)) + '...'):i.name}
+                    {i.quantity > 1 ? <Text style={{ color: '#fff' }}> ({i.quantity})</Text> : null}
                   </Text>
                 </View>
                 <Text
