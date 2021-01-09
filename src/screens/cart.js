@@ -235,7 +235,13 @@ const Cart = (props) => {
   };
 
   const decreaseItem = (itemData) => {
-    setDecreaseLoaderItem(true)
+    
+    if(itemData.quantity==1){
+      setDecreaseLoaderItem(true)
+      removeItem(itemData.cart_item_id)
+      setDecreaseLoaderItem(false)
+    }else{
+    //setDecreaseLoaderItem(true)
     setDecreaseLoaderId(itemData.cart_item_id)
     let remainingQuantity = itemData.quantity - 1;
     let data = [];
@@ -246,6 +252,7 @@ const Cart = (props) => {
     }).catch((error) => {
       console.log("decreaseItem" + error)
     })
+  }
   }
 
   const removePackage = (id) => {
@@ -266,13 +273,20 @@ const Cart = (props) => {
   }
 
   const decreasePackage = (id,quantity) => {
+    setDecreasePackageLoader(true)
+    if(quantity==1){
+      
+      removePackage(id);
+    }else{
     setDecreaseLoaderPackageID(id)
     setDecreasePackageLoader(true)
     let remaningPackage = quantity - 1;
     addPackage(id, remaningPackage).then((response) => {
       reloadData();
-      setDecreasePackageLoader(false)
+     
     })
+  }
+  setDecreasePackageLoader(false)
   }
 
   return (
@@ -519,9 +533,7 @@ const Cart = (props) => {
                             </View>
 
                             <View style={{ direction: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-                              <TouchableOpacity onPress={()=> {removePackage(packages.cart_package_id)}}>
-                                <Icon name="crosshair" size={25} color="white" />
-                              </TouchableOpacity>
+                             
                               <View
                                 style={{
                                   flex: 1,
@@ -776,9 +788,7 @@ const Cart = (props) => {
                         position:'absolute',
                         right:5
                       }}>
-                        <TouchableOpacity onPress={()=> {removeItem(items.cart_item_id)}}>
-                            <Icon name="crosshair" size={25} color="white" />
-                        </TouchableOpacity>
+                       
                       </View>
                     </ImageBackground>
 
