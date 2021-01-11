@@ -449,16 +449,7 @@ const Profile = (props) => {
                         {"label": "Male", "value": 1},
                         {"label": "Female", "value": 2}
                       ]}
-                      inputIOS = {{
-                          color: 'white',
-                          marginLeft:100,
-                          borderRadius: 5,
-                      }}
-                      inputAndroid = {{
-                          color: 'white',
-                          paddingHorizontal: 10,
-                          borderRadius: 5,
-                      }}
+                      style={pickerStyle}
                   />
               </View>
             )}
@@ -560,5 +551,18 @@ const styles = StyleSheet.create({
     paddingRight: 30, // to ensure the text is never behind the icon
   },
 })
+
+const pickerStyle = {
+  inputIOS: {
+      color: '#ffffff',
+  },
+  placeholder: {
+      color: '#ffffff',
+  },
+  inputAndroid: {
+      color: '#ffffff',
+
+  },
+};
 
 export default Profile;

@@ -88,13 +88,16 @@ export default class Slideshow extends React.Component {
                   }}>
                     <Text
                       numberOfLines={2}
+                      ellipsizeMode='tail'
                       style={{
+                        flex:1,
+                        flexWrap: 'wrap',
                         color: '#ECDBFA',
                         fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma',
                         fontSize: 20,
                         lineHeight: 38,
                         marginHorizontal:20,
-                        paddingBottom:40
+                        paddingBottom:80,
                       }}>
                       {x.title}
                     </Text>

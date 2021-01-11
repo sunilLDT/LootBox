@@ -272,11 +272,7 @@ const Address = (props) => {
                             }}
                             value={selectedCity}
                             items={cityaArea}
-                            style={
-                                Platform.OS === 'ios'
-                                  ? styles.inputIOS
-                                  : styles.inputAndroid
-                              }
+                            style={pickerStyle}
                         />
                     </View>
                     )}
@@ -335,11 +331,7 @@ const Address = (props) => {
                                 label: 'Please Select Area',
                                 value: null,
                             }}
-                            style={
-                                Platform.OS === 'ios'
-                                  ? styles.inputIOS
-                                  : styles.inputAndroid
-                              }
+                            style={pickerStyle}
                             value={selectedArea}
                             items={areasArray}
                             inputIOS = {{
@@ -430,16 +422,7 @@ const Address = (props) => {
                                     {"label": "Office", "value": "Office"},
                                     {"label": "Other", "value": "Other"},
                                   ]}
-                                inputIOS = {{
-                                    color: 'white',
-                                    marginLeft:100,
-                                    borderRadius: 5,
-                                }}
-                                inputAndroid = {{
-                                    color: 'white',
-                                    paddingHorizontal: 10,
-                                    borderRadius: 5,
-                                }}
+                                style={pickerStyle}
                             />
                         </View>
                         )}
@@ -506,7 +489,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: 'gray',
         borderRadius: 4,
-        color: 'black',
+        color: '#ffffff',
         paddingRight: 30, // to ensure the text is never behind the icon
       },
       inputAndroid: {
@@ -520,7 +503,21 @@ const styles = StyleSheet.create({
         paddingRight: 30, // to ensure the text is never behind the icon
       },
 });
+
+const pickerStyle = {
+    inputIOS: {
+        color: '#ffffff',
+    },
+    placeholder: {
+        color: '#ffffff',
+    },
+    inputAndroid: {
+        color: '#ffffff',
+
+    },
+};
   
+
 const mapStateToProps = (state) => ({
     address: state.addressReducer.address,
   })
