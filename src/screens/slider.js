@@ -90,8 +90,8 @@ export default class Slideshow extends React.Component {
                       numberOfLines={2}
                       ellipsizeMode='tail'
                       style={{
-                        flex:1,
-                        flexWrap: 'wrap',
+                        flex:  Platform.OS=='android'?0:1,
+                        flexWrap:Platform.OS=='android'?'nowrap':'wrap',
                         color: '#ECDBFA',
                         fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma',
                         fontSize: 20,

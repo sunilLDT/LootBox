@@ -235,11 +235,9 @@ const Cart = (props) => {
   };
 
   const decreaseItem = (itemData) => {
-    
+    setDecreaseLoaderItem(true)
     if(itemData.quantity==1){
-      setDecreaseLoaderItem(true)
       removeItem(itemData.cart_item_id)
-      setDecreaseLoaderItem(false)
     }else{
     //setDecreaseLoaderItem(true)
     setDecreaseLoaderId(itemData.cart_item_id)
@@ -251,6 +249,7 @@ const Cart = (props) => {
       setDecreaseLoaderItem(false)
     }).catch((error) => {
       console.log("decreaseItem" + error)
+      setDecreaseLoaderItem(false)
     })
   }
   }
@@ -275,7 +274,6 @@ const Cart = (props) => {
   const decreasePackage = (id,quantity) => {
     setDecreasePackageLoader(true)
     if(quantity==1){
-      
       removePackage(id);
     }else{
     setDecreaseLoaderPackageID(id)
@@ -283,10 +281,9 @@ const Cart = (props) => {
     let remaningPackage = quantity - 1;
     addPackage(id, remaningPackage).then((response) => {
       reloadData();
-     
+      setDecreasePackageLoader(false)
     })
   }
-  setDecreasePackageLoader(false)
   }
 
   return (
