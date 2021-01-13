@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import {
-    Text,
-    View,
-    StyleSheet,
-    TouchableOpacity,
-    Dimensions,
-    Image,
-    ImageBackground,
-    ScrollView,
-    ActivityIndicator,
-    Platform,
+  Text,
+  View,
+  StyleSheet,
+  TouchableOpacity,
+  Dimensions,
+  Image,
+  ImageBackground,
+  ScrollView,
+  ActivityIndicator,
+  Platform,
+  KeyboardAvoidingView
 } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import Input from '../components/input';
@@ -517,7 +518,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: 'gray',
         borderRadius: 4,
-        color: 'black',
+        color: '#ffffff',
         paddingRight: 30, // to ensure the text is never behind the icon
     },
     inputAndroid: {
@@ -531,6 +532,20 @@ const styles = StyleSheet.create({
         paddingRight: 30, // to ensure the text is never behind the icon
     },
 });
+
+const pickerStyle = {
+    inputIOS: {
+        color: '#ffffff',
+    },
+    placeholder: {
+        color: '#ffffff',
+    },
+    inputAndroid: {
+        color: '#ffffff',
+
+    },
+};
+  
 
 const mapStateToProps = (state) => ({
     address: state.addressReducer.address,

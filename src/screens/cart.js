@@ -53,6 +53,14 @@ const Cart = (props) => {
   const [loading, setLoading] = useState(true);
   const [open, setOpen] = useState();
   const [showCpuPerocessersList, setShowCpuProcesserList] = useState(false);
+  const [PackageLoader,setPackageLoader] = useState(false);
+  const [LoaderPackageID,setLoaderPackageID] = useState();
+  const [itemLoader,setItemLoader] = useState(false);
+  const [LoaderItemID,setLoaderItemID] = useState();
+  const [DecreasePackageLoader,setDecreasePackageLoader] = useState(false);
+  const [decreaseLoaderPackageID,setDecreaseLoaderPackageID] = useState();
+  const [decreaseLoaderItem,setDecreaseLoaderItem] = useState(false);
+  const [decreaseLoaderId,setDecreaseLoaderId] = useState();
   const maxlimit = 20;
   var imgSource = upwardImage ? ExpandImage : CloseImage;
   
@@ -215,23 +223,35 @@ const Cart = (props) => {
   };
 
   const addItem = (id) => {
+    setLoaderItemID(id.cart_item_id)
+    setItemLoader(true)
     let remainingQuantity = id.quantity + 1;
     let data = [];
     data.push({ item_id: id.item_id,quantity:remainingQuantity})
     addToCartAdvance(data).then((response) => {
       reloadData();
+      setItemLoader(false)
     })
   };
 
   const decreaseItem = (itemData) => {
+    setDecreaseLoaderItem(true)
+    if(itemData.quantity==1){
+      removeItem(itemData.cart_item_id)
+    }else{
+    //setDecreaseLoaderItem(true)
+    setDecreaseLoaderId(itemData.cart_item_id)
     let remainingQuantity = itemData.quantity - 1;
     let data = [];
     data.push({ item_id: itemData.item_id, quantity: remainingQuantity })
     addToCartAdvance(data).then((response) => {
       reloadData();
+      setDecreaseLoaderItem(false)
     }).catch((error) => {
       console.log("decreaseItem" + error)
+      setDecreaseLoaderItem(false)
     })
+  }
   }
 
   const removePackage = (id) => {
@@ -242,17 +262,28 @@ const Cart = (props) => {
   }
 
   const addPackages = (id,quantity) => {
+    setLoaderPackageID(id)
+    setPackageLoader(true)
     let remaningPackage = quantity + 1;
     addPackage(id, remaningPackage).then((response) => {
       reloadData();
+      setPackageLoader(false)
     })
   }
 
   const decreasePackage = (id,quantity) => {
+    setDecreasePackageLoader(true)
+    if(quantity==1){
+      removePackage(id);
+    }else{
+    setDecreaseLoaderPackageID(id)
+    setDecreasePackageLoader(true)
     let remaningPackage = quantity - 1;
     addPackage(id, remaningPackage).then((response) => {
       reloadData();
+      setDecreasePackageLoader(false)
     })
+  }
   }
 
   return (
@@ -403,6 +434,7 @@ const Cart = (props) => {
                                   display: 'flex',
                                   justifyContent: 'space-between',
                                   paddingLeft: 10,
+                                  marginBottom:10
                                 }}>
                                 <Text
                                   style={{
@@ -438,13 +470,17 @@ const Cart = (props) => {
                                     flexDirection: 'row',
                                     justifyContent: 'flex-end',
                                     position: "absolute",
-                                    marginLeft: 3,
-                                    marginTop: 20,
+                                    marginLeft: 5,
+                                    marginTop: 22,
                                     width: 100,
                                     borderColor: '#ffffff',
                                     borderWidth: 0,
-
                                   }}>
+                                    {DecreasePackageLoader && decreaseLoaderPackageID == packages.cart_package_id ?(
+                                      <View style={{  }}>
+                                        <ActivityIndicator color="#ECDBFA" size="small" />
+                                      </View>
+                                    ):(
                                   <TouchableOpacity
                                     onPress={() => {
                                       decreasePackage(packages.cart_package_id,quantity(packages.cart_package_items))
@@ -458,6 +494,7 @@ const Cart = (props) => {
                                       }}
                                     />
                                   </TouchableOpacity>
+                                    )}
                                   <Text
                                     style={{
                                       fontSize: 14,
@@ -467,6 +504,11 @@ const Cart = (props) => {
                                     }}>
                                      {quantity(packages.cart_package_items)} 
                                   </Text>
+                                  {PackageLoader && LoaderPackageID == packages.cart_package_id?(
+                                    <View style={{  }}>
+                                      <ActivityIndicator color="#ECDBFA" size="small" />
+                                    </View>
+                                  ):(
                                   <TouchableOpacity
                                     onPress={() => {
                                       props.add()
@@ -481,12 +523,14 @@ const Cart = (props) => {
                                       }}
                                     />
                                   </TouchableOpacity>
+                                  )}
                                 </View>
 
                               </View>
                             </View>
 
                             <View style={{ direction: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                             
                               <View
                                 style={{
                                   flex: 1,
@@ -675,10 +719,14 @@ const Cart = (props) => {
                           marginLeft: -96,
                           marginTop: 30
                         }}>
+                        {decreaseLoaderItem && decreaseLoaderId == items.cart_item_id?(
+                        <View style={{  }}>
+                          <ActivityIndicator color="#ECDBFA" size="small" />
+                        </View>
+                        ):(
                         <TouchableOpacity
                           onPress={() => {
                             props.add()
-                            // removeItem(items.cart_item_id)
                             decreaseItem(items)
                           }}>
                           <Image
@@ -690,6 +738,7 @@ const Cart = (props) => {
                             }}
                           />
                         </TouchableOpacity>
+                        )}
                         {items.quantity > 1 ? (
                           <Text
                             style={{
@@ -711,7 +760,11 @@ const Cart = (props) => {
                               1
                             </Text>
                           )}
-
+                        {itemLoader && LoaderItemID == items.cart_item_id?(
+                          <View style={{  }}>
+                            <ActivityIndicator color="#ECDBFA" size="small" />
+                          </View>
+                        ):(
                         <TouchableOpacity
                           onPress={() => {
                             props.add()
@@ -726,6 +779,13 @@ const Cart = (props) => {
                             }}
                           />
                         </TouchableOpacity>
+                        )}
+                      </View>
+                      <View style={{
+                        position:'absolute',
+                        right:5
+                      }}>
+                       
                       </View>
                     </ImageBackground>
 

@@ -289,6 +289,7 @@ const LootStore = (props) => {
                       setCurrent(i.index);
                       changeCategory(0);
                       setPage(1);
+                      setOpen(false)
                     }}
                     key={i.index}>
                     {i.index === current && (
@@ -329,6 +330,7 @@ const LootStore = (props) => {
                     }}
                     onPress={() => {
                       changeSubCategory(0);
+                      setOpen(false)
                     }}>
                     <SmallLGBtn
                       text="All"
@@ -345,6 +347,7 @@ const LootStore = (props) => {
                         key={k}
                         onPress={() => {
                           setSelectedSubCategory(k + 1);
+                          setOpen(false)
                         }}>
                         <SmallLGBtn
                           text={i.name}
@@ -403,21 +406,20 @@ const LootStore = (props) => {
                           <>
                           <View style={{flex:1}}>
                             <FlatList
-                             style={{height:height*0.65,marginTop:-15}}
+                             style={{height:height*0.60,marginTop:-15}}
                               contentContainerStyle={{
                                 marginBottom: 10
-                               
                               }}
                               showsVerticalScrollIndicator={false}
                               scrollEnabled={true}
                               data={filteredDataSource}
                               onEndThreshold={0.0}
                              // onMomentumScrollEnd={() => handleLodeMore()}
-                              onEndReached={() => setCallOnScrollEnd(true)}
-                              onMomentumScrollEnd={() => {
-                                callOnScrollEnd && handleLodeMore()
-                                setCallOnScrollEnd(false)
-                              }}
+                              // onEndReached={() => setCallOnScrollEnd(true)}
+                              // onMomentumScrollEnd={() => {
+                              //   callOnScrollEnd && handleLodeMore()
+                              //   setCallOnScrollEnd(false)
+                              // }}
 
                               keyExtractor={(item) => item.item_id}
                               renderItem={({ item: i }, k) => {

@@ -576,4 +576,17 @@ const styles = StyleSheet.create({
   },
 })
 
+const pickerStyle = {
+  inputIOS: {
+      color: '#ffffff',
+  },
+  placeholder: {
+      color: '#ffffff',
+  },
+  inputAndroid: {
+      color: '#ffffff',
+
+  },
+};
+
 export default Profile;
