@@ -320,7 +320,7 @@ const LootStore = (props) => {
                     display: 'flex',
                     flexDirection: 'row',
                     justifyContent: 'space-between',
-                    paddingLeft: width * 0.1,
+                    paddingLeft:width * 0.1,
                   }}
                   showsHorizontalScrollIndicator={false}
                   horizontal>

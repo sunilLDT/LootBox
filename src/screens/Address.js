@@ -357,7 +357,7 @@ const Address = (props) => {
                         </View>
                     </View>
                     <View style={{marginVertical: 15,paddingHorizontal:'7%',}}>
-                        <Input placeholder="Building"  value={building} onChangeText={(Building) => setBuilding(Building)} />
+                        <Input placeholder="House"  value={building} onChangeText={(Building) => setBuilding(Building)} />
                     </View>
                     <View style={styles.blockStreet}>
                         <View style={styles.inputView}>

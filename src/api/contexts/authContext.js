@@ -62,7 +62,6 @@ const checkUser = (dispatch) => async () => {
       payload: {token},
     });
   }
-console.log(language)
   if (language) {
     if (token && token.length > 0) {
       navigate({name: 'home'});
@@ -161,8 +160,6 @@ const signin = (dispatch) => async ({email, password}) => {
       password,
     });
     if (res.data.data.token) {
-      console.log('+++++++++++++++++++++++++++++++++++++++++++++++++++++++')
-      console.log(res.data)
       dispatch({
         type: 'signin',
         payload: {token: res.data.data.token},
@@ -182,19 +179,20 @@ const signin = (dispatch) => async ({email, password}) => {
       type: 'toggle_loading',
     });
   } catch (e) {
-    dispatch({
-      type: 'add_msg',
-      payload: 'These credentials do not match our records.',
-    });
+    // console.log(e.response.data)
+    // dispatch({
+    //   type: 'add_msg',
+    //   payload: e.response.data.message,
+    // });
     dispatch({
       type: 'toggle_loading',
     });
   }
+
 };
 
 const verifyOtp = (dispatch) => async ({otp}) => {
   try {
-    // console.log(otp);
     if(!otp && otp !== ""){
       dispatch({
         type: 'add_msg',

@@ -21,27 +21,19 @@ import arabicImage from '../assets/arabic.png';
 import strings,{ changeLaguage } from '../languages/index';
 import RNRestart from 'react-native-restart';
 import {I18nManager} from "react-native"
-
+import AsyncStorage from '@react-native-community/async-storage';
 import { connect } from '@language';
 
 const {width, height} = Dimensions.get('window');
 
-
-function useForceUpdate() {
-  const [value, setValue] = useState(0); // integer state
-  return () => setValue(value => ++value); // update the state to force render
-}
-
-
 const Drawer = (props) => {
-
   const {signout,state} = useContext(AuthContext)
   const isDrawerOpen=useIsDrawerOpen()
   const [profileDetails,setProfileDetails] = useState({});
-  const [lang,setLang] = useState('en');
-  const [languageImage,setLanguageImage] = useState(true);
+  const [languageImage,setLanguageImage] = useState();
   const [ignored, forceUpdate] = useReducer(x => x + 1, 0);
   let { strings, language } = props;
+
   const options = [
     {
       name: strings.cart,
@@ -51,10 +43,10 @@ const Drawer = (props) => {
       name: strings.order,
       path: 'orders',
     },
-    {
-      name:strings.faq,
-      path: 'Faq',
-    },
+    // {
+    //   name:strings.faq,
+    //   path: 'Faq',
+    // },
     {
       name: strings.contactUs,
       path: 'contact',
@@ -65,7 +57,19 @@ const Drawer = (props) => {
     },
   ];
 
+  const gettingLangName = async () => {
+    try {
+      const value = await AsyncStorage.getItem('language');
+      if (value !== null) {
+        setLanguageImage(value)
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  };
+
   useEffect(() => {
+    gettingLangName()
     getProfilApi().then((response) => {
       setProfileDetails(response.data);
     }).catch((error) => {
@@ -76,30 +80,27 @@ const Drawer = (props) => {
     }
   }, []); 
 
-  const arabicLang = () => {
+  const arabicLang = async () => {
     language.setLanguage('it')
-    setLanguageImage(!languageImage);
+    await AsyncStorage.setItem('language', 'it');
     changeLaguage('it');
-    setLang('it')
-  //  I18nManager.forceRTL(true)
-  //  RNRestart.Restart();
-    
+    I18nManager.forceRTL(true)
+    RNRestart.Restart();
   }
-  const englishLang = () => {
+
+  const englishLang = async () => {
     language.setLanguage('en')
-    setLanguageImage(!languageImage);
+    await AsyncStorage.setItem('language', 'en');
     changeLaguage('en');
-    setLang('en')
-    // I18nManager.forceRTL(false)
-    // RNRestart.Restart();
+    I18nManager.forceRTL(false)
+    RNRestart.Restart();
   };
 
   return (
     <Animatable.View
       animation={isDrawerOpen ? 'fadeIn':'fadeOut'}
       delay={900}
-      >
-        
+      > 
       <LinearGradient
         start={{x: 0, y: 0}}
         end={{x: 1, y: 0}}
@@ -215,11 +216,10 @@ const Drawer = (props) => {
             </TouchableOpacity>
           ))}
           <View style={{marginVertical:20,marginLeft:-10}}>
-            {languageImage?(
+            {languageImage == "en"?(
               <TouchableOpacity onPress={() => arabicLang()}>
                 <Image
                   source={englishImage}
-                  //style={{transform:[{scaleX: -1}]}}
                 />
               </TouchableOpacity>
             ):(

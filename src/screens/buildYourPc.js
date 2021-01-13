@@ -9,6 +9,7 @@ import {
   ActivityIndicator,
   ScrollView,
   StyleSheet,
+  FlatList,
 } from 'react-native';
 import Testing from './testing';
 import Card from './card';
@@ -19,7 +20,8 @@ import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import { getAllGames } from '../api/buildYourPc';
 import AdvanceBuilderButton from '../components/AdvanceBuilderBtn';
 import strings from '../languages/index';
-
+import { SearchBar } from 'react-native-elements';
+import filter from 'lodash.filter';
 
 const { width, height } = Dimensions.get('window');
 
@@ -28,6 +30,8 @@ const BuildYourPc = ({ navigation }) => {
   const [resolution, setResolution] = useState('1080P');
   const [gameData, setGameData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [open, setOpen] = useState(false);
+  const [query, setQuery] = useState('');
 
   useEffect(() => {
     setLoading(true)
@@ -44,6 +48,53 @@ const BuildYourPc = ({ navigation }) => {
     if(selected.length > 0){
     navigation.navigate('PcDetails', { selectedGames: selected })
     } 
+  }
+  const checkResolution = (res) => {
+    setOpen(false)
+      setResolution(res);
+      if(selected.length !== 0){
+        setSelected([])
+        alert("you can choose only one resolution for games")
+      }
+  }
+
+  const handleSearch = (text) => {
+    if (text) {
+      const newData = gameData.filter(
+        function (item) {
+          const itemData = item.name
+            ? item.name.toUpperCase()
+            : ''.toUpperCase();
+          const textData = text.toUpperCase();
+          return itemData.indexOf(textData) > -1;
+        });
+        setGameData(newData);
+        setQuery(text);
+    } else {
+      setGameData(gameData);
+      setQuery(text);
+    }
+  };
+
+  const renderHeader = () => {
+    return (
+      <>
+        {open ? (
+          <SearchBar
+            placeholder="Search Game.."
+            lightTheme round editable={true}
+            value={query}
+            onChangeText={queryText => handleSearch(queryText)}
+            containerStyle={{ borderRadius: 22, height: 50, marginBottom: 20, marginHorizontal: 20 }}
+            inputContainerStyle={{ height: 30 }}
+          />
+        ) : null}
+      </>
+    );
+  };
+
+  const openClose = () => {
+    setOpen(!open)
   }
 
   return (
@@ -121,14 +172,14 @@ const BuildYourPc = ({ navigation }) => {
                 <TouchableOpacity
                   style={{ width: 116 }}
                   onPress={() => {
-                    setResolution('1080P');
+                    checkResolution('1080P');
                   }}>
                   <Option1 selected={resolution === '1080P'} />
                 </TouchableOpacity>
                 <View style={{ position: 'relative', right: 48, width: 84,  }}>
                   <TouchableOpacity
                     onPress={() => {
-                      setResolution('2K');
+                      checkResolution('2K')
                     }}>
                     <Option2 selected={resolution === '2K'} text="2K" />
                   </TouchableOpacity>
@@ -136,13 +187,13 @@ const BuildYourPc = ({ navigation }) => {
                 <View style={{ position: 'relative', right: 94, width: 84 }}>
                   <TouchableOpacity
                     onPress={() => {
-                      setResolution('4K');
+                      checkResolution('4K');
                     }}>
                     <Option2 selected={resolution === '4K'} text="4K" />
                   </TouchableOpacity>
                 </View>
               </View>
-              <TouchableOpacity onPress={() => { }}>
+              <TouchableOpacity onPress={() => openClose()}>
                 <Image
                   resizeMode="contain"
                   source={require('../assets/buildYourPc/search.png')}
@@ -167,38 +218,46 @@ const BuildYourPc = ({ navigation }) => {
         </Text>
         ):(
         <>
-          {gameData.map((i, k) => (
-            <View key={k} style={{width: '100%', marginVertical: 10}}>
-              {!selected.includes(i.game_id) ? (
+        <FlatList
+        keyExtractor={(item) => item.name}
+        ListHeaderComponent={renderHeader()}
+        data={gameData}
+        showsVerticalScrollIndicator={false}
+        renderItem={({ item }, k) => {
+            return (
+              <View key={k} style={{width: '100%', marginVertical: 10}}>
+              {!selected.includes(item.game_id) ? (
                 <TouchableWithoutFeedback
                   activeOpacity={0.2}
                   onPressIn={() => {
-                    setSelected([...selected, i.game_id]);
+                    setSelected([...selected, item.game_id]);
                   }}>
-                  <Card text={i.name} image={i.image} />
+                  <Card text={item.name} image={item.image} />
                 </TouchableWithoutFeedback>
               ) : (
                   <TouchableWithoutFeedback
                     activeOpacity={0.2}
                     onPressIn={() => {
-                      setSelected(selected.filter((x) => x !== i.game_id));
+                      setSelected(selected.filter((x) => x !== item.game_id));
                     }}>
-                    <Testing text={i.name} image={i.image} />
+                    <Testing text={item.name} image={item.image} />
                   </TouchableWithoutFeedback>
                 )}
             </View>
-          ))}
-          
-          <View style={styles.bottom}>
-            <TouchableOpacity
-              activeOpacity={0.1}
-              onPress={() =>
-                submitGames()
-              }>
-                <Btn text={strings.BuildYourPc} pay= "" />
-              
-            </TouchableOpacity>
-          </View>
+            );
+          }
+        }
+        />
+        <View style={styles.bottom}>
+          <TouchableOpacity
+            activeOpacity={0.1}
+            onPress={() =>
+              submitGames()
+            }>
+              <Btn text={strings.BuildYourPc} pay= "" />
+            
+          </TouchableOpacity>
+        </View>
           </>
           )}
       </ImageBackground>
