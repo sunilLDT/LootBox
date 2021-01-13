@@ -167,7 +167,7 @@ const Address = (props) => {
             {!addressId && <View style={{ position: 'absolute', height: '35%', width: '100%' }}>
                 <GoogleMap handleAddress={handleGoogleAddress}/>
             </View>}
-            <View style={{ height: height-290, marginTop: 290 }}>
+            <View style={{ height: addressId ? height: height-290, marginTop: addressId ? 0 : 290 }}>
                 <ScrollView
                     style={{
                         width: '100%', height: height, overflow: 'visible'
