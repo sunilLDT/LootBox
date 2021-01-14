@@ -1,4 +1,4 @@
-import React, {useState,useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Text,
   View,
@@ -12,24 +12,26 @@ import {
   Platform,
   KeyboardAvoidingView
 } from 'react-native';
-import {Picker} from '@react-native-picker/picker';
+import { Picker } from '@react-native-picker/picker';
 import Input from '../components/input';
 import LinearGradient from 'react-native-linear-gradient';
-import {cityApi,addAddressApi,getSpecificAddress} from '../api/buildYourPc';
+import { cityApi, addAddressApi, getSpecificAddress } from '../api/buildYourPc';
 import SaveBtn from '../components/SaveBtn';
 import { connect } from 'react-redux';
 import { addressActions } from '../actions/address';
-import {addressListApi,deliveryAddressApi,defaultAddressApi} from '../api/buildYourPc';
+import { addressListApi, deliveryAddressApi, defaultAddressApi } from '../api/buildYourPc';
 import RNPickerSelect from 'react-native-picker-select';
+import { GoogleMap } from './googeMaps';
+import { he } from 'date-fns/locale';
 
-const {width, height} = Dimensions.get('window');
+const { width, height } = Dimensions.get('window');
 
 const Address = (props) => {
     const { addressId } = props.route.params;
-    const [specficAddress,setSpecficAddress] = useState({});
+    const [specficAddress, setSpecficAddress] = useState({});
     const [loading, setLoading] = useState(false);
-    const [allAddress,setAllAddress] = useState([]); 
-    if(addressId && addressId !== ""){
+    const [allAddress, setAllAddress] = useState([]);
+    if (addressId && addressId !== "") {
         useEffect(() => {
             setLoading(true)
             getSpecificAddress(addressId).then((response) => {
@@ -42,7 +44,7 @@ const Address = (props) => {
                 setStreet(response.data.street);
                 setBuilding(response.data.building);
                 setFloor(response.data.floor);
-                setapartment(response.data.apartment); 
+                setapartment(response.data.apartment);
                 setSelectedArea(response.data.area_id);
                 setLoading(false)
             }).catch((error) => {
@@ -51,39 +53,41 @@ const Address = (props) => {
             });
             return () => {
                 console.log("willUnMount")
-              }
+            }
         }, []);
     }
 
-    const [city,setCity] = useState([]);
-    const [areas,setAreas] = useState([]);
-    const [addressType,setAddressType] = useState();
-    const [selectedArea,setSelectedArea] = useState();
-    const [selectedCity,setselectedCity] = useState();
-    const [email,setEmail] = useState();
-    const [name,setName] = useState();
-    const [block,setBlock] = useState();
-    const [street,setStreet] = useState();
-    const [building,setBuilding] = useState();
-    const [floor,setFloor] = useState();
-    const [apartment,setapartment] = useState();
-    const [loadingBtn,setLoadingBtn] = useState(false);
+    const [city, setCity] = useState([]);
+    const [areas, setAreas] = useState([]);
+    const [addressType, setAddressType] = useState();
+    const [selectedArea, setSelectedArea] = useState();
+    const [selectedCity, setselectedCity] = useState();
+    const [email, setEmail] = useState();
+    const [name, setName] = useState();
+    const [block, setBlock] = useState();
+    const [street, setStreet] = useState();
+    const [building, setBuilding] = useState();
+    const [floor, setFloor] = useState();
+    const [apartment, setapartment] = useState();
+    const [loadingBtn, setLoadingBtn] = useState(false);
 
     let cityaArea = [];
-    city.map((i,k) => {
+    city.map((i, k) => {
         cityaArea.push({
             label: i.areas[0].name,
             value: i.areas[0].city_id,
-          });
+        });
     });
 
     let areasArray = [];
-    {areas.map((areasValues,index) => {
-        areasArray.push({
-                label:areasValues.name,
-                value:areasValues.area_id,
+    {
+        areas.map((areasValues, index) => {
+            areasArray.push({
+                label: areasValues.name,
+                value: areasValues.area_id,
             })
-    })}
+        })
+    }
 
     useEffect(() => {
         cityApi().then((response) => {
@@ -91,53 +95,53 @@ const Address = (props) => {
         }).catch((error) => {
             console.log("cityWithArea" + error)
         });
-      }, []);
+    }, []);
 
-      
+
 
     const sendCityId = (itemValue) => {
         setselectedCity(itemValue)
         city.map((cityValues) => {
-            {cityValues.areas[0].city_id == itemValue?setAreas(cityValues.areas):null}
+            { cityValues.areas[0].city_id == itemValue ? setAreas(cityValues.areas) : null }
         })
     }
 
     const addAddress = (address_id) => {
-        if(city == "" || email == "" || name == "" ||block == "" || street == "" || building ==""){
+        if (city == "" || email == "" || name == "" || block == "" || street == "" || building == "") {
             alert("Please fill all fields");
-          }
-          else if(email &&
-            !/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)){
-                alert("Invalid Email Address");
-          }
-          else if(typeof addressType == "undefined"){
-              alert("Please fill all fields");
-          }
-          else if(selectedCity == ""){
+        }
+        else if (email &&
+            !/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
+            alert("Invalid Email Address");
+        }
+        else if (typeof addressType == "undefined") {
+            alert("Please fill all fields");
+        }
+        else if (selectedCity == "") {
             alert("Please select City");
         }
-        else if(selectedArea == ""){
+        else if (selectedArea == "") {
             alert("Please select area");
         }
-          else{
+        else {
             setLoadingBtn(true)
-            addAddressApi(selectedCity,selectedArea,addressType,email,name,block,street,building,floor,apartment,address_id).then((response) => {
+            addAddressApi(selectedCity, selectedArea, addressType, email, name, block, street, building, floor, apartment, address_id).then((response) => {
                 props.showAddress();
                 setLoadingBtn(false)
-                if(response.message){
+                if (response.message) {
                     alert(response.message);
-                    addressListApi().then((response) =>{
-                        response.data.map((address,i) => {
-                            if(response.data.length === 1){
+                    addressListApi().then((response) => {
+                        response.data.map((address, i) => {
+                            if (response.data.length === 1) {
                                 deliveryAddressApi(address.address_id).then((response) => {
-                                props.showAddress();
+                                    props.showAddress();
                                 }).catch((error) => {
-                                  console.log("deliveryAddressApi at address" + error)
+                                    console.log("deliveryAddressApi at address" + error)
                                 })
                                 defaultAddressApi(address.address_id).then((response) => {
-                                  }).catch((error) => {
+                                }).catch((error) => {
                                     console.log("defaultAddressCartPAGE" + error)
-                                  })
+                                })
                             }
                         })
                     })
@@ -150,336 +154,361 @@ const Address = (props) => {
             })
         }
     }
-    return (
-        <View style={{backgroundColor:'#292633', width:'100%', height:'100%'}}>
-        <ScrollView
-            style={{
-                width,
-                height,
-            }}>
-            <ImageBackground
-                source={require('../assets/dottedBackground.png')}
-                style={{
-                    width,
-                    minHeight: height,
-                }}>
-                {loading ? (
-                <View style={{margin: height * 0.45,alignSelf:'center'}}>
-                    <ActivityIndicator color="#ECDBFA" size="small" />
-                </View>):(
-                <>
-                <View
+
+    const handleGoogleAddress = (address) => {
+        console.log(JSON.stringify(address))
+        setselectedCity(address.locality)
+        setStreet(address.streetName);
+        // setAreas(address.adminArea);
+        setBlock(address.streetNumber)
+    }
+    return (<>
+        {/* <View style={{ backgroundColor: '#292633', width: '100%', height: height, position: 'relative' }}> */}
+            {!addressId && <View style={{ position: 'absolute', height: '35%', width: '100%' }}>
+                <GoogleMap handleAddress={handleGoogleAddress}/>
+            </View>}
+            <View style={{ height: addressId ? height: height-290, marginTop: addressId ? 0 : 290 }}>
+                <ScrollView
                     style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    flexDirection: 'row',
-                    paddingHorizontal:'7%',
+                        width: '100%', height: height, overflow: 'visible'
                     }}>
-                    <TouchableOpacity
-                    onPress={() => {
-                        props.navigation.pop()
-                    }}>
-                    <Image
-                        style={{width: 48}}
-                        resizeMode="contain"
-                        source={require('../assets/back.png')}
-                    />
-                    </TouchableOpacity>
-                    <Text
-                    style={{
-                        fontStyle: 'italic',
-                        fontSize: 16,
-                        lineHeight: 16,
-                        opacity: 0.4,
-                        color: '#ECDBFA',
-                        marginLeft: 10,
-                    }}>
-                    {addressId && addressId !== ""?"UPDATE ADDRESS":"ADD ADDRESS"}
-                    </Text>
-                </View>
-                {/* <KeyboardAvoidingView
-                behavior="position"
-                keyboardVerticalOffset={50}
-                style={styles.screen}> */}
-                    <View style={{marginVertical: 15,paddingHorizontal:'7%',}}>
-                        <TouchableOpacity >
-                        <Input placeholder="Name" value={name} onChangeText={(Name) => setName(Name)} />
-                        </TouchableOpacity>
-                    </View>
-                    <View style={{marginVertical: 15,paddingHorizontal:'7%',}}>
-                        <Input placeholder="Email" email value={email} onChangeText={(email) => setEmail(email)} />
-                    </View>
-                    <LinearGradient
-                        start={{x: 0, y: 0}}
-                        end={{x: 1, y: 0}}
-                        colors={['rgba(255,255,255,0.069)', 'rgba(255,255,255,0.003) ']}
+                    <ImageBackground
+                        source={require('../assets/dottedBackground.png')}
                         style={{
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        borderRadius: 10,
-                        height: height * 0.1,
-                        width: width * 0.85,
-                        marginVertical: 15,
-                        marginHorizontal:"7%",
-                    }}>
-                    {Platform.OS == "android"?(
-                    <Picker
-                        dropdownIconColor="#ECDBFA"
-                        iosHeader="Please select City"
-                        mode="dropdown"
-                        placeholder="Please select City"
-                        selectedValue={selectedCity}    
-                        style={{
-                            height: Platform.OS=='android'?65:250,
-                            width: "85%",
-                            marginTop: Platform.OS=='android'?0:33,
-                            color:'#ECDBFA',
-                            marginLeft:'2%',
-                        }}
-                        itemStyle={{color:'#ffffff'}}
-                        onValueChange={(itemValue, itemIndex) =>
-                            sendCityId(itemValue)
-                        }
-                        >
-                        <Picker.Item label='Select City' value='' />
-                        {city.map((cityWithArea,index) => {
-                            return(
-                                <Picker.Item 
-                                    key={index} 
-                                    label={cityWithArea.name} 
-                                    value={cityWithArea.city_id}
-                                />
-                            );
-                        })}
-                    </Picker>
-                    ):(
-                    
-                    <View >
-                        <RNPickerSelect
-                            onValueChange={(itemValue) =>
-                                sendCityId(itemValue)
-                            }
-                            onUpArrow={() => {
-                                this.inputRefs.firstTextInput.focus();
-                              }}
-                              onDownArrow={() => {
-                                this.inputRefs.favSport1.togglePicker();
-                              }}
-                            placeholder={{
-                                label: 'Please Select City',
-                                value: null,
-                            }}
-                            value={selectedCity}
-                            items={cityaArea}
-                            style={pickerStyle}
-                        />
-                    </View>
-                    )}
-                    </LinearGradient>
-                    <LinearGradient
-                        start={{x: 0, y: 0}}
-                        end={{x: 1, y: 0}}
-                        colors={['rgba(255,255,255,0.069)', 'rgba(255,255,255,0.003) ']}
-                        style={{
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        borderRadius: 10,
-                        height: height * 0.1,
-                        width: width * 0.85,
-                        marginVertical: 15,
-                        marginHorizontal:"7%",
-                    }}>
-                    {Platform.OS == "android"?(
-                    <Picker
-                        dropdownIconColor="#ECDBFA"
-                        iosHeader="Please select area"
-                        mode="dropdown"
-                        placeholder="Please select area"
-                        selectedValue={selectedArea}
-                        style={{
-                            height: Platform.OS=='android'?65:250,
-                            width: "85%",
-                            marginTop: Platform.OS=='android'?0:30,
-                            color:'#ECDBFA',
-                            marginLeft:'2%',
-                        }}
-                        itemStyle={{color:'#ffffff'}}
-                        onValueChange={(itemValue, itemIndex) =>
-                            setSelectedArea(itemValue)
-                        }
-                        >
-                        <Picker.Item label='Select area' value='' />
-                        {areas.map((areasValues,index) => {
-                            return(
-                                <Picker.Item 
-                                    key={index} 
-                                    label={areasValues.name} 
-                                    value={areasValues.area_id}
-                                />
-                            );
-                        })}
-                    </Picker>
-                    ):(
-                    <View >
-                        <RNPickerSelect
-                            onValueChange={(itemValue) =>
-                                setSelectedArea(itemValue)
-                            }
-                            placeholder={{
-                                label: 'Please Select Area',
-                                value: null,
-                            }}
-                            style={pickerStyle}
-                            value={selectedArea}
-                            items={areasArray}
-                            inputIOS = {{
-                                color: 'white',
-                                marginLeft:100,
-                                borderRadius: 5,
-                            }}
-                            inputAndroid = {{
-                                color: 'white',
-                                paddingHorizontal: 10,
-                                borderRadius: 5,
-                            }}
-                        />
-                    </View>
-                    )}
-                    </LinearGradient>
-                    <View style={styles.blockStreet}>
-                        <View style={styles.inputView}>
-                            <Input placeholder="Block"  style={styles.inputBlock} value={block} onChangeText={(Block) => setBlock(Block)}/>
-                        </View>
-                        <View style={styles.inputView}>
-                            <Input placeholder="Street"  style={styles.input} value={street} onChangeText={(Street) => setStreet(Street)} />
-                        </View>
-                    </View>
-                    <View style={{marginVertical: 15,paddingHorizontal:'7%',}}>
-                        <Input placeholder="Building"  value={building} onChangeText={(Building) => setBuilding(Building)} />
-                    </View>
-                    <View style={styles.blockStreet}>
-                        <View style={styles.inputView}>
-                            <Input placeholder="Floor"  style={styles.input} value={floor} onChangeText={(Floor) => setFloor(Floor)} />
-                        </View>
-                        <View style={styles.inputView}>
-                            <Input placeholder="Apartment "  style={styles.input} value={apartment} onChangeText={(aprt) => setapartment(aprt)} />
-                        </View>
-                    </View>
-                    {/* <View style={{marginVertical: 15,paddingHorizontal:'7%',}}>
+                            width,
+                            minHeight: height,
+                        }}>
+                        {loading ? (
+                            <View style={{ margin: height * 0.45, alignSelf: 'center' }}>
+                                <ActivityIndicator color="#ECDBFA" size="small" />
+                            </View>) : (
+                                <>
+                                    <View
+                                        style={{
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            flexDirection: 'row',
+                                            paddingHorizontal: '7%',
+                                        }}>
+                                        <TouchableOpacity
+                                            onPress={() => {
+                                                props.navigation.pop()
+                                            }}>
+                                            <Image
+                                                style={{ width: 48 }}
+                                                resizeMode="contain"
+                                                source={require('../assets/back.png')}
+                                            />
+                                        </TouchableOpacity>
+                                        <Text
+                                            style={{
+                                                fontStyle: 'italic',
+                                                fontSize: 16,
+                                                lineHeight: 16,
+                                                opacity: 0.4,
+                                                color: '#ECDBFA',
+                                                marginLeft: 10,
+                                            }}>
+                                            {addressId && addressId !== "" ? "UPDATE ADDRESS" : "ADD ADDRESS"}
+                                        </Text>
+                                    </View>
+                                        <View style={{ marginVertical: 15, paddingHorizontal: '7%', }}>
+                                            <TouchableOpacity >
+                                                <Input placeholder="Name" value={name} onChangeText={(Name) => setName(Name)} />
+                                            </TouchableOpacity>
+                                        </View>
+                                        <View style={{ marginVertical: 15, paddingHorizontal: '7%', }}>
+                                            <Input placeholder="Email" email value={email} onChangeText={(email) => setEmail(email)} />
+                                        </View>
+                                        <LinearGradient
+                                            start={{ x: 0, y: 0 }}
+                                            end={{ x: 1, y: 0 }}
+                                            colors={['rgba(255,255,255,0.069)', 'rgba(255,255,255,0.003) ']}
+                                            style={{
+                                                display: 'flex',
+                                                justifyContent: 'center',
+                                                alignItems: 'center',
+                                                borderRadius: 10,
+                                                height: height * 0.1,
+                                                width: width * 0.85,
+                                                marginVertical: 15,
+                                                marginHorizontal: "7%",
+                                            }}>
+                                            {Platform.OS == "android" ? (
+                                                <Picker
+                                                    dropdownIconColor="#ECDBFA"
+                                                    iosHeader="Please select City"
+                                                    mode="dropdown"
+                                                    placeholder="Please select City"
+                                                    selectedValue={selectedCity}
+                                                    style={{
+                                                        height: Platform.OS == 'android' ? 65 : 250,
+                                                        width: "85%",
+                                                        marginTop: Platform.OS == 'android' ? 0 : 33,
+                                                        color: '#ECDBFA',
+                                                        marginLeft: '2%',
+                                                    }}
+                                                    itemStyle={{ color: '#ffffff' }}
+                                                    onValueChange={(itemValue, itemIndex) =>
+                                                        sendCityId(itemValue)
+                                                    }
+                                                >
+                                                    <Picker.Item label='Select City' value='' />
+                                                    {city.map((cityWithArea, index) => {
+                                                        return (
+                                                            <Picker.Item
+                                                                key={index}
+                                                                label={cityWithArea.name}
+                                                                value={cityWithArea.city_id}
+                                                            />
+                                                        );
+                                                    })}
+                                                </Picker>
+                                            ) : (
+
+                                                    <View >
+                                                        <RNPickerSelect
+                                                            onValueChange={(itemValue) =>
+                                                                sendCityId(itemValue)
+                                                            }
+                                                            onUpArrow={() => {
+                                                                this.inputRefs.firstTextInput.focus();
+                                                            }}
+                                                            onDownArrow={() => {
+                                                                this.inputRefs.favSport1.togglePicker();
+                                                            }}
+                                                            placeholder={{
+                                                                label: 'Please Select City',
+                                                                value: null,
+                                                            }}
+                                                            value={selectedCity}
+                                                            items={cityaArea}
+                                                            style={
+                                                                Platform.OS === 'ios'
+                                                                    ? styles.inputIOS
+                                                                    : styles.inputAndroid
+                                                            }
+                                                        />
+                                                    </View>
+                                                )}
+                                        </LinearGradient>
+                                        <LinearGradient
+                                            start={{ x: 0, y: 0 }}
+                                            end={{ x: 1, y: 0 }}
+                                            colors={['rgba(255,255,255,0.069)', 'rgba(255,255,255,0.003) ']}
+                                            style={{
+                                                display: 'flex',
+                                                justifyContent: 'center',
+                                                alignItems: 'center',
+                                                borderRadius: 10,
+                                                height: height * 0.1,
+                                                width: width * 0.85,
+                                                marginVertical: 15,
+                                                marginHorizontal: "7%",
+                                            }}>
+                                            {Platform.OS == "android" ? (
+                                                <Picker
+                                                    dropdownIconColor="#ECDBFA"
+                                                    iosHeader="Please select area"
+                                                    mode="dropdown"
+                                                    placeholder="Please select area"
+                                                    selectedValue={selectedArea}
+                                                    style={{
+                                                        height: Platform.OS == 'android' ? 65 : 250,
+                                                        width: "85%",
+                                                        marginTop: Platform.OS == 'android' ? 0 : 30,
+                                                        color: '#ECDBFA',
+                                                        marginLeft: '2%',
+                                                    }}
+                                                    itemStyle={{ color: '#ffffff' }}
+                                                    onValueChange={(itemValue, itemIndex) =>
+                                                        setSelectedArea(itemValue)
+                                                    }
+                                                >
+                                                    <Picker.Item label='Select area' value='' />
+                                                    {areas.map((areasValues, index) => {
+                                                        return (
+                                                            <Picker.Item
+                                                                key={index}
+                                                                label={areasValues.name}
+                                                                value={areasValues.area_id}
+                                                            />
+                                                        );
+                                                    })}
+                                                </Picker>
+                                            ) : (
+                                                    <View >
+                                                        <RNPickerSelect
+                                                            onValueChange={(itemValue) =>
+                                                                setSelectedArea(itemValue)
+                                                            }
+                                                            placeholder={{
+                                                                label: 'Please Select Area',
+                                                                value: null,
+                                                            }}
+                                                            style={
+                                                                Platform.OS === 'ios'
+                                                                    ? styles.inputIOS
+                                                                    : styles.inputAndroid
+                                                            }
+                                                            value={selectedArea}
+                                                            items={areasArray}
+                                                            inputIOS={{
+                                                                color: 'white',
+                                                                marginLeft: 100,
+                                                                borderRadius: 5,
+                                                            }}
+                                                            inputAndroid={{
+                                                                color: 'white',
+                                                                paddingHorizontal: 10,
+                                                                borderRadius: 5,
+                                                            }}
+                                                        />
+                                                    </View>
+                                                )}
+                                        </LinearGradient>
+                                        <View style={styles.blockStreet}>
+                                            <View style={styles.inputView}>
+                                                <Input placeholder="Block" style={styles.inputBlock} value={block} onChangeText={(Block) => setBlock(Block)} />
+                                            </View>
+                                            <View style={styles.inputView}>
+                                                <Input placeholder="Street" style={styles.input} value={street} onChangeText={(Street) => setStreet(Street)} />
+                                            </View>
+                                        </View>
+                                        <View style={{ marginVertical: 15, paddingHorizontal: '7%', }}>
+                                            <Input placeholder="Building" value={building} onChangeText={(Building) => setBuilding(Building)} />
+                                        </View>
+                                        <View style={styles.blockStreet}>
+                                            <View style={styles.inputView}>
+                                                <Input placeholder="Floor" style={styles.input} value={floor} onChangeText={(Floor) => setFloor(Floor)} />
+                                            </View>
+                                            <View style={styles.inputView}>
+                                                <Input placeholder="Apartment " style={styles.input} value={apartment} onChangeText={(aprt) => setapartment(aprt)} />
+                                            </View>
+                                        </View>
+                                        {/* <View style={{marginVertical: 15,paddingHorizontal:'7%',}}>
                         <Input placeholder="MultiLine Address"  value={multiLineAddress} onChangeText={(multi) => setMultiLineAddress(multi)} />
                     </View> */}
-                    <LinearGradient
-                        start={{x: 0, y: 0}}
-                        end={{x: 1, y: 0}}
-                        colors={['rgba(255,255,255,0.069)', 'rgba(255,255,255,0.003)']}
-                        style={{
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        borderRadius: 10,
-                        height: height * 0.1,
-                        width: width * 0.85,
-                        marginVertical: 15,
-                        marginHorizontal:"7%",
-                        }}>
-                        {Platform.OS == "android"?(
-                        <Picker
-                        dropdownIconColor="#ECDBFA"
-                        mode="dropdown"
-                        selectedValue={addressType}
-                        style={{
-                            height: Platform.OS=='android'?65:250,
-                            width: "85%",
-                            marginTop: Platform.OS=='android'?0:30,
-                            color:'#ECDBFA',
-                            marginLeft:'2%',
-                        }}
-                        itemStyle={{color:'#ffffff'}}
-                        onValueChange={(itemValue, itemIndex) =>
-                            setAddressType(itemValue)
-                        }
-                        >
-                            <Picker.Item label='Address Type' value='' />
-                            <Picker.Item label="Home" value="Home" />
-                            <Picker.Item label="Office" value="Office" />
-                            <Picker.Item label="Other" value="Other" />
-                        </Picker>
-                        ):(
-                        <View >
-                            <RNPickerSelect
-                                onValueChange={(itemValue, itemIndex) =>
-                                    setAddressType(itemValue)
-                                }
-                                placeholder={{
-                                    label: 'Please Select Address Type',
-                                    value: null,
-                                }}
-                                value={addressType}
-                                items={[
-                                    {"label": "Home", "value": "Home"},
-                                    {"label": "Office", "value": "Office"},
-                                    {"label": "Other", "value": "Other"},
-                                  ]}
-                                style={pickerStyle}
-                            />
-                        </View>
-                        )}
+                                        <LinearGradient
+                                            start={{ x: 0, y: 0 }}
+                                            end={{ x: 1, y: 0 }}
+                                            colors={['rgba(255,255,255,0.069)', 'rgba(255,255,255,0.003)']}
+                                            style={{
+                                                display: 'flex',
+                                                justifyContent: 'center',
+                                                alignItems: 'center',
+                                                borderRadius: 10,
+                                                height: height * 0.1,
+                                                width: width * 0.85,
+                                                marginVertical: 15,
+                                                marginHorizontal: "7%",
+                                            }}>
+                                            {Platform.OS == "android" ? (
+                                                <Picker
+                                                    dropdownIconColor="#ECDBFA"
+                                                    mode="dropdown"
+                                                    selectedValue={addressType}
+                                                    style={{
+                                                        height: Platform.OS == 'android' ? 65 : 250,
+                                                        width: "85%",
+                                                        marginTop: Platform.OS == 'android' ? 0 : 30,
+                                                        color: '#ECDBFA',
+                                                        marginLeft: '2%',
+                                                    }}
+                                                    itemStyle={{ color: '#ffffff' }}
+                                                    onValueChange={(itemValue, itemIndex) =>
+                                                        setAddressType(itemValue)
+                                                    }
+                                                >
+                                                    <Picker.Item label='Address Type' value='' />
+                                                    <Picker.Item label="Home" value="Home" />
+                                                    <Picker.Item label="Office" value="Office" />
+                                                    <Picker.Item label="Other" value="Other" />
+                                                </Picker>
+                                            ) : (
+                                                    <View >
+                                                        <RNPickerSelect
+                                                            onValueChange={(itemValue, itemIndex) =>
+                                                                setAddressType(itemValue)
+                                                            }
+                                                            placeholder={{
+                                                                label: 'Please Select Address Type',
+                                                                value: null,
+                                                            }}
+                                                            value={addressType}
+                                                            items={[
+                                                                { "label": "Home", "value": "Home" },
+                                                                { "label": "Office", "value": "Office" },
+                                                                { "label": "Other", "value": "Other" },
+                                                            ]}
+                                                            inputIOS={{
+                                                                color: 'white',
+                                                                marginLeft: 100,
+                                                                borderRadius: 5,
+                                                            }}
+                                                            inputAndroid={{
+                                                                color: 'white',
+                                                                paddingHorizontal: 10,
+                                                                borderRadius: 5,
+                                                            }}
+                                                        />
+                                                    </View>
+                                                )}
 
-                    </LinearGradient>
-                {/* </KeyboardAvoidingView> */}
-                <View style={styles.btnView}>
-                    <TouchableOpacity
-                    onPress={() => addAddress(specficAddress.address_id)}>
-                        <View>
-                        {loadingBtn?(
-                            <>
-                                <SaveBtn text={' '}  />
-                                <ActivityIndicator
-                                    color="#ECDBFA"
-                                    size="small"
-                                    style={{ bottom: 38 }}
-                                />
-                            </>
-                            ):(
-                                <SaveBtn text={addressId && addressId !== ""?"UPDATE":"SAVE"}/>
+                                        </LinearGradient>
+                                        <View style={styles.btnView}>
+                                            <TouchableOpacity
+                                                onPress={() => addAddress(specficAddress.address_id)}>
+                                                <View>
+                                                    {loadingBtn ? (
+                                                        <>
+                                                            <SaveBtn text={' '} />
+                                                            <ActivityIndicator
+                                                                color="#ECDBFA"
+                                                                size="small"
+                                                                style={{ bottom: 38 }}
+                                                            />
+                                                        </>
+                                                    ) : (
+                                                            <SaveBtn text={addressId && addressId !== "" ? "UPDATE" : "SAVE"} />
+                                                        )}
+                                                </View>
+                                            </TouchableOpacity>
+                                        </View>
+                                </>
                             )}
-                        </View>
-                    </TouchableOpacity>
-                </View>
-                </>
-                )}
-          </ImageBackground>
-      </ScrollView>
-      </View>
+                    </ImageBackground>
+                </ScrollView>
+            </View>
+        {/* </View> */}
+        </>
     );
 }
 
 const styles = StyleSheet.create({
-    blockStreet:{
+    blockStreet: {
         display: 'flex',
         flexDirection: 'row',
-        marginLeft:"-9%",
-        alignSelf:'center',
+        marginLeft: "-9%",
+        alignSelf: 'center',
     },
-    inputView:{
+    inputView: {
         marginVertical: 15,
-        width:"35%",
+        width: "35%",
     },
-    input:{
-        width:"100%",
-        paddingLeft:"115%",
-        zIndex:1000,
+    input: {
+        width: "100%",
+        paddingLeft: "115%",
+        zIndex: 1000,
     },
-    inputBlock:{
-        width:"100%",
-        paddingLeft:"115%",
+    inputBlock: {
+        width: "100%",
+        paddingLeft: "115%",
     },
-    btnView:{
-        paddingHorizontal:'10%',
-        justifyContent:'flex-end',
-        position:'relative',
+    btnView: {
+        paddingHorizontal: '10%',
+        justifyContent: 'flex-end',
+        position: 'relative',
         marginVertical: 15,
     },
     inputIOS: {
@@ -491,8 +520,8 @@ const styles = StyleSheet.create({
         borderRadius: 4,
         color: '#ffffff',
         paddingRight: 30, // to ensure the text is never behind the icon
-      },
-      inputAndroid: {
+    },
+    inputAndroid: {
         fontSize: 16,
         paddingHorizontal: 10,
         paddingVertical: 8,
@@ -501,7 +530,7 @@ const styles = StyleSheet.create({
         borderRadius: 8,
         color: 'black',
         paddingRight: 30, // to ensure the text is never behind the icon
-      },
+    },
 });
 
 const pickerStyle = {
@@ -520,10 +549,10 @@ const pickerStyle = {
 
 const mapStateToProps = (state) => ({
     address: state.addressReducer.address,
-  })
-  const actionCreators = {
+})
+const actionCreators = {
     showAddress: addressActions.showAddress,
-  };
-  
-export default connect(mapStateToProps,actionCreators)(Address);
+};
+
+export default connect(mapStateToProps, actionCreators)(Address);
 
