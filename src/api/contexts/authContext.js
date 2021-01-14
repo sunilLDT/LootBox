@@ -62,13 +62,11 @@ const checkUser = (dispatch) => async () => {
       payload: {token},
     });
   }
-console.log(language)
   if (language) {
     if (token && token.length > 0) {
       navigate({name: 'home'});
     } else {
-      // navigate({name: 'orderDetails'});
-      // navigate({name: 'auth'});
+      // navigate({name: 'slider'});
     }
   } else {
     if (token && token.length > 0) {
@@ -160,9 +158,14 @@ const signin = (dispatch) => async ({email, password}) => {
       email,
       password,
     });
-    if (res.data.data.token) {
-      console.log('+++++++++++++++++++++++++++++++++++++++++++++++++++++++')
-      console.log(res.data)
+
+    if(res.data.data.status !== 1){
+      dispatch({
+        type: 'add_msg',
+        payload:
+          'We InActive your ID Please cotact to us',
+      });
+    }else if(res.data.data.token) {
       dispatch({
         type: 'signin',
         payload: {token: res.data.data.token},
@@ -182,6 +185,8 @@ const signin = (dispatch) => async ({email, password}) => {
       type: 'toggle_loading',
     });
   } catch (e) {
+    console.log('+++++++++++++++++++++++++++++++++++++++++++++++++++++++')
+    console.log(e)
     dispatch({
       type: 'add_msg',
       payload: 'These credentials do not match our records.',
