@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState, useCallback } from 'react';
+import React, { useContext, useEffect, useState, useCallback,useRef } from 'react';
 import {
   View,
   Dimensions,
@@ -32,6 +32,8 @@ const options = [
 ];
 
 const LootStore = (props) => {
+  const scrollRef = useRef(); 
+
   const { fetchCategories, fetchItems } = useContext(AuthContext);
   const [data, setData] = useState(null);
   const [categories, setCategories] = useState([]);
@@ -135,6 +137,14 @@ const LootStore = (props) => {
   const openClose = () => {
     setOpen(!open)
   }
+
+  const onPressTouch = () => {
+    scrollRef.current?.scrollTo({
+        y: 0,
+        animated: true,
+    });
+}
+
 
   const searchFilterFunction = (text) => {
     if (text) {
@@ -244,8 +254,13 @@ const LootStore = (props) => {
               lightTheme round editable={true}
               value={search}
               onChangeText={(text) => searchFilterFunction(text)}
-              containerStyle={{ borderRadius: 22, height: 50, marginBottom: 20, marginHorizontal: width * 0.1 }}
-              inputContainerStyle={{ height: 30, }}
+              containerStyle={{
+                backgroundColor:'#D2D7F9',
+                marginBottom: 20,
+                marginHorizontal: width * 0.1,
+                borderRadius:20,
+               }}
+              inputContainerStyle={{ height: 30,backgroundColor:'#D2D7F9'}}
             />) : null}
           <Text
             style={{
@@ -290,6 +305,7 @@ const LootStore = (props) => {
                       changeCategory(0);
                       setPage(1);
                       setOpen(false)
+                      onPressTouch()
                     }}
                     key={i.index}>
                     {i.index === current && (
@@ -316,6 +332,8 @@ const LootStore = (props) => {
 
               <View style={{ width: '100%' }}>
                 <ScrollView
+                  alwaysBounceHorizontal={true}
+                  ref={scrollRef}
                   contentContainerStyle={{
                     display: 'flex',
                     flexDirection: 'row',

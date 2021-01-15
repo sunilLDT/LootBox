@@ -12,7 +12,7 @@ import {
   ActivityIndicator
 } from 'react-native';
 import IcCardImage from '../../assets/ic_card_a0.png';
-import selectedIcCardImage from '../../assets/Rectangle.png'
+import selectedIcCardImage from '../../assets/Rectangle.png';
 import backImage from '../../assets/back.png';
 import searchImage from '../../assets/ic_search.png';
 import filterImage from '../../assets/ic_filter.png';
@@ -28,6 +28,7 @@ import { SearchBar } from 'react-native-elements';
 import { packageActions } from '../../actions/package';
 import { cartActions } from '../../actions/user';
 import TickImage from '../../assets/tick.png';
+import ItemDetails from '../PcDetails/ItemDetails';
 const { width, height } = Dimensions.get('window');
 
 function useForceUpdate() {
@@ -90,7 +91,6 @@ const AdvanceBuilder = (props) => {
        let result = itemList.find(x => x.sub_category_id === linkedItems.catId);
        id = result.item_id;
      }*/
-    console.log(id)
     advancedBuilderItems(id).then((response) => {
       console.log(response)
       let d = {
@@ -109,7 +109,7 @@ const AdvanceBuilder = (props) => {
   }
 
   const finalSubmit = () => {
-    let result = itemList.map(({ item_id, quantity }) => ({ item_id, quantity: 1 }));
+    let result = itemList.map(({ item_id, quantity,is_advance_builder }) => ({ item_id, quantity: 1,is_advance_builder:1 }));
     addToCartAdvance(result).then((response) => {
       if (response.code == 200) {
         props.add()
@@ -182,19 +182,7 @@ const AdvanceBuilder = (props) => {
       if (selectedIndex == maxIndex - 1) {
         setShowSubmit(true)
       }
-
-
     }
-
-
-
-  }
-
-
-  const getTotal = () => {
-
-
-
   }
 
   const searchFilterFunction = (text) => {
@@ -207,10 +195,10 @@ const AdvanceBuilder = (props) => {
           const textData = text.toUpperCase();
           return itemData.indexOf(textData) > -1;
         });
-      setItems(newData);
+      setFilteredDataSource(newData);
       setSearch(text);
     } else {
-      setItems(items);
+      setFilteredDataSource(items);
       setSearch(text);
     }
   };
@@ -308,8 +296,13 @@ const AdvanceBuilder = (props) => {
               lightTheme round editable={true}
               value={search}
               onChangeText={(text) => searchFilterFunction(text)}
-              containerStyle={{ borderRadius: 22, height: 50, marginBottom: 20, marginHorizontal: width * 0.1 }}
-              inputContainerStyle={{ height: 30, }}
+              containerStyle={{
+                backgroundColor:'#D2D7F9',
+                marginBottom: 20,
+                marginHorizontal: width * 0.1,
+                borderRadius:20,
+               }}
+              inputContainerStyle={{ height: 30,backgroundColor:'#D2D7F9'}}
             /> : null}
           {loading ? (
             <View style={{ marginTop: height * 0.37 }}>
@@ -327,7 +320,7 @@ const AdvanceBuilder = (props) => {
                     <ImageBackground source={SubCatBg} style={{ width: 100 }}>
                       {!props.loadingCat ? props.categories.map((part, index) => {
                         return (
-                          <TouchableOpacity key={index} /*onPress={() => subCategoryFun(part.sub_category_id, index)}*/>
+                          <TouchableOpacity key={index} onPress={() => subCategoryFun(part.sub_category_id, index)}>
                             <View style={styles.box}>
                               {subCategoryId === part.sub_category_id ? (
                                 <LinearGradient
@@ -391,7 +384,7 @@ const AdvanceBuilder = (props) => {
                     <View style={styles.flatlistContainer}>
                       <FlatList
                         keyExtractor={(item) => item.item_id}
-                        data={items}
+                        data={filteredDataSource}
                         renderItem={({ item }, index) => {
                           const maxlimit = 22;
                           return (
@@ -434,6 +427,9 @@ const AdvanceBuilder = (props) => {
                                   </Text>
                                 </View>
                               </ImageBackground>
+                              <ItemDetails
+                                  itemid={item.item_id}
+                              />
                             </TouchableOpacity>
                           );
                         }}

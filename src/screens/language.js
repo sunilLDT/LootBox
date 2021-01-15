@@ -52,14 +52,14 @@ const Language = (props) => {
       let languagename = await AsyncStorage.getItem('language');
       if(languagename == "it"){
         changeLaguage('it');
-        I18nManager.forceRTL(true)
+        // I18nManager.forceRTL(true)
         // RNRestart.Restart();
         enterToApp()
       }
       else{
         changeLaguage('en');
-        I18nManager.forceRTL(false)
-        RNRestart.Restart();
+        // I18nManager.forceRTL(false)
+        // RNRestart.Restart();
         enterToApp()
       }
     }

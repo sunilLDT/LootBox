@@ -97,8 +97,13 @@ const ItemListing = (props) => {
             lightTheme round editable={true}
             value={query}
             onChangeText={queryText => handleSearch(queryText)}
-            containerStyle={{ borderRadius: 22, height: 50, marginBottom: 20, marginHorizontal: 20 }}
-            inputContainerStyle={{ height: 30 }}
+            containerStyle={{
+              backgroundColor:'#D2D7F9',
+              marginBottom: 20,
+              marginHorizontal: width * 0.1,
+              borderRadius:20,
+             }}
+             inputContainerStyle={{ height: 30,backgroundColor:'#D2D7F9'}}
           />
         ) : null}
       </>

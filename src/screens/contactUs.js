@@ -78,7 +78,7 @@ const ContactUs = ({navigation}) => {
         </Text>
 
         <View style={{marginVertical: 15}}>
-          <TouchableOpacity 
+          {/* <TouchableOpacity 
           onPress={() => {
             navigation.navigate('Faq');
           }}
@@ -104,7 +104,7 @@ const ContactUs = ({navigation}) => {
                 FAQ's
               </Text>
             </LinearGradient>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
         <View style={{marginVertical: 15}}>
           <TouchableOpacity

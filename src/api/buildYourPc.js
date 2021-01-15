@@ -133,13 +133,12 @@ export async function cityApi(){
   return response.data;
 }
 
-export async function addAddressApi(city,areas,addressType,email,name,block,street,building,floor,apartment,addressid){  
+export async function addAddressApi(city,areas,addressType,name,block,street,building,floor,apartment,addressid){ 
   const response = await Api.post('app/user/add-address',{
     address_id:addressid,
     city:city,
     area:areas,
     name:name,
-    email:email,
     address_type:addressType,
     block:block,
     street:street,

@@ -29,9 +29,13 @@ const BuildYourPc = ({ navigation }) => {
   const [selected, setSelected] = useState([]);
   const [resolution, setResolution] = useState('1080P');
   const [gameData, setGameData] = useState([]);
+  
   const [loading, setLoading] = useState(true);
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState('');
+  console.log("********")
+  console.log(gameData)
+  console.log("**********")
 
   useEffect(() => {
     setLoading(true)
@@ -47,6 +51,9 @@ const BuildYourPc = ({ navigation }) => {
   const submitGames = () => {
     if(selected.length > 0){
     navigation.navigate('PcDetails', { selectedGames: selected })
+    }
+    else{
+      alert("Please select a game")
     } 
   }
   const checkResolution = (res) => {
@@ -74,23 +81,6 @@ const BuildYourPc = ({ navigation }) => {
       setGameData(gameData);
       setQuery(text);
     }
-  };
-
-  const renderHeader = () => {
-    return (
-      <>
-        {open ? (
-          <SearchBar
-            placeholder="Search Game.."
-            lightTheme round editable={true}
-            value={query}
-            onChangeText={queryText => handleSearch(queryText)}
-            containerStyle={{ borderRadius: 22, height: 50, marginBottom: 20, marginHorizontal: 20 }}
-            inputContainerStyle={{ height: 30 }}
-          />
-        ) : null}
-      </>
-    );
   };
 
   const openClose = () => {
@@ -204,6 +194,24 @@ const BuildYourPc = ({ navigation }) => {
                 />
               </TouchableOpacity>
         </View>
+        <View>
+        {open ? (
+          <SearchBar
+            placeholder="Search Game.."
+            lightTheme round editable={true}
+            value={query}
+            onChangeText={queryText => handleSearch(queryText)}
+            containerStyle={{
+              backgroundColor:'#D2D7F9',
+              marginTop:'-7%',
+              marginBottom:"3%",
+              marginHorizontal:"5%",
+              borderRadius:20,
+             }}
+             inputContainerStyle={{ height: 30,backgroundColor:'#D2D7F9'}}
+          />
+        ) : null}
+        </View>
         {loading?(
         <View style={{marginTop: height * 0.19}}>
           <ActivityIndicator color="#ECDBFA" size="small" />
@@ -220,7 +228,7 @@ const BuildYourPc = ({ navigation }) => {
         <>
         <FlatList
         keyExtractor={(item) => item.name}
-        ListHeaderComponent={renderHeader()}
+        showsVerticalScrollIndicator={false}
         data={gameData}
         showsVerticalScrollIndicator={false}
         renderItem={({ item }, k) => {
