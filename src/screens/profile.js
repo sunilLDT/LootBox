@@ -52,7 +52,7 @@ const Profile = (props) => {
   const [confirmPassword, setconfirmPassword] = useState("");
   const [photo, setPhoto] = useState({});
   const [loading, setLoading] = useState(true);
-  const { signout } = useContext(AuthContext);
+  const {signout} = useContext(AuthContext);
   const [loadingBtn, setLoadingBtn] = useState(false);
   const [first_name, setFirstName] = useState();
   const [last_name, setLastName] = useState();
