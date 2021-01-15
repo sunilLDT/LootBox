@@ -33,9 +33,6 @@ const BuildYourPc = ({ navigation }) => {
   const [loading, setLoading] = useState(true);
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState('');
-  console.log("********")
-  console.log(gameData)
-  console.log("**********")
 
   useEffect(() => {
     setLoading(true)
