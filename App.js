@@ -47,6 +47,7 @@ import AddToCart from './src/screens/AdvanceBuilder/addToCart';
 import AddvanceListing from './src/screens/AdvanceBuilder/advanceListing';
 import { initLanguages, LanguageProvider } from '@language';
 import { languages } from '@config';
+import AsyncStorage from '@react-native-community/async-storage';
 
 const strings = initLanguages(languages);
 const { width, height } = Dimensions.get('window');
@@ -114,11 +115,11 @@ const HomeScreen = () => (
 
 const App = () => {
   const { checkUser } = useContext(AuthContext);
+  
   const check = async () => {
     await checkUser();
     SplashScreen.hide();
   };
-
   useEffect(() => {
     check();
   }, []);
@@ -204,12 +205,12 @@ const App = () => {
           <Stack.Screen name="email" component={Email} />
           <Stack.Screen name="addToCart" component={AddToCart} />
           <Stack.Screen name="advanceListing" component={AddvanceListing} />
-          
         </Stack.Navigator>
       </NavigationContainer>
     </View>
   );
 };
+
 
 export default () => {
   return (

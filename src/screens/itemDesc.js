@@ -100,14 +100,24 @@ const renderViewLess = (onPress) => {
   const item = [
           {
               "item_id":props.route.params.id,
-              "quantity":qty
+              "quantity":qty,
           }, 
-        ];
-
-  const addIntoCart = () => {
+        ];   
+  const proceedToCheckout = () => {
     addToCartForStore(isUpdate,item).then((response) => {
       setAddItems(response.data)
       props.navigation.navigate('cart');
+      props.add();
+    }).catch((error) => {
+      console.log("addToCartForStore" + error);
+    });
+  }
+
+  const addIntoCart = () => {
+    addToCartForStore(isUpdate,item).then((response) => {
+      console.log(response)
+      console.log("@@@@@@@@")
+      setAddItems(response.data)
       props.add();
     }).catch((error) => {
       console.log("addToCartForStore" + error);
@@ -442,9 +452,12 @@ const renderViewLess = (onPress) => {
               </LinearGradient>
             ),
         )}
-
         <TouchableOpacity onPress={() => addIntoCart()}>
           <Btn text="ADD TO CART" pay= ""/>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={{marginTop:-28}} onPress={() => proceedToCheckout()}>
+          <Btn text="PROCEED TO CHECKOUT" pay= "" x= "-15"/>
         </TouchableOpacity>
       </ImageBackground>
     </ScrollView>

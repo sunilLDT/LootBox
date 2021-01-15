@@ -21,12 +21,13 @@ import Btn from './btn';
 import ContinueBtn from '../components/ContinueGmailBtn';
 import bgImage from '../assets/signup.png';
 import Icons  from 'react-native-vector-icons/FontAwesome';
+import AsyncStorage from '@react-native-community/async-storage';
 
 const {height, width} = Dimensions.get('window');
 
 const Signup = ({navigation, route}) => {
   const [selected, setSelected] = useState(false);
-  const {signup, setValidationError, googleSignIn, state} = useContext(
+  const {signup, registerGuestUser, setValidationError, googleSignIn, state} = useContext(
     AuthContext,
   );
 
@@ -54,6 +55,16 @@ const Signup = ({navigation, route}) => {
     user_type,
     is_google,
   };
+
+  const submit = async () => {
+    const userType = await AsyncStorage.getItem('user_type')
+    const user_id = await AsyncStorage.getItem('user_id')
+    if(JSON.parse(userType) == 2) {
+      registerGuestUser({...data, guest_user_id: user_id})
+    } else {
+      signup(data);
+    }
+  }
 
   return (
     <View style={{backgroundColor:'#292633', width:'100%', height:'100%'}}>
@@ -264,7 +275,7 @@ const Signup = ({navigation, route}) => {
                   password.length >= 8 &&
                   phone.length == 8
                 ) {
-                  signup(data);
+                  submit()
                 } else {
                   
                   if (password && password.length < 8) {

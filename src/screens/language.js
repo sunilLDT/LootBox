@@ -14,13 +14,15 @@ import LanguageCard from '../svgs/cardLang';
 import { languageRestart } from '../components/languageRestart';
 import strings,{ changeLaguage } from '../languages/index';
 import { connect } from '@language';
+import AsyncStorage from '@react-native-community/async-storage';
+import {I18nManager} from "react-native";
+import RNRestart from 'react-native-restart';
 
 const { height, width } = Dimensions.get('window');
 
 const Language = (props) => {
 
   const { state, checkUser, setLanguage } = useContext(AuthContext);
-  const [LocalLanguage, setLocalLanguage] = useState('');
   let { strings, language } = props;
 
   const data = [
@@ -34,19 +36,36 @@ const Language = (props) => {
     },
   ];
 
-  const languageChange = (isOn) => {
-    //AsyncStorage.setItem('language', isOn ? 'en' : 'ar');
-    //languageRestart(isOn);
-    //languageRestart(isOn);
-    console.log(state.token)
-    //language.setLanguage(isOn ? 'en' : 'ar');
-    //changeLaguage(isOn ? 'en' : 'ar');
+  const enterToApp = () => {
     if(state.token) {
       props.navigation.navigate('home');
     } else {
-      props.navigation.navigate('auth', {
-        screen: 'signin',
+      props.navigation.navigate('slider', {
+        screen: 'slider',
       });
+    }
+  }
+
+  const languageChange = async isOn => {
+    try{
+      await AsyncStorage.setItem('language', isOn);
+      let languagename = await AsyncStorage.getItem('language');
+      if(languagename == "it"){
+        changeLaguage('it');
+        // I18nManager.forceRTL(true)
+        // RNRestart.Restart();
+        enterToApp()
+      }
+      else{
+        changeLaguage('en');
+        // I18nManager.forceRTL(false)
+        // RNRestart.Restart();
+        enterToApp()
+      }
+    }
+    catch(error)
+    {
+      console.log(error)
     }
   };
 
@@ -92,15 +111,15 @@ const Language = (props) => {
            {strings.chooseLang}
             </Text>
 
-          {data.map((i, k) => (
+          {data.map((i, k) => {
+            return (
             <TouchableOpacity
               key={k}
               style={{
                 marginTop: 30,
               }}
               onPress={() => {
-                languageChange(LocalLanguage == 'en' ? false : true)
-
+                languageChange(k == 0?'it':'en')
               }}>
               <View
                 style={{
@@ -137,7 +156,9 @@ const Language = (props) => {
                 </Text>
               </View>
             </TouchableOpacity>
-          ))}
+          );
+        }
+        )}
         </View>
       </View>
     </LinearGradient>
