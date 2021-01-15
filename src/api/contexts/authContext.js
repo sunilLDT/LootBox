@@ -163,18 +163,7 @@ const signin = (dispatch) => async ({email, password}) => {
       email,
       password,
     });
-<<<<<<< HEAD
-
-    if(res.data.data.status !== 1){
-      dispatch({
-        type: 'add_msg',
-        payload:
-          'We InActive your ID Please cotact to us',
-      });
-    }else if(res.data.data.token) {
-=======
     if (res.data.data.token) {
->>>>>>> b0c25477e371fdf54402bc105dda1d71ec26a42d
       dispatch({
         type: 'signin',
         payload: {token: res.data.data.token},
@@ -194,10 +183,6 @@ const signin = (dispatch) => async ({email, password}) => {
       type: 'toggle_loading',
     });
   } catch (e) {
-<<<<<<< HEAD
-    console.log('+++++++++++++++++++++++++++++++++++++++++++++++++++++++')
-    console.log(e)
-=======
     // console.log(e.response.data)
     // dispatch({
     //   type: 'add_msg',
@@ -230,7 +215,6 @@ const guestUserSignIn = (dispatch) => async () => {
       navigate({name: 'home'});
     }
   } catch (e) {
->>>>>>> b0c25477e371fdf54402bc105dda1d71ec26a42d
     dispatch({
       type: 'add_msg',
       payload: 'Something went wrong',
