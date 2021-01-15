@@ -39,6 +39,7 @@ import thumbnail from '../assets/thumbnail.png';
 import PayBtn from '../components/PayBtn';
 import Icon from 'react-native-vector-icons/Feather';
 import strings from '../languages/index';
+import AsyncStorage from '@react-native-community/async-storage';
 
 
 const { width, height } = Dimensions.get('window');
@@ -82,9 +83,15 @@ const Cart = (props) => {
     return i.is_default === 1 ? true : false;
   });
 
-  const checkout = () => {
+  const checkout = async () => {
+    const userType = await AsyncStorage.getItem('user_type')
     setLoading(true)
-    if (props.address.length === 0) {
+    if (JSON.parse(userType) == 2) {
+      props.navigation.navigate('auth', {
+        screen: 'signup',
+      })
+    } else if (props.address.length === 0)
+      {
       alert("Please add address for the Delivery")
       setLoading(false)
     }
@@ -92,7 +99,7 @@ const Cart = (props) => {
     //   alert("Please select the Delivery address")
     //   setLoading(false)
     // }
-    else {
+     else {
       orderPlace().then((response) => {
         setLoading(false)
         props.navigation.navigate('checkout', { paymentUrl: response.data.data.paymenturl })

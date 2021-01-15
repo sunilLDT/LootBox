@@ -44,8 +44,8 @@ const Language = (props) => {
     if(state.token) {
       props.navigation.navigate('home');
     } else {
-      props.navigation.navigate('auth', {
-        screen: 'signin',
+      props.navigation.navigate('slider', {
+        screen: 'slider',
       });
     }
   };

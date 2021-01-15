@@ -46,8 +46,13 @@ const reducer = (state, action) => {
     case 'language':
       return {
         ...state,
-        language: action.payload,
+        guestUser: action.payload,
       };
+    case 'guestUser':
+      return {
+        ...state,
+        language: action.payload,
+      }; 
     default:
       return state;
   }
@@ -192,6 +197,36 @@ const signin = (dispatch) => async ({email, password}) => {
   }
 };
 
+const guestUserSignIn = (dispatch) => async () => {
+  try {
+    dispatch({
+      type: 'add_guest_user',
+    });
+    const res = await Api.post('app/user/register', {
+      first_name: "device_id",
+      user_type:2,
+      is_google:0
+    });
+    if (res.data.data.token) {
+      console.log('+++++++++++++++++++++++++++++++++++++++++++++++++++++++')
+      console.log(res.data)
+
+      await AsyncStorage.setItem('token', res.data.data.token);
+      await AsyncStorage.setItem('user_id', JSON.stringify(res.data.data.user_id));
+      await AsyncStorage.setItem('user_type', JSON.stringify(res.data.data.user_type));
+      navigate({name: 'home'});
+    }
+  } catch (e) {
+    dispatch({
+      type: 'add_msg',
+      payload: 'Something went wrong',
+    });
+    dispatch({
+      type: 'toggle_loading',
+    });
+  }
+};
+
 const verifyOtp = (dispatch) => async ({otp}) => {
   try {
     // console.log(otp);
@@ -253,6 +288,37 @@ const resendOtp = (dispatch) => async () => {
       payload: 'Some error occurred',
     });
     return false;
+  }
+};
+
+
+const registerGuestUser = (dispatch) => async (data) => {
+  try {
+    dispatch({
+      type: 'toggle_loading',
+    });
+    const res = await Api.post('app/user/register', data);
+    if (res.data.data.is_otp_verified) {
+      await AsyncStorage.setItem('token', res.data.data.token);
+      await AsyncStorage.setItem('user_id', JSON.stringify(res.data.data.user_id));
+      navigate({name: 'home'});
+    } else {
+      await AsyncStorage.setItem('userId', res.data.data.user_id.toString());
+      await AsyncStorage.setItem('user_id', JSON.stringify(res.data.data.user_id));
+      navigate({name: 'otp'});
+    }
+    dispatch({
+      type: 'toggle_loading',
+    });
+  } catch (e) {
+    console.log(e.message);
+    dispatch({
+      type: 'add_msg',
+      payload: 'User with that email or phone number already exists',
+    });
+    dispatch({
+      type: 'toggle_loading',
+    });
   }
 };
 
@@ -462,6 +528,8 @@ export const {Context, Provider} = createDataContext(
     setValidationError,
     forgotPassword,
     fetchItems,
+    guestUserSignIn,
+    registerGuestUser
   },
   {
     token: null,
