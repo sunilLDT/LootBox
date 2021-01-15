@@ -243,7 +243,6 @@ const verifyOtp = (dispatch) => async ({otp}) => {
         otp,
 
       });
-      alert(JSON.stringify(res))
       if (res.data.success) {
         await AsyncStorage.setItem('userId', '');
         await AsyncStorage.setItem('token', res.data.data.token);
@@ -300,7 +299,6 @@ const registerGuestUser = (dispatch) => async (data) => {
       type: 'toggle_loading',
     });
     const res = await Api.post('app/user/register', data);
-    alert(JSON.stringify(res))
     if (res.data.data.is_otp_verified) {
       await AsyncStorage.setItem('token', res.data.data.token);
       await AsyncStorage.setItem('user_type', JSON.stringify(1));
