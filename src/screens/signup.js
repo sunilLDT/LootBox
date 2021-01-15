@@ -59,6 +59,8 @@ const Signup = ({navigation, route}) => {
   const submit = async () => {
     const userType = await AsyncStorage.getItem('user_type')
     const user_id = await AsyncStorage.getItem('user_id')
+    console.log(JSON.parse(userType) == 2)
+    alert(JSON.parse(userType) == 2)
     if(JSON.parse(userType) == 2) {
       registerGuestUser({...data, guest_user_id: user_id})
     } else {

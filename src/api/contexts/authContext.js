@@ -243,10 +243,12 @@ const verifyOtp = (dispatch) => async ({otp}) => {
         otp,
 
       });
+      alert(JSON.stringify(res))
       if (res.data.success) {
         await AsyncStorage.setItem('userId', '');
         await AsyncStorage.setItem('token', res.data.data.token);
-        navigate({name: 'slider'});
+        await AsyncStorage.setItem('user_type', JSON.stringify(1));
+        navigate({name: 'home'});
       } else {
         dispatch({
           type: 'add_msg',
@@ -298,11 +300,14 @@ const registerGuestUser = (dispatch) => async (data) => {
       type: 'toggle_loading',
     });
     const res = await Api.post('app/user/register', data);
+    alert(JSON.stringify(res))
     if (res.data.data.is_otp_verified) {
       await AsyncStorage.setItem('token', res.data.data.token);
+      await AsyncStorage.setItem('user_type', JSON.stringify(1));
       await AsyncStorage.setItem('user_id', JSON.stringify(res.data.data.user_id));
       navigate({name: 'home'});
     } else {
+      await AsyncStorage.setItem('user_type', JSON.stringify(1));
       await AsyncStorage.setItem('userId', res.data.data.user_id.toString());
       await AsyncStorage.setItem('user_id', JSON.stringify(res.data.data.user_id));
       navigate({name: 'otp'});
