@@ -83,8 +83,7 @@ const ForgotPassword = ({navigation}) => {
               <Input
                 value={email}
                 onChangeText={setEmail}
-                placeholder="Email"
-                email
+                placeholder="Email or Phone"
               />
             </KeyboardAvoidingView>
 
@@ -102,7 +101,7 @@ const ForgotPassword = ({navigation}) => {
                 }
                 else if (
                   email &&
-                  !/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)
+                  (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email) && !/\d{8}/.test(email))
                 ) {
                   Alert.alert(
                     "Lootbox",

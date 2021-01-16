@@ -170,6 +170,8 @@ const signin = (dispatch) => async ({email, password}) => {
         payload: {token: res.data.data.token},
       });
       await AsyncStorage.setItem('token', res.data.data.token);
+      await AsyncStorage.setItem('user_type', JSON.stringify(1));
+      await AsyncStorage.setItem('userId', JSON.stringify(res.data.data.user_id));
       navigate({name: 'home'});
     } else if (res.data.data.is_otp_verified === false) {
       await AsyncStorage.setItem('userId', res.data.data.user_id.toString());
@@ -369,7 +371,7 @@ const forgotPassword = (dispatch) => async (email) => {
     } else {
       dispatch({
         type: 'add_msg',
-        payload: 'The entered email is not registered',
+        payload: 'The entered email or phone number is not registered',
       });
       dispatch({
         type: 'toggle_loading',
@@ -378,7 +380,7 @@ const forgotPassword = (dispatch) => async (email) => {
   } catch (e) {
     dispatch({
       type: 'add_msg',
-      payload: 'The entered email is not registered',
+      payload: 'The entered email or phone number is not registered',
     });
     dispatch({
       type: 'toggle_loading',

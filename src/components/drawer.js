@@ -24,7 +24,6 @@ import RNRestart from 'react-native-restart';
 import {I18nManager} from "react-native"
 import AsyncStorage from '@react-native-community/async-storage';
 import { connect } from '@language';
-import AsyncStorage from '@react-native-community/async-storage';
 
 const { width, height } = Dimensions.get('window');
 
@@ -250,23 +249,6 @@ const Drawer = (props) => {
                 />
               </TouchableOpacity>
             )}
-            <View style={{ marginVertical: 20, marginLeft: -10 }}>
-              {languageImage ? (
-                <TouchableOpacity onPress={() => arabicLang()}>
-                  <Image
-                    source={englishImage}
-                  //style={{transform:[{scaleX: -1}]}}
-                  />
-                </TouchableOpacity>
-              ) : (
-                  <TouchableOpacity onPress={() => englishLang()}>
-                    <Image
-                      source={arabicImage}
-                    />
-                  </TouchableOpacity>
-                )}
-
-            </View>
           </View>
           </View>
         ) : (
