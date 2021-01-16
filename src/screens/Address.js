@@ -38,7 +38,7 @@ const Address = (props) => {
                 setSpecficAddress(response.data);
                 setAddressType(response.data.address_type);
                 setName(response.data.name);
-                setEmail(response.data.email);
+                // setEmail(response.data.email);
                 setselectedCity(response.data.city_id);
                 setBlock(response.data.block);
                 setStreet(response.data.street);
@@ -62,7 +62,7 @@ const Address = (props) => {
     const [addressType, setAddressType] = useState();
     const [selectedArea, setSelectedArea] = useState();
     const [selectedCity, setselectedCity] = useState();
-    const [email, setEmail] = useState();
+    // const [email, setEmail] = useState();
     const [name, setName] = useState();
     const [block, setBlock] = useState();
     const [street, setStreet] = useState();
@@ -107,13 +107,13 @@ const Address = (props) => {
     }
 
     const addAddress = (address_id) => {
-        if (city == "" || email == "" || name == "" || block == "" || street == "" || building == "") {
+        if (city == ""  || name == "" || block == "" || street == "" || building == "") {
             alert("Please fill all fields");
         }
-        else if (email &&
-            !/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
-            alert("Invalid Email Address");
-        }
+        // else if (email &&
+        //     !/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
+        //     alert("Invalid Email Address");
+        // }
         else if (typeof addressType == "undefined") {
             alert("Please fill all fields");
         }
@@ -125,7 +125,7 @@ const Address = (props) => {
         }
         else {
             setLoadingBtn(true)
-            addAddressApi(selectedCity, selectedArea, addressType, email, name, block, street, building, floor, apartment, address_id).then((response) => {
+            addAddressApi(selectedCity, selectedArea, addressType, name, block, street, building, floor, apartment, address_id).then((response) => {
                 props.showAddress();
                 setLoadingBtn(false)
                 if (response.message) {
@@ -214,12 +214,12 @@ const Address = (props) => {
                                     </View>
                                         <View style={{ marginVertical: 15, paddingHorizontal: '7%', }}>
                                             <TouchableOpacity >
-                                                <Input placeholder="Name" value={name} onChangeText={(Name) => setName(Name)} />
+                                                <Input placeholder="Address Name" value={name} onChangeText={(Name) => setName(Name)} />
                                             </TouchableOpacity>
                                         </View>
-                                        <View style={{ marginVertical: 15, paddingHorizontal: '7%', }}>
+                                        {/* <View style={{ marginVertical: 15, paddingHorizontal: '7%', }}>
                                             <Input placeholder="Email" email value={email} onChangeText={(email) => setEmail(email)} />
-                                        </View>
+                                        </View> */}
                                         <LinearGradient
                                             start={{ x: 0, y: 0 }}
                                             end={{ x: 1, y: 0 }}
@@ -376,19 +376,19 @@ const Address = (props) => {
                                             </View>
                                         </View>
                                         <View style={{ marginVertical: 15, paddingHorizontal: '7%', }}>
-                                            <Input placeholder="Building" value={building} onChangeText={(Building) => setBuilding(Building)} />
+                                            <Input placeholder="House" value={building} onChangeText={(Building) => setBuilding(Building)} />
                                         </View>
                                         <View style={styles.blockStreet}>
                                             <View style={styles.inputView}>
-                                                <Input placeholder="Floor" style={styles.input} value={floor} onChangeText={(Floor) => setFloor(Floor)} />
+                                                <Input placeholder="Floor (optional)" style={styles.input} value={floor} onChangeText={(Floor) => setFloor(Floor)} />
                                             </View>
                                             <View style={styles.inputView}>
-                                                <Input placeholder="Apartment " style={styles.input} value={apartment} onChangeText={(aprt) => setapartment(aprt)} />
+                                                <Input placeholder="Apartment (optional)" style={styles.input} value={apartment} onChangeText={(aprt) => setapartment(aprt)} />
                                             </View>
                                         </View>
                                         {/* <View style={{marginVertical: 15,paddingHorizontal:'7%',}}>
-                        <Input placeholder="MultiLine Address"  value={multiLineAddress} onChangeText={(multi) => setMultiLineAddress(multi)} />
-                    </View> */}
+                                            <Input placeholder="MultiLine Address"  value={multiLineAddress} onChangeText={(multi) => setMultiLineAddress(multi)} />
+                                        </View> */}
                                         <LinearGradient
                                             start={{ x: 0, y: 0 }}
                                             end={{ x: 1, y: 0 }}

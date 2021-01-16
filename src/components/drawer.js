@@ -20,19 +20,13 @@ import englishImage from '../assets/english.png';
 import arabicImage from '../assets/arabic.png';
 import strings, { changeLaguage } from '../languages/index';
 import RNRestart from 'react-native-restart';
-import { I18nManager } from "react-native"
 
+import {I18nManager} from "react-native"
+import AsyncStorage from '@react-native-community/async-storage';
 import { connect } from '@language';
 import AsyncStorage from '@react-native-community/async-storage';
 
 const { width, height } = Dimensions.get('window');
-
-
-function useForceUpdate() {
-  const [value, setValue] = useState(0); // integer state
-  return () => setValue(value => ++value); // update the state to force render
-}
-
 
 const Drawer = (props) => {
 
@@ -40,10 +34,11 @@ const Drawer = (props) => {
   const isDrawerOpen = useIsDrawerOpen()
   const [profileDetails, setProfileDetails] = useState({});
   const [lang, setLang] = useState('en');
-  const [languageImage, setLanguageImage] = useState(true);
   const [disableEdit, setDisable] = useState(false)
+  const [languageImage,setLanguageImage] = useState();
   const [ignored, forceUpdate] = useReducer(x => x + 1, 0);
   let { strings, language } = props;
+
   const options = [
     {
       name: strings.cart,
@@ -53,10 +48,10 @@ const Drawer = (props) => {
       name: strings.order,
       path: 'orders',
     },
-    {
-      name: strings.faq,
-      path: 'Faq',
-    },
+    // {
+    //   name:strings.faq,
+    //   path: 'Faq',
+    // },
     {
       name: strings.contactUs,
       path: 'contact',
@@ -67,8 +62,19 @@ const Drawer = (props) => {
     },
   ];
 
+  const gettingLangName = async () => {
+    try {
+      const value = await AsyncStorage.getItem('language');
+      if (value !== null) {
+        setLanguageImage(value)
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  };
 
   useEffect(() => {
+    gettingLangName()
     checkUserType()
     getProfilApi().then((response) => {
       setProfileDetails(response.data);
@@ -88,22 +94,24 @@ const Drawer = (props) => {
   }
 
 
-  const arabicLang = () => {
+  const arabicLang = async () => {
     language.setLanguage('it')
-    setLanguageImage(!languageImage);
+    await AsyncStorage.setItem('language', 'it');
     changeLaguage('it');
     setLang('it')
     //  I18nManager.forceRTL(true)
     //  RNRestart.Restart();
 
+    I18nManager.forceRTL(true)
+    RNRestart.Restart();
   }
-  const englishLang = () => {
+
+  const englishLang = async () => {
     language.setLanguage('en')
-    setLanguageImage(!languageImage);
+    await AsyncStorage.setItem('language', 'en');
     changeLaguage('en');
-    setLang('en')
-    // I18nManager.forceRTL(false)
-    // RNRestart.Restart();
+    I18nManager.forceRTL(false)
+    RNRestart.Restart();
   };
 
   return (
@@ -228,6 +236,20 @@ const Drawer = (props) => {
                 </Text>
               </TouchableOpacity>
             ))}
+            <View style={{marginVertical:20,marginLeft:-10}}>
+            {languageImage == "en"?(
+              <TouchableOpacity onPress={() => arabicLang()}>
+                <Image
+                  source={englishImage}
+                />
+              </TouchableOpacity>
+            ):(
+              <TouchableOpacity onPress={() => englishLang()}>
+                <Image
+                  source={arabicImage}
+                />
+              </TouchableOpacity>
+            )}
             <View style={{ marginVertical: 20, marginLeft: -10 }}>
               {languageImage ? (
                 <TouchableOpacity onPress={() => arabicLang()}>
@@ -245,6 +267,7 @@ const Drawer = (props) => {
                 )}
 
             </View>
+          </View>
           </View>
         ) : (
             <>

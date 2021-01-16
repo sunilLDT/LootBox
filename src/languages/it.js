@@ -104,7 +104,4 @@ export default {
     English:"الإنجليزية",
     Arabic:"عربى",
     NoGameAvailable:'NO GAMES AVAILABLE OF THIS QUALITY'
-
-
-   
-    }
+}

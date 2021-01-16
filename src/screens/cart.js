@@ -64,6 +64,7 @@ const Cart = (props) => {
   const [decreaseLoaderId,setDecreaseLoaderId] = useState();
   const maxlimit = 20;
   var imgSource = upwardImage ? ExpandImage : CloseImage;
+
   
 
   useEffect(() => {
@@ -639,7 +640,9 @@ const Cart = (props) => {
                 </View>
               )}
               {Object.keys(cartData).length === 0 ? null : <View>
-                {cartItems.map((items, k) => (
+                {cartItems.map((items, k) => {
+                  if(items.is_advance_builder === 0){
+                  return (
                   <View
                     key={k}
                   >
@@ -792,15 +795,90 @@ const Cart = (props) => {
                         position:'absolute',
                         right:5
                       }}>
-                       
                       </View>
                     </ImageBackground>
-
                   </View>
-
-                ))}
+                );
+              }
+                })}
               </View>
               }
+              {Object.keys(cartData).length === 0 ?null:
+              cartPackage.length === 0 && cartItems.length === 0 || Object.keys(cartData).length === 0 ?null :
+              <ImageBackground
+                  source={IcDetailCard}
+                  style={{
+                    width: 345,
+                    borderRadius: 10,
+                    marginVertical: 10,
+                    overflow: 'hidden',
+                  }}>
+                <View
+                  style={{
+                    padding: 20,
+                    borderBottomColor: 'rgba(255,255,255,0.3)',
+                    borderBottomWidth: 0.3,
+                  }}>
+                  <Text
+                    style={{
+                      color: '#fff',
+                      fontSize: 12,
+                      opacity: 0.8,
+                      fontFamily: 'Montserrat-Medium',
+                    }}>
+                    Advance Builder Items
+                  </Text>
+                </View>
+                <View
+                  style={{
+                    padding: 20,
+                  }}>
+                  {Object.keys(cartData).length === 0 ? null : cartItems.map((items, k) => {
+                    if(items.is_advance_builder === 1){
+                      return(
+                        <View
+                          style={{
+                            display: 'flex',
+                            flexDirection: 'row',
+                            justifyContent: 'space-between',
+                            marginVertical: 8,
+                          }}
+                          key={k}
+                        >
+                          <Text
+                            style={{
+                              color: 'rgba(255,255,255,0.8)',
+                              fontSize: 15,
+                              fontFamily: 'Montserrat-Regular'
+                            }}>
+                            {((items.name).length > maxlimit) ? (((items.name).substring(0, maxlimit - 3)) + '...') : items.name}
+                            {items.quantity > 1 ? <Text style={{ color: '#fff' }}> ({items.quantity})</Text> : null}
+                            <Text style={{ fontSize: 12, color: 'rgba(255,255,255,0.3)' }}>{"   " + items.brand}</Text>
+                          </Text>
+                          {items.quantity > 1 ? (<Text
+                            style={{
+                              color: 'rgba(255,255,255,0.3)',
+                              fontSize: 12,
+                            }}>
+                            KD {items.sub_total}
+                          </Text>) :
+                            <Text
+                              style={{
+                                color: 'rgba(255,255,255,0.3)',
+                                fontSize: 12,
+                                fontFamily: 'Montserrat-Regular',
+                              }}>
+                              KD {items.price}
+                            </Text>
+                          }
+                        </View>
+                      );
+                  }
+                    })}
+                </View>
+              </ImageBackground>
+              }
+
               {Object.keys(cartData).length === 0 ? (
                 <View style={{
                   flex: 1,
@@ -946,7 +1024,7 @@ const Cart = (props) => {
                       }}>
                       {strings.packageDetails}({Object.keys(cartData).length === 0 ? "0" : cartData.total_items}
                       {cartData.total_items === 1 ? " item" : strings.items})
-              </Text>
+                    </Text>
                   </View>
 
                   <View

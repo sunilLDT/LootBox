@@ -38,6 +38,7 @@ import { string } from 'prop-types';
 import RNPickerSelect from 'react-native-picker-select';
 import { Modal } from 'react-native';
 import { GoogleMap } from './googeMaps';
+import { S3, util } from 'aws-sdk';
 const { width, height } = Dimensions.get('window');
 
 const Profile = (props) => {
@@ -57,7 +58,7 @@ const Profile = (props) => {
   const [first_name, setFirstName] = useState();
   const [last_name, setLastName] = useState();
   const [modalVisible, setModalVisible] = useState(false)
-  console.log(gender)
+
 
 
   var formattedDOB = format(DOB, "d-MM-yyyy");
@@ -144,49 +145,19 @@ const Profile = (props) => {
     };
     ImagePicker.launchImageLibrary(options, (response) => {
       if (response.uri) {
+        // console.log(response)
         setPhoto(response.uri)
-        console.log(response.uri.replace("file://", "/private"))
-
-        // const config = {
-        //   bucketName: 'lootbox-s3',
-        //   dirName: 'user/profile/', /* optional */
-        //   region: 'us-east-2',
-        //   accessKeyId: 'AKIA3JWMPNMIYUFSR54M',
-        //   secretAccessKey: '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',
-        // }
-
-        // uploadFile(response.path, config)
-        //   .then(data => console.log(data))
-        //   .catch(err => console.error("s3 bucket error"+err))
-
-        const file = {
-          //uri: Platform.OS=='ios'?response.uri.replace("file://", "/private"):response.uri, //name: response.fileName, type: 'image/jpg' ,   
-          //uri: "assets-library://asset/asset.PNG?id=655DBE66-8008-459C-9358-914E1FB532DD&ext=PNG",
-          uri: response.uri.replace("file://", "/private"),
-          fileName: response.fileName,
-          type: "image/jpeg"
-        }
-
-        //dataForm.append('file', { uri: Platform.OS=='ios'?photo.uri.replace("file://", "/private"):photo.uri, name: 'photo.jpg', type: 'image/jpg' });
-        const options = {
-          keyPrefix: 'profile/',
-          bucket: 'lootbox-s3',
+        const config = {
+          bucketName: 'lootbox-s3',
+          dirName: 'user/profile/', /* optional */
           region: 'us-east-2',
-          accessKey: 'AKIA3JWMPNMIYUFSR54M',
-          secretKey: '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',
-          successActionStatus: 201,
+          accessKeyId: 'AKIA3JWMPNMIYUFSR54M',
+          secretAccessKey: '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',
         }
-        console.log("****Body*****", response)
-        RNS3.put(file, options).then(response => {
-          console.log(response.status)
-          if (response.status !== 201) {
-            throw new Error('Failed to upload image to S3', response)
-          }
-          console.log("****Body*****", response.body.postResponse.location)
-        }).catch(err => {
-          console.log('bvmvbxcmvbxmncvbmnxbvcxmbvxmn');
-          console.log(err)
-        });
+
+        uploadFile(response.path, config)
+          .then(data => console.log(data))
+          .catch(err => console.error("s3 bucket error"+err))
 
         uploadImageApi(photo).then((response) => {
           alert(response.message);
