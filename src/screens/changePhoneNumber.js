@@ -23,7 +23,6 @@ const ChangePhoneNumber = ({navigation}) => {
     const [loadingBtn,setLoadingBtn] = useState(false);
     
     const numberChange = () => {
-        alert(JSON.stringify(navigation))
         if(phoneNumber == ""){
             alert("Please fill the Phone Number");
         }
