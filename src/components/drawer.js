@@ -21,7 +21,7 @@ import arabicImage from '../assets/arabic.png';
 import strings, { changeLaguage } from '../languages/index';
 import RNRestart from 'react-native-restart';
 
-import {I18nManager} from "react-native"
+import { I18nManager } from "react-native"
 import AsyncStorage from '@react-native-community/async-storage';
 import { connect } from '@language';
 
@@ -34,11 +34,11 @@ const Drawer = (props) => {
   const [profileDetails, setProfileDetails] = useState({});
   const [lang, setLang] = useState('en');
   const [disableEdit, setDisable] = useState(false)
-  const [languageImage,setLanguageImage] = useState();
+  const [languageImage, setLanguageImage] = useState();
   const [ignored, forceUpdate] = useReducer(x => x + 1, 0);
   let { strings, language } = props;
 
-  const options = [
+  let options = [
     {
       name: strings.cart,
       path: 'cart',
@@ -54,11 +54,10 @@ const Drawer = (props) => {
     {
       name: strings.contactUs,
       path: 'contact',
-    },
-    {
+    }, {
       name: strings.logout,
       path: '',
-    },
+    }
   ];
 
   const gettingLangName = async () => {
@@ -72,6 +71,13 @@ const Drawer = (props) => {
     }
   };
 
+  const checkUserType = async () => {
+    const userType = await AsyncStorage.getItem('user_type')
+    if (JSON.parse(userType) == 2) {
+      setDisable(true)
+    }
+  }
+
   useEffect(() => {
     gettingLangName()
     checkUserType()
@@ -84,13 +90,6 @@ const Drawer = (props) => {
       console.log("willUnMount")
     }
   }, []);
-
-  const checkUserType = async () => {
-    const userType = await AsyncStorage.getItem('user_type')
-    if (JSON.parse(userType) == 2) {
-      setDisable(true)
-    }
-  }
 
 
   const arabicLang = async () => {
@@ -133,26 +132,29 @@ const Drawer = (props) => {
               paddingLeft: width * 0.1,
               paddingVertical: width * 0.1,
             }}>
-            <TouchableOpacity
-              onPress={() => {
-                props.navigation.navigate('profile', { dob: profileDetails.date_of_birth })
-              }}
-              disabled={disableEdit}
-              style={{
-                display: 'flex',
-                flexDirection: 'row',
-                alignItems: 'center',
-                justifyContent: 'center',
-                marginRight: '35%'
-              }}>
-              <View style={{
-                width: width * 0.5,
-                height: 25,
-              }}>
-                <EditBtn />
-              </View>
-            </TouchableOpacity>
+            {
+              !disableEdit &&
 
+              <TouchableOpacity
+                onPress={() => {
+                  props.navigation.navigate('profile', { dob: profileDetails.date_of_birth })
+                }}
+                disabled={disableEdit}
+                style={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  marginRight: '35%'
+                }}>
+                <View style={{
+                  width: width * 0.5,
+                  height: 25,
+                }}>
+                  <EditBtn />
+                </View>
+              </TouchableOpacity>
+            }
             <View
               style={{
                 borderColor: '#DF2EDC',
@@ -220,36 +222,54 @@ const Drawer = (props) => {
             <Text>{strings.changeLanguage}</Text>
 
             {options.map((i, k) => (
-              <TouchableOpacity key={k} disabled={k === options.length - 1 && disableEdit} onPress={() => {
+              disableEdit ?
+                <TouchableOpacity key={k} onPress={() => {
+                  props.navigation.navigate(i.path)
+                }}>
+                  {
+                    k !== options.length - 1 &&
+                    <Text
+                      style={{
+                        color: '#ECDBFA',
+                        fontSize: 14,
+                        lineHeight: 16,
+                        marginVertical: height * 0.02,
+                      }}>
+                      {i.name}
+                    </Text>
+                  }
+                </TouchableOpacity>
+                :
+                <TouchableOpacity key={k} disabled={k === options.length - 1 && disableEdit} onPress={() => {
 
-                k === options.length - 1 ? signout() : props.navigation.navigate(i.path)
-              }}>
-                <Text
-                  style={{
-                    color: '#ECDBFA',
-                    fontSize: 14,
-                    lineHeight: 16,
-                    marginVertical: height * 0.02,
-                  }}>
-                  {i.name}
-                </Text>
-              </TouchableOpacity>
+                  k === options.length - 1 ? signout() : props.navigation.navigate(i.path)
+                }}>
+                  <Text
+                    style={{
+                      color: '#ECDBFA',
+                      fontSize: 14,
+                      lineHeight: 16,
+                      marginVertical: height * 0.02,
+                    }}>
+                    {i.name}
+                  </Text>
+                </TouchableOpacity>
             ))}
-            <View style={{marginVertical:20,marginLeft:-10}}>
-            {languageImage == "en"?(
-              <TouchableOpacity onPress={() => arabicLang()}>
-                <Image
-                  source={englishImage}
-                />
-              </TouchableOpacity>
-            ):(
-              <TouchableOpacity onPress={() => englishLang()}>
-                <Image
-                  source={arabicImage}
-                />
-              </TouchableOpacity>
-            )}
-          </View>
+            <View style={{ marginVertical: 20, marginLeft: -10 }}>
+              {languageImage == "en" ? (
+                <TouchableOpacity onPress={() => arabicLang()}>
+                  <Image
+                    source={englishImage}
+                  />
+                </TouchableOpacity>
+              ) : (
+                  <TouchableOpacity onPress={() => englishLang()}>
+                    <Image
+                      source={arabicImage}
+                    />
+                  </TouchableOpacity>
+                )}
+            </View>
           </View>
         ) : (
             <>

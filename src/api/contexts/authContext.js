@@ -203,7 +203,7 @@ const guestUserSignIn = (dispatch) => async () => {
       type: 'add_guest_user',
     });
     const res = await Api.post('app/user/register', {
-      first_name: "device_id",
+      first_name: "Guest User",
       user_type:2,
       is_google:0
     });
