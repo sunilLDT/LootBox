@@ -36,8 +36,6 @@ import { uploadFile } from 'react-s3';
 import strings, { changeLaguage } from '../languages/index';
 import { string } from 'prop-types';
 import RNPickerSelect from 'react-native-picker-select';
-import { Modal } from 'react-native';
-import { GoogleMap } from './googeMaps';
 import { S3, util } from 'aws-sdk';
 const { width, height } = Dimensions.get('window');
 
@@ -53,7 +51,7 @@ const Profile = (props) => {
   const [confirmPassword, setconfirmPassword] = useState("");
   const [photo, setPhoto] = useState({});
   const [loading, setLoading] = useState(true);
-  const {signout} = useContext(AuthContext);
+  const {signout } = useContext(AuthContext);
   const [loadingBtn, setLoadingBtn] = useState(false);
   const [first_name, setFirstName] = useState();
   const [last_name, setLastName] = useState();
@@ -506,19 +504,6 @@ const Profile = (props) => {
                 </>
               )}
           </ImageBackground>
-          <Modal
-            animationType="slide"
-            transparent={true}
-            visible={modalVisible}
-            onRequestClose={() => {
-              setModalVisible(false)
-              alert("Modal has been closed.");
-            }}>
-            <View style={{flex: 1}}>
-              <GoogleMap />
-            </View>
-
-          </Modal>
         </View>
       </ScrollView>
     </View>

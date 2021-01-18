@@ -1,6 +1,5 @@
 import { cartConstants } from './actionTypes';
 import {addressListApi} from '../api/buildYourPc';
-import { Constant } from '../../Constant/Constants.js';
 
 export const addressActions = {
   showAddress,
