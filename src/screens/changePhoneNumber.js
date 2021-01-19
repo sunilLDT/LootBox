@@ -32,9 +32,12 @@ const ChangePhoneNumber = ({navigation}) => {
         else{
             setLoadingBtn(true)
             changeNumberApi(phoneNumber).then((response) => {
+                
+                navigation.navigate('otp', {
+                    screen: 'OtpVerification',
+                  })
                 setLoadingBtn(false)
                 alert(response.message)
-                // navigation.navigate('otp')
             }).catch((error) => {
                 console.log("PhoneNumberChange" + error);
                 setLoadingBtn(false)

@@ -18,6 +18,12 @@ instance.interceptors.request.use(
     return config;
   },
   (err) => {
+    // console.log("interceptors==================************")
+    // console.log(err)
+    // if(err.config.status === 422){
+    //   AsyncStorage.clear();
+    //   navigate({name: 'signin'});
+    // }
     return Promise.reject(err);
   },
 );
@@ -32,3 +38,9 @@ instance.interceptors.response.use(
 )
 
 export default instance;
+
+
+// Url: https://ltdb.vercel.app/
+
+// email: admin@lootbox.com
+// password: 123456

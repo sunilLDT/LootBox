@@ -50,6 +50,8 @@
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string></string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>Need to upload profile picture</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Feather.ttf</string>

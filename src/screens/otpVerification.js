@@ -69,7 +69,7 @@ const Otp = ({navigation}) => {
         <View
           style={{display: 'flex',alignItems:'center', flexDirection: 'row'}}>
           <TouchableOpacity
-            onPress={() => navigation.navigate({name: 'auth'})}>
+            onPress={() => navigation.pop()}>
             <Image
               style={{width: 48}}
               resizeMode="contain"
