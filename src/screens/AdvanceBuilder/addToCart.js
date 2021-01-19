@@ -17,8 +17,6 @@ import SearchImage from '../../assets/buildYourPc/search.png';
 import IcCardImage from '../../assets/ic3.png';
 import thumbnail from '../../assets/thumbnail.png';
 import CloseImage from '../../assets/ic-3copy.png';
-import {addToCart } from '../../api/buildYourPc';
-
 const {width, height} = Dimensions.get('window');
 
 const AddToCart = (props) => {
@@ -105,8 +103,6 @@ const AddToCart = (props) => {
                                 fontSize: 14,
                                 fontStyle: 'italic',
                                 fontWeight: "bold",
-                                // borderRightWidth:1,
-                                // borderRightColor:'#D2D7F9',
                             }}>
                             {(((name).substring(0, maxlimit - 3)) + '...')}
                         </Text>
@@ -121,8 +117,6 @@ const AddToCart = (props) => {
                                 fontStyle: 'italic',
                                 opacity: 0.5,
                                 fontFamily: Platform.OS == 'android' ? 'Michroma-Regular' : 'Michroma',
-                                // borderRightWidth:1,
-                                // borderRightColor:'#D2D7F9',
                             }}>
                             {(((cat).substring(0, maxlimit - 3)) + '...')}
 

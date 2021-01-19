@@ -71,7 +71,7 @@ const Home = (props) => {
                  }}>
               {strings.buildYourPc}
             </Text>
-            <Text
+            {/* <Text
               style={{
                 color: '#ECDBFA',
                 lineHeight: 18,
@@ -82,7 +82,7 @@ const Home = (props) => {
                 fontFamily:Platform.OS=='android'?'Montserrat Regular':'Montserrat',
               }}>
              {strings.buildYourPcSubHeading}
-            </Text>
+            </Text> */}
             <Image
               resizeMode="contain"
               source={require('../assets/ic_arrow0.png')}
@@ -175,7 +175,7 @@ const Home = (props) => {
                     }}>
              {strings.lootStore}
             </Text>
-            <Text
+            {/* <Text
               style={{
                 color: '#ECDBFA',
                 lineHeight: 32,
@@ -186,7 +186,7 @@ const Home = (props) => {
                 fontFamily:Platform.OS=='android'?'Montserrat Regular':'Montserrat',
               }}>
               {strings.BuyItems}
-            </Text>
+            </Text> */}
             <Image
               resizeMode="contain"
               source={require('../assets/ic_arrow0.png')}

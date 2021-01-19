@@ -69,19 +69,6 @@ const Language = (props) => {
     }
   };
 
-  const arabicLang = () => {
-    language.setLanguage('it')
-    changeLaguage('it');
-    setLang('it')
-
-  }
-  const englishLang = () => {
-    language.setLanguage('en')
-    setLanguageImage(!languageImage);
-    changeLaguage('en');
-    //RNRestart.Restart();
-  };
-
   return (
     <LinearGradient
       colors={['#2A2D39', '#261D2A']}

@@ -138,11 +138,11 @@ const LootStore = (props) => {
     setOpen(!open)
   }
 
-  const onPressTouch = () => {
-    scrollRef.current?.scrollTo({
-        y: 0,
-        animated: true,
-    });
+const onPressTouch = () => {
+  scrollRef.current?.scrollTo({
+      y: 0,
+      animated: true,
+  });
 }
 
 

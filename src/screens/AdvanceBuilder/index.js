@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect,useRef } from 'react';
 import {
   View,
   Text,
@@ -37,12 +37,12 @@ function useForceUpdate() {
 }
 
 const AdvanceBuilder = (props) => {
+  const scrollRef = useRef(); 
   const [loading, setLoading] = useState(true);
   const [subCategoryId, setSubCategoryid] = useState("");
   const [items, setItems] = useState([]);
   const [selectedItem, setSelectedItem] = useState({});
   const [itemList, setItemList] = useState([]);
-  const forceUpdate = useForceUpdate();
   const [search, setSearch] = useState('');
   const [filteredDataSource, setFilteredDataSource] = useState([]);
   const [open, setOpen] = useState(false);
@@ -52,14 +52,16 @@ const AdvanceBuilder = (props) => {
   const [linkedItems, setLinkedItems] = useState({});
   const [showSubmit, setShowSubmit] = useState(false);
   const [totalPrice, setTotalPrice] = useState(0);
+  console.log(tick.length)
+  console.log("9999999")
+  console.log(props.categories.length)
 
   const maxlimit = 20;
+
   useEffect(() => {
     setLoading(true);
-
     setMaxIndex(props.categories.length);
     props.categories.map((subCat, i) => {
-
       if (i == 0) {
         setSubCategoryid(subCat.sub_category_id)
         advancedBuilderItems(subCat.sub_category_id).then((response) => {
@@ -92,7 +94,6 @@ const AdvanceBuilder = (props) => {
        id = result.item_id;
      }*/
     advancedBuilderItems(id).then((response) => {
-      console.log(response)
       let d = {
         "name": response.data[0].name,
         "price": response.data[0].price,
@@ -100,7 +101,6 @@ const AdvanceBuilder = (props) => {
       }
       setItems(response.data)
       setFilteredDataSource(response.data)
-
     })
   }
 
@@ -109,31 +109,30 @@ const AdvanceBuilder = (props) => {
   }
 
   const finalSubmit = () => {
-    let result = itemList.map(({ item_id, quantity,is_advance_builder }) => ({ item_id, quantity: 1,is_advance_builder:1 }));
-    addToCartAdvance(result).then((response) => {
-      if (response.code == 200) {
-        props.add()
-        props.navigation.navigate('cart');
-      }
-    })
-
+    if(tick.length !== props.categories.length){
+      alert("Atleast one item is mandatory from each category")
+    }else{
+      let result = itemList.map(({ item_id, quantity,is_advance_builder }) => ({ item_id, quantity: 1,is_advance_builder:1 }));
+      addToCartAdvance(result).then((response) => {
+        if (response.code == 200) {
+          props.add()
+          props.navigation.navigate('cart');
+        }
+      })
+    }
   }
 
   const submitNow = () => {
-    console.log(selectedIndex)
     let i = selectedIndex;
     i = i + 1;
     setSelectedIndex(i);
 
     let subCatId = props.categories[i];
-
-    if (subCatId.link_item_available) {
-      setLinkedItems({ catId: subCatId.sub_category_id, linkedItemId: subCatId.link_item_available })
-    }
+    // if (subCatId.link_item_available) {
+    //   setLinkedItems({ catId: subCatId.sub_category_id, linkedItemId: subCatId.link_item_available })
+    // }
     subCategoryFun(subCatId.sub_category_id, i);
-    setTick([...tick, subCatId.sub_category_id]);
-
-
+    // setTick([...tick, subCatId.sub_category_id]);
   }
 
   const checkSelectedForNext = () => {
@@ -148,7 +147,7 @@ const AdvanceBuilder = (props) => {
       "name": i.name,
       "price": i.price,
       "sub_category_id": i.sub_category_id
-    }
+  }
 
     setSelectedItem(d);
     let a = itemList;
@@ -161,21 +160,18 @@ const AdvanceBuilder = (props) => {
       // setClickedIndex([i.sub_category_id])
 
     } else {
-
       for (j = 0; j < a.length; j++) {
         if (a[j].sub_category_id === i.sub_category_id) {
-          a.splice(j);
+          // a.splice(j);
         } else {
           data.push(a[j]);
         }
-
       }
       data.push(i);
       var total = 0
       for (var i = 0, _len = data.length; i < _len; i++) {
         total += parseFloat(data[i]['price'])
       }
-      console.log('price is', total)
       setTotalPrice(total.toFixed(3))
       setItemList(data);
 
@@ -203,12 +199,6 @@ const AdvanceBuilder = (props) => {
     }
   };
 
-  const handleLodeMore = () => {
-    if (page !== lastPage) {
-      setPage(page + 1);
-      fetchData1();
-    }
-  };
 
   const getName = (id) => {
     let a = itemList;
@@ -243,6 +233,12 @@ const AdvanceBuilder = (props) => {
       return el.sub_category_id === id;
     });
   }
+  const onPressTouch = () => {
+    scrollRef.current?.scrollToEnd({
+        animated: true,
+    });
+  }
+
   return (
     <View
       style={{
@@ -253,6 +249,7 @@ const AdvanceBuilder = (props) => {
         style={styles.background}
       >
         <ScrollView
+          ref={scrollRef}
           showsVerticalScrollIndicator={false}
           style={{ width, height, overflowX: 'hidden' }}
         >
@@ -388,7 +385,10 @@ const AdvanceBuilder = (props) => {
                         renderItem={({ item }, index) => {
                           const maxlimit = 22;
                           return (
-                            <TouchableOpacity onPress={() => selectItem(item)}>
+                            <TouchableOpacity onPress={() => {
+                              selectItem(item)
+                              onPressTouch()
+                            }}>
                               <ImageBackground
                                 onPress={() => { }}
                                 style={{}}
@@ -442,7 +442,7 @@ const AdvanceBuilder = (props) => {
                           </View>
                         </TouchableOpacity> :
                         checkSelectedForNext() ?
-                          <TouchableOpacity onPress={() => { submitNow() }}>
+                          <TouchableOpacity onPress={() => {submitNow()}}>
                             <View style={styles.nextBtn}>
                               <NextBtn name='Next' price={totalPrice} />
                             </View>

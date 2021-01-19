@@ -30,7 +30,7 @@ export default {
     total:"Total",
     pay:"PAY",
     forgotToAdd:"Forgot to add somethng",
-    continueShoping:"Continue Shoping",
+    continueShoping:"Continue Shopping",
     lootStore:"Loot Store",
     discover:"DISCOVER",
     BuyItems:"Buy Items",

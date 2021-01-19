@@ -10,6 +10,7 @@ import {
   ScrollView,
   StyleSheet,
   FlatList,
+  Alert,
 } from 'react-native';
 import Testing from './testing';
 import Card from './card';
@@ -29,7 +30,7 @@ const BuildYourPc = ({ navigation }) => {
   const [selected, setSelected] = useState([]);
   const [resolution, setResolution] = useState('1080P');
   const [gameData, setGameData] = useState([]);
-  
+  const [filterData,setFilterData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState('');
@@ -57,8 +58,19 @@ const BuildYourPc = ({ navigation }) => {
     setOpen(false)
       setResolution(res);
       if(selected.length !== 0){
-        setSelected([])
-        alert("you can choose only one resolution for games")
+        Alert.alert(
+          "Lootbox",
+          "You can choose only one resolution for games",
+          [
+            {
+              text: "Cancel",
+              onPress: () => console.log("Cancel Pressed"),
+              style: "cancel"
+            },
+            { text: "OK", onPress: () => setSelected([]) }
+          ],
+          { cancelable: false }
+        );
       }
   }
 

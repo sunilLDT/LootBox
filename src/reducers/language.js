@@ -5,6 +5,7 @@ const initialState = {
   labels: [],
   loginError: false,
   loading: false,
+  lang:'en',
 
 };
 
@@ -17,8 +18,6 @@ export default function (state = initialState, action) {
       };
   
     case cartConstants.LABEL_SUCCESS:
-      console.log(state.cart)
-      console.log(action.id)
       return {
         ...state,
         cart: action.label
@@ -31,6 +30,11 @@ export default function (state = initialState, action) {
         loginError: 'select Language .',
         loading: false,
       };
+      case cartConstants.GET_LANGUAGE:
+        return {
+          ...state,
+          lang:action.language,
+        };
     default:
       return state;
   }

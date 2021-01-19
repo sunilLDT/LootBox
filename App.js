@@ -115,7 +115,6 @@ const HomeScreen = () => (
 
 const App = () => {
   const { checkUser } = useContext(AuthContext);
-  
   const check = async () => {
     await checkUser();
     SplashScreen.hide();
@@ -210,6 +209,10 @@ const App = () => {
     </View>
   );
 };
+// const languageChange = async () => {
+//     let languagename = await AsyncStorage.getItem('language');
+//     console.log(languagename);
+// };
 
 
 export default () => {
