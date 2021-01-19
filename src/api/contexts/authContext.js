@@ -1,9 +1,9 @@
 import React from 'react';
 import createDataContext from './createDataContext';
 import Api from '../index';
-import {navigate} from './navigationRef';
+import { navigate } from './navigationRef';
 import AsyncStorage from '@react-native-community/async-storage';
-import {GoogleSignin,statusCodes } from '@react-native-community/google-signin';
+import { GoogleSignin, statusCodes } from '@react-native-community/google-signin';
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -52,7 +52,7 @@ const reducer = (state, action) => {
       return {
         ...state,
         language: action.payload,
-      }; 
+      };
     default:
       return state;
   }
@@ -64,21 +64,21 @@ const checkUser = (dispatch) => async () => {
   if (token && token.length > 0) {
     dispatch({
       type: 'signin',
-      payload: {token},
+      payload: { token },
     });
   }
   if (language) {
     if (token && token.length > 0) {
-      navigate({name: 'home'});
+      navigate({ name: 'home' });
     } else {
       // navigate({name: 'orderDetails'});
       // navigate({name: 'auth'});
     }
   } else {
     if (token && token.length > 0) {
-      navigate({name: 'home'});
-    } else{
-    navigate({name: 'language'});
+      navigate({ name: 'home' });
+    } else {
+      navigate({ name: 'language' });
     }
   }
 };
@@ -87,7 +87,7 @@ const googleSignIn = (dispatch) => async () => {
   try {
     await GoogleSignin.configure({
       webClientId: '201119561571-i15v7unj24qm39dt32bsvqtcbsqntkg0.apps.googleusercontent.com',
-      iosClientId:'201119561571-56nv0io5rjjsoq1et7qb734ok04s4ore.apps.googleusercontent.com',
+      iosClientId: '201119561571-56nv0io5rjjsoq1et7qb734ok04s4ore.apps.googleusercontent.com',
     });
     await GoogleSignin.hasPlayServices();
     const userInfo = await GoogleSignin.signIn();
@@ -95,7 +95,7 @@ const googleSignIn = (dispatch) => async () => {
     const firstName = userInfo.user.givenName;
     const lastName = userInfo.user.familyName;
     const {
-      data: {data},
+      data: { data },
     } = await Api.post('app/user/check-google-user', {
       email,
       is_google: 1,
@@ -118,10 +118,10 @@ const googleSignIn = (dispatch) => async () => {
         },
       });
       await AsyncStorage.setItem('token', data.token);
-      navigate({name: 'home'});
+      navigate({ name: 'home' });
     } else if (data.is_otp_verified === false) {
       await AsyncStorage.setItem('userId', data.user_id.toString());
-      await navigate({name: 'otp'});
+      await navigate({ name: 'otp' });
       dispatch({
         type: 'add_msg',
         payload:
@@ -147,15 +147,15 @@ const googleSignIn = (dispatch) => async () => {
         payload: 'play services not available or outdated',
       });
     }
-    else{
+    else {
       await GoogleSignin.revokeAccess();
       await GoogleSignin.signOut();
     }
-    
+
   }
 };
 
-const signin = (dispatch) => async ({email, password}) => {
+const signin = (dispatch) => async ({ email, password }) => {
   try {
     dispatch({
       type: 'toggle_loading',
@@ -167,15 +167,16 @@ const signin = (dispatch) => async ({email, password}) => {
     if (res.data.data.token) {
       dispatch({
         type: 'signin',
-        payload: {token: res.data.data.token},
+        payload: { token: res.data.data.token },
       });
       await AsyncStorage.setItem('token', res.data.data.token);
+      await AsyncStorage.setItem('isLoggedIn', JSON.stringify(true));
       await AsyncStorage.setItem('user_type', JSON.stringify(1));
       await AsyncStorage.setItem('userId', JSON.stringify(res.data.data.user_id));
-      navigate({name: 'home'});
+      navigate({ name: 'home' });
     } else if (res.data.data.is_otp_verified === false) {
       await AsyncStorage.setItem('userId', res.data.data.user_id.toString());
-      await navigate({name: 'otp'});
+      await navigate({ name: 'otp' });
       dispatch({
         type: 'add_msg',
         payload:
@@ -205,8 +206,8 @@ const guestUserSignIn = (dispatch) => async () => {
     });
     const res = await Api.post('app/user/register', {
       first_name: "Guest User",
-      user_type:2,
-      is_google:0
+      user_type: 2,
+      is_google: 0
     });
     if (res.data.data.token) {
       console.log('+++++++++++++++++++++++++++++++++++++++++++++++++++++++')
@@ -215,7 +216,7 @@ const guestUserSignIn = (dispatch) => async () => {
       await AsyncStorage.setItem('token', res.data.data.token);
       await AsyncStorage.setItem('user_id', JSON.stringify(res.data.data.user_id));
       await AsyncStorage.setItem('user_type', JSON.stringify(res.data.data.user_type));
-      navigate({name: 'home'});
+      navigate({ name: 'home' });
     }
   } catch (e) {
     dispatch({
@@ -228,9 +229,9 @@ const guestUserSignIn = (dispatch) => async () => {
   }
 };
 
-const verifyOtp = (dispatch) => async ({otp}) => {
+const verifyOtp = (dispatch) => async ({ otp }) => {
   try {
-    if(!otp && otp !== ""){
+    if (!otp && otp !== "") {
       dispatch({
         type: 'add_msg',
         payload: 'Please fill the OTP',
@@ -238,16 +239,23 @@ const verifyOtp = (dispatch) => async ({otp}) => {
     }
     else {
       const user_id = await AsyncStorage.getItem('userId');
+      const resetPassword = await AsyncStorage.getItem('is_reset_password');
+      const isLoggedIn = await AsyncStorage.getItem('isLoggedIn')
       const res = await Api.post('app/user/verify-otp', {
         user_id: parseInt(user_id),
         otp,
-
+        is_reset_password: JSON.parse(resetPassword)
       });
       if (res.data.success) {
-        await AsyncStorage.setItem('userId', '');
-        await AsyncStorage.setItem('token', res.data.data.token);
-        await AsyncStorage.setItem('user_type', JSON.stringify(1));
-        navigate({name: 'home'});
+        if (resetPassword && !JSON.parse(isLoggedIn)) {
+          await AsyncStorage.setItem('userId', res.data.data.user_id);
+          navigate({ name: 'newPassword' });
+        } else {
+          await AsyncStorage.setItem('userId', '');
+          await AsyncStorage.setItem('token', res.data.data.token);
+          await AsyncStorage.setItem('user_type', JSON.stringify(1));
+          navigate({ name: 'home' });
+        }
       } else {
         dispatch({
           type: 'add_msg',
@@ -260,6 +268,34 @@ const verifyOtp = (dispatch) => async ({otp}) => {
     dispatch({
       type: 'add_msg',
       payload: 'Invalid OTP',
+    });
+  }
+};
+
+const resetPassword = (dispatch) => async (password) => {
+  try {
+    const user_id = await AsyncStorage.getItem('userId');
+    const res = await Api.post('app/user/reset-password', {
+      user_id: user_id,
+      password,
+    });
+    if (res.data.success) {
+      dispatch({
+        type: 'add_msg',
+        payload: 'Password reset successfully, please login',
+      });
+      navigate({ name: 'auth' });
+    } else {
+      dispatch({
+        type: 'add_msg',
+        payload: 'Something went wrong',
+      });
+    }
+  } catch (e) {
+    console.log(e);
+    dispatch({
+      type: 'add_msg',
+      payload: 'Something went wrong',
     });
   }
 };
@@ -303,12 +339,12 @@ const registerGuestUser = (dispatch) => async (data) => {
       await AsyncStorage.setItem('token', res.data.data.token);
       await AsyncStorage.setItem('user_type', JSON.stringify(1));
       await AsyncStorage.setItem('user_id', JSON.stringify(res.data.data.user_id));
-      navigate({name: 'home'});
+      navigate({ name: 'home' });
     } else {
       await AsyncStorage.setItem('user_type', JSON.stringify(1));
       await AsyncStorage.setItem('userId', res.data.data.user_id.toString());
       await AsyncStorage.setItem('user_id', JSON.stringify(res.data.data.user_id));
-      navigate({name: 'otp'});
+      navigate({ name: 'otp' });
     }
     dispatch({
       type: 'toggle_loading',
@@ -333,10 +369,10 @@ const signup = (dispatch) => async (data) => {
     const res = await Api.post('app/user/register', data);
     if (res.data.data.is_otp_verified) {
       await AsyncStorage.setItem('token', res.data.data.token);
-      navigate({name: 'slider'});
+      navigate({ name: 'slider' });
     } else {
       await AsyncStorage.setItem('userId', res.data.data.user_id.toString());
-      navigate({name: 'otp'});
+      navigate({ name: 'otp' });
     }
     dispatch({
       type: 'toggle_loading',
@@ -358,8 +394,10 @@ const forgotPassword = (dispatch) => async (email) => {
     dispatch({
       type: 'toggle_loading',
     });
-    const res = await Api.post('app/user/forgot-password', {email});
+    const res = await Api.post('app/user/forgot-password', { email });
     if (res.data.success) {
+      await AsyncStorage.setItem('userId', res.data.data.user_id.toString());
+      await AsyncStorage.setItem('is_reset_password', JSON.stringify(true));
       dispatch({
         type: 'add_msg',
         payload: res.data.message,
@@ -367,7 +405,7 @@ const forgotPassword = (dispatch) => async (email) => {
       dispatch({
         type: 'toggle_loading',
       });
-      navigate({name: 'auth'});
+      navigate({ name: 'otp' });
     } else {
       dispatch({
         type: 'add_msg',
@@ -393,9 +431,9 @@ const signout = (dispatch) => async () => {
     dispatch({
       type: 'toggle_loading',
     });
-    await AsyncStorage.removeItem('token');
-    dispatch({type: 'signout'});
-    navigate({name: 'auth'});
+    await AsyncStorage.clear();
+    dispatch({ type: 'signout' });
+    navigate({ name: 'auth' });
   } catch (e) {
     dispatch({
       type: 'add_msg',
@@ -408,18 +446,18 @@ const signout = (dispatch) => async () => {
 };
 
 const addError = (dispatch) => (msg) =>
-  dispatch({type: 'add_msg', payload: msg});
+  dispatch({ type: 'add_msg', payload: msg });
 
 const setValidationError = (dispatch) => (msg) => {
-  dispatch({type: 'validation_error', payload: msg});
+  dispatch({ type: 'validation_error', payload: msg });
 };
 
 const setLanguage = (dispatch) => async (language) => {
   await AsyncStorage.setItem('language', language);
-  dispatch({type: 'language', payload: language});
+  dispatch({ type: 'language', payload: language });
 };
 
-const removeError = (dispatch) => () => dispatch({type: 'remove_error'});
+const removeError = (dispatch) => () => dispatch({ type: 'remove_error' });
 
 const fetchCategories = (dispatch) => async () => {
   try {
@@ -435,14 +473,14 @@ const fetchCategories = (dispatch) => async () => {
   }
 };
 
-const fetchItems = (dispatch) => async (category_id, subcategory_id,page) => {
+const fetchItems = (dispatch) => async (category_id, subcategory_id, page) => {
   try {
-      console.log('===================================')
-      console.log('Category Id     :'+category_id)
-      console.log('Sub Category Id :'+subcategory_id)
-      console.log('Page Number     :'+page);
-      console.log('===================================')
-        
+    console.log('===================================')
+    console.log('Category Id     :' + category_id)
+    console.log('Sub Category Id :' + subcategory_id)
+    console.log('Page Number     :' + page);
+    console.log('===================================')
+
     if (subcategory_id) {
       const response = await Api.get(`app/items/list?category_id=${category_id}&&sub_category_id=${subcategory_id}`);
       console.log(response.data)
@@ -463,7 +501,7 @@ const fetchItems = (dispatch) => async (category_id, subcategory_id,page) => {
 const fetchItemsInfo = (dispatch) => async (id) => {
   try {
     const {
-      data: {data},
+      data: { data },
     } = await Api(`app/items/item-details?item_id=${id}`);
 
     return data.custom_fields_values.map((i, k) => {
@@ -481,7 +519,7 @@ const sendEmail = (dispatch) => async (title, description) => {
     dispatch({
       type: 'toggle_loading',
     });
-    if (title,description){
+    if (title, description) {
       const res = await Api.post('app/user/email-conatact-us', {
         title,
         description
@@ -494,7 +532,7 @@ const sendEmail = (dispatch) => async (title, description) => {
         dispatch({
           type: 'toggle_loading',
         });
-      }else{
+      } else {
         dispatch({
           type: 'add_msg',
           payload: "Something went wrong",
@@ -512,7 +550,7 @@ const sendEmail = (dispatch) => async (title, description) => {
   }
 };
 
-export const {Context, Provider} = createDataContext(
+export const { Context, Provider } = createDataContext(
   reducer,
   {
     signin,
@@ -532,7 +570,8 @@ export const {Context, Provider} = createDataContext(
     forgotPassword,
     fetchItems,
     guestUserSignIn,
-    registerGuestUser
+    registerGuestUser,
+    resetPassword
   },
   {
     token: null,
