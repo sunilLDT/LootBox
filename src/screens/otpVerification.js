@@ -16,6 +16,7 @@ import OtpInput from '../components/otp';
 import Modal from '../components/modal';
 import Btn from '../screens/btn';
 import bgImage from '../assets/signup.png';
+import AsyncStorage from '@react-native-community/async-storage';
 
 const {height, width} = Dimensions.get('window');
 
@@ -69,7 +70,12 @@ const Otp = ({navigation}) => {
         <View
           style={{display: 'flex',alignItems:'center', flexDirection: 'row'}}>
           <TouchableOpacity
-            onPress={() => navigation.pop()}>
+            onPress={async () => {
+              const isLoggedIn = await AsyncStorage.getItem('isLoggedIn');
+              if(JSON.parse(isLoggedIn)) {
+                navigation.goBack();
+              } else backAction()
+              }}>
             <Image
               style={{width: 48}}
               resizeMode="contain"

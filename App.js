@@ -48,6 +48,7 @@ import AddvanceListing from './src/screens/AdvanceBuilder/advanceListing';
 import { initLanguages, LanguageProvider } from '@language';
 import { languages } from '@config';
 import AsyncStorage from '@react-native-community/async-storage';
+import NewPassword from './src/screens/newPassword';
 
 const strings = initLanguages(languages);
 const { width, height } = Dimensions.get('window');
@@ -154,6 +155,7 @@ const App = () => {
           <Stack.Screen name="language" component={Language} />
           <Stack.Screen name="auth" component={AuthScreen} options={{ gestureEnabled: false }} />
           <Stack.Screen name="otp" component={OtpVerification} />
+          <Stack.Screen name="newPassword" component={NewPassword} />
           <Stack.Screen name="slider" component={Slider} />
           <Stack.Screen name="home" component={HomeScreen} />
           <Stack.Screen name="buildYourPc" component={BuildYourPc} />
