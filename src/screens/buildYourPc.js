@@ -39,6 +39,7 @@ const BuildYourPc = ({ navigation }) => {
     setLoading(true)
     getAllGames(resolution).then((response) => {
       setGameData(response.data);
+      setFilterData(response.data)
       setLoading(false)
     }).catch((error) => {
       console.log("getAllGames" +error);
@@ -84,10 +85,10 @@ const BuildYourPc = ({ navigation }) => {
           const textData = text.toUpperCase();
           return itemData.indexOf(textData) > -1;
         });
-        setGameData(newData);
+        setFilterData(newData)
         setQuery(text);
     } else {
-      setGameData(gameData);
+      setFilterData(gameData)
       setQuery(text);
     }
   };
@@ -238,7 +239,7 @@ const BuildYourPc = ({ navigation }) => {
         <FlatList
         keyExtractor={(item) => item.name}
         showsVerticalScrollIndicator={false}
-        data={gameData}
+        data={filterData}
         showsVerticalScrollIndicator={false}
         renderItem={({ item }, k) => {
             return (

@@ -52,8 +52,9 @@ const AdvanceBuilder = (props) => {
   const [linkedItems, setLinkedItems] = useState({});
   const [showSubmit, setShowSubmit] = useState(false);
   const [totalPrice, setTotalPrice] = useState(0);
+
   console.log(tick.length)
-  console.log("9999999")
+  console.log("tick **** categories")
   console.log(props.categories.length)
 
   const maxlimit = 20;

@@ -126,7 +126,7 @@ const Slideshow = (props) => {
               width: width,
               // left: width * 0.2,
             }}>
-            {images ? images.map((_, i) => {
+            {images?images.map((_, i) => {
               let opacity = position.interpolate({
                 inputRange: [i - 1, i, i + 1],
                 outputRange: [0.27, 1, 0.27],
@@ -142,7 +142,8 @@ const Slideshow = (props) => {
                     backgroundColor: '#DF2EDC',
                     margin: 8,
                     borderRadius: 5,
-                  }}></Animated.View>
+                  }}>
+                </Animated.View>
               );
             }) : null}
           </View>

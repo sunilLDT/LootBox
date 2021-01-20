@@ -208,9 +208,6 @@ const guestUserSignIn = (dispatch) => async () => {
       is_google:0
     });
     if (res.data.data.token) {
-      console.log('+++++++++++++++++++++++++++++++++++++++++++++++++++++++')
-      console.log(res.data)
-
       await AsyncStorage.setItem('token', res.data.data.token);
       await AsyncStorage.setItem('user_id', JSON.stringify(res.data.data.user_id));
       await AsyncStorage.setItem('user_type', JSON.stringify(res.data.data.user_type));

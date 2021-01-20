@@ -166,7 +166,6 @@ const onPressTouch = () => {
 
   return (
     <View style={{backgroundColor:'#292633', width:'100%', height:'100%'}}>
-    
         <ImageBackground
           source={require('../assets/dottedBackground.png')}
           style={{
