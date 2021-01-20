@@ -16,6 +16,7 @@ import {
 } from 'react-native';
 import Logo from '../assets/launch_screen.png';
 import Input from '../components/input';
+import PhoneNumberInput from '../components/PhoneNumberInput';
 import {Context as AuthContext} from '../api/contexts/authContext';
 import Btn from './btn';
 import ContinueBtn from '../components/ContinueGmailBtn';
@@ -154,7 +155,7 @@ const Signup = ({navigation, route}) => {
                 </View>
 
                 <View style={{marginTop: 20}}>
-                  <Input
+                  <PhoneNumberInput
                     placeholder="Phone Number"
                     tel
                     onChangeText={setPhone}
@@ -180,9 +181,9 @@ const Signup = ({navigation, route}) => {
                     password={!showPassword}
                     style={{width:width * 0.95,paddingRight:'15%'}}
                   />
-                   <TouchableOpacity style={styles.icon} onPress={() => setPasswordVisibility(!showPassword)}>
-                  <Icons name={showPassword ? 'eye' : 'eye-slash'} size={20} color="#fff" />
-                </TouchableOpacity>
+                  <TouchableOpacity style={styles.icon} onPress={() => setPasswordVisibility(!showPassword)}>
+                    <Icons name={showPassword ? 'eye' : 'eye-slash'} size={20} color="#fff" />
+                  </TouchableOpacity>
                 </View>
             </View>
 
@@ -363,7 +364,7 @@ const styles = StyleSheet.create({
   },
   icon: {
     position: 'absolute',
-    right: 10,
+    right: 25,
     height: 25,
     width: 35,
     padding: 2,
