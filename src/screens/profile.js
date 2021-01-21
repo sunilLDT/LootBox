@@ -132,7 +132,7 @@ const Profile = (props) => {
     return true;
   }
 
-  const toBase64 = file => new Promise((resolve, reject) => {
+  const base64string = file => new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = () => resolve(reader.result);

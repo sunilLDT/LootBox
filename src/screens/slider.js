@@ -6,7 +6,6 @@ import {
   Dimensions,
   Animated,
   Text,
-  TouchableWithoutFeedback,
   TouchableOpacity,
   ActivityIndicator,
 } from 'react-native';
