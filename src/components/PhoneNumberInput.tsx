@@ -8,7 +8,7 @@ import {TextInput,
     TouchableOpacity
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import CountryPicker from 'react-native-country-picker-modal';
+import CountryPicker,{ DARK_THEME } from 'react-native-country-picker-modal';
 import { CountryCode, Country } from './types';
 const {height, width} = Dimensions.get('window');
 
@@ -73,6 +73,7 @@ const Input = ({
                 <TouchableOpacity style={{flex:1,justifyContent:'center'}} onPress={() => switchVisible()}>
                 <View >
                 <CountryPicker
+                  theme={DARK_THEME}
                     {...{
                     countryCode: countryCode,
                     withFilter,

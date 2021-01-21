@@ -1,8 +1,8 @@
 import { S3, util } from 'aws-sdk';
 
-const AWS_BUCKET = 'e-com';
-const AWS_ACCESS_KEY = 'AKIAUGIVWEYTT4E6ZCOC';
-const AWS_ACCESS_SECRET = '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';
+const AWS_BUCKET = 'lootbox-s3';
+const AWS_ACCESS_KEY = 'AKIA3JWMPNMIYUFSR54M';
+const AWS_ACCESS_SECRET = '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';
 
 const makeid = (length) => {
    var result           = '';

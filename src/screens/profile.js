@@ -31,12 +31,10 @@ import AddressList from '../components/AddressList';
 import SaveBtn from '../components/SaveBtn';
 import bgImage from '../assets/signup.png';
 import { getProfilApi } from '../api/buildYourPc';
-import { RNS3 } from 'react-native-aws3';
-import { uploadFile } from 'react-s3';
 import strings, { changeLaguage } from '../languages/index';
 import { string } from 'prop-types';
 import RNPickerSelect from 'react-native-picker-select';
-import { S3, util } from 'aws-sdk';
+import {uploadImageOnS3} from '../components/uploadProfile';
 const { width, height } = Dimensions.get('window');
 
 const Profile = (props) => {
@@ -134,6 +132,13 @@ const Profile = (props) => {
     return true;
   }
 
+  const toBase64 = file => new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = error => reject(error);
+});
+
   const handleChoosePhoto = () => {
     const options = {
       noData: true,
@@ -143,19 +148,9 @@ const Profile = (props) => {
     };
     ImagePicker.launchImageLibrary(options, (response) => {
       if (response.uri) {
-        // console.log(response)
+        console.log(response)
         setPhoto(response.uri)
-        const config = {
-          bucketName: 'lootbox-s3',
-          dirName: 'user/profile/', /* optional */
-          region: 'us-east-2',
-          accessKeyId: 'AKIA3JWMPNMIYUFSR54M',
-          secretAccessKey: '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',
-        }
-
-        uploadFile(response.path, config)
-          .then(data => console.log(data))
-          .catch(err => console.error("s3 bucket error"+err))
+        // uploadImageOnS3(response.fileName, response.type, base64string, response.path, response)
 
         uploadImageApi(photo).then((response) => {
           alert(response.message);
