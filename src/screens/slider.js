@@ -92,7 +92,7 @@ const Slideshow = (props) => {
                         fontSize: 20,
                         lineHeight: 38,
                         marginHorizontal: 20,
-                        paddingBottom: 80,
+                        paddingBottom: Platform.OS == 'ios' ?80:20,
                       }}>
                       {x.title}
                     </Text>

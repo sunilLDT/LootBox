@@ -64,7 +64,6 @@ const Cart = (props) => {
   const [decreaseLoaderId,setDecreaseLoaderId] = useState();
   const maxlimit = 20;
   var imgSource = upwardImage ? ExpandImage : CloseImage;
-
   
 
   useEffect(() => {
@@ -83,6 +82,10 @@ const Cart = (props) => {
   var y = allAddress.map((i) => {
     return i.is_default === 1 ? true : false;
   });
+
+  var is_advace = cartItems.map((k) => {
+    return k.is_advance_builder === 1 ? true : false;
+  })
 
   const checkout = async () => {
     const userType = await AsyncStorage.getItem('user_type')
@@ -804,7 +807,7 @@ const Cart = (props) => {
               </View>
               }
               {Object.keys(cartData).length === 0 ?null:
-              cartPackage.length === 0 && cartItems.length === 0 || Object.keys(cartData).length === 0 ?null :
+              !is_advace.includes(true) || Object.keys(cartData).length === 0 ?null :
               <ImageBackground
                   source={IcDetailCard}
                   style={{
