@@ -26,7 +26,7 @@ const {height, width} = Dimensions.get('window');
 
 const ForgotPassword = ({navigation}) => {
   const [email, setEmail] = useState(null);
-  const {state, forgotPassword, setValidationError} = useContext(AuthContext);
+  const {state, forgotPassword, setNavigation, setValidationError} = useContext(AuthContext);
 
   return (
     <View style={{backgroundColor:'#292633', width:'100%', height:'100%'}}>
@@ -89,6 +89,7 @@ const ForgotPassword = ({navigation}) => {
 
             <TouchableOpacity
               onPress={() => {
+                let isEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)
                 if (!email) {
                   Alert.alert(
                     "Lootbox",
@@ -105,7 +106,7 @@ const ForgotPassword = ({navigation}) => {
                 ) {
                   Alert.alert(
                     "Lootbox",
-                    "Invalid Email Address",
+                    "Invalid Email Address or Phone",
                     [
                       { text: "OK", onPress: () => {console.log("clicked")} }
                     ],
@@ -113,7 +114,8 @@ const ForgotPassword = ({navigation}) => {
                   );
                 }
                 else {
-                  forgotPassword(email);
+                  forgotPassword(email, isEmail);
+                  setNavigation('newPassword')
                 }
               }}
               style={{

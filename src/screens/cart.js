@@ -371,7 +371,10 @@ const Cart = (props) => {
                     alignItems: 'center',
                     flexDirection: 'row',
                   }}>
-                  <TouchableOpacity onPress={() => props.navigation.goBack()}>
+                  <TouchableOpacity onPress={() => {
+                    props.navigation ? props.navigation.goBack() : props.navigation.navigate({name: 'home'})
+                  }
+                    }>
                     <Image
                       resizeMode="contain"
                       style={{ width: 48 }}
