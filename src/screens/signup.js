@@ -28,7 +28,7 @@ const {height, width} = Dimensions.get('window');
 
 const Signup = ({navigation, route}) => {
   const [selected, setSelected] = useState(false);
-  const {signup, registerGuestUser, setValidationError, googleSignIn, state} = useContext(
+  const {signup, registerGuestUser, setNavigation, setValidationError, googleSignIn, state} = useContext(
     AuthContext,
   );
 
@@ -62,8 +62,10 @@ const Signup = ({navigation, route}) => {
     const user_id = await AsyncStorage.getItem('user_id')
     if(JSON.parse(userType) == 2) {
       registerGuestUser({...data, guest_user_id: user_id})
+      setNavigation('cart')
     } else {
       signup(data);
+      setNavigation('home')
     }
   }
 

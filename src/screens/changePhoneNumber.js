@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {
   Text,
   View,
@@ -14,6 +14,7 @@ import {
 import Input from '../components/input';
 import {changeNumberApi} from '../api/buildYourPc';
 import SaveBtn from '../components/SaveBtn'
+import {Context as AuthContext} from '../api/contexts/authContext';
 
 const {width, height} = Dimensions.get('window');
 
@@ -21,6 +22,7 @@ const ChangePhoneNumber = ({navigation}) => {
 
     const [phoneNumber,setPhoneNumber] = useState("");
     const [loadingBtn,setLoadingBtn] = useState(false);
+    const {setNavigation} = useContext(AuthContext);
     
     const numberChange = () => {
         if(phoneNumber == ""){
@@ -36,7 +38,8 @@ const ChangePhoneNumber = ({navigation}) => {
                 navigation.navigate('otp', {
                     screen: 'OtpVerification',
                   })
-                setLoadingBtn(false)
+                setLoadingBtn(false);
+                setNavigation('profile')
                 alert(response.message)
             }).catch((error) => {
                 console.log("PhoneNumberChange" + error);

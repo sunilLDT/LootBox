@@ -82,6 +82,14 @@ const checkUser = (dispatch) => async () => {
   }
 };
 
+const setNavigation = (dispatch) => async (name) => {
+  await AsyncStorage.setItem('Navigation', name);
+  dispatch({
+    type: 'setNavigation',
+    payload: name
+  });
+};
+
 const googleSignIn = (dispatch) => async () => {
   try {
     await GoogleSignin.configure({
@@ -236,7 +244,8 @@ const verifyOtp = (dispatch) => async ({ otp }) => {
     else {
       const user_id = await AsyncStorage.getItem('userId');
       const resetPassword = await AsyncStorage.getItem('is_reset_password');
-      const isLoggedIn = await AsyncStorage.getItem('isLoggedIn')
+      const isLoggedIn = await AsyncStorage.getItem('isLoggedIn');
+      const navigationName = await AsyncStorage.getItem('Navigation');
       const res = await Api.post('app/user/verify-otp', {
         user_id: parseInt(user_id),
         otp,
@@ -245,13 +254,11 @@ const verifyOtp = (dispatch) => async ({ otp }) => {
       if (res.data.success) {
         if (resetPassword && !JSON.parse(isLoggedIn)) {
           await AsyncStorage.setItem('userId', res.data.data.user_id);
-          navigate({ name: 'newPassword' });
         } else {
-          await AsyncStorage.setItem('userId', '');
           await AsyncStorage.setItem('token', res.data.data.token);
           await AsyncStorage.setItem('user_type', JSON.stringify(1));
-          navigate({ name: 'home' });
         }
+        navigate({ name: navigationName });
       } else {
         dispatch({
           type: 'add_msg',
@@ -271,6 +278,7 @@ const verifyOtp = (dispatch) => async ({ otp }) => {
 const resetPassword = (dispatch) => async (password) => {
   try {
     const user_id = await AsyncStorage.getItem('userId');
+    await AsyncStorage.removeItem('is_reset_password');
     const res = await Api.post('app/user/reset-password', {
       user_id: user_id,
       password,
@@ -385,15 +393,13 @@ const signup = (dispatch) => async (data) => {
   }
 };
 
-const forgotPassword = (dispatch) => async (email) => {
+const forgotPassword = (dispatch) => async (email, isEmail) => {
   try {
     dispatch({
       type: 'toggle_loading',
     });
     const res = await Api.post('app/user/forgot-password', { email });
     if (res.data.success) {
-      await AsyncStorage.setItem('userId', res.data.data.user_id.toString());
-      await AsyncStorage.setItem('is_reset_password', JSON.stringify(true));
       dispatch({
         type: 'add_msg',
         payload: res.data.message,
@@ -401,7 +407,13 @@ const forgotPassword = (dispatch) => async (email) => {
       dispatch({
         type: 'toggle_loading',
       });
-      navigate({ name: 'otp' });
+      if (isEmail) {
+        navigate({ name: 'auth' });
+      } else {
+        navigate({ name: 'otp' });
+        await AsyncStorage.setItem('userId', res.data.data.user_id.toString());
+        await AsyncStorage.setItem('is_reset_password', JSON.stringify(true));
+      }
     } else {
       dispatch({
         type: 'add_msg',
@@ -567,7 +579,8 @@ export const { Context, Provider } = createDataContext(
     fetchItems,
     guestUserSignIn,
     registerGuestUser,
-    resetPassword
+    resetPassword,
+    setNavigation
   },
   {
     token: null,
@@ -575,5 +588,6 @@ export const { Context, Provider } = createDataContext(
     loading: false,
     validationError: null,
     language: null,
+    navigation: null
   },
 );
