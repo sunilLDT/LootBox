@@ -83,9 +83,12 @@ const Cart = (props) => {
     return i.is_default === 1 ? true : false;
   });
 
-  var is_advace = cartItems.map((k) => {
-    return k.is_advance_builder === 1 ? true : false;
-  })
+  if(Object.keys(cartData).length !== 0){
+    var is_advace = cartItems.map((k) => {
+      return k.is_advance_builder === 1 ? true : false;
+    })
+  }
+  
 
   const checkout = async () => {
     const userType = await AsyncStorage.getItem('user_type')

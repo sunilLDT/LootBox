@@ -32,9 +32,7 @@ import SaveBtn from '../components/SaveBtn';
 import bgImage from '../assets/signup.png';
 import { getProfilApi } from '../api/buildYourPc';
 import strings, { changeLaguage } from '../languages/index';
-import { string } from 'prop-types';
 import RNPickerSelect from 'react-native-picker-select';
-import {uploadImageOnS3} from '../components/uploadProfile';
 const { width, height } = Dimensions.get('window');
 
 const Profile = (props) => {
@@ -53,9 +51,6 @@ const Profile = (props) => {
   const [loadingBtn, setLoadingBtn] = useState(false);
   const [first_name, setFirstName] = useState();
   const [last_name, setLastName] = useState();
-  const [modalVisible, setModalVisible] = useState(false)
-
-
 
   var formattedDOB = format(DOB, "d-MM-yyyy");
 
@@ -113,9 +108,6 @@ const Profile = (props) => {
     else {
       changePasswordApi(oldPassword, newPassword, confirmPassword).then((response) => {
         setpasswordModal(!passwordModal)
-        console.log(response)
-        console.log(response.success)
-        console.log(response.message)
         alert(response.message)
         if (response.success == true) {
           signout()
@@ -132,37 +124,63 @@ const Profile = (props) => {
     return true;
   }
 
-  const toBase64 = file => new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = error => reject(error);
-});
+  const uploadImageOnS3 = async (file) => {
+    try{
+    
+    const s3bucket = new S3({
+      accessKeyId: 'AKIA3JWMPNMIYUFSR54M',
+      secretAccessKey: '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',
+      Bucket: 'lootbox-s3',
+      signatureVersion: 'v4',
+    });
 
-  const handleChoosePhoto = () => {
-    const options = {
+      let contentType = 'image/jpeg';
+      let contentDeposition = 'inline;filename="' + file.name + '"';
+      const base64 = await fs.readFile(file.uri, 'base64');
+      const arrayBuffer = decode(base64);
+
+      s3bucket.createBucket(() => {
+        const params = {
+          Bucket: 'AKIA3JWMPNMIYUFSR54M',
+          Key: file.name,
+          Body: arrayBuffer,
+          ContentDisposition: contentDeposition,
+          ContentType: contentType,
+      };
+      s3bucket.upload(params, (err, data) => {
+        if (err) {
+          console.log('error in callback');
+        }
+      console.log('success');
+      console.log("Respomse URL : "+ data.Location);
+      });
+    });
+  }catch(error){
+    console.log(error)
+  }
+  }
+  const handleChoosePhoto = async () => {
+    let options = {
       noData: true,
       storageOptions: {
         skipBackup: true,
       },
     };
-    ImagePicker.launchImageLibrary(options, (response) => {
-      if (response.uri) {
-        console.log(response)
+    ImagePicker.launchImageLibrary(options, async (response) => {
+      if (response.didCancel) {
+        console.log("User cancelled image picker");
         setPhoto(response.uri)
-        // uploadImageOnS3(response.fileName, response.type, base64string, response.path, response)
-
-        uploadImageApi(photo).then((response) => {
-          alert(response.message);
-        }).catch((error) => {
-          console.log("ImageUploadProfile" + error);
-        });
       }
-      else if (response.errorCode) {
-        console.log(errorCode);
+      else if (response.error) {
+      console.log("ImagePicker Error: ", response.error);
       }
-      else {
-        console.log(response);
+      else{
+        const file = {
+          uri: response.uri,
+          name: response.fileName,
+          type: response.type,
+       };
+       uploadImageOnS3(file);
       }
     })
   }

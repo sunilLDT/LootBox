@@ -28,23 +28,8 @@ export const uploadImageOnS3 = (fileName, contentType, base64string, location, r
       Body: util.base64.decode(base64string),
       ContentType: contentType,
       CORSConfiguration: rule,
+      LocationConstraint: "us-east-2",
     };
     s3bucket.upload(params, response);
-  });
-};
-
-export const downloadImagefromS3 = (key, response) => {
-  const s3bucket = new S3({
-    accessKeyId: AWS_ACCESS_KEY,
-    secretAccessKey: AWS_ACCESS_SECRET,
-    Bucket: AWS_BUCKET,
-    signatureVersion: 'v4',
-  });
-  s3bucket.createBucket(() => {
-    const params = {
-      Bucket: AWS_BUCKET,
-      Key: key,
-    };
-    s3bucket.getObject(params, response);
   });
 };
