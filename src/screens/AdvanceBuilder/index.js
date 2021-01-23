@@ -54,6 +54,7 @@ const AdvanceBuilder = (props) => {
   const [showSubmit, setShowSubmit] = useState(false);
   const [totalPrice, setTotalPrice] = useState(0);
   const [lastCatId, setLastCatId] = useState([]);
+  const [selectStatus, setSelctStatus] = useState([]);
 
   const maxlimit = 20;
 
@@ -81,15 +82,35 @@ const AdvanceBuilder = (props) => {
       }
     });
     props.categoryList();
-    setLoading(false)
+    setLoading(false);
+    getStatus(props.categories);
   }, []);
 
+  const getStatus = (arr) => {
+    let a = []
+    arr.forEach(function (obj, index) {
+      let b = {}
+      b.id = obj.sub_category_id
+      b.status = false
+      a.push(b)
+    });
+    setSelctStatus(a)
+  }
 
-  const subCategoryFun = (subCatId, index,source) => {
+  const setStatus = (catId) => {
+    let a = selectStatus;
+    let objIndex = a.findIndex((obj => obj.id == catId));    
+    a[objIndex].status = true;
+    console.log(a)
+    setSelctStatus(a)
+  }
+
+
+  const subCategoryFun = (subCatId, index, source) => {
     console.log(source);
-   
-    if(source==1){
-          
+
+    if (source == 1) {
+
       setSubCategoryid(subCatId);
       setLastIndexedCat(subCatId);
       let id = subCatId;
@@ -112,23 +133,23 @@ const AdvanceBuilder = (props) => {
     } else {
 
       let result = itemList.find(x => x.sub_category_id === subCatId);
-      if(result){
-      setSubCategoryid(subCatId);
-      
-      let id = subCatId;
-      advancedBuilderItems(id).then((response) => {
-        let d = {
-          "name": response.data[0].name,
-          "price": response.data[0].price,
-          "sub_category_id": response.data[0].sub_category_id
-        }
-        setItems(response.data)
-        setFilteredDataSource(response.data)
-      })
-     // return false;
+      if (result) {
+        setSubCategoryid(subCatId);
+
+        let id = subCatId;
+        advancedBuilderItems(id).then((response) => {
+          let d = {
+            "name": response.data[0].name,
+            "price": response.data[0].price,
+            "sub_category_id": response.data[0].sub_category_id
+          }
+          setItems(response.data)
+          setFilteredDataSource(response.data)
+        })
+        // return false;
+      }
     }
-    }
- 
+
   }
 
   const openClose = () => {
@@ -141,7 +162,7 @@ const AdvanceBuilder = (props) => {
     if (tick.length !== props.categories.length) {
       alert("Atleast one item is mandatory from each category")
     } else {
-      
+
       let result = itemList.map(({ item_id, quantity, is_advance_builder }) => ({ item_id, quantity: 1, is_advance_builder: 1 }));
       console.log(result)
       addToCartAdvance(result).then((response) => {
@@ -156,13 +177,13 @@ const AdvanceBuilder = (props) => {
   const submitNow = () => {
     let i = selectedIndex;
     //i = i + 1;
-   // setSelectedIndex(i);
+    // setSelectedIndex(i);
 
     let subCatId = props.categories[i];
     // if (subCatId.link_item_available) {
     //   setLinkedItems({ catId: subCatId.sub_category_id, linkedItemId: subCatId.link_item_available })
     // }
-    subCategoryFun(subCatId.sub_category_id, i,1);
+    subCategoryFun(subCatId.sub_category_id, i, 1);
     // setTick([...tick, subCatId.sub_category_id]);
   }
 
@@ -173,18 +194,20 @@ const AdvanceBuilder = (props) => {
   }
 
   const selectItem = (i) => {
+    console.log(i.sub_category_id);
     let result = itemList.some(x => x.sub_category_id === i.sub_category_id);
-    if(!result){
-     // setLastCatId(i.sub_category_id)
-    let i = selectedIndex;
-    i = i + 1;
-    console.log(i)
-    setSelectedIndex(i);
-    setTick([...tick, i.sub_category_id]);
-  } 
-    
+    console.log(result);
 
-  
+    if (!result) {
+      setStatus(i.sub_category_id);
+      let k = selectedIndex;
+      k = k + 1;
+      setSelectedIndex(k);
+      setTick([...tick, i.sub_category_id]);
+    }
+
+
+
     let d = {
       "name": i.name,
       "price": i.price,
@@ -217,10 +240,12 @@ const AdvanceBuilder = (props) => {
       setTotalPrice(total.toFixed(3))
       setItemList(data);
       console.log('========')
-      console.log('Selected Index '+selectedIndex)
+      console.log('Selected Index ' + selectedIndex)
       console.log(maxIndex)
       console.log('========')
-      if (selectedIndex ==maxIndex-1 ) {
+      let index = selectStatus.find(obj => obj.status === false);
+      console.log(index)
+      if (!index) {
         setShowSubmit(true)
       }
     }
@@ -362,7 +387,7 @@ const AdvanceBuilder = (props) => {
                     <ImageBackground source={SubCatBg} style={{ width: 100 }}>
                       {!props.loadingCat ? props.categories.map((part, index) => {
                         return (
-                          <TouchableOpacity key={index} onPress={() => subCategoryFun(part.sub_category_id, index,0)}>
+                          <TouchableOpacity key={index} onPress={() => subCategoryFun(part.sub_category_id, index, 0)}>
                             <View style={styles.box}>
                               {subCategoryId === part.sub_category_id ? (
                                 <LinearGradient
@@ -638,7 +663,8 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => ({
   categories: state.packageReducer.categories,
   subCategories: state.packageReducer.subCategories,
-  loadingCat: state.packageReducer.loadingCat
+  loadingCat: state.packageReducer.loadingCat,
+  //selectStatus:state.packageReducer.selectStatus
 })
 
 const actionCreators = {
