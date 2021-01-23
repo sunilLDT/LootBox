@@ -25,7 +25,7 @@ export const GoogleMap = (props) => {
 
   const handleCurrentLocation = () => {
     Geolocation.getCurrentPosition(pos => {
-      mapRef.animateToRegion({
+      mapRef &&  mapRef.animateToRegion({
         ...region,
         latitude: pos.coords.latitude,
         longitude: pos.coords.longitude
@@ -42,7 +42,7 @@ export const GoogleMap = (props) => {
   }
 
   getAddress = async(lat,lng) => {
-    await Geocoder.fallbackToGoogle('AIzaSyD1XJ6Wl23ulIPLhBnKVzZ95_lmfNMUZUM');
+    await Geocoder.fallbackToGoogle('AIzaSyAFnuK5g04r4aqBoLt1sdzCDcL9TJW9z4A');
     let res = await Geocoder.geocodePosition({lat, lng});
     let addrs = res[0];
     props.handleAddress(addrs)

@@ -183,6 +183,7 @@ const signin = (dispatch) => async ({ email, password }) => {
       navigate({ name: 'home' });
     } else if (res.data.data.is_otp_verified === false) {
       await AsyncStorage.setItem('userId', res.data.data.user_id.toString());
+      await AsyncStorage.setItem('isLoggedIn', JSON.stringify(true));
       await navigate({ name: 'otp' });
       dispatch({
         type: 'add_msg',
@@ -258,7 +259,7 @@ const verifyOtp = (dispatch) => async ({ otp }) => {
           await AsyncStorage.setItem('token', res.data.data.token);
           await AsyncStorage.setItem('user_type', JSON.stringify(1));
         }
-        navigate({ name: navigationName });
+        navigate({ name: navigationName || 'home' });
       } else {
         dispatch({
           type: 'add_msg',
