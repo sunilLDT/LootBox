@@ -92,6 +92,18 @@ const Drawer = (props) => {
   }, []);
 
 
+  React.useEffect(() => {
+    const unsubscribe = props.navigation.addListener('focus', () => {
+      getProfilApi().then((response) => {
+        setProfileDetails(response.data);
+      }).catch((error) => {
+        console.log("profileDetailsDrawer" + error);
+      });
+    });
+
+    return unsubscribe;
+  }, [props.navigation]);
+
   const arabicLang = async () => {
     language.setLanguage('it')
     await AsyncStorage.setItem('language', 'it');
