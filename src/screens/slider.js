@@ -48,15 +48,15 @@ const Slideshow = (props) => {
     <Onboarding
       onSkip={() => { guestUserSignIn() }}
       onDone={() => { guestUserSignIn() }}
-      imageContainerStyles={{ height: height * 1 }}
+      imageContainerStyles={{ height}}
       titleStyles={{
-        position: 'relative', flex: Platform.OS == 'android' ? 0 : 1,
-        flexWrap: Platform.OS == 'android' ? 'nowrap' : 'wrap',
+        // position: 'relative', flex: Platform.OS == 'android' ? 0 : 1,
+        // flexWrap: Platform.OS == 'android' ? 'nowrap' : 'wrap',
         color: '#ECDBFA',
         fontFamily: Platform.OS == 'android' ? 'Michroma-Regular' : 'Michroma',
         fontSize: 20,
         lineHeight: 38,
-        bottom: Platform.OS == 'ios' ? 80 : 100,
+        bottom: Platform.OS == 'ios' ? 100 : 100,
       }}
       pages={[
         {
