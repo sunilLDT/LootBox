@@ -4,6 +4,7 @@ import com.facebook.react.ReactActivity;
 import android.os.Bundle;
 import org.devio.rn.splashscreen.SplashScreen;
 import com.facebook.react.modules.i18nmanager.I18nUtil;
+import com.rnfs.RNFSPackage;
 
 public class MainActivity extends ReactActivity {
 
@@ -21,6 +22,7 @@ public class MainActivity extends ReactActivity {
         super.onCreate(savedInstanceState);
         I18nUtil sharedI18nUtilInstance = I18nUtil.getInstance();
         sharedI18nUtilInstance.allowRTL(getApplicationContext(), true);
+        new RNFSPackage();
     }
 
     

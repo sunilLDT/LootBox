@@ -31,7 +31,7 @@ const Input = ({
   returnKeyType,
   autoFocus,
 }) => {
-    const [countryCode,setCountryCode] = useState<CountryCode>('IN');
+    const [countryCode,setCountryCode] = useState<CountryCode>('KW');
     const [country, setCountry] = useState<Country>(null);
     const [withFlag, setWithFlag] = useState(true);
     const [withEmoji, setWithEmoji] = useState(true);
