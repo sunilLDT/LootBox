@@ -80,8 +80,6 @@ function updatePackages(id) {
         dispatch(success({
             items: id,
             totalPrice: id.reduce(function (cnt, o) { 
-                console.log('>>>>>>>>>>>>>>>>>>>>')
-                console.log(cnt)
                 let a = parseFloat(cnt) + parseFloat(o.price);
                 console.log(a.toFixed(3))
                 return a.toFixed(3);
@@ -107,9 +105,6 @@ function getAdvanceCatList() {
     return (dispatch) => {
         dispatch(request());
         pcPartSubcategoryApi().then((response) => {
-            console.log('++++++++++++++++++++++++++++++++++++++++')
-            console.log(response.data);
-            console.log('++++++++++++++++++++++++++++++++++++++++')
             dispatch(success({
                 items: response.data,
             }));
@@ -138,8 +133,6 @@ function getAdvanceSubCatList(id) {
         dispatch(request(id));
 
         advancedBuilderItems(id).then((response) => {
-            console.log(response.data);
-            console.log('response.data');
             dispatch(success({
                 items: response.data,
             }));

@@ -33,5 +33,5 @@ const ar = {
 }
 
 const en = {
-    'English':'enhlish'
+    'English':'english'
 }

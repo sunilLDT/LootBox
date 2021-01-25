@@ -55,6 +55,7 @@ const Profile = (props) => {
   const [last_name, setLastName] = useState();
 
   var formattedDOB = format(DOB, "d-MM-yyyy");
+  console.log(profileDetails)
 
   useEffect(() => {
     setLoading(true)
@@ -138,22 +139,32 @@ const Profile = (props) => {
       let contentType = 'image/jpeg';
       let contentDeposition = 'inline;filename="' + file.name + '"';
       const base64 = await fs.readFile(file.uri, 'base64');
-      const arrayBuffer = decode(base64);
+      const arrayBuffer = util.base64.decode(base64);
 
       s3bucket.createBucket(() => {
         const params = {
-          Bucket: 'AKIA3JWMPNMIYUFSR54M',
+          Bucket: 'lootbox-s3',
+          keyPrefix:'user/profile',
           Key: file.name,
           Body: arrayBuffer,
           ContentDisposition: contentDeposition,
           ContentType: contentType,
+          LocationConstraint: "us-east-2",
       };
+      
       s3bucket.upload(params, (err, data) => {
         if (err) {
           console.log('error in callback');
         }
-      console.log('success');
-      console.log("Respomse URL : "+ data.Location);
+        else{
+          console.log('success')
+          console.log("Respomse URL : "+ data.Location);
+          uploadImageApi(data.Location).then((response) => {
+            alert(response.message);
+          }).catch((error) => {
+            console.log("ImageUploadProfile" + error);
+          });
+        }
       });
     });
   }catch(error){
