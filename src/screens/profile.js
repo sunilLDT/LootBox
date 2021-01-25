@@ -128,7 +128,6 @@ const Profile = (props) => {
 
   const uploadImageOnS3 = async (file) => {
     try{
-    
     const s3bucket = new S3({
       accessKeyId: 'AKIA3JWMPNMIYUFSR54M',
       secretAccessKey: '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',
