@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useFocusEffect } from 'react';
+import React, { useState, useEffect, useFocusEffect,useRef } from 'react';
 import {
   ImageBackground,
   View,
@@ -9,7 +9,10 @@ import {
   Text,
   StyleSheet,
   ActivityIndicator,
+  FlatList
 } from 'react-native';
+import Icons from 'react-native-vector-icons/FontAwesome';
+import RBSheet from "react-native-raw-bottom-sheet";
 import ItemCard from '../assets/ic_card.png';
 import IcDetailCard from '../assets/ic_details_card.png';
 import {
@@ -88,7 +91,6 @@ const Cart = (props) => {
       return k.is_advance_builder === 1 ? true : false;
     })
   }
-  
 
   const checkout = async () => {
     const userType = await AsyncStorage.getItem('user_type')
@@ -107,14 +109,19 @@ const Cart = (props) => {
     //   setLoading(false)
     // }
      else {
-      orderPlace().then((response) => {
+      setLoading(false);
+      refRBSheet.current.open();
+    }
+  };
+   const paymentOption = () => {
+     orderPlace().then((response) => {
         setLoading(false)
         props.navigation.navigate('checkout', { paymentUrl: response.data.data.paymenturl })
       }).catch((error) => {
         console.log("orderPlace" + error);
-      });
-    }
-  };
+    });
+    refRBSheet.current.close();
+   }
 
   useEffect(() => {
     props.showAddress();
@@ -299,7 +306,7 @@ const Cart = (props) => {
     })
   }
   }
-
+  const refRBSheet = useRef();
   return (
     <ImageBackground
       source={require('../assets/plainBg.png')}
@@ -1201,6 +1208,54 @@ const Cart = (props) => {
                 </TouchableOpacity>
               </View>
             </View>
+            {/* bottom tab */}
+            <View
+      style={{
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: "#000"
+      }}
+    >
+      <RBSheet
+        ref={refRBSheet}
+        closeOnDragDown={true}
+        closeOnPressMask={true}
+        customStyles={{
+          draggableIcon: {
+            backgroundColor: "#2E2E3A"
+          },
+          container:{
+              backgroundColor: "#2E2E3A", 
+              borderTopLeftRadius:30,
+              borderTopRightRadius:30,
+          }
+        }}
+        // customStyles={{
+        //   wrapper: {
+        //     backgroundColor: "transparent"
+        //   },
+        //   draggableIcon: {
+        //     backgroundColor: "#000"
+        //   }
+        // }}
+      >
+        {/* bottom tab component */}
+      <View >
+            <Text style={styles.bottomTabTitle} >Select Payment Method</Text>
+      <View style={styles.bottomListContainer}>
+      <FlatList
+        data={[
+          {  icon:<Icons name="credit-card" color={"white"} size={25} />, key: 'KNET'},
+          { icon:<Icons name="credit-card" color={"white"}  size={25} />, key: 'Credit Card'},
+          { icon:<Icons name="briefcase"  color={"white"} size={25}/>, key: 'Pay From Wallet'}, 
+        ]}
+        renderItem={({item}) => <TouchableOpacity onPress={() => paymentOption()} ><View style={styles.itemContainer} >{item.icon}<Text style={styles.item}>{item.key}</Text></View></TouchableOpacity>}
+      />
+      </View>
+        </View>
+      </RBSheet>
+    </View>
           </>
         }
       </ScrollView>
@@ -1253,6 +1308,30 @@ const styles = StyleSheet.create({
     color: '#fff',
     opacity: 0.5,
     fontFamily: 'Montserrat-Medium',
+  },
+  bottomTabTitle: {
+    color:'white',
+    fontWeight:'bold',
+    alignSelf:'center',
+    fontSize:20,
+  },
+  bottomTabContainer: {
+    color:'white',
+    backgroundColor:'blue',
+   },
+  bottomListContainer: {
+    paddingTop: 20
+   },
+   itemContainer:{
+    flex:1,
+    flexDirection:'row',
+    padding:5
+   },
+   item: {
+     color:'white',
+    marginLeft:15,
+    fontSize: 18,
+    height: 44,
   },
   // crossIconForPackage: {
   //   display: 'flex',

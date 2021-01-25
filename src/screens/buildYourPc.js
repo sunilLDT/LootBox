@@ -47,6 +47,11 @@ const BuildYourPc = ({ navigation }) => {
     });
   }, [resolution]);
 
+const changeResolution = (res) => {
+  setSelected([]);
+  setResolution(res);
+};
+
   const submitGames = () => {
     if(selected.length > 0){
     navigation.navigate('PcDetails', { selectedGames: selected })
@@ -56,9 +61,10 @@ const BuildYourPc = ({ navigation }) => {
     } 
   }
   const checkResolution = (res) => {
+    // const res2 = res;
     setOpen(false)
-      setResolution(res);
       if(selected.length !== 0){
+
         Alert.alert(
           "Lootbox",
           "You can choose only one resolution for games",
@@ -68,10 +74,13 @@ const BuildYourPc = ({ navigation }) => {
               onPress: () => console.log("Cancel Pressed"),
               style: "cancel"
             },
-            { text: "OK", onPress: () => setSelected([]) }
+            { text: "OK", onPress: () => changeResolution(res)}
           ],
           { cancelable: false }
         );
+      }
+      else{
+        setResolution(res);
       }
   }
 
