@@ -45,7 +45,6 @@ const ChangePhoneNumber = ({ navigation }) => {
                     })
                     setLoadingBtn(false);
                     setNavigation('profile')
-                    console.log(response.data)
                     AsyncStorage.setItem('is_OTP_Verified', JSON.stringify(response.data.is_otp_verified))
                     alert(response.message)
                 }).catch((error) => {
