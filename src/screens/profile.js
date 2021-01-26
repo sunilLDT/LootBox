@@ -33,6 +33,8 @@ import bgImage from '../assets/signup.png';
 import { getProfilApi } from '../api/buildYourPc';
 import strings, { changeLaguage } from '../languages/index';
 import RNPickerSelect from 'react-native-picker-select';
+import { S3, util } from 'aws-sdk';
+import fs from 'react-native-fs';
 const { width, height } = Dimensions.get('window');
 
 const Profile = (props) => {
@@ -53,6 +55,7 @@ const Profile = (props) => {
   const [last_name, setLastName] = useState();
 
   var formattedDOB = format(DOB, "d-MM-yyyy");
+  console.log(profileDetails)
 
   useEffect(() => {
     setLoading(true)
@@ -126,7 +129,6 @@ const Profile = (props) => {
 
   const uploadImageOnS3 = async (file) => {
     try{
-    
     const s3bucket = new S3({
       accessKeyId: 'AKIA3JWMPNMIYUFSR54M',
       secretAccessKey: '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',
@@ -137,22 +139,32 @@ const Profile = (props) => {
       let contentType = 'image/jpeg';
       let contentDeposition = 'inline;filename="' + file.name + '"';
       const base64 = await fs.readFile(file.uri, 'base64');
-      const arrayBuffer = decode(base64);
+      const arrayBuffer = util.base64.decode(base64);
 
       s3bucket.createBucket(() => {
         const params = {
-          Bucket: 'AKIA3JWMPNMIYUFSR54M',
+          Bucket: 'lootbox-s3',
+          keyPrefix:'user/profile',
           Key: file.name,
           Body: arrayBuffer,
           ContentDisposition: contentDeposition,
           ContentType: contentType,
+          LocationConstraint: "us-east-2",
       };
+      
       s3bucket.upload(params, (err, data) => {
         if (err) {
           console.log('error in callback');
         }
-      console.log('success');
-      console.log("Respomse URL : "+ data.Location);
+        else{
+          console.log('success')
+          console.log("Respomse URL : "+ data.Location);
+          uploadImageApi(data.Location).then((response) => {
+            alert(response.message);
+          }).catch((error) => {
+            console.log("ImageUploadProfile" + error);
+          });
+        }
       });
     });
   }catch(error){
@@ -175,6 +187,7 @@ const Profile = (props) => {
       console.log("ImagePicker Error: ", response.error);
       }
       else{
+        setPhoto(response.uri)
         const file = {
           uri: response.uri,
           name: response.fileName,

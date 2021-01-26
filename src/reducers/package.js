@@ -12,8 +12,8 @@ const initialState = {
   loadingCat: false,
   loadingSubCat: false,
   categories: [],
-  subCategories: []
-
+  subCategories: [],
+  selectStatus: []
 };
 
 export default function (state = initialState, action) {
@@ -31,7 +31,7 @@ export default function (state = initialState, action) {
         packageData: action.packages.packageData,
         coverImage: action.packages.coverImage,
         totalPrice: action.packages.totalPrice,
-        loading:false,
+        loading: false,
       };
 
     case cartConstants.PACKGE_UPDATE_SUCCESS:
@@ -75,8 +75,10 @@ export default function (state = initialState, action) {
       //console.log()
       return {
         ...state,
-        categories: action.cat.items.map(obj => ({ ...obj, 'na': 'hello' })),
-        loadingCat: false
+        categories: action.cat.items, //.map(obj => ({ ...obj, 'na': 'hello' })),
+        loadingCat: false,
+       // selectStatus: getStatus(action.cat.items),
+
 
       };
     case cartConstants.CAT_FAILED:
@@ -120,5 +122,15 @@ getSubCat = (data) => {
   a[0].name = "kaka";
   console.log(a)
   return a;
+}
 
+getStatus = (arr) => {
+  a = []
+  arr.forEach(function (obj, index) {
+    let b = {}
+    b.id = obj.sub_category_id
+    b.status = false
+    a.push(b)
+  });
+  return a;
 }

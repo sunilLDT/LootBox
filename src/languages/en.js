@@ -29,7 +29,7 @@ export default {
     addAddress:"Add Address",
     total:"Total",
     pay:"PAY",
-    forgotToAdd:"Forgot to add somethng",
+    forgotToAdd:"Forgot to add something",
     continueShoping:"Continue Shopping",
     lootStore:"Loot Store",
     discover:"DISCOVER",

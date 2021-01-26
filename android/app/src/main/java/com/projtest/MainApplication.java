@@ -15,6 +15,7 @@ import java.util.List;
 import com.reactcommunity.rndatetimepicker.RNDateTimePickerPackage;
 import org.devio.rn.splashscreen.SplashScreenReactPackage;
 import com.babisoft.ReactNativeLocalization.ReactNativeLocalizationPackage;
+import com.rnfs.RNFSPackage;
 
 public class MainApplication extends Application implements ReactApplication {
 
@@ -34,6 +35,7 @@ public class MainApplication extends Application implements ReactApplication {
            //packages.add(new RNDateTimePickerPackage());
             // new SplashScreenReactPackage()
           new ReactNativeLocalizationPackage();
+          new RNFSPackage();
           return packages;
         }
 
