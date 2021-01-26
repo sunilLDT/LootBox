@@ -91,7 +91,8 @@ const Cart = (props) => {
   
 
   const checkout = async () => {
-    const userType = await AsyncStorage.getItem('user_type')
+    const userType = await AsyncStorage.getItem('user_type');
+    console.log(props.address)
     setLoading(true)
     if (JSON.parse(userType) == 2) {
       props.navigation.navigate('auth', {

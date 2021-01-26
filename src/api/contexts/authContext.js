@@ -180,6 +180,7 @@ const signin = (dispatch) => async ({ email, password }) => {
       await AsyncStorage.setItem('isLoggedIn', JSON.stringify(true));
       await AsyncStorage.setItem('user_type', JSON.stringify(1));
       await AsyncStorage.setItem('userId', JSON.stringify(res.data.data.user_id));
+      await AsyncStorage.setItem('is_OTP_Verified', JSON.stringify(true))
       navigate({ name: 'home' });
     } else if (res.data.data.is_otp_verified === false) {
       await AsyncStorage.setItem('userId', res.data.data.user_id.toString());
@@ -258,6 +259,7 @@ const verifyOtp = (dispatch) => async ({ otp }) => {
         } else {
           await AsyncStorage.setItem('token', res.data.data.token);
           await AsyncStorage.setItem('user_type', JSON.stringify(1));
+          await AsyncStorage.setItem('is_OTP_Verified', JSON.stringify(true))
         }
         navigate({ name: navigationName || 'home' });
       } else {
