@@ -260,7 +260,7 @@ const Profile = (props) => {
                     }}>
                     <TouchableOpacity
                       onPress={() => {
-                        props.navigation.pop()
+                        props.navigation.navigate({name: 'home'})
                       }}>
                       <Image
                         style={{ width: 48 }}
