@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState, useCallback,useRef } from 'react';
+import React, { useContext, useEffect, useState, useCallback, useRef } from 'react';
 import {
   View,
   Dimensions,
@@ -21,6 +21,11 @@ import strings from '../languages/index';
 import { connectAdvanced } from 'react-redux';
 import { connect } from 'react-redux';
 import { cartActions } from '../actions/user';
+import Filter from './filter';
+import Dialog, {
+  DialogContent,
+  SlideAnimation,
+} from 'react-native-popup-dialog';
 
 const { width, height } = Dimensions.get('window');
 
@@ -32,7 +37,7 @@ const options = [
 ];
 
 const LootStore = (props) => {
-  const scrollRef = useRef(); 
+  const scrollRef = useRef();
 
   const { fetchCategories, fetchItems } = useContext(AuthContext);
   const [data, setData] = useState(null);
@@ -51,6 +56,7 @@ const LootStore = (props) => {
   const [search, setSearch] = useState('');
   const [open, setOpen] = useState(false);
   const [callOnScrollEnd, setCallOnScrollEnd] = useState(false);
+  const [filter, setFilter] = useState(false);
 
   const fetchData = useCallback(async () => {
     if (selectedSubCategory === 0) {
@@ -62,13 +68,13 @@ const LootStore = (props) => {
     }
   }, [selectedSubCategory, current]);
 
-  const changeCategory=(id)=>{
+  const changeCategory = (id) => {
     setSelectedSubCategory(id);
     setPage(1);
     setlastPage(0)
   }
 
-  const changeSubCategory=(id)=>{
+  const changeSubCategory = (id) => {
     setSelectedSubCategory(id);
     setPage(1)
     setlastPage(0)
@@ -84,7 +90,7 @@ const LootStore = (props) => {
       });
       setCategories(x);
       var itemData = null;
-      console.log("B is value os "+x[current].id)
+      console.log("B is value os " + x[current].id)
       if (b) {
         itemData = await fetchItems(x[current].id, b);
       } else {
@@ -128,22 +134,22 @@ const LootStore = (props) => {
       fetchData1();
     }
     //else {
-   //   setPage(1);
-   // }
-   // setPage(1);
-    
+    //   setPage(1);
+    // }
+    // setPage(1);
+
   };
 
   const openClose = () => {
     setOpen(!open)
   }
 
-const onPressTouch = () => {
-  scrollRef.current?.scrollTo({
+  const onPressTouch = () => {
+    scrollRef.current?.scrollTo({
       y: 0,
       animated: true,
-  });
-}
+    });
+  }
 
 
   const searchFilterFunction = (text) => {
@@ -164,266 +170,290 @@ const onPressTouch = () => {
     }
   };
 
+  const handlePress = () => {
+    setFilter(!filter)
+    return true;
+  }
+
+
   return (
-    <View style={{backgroundColor:'#292633', width:'100%', height:'100%'}}>
-        <ImageBackground
-          source={require('../assets/dottedBackground.png')}
+    <View style={{ backgroundColor: '#292633', width: '100%', height: '100%' }}>
+      <ImageBackground
+        source={require('../assets/dottedBackground.png')}
+        style={{
+          height: height,
+        }}>
+
+        <Dialog
+          visible={filter}
+          containerStyle={{ zIndex: 10, elevation: 10 }}
+          onHardwareBackPress={() => handlePress()}
+          dialogStyle={{ backgroundColor: '#272732', width: '100%', height: '50%' }}
+          dialogAnimation={new SlideAnimation({
+            slideFrom: 'bottom',
+          })}
+          onTouchOutside={() => { setFilter(!filter) }}
+        >
+          <DialogContent>
+            <View>
+            <Filter selectedSubCategory={selectedSubCategory} allCategories={subCategories[0]}/>
+            </View>
+          </DialogContent>
+        </Dialog>
+
+        <View
           style={{
-            height:height,
+            display: 'flex',
+            alignItems: 'center',
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            paddingHorizontal: width * 0.1,
           }}>
+          {options.map(
+            (i, k) =>
+              k === 0 && (
+                <TouchableOpacity
+                  key={k}
+                  onPress={() => { props.navigation.goBack() }}>
+                  <Image
+                    resizeMode="contain"
+                    source={i}
+                    style={{
+                      width: 48,
+                    }}
+                  />
+                </TouchableOpacity>
+              ),
+          )}
           <View
             style={{
+              width: '44%',
               display: 'flex',
-              alignItems: 'center',
               flexDirection: 'row',
+              alignItems: 'center',
               justifyContent: 'space-between',
-              paddingHorizontal: width * 0.1,
             }}>
             {options.map(
               (i, k) =>
-                k === 0 && (
-                  <TouchableOpacity
-                    key={k}
-                    onPress={() => { props.navigation.goBack() }}>
+                k !== 0 && (
+                  <TouchableOpacity key={k} onPress={() => { k === 1 ? props.navigation.navigate('cart') : k === 2 ? openClose() : setFilter(true) }}>
+                    {k === 1 && (
+                      <LinearGradient
+                        start={{ x: 0, y: 1 }}
+                        end={{ x: 1, y: 0 }}
+                        colors={['#C01C8A', '#865CF4']}
+                        style={{
+                          width: 16,
+                          height: 16,
+                          position: 'absolute',
+                          right: -2,
+                          top: -3,
+                          zIndex: 100,
+                          borderRadius: 5,
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                        }}>
+                        <Text
+                          style={{
+                            fontWeight: 'bold',
+                            color: '#fff',
+                            fontSize: 12,
+                            fontFamily: 'Montserrat-Bold',
+                          }}>
+                          {props.itemCount == undefined ? "0" : props.itemCount}
+                        </Text>
+                      </LinearGradient>
+                    )}
                     <Image
                       resizeMode="contain"
                       source={i}
                       style={{
                         width: 48,
+
                       }}
                     />
                   </TouchableOpacity>
                 ),
             )}
-            <View
+          </View>
+        </View>
+        {open ? (
+          <SearchBar
+            placeholder="Type here..."
+            lightTheme round editable={true}
+            value={search}
+            onChangeText={(text) => searchFilterFunction(text)}
+            containerStyle={{
+              backgroundColor: '#D2D7F9',
+              marginBottom: 20,
+              marginHorizontal: width * 0.1,
+              borderRadius: 20,
+            }}
+            inputContainerStyle={{ height: 30, backgroundColor: '#D2D7F9' }}
+          />) : null}
+        <Text
+          style={{
+            color: '#ECDBFA',
+            fontSize: 12,
+            lineHeight: 16,
+            fontFamily: Platform.OS == 'android' ? 'Montserrat-LightItalic' : 'Montserrat',
+            paddingHorizontal: width * 0.1,
+          }}>
+          DISCOVER
+          </Text>
+        <Text
+          style={{
+            color: '#ECDBFA',
+            fontSize: 20,
+            fontFamily: Platform.OS == 'android' ? 'Michroma-Regular' : 'Michroma',
+            paddingHorizontal: width * 0.1,
+          }}>
+          {strings.lootStore}
+        </Text>
+
+        {data ? (
+          <View style={{ width: '100%' }}>
+            <ScrollView
               style={{
-                width: '44%',
+                marginVertical: 20,
+                // height: height * 0.1,
+              }}
+              contentContainerStyle={{
                 display: 'flex',
                 flexDirection: 'row',
-                alignItems: 'center',
+                width: '100%',
                 justifyContent: 'space-between',
-              }}>
-              {options.map(
-                (i, k) =>
-                  k !== 0 && (
-                    <TouchableOpacity key={k} onPress={() => { k === 1 ? props.navigation.navigate('cart') : k === 2 ? openClose() : {} }}>
-                      {k === 1 && (
-                        <LinearGradient
-                          start={{ x: 0, y: 1 }}
-                          end={{ x: 1, y: 0 }}
-                          colors={['#C01C8A', '#865CF4']}
-                          style={{
-                            width: 16,
-                            height: 16,
-                            position: 'absolute',
-                            right: -2,
-                            top: -3,
-                            zIndex: 100,
-                            borderRadius: 5,
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                          }}>
-                          <Text
-                            style={{
-                              fontWeight: 'bold',
-                              color: '#fff',
-                              fontSize: 12,
-                              fontFamily: 'Montserrat-Bold',
-                            }}>
-                            {props.itemCount == undefined?"0":props.itemCount}
-                          </Text>
-                        </LinearGradient>
-                      )}
-                      <Image
-                        resizeMode="contain"
-                        source={i}
-                        style={{
-                          width: 48,
+                paddingHorizontal: width * 0.1,
+              }}
+              showsVerticalScrollIndicator={false}
+              horizontal>
+              {categories.map((i, k) => (
+                <TouchableOpacity
+                  onPress={() => {
+                    setCurrent(i.index);
+                    changeCategory(0);
+                    setPage(1);
+                    setOpen(false)
+                    onPressTouch()
+                  }}
+                  key={i.index}>
+                  {i.index === current && (
+                    <GradientCircle
+                      style={{
+                        position: 'absolute',
+                      }}
+                    />
+                  )}
+                  <Text
+                    style={{
+                      fontSize: 14,
+                      fontFamily: 'Montserrat-Bold',
+                      lineHeight: 16,
+                      color: '#ECDBFA',
+                      opacity: i.index === current ? 1 : 0.4,
+                      marginLeft: i.index === current ? 10 : 0,
+                    }}>
+                    {i.name}
+                  </Text>
+                </TouchableOpacity>
+              ))}
+            </ScrollView>
 
-                        }}
-                      />
-                    </TouchableOpacity>
-                  ),
-              )}
-            </View>
-          </View>
-          {open ? (
-            <SearchBar
-              placeholder="Type here..."
-              lightTheme round editable={true}
-              value={search}
-              onChangeText={(text) => searchFilterFunction(text)}
-              containerStyle={{
-                backgroundColor:'#D2D7F9',
-                marginBottom: 20,
-                marginHorizontal: width * 0.1,
-                borderRadius:20,
-               }}
-              inputContainerStyle={{ height: 30,backgroundColor:'#D2D7F9'}}
-            />) : null}
-          <Text
-            style={{
-              color: '#ECDBFA',
-              fontSize: 12,
-              lineHeight: 16,
-              fontFamily: Platform.OS=='android'?'Montserrat-LightItalic':'Montserrat',
-              paddingHorizontal: width * 0.1,
-            }}>
-            DISCOVER
-          </Text>
-          <Text
-            style={{
-              color: '#ECDBFA',
-              fontSize: 20,
-              fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma',
-              paddingHorizontal: width * 0.1,
-            }}>
-            {strings.lootStore}
-          </Text>
-
-          {data ? (
             <View style={{ width: '100%' }}>
               <ScrollView
-                style={{
-                  marginVertical: 20,
-                  // height: height * 0.1,
-                }}
+                alwaysBounceHorizontal={true}
+                ref={scrollRef}
                 contentContainerStyle={{
                   display: 'flex',
                   flexDirection: 'row',
-                  width: '100%',
                   justifyContent: 'space-between',
-                  paddingHorizontal: width * 0.1,
+                  paddingLeft: width * 0.1,
                 }}
-                showsVerticalScrollIndicator={false}
+                showsHorizontalScrollIndicator={false}
                 horizontal>
-                {categories.map((i, k) => (
-                  <TouchableOpacity
-                    onPress={() => {
-                      setCurrent(i.index);
-                      changeCategory(0);
-                      setPage(1);
-                      setOpen(false)
-                      onPressTouch()
-                    }}
-                    key={i.index}>
-                    {i.index === current && (
-                      <GradientCircle
-                        style={{
-                          position: 'absolute',
-                        }}
-                      />
-                    )}
-                    <Text
-                      style={{
-                        fontSize: 14,
-                        fontFamily: 'Montserrat-Bold',
-                        lineHeight: 16,
-                        color: '#ECDBFA',
-                        opacity: i.index === current ? 1 : 0.4,
-                        marginLeft: i.index === current ? 10 : 0,
-                      }}>
-                      {i.name}
-                    </Text>
-                  </TouchableOpacity>
-                ))}
-              </ScrollView>
-
-              <View style={{ width: '100%' }}>
-                <ScrollView
-                  alwaysBounceHorizontal={true}
-                  ref={scrollRef}
-                  contentContainerStyle={{
-                    display: 'flex',
-                    flexDirection: 'row',
-                    justifyContent: 'space-between',
-                    paddingLeft:width * 0.1,
+                <TouchableOpacity
+                  style={{
+                    marginRight: 10,
                   }}
-                  showsHorizontalScrollIndicator={false}
-                  horizontal>
-                  <TouchableOpacity
-                    style={{
-                      marginRight: 10,
-                    }}
-                    onPress={() => {
-                      changeSubCategory(0);
-                      setOpen(false)
-                    }}>
-                    <SmallLGBtn
-                      text="All"
-                      selected={selectedSubCategory === 0}
-                    />
-                  </TouchableOpacity>
+                  onPress={() => {
+                    changeSubCategory(0);
+                    setOpen(false)
+                  }}>
+                  <SmallLGBtn
+                    text="All"
+                    selected={selectedSubCategory === 0}
+                  />
+                </TouchableOpacity>
 
-                  {subCategories[current] &&
-                    subCategories[current].map((i, k) => (
-                      <TouchableOpacity
-                        style={{
-                          marginRight: 10,
-                        }}
-                        key={k}
-                        onPress={() => {
-                          setSelectedSubCategory(k + 1);
-                          setOpen(false)
-                        }}>
-                        <SmallLGBtn
-                          text={i.name}
-                          selected={selectedSubCategory === k + 1}
-                        />
-                      </TouchableOpacity>
-                    ))}
-                </ScrollView>
-              </View>
-
-              {loading ? (
-                <View style={{ marginTop: height * 0.27 }}>
-                  <ActivityIndicator color="#ECDBFA" size="small" />
-                </View>
-              ) : (
-                  <>
-                    <View
+                {subCategories[current] &&
+                  subCategories[current].map((i, k) => (
+                    <TouchableOpacity
                       style={{
-                        display: 'flex',
-                        marginVertical: 50,
-                        flexDirection: 'row',
-                        justifyContent: 'space-between',
-                        flexWrap: 'wrap',
-                        paddingHorizontal: width * 0.1,
+                        marginRight: 10,
+                      }}
+                      key={k}
+                      onPress={() => {
+                        setSelectedSubCategory(k + 1);
+                        setOpen(false)
                       }}>
-                      {!items.length > 0 ? (
-                        <View
+                      <SmallLGBtn
+                        text={i.name}
+                        selected={selectedSubCategory === k + 1}
+                      />
+                    </TouchableOpacity>
+                  ))}
+              </ScrollView>
+            </View>
+
+            {loading ? (
+              <View style={{ marginTop: height * 0.27 }}>
+                <ActivityIndicator color="#ECDBFA" size="small" />
+              </View>
+            ) : (
+                <>
+                  <View
+                    style={{
+                      display: 'flex',
+                      marginVertical: 50,
+                      flexDirection: 'row',
+                      justifyContent: 'space-between',
+                      flexWrap: 'wrap',
+                      paddingHorizontal: width * 0.1,
+                    }}>
+                    {!items.length > 0 ? (
+                      <View
+                        style={{
+                          width: '100%',
+                          height: height * 0.3,
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                        }}>
+                        <Image
+                          resizeMode="contain"
+                          source={require('../assets/thumbnail1.png')}
                           style={{
-                            width: '100%',
-                            height: height * 0.3,
-                            alignItems: 'center',
+                            width: 127,
+                            height: 127,
+                            alignSelf: 'center',
                             justifyContent: 'center',
+                          }}
+                        />
+                        <Text
+                          style={{
+                            fontSize: 14,
+                            fontFamily: 'Montserrat-Bold',
+                            lineHeight: 16,
+                            color: '#ECDBFA',
+                            opacity: 0.4,
                           }}>
-                          <Image
-                            resizeMode="contain"
-                            source={require('../assets/thumbnail1.png')}
-                            style={{
-                              width: 127,
-                              height: 127,
-                              alignSelf: 'center',
-                              justifyContent: 'center',
-                            }}
-                          />
-                          <Text
-                            style={{
-                              fontSize: 14,
-                              fontFamily: 'Montserrat-Bold',
-                              lineHeight: 16,
-                              color: '#ECDBFA',
-                              opacity: 0.4,
-                            }}>
-                            No Items Available !
+                          No Items Available !
                       </Text>
-                        </View>
-                      ) : (
-                          <>
-                          <View style={{flex:1}}>
+                      </View>
+                    ) : (
+                        <>
+                          <View style={{ flex: 1 }}>
                             <FlatList
-                             style={{height:height*0.60,marginTop:-15}}
+                              style={{ height: height * 0.60, marginTop: -15 }}
                               contentContainerStyle={{
                                 marginBottom: 10
                               }}
@@ -431,7 +461,7 @@ const onPressTouch = () => {
                               scrollEnabled={true}
                               data={filteredDataSource}
                               onEndThreshold={0.0}
-                             // onMomentumScrollEnd={() => handleLodeMore()}
+                              // onMomentumScrollEnd={() => handleLodeMore()}
                               // onEndReached={() => setCallOnScrollEnd(true)}
                               // onMomentumScrollEnd={() => {
                               //   callOnScrollEnd && handleLodeMore()
@@ -440,38 +470,50 @@ const onPressTouch = () => {
 
                               keyExtractor={(item) => item.item_id}
                               renderItem={({ item: i }, k) => {
-                                  return (
-                                    <View  style={{flexGrow:1}} key={k}>
-                                      <TouchableOpacity
-                                        onPress={() => {
-                                          props.navigation.navigate('itemDesc', {
-                                            price: i.price,
-                                            description: i.description,
-                                            brand: i.brand,
-                                            name: i.name,
-                                            value: i.value_en,
-                                            id: i.item_id,
-                                            image: i.image,
-                                          });
+                                return (
+                                  <View style={{ flexGrow: 1 }} key={k}>
+                                    <TouchableOpacity
+                                      onPress={() => {
+                                        props.navigation.navigate('itemDesc', {
+                                          price: i.price,
+                                          description: i.description,
+                                          brand: i.brand,
+                                          name: i.name,
+                                          value: i.value_en,
+                                          id: i.item_id,
+                                          image: i.image,
+                                        });
+                                      }}>
+                                      <ImageBackground
+                                        source={require('../assets/ic_card_a0.png')}
+                                        resizeMode="contain"
+                                        style={{
+                                          height: 195,
+                                          display: 'flex',
+                                          paddingLeft: 20,
+                                          marginHorizontal: 10,
+                                          paddingTop: 20,
+                                          width: width * 0.36,
+                                          marginVertical: i.image ? 20 : 10,
                                         }}>
-                                        <ImageBackground
-                                          source={require('../assets/ic_card_a0.png')}
-                                          resizeMode="contain"
-                                          style={{
-                                            height: 195,
-                                            display: 'flex',
-                                            paddingLeft: 20,
-                                            marginHorizontal: 10,
-                                            paddingTop: 20,
-                                            width: width * 0.36,
-                                            marginVertical: i.image ? 20 : 10,
-                                          }}>
-                                          {i.image ? (
+                                        {i.image ? (
+                                          <Image
+                                            resizeMode="contain"
+                                            source={{
+                                              uri: i.image,
+                                            }}
+                                            style={{
+                                              width: 108,
+                                              height: 81,
+                                              position: 'absolute',
+                                              top: -24,
+                                              left: '14%',
+                                            }}
+                                          />
+                                        ) : (
                                             <Image
                                               resizeMode="contain"
-                                              source={{
-                                                uri: i.image,
-                                              }}
+                                              source={require('../assets/thumbnail1.png')}
                                               style={{
                                                 width: 108,
                                                 height: 81,
@@ -480,80 +522,68 @@ const onPressTouch = () => {
                                                 left: '14%',
                                               }}
                                             />
-                                          ) : (
-                                              <Image
-                                                resizeMode="contain"
-                                                source={require('../assets/thumbnail1.png')}
-                                                style={{
-                                                  width: 108,
-                                                  height: 81,
-                                                  position: 'absolute',
-                                                  top: -24,
-                                                  left: '14%',
-                                                }}
-                                              />
-                                            )}
-                                          <Text
-                                            style={{
-                                              fontFamily: Platform.OS=='android'?'Montserrat Regular':'Montserrat', 
-                                              color: '#D2D7F9',
-                                              opacity: 0.5,
-                                              fontSize: 14,
-                                              marginTop: 60,
-                                            }}>
-                                            {i.brand}
-                                          </Text>
-                                          <Text
-                                            numberOfLines={2}
-                                            style={{
-                                              fontSize: 16,
-                                              color: '#ECDBFA',
-                                              fontFamily: Platform.OS=='android'?'Montserrat-Bold':'Montserrat',
-                                              marginTop: 2,
-                                              marginRight: "2%"
-                                            }}>
-                                            {((i.name).length > maxlimit) ? (((i.name).substring(0, maxlimit - 3)) + '...') : i.name}
-                                          </Text>
-                                          <Text
-                                            style={{
-                                              color: '#DF2EDC',
-                                              fontSize: 12,
-                                              fontFamily: Platform.OS=='android'?'Montserrat Regular':'Montserrat',
-                                              marginVertical: 10
-                                            }}>
-                                            KD {i.price}
-                                          </Text>
-                                        </ImageBackground>
-                                      </TouchableOpacity>
-                                    </View>
-                                  );
+                                          )}
+                                        <Text
+                                          style={{
+                                            fontFamily: Platform.OS == 'android' ? 'Montserrat Regular' : 'Montserrat',
+                                            color: '#D2D7F9',
+                                            opacity: 0.5,
+                                            fontSize: 14,
+                                            marginTop: 60,
+                                          }}>
+                                          {i.brand}
+                                        </Text>
+                                        <Text
+                                          numberOfLines={2}
+                                          style={{
+                                            fontSize: 16,
+                                            color: '#ECDBFA',
+                                            fontFamily: Platform.OS == 'android' ? 'Montserrat-Bold' : 'Montserrat',
+                                            marginTop: 2,
+                                            marginRight: "2%"
+                                          }}>
+                                          {((i.name).length > maxlimit) ? (((i.name).substring(0, maxlimit - 3)) + '...') : i.name}
+                                        </Text>
+                                        <Text
+                                          style={{
+                                            color: '#DF2EDC',
+                                            fontSize: 12,
+                                            fontFamily: Platform.OS == 'android' ? 'Montserrat Regular' : 'Montserrat',
+                                            marginVertical: 10
+                                          }}>
+                                          KD {i.price}
+                                        </Text>
+                                      </ImageBackground>
+                                    </TouchableOpacity>
+                                  </View>
+                                );
                               }
                               }
                               numColumns={2}
                             />
-                            </View>
-                          </>
-                        )}
-                    </View>
-                  </>
-                )}
+                          </View>
+                        </>
+                      )}
+                  </View>
+                </>
+              )}
+          </View>
+        ) : (
+            <View style={{ marginTop: height * 0.35 }}>
+              <ActivityIndicator color="#ECDBFA" size="small" />
             </View>
-          ) : (
-              <View style={{ marginTop: height * 0.35 }}>
-                <ActivityIndicator color="#ECDBFA" size="small" />
-              </View>
-            )}
-        </ImageBackground>
+          )}
+      </ImageBackground>
     </View>
   );
 };
 const mapStateToProps = (state) => ({
   cart: state.cartReducer.cart,
-  itemCount:state.cartReducer.totalItems,
+  itemCount: state.cartReducer.totalItems,
 })
 const actionCreators = {
   add: cartActions.showCart,
 
 };
 
-export default connect(mapStateToProps,actionCreators)(LootStore);
+export default connect(mapStateToProps, actionCreators)(LootStore);
