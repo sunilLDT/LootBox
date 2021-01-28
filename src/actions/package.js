@@ -138,8 +138,6 @@ function getAdvanceSubCatList(id) {
         dispatch(request(id));
 
         advancedBuilderItems(id).then((response) => {
-            console.log(response.data);
-            console.log('response.data');
             dispatch(success({
                 items: response.data,
             }));

@@ -14,6 +14,7 @@ import {
 import Icons from 'react-native-vector-icons/FontAwesome';
 import RBSheet from "react-native-raw-bottom-sheet";
 import ItemCard from '../assets/ic_card.png';
+import outofstock from '../assets/outofstock.jpeg';
 import IcDetailCard from '../assets/ic_details_card.png';
 import {
   showCartData,
@@ -68,7 +69,7 @@ const Cart = (props) => {
   const maxlimit = 20;
   var imgSource = upwardImage ? ExpandImage : CloseImage;
   
-
+console.log(cartData)
   useEffect(() => {
     setLoading(true)
     showCartData().then((response) => {
@@ -460,6 +461,7 @@ const Cart = (props) => {
                                   paddingLeft: 10,
                                   marginBottom:10
                                 }}>
+
                                 <Text
                                   style={{
                                     fontSize: 12,
@@ -487,6 +489,8 @@ const Cart = (props) => {
                                   }}>
                                   KD {sum(packages.cart_package_items)}
                                 </Text>
+                                
+                                
                                 <View
                                   style={{
                                     display: 'flex',
@@ -558,8 +562,10 @@ const Cart = (props) => {
                               <View
                                 style={{
                                   flex: 1,
-                                  justifyContent: "flex-end",
+                                  justifyContent: "space-between",
+                                  
                                 }}>
+                                  <Icons name="trash" color={"white"} size={15} style={{alignSelf:'center', paddingTop:'3%'}} />
                                 <Image
                                   source={imgSource}
                                   width={100}
@@ -663,7 +669,7 @@ const Cart = (props) => {
                     key={k}
                   >
                     <ImageBackground
-                      source={ItemCard}
+                      source={items.status === 1 ? ItemCard :outofstock }
                       style={{
                         width: 351,
                         height: 75,
@@ -865,7 +871,8 @@ const Cart = (props) => {
                             style={{
                               color: 'rgba(255,255,255,0.8)',
                               fontSize: 15,
-                              fontFamily: 'Montserrat-Regular'
+                              fontFamily: 'Montserrat-Regular',
+                              textDecorationLine: items.status === 0 ? 'line-through' : "none",
                             }}>
                             {((items.name).length > maxlimit) ? (((items.name).substring(0, maxlimit - 3)) + '...') : items.name}
                             {items.quantity > 1 ? <Text style={{ color: '#fff' }}> ({items.quantity})</Text> : null}
@@ -875,6 +882,7 @@ const Cart = (props) => {
                             style={{
                               color: 'rgba(255,255,255,0.3)',
                               fontSize: 12,
+                              textDecorationLine: items.status === 0 ? 'line-through' : "none",
                             }}>
                             KD {items.sub_total}
                           </Text>) :
@@ -883,6 +891,7 @@ const Cart = (props) => {
                                 color: 'rgba(255,255,255,0.3)',
                                 fontSize: 12,
                                 fontFamily: 'Montserrat-Regular',
+                                textDecorationLine: items.status === 0 ? 'line-through' : "none",
                               }}>
                               KD {items.price}
                             </Text>
@@ -1097,7 +1106,7 @@ const Cart = (props) => {
                           style={{
                             color: 'rgba(255,255,255,0.8)',
                             fontSize: 15,
-                            fontFamily: 'Montserrat-Regular'
+                            fontFamily: 'Montserrat-Regular',textDecorationLine: items.status === 0 ? 'line-through' : "none",
                           }}>
                           {((items.name).length > maxlimit) ? (((items.name).substring(0, maxlimit - 3)) + '...') : items.name}
                           {items.quantity > 1 ? <Text style={{ color: '#fff' }}> ({items.quantity})</Text> : null}
@@ -1107,6 +1116,7 @@ const Cart = (props) => {
                           style={{
                             color: 'rgba(255,255,255,0.3)',
                             fontSize: 12,
+                            textDecorationLine: items.status === 0 ? 'line-through' : "none",
                           }}>
                           KD {items.sub_total}
                         </Text>) :
@@ -1115,6 +1125,7 @@ const Cart = (props) => {
                               color: 'rgba(255,255,255,0.3)',
                               fontSize: 12,
                               fontFamily: 'Montserrat-Regular',
+                              textDecorationLine: items.status === 0 ? 'line-through' : "none",
                             }}>
                             KD {items.price}
                           </Text>
@@ -1223,10 +1234,10 @@ const Cart = (props) => {
         closeOnPressMask={true}
         customStyles={{
           draggableIcon: {
-            backgroundColor: "#2E2E3A"
+            backgroundColor: "#292633"
           },
           container:{
-              backgroundColor: "#2E2E3A", 
+              backgroundColor: "#292633", 
               borderTopLeftRadius:30,
               borderTopRightRadius:30,
           }
@@ -1310,27 +1321,30 @@ const styles = StyleSheet.create({
     fontFamily: 'Montserrat-Medium',
   },
   bottomTabTitle: {
-    color:'white',
-    fontWeight:'bold',
+    color: '#fff',
     alignSelf:'center',
-    fontSize:20,
+    fontSize:18,
+    fontFamily:Platform.OS=='android'?'Michroma-Regular':'Michroma',
   },
   bottomTabContainer: {
-    color:'white',
+    color: '#fff',
     backgroundColor:'blue',
+    
    },
   bottomListContainer: {
-    paddingTop: 20
-   },
+    paddingTop: 20,
+    paddingLeft:10 
+  },
    itemContainer:{
     flex:1,
     flexDirection:'row',
     padding:5
    },
    item: {
-     color:'white',
+    fontFamily:'Montserrat-Regular',
+    color:'white',
     marginLeft:15,
-    fontSize: 18,
+    fontSize: 14,
     height: 44,
   },
   // crossIconForPackage: {
