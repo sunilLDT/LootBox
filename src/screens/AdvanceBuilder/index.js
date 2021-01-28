@@ -453,14 +453,21 @@ const AdvanceBuilder = (props) => {
                         keyExtractor={(item) => item.item_id}
                         data={filteredDataSource}
                         renderItem={({ item }, index) => {
+                          console.log((item.status));
                           const maxlimit = 22;
                           return (
                             <TouchableOpacity onPress={() => {
-                              selectItem(item)
-                              onPressTouch()
-                            }}>
+                              item.status === 1 
+                              ? selectItem(item) 
+                              : onPressTouch()
+                            }
+                            // {
+                            //   selectItem(item)
+                            //   onPressTouch()
+                            // }
+                            }>
                               <ImageBackground
-                                onPress={() => { }}
+                                // onPress={() => { }}
                                 style={{}}
                                 source={idExists(item.item_id) ? selectedIcCardImage : IcCardImage}
                                 style={styles.cardConatiner}
