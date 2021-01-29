@@ -21,12 +21,7 @@ import strings from '../languages/index';
 import { connectAdvanced } from 'react-redux';
 import { connect } from 'react-redux';
 import { cartActions } from '../actions/user';
-import Filter from './filter';
-import Dialog, {
-  DialogContent,
-  SlideAnimation,
-} from 'react-native-popup-dialog';
-
+import {languagename} from '../components/LanguageName';
 const { width, height } = Dimensions.get('window');
 
 const options = [
@@ -56,7 +51,8 @@ const LootStore = (props) => {
   const [search, setSearch] = useState('');
   const [open, setOpen] = useState(false);
   const [callOnScrollEnd, setCallOnScrollEnd] = useState(false);
-  const [filter, setFilter] = useState(false);
+  const [arOren,setarOren] = useState('en');
+  languagename().then(res => setarOren(res))
 
   const fetchData = useCallback(async () => {
     if (selectedSubCategory === 0) {

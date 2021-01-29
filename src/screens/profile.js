@@ -55,8 +55,7 @@ const Profile = (props) => {
   const [last_name, setLastName] = useState();
 
   var formattedDOB = format(DOB, "d-MM-yyyy");
-  console.log(profileDetails)
-
+  // var ret = profileDetails.profile_image.replace('user/profile/','');
   useEffect(() => {
     setLoading(true)
     getProfilApi().then((response) => {
@@ -64,6 +63,7 @@ const Profile = (props) => {
       setEmail(response.data.email)
       setFirstName(response.data.first_name)
       setLastName(response.data.last_name)
+      setPhoto(response.data.profile_image.replace('user/profile/',''))
       response.data.date_of_birth !== null ? setDOB(new Date(response.data.date_of_birth)) : setDOB(new Date())
       setGender(response.data.gender ? response.data.gender : 1)
       setLoading(false)
@@ -144,7 +144,7 @@ const Profile = (props) => {
       s3bucket.createBucket(() => {
         const params = {
           Bucket: 'lootbox-s3',
-          keyPrefix:'user/profile',
+          // keyPrefix:'user/profile',
           Key: file.name,
           Body: arrayBuffer,
           ContentDisposition: contentDeposition,
@@ -324,7 +324,7 @@ const Profile = (props) => {
                         <Image
                           // resizeMode="contain"
                           source={{
-                            uri: Object.keys(photo).length === 0 ? "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcR861VGFylgAJKnC4o90ssB-_ZIcLQi6075ig&usqp=CAU" : photo,
+                            uri: "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcR861VGFylgAJKnC4o90ssB-_ZIcLQi6075ig&usqp=CAU" ,
                           }}
                           style={{
                             height: height * 0.14,
@@ -336,7 +336,7 @@ const Profile = (props) => {
                       ) : (
                           <Image
                             // resizeMode="contain"
-                            source={{ uri: profileDetails.profile_image }}
+                            source={{ uri: photo }}
                             style={{
                               height: height * 0.14,
                               width: width * 0.4,
