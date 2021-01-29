@@ -21,7 +21,7 @@ import strings from '../languages/index';
 import { connectAdvanced } from 'react-redux';
 import { connect } from 'react-redux';
 import { cartActions } from '../actions/user';
-
+import {languagename} from '../components/LanguageName';
 const { width, height } = Dimensions.get('window');
 
 const options = [
@@ -51,6 +51,8 @@ const LootStore = (props) => {
   const [search, setSearch] = useState('');
   const [open, setOpen] = useState(false);
   const [callOnScrollEnd, setCallOnScrollEnd] = useState(false);
+  const [arOren,setarOren] = useState('en');
+  languagename().then(res => setarOren(res))
 
   const fetchData = useCallback(async () => {
     if (selectedSubCategory === 0) {
@@ -84,7 +86,7 @@ const LootStore = (props) => {
       });
       setCategories(x);
       var itemData = null;
-      console.log("B is value os "+x[current].id)
+      // console.log("B is value os "+x[current].id)
       if (b) {
         itemData = await fetchItems(x[current].id, b);
       } else {
@@ -261,26 +263,40 @@ const onPressTouch = () => {
                }}
               inputContainerStyle={{ height: 30,backgroundColor:'#D2D7F9'}}
             />) : null}
-          <Text
-            style={{
-              color: '#ECDBFA',
-              fontSize: 12,
-              lineHeight: 16,
-              fontFamily: Platform.OS=='android'?'Montserrat-LightItalic':'Montserrat',
-              paddingHorizontal: width * 0.1,
+            <View
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                flexDirection: 'row',
             }}>
-            DISCOVER
-          </Text>
-          <Text
-            style={{
-              color: '#ECDBFA',
-              fontSize: 20,
-              fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma',
-              paddingHorizontal: width * 0.1,
-            }}>
-            {strings.lootStore}
-          </Text>
-
+            <Text
+              style={{
+                display:'flex',
+                color: '#ECDBFA',
+                fontSize: 12,
+                lineHeight: 16,
+                fontFamily: Platform.OS=='android'?'Montserrat-LightItalic':'Montserrat',
+                paddingHorizontal: width * 0.1,
+              }}>
+              DISCOVER
+            </Text>
+          </View>
+          <View
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            flexDirection: 'row',
+          }}>
+            <Text
+              style={{
+                color: '#ECDBFA',
+                fontSize: 20,
+                fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma',
+                paddingHorizontal: width * 0.1,
+              }}>
+              {strings.lootStore}
+            </Text>
+          </View> 
           {data ? (
             <View style={{ width: '100%' }}>
               <ScrollView
@@ -493,36 +509,57 @@ const onPressTouch = () => {
                                                 }}
                                               />
                                             )}
-                                          <Text
-                                            style={{
-                                              fontFamily: Platform.OS=='android'?'Montserrat Regular':'Montserrat', 
-                                              color: '#D2D7F9',
-                                              opacity: 0.5,
-                                              fontSize: 14,
-                                              marginTop: 60,
-                                            }}>
-                                            {i.brand}
-                                          </Text>
-                                          <Text
-                                            numberOfLines={2}
-                                            style={{
-                                              fontSize: 16,
-                                              color: '#ECDBFA',
-                                              fontFamily: Platform.OS=='android'?'Montserrat-Bold':'Montserrat',
-                                              marginTop: 2,
-                                              marginRight: "2%"
-                                            }}>
-                                            {((i.name).length > maxlimit) ? (((i.name).substring(0, maxlimit - 3)) + '...') : i.name}
-                                          </Text>
-                                          <Text
-                                            style={{
-                                              color: '#DF2EDC',
-                                              fontSize: 12,
-                                              fontFamily: Platform.OS=='android'?'Montserrat Regular':'Montserrat',
-                                              marginVertical: 10
-                                            }}>
-                                            KD {i.price}
-                                          </Text>
+                                          <View
+                                          style={{
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            flexDirection: 'row',
+                                          }}>
+                                            <Text
+                                              style={{
+                                                fontFamily: Platform.OS=='android'?'Montserrat Regular':'Montserrat', 
+                                                color: '#D2D7F9',
+                                                opacity: 0.5,
+                                                fontSize: 14,
+                                                marginTop: 60,
+                                              }}>
+                                              {i.brand}
+                                            </Text>
+                                          </View>
+                                          <View
+                                          style={{
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            flexDirection: 'row',
+                                          }}>
+                                            <Text
+                                              numberOfLines={2}
+                                              style={{
+                                                fontSize: 16,
+                                                color: '#ECDBFA',
+                                                fontFamily: Platform.OS=='android'?'Montserrat-Bold':'Montserrat',
+                                                marginTop: 2,
+                                                marginRight: arOren?"10%":"2%",
+                                              }}>
+                                              {((i.name).length > maxlimit) ? (((i.name).substring(0, maxlimit - 3)) + '...') : i.name}
+                                            </Text>
+                                          </View>
+                                          <View
+                                          style={{
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            flexDirection: 'row',
+                                          }}>
+                                            <Text
+                                              style={{
+                                                color: '#DF2EDC',
+                                                fontSize: 12,
+                                                fontFamily: Platform.OS=='android'?'Montserrat Regular':'Montserrat',
+                                                marginVertical: 10
+                                              }}>
+                                              KD {i.price}
+                                            </Text>
+                                          </View>
                                         </ImageBackground>
                                       </TouchableOpacity>
                                     </View>

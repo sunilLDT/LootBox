@@ -341,16 +341,24 @@ const renderViewLess = (onPress) => {
             </TouchableOpacity>
           </View>
         </View>
-        <Text
-          style={{
-            fontSize: 14,
-            fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma',    
-                    color: '#ECDBFA',
-            opacity: 0.5,
-            marginTop: 20,
-          }}>
-          Description
-        </Text>
+        <View
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+        }}>
+          <Text
+            style={{
+              fontSize: 14,
+              fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma',    
+                      color: '#ECDBFA',
+              opacity: 0.5,
+              marginTop: 20,
+            }}>
+            Description
+          </Text>
+        </View>
         <View style={{marginTop:10}}>
             <ViewMoreText
                 numberOfLines={3}
@@ -391,15 +399,23 @@ const renderViewLess = (onPress) => {
                     borderBottomColor: 'rgba(151,151,151,0.12)',
                     borderBottomWidth: 1,
                   }}>
-                  <Text
+                  <View
                     style={{
-                      marginLeft: '7%',
-                     
-                      color: '#ECDBFA',
-                      fontSize: 14,
-                    }}>
-                    {k === 0 ? 'Performance' : 'Processor Graphics'}
-                  </Text>
+                      display: 'flex',
+                      alignItems: 'center',
+                      flexDirection: 'row',
+                      justifyContent: 'space-between',
+                  }}>
+                    <Text
+                      style={{
+                        marginLeft: '7%',
+                      
+                        color: '#ECDBFA',
+                        fontSize: 14,
+                      }}>
+                      {k === 0 ? 'Performance' : 'Processor Graphics'}
+                    </Text>
+                  </View>
                 </View>
                 <View
                   style={{

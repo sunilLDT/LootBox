@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useEffect, useContext,useState } from 'react';
 import { NavigationContainer, useIsFocused } from '@react-navigation/native';
 import { Easing, Platform, Dimensions, View, StatusBar, SafeAreaView } from 'react-native';
 import {
@@ -211,17 +211,18 @@ const App = () => {
     </View>
   );
 };
-// const languageChange = async () => {
-//     let languagename = await AsyncStorage.getItem('language');
-//     console.log(languagename);
-// };
-
 
 export default () => {
+  const [set,noset] = useState('en');
+  const languageChange = async () => {
+      let languagename = await AsyncStorage.getItem('language');
+      noset(languagename)
+  };
+  languageChange()
   return (
     <LanguageProvider 
       strings={strings}
-      language="en">
+      language={set}>
     <Provider store={store}>
       <AuthProvider>
         <App />
