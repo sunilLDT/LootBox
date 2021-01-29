@@ -61,10 +61,8 @@ const changeResolution = (res) => {
     } 
   }
   const checkResolution = (res) => {
-    // const res2 = res;
     setOpen(false)
       if(selected.length !== 0){
-
         Alert.alert(
           "Lootbox",
           "You can choose only one resolution for games",
@@ -137,6 +135,9 @@ const changeResolution = (res) => {
                 resizeMode="contain"
                 style={{
                   width: 48,
+                  transform: [
+                    { scaleX: -1 }
+                  ]
                 }}
               />
             </TouchableOpacity>
@@ -152,17 +153,22 @@ const changeResolution = (res) => {
               </View>
           </TouchableOpacity>
           </View>
-
-          <Text
-          style={{
-            color: '#ECDBFA',
-            fontSize: 20,
-            lineHeight: 28,
-            fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma',
-          }}>
-          {strings.buildHeading}
-          </Text>
-        
+          <View
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              flexDirection: 'row',
+            }}>   
+            <Text
+            style={{
+              color: '#ECDBFA',
+              fontSize: 20,
+              lineHeight: 28,
+              fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma',
+            }}>
+            {strings.buildHeading}
+            </Text>
+          </View> 
         <View
           style={{
             display: 'flex',
@@ -179,13 +185,13 @@ const changeResolution = (res) => {
                 flexDirection: 'row',
               }}>
                 <TouchableOpacity
-                  style={{ width: 116 }}
+                  style={{ width: 116, }}
                   onPress={() => {
                     checkResolution('1080P');
                   }}>
                   <Option1 selected={resolution === '1080P'} />
                 </TouchableOpacity>
-                <View style={{ position: 'relative', right: 48, width: 84,  }}>
+                <View style={{ position: 'relative', right: 48, width: 84,}}>
                   <TouchableOpacity
                     onPress={() => {
                       checkResolution('2K')

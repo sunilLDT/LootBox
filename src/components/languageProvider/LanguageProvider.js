@@ -9,6 +9,7 @@
  */
 import React, { Component, Children } from 'react';
 import PropTypes from 'prop-types';
+import AsyncStorage from '@react-native-community/async-storage';
 
 import LanguageStore from './LanguageStore';
 
@@ -16,6 +17,10 @@ type Props = {
   language: string,
   strings: Object
 };
+// const languageChange = async () => {
+//   let languagename = await AsyncStorage.getItem('language');
+  
+// };
 class LanguageProvider extends Component {
   props: Props;
   language: Object;
@@ -23,7 +28,7 @@ class LanguageProvider extends Component {
     strings: {
       en: {}
     },
-    language: 'en'
+    language: AsyncStorage.getItem('language')
   };
   constructor(p:Props, c) {
     super(p, c);
@@ -47,7 +52,7 @@ class LanguageProvider extends Component {
   }
   componentWillReceiveProps(nextProps: Object): void {
     if (nextProps.language !== this.props.language){
-      this.language.setlanguage(nextProps.language);
+      // this.language.setlanguage(nextProps.language);
     }
   }
   render(): void {

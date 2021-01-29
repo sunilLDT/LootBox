@@ -27,6 +27,7 @@ import Dialog, {
   SlideAnimation,
 } from 'react-native-popup-dialog';
 
+import {languagename} from '../components/LanguageName';
 const { width, height } = Dimensions.get('window');
 
 const options = [
@@ -57,6 +58,8 @@ const LootStore = (props) => {
   const [open, setOpen] = useState(false);
   const [callOnScrollEnd, setCallOnScrollEnd] = useState(false);
   const [filter, setFilter] = useState(false);
+  const [arOren,setarOren] = useState('en');
+  languagename().then(res => setarOren(res))
 
   const fetchData = useCallback(async () => {
     if (selectedSubCategory === 0) {
@@ -90,7 +93,7 @@ const LootStore = (props) => {
       });
       setCategories(x);
       var itemData = null;
-      console.log("B is value os " + x[current].id)
+      // console.log("B is value os "+x[current].id)
       if (b) {
         itemData = await fetchItems(x[current].id, b);
       } else {

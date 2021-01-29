@@ -25,8 +25,9 @@ const PcDetails = ({navigation, route}) => {
   const [packageData, setPackageData] = React.useState([]);
   const [item, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
-
+  const [arOren,setarOren] = useState('en')
     useEffect(() => {
+    languageChange()
     setLoading(true)
     packageListByGames(selectedGames).then((response) => {
       setPackageData(response.data);
@@ -40,6 +41,11 @@ const PcDetails = ({navigation, route}) => {
         console.log("willUnMount");
     }
   }, [selectedGames]);
+
+  const languageChange = async () => {
+    let languagename = await AsyncStorage.getItem('language');
+    setarOren(languagename)
+  };
 
   const sum = (pack) => {
     var total = 0
@@ -89,6 +95,9 @@ const PcDetails = ({navigation, route}) => {
             resizeMode="contain"
             style={{
                 width: 48,
+                transform: [
+                    { scaleX: arOren == "it"?-1:1 }
+                  ]
             }}
             />
         </TouchableOpacity>
@@ -103,9 +112,15 @@ const PcDetails = ({navigation, route}) => {
             key={index}
             onPress={() => navigation.navigate('ProductDetails',{PackageId:cpuDetail.package_id})}
           >  
-                <ImageBackground style={styles.linearGradient}
-                source={DetailsInfoCard}
-                >
+            <View
+            style={{
+                display: 'flex',
+                alignItems: 'center',
+                flexDirection: 'row',
+            }}>
+            <ImageBackground style={styles.linearGradient}
+            source={DetailsInfoCard}
+            >
                 <View style={styles.container}>
                     {cpuDetail.image?(
                         <Image style={styles.images} source={{uri:cpuDetail.image}}/>
@@ -161,7 +176,8 @@ const PcDetails = ({navigation, route}) => {
                         </Text>
                     </ImageBackground>
                 </View>
-                </ImageBackground>
+            </ImageBackground>
+            </View>
        </TouchableOpacity>
           );
         })}
@@ -223,7 +239,7 @@ const styles = StyleSheet.create({
         fontSize:15,
         fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma',
         fontWeight:"100",
-        paddingRight:"43%",
+        // paddingRight:"43%",
     },
     detailsText1:{
         color:'#75788E',
