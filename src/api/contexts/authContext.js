@@ -487,21 +487,21 @@ const fetchCategories = (dispatch) => async () => {
   }
 };
 
-const fetchItems = (dispatch) => async (category_id, subcategory_id, page) => {
+const fetchItems = (dispatch) => async (category_id, subcategory_id, page, filterId, filterValues, minPrice, maxPrice) => {
   try {
     console.log('===================================')
-    console.log('Category Id     :' + category_id)
-    console.log('Sub Category Id :' + subcategory_id)
+    console.log('Category Id     :' + filterId)
+    console.log('Sub Category Id :' + filterValues)
     console.log('Page Number     :' + page);
     console.log('===================================')
 
     if (subcategory_id) {
-      const response = await Api.get(`app/items/list?category_id=${category_id}&&sub_category_id=${subcategory_id}`);
+      const response = await Api.get(`app/items/list?category_id=${category_id}&&sub_category_id=${subcategory_id}&&filter_custome_field_id=${[filterId]}&&filter_custome_values=${[filterValues]}&&min_price=${minPrice}&&max_price=${maxPrice}`);
       console.log(response.data)
       console.log(response.data.parameter.last_page)
       return response.data;
     } else {
-      const response = await Api.get(`app/items/list?category_id=${category_id}&&page=${page}`);
+      const response = await Api.get(`app/items/list?category_id=${category_id}&&page=${page}&&filter_custome_field_id=${[filterId]}&&filter_custome_values=${[filterValues]}&&min_price=${minPrice}&&max_price=${maxPrice}`);
       console.log(response.data)
       console.log(response.data.parameter.last_page)
       return response.data;

@@ -33,6 +33,7 @@
     "date-fns": "^2.16.1",
     "immutability-helper": "^3.1.1",
     "install-peers-cli": "^2.2.0",
+    "lodash": "^4.17.20",
     "lodash.filter": "^4.6.0",
     "prop-types": "^15.7.2",
     "react": "16.13.1",
