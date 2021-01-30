@@ -20,6 +20,11 @@ import { SearchBar } from 'react-native-elements';
 import strings from '../languages/index';
 import { connectAdvanced } from 'react-redux';
 import { connect } from 'react-redux';
+import Filter from './filter';
+import Dialog, {
+  DialogContent,
+  SlideAnimation,
+} from 'react-native-popup-dialog';
 import { cartActions } from '../actions/user';
 import {languagename} from '../components/LanguageName';
 const { width, height } = Dimensions.get('window');
@@ -50,6 +55,7 @@ const LootStore = (props) => {
   const [totalPage, setToalPage] = useState(0);
   const [search, setSearch] = useState('');
   const [open, setOpen] = useState(false);
+  const [filter, setFilter] = useState(false);
   const [callOnScrollEnd, setCallOnScrollEnd] = useState(false);
   const [arOren,setarOren] = useState('en');
   languagename().then(res => setarOren(res))

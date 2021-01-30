@@ -26,7 +26,6 @@ import { connect } from '@language';
 const { width, height } = Dimensions.get('window');
 
 const Drawer = (props) => {
-
   const { signout, state } = useContext(AuthContext)
   const isDrawerOpen = useIsDrawerOpen()
   const [profileDetails, setProfileDetails] = useState({});

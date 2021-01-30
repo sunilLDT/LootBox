@@ -12,8 +12,6 @@ function addCartAction(id) {
       dispatch(request(id));
       showCartData().then((response) => {
           dispatch(success(response.data.total_items));
-          console.log(response.data);
-          console.log("******cart data from redux*******")
       }).catch((error) => {
         console.log("showCartDataOnHome" + error);
       });

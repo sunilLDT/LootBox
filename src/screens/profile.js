@@ -10,7 +10,6 @@ import {
   ScrollView,
   TouchableWithoutFeedback,
   ActivityIndicator,
-  PermissionsAndroid,
   Platform,
 } from 'react-native';
 import Input from '../components/input';
@@ -24,6 +23,8 @@ import Dialog, {
   DialogContent,
   SlideAnimation,
 } from 'react-native-popup-dialog';
+import { connect } from 'react-redux';
+import { profileActions } from '../actions/profileAction';
 import ImagePicker from "react-native-image-picker";
 import { uploadImageApi } from '../api/buildYourPc';
 import { Context as AuthContext } from '../api/contexts/authContext';
@@ -38,7 +39,7 @@ import fs from 'react-native-fs';
 const { width, height } = Dimensions.get('window');
 
 const Profile = (props) => {
-  const [profileDetails, setProfileDetails] = useState({});
+  console.log(props.profileLoader)
   const [DOB, setDOB] = useState(new Date());
   const [show, setShow] = useState(false);
   const [email, setEmail] = useState("");
@@ -47,30 +48,24 @@ const Profile = (props) => {
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setnewPassword] = useState("");
   const [confirmPassword, setconfirmPassword] = useState("");
-  const [photo, setPhoto] = useState({});
-  const [loading, setLoading] = useState(true);
+  const [photo, setPhoto] = useState();
   const {signout } = useContext(AuthContext);
   const [loadingBtn, setLoadingBtn] = useState(false);
+  const [loading,setloading] = useState(false);
   const [first_name, setFirstName] = useState();
   const [last_name, setLastName] = useState();
+  const [imageLoader,setImageLoader] = useState(false);
 
   var formattedDOB = format(DOB, "d-MM-yyyy");
-  // var ret = profileDetails.profile_image.replace('user/profile/','');
+
   useEffect(() => {
-    setLoading(true)
-    getProfilApi().then((response) => {
-      setProfileDetails(response.data)
-      setEmail(response.data.email)
-      setFirstName(response.data.first_name)
-      setLastName(response.data.last_name)
-      setPhoto(response.data.profile_image.replace('user/profile/',''))
-      response.data.date_of_birth !== null ? setDOB(new Date(response.data.date_of_birth)) : setDOB(new Date())
-      setGender(response.data.gender ? response.data.gender : 1)
-      setLoading(false)
-    }).catch((error) => {
-      console.log("profileDetails" + error);
-      setLoading(false)
-    });
+      props.sendaction()
+      setEmail(props.profileData.email)
+      setFirstName(props.profileData.first_name)
+      setLastName(props.profileData.last_name)
+      setPhoto(props.profileData.profile_image.replace('user/profile/',''))
+      props.profileData.date_of_birth !== null ? setDOB(new Date(props.profileData.date_of_birth)) : setDOB(new Date())
+      setGender(props.profileData.gender ? props.profileData.gender : 1)
     return () => {
       console.log("willUnMount")
     }
@@ -126,6 +121,10 @@ const Profile = (props) => {
     setpasswordModal(!passwordModal)
     return true;
   }
+  const navigatehome = () => {
+    props.navigation.navigate({name: 'home'})
+    props.sendaction()
+  }
 
   const uploadImageOnS3 = async (file) => {
     try{
@@ -160,9 +159,11 @@ const Profile = (props) => {
           console.log('success')
           console.log("Respomse URL : "+ data.Location);
           uploadImageApi(data.Location).then((response) => {
+            setImageLoader(false)
             alert(response.message);
           }).catch((error) => {
             console.log("ImageUploadProfile" + error);
+            setImageLoader(false)
           });
         }
       });
@@ -172,6 +173,7 @@ const Profile = (props) => {
   }
   }
   const handleChoosePhoto = async () => {
+    setImageLoader(true)
     let options = {
       noData: true,
       storageOptions: {
@@ -181,10 +183,11 @@ const Profile = (props) => {
     ImagePicker.launchImageLibrary(options, async (response) => {
       if (response.didCancel) {
         console.log("User cancelled image picker");
-        setPhoto(response.uri)
+        setImageLoader(false)
       }
       else if (response.error) {
       console.log("ImagePicker Error: ", response.error);
+      setImageLoader(false)
       }
       else{
         setPhoto(response.uri)
@@ -247,7 +250,7 @@ const Profile = (props) => {
             style={{
               paddingLeft: width * 0.1,
             }}>
-            {loading ? (
+            {props.profileLoader ? (
               <View style={{ margin: height * 0.45, alignSelf: 'center' }}>
                 <ActivityIndicator color="#ECDBFA" size="small" />
               </View>) : (
@@ -259,9 +262,7 @@ const Profile = (props) => {
                       flexDirection: 'row',
                     }}>
                     <TouchableOpacity
-                      onPress={() => {
-                        props.navigation.navigate({name: 'home'})
-                      }}>
+                      onPress={() => navigatehome()}>
                       <Image
                         style={{ width: 48 }}
                         resizeMode="contain"
@@ -302,7 +303,7 @@ const Profile = (props) => {
                           color: '#ECDBFA',
                           marginBottom: 10,
                         }}>
-                        {profileDetails.full_name}
+                        {props.profileData.full_name}
                       </Text>
                       <Text
                         numberOfLines={2}
@@ -314,13 +315,14 @@ const Profile = (props) => {
                           opacity: 0.5,
                           marginBottom: 20,
                         }}>
-                        {profileDetails.email}
+                        {props.profileData.email}
                       </Text>
                     </View>
+                    {!imageLoader?(
                     <TouchableOpacity
                       style={{ width: "40%" }}
-                      onPress={handleChoosePhoto}>
-                      {profileDetails.profile_image == "" ? (
+                      onPress={() => handleChoosePhoto()}>
+                      {props.profileData.profile_image == "" ? (
                         <Image
                           // resizeMode="contain"
                           source={{
@@ -346,6 +348,11 @@ const Profile = (props) => {
                           />
                         )}
                     </TouchableOpacity>
+                    ):(
+                      <View style={{ alignSelf: 'center',marginRight:"15%" }}>
+                        <ActivityIndicator color="#ECDBFA" size="small" />
+                      </View>
+                    )} 
                   </View>
                   <View style={{ marginBottom: 10, marginTop: 20 }}>
                     <Input placeholder="firstName" value={first_name} onChangeText={(first_name) => setFirstName(first_name)} />
@@ -463,7 +470,7 @@ const Profile = (props) => {
                   </LinearGradient>
                   <View style={{ marginVertical: 10 }}>
                     <TouchableOpacity onPress={() => props.navigation.navigate('changePasswordNumber')}>
-                      <InputCard placeholder={profileDetails.phone} />
+                      <InputCard placeholder={props.profileData.phone} />
                     </TouchableOpacity>
                   </View>
 
@@ -570,5 +577,13 @@ const pickerStyle = {
 
   },
 };
+const mapStateToProps = (state) => ({
+  profileData: state.profileReducer.profile,
+  profileLoader:state.profileReducer.loading,
+});
 
-export default Profile;
+const actionCreators = {
+  sendaction: profileActions.showProfile,
+};
+
+export default connect(mapStateToProps,actionCreators)(Profile)
