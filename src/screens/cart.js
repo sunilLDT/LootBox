@@ -69,7 +69,6 @@ const Cart = (props) => {
   const maxlimit = 20;
   var imgSource = upwardImage ? ExpandImage : CloseImage;
   
-console.log(cartData)
   useEffect(() => {
     setLoading(true)
     showCartData().then((response) => {
@@ -95,7 +94,6 @@ console.log(cartData)
 
   const checkout = async () => {
     const userType = await AsyncStorage.getItem('user_type');
-    console.log(props.address)
     setLoading(true)
     if (JSON.parse(userType) == 2) {
       props.navigation.navigate('auth', {
@@ -241,7 +239,6 @@ console.log(cartData)
   const removeItem = (id) => {
     removeItemAPI(id).then((response) => {
       reloadData();
-      console.log(response.data)
     })
   };
 
@@ -280,7 +277,6 @@ console.log(cartData)
   const removePackage = (id) => {
     removePackageApi(id).then((response) => {
       reloadData();
-      console.log(response.data)
     })
   }
 
@@ -1348,13 +1344,6 @@ const styles = StyleSheet.create({
     fontSize: 14,
     height: 44,
   },
-  // crossIconForPackage: {
-  //   display: 'flex',
-  //   alignSelf: 'flex-end',
-  //   position: 'relative',
-  //   top: -55,
-  //   right: -5,
-  // }
 });
 
 const mapStateToProps = (state) => ({

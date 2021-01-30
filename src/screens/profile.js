@@ -31,7 +31,6 @@ import { Context as AuthContext } from '../api/contexts/authContext';
 import AddressList from '../components/AddressList';
 import SaveBtn from '../components/SaveBtn';
 import bgImage from '../assets/signup.png';
-import { getProfilApi } from '../api/buildYourPc';
 import strings, { changeLaguage } from '../languages/index';
 import RNPickerSelect from 'react-native-picker-select';
 import { S3, util } from 'aws-sdk';
@@ -39,7 +38,7 @@ import fs from 'react-native-fs';
 const { width, height } = Dimensions.get('window');
 
 const Profile = (props) => {
-  console.log(props.profileLoader)
+
   const [DOB, setDOB] = useState(new Date());
   const [show, setShow] = useState(false);
   const [email, setEmail] = useState("");

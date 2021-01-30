@@ -29,7 +29,6 @@ const Drawer = (props) => {
   const { signout, state } = useContext(AuthContext)
   const isDrawerOpen = useIsDrawerOpen()
   const [profileDetails, setProfileDetails] = useState({});
-  const [lang, setLang] = useState('en');
   const [disableEdit, setDisable] = useState(false)
   const [languageImage, setLanguageImage] = useState();
   const [ignored, forceUpdate] = useReducer(x => x + 1, 0);
@@ -114,7 +113,6 @@ const Drawer = (props) => {
     languageChange()
     language.setLanguage('it')
     await AsyncStorage.setItem('language', 'it');
-    setLang('it')
     I18nManager.forceRTL(true)
     RNRestart.Restart();
   }
