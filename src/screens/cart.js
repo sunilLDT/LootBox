@@ -66,6 +66,12 @@ const Cart = (props) => {
   const [decreaseLoaderPackageID,setDecreaseLoaderPackageID] = useState();
   const [decreaseLoaderItem,setDecreaseLoaderItem] = useState(false);
   const [decreaseLoaderId,setDecreaseLoaderId] = useState();
+  const [removeLoader,setremoveLoader] = useState(false);
+  const [removeLoaderID,setremoveLoaderID] = useState();
+  const [trashPackageLoader,settrashPackageLoader] = useState(false);
+  const [trashPackageLoaderID,settrashPackageLoaderID] = useState();
+  
+
   const maxlimit = 20;
   var imgSource = upwardImage ? ExpandImage : CloseImage;
   
@@ -113,8 +119,8 @@ const Cart = (props) => {
       refRBSheet.current.open();
     }
   };
-   const paymentOption = () => {
-     orderPlace().then((response) => {
+   const paymentOption = (paymentType) => {
+     orderPlace(paymentType).then((response) => {
         setLoading(false)
         props.navigation.navigate('checkout', { paymentUrl: response.data.data.paymenturl })
       }).catch((error) => {
@@ -237,9 +243,12 @@ const Cart = (props) => {
   }
 
   const removeItem = (id) => {
+    setremoveLoaderID(id);
+    setremoveLoader(true);
     removeItemAPI(id).then((response) => {
       reloadData();
     })
+    
   };
 
   const addItem = (id) => {
@@ -275,6 +284,8 @@ const Cart = (props) => {
   }
 
   const removePackage = (id) => {
+    settrashPackageLoader(true);
+    settrashPackageLoaderID(id);
     removePackageApi(id).then((response) => {
       reloadData();
     })
@@ -562,7 +573,13 @@ const Cart = (props) => {
                                   justifyContent: "space-between",
                                   
                                 }}>
-                                  <Icons name="trash" color={"white"} size={15} style={{alignSelf:'center', paddingTop:'3%'}} />
+                                  <TouchableOpacity onPress={() => removePackage(packages.cart_package_id) }> 
+                                  {
+                                trashPackageLoader && trashPackageLoaderID=== packages.cart_package_id
+                                ?(<View style={{alignSelf:'center', paddingTop:8}}><ActivityIndicator color="#ECDBFA" size="small"  /></View>
+                                ):(
+                                <Icons name="trash" color={"white"} size={15} style={{alignSelf:'center', paddingTop: 8}} />)}
+                                  </TouchableOpacity>
                                 <Image
                                   source={imgSource}
                                   width={100}
@@ -815,6 +832,21 @@ const Cart = (props) => {
                         right:5
                       }}>
                       </View>
+                      <View style={{ direction: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                            <View
+                              style={{
+                                flex: 1,
+                                justifyContent: "space-between",
+                              }}>
+                                <TouchableOpacity onPress={() => removeItem(items.cart_item_id) }> 
+                                {
+                                removeLoader && removeLoaderID=== items.cart_item_id 
+                                ?(<View style={{alignSelf:'center', paddingTop:8}}><ActivityIndicator color="#ECDBFA" size="small"  /></View>
+                                ):(
+                                <Icons name="trash" color={"#D2D7F9"} size={15} style={{alignSelf:'center', paddingTop: 8}} />)}
+                                
+                                </TouchableOpacity></View>
+                           </View>
                     </ImageBackground>
                   </View>
                 );
@@ -1254,11 +1286,11 @@ const Cart = (props) => {
       <View style={styles.bottomListContainer}>
       <FlatList
         data={[
-          {  icon:<Icons name="credit-card" color={"white"} size={25} />, key: 'KNET'},
-          { icon:<Icons name="credit-card" color={"white"}  size={25} />, key: 'Credit Card'},
-          { icon:<Icons name="briefcase"  color={"white"} size={25}/>, key: 'Pay From Wallet'}, 
+          { paymentType:1, icon:<Icons name="credit-card" color={"#D2D7F9"} size={25} />, key: 'KNET'},
+          { paymentType:2,icon:<Icons name="credit-card" color={"#D2D7F9"}  size={25} />, key: 'VISA'},
+          { paymentType:2,icon:<Icons name="briefcase"  color={"#D2D7F9"} size={25}/>, key: 'Cash On Delivery'}, 
         ]}
-        renderItem={({item}) => <TouchableOpacity onPress={() => paymentOption()} ><View style={styles.itemContainer} >{item.icon}<Text style={styles.item}>{item.key}</Text></View></TouchableOpacity>}
+        renderItem={({item}) => <TouchableOpacity onPress={() => paymentOption(item.paymentType)} ><View style={styles.itemContainer} >{item.icon}<Text style={styles.item}>{item.key}</Text></View></TouchableOpacity>}
       />
       </View>
         </View>

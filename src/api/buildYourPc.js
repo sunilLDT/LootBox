@@ -83,9 +83,9 @@ export async function showCartData(){
   return response.data;
 }
 
-export async function orderPlace(){
+export async function orderPlace(paymentType){
   const response = await Api.post('app/order/place',{
-    payment_type:1,
+    payment_type:paymentType
   });
   return response.data;
 }
