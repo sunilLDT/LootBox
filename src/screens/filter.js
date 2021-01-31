@@ -28,6 +28,9 @@ const Filter = (props) => {
 
   React.useEffect(() => {
     const allSubCategories = props.selectedSubCategory === 0 ? props.allCategories.map((a, k) => a.id) : [props.allCategories[props.selectedSubCategory - 1].id];
+    if (props.initalValues) {
+      console.log(props.initalValues)
+    }
     getFilterData(allSubCategories).then((response) => {
       setFilterOptions(response.data);
     }).catch((error) => {

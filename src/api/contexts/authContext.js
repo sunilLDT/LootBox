@@ -74,7 +74,7 @@ const checkUser = (dispatch) => async () => {
     if (token && token.length > 0) {
       navigate({ name: 'home' });
     } else {
-      navigate({name: 'slider'});
+      navigate({ name: 'slider' });
     }
   } else {
     if (token && token.length > 0) {
@@ -491,20 +491,34 @@ const fetchItems = (dispatch) => async (category_id, subcategory_id, page, filte
   try {
     console.log('===================================')
     console.log('Category Id     :' + filterId)
-    console.log('Sub Category Id :' + filterValues)
+    console.log('Sub Category Id :' + subcategory_id)
     console.log('Page Number     :' + page);
     console.log('===================================')
 
     if (subcategory_id) {
-      const response = await Api.get(`app/items/list?category_id=${category_id}&&sub_category_id=${subcategory_id}&&filter_custome_field_id=${[filterId]}&&filter_custome_values=${[filterValues]}&&min_price=${minPrice}&&max_price=${maxPrice}`);
-      console.log(response.data)
-      console.log(response.data.parameter.last_page)
-      return response.data;
+      if (filterId) {
+        const response = await Api.get(`app/items/list?category_id=${category_id}&&sub_category_id=${subcategory_id}&&filter_custome_field_id=${[filterId]}&&filter_custome_values=${[filterValues]}&&min_price=${minPrice}&&max_price=${maxPrice}`);
+        console.log(response.data)
+        console.log(response.data.parameter.last_page)
+        return response.data;
+      } else {
+        const response = await Api.get(`app/items/list?category_id=${category_id}&&sub_category_id=${subcategory_id}`);
+        console.log(response.data)
+        console.log(response.data.parameter.last_page)
+        return response.data;
+      }
     } else {
-      const response = await Api.get(`app/items/list?category_id=${category_id}&&page=${page}&&filter_custome_field_id=${[filterId]}&&filter_custome_values=${[filterValues]}&&min_price=${minPrice}&&max_price=${maxPrice}`);
-      console.log(response.data)
-      console.log(response.data.parameter.last_page)
-      return response.data;
+      if (filterId) {
+        const response = await Api.get(`app/items/list?category_id=${category_id}&&page=${page}&&filter_custome_field_id=${[filterId]}&&filter_custome_values=${[filterValues]}&&min_price=${minPrice}&&max_price=${maxPrice}`);
+        console.log(response.data)
+        console.log(response.data.parameter.last_page)
+        return response.data;
+      } else {
+        const response = await Api.get(`app/items/list?category_id=${category_id}&&page=${page}`);
+        console.log(response.data)
+        console.log(response.data.parameter.last_page)
+        return response.data;
+      }
 
     }
   } catch (e) {

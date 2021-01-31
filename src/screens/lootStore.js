@@ -27,7 +27,7 @@ import Dialog, {
   SlideAnimation,
 } from 'react-native-popup-dialog';
 
-import {languagename} from '../components/LanguageName';
+import { languagename } from '../components/LanguageName';
 const { width, height } = Dimensions.get('window');
 
 const options = [
@@ -58,7 +58,7 @@ const LootStore = (props) => {
   const [open, setOpen] = useState(false);
   const [callOnScrollEnd, setCallOnScrollEnd] = useState(false);
   const [filter, setFilter] = useState(false);
-  const [arOren,setarOren] = useState('en');
+  const [arOren, setarOren] = useState('en');
   languagename().then(res => setarOren(res));
   const [filterValues, setFilterApplied] = useState({});
 
@@ -82,6 +82,7 @@ const LootStore = (props) => {
     setSelectedSubCategory(id);
     setPage(1)
     setlastPage(0)
+    setFilterApplied({})
   }
 
   const fetchData1 = async (b) => {
@@ -95,8 +96,9 @@ const LootStore = (props) => {
       setCategories(x);
       var itemData = null;
       // console.log("B is value os "+x[current].id)
+      alert(b)
       if (b) {
-        itemData = await fetchItems(x[current].id, b);
+        itemData = await fetchItems(x[current].id, b, undefined, filterValues.filter_custome_field_id, filterValues.filter_custome_values, filterValues.minPrice, filterValues.maxPrice);
       } else {
         itemData = await fetchItems(x[current].id, subCategoryId, page, filterValues.filter_custome_field_id, filterValues.filter_custome_values, filterValues.minPrice, filterValues.maxPrice);
         setlastPage(itemData.parameter.last_page);
@@ -180,6 +182,7 @@ const LootStore = (props) => {
   }
 
   const handleFilters = (filterValues) => {
+    console.log(filterValues)
     setFilterApplied(filterValues)
     setFilter(false)
   }
@@ -204,7 +207,7 @@ const LootStore = (props) => {
         >
           <DialogContent>
             <View>
-            <Filter initalValues={filterValues} handleFilters={handleFilters} selectedSubCategory={selectedSubCategory} allCategories={subCategories[0]}/>
+              <Filter initalValues={filterValues} handleFilters={handleFilters} selectedSubCategory={selectedSubCategory} allCategories={subCategories[0]} />
             </View>
           </DialogContent>
         </Dialog>
