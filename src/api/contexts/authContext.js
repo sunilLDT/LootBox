@@ -487,36 +487,61 @@ const fetchCategories = (dispatch) => async () => {
   }
 };
 
-const fetchItems = (dispatch) => async (category_id, subcategory_id, page, filterId, filterValues, minPrice, maxPrice) => {
+const fetchItems = (dispatch) => async (category_id, sub_category_id, page, filterId, filterValues, minPrice, maxPrice) => {
   try {
-    console.log('===================================')
-    console.log('Category Id     :' + filterId)
-    console.log('Sub Category Id :' + subcategory_id)
-    console.log('Page Number     :' + page);
-    console.log('===================================')
+   
+    // console.log('===================================')
+    // console.log('Category Id     :' + filterId)
+    // console.log('Sub Category Id :' + subcategory_id)
+    // console.log('Page Number     :' + page);
+    // console.log('===================================')
 
-    if (subcategory_id) {
+    if (sub_category_id) {
       if (filterId) {
-        const response = await Api.get(`app/items/list?category_id=${category_id}&&sub_category_id=${subcategory_id}&&filter_custome_field_id=${[filterId]}&&filter_custome_values=${[filterValues]}&&min_price=${minPrice}&&max_price=${maxPrice}`);
-        console.log(response.data)
-        console.log(response.data.parameter.last_page)
+        console.log("£££££££££££££££££")
+        console.log('category='+category_id+'sub_category_id'+sub_category_id+filterId+"dfgdfg "+ filterValues)
+        const response = await Api.post('app/items/list',{
+          category_id:category_id,
+          sub_category_id:sub_category_id ,
+          filter_custome_field_id:[filterId],
+          filter_custome_values:[filterValues],
+          min_price:parseInt(minPrice),
+          max_price:parseInt(maxPrice)
+        });
+        console.log('filtersssss')
+         console.log(response)
         return response.data;
       } else {
-        const response = await Api.get(`app/items/list?category_id=${category_id}&&sub_category_id=${subcategory_id}`);
+        const response = await Api.post('app/items/list',{
+          category_id:category_id,
+          sub_category_id:sub_category_id,
+        });
+        console.log("/**********")
         console.log(response.data)
-        console.log(response.data.parameter.last_page)
+        // console.log(response.data.parameter.last_page)
         return response.data;
       }
     } else {
       if (filterId) {
-        const response = await Api.get(`app/items/list?category_id=${category_id}&&page=${page}&&filter_custome_field_id=${[filterId]}&&filter_custome_values=${[filterValues]}&&min_price=${minPrice}&&max_price=${maxPrice}`);
-        console.log(response.data)
-        console.log(response.data.parameter.last_page)
+        const response = await Api.post('app/items/list',{
+         category_id,
+         page,
+         filter_custome_field_id: [filterId],
+         filter_custome_values: [filterValues],
+         min_price:minPrice,
+         max_price:maxPrice
+
+        });
+        
+        // console.log(response.data.parameter.last_page)
         return response.data;
       } else {
-        const response = await Api.get(`app/items/list?category_id=${category_id}&&page=${page}`);
-        console.log(response.data)
-        console.log(response.data.parameter.last_page)
+        const response = await Api.post('app/items/list',{
+          category_id,
+          page
+        });
+        // console.log(response.data)
+        // console.log(response.data.parameter.last_page)
         return response.data;
       }
 

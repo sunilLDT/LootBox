@@ -79,7 +79,6 @@ const LootStore = (props) => {
   }
 
   const changeSubCategory = (id) => {
-    setSelectedSubCategory(id);
     setPage(1)
     setlastPage(0)
     setFilterApplied({})
@@ -96,7 +95,7 @@ const LootStore = (props) => {
       setCategories(x);
       var itemData = null;
       // console.log("B is value os "+x[current].id)
-      alert(b)
+      // alert(b)
       if (b) {
         itemData = await fetchItems(x[current].id, b, undefined, filterValues.filter_custome_field_id, filterValues.filter_custome_values, filterValues.minPrice, filterValues.maxPrice);
       } else {
@@ -182,7 +181,6 @@ const LootStore = (props) => {
   }
 
   const handleFilters = (filterValues) => {
-    console.log(filterValues)
     setFilterApplied(filterValues)
     setFilter(false)
   }
@@ -388,11 +386,13 @@ const LootStore = (props) => {
                   }}
                   onPress={() => {
                     changeSubCategory(0);
+                    setSelectedSubCategory(0);
                     setOpen(false)
                   }}>
                   <SmallLGBtn
                     text="All"
                     selected={selectedSubCategory === 0}
+                    
                   />
                 </TouchableOpacity>
 
@@ -404,8 +404,9 @@ const LootStore = (props) => {
                       }}
                       key={k}
                       onPress={() => {
-                        setSelectedSubCategory(k + 1);
+                        setSelectedSubCategory(k + 1)
                         setOpen(false)
+                        changeSubCategory(0);
                       }}>
                       <SmallLGBtn
                         text={i.name}
