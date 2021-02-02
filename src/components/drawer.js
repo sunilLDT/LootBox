@@ -18,9 +18,7 @@ import EditBtn from '../components/EditBtn';
 import { getProfilApi } from '../api/buildYourPc';
 import englishImage from '../assets/english.png';
 import arabicImage from '../assets/arabic.png';
-import strings, { changeLaguage } from '../languages/index';
 import RNRestart from 'react-native-restart';
-
 import { I18nManager } from "react-native"
 import AsyncStorage from '@react-native-community/async-storage';
 import { connect } from '@language';
@@ -36,7 +34,14 @@ const Drawer = (props) => {
   const [disableEdit, setDisable] = useState(false)
   const [languageImage, setLanguageImage] = useState();
   const [ignored, forceUpdate] = useReducer(x => x + 1, 0);
+  const [arOren,setarOren] = useState('en');
+  const [photo, setPhoto] = useState();
   let { strings, language } = props;
+  
+  const languageChange = async () => {
+    let languagename = await AsyncStorage.getItem('language');
+    setarOren(languagename)
+  };
 
   let options = [
     {
@@ -81,8 +86,10 @@ const Drawer = (props) => {
   useEffect(() => {
     gettingLangName()
     checkUserType()
+    languageChange()
     getProfilApi().then((response) => {
       setProfileDetails(response.data);
+      setPhoto(response.data.profile_image.replace('user/profile/',''))
     }).catch((error) => {
       console.log("profileDetailsDrawer" + error);
     });
@@ -105,21 +112,18 @@ const Drawer = (props) => {
   }, [props.navigation]);
 
   const arabicLang = async () => {
+    languageChange()
     language.setLanguage('it')
     await AsyncStorage.setItem('language', 'it');
-    changeLaguage('it');
     setLang('it')
-    //  I18nManager.forceRTL(true)
-    //  RNRestart.Restart();
-
     I18nManager.forceRTL(true)
     RNRestart.Restart();
   }
 
   const englishLang = async () => {
+    languageChange()
     language.setLanguage('en')
     await AsyncStorage.setItem('language', 'en');
-    changeLaguage('en');
     I18nManager.forceRTL(false)
     RNRestart.Restart();
   };
@@ -129,7 +133,6 @@ const Drawer = (props) => {
       animation={isDrawerOpen ? 'fadeIn' : 'fadeOut'}
       delay={900}
     >
-
       <LinearGradient
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 0 }}
@@ -169,12 +172,10 @@ const Drawer = (props) => {
             }
             <View
               style={{
-                borderColor: '#DF2EDC',
                 backgroundColor: '#DF2EDC',
                 borderRadius: 11,
-                borderWidth: 2,
                 height: 70,
-                width: 80,
+                width: 70,
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -198,26 +199,37 @@ const Drawer = (props) => {
               ) : (
                   <Image
                     resizeMode="contain"
-                    source={{ uri: profileDetails.profile_image }}
+                    source={{ uri:photo}}
                     style={{
-                      borderRadius: 11,
-                      height: 64,
-                      width: 64,
+                      borderRadius: 20,
+                      height: 65,
+                      width: 70,
                     }}
                   />
                 )}
             </View>
-
-            <Text
+            <View
               style={{
-                fontFamily: Platform.OS == 'android' ? 'Michroma-Regular' : 'Michroma',
-                fontSize: 16,
-                lineHeight: 27.2,
-                color: '#ECDBFA',
-              }}>
-              {profileDetails.full_name}
-            </Text>
-
+                display: 'flex',
+                alignItems: 'center',
+                flexDirection: 'row',
+              }}>       
+              <Text
+                style={{
+                  fontFamily: Platform.OS == 'android' ? 'Michroma-Regular' : 'Michroma',
+                  fontSize: 16,
+                  lineHeight: 27.2,
+                  color: '#ECDBFA',
+                }}>
+                {profileDetails.full_name}
+              </Text>
+            </View>  
+            <View
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                flexDirection: 'row',
+              }}>  
             <Text
               style={{
                 fontFamily: Platform.OS == 'android' ? 'Futura-Medium' : 'Futura',
@@ -231,6 +243,7 @@ const Drawer = (props) => {
               }}>
               {profileDetails.email}
             </Text>
+            </View>
             <Text>{strings.changeLanguage}</Text>
 
             {options.map((i, k) => (
@@ -240,20 +253,26 @@ const Drawer = (props) => {
                 }}>
                   {
                     k !== options.length - 1 &&
-                    <Text
+                    <View
                       style={{
-                        color: '#ECDBFA',
-                        fontSize: 14,
-                        lineHeight: 16,
-                        marginVertical: height * 0.02,
+                        display: 'flex',
+                        alignItems: 'center',
+                        flexDirection: 'row',
                       }}>
-                      {i.name}
-                    </Text>
+                      <Text
+                        style={{
+                          color: '#ECDBFA',
+                          fontSize: 14,
+                          lineHeight: 16,
+                          marginVertical: height * 0.02,
+                        }}>
+                        {i.name}
+                      </Text>
+                    </View>
                   }
                 </TouchableOpacity>
                 :
                 <TouchableOpacity key={k} disabled={k === options.length - 1 && disableEdit} onPress={() => {
-
                   k === options.length - 1 ? signout() : props.navigation.navigate(i.path)
                 }}>
                   <Text
@@ -295,11 +314,11 @@ const Drawer = (props) => {
 
         <TouchableOpacity
           style={{
-            width: width * 0.5,
+            width: arOren == "it"?width * 0.4:width * 0.5,
             height: height * 0.9,
             position: 'absolute',
             right: 0,
-            top: height * 0.05,
+            top: height * 0.03,
             // alignSelf: 'flex-end'
           }}
           onPress={() => {
@@ -310,8 +329,6 @@ const Drawer = (props) => {
             style={{
               width: width * 0.5,
               height: height * 0.9,
-
-              // alignSelf: 'flex-end'
             }}
           />
         </TouchableOpacity>

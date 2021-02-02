@@ -55,7 +55,7 @@ const Profile = (props) => {
   const [last_name, setLastName] = useState();
 
   var formattedDOB = format(DOB, "d-MM-yyyy");
-
+  // var ret = profileDetails.profile_image.replace('user/profile/','');
   useEffect(() => {
     setLoading(true)
     getProfilApi().then((response) => {
@@ -63,6 +63,7 @@ const Profile = (props) => {
       setEmail(response.data.email)
       setFirstName(response.data.first_name)
       setLastName(response.data.last_name)
+      setPhoto(response.data.profile_image.replace('user/profile/',''))
       response.data.date_of_birth !== null ? setDOB(new Date(response.data.date_of_birth)) : setDOB(new Date())
       setGender(response.data.gender ? response.data.gender : 1)
       setLoading(false)
@@ -138,22 +139,32 @@ const Profile = (props) => {
       let contentType = 'image/jpeg';
       let contentDeposition = 'inline;filename="' + file.name + '"';
       const base64 = await fs.readFile(file.uri, 'base64');
-      const arrayBuffer = decode(base64);
+      const arrayBuffer = util.base64.decode(base64);
 
       s3bucket.createBucket(() => {
         const params = {
-          Bucket: 'AKIA3JWMPNMIYUFSR54M',
+          Bucket: 'lootbox-s3',
+          // keyPrefix:'user/profile',
           Key: file.name,
           Body: arrayBuffer,
           ContentDisposition: contentDeposition,
           ContentType: contentType,
+          LocationConstraint: "us-east-2",
       };
+      
       s3bucket.upload(params, (err, data) => {
         if (err) {
           console.log('error in callback');
         }
-      console.log('success');
-      console.log("Respomse URL : "+ data.Location);
+        else{
+          console.log('success')
+          console.log("Respomse URL : "+ data.Location);
+          uploadImageApi(data.Location).then((response) => {
+            alert(response.message);
+          }).catch((error) => {
+            console.log("ImageUploadProfile" + error);
+          });
+        }
       });
     });
   }catch(error){
@@ -249,7 +260,7 @@ const Profile = (props) => {
                     }}>
                     <TouchableOpacity
                       onPress={() => {
-                        props.navigation.pop()
+                        props.navigation.navigate({name: 'home'})
                       }}>
                       <Image
                         style={{ width: 48 }}
@@ -313,7 +324,7 @@ const Profile = (props) => {
                         <Image
                           // resizeMode="contain"
                           source={{
-                            uri: Object.keys(photo).length === 0 ? "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcR861VGFylgAJKnC4o90ssB-_ZIcLQi6075ig&usqp=CAU" : photo,
+                            uri: "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcR861VGFylgAJKnC4o90ssB-_ZIcLQi6075ig&usqp=CAU" ,
                           }}
                           style={{
                             height: height * 0.14,
@@ -325,7 +336,7 @@ const Profile = (props) => {
                       ) : (
                           <Image
                             // resizeMode="contain"
-                            source={{ uri: profileDetails.profile_image }}
+                            source={{ uri: photo }}
                             style={{
                               height: height * 0.14,
                               width: width * 0.4,

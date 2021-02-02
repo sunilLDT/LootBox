@@ -14,8 +14,11 @@ const CheckOut = ({ navigation, route }) => {
         var fullUrl = webViewState.url;
         var msgUrl = fullUrl.substring(0, 56);
         // if(msgUrl == "https://test-api.loot-box.co/api/hesabe-success-callback" || msgUrl == "https://test-api.loot-box.co/api/hesabe-error-callback"){
-        if (msgUrl.includes('hesabe-success-callback') || msgUrl.includes('hesabe-error-callback')) {
+        if (msgUrl.includes('hesabe-success-callback')) {
             navigation.navigate('alertMessage', { msgUrl: msgUrl });
+        } else if (msgUrl.includes('hesabe-error-callback')) {
+            alert("Something went wrong.")
+            navigation.navigate('cart')
         }
     }
     return (

@@ -53,6 +53,7 @@ export const GoogleMap = (props) => {
     setRegion(region);
     getAddress(region.latitude, region.longitude)
   }
+
   return (
     <View style={{flex:1, position: 'relative', zIndex: 1 }}>
       <MapView
@@ -64,7 +65,7 @@ export const GoogleMap = (props) => {
         ref={(ref) => mapRef = ref}
       />
       <View style={{top: '50%', left: '50%', marginLeft: -24, marginTop: -48, position: 'absolute'}}>
-      <Image style={{width: 48, height: 48}} source={require('../assets/marker.png')} />
+        <Image style={{width: 48, height: 48}} source={require('../assets/marker.png')} />
       </View>
     </View>
   )

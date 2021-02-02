@@ -38,9 +38,6 @@ export async function getItemDetails(itemId){
 }
 
 export async function addToCart(packageId,data, is_package){
-console.log(packageId)
-console.log(data)
-console.log(is_package)
   const response = await Api.post('app/cart/add-to-cart',{
     is_package:is_package,
     package:{
@@ -188,6 +185,14 @@ export async function advancedBuilderItems(id){
    // "link_item_id":linkedId
   });
 
+  return response.data;
+}
+
+export async function getFilterData(id){
+  
+  const response = await Api.post(`app/items/filter-data`, {
+    'sub_category_id': id
+  });
   return response.data;
 }
 
