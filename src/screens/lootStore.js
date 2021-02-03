@@ -17,6 +17,7 @@ import SmallLGBtn from './smallLGBtn';
 import { SearchBar } from 'react-native-elements';
 import strings from '../languages/index';
 import { connect } from 'react-redux';
+import { cartActions } from '../actions/user';
 import Filter from './filter';
 import Dialog, {
   DialogContent,
@@ -56,6 +57,11 @@ const LootStore = (props) => {
   const [callOnScrollEnd, setCallOnScrollEnd] = useState(false);
   const [arOren,setarOren] = useState('en');
   languagename().then(res => setarOren(res))
+  const [callOnScrollEnd, setCallOnScrollEnd] = useState(false);
+  const [filter, setFilter] = useState(false);
+  const [arOren, setarOren] = useState('en');
+  languagename().then(res => setarOren(res));
+  const [filterValues, setFilterApplied] = useState({});
 
   const fetchData = useCallback(async () => {
     if (selectedSubCategory === 0) {
@@ -65,7 +71,7 @@ const LootStore = (props) => {
         await fetchData1(subCategories[current][selectedSubCategory - 1].id);
       }
     }
-  }, [selectedSubCategory, current]);
+  }, [selectedSubCategory, current, filterValues]);
 
   const changeCategory = (id) => {
     setSelectedSubCategory(id);
@@ -77,6 +83,7 @@ const LootStore = (props) => {
     setSelectedSubCategory(id);
     setPage(1)
     setlastPage(0)
+    setFilterApplied({})
   }
 
   const fetchData1 = async (b) => {
@@ -91,9 +98,9 @@ const LootStore = (props) => {
       var itemData = null;
       console.log("B is value os " + x[current].id)
       if (b) {
-        itemData = await fetchItems(x[current].id, b);
+        itemData = await fetchItems(x[current].id, b, undefined, filterValues.filter_custome_field_id, filterValues.filter_custome_values, filterValues.minPrice, filterValues.maxPrice);
       } else {
-        itemData = await fetchItems(x[current].id, subCategoryId, page);
+        itemData = await fetchItems(x[current].id, subCategoryId, page, filterValues.filter_custome_field_id, filterValues.filter_custome_values, filterValues.minPrice, filterValues.maxPrice);
         setlastPage(itemData.parameter.last_page);
         //setlastPage(itemData.parameter.to)
 
@@ -174,6 +181,11 @@ const LootStore = (props) => {
     return true;
   }
 
+  const handleFilters = (filterValues) => {
+    console.log(filterValues)
+    setFilterApplied(filterValues)
+    setFilter(false)
+  }
 
   return (
     <View style={{ backgroundColor: '#292633', width: '100%', height: '100%' }}>
@@ -195,7 +207,7 @@ const LootStore = (props) => {
         >
           <DialogContent>
             <View>
-            <Filter selectedSubCategory={selectedSubCategory} allCategories={subCategories[0]}/>
+              <Filter initalValues={filterValues} handleFilters={handleFilters} selectedSubCategory={selectedSubCategory} allCategories={subCategories[0]} />
             </View>
           </DialogContent>
         </Dialog>

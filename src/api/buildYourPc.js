@@ -190,8 +190,9 @@ export async function advancedBuilderItems(id){
 
 export async function getFilterData(id){
   
-  const response = await Api.get(`app/items/filter-data?sub_category_id=${id}`);
-
+  const response = await Api.post(`app/items/filter-data`, {
+    'sub_category_id': id
+  });
   return response.data;
 }
 
