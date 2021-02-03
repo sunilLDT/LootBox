@@ -46,6 +46,7 @@ const Language = (props) => {
       else{
         changeLaguage('en');
         I18nManager.forceRTL(false)
+        RNRestart.Restart();
       }
     }
     catch(error)

@@ -235,7 +235,7 @@ const Drawer = (props) => {
                 color: '#ECDBFA',
                 opacity: 0.6,
                 marginBottom: height * 0.1,
-                width: width * 0.6,
+                width: arOren == "it"?width * 0.4:width * 0.6,
                 marginTop: 8,
               }}>
               {profileDetails.email}
@@ -340,7 +340,6 @@ const styles = StyleSheet.create({
     width,
     overflow: 'hidden',
     display: 'flex',
-    // flexDirection: 'row',
   },
 });
 

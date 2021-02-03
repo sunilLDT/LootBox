@@ -22,11 +22,11 @@ export async function packageDetailsById(packageId){
   return response.data;
 }
 
-export async function getCategoriesItem(sub_category_id,item_id,sub_category_name){
+export async function getCategoriesItem(sub_category_id,item_id){
   const response = await Api.post('app/build-pc/category-items',{
     sub_category_id:sub_category_id,
     item_id:item_id,
-    sub_category_name:sub_category_name
+    // sub_category_name:sub_category_name
   });
   return response.data;
 }
@@ -239,3 +239,7 @@ export async function removePackageApi(id){
   return response.data;
 }
 
+export async function getLabelsApi(){
+  const response = await Api.get('app/label/list');
+  return response.data;
+}

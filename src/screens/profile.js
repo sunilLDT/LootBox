@@ -35,6 +35,7 @@ import strings, { changeLaguage } from '../languages/index';
 import RNPickerSelect from 'react-native-picker-select';
 import { S3, util } from 'aws-sdk';
 import fs from 'react-native-fs';
+import {languagename} from '../components/LanguageName';
 const { width, height } = Dimensions.get('window');
 
 const Profile = (props) => {
@@ -54,6 +55,8 @@ const Profile = (props) => {
   const [first_name, setFirstName] = useState();
   const [last_name, setLastName] = useState();
   const [imageLoader,setImageLoader] = useState(false);
+  const [arOren,setarOren] = useState('en');
+  languagename().then(res => setarOren(res))
 
   var formattedDOB = format(DOB, "d-MM-yyyy");
 
@@ -508,6 +511,7 @@ const Profile = (props) => {
                             fontSize: 10,
                             color: '#DF2EDC',
                             fontStyle: 'italic',
+                            marginRight:arOren == "it"?"13%":"0%",
                           }}>
                           + {strings.address}
                         </Text>

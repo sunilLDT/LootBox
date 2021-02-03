@@ -44,7 +44,7 @@ import PayBtn from '../components/PayBtn';
 import Icon from 'react-native-vector-icons/Feather';
 import strings from '../languages/index';
 import AsyncStorage from '@react-native-community/async-storage';
-
+import {languagename} from '../components/LanguageName';
 
 const { width, height } = Dimensions.get('window');
 
@@ -70,7 +70,8 @@ const Cart = (props) => {
   const [removeLoaderID,setremoveLoaderID] = useState();
   const [trashPackageLoader,settrashPackageLoader] = useState(false);
   const [trashPackageLoaderID,settrashPackageLoaderID] = useState();
-  
+  const [arOren,setarOren] = useState('en');
+  languagename().then(res => setarOren(res))
 
   const maxlimit = 20;
   var imgSource = upwardImage ? ExpandImage : CloseImage;
@@ -315,6 +316,10 @@ const Cart = (props) => {
     })
   }
   }
+
+  const editpackage = (cartPackageId,packageId) => {
+    alert(cartPackageId+ "pack" + packageId)
+  }
   const refRBSheet = useRef();
   return (
     <ImageBackground
@@ -334,8 +339,8 @@ const Cart = (props) => {
             <View
               style={{
                 paddingVertical: width * 0.05,
-                paddingHorizontal: Platform.OS == 'android' ?width * 0.1:width *0.07,
-
+                // paddingHorizontal: Platform.OS == 'android' ?width * 0.1:width *0.07,
+                paddingHorizontal:arOren == "it"?width * 0.07:width * 0.08
               }}>
               <Dialog
                 visible={addressModal}
@@ -497,8 +502,6 @@ const Cart = (props) => {
                                   }}>
                                   KD {sum(packages.cart_package_items)}
                                 </Text>
-                                
-                                
                                 <View
                                   style={{
                                     display: 'flex',
@@ -512,6 +515,20 @@ const Cart = (props) => {
                                     borderColor: '#ffffff',
                                     borderWidth: 0,
                                   }}>
+                                    {/* <TouchableOpacity style={{
+                                      borderColor:'#fff',
+                                      borderWidth:2,
+                                    }} 
+                                    onPress={() => editpackage(packages.cart_package_id,packages.package_id)}>
+                                      <View>
+                                        <Text style={{
+                                          color:'#D2D7F9',
+                                          marginRight:'10%',
+                                          fontFamily: 'Montserrat-Medium',
+                                        }}>Edit
+                                        </Text>
+                                      </View>
+                                    </TouchableOpacity> */}
                                     {DecreasePackageLoader && decreaseLoaderPackageID == packages.cart_package_id ?(
                                       <View style={{  }}>
                                         <ActivityIndicator color="#ECDBFA" size="small" />
@@ -566,7 +583,6 @@ const Cart = (props) => {
                             </View>
 
                             <View style={{ direction: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-                             
                               <View
                                 style={{
                                   flex: 1,
@@ -991,7 +1007,13 @@ const Cart = (props) => {
                {strings.deliveryTo}
               </Text>
               {props.address?props.address.length === 1?(
-              <View >
+              <View 
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  flexDirection: 'row',
+                }}
+              >
                 <Text
                   numberOfLines={3}
                   style={{
@@ -1037,7 +1059,11 @@ const Cart = (props) => {
                 );
               }):null:null}
             </View>
-                <View>
+                <View style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  flexDirection: 'row',
+                }}> 
                   <TouchableOpacity
                     onPress={() => changeAddressPop()}>
                     <Text
@@ -1068,6 +1094,9 @@ const Cart = (props) => {
                       padding: 20,
                       borderBottomColor: 'rgba(255,255,255,0.3)',
                       borderBottomWidth: 0.3,
+                      display: 'flex',
+                      alignItems: 'center',
+                      flexDirection: 'row',
                     }}>
                     <Text
                       style={{

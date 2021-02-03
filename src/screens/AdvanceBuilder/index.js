@@ -31,10 +31,6 @@ import TickImage from '../../assets/tick.png';
 import ItemDetails from '../PcDetails/ItemDetails';
 const { width, height } = Dimensions.get('window');
 
-function useForceUpdate() {
-  const [value, setValue] = useState(0); // integer state
-  return () => setValue(value => ++value); // update the state to force render
-}
 
 const AdvanceBuilder = (props) => {
   const scrollRef = useRef();
@@ -53,16 +49,19 @@ const AdvanceBuilder = (props) => {
   const [linkedItems, setLinkedItems] = useState({});
   const [showSubmit, setShowSubmit] = useState(false);
   const [totalPrice, setTotalPrice] = useState(0);
-  const [lastCatId, setLastCatId] = useState([]);
   const [selectStatus, setSelctStatus] = useState([]);
-
+  const [isOptional,setIsOptional] = useState([]);
   const maxlimit = 20;
+  console.log("***** is optional array")
+  console.log(isOptional)
 
   useEffect(() => {
     setLoading(true);
-    console.log(props.categories.length)
     setMaxIndex(props.categories.length);
     props.categories.map((subCat, i) => {
+      if(subCat.is_optional === false){
+        setIsOptional([...isOptional,subCat.name])
+      }
       if (i == 0) {
         setSubCategoryid(subCat.sub_category_id)
         advancedBuilderItems(subCat.sub_category_id).then((response) => {
@@ -101,16 +100,15 @@ const AdvanceBuilder = (props) => {
     let a = selectStatus;
     let objIndex = a.findIndex((obj => obj.id == catId));    
     a[objIndex].status = true;
-    console.log(a)
+    // console.log(a)
     setSelctStatus(a)
   }
 
 
   const subCategoryFun = (subCatId, index, source) => {
-    console.log(source);
+    // console.log(source);
 
     if (source == 1) {
-
       setSubCategoryid(subCatId);
       setLastIndexedCat(subCatId);
       let id = subCatId;
@@ -120,8 +118,8 @@ const AdvanceBuilder = (props) => {
          id = result.item_id;
        }*/
       advancedBuilderItems(id).then((response) => {
-        console.log('Got the response from API')
-        console.log(response.data)
+        // console.log('Got the response from API')
+        // console.log(response.data)
         let d = {
           "name": response.data[0].name,
           "price": response.data[0].price,
@@ -135,7 +133,6 @@ const AdvanceBuilder = (props) => {
       let result = itemList.find(x => x.sub_category_id === subCatId);
       if (result) {
         setSubCategoryid(subCatId);
-
         let id = subCatId;
         advancedBuilderItems(id).then((response) => {
           let d = {
@@ -157,8 +154,8 @@ const AdvanceBuilder = (props) => {
   }
 
   const finalSubmit = () => {
-    console.log(tick.length)
-    console.log(props.categories.length)
+    // console.log(tick.length)
+    // console.log(props.categories.length)
     if (tick.length !== props.categories.length) {
       alert("Atleast one item is mandatory from each category")
     } else {
@@ -175,6 +172,9 @@ const AdvanceBuilder = (props) => {
   }
 
   const submitNow = () => {
+    scrollRef.current?.scrollTo({
+      animated: true,
+    });
     let i = selectedIndex;
     //i = i + 1;
     // setSelectedIndex(i);
@@ -187,16 +187,19 @@ const AdvanceBuilder = (props) => {
     // setTick([...tick, subCatId.sub_category_id]);
   }
 
-  const checkSelectedForNext = () => {
-    return itemList.some(function (el) {
-      return el.sub_category_id === subCategoryId;
-    });
+  const checkSelectedForNext = () => { 
+      
+    // return itemList.some(function (el) {
+    //   return el.sub_category_id === subCategoryId;
+    // });
   }
+ 
+  
 
   const selectItem = (i) => {
-    console.log(i.sub_category_id);
+    // console.log(i.sub_category_id);
     let result = itemList.some(x => x.sub_category_id === i.sub_category_id);
-    console.log(result);
+    // console.log(result);
 
     if (!result) {
       setStatus(i.sub_category_id);
@@ -239,12 +242,12 @@ const AdvanceBuilder = (props) => {
       }
       setTotalPrice(total.toFixed(3))
       setItemList(data);
-      console.log('========')
-      console.log('Selected Index ' + selectedIndex)
-      console.log(maxIndex)
-      console.log('========')
+      // console.log('========')
+      // console.log('Selected Index ' + selectedIndex)
+      // console.log(maxIndex)
+      // console.log('========')
       let index = selectStatus.find(obj => obj.status === false);
-      console.log(index)
+      // console.log(index)
       if (!index) {
         setShowSubmit(true)
       }
@@ -313,6 +316,7 @@ const AdvanceBuilder = (props) => {
     <View
       style={{
         backgroundColor: '#261D2A',
+        flex:1
       }}>
       <ImageBackground
         source={require('../../assets/dottedBackground.png')}
@@ -453,13 +457,11 @@ const AdvanceBuilder = (props) => {
                         keyExtractor={(item) => item.item_id}
                         data={filteredDataSource}
                         renderItem={({ item }, index) => {
-                          console.log((item.status));
                           const maxlimit = 22;
                           return (
                             <TouchableOpacity onPress={() => {
-                              item.status === 1 
-                              ? selectItem(item) 
-                              : onPressTouch()
+                            selectItem(item) 
+                            onPressTouch()
                             }
                             // {
                             //   selectItem(item)
@@ -490,18 +492,39 @@ const AdvanceBuilder = (props) => {
                                         style={styles.itemImage}
                                       />
                                     )}
-                                  <Text
-                                    style={styles.brand}>
-                                    {item.brand}
-                                  </Text>
-                                  <Text ellipsizeMode='tail' numberOfLines={1}
-                                    style={styles.name}>
-                                    {((item.name).length > maxlimit) ? (((item.name).substring(0, 12 - 3)) + '...') : item.name}
-                                  </Text>
-                                  <Text
-                                    style={styles.price}>
-                                    KD {item.price}
-                                  </Text>
+                                  <View
+                                    style={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    flexDirection: 'row',
+                                  }}>  
+                                    <Text
+                                      style={styles.brand}>
+                                      {item.brand}
+                                    </Text>
+                                  </View>
+                                  <View
+                                    style={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    flexDirection: 'row',
+                                  }}>  
+                                    <Text ellipsizeMode='tail' numberOfLines={1}
+                                      style={styles.name}>
+                                      {((item.name).length > maxlimit) ? (((item.name).substring(0, 12 - 3)) + '...') : item.name}
+                                    </Text>
+                                  </View>
+                                  <View
+                                    style={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    flexDirection: 'row',
+                                  }}>  
+                                    <Text
+                                      style={styles.price}>
+                                      KD {item.price}
+                                    </Text>
+                                  </View>
                                 </View>
                               </ImageBackground>
                               <ItemDetails
@@ -518,7 +541,7 @@ const AdvanceBuilder = (props) => {
                             <NextBtn name='Submit' price={totalPrice} />
                           </View>
                         </TouchableOpacity> :
-                        checkSelectedForNext() ?
+                        checkSelectedForNext()?
                           <TouchableOpacity onPress={() => { submitNow() }}>
                             <View style={styles.nextBtn}>
                               <NextBtn name='Next' price={totalPrice} />
@@ -530,7 +553,21 @@ const AdvanceBuilder = (props) => {
               </>
             )}
         </ScrollView>
+       
       </ImageBackground>
+      {/* {showSubmit ?
+        <TouchableOpacity  onPress={() => { finalSubmit() }}>
+          <View style={{flex:1,justifyContent:'flex-end'}}>
+            <NextBtn name='Submit' price={totalPrice} />
+          </View>
+        </TouchableOpacity> :
+        checkSelectedForNext() ?
+          <TouchableOpacity style={{flex:1,justifyContent:'flex-end',}}  onPress={() => { submitNow() }}>
+            <View style={{flex:1,justifyContent:'flex-end',}}>
+              <NextBtn name='Next' price={totalPrice} />
+            </View>
+          </TouchableOpacity>
+          : null} */}
     </View>
   );
 
@@ -544,6 +581,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
     justifyContent: 'space-between',
+    
   },
   topContainer: {
     display: 'flex',

@@ -21,6 +21,7 @@ import { connect } from 'react-redux';
 import { cartActions } from '../../actions/user';
 import { packageActions } from '../../actions/package';
 import thumbnail from '../../assets/thumbnail.png';
+import {languagename} from '../../components/LanguageName';
 var sel = [];
 const maxlimit = 12;
 const { width, height } = Dimensions.get('window');
@@ -39,6 +40,8 @@ const ListDetails = (props) => {
         "price": 0
     });
     const [totalPrice, setTotalPrice] = useState(0);
+    const [arOren,setarOren] = useState('en');
+    languagename().then(res => setarOren(res))
 
     var imgSource = upwardImage ? ExpandImage : CloseImage;
     useEffect(() => {
@@ -147,7 +150,6 @@ const ListDetails = (props) => {
                                 alignItems: 'center',
                             }}>
                             <Text
-
                                 style={{
                                     textAlign: 'center',
                                     textAlignVertical: 'center',
@@ -155,8 +157,6 @@ const ListDetails = (props) => {
                                     fontSize: 14,
                                     fontStyle: 'italic',
                                     fontWeight: "bold",
-                                    // borderRightWidth:1,
-                                    // borderRightColor:'#D2D7F9',
                                 }}>
                                 {(((props.data.sub_category_name).substring(0, maxlimit - 3)) + '...')}
                             </Text>
@@ -171,8 +171,6 @@ const ListDetails = (props) => {
                                     fontStyle: 'italic',
                                     opacity: 0.5,
                                     fontFamily: Platform.OS == 'android' ? 'Michroma-Regular' : 'Michroma',
-                                    // borderRightWidth:1,
-                                    // borderRightColor:'#D2D7F9',
                                 }}>
                                 {props.data.name ? (((props.data.name).substring(0, maxlimit - 3)) + '...') : (((props.data.name).substring(0, maxlimit - 3)) + '...')}
                             </Text>
@@ -194,7 +192,7 @@ const ListDetails = (props) => {
                                     alignSelf: 'flex-end',
                                     justifyContent: 'flex-end',
                                     bottom: -6,
-                                    right: -6,
+                                    right: arOren == "it"?-12:-6,
                                 }}>
                                 <Image
                                     source={imgSource}
@@ -267,7 +265,6 @@ const ListDetails = (props) => {
                                         key={index}
                                         onPress={() => { selectHandler(processer.item_id, processer.name, processer.price) }}
                                         style={{ padding: 20 }}>
-
                                         <ImageBackground
                                             source = {idExists(processer.item_id) ? selectedIcCardImage : IcCardImage}
                                            style={{ width: 139, height: 151 }}>
