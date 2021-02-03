@@ -489,7 +489,7 @@ const fetchCategories = (dispatch) => async () => {
 
 const fetchItems = (dispatch) => async (category_id, sub_category_id, page, filterId, filterValues, minPrice, maxPrice) => {
   try {
-   
+
     // console.log('===================================')
     // console.log('Category Id     :' + filterId)
     // console.log('Sub Category Id :' + subcategory_id)
@@ -498,27 +498,25 @@ const fetchItems = (dispatch) => async (category_id, sub_category_id, page, filt
 
     if (sub_category_id) {
       if (filterId) {
-        console.log("£££££££££££££££££")
-        console.log('category='+category_id+'sub_category_id'+sub_category_id+filterId+"dfgdfg "+ filterValues)
-        const response = await Api.post('app/items/list',{
+        const allVariables = {
           category_id:category_id,
           sub_category_id:sub_category_id ,
-          filter_custome_field_id:[filterId],
-          filter_custome_values:[filterValues],
+          filter_custome_field_id:filterId == ""?null:filterId,
+          filter_custome_values:filterValues == ""?null:filterValues,
           min_price:parseInt(minPrice),
           max_price:parseInt(maxPrice)
-        });
+        }
+        console.log("****/////////// all variables")
+        console.log(allVariables)
+        const response = await Api.post('app/items/list',allVariables);
         console.log('filtersssss')
-         console.log(response)
+        console.log(response.data)
         return response.data;
       } else {
         const response = await Api.post('app/items/list',{
           category_id:category_id,
           sub_category_id:sub_category_id,
         });
-        console.log("/**********")
-        console.log(response.data)
-        // console.log(response.data.parameter.last_page)
         return response.data;
       }
     } else {
