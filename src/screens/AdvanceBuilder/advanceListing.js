@@ -18,11 +18,6 @@ import filterIcon from '../../assets/ic_filter.png';
 import filter from 'lodash.filter';
 import { SearchBar } from 'react-native-elements';
 import { packageActions } from '../../actions/package';
-import Dialog, {
-    DialogContent,
-    SlideAnimation,
-} from 'react-native-popup-dialog';
-import Filter from '../filter';
 
 function useForceUpdate() {
     const [value, setValue] = useState(0); // integer state
@@ -40,8 +35,6 @@ const ItemListing = (props) => {
     const [query, setQuery] = useState('');
     const [open, setOpen] = useState(false);
     const forceUpdate = useForceUpdate();
-    const [filterValues, setFilterApplied] = useState({});
-    const [filter, setFilter] = useState(false);
 
     const selectHandler = (id, name, price) => {
 
@@ -102,12 +95,7 @@ const ItemListing = (props) => {
         setFilter(!filter)
         return true;
       }
-    
-      const handleFilters = (filterValues) => {
-        setFilterApplied(filterValues)
-        setFilter(false)
-      }
-      console.log(filter)
+
     return (
         <ImageBackground
             source={require('../../assets/plainBg.png')}
@@ -163,23 +151,6 @@ const ItemListing = (props) => {
                     </TouchableOpacity>
                 </View>
             </View>
-
-            <Dialog
-                visible={filter}
-                containerStyle={{ zIndex: 10, elevation: 10 }}
-                onHardwareBackPress={() => handlePress()}
-                dialogStyle={{ backgroundColor: '#272732', width: '100%', height: '50%' }}
-                dialogAnimation={new SlideAnimation({
-                    slideFrom: 'bottom',
-                })}
-                onTouchOutside={() => { setFilter(!filter) }}
-            >
-                <DialogContent>
-                    <View>
-                        <Filter initalValues={filterValues} handleFilters={handleFilters} selectedSubCategory={selectedSubCategory} allCategories={subCategories[0]} />
-                    </View>
-                </DialogContent>
-            </Dialog>
 
             <FlatList
                 keyExtractor={(item) => item.name}
