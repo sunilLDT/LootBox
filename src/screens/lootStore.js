@@ -130,7 +130,7 @@ const LootStore = (props) => {
       if (itemData) {
         setItems(itemData.data);
         setFilteredDataSource(itemData.data);
-      }
+      }1
 
       var y = categories.map((i) => {
         return i.sub_category.map((x, k) => {
