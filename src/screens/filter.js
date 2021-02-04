@@ -59,7 +59,7 @@ const Filter = (props) => {
 
         <View>
           <TouchableOpacity
-            onPress={() => props.filter1({ filter_custome_field_id: keys(selectedSubCategory), filter_custome_values: flattenDeep(values(selectedSubCategory)), minPrice: low, maxPrice:high })}>
+            onPress={() => props.filter1({ all:"all" , filter_custome_field_id: keys(selectedSubCategory), filter_custome_values: flattenDeep(values(selectedSubCategory)), minPrice: low, maxPrice:high })}>
             <Text style={styles.textStyle}>Apply</Text>
           </TouchableOpacity>
         </View>

@@ -61,12 +61,14 @@ const LootStore = (props) => {
   const [callOnScrollEnd, setCallOnScrollEnd] = useState(false);
   const [filter, setFilter] = useState(false);
   const [allfilter, setAllfilter] = useState(false);
-  const [allfilterId, setAllfilterId] = useState({}) 
+  const [allfilterId, setAllfilterId] = useState({});
+  const [all1,setAll1] = useState();
+
 
   const [arOren, setarOren] = useState('en');
   languagename().then(res => setarOren(res));
   const [filterValues, setFilterApplied] = useState({});
-  
+
   // console.log("selected Sub category " )
   // console.log(selectedSubCategory)
   // console.log("*** sub cat id");
@@ -90,6 +92,8 @@ const LootStore = (props) => {
     setSelectedSubCategory(id);
     setPage(1);
     setlastPage(0)
+    setFilterApplied({})
+
   }
 
   const changeSubCategory = (id) => {
@@ -99,11 +103,12 @@ const LootStore = (props) => {
   }
 
   const allFilterFunction = async(r) => {
-
+    setAll1(r.all)
     const cat =  categories.map((i,k) => {
       return i.id;
     });
-    const itemData = await fetchItems(cat[0], keys(selectedSubCategory)[0], page, r.filter_custome_field_id, r.filter_custome_values, r.minPrice, r.maxPrice);
+
+    const itemData = await fetchItems(cat[current], keys(selectedSubCategory)[0], page, r.filter_custome_field_id, r.filter_custome_values, r.minPrice, r.maxPrice,r.all);
     setItems(itemData.data);
     setFilteredDataSource(itemData.data);
   }
@@ -215,7 +220,9 @@ const LootStore = (props) => {
   const openNextModal = () => {
     setAllfilter(!allfilter)
     setFilter(!filter)
-    handleFilters({ filter_custome_field_id: keys(selectedSubCategory), filter_custome_values: flattenDeep(values(selectedSubCategory)) })
+    handleFilters({filter_custome_field_id: keys(selectedSubCategory), filter_custome_values: flattenDeep(values(selectedSubCategory))}  )
+
+
   }
 
   return (
@@ -239,8 +246,6 @@ const LootStore = (props) => {
           <DialogContent>
             <View>
               <Filter initalValues={filterValues} filter1={(r) => {
-                console.log("***** r value")
-                console.log()
                 setFilterApplied(r);
                 allFilterFunction(r)
                  setFilter(!filter)
@@ -499,7 +504,7 @@ const LootStore = (props) => {
                   }}>
                   <SmallLGBtn
                     text="All"
-                    selected={selectedSubCategory === 0}
+                    selected={selectedSubCategory === 0 }
                     
                   />
                 </TouchableOpacity>
@@ -515,6 +520,7 @@ const LootStore = (props) => {
                         setSelectedSubCategory(k + 1)
                         setOpen(false)
                         changeSubCategory(0);
+                        setAll1("")
                       }}>
                       <SmallLGBtn
                         text={i.name}
