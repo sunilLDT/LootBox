@@ -29,17 +29,23 @@ const Filter = (props) => {
 
   React.useEffect(() => {
     let allSubCategories;
-    if(Object.keys(props.selectedSubCategory)[0]){
-      allSubCategories = props.selectedSubCategory === 0 ? props.allCategories.map((a, k) => a.id):[Object.keys(props.selectedSubCategory)[0]];
-    }
-    else{
-      allSubCategories = props.selectedSubCategory === 0 ? props.allCategories.map((a, k) => a.id):[props.allCategories[props.selectedSubCategory - 1].id];
+
+    if (props.type === 'advanceBuilder') {
+      allSubCategories = [props.allCategories[0].sub_category_id];
+    } else {
+      if(Object.keys(props.selectedSubCategory)[0]){
+        allSubCategories = props.selectedSubCategory === 0 ? props.allCategories.map((a, k) => a.id):[Object.keys(props.selectedSubCategory)[0]];
+      }
+      else{
+        allSubCategories = props.selectedSubCategory === 0 ? props.allCategories.map((a, k) => a.id):[props.allCategories[props.selectedSubCategory - 1].id];
+      }
     }
      
 
-    if (props.initalValues) {
+    if (props.allCategories, props.initalValues) {
       // console.log(props.initalValues)
     }
+
     getFilterData(allSubCategories).then((response) => {
       setFilterOptions(response.data);
     }).catch((error) => {
@@ -59,7 +65,7 @@ const Filter = (props) => {
 
         <View>
           <TouchableOpacity
-            onPress={() => props.filter1({ filter_custome_field_id: keys(selectedSubCategory), filter_custome_values: flattenDeep(values(selectedSubCategory)), minPrice: low, maxPrice:high })}>
+            onPress={() => props.filter1({ all:"all" , filter_custome_field_id: keys(selectedSubCategory), filter_custome_values: flattenDeep(values(selectedSubCategory)), minPrice: low, maxPrice:high })}>
             <Text style={styles.textStyle}>Apply</Text>
           </TouchableOpacity>
         </View>

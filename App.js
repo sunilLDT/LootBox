@@ -49,7 +49,7 @@ import { initLanguages, LanguageProvider } from '@language';
 import { languages } from '@config';
 import AsyncStorage from '@react-native-community/async-storage';
 import NewPassword from './src/screens/newPassword';
-
+import messaging from '@react-native-firebase/messaging';
 const strings = initLanguages(languages);
 const { width, height } = Dimensions.get('window');
 const Stack = createStackNavigator();
@@ -122,7 +122,47 @@ const App = () => {
   };
   useEffect(() => {
     check();
+
+    requestUserPermission();
+    const unsubscribe = messaging().onMessage(async remoteMessage => {
+      Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
+    });
+
+    return unsubscribe;
+
   }, []);
+
+  useEffect(() => {
+    // Get the device token
+    messaging()
+      .getToken()
+      .then(token => {
+        //return saveTokenToDatabase(token);
+      });
+   
+  }, []);
+
+  requestUserPermission = async () => {
+    const authStatus = await messaging().requestPermission();
+    const enabled =
+      authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
+      authStatus === messaging.AuthorizationStatus.PROVISIONAL;
+
+    if (enabled) {
+      getFcmToken() //<---- Add this
+      console.log('Authorization status:', authStatus);
+    }
+  }
+
+  getFcmToken = async () => {
+    const fcmToken = await messaging().getToken();
+    if (fcmToken) {
+     console.log(fcmToken);
+     console.log("Your Firebase Token is:", fcmToken);
+    } else {
+     console.log("Failed", "No token received");
+    }
+  }
 
   return (
     <View

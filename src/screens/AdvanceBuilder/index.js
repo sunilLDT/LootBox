@@ -29,6 +29,11 @@ import { packageActions } from '../../actions/package';
 import { cartActions } from '../../actions/user';
 import TickImage from '../../assets/tick.png';
 import ItemDetails from '../PcDetails/ItemDetails';
+import Dialog, {
+  DialogContent,
+  SlideAnimation,
+} from 'react-native-popup-dialog';
+import Filter from '../filter';
 const { width, height } = Dimensions.get('window');
 
 
@@ -51,6 +56,9 @@ const AdvanceBuilder = (props) => {
   const [totalPrice, setTotalPrice] = useState(0);
   const [selectStatus, setSelctStatus] = useState([]);
   const [isOptional,setIsOptional] = useState([])
+  const [filter, setFilter] = useState(false);
+  const [filterValues, setFilterApplied] = useState({});
+
   const maxlimit = 20;
 
   function filterIsOPtion(arr) {
@@ -112,7 +120,7 @@ const AdvanceBuilder = (props) => {
 
 
   const subCategoryFun = (subCatId, index, source) => {
-    if (source == 1) {
+    if (source == 1 || !filterValues) {
       setSubCategoryid(subCatId);
       setLastIndexedCat(subCatId);
       let id = subCatId;
@@ -121,9 +129,9 @@ const AdvanceBuilder = (props) => {
          let result = itemList.find(x => x.sub_category_id === linkedItems.catId);
          id = result.item_id;
        }*/
-      advancedBuilderItems(id).then((response) => {
-        // console.log('Got the response from API')
-        // console.log(response.data)
+      advancedBuilderItems(id, filterValues.filter_custome_field_id, filterValues.filter_custome_values).then((response) => {
+        console.log('Got the response from API')
+        console.log(response.data)
         let d = {
           "name": response.data[0].name,
           "price": response.data[0].price,
@@ -135,15 +143,16 @@ const AdvanceBuilder = (props) => {
     } else {
 
       let result = itemList.find(x => x.sub_category_id === subCatId);
+      console.log('result', result)
       if (result) {
-        setSubCategoryid(subCatId);
         let id = subCatId;
-        advancedBuilderItems(id).then((response) => {
+        advancedBuilderItems(id, filterValues.filter_custome_field_id, filterValues.filter_custome_values).then((response) => {
           let d = {
             "name": response.data[0].name,
             "price": response.data[0].price,
             "sub_category_id": response.data[0].sub_category_id
           }
+          console.log('adv response filter', response)
           setItems(response.data)
           setFilteredDataSource(response.data)
         })
@@ -158,8 +167,6 @@ const AdvanceBuilder = (props) => {
   }
 
   const finalSubmit = () => {
-    // console.log(tick.length)
-    // console.log(props.categories.length)
     if (tick.length !== props.categories.length) {
       alert("Atleast one item is mandatory from each category")
     } else {
@@ -186,7 +193,7 @@ const AdvanceBuilder = (props) => {
     // if (subCatId.link_item_available) {
     //   setLinkedItems({ catId: subCatId.sub_category_id, linkedItemId: subCatId.link_item_available })
     // }
-    subCategoryFun(subCatId.sub_category_id, i, 1);
+    subCatId && subCategoryFun(subCatId.sub_category_id, i, 1);
     // setTick([...tick, subCatId.sub_category_id]);
   }
 
@@ -209,10 +216,7 @@ const AdvanceBuilder = (props) => {
   // }
 
   const selectItem = (i) => {
-    // console.log(i.sub_category_id);
     let result = itemList.some(x => x.sub_category_id === i.sub_category_id);
-    // console.log(result);
-
     if (!result) {
       setStatus(i.sub_category_id);
       let k = selectedIndex;
@@ -324,6 +328,32 @@ const AdvanceBuilder = (props) => {
     });
   }
 
+  useEffect(() => {
+    if (filterValues)
+    {advancedBuilderItems(subCategoryId, filterValues.filter_custome_field_id, filterValues.filter_custome_values).then((response) => {
+      console.log('Got the response from API')
+      console.log(response.data)
+      let d = {
+        "name": response.data[0].name,
+        "price": response.data[0].price,
+        "sub_category_id": response.data[0].sub_category_id
+      }
+      setItems(response.data)
+      setFilteredDataSource(response.data)
+    })}
+  }, [filterValues, subCategoryId])
+
+  const handleFilters = (filterValues) => {
+    setFilterApplied(filterValues)
+    setFilter(false);
+    // fetchData()
+  }
+
+  const handlePress = () => {
+    setFilter(!filter)
+    return true;
+  }
+
   return (
     <View
       style={{
@@ -361,7 +391,7 @@ const AdvanceBuilder = (props) => {
                   }}
                 />
               </TouchableOpacity>
-              <TouchableOpacity>
+              <TouchableOpacity onPress={() => setFilter(true)}>
                 <Image
                   resizeMode="contain"
                   source={filterImage}
@@ -371,6 +401,23 @@ const AdvanceBuilder = (props) => {
                 />
               </TouchableOpacity>
             </View>
+
+            <Dialog
+                visible={filter}
+                containerStyle={{ zIndex: 10, elevation: 10 }}
+                onHardwareBackPress={() => handlePress()}
+                dialogStyle={{ backgroundColor: '#272732', width: '100%', height: '50%' }}
+                dialogAnimation={new SlideAnimation({
+                    slideFrom: 'bottom',
+                })}
+                onTouchOutside={() => { setFilter(!filter) }}
+            >
+                <DialogContent>
+                    <View>
+                      <Filter type="advanceBuilder" filter1={(r) => handleFilters(r)} initalValues={filterValues} selectedSubCategory={selectedIndex} allCategories={items} />
+                    </View>
+                </DialogContent>
+            </Dialog>
 
           </View>
           {open ?
@@ -403,7 +450,10 @@ const AdvanceBuilder = (props) => {
                     <ImageBackground source={SubCatBg} style={{ width: 100 }}>
                       {!props.loadingCat ? props.categories.map((part, index) => {
                         return (
-                          <TouchableOpacity key={index} onPress={() => subCategoryFun(part.sub_category_id, index, 0)}>
+                          <TouchableOpacity key={index} onPress={() => {
+                            setFilterApplied({});
+                            subCategoryFun(part.sub_category_id, index, 0)
+                          }}>
                             <View style={styles.box}>
                               {subCategoryId === part.sub_category_id ? (
                                 <LinearGradient
@@ -553,8 +603,8 @@ const AdvanceBuilder = (props) => {
                             <NextBtn name='Submit' price={totalPrice} />
                           </View>
                         </TouchableOpacity> :
-                        checkSelectedForNext?
-                          <TouchableOpacity onPress={() => { submitNow() }}>
+                        checkSelectedForNext() ?
+                          <TouchableOpacity onPress={() => { setFilterApplied({}); submitNow() }}>
                             <View style={styles.nextBtn}>
                               <NextBtn name='Next' price={totalPrice} />
                             </View>

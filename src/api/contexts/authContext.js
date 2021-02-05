@@ -487,9 +487,8 @@ const fetchCategories = (dispatch) => async () => {
   }
 };
 
-const fetchItems = (dispatch) => async (category_id, sub_category_id, page, filterId, filterValues, minPrice, maxPrice) => {
+const fetchItems = (dispatch) => async (category_id, sub_category_id, page, filterId, filterValues, minPrice, maxPrice , all ) => {
   try {
-
     // console.log('===================================')
     // console.log('Category Id     :' + filterId)
     // console.log('Sub Category Id :' + subcategory_id)
@@ -500,8 +499,8 @@ const fetchItems = (dispatch) => async (category_id, sub_category_id, page, filt
       if (filterId) {
         const allVariables = {
           category_id:category_id,
-          sub_category_id:sub_category_id ,
-          filter_custome_field_id:filterId == ""?null:filterId,
+          sub_category_id:  sub_category_id  ,
+          filter_custome_field_id:filterId == ""?null: all ? filterId : filterId.map((items) => parseInt(items) + parseInt(category_id) -1 ),
           filter_custome_values:filterValues == ""?null:filterValues,
           min_price:parseInt(minPrice),
           max_price:parseInt(maxPrice)
