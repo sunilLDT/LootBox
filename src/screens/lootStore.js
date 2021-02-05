@@ -315,7 +315,7 @@ const LootStore = (props) => {
                          selected={selectedSubCategory.length !== 0 && selectedSubCategory[filterData.id] && selectedSubCategory[filterData.id].includes(filterData.name)}
                         />
                       </TouchableOpacity>
-                } ):<Text>Loader</Text>}
+                } ):<ActivityIndicator marginTop={height * 0.12} color="#ECDBFA" size="small" />}
                   </View>
                 
             </ScrollView>

@@ -30,7 +30,6 @@ const Signin = ({ navigation }) => {
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
   const [showPassword, setPasswordVisibility] = useState(false)
-
   const { signin, state, googleSignIn, setValidationError } = useContext(
     AuthContext,
   );

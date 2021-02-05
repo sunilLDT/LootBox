@@ -1,11 +1,11 @@
 import React, { useState, useCallback } from 'react';
-import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, Text, TouchableOpacity,ActivityIndicator,Dimensions } from 'react-native';
 import RangeSlider from 'rn-range-slider';
 import SmallLGBtn from './smallLGBtn';
 import { getFilterData } from '../api/buildYourPc';
 import { ScrollView } from 'react-native-gesture-handler';
 import { filter, flattenDeep, keys, values, without } from 'lodash';
-
+const { width, height } = Dimensions.get('window');
 const THUMB_RADIUS = 12;
 const options = ['24 cm', '12 cm', '30 cm', '14 cm', '16 cm', '340 cm']
 const Filter = (props) => {
@@ -90,7 +90,7 @@ const Filter = (props) => {
           onValueChanged={handleValueChange}
         />}
 
-        {filterOptions.length !== 0 && filterOptions.filter_data.map((i, k) =>
+        {filterOptions.length !== 0 ? filterOptions.filter_data.map((i, k) =>
           <View key={k}>
             <View>
               <Text style={styles.textStyle}>{i.name}</Text>
@@ -128,7 +128,7 @@ const Filter = (props) => {
               )}
             </View>
           </View>
-        )}
+        ):<ActivityIndicator marginTop={height * 0.12} color="#ECDBFA" size="small" />}
       </ScrollView>
     </View>
   )
