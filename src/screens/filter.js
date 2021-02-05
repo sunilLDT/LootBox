@@ -9,6 +9,7 @@ import { filter, flattenDeep, keys, values, without } from 'lodash';
 const THUMB_RADIUS = 12;
 const options = ['24 cm', '12 cm', '30 cm', '14 cm', '16 cm', '340 cm']
 const Filter = (props) => {
+  
   const [low, setLow] = useState(null);
   const [high, setHigh] = useState(null);
   const [filterOptions, setFilterOptions] = useState([])
@@ -27,9 +28,17 @@ const Filter = (props) => {
   }, []);
 
   React.useEffect(() => {
-    const allSubCategories = props.selectedSubCategory === 0 ? props.allCategories.map((a, k) => a.id) : [props.allCategories[props.selectedSubCategory - 1].id];
+    let allSubCategories;
+    if(Object.keys(props.selectedSubCategory)[0]){
+      allSubCategories = props.selectedSubCategory === 0 ? props.allCategories.map((a, k) => a.id):[Object.keys(props.selectedSubCategory)[0]];
+    }
+    else{
+      allSubCategories = props.selectedSubCategory === 0 ? props.allCategories.map((a, k) => a.id):[props.allCategories[props.selectedSubCategory - 1].id];
+    }
+     
+
     if (props.initalValues) {
-      console.log(props.initalValues)
+      // console.log(props.initalValues)
     }
     getFilterData(allSubCategories).then((response) => {
       setFilterOptions(response.data);
@@ -38,21 +47,19 @@ const Filter = (props) => {
     });
   }, [])
 
-  // console.log(selectedSubCategory)
-
   return (
     <View style={{ height: '100%', width: '100%', marginTop: 15, paddingBottom: 15 }}>
       <View style={{ width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
         <View>
-          <TouchableOpacity
-            onPress={() => { props.navigation.goBack() }}>
+          {/* <TouchableOpacity
+            onPress={() => { }}>
             <Text style={styles.textStyle}>Cancel</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
 
         <View>
           <TouchableOpacity
-            onPress={() => props.handleFilters({ filter_custome_field_id: keys(selectedSubCategory), filter_custome_values: flattenDeep(values(selectedSubCategory)), minPrice: low, maxPrice:high })}>
+            onPress={() => props.filter1({ filter_custome_field_id: keys(selectedSubCategory), filter_custome_values: flattenDeep(values(selectedSubCategory)), minPrice: low, maxPrice:high })}>
             <Text style={styles.textStyle}>Apply</Text>
           </TouchableOpacity>
         </View>
@@ -85,6 +92,8 @@ const Filter = (props) => {
 
             <View style={styles.tab} >
               {i.filter_option.map((filterData, index) =>
+              {
+                return(
                 <TouchableOpacity
                   style={{
                     marginRight: 10,
@@ -95,6 +104,7 @@ const Filter = (props) => {
                     if (selectedSubCategory[filterData.custom_field_id] && selectedSubCategory[filterData.custom_field_id].includes(filterData.value)) {
                       const filterValues = flattenDeep(values(selectedSubCategory));
                       const filterReturn = filterValues.filter(item => item !== filterData.value)
+                      
                       setSelectedSubCategory({ ...selectedSubCategory, [filterData.custom_field_id]: filterReturn })
                     } else if (selectedSubCategory[filterData.custom_field_id]) {
                       setSelectedSubCategory({ ...selectedSubCategory, ...selectedSubCategory[filterData.custom_field_id].push(filterData.value) });
@@ -107,6 +117,8 @@ const Filter = (props) => {
                     selected={selectedSubCategory.length !== 0 && selectedSubCategory[filterData.custom_field_id] && selectedSubCategory[filterData.custom_field_id].includes(filterData.value)}
                   />
                 </TouchableOpacity>
+                )
+              }
               )}
             </View>
           </View>

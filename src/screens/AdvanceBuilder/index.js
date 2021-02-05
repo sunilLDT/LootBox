@@ -16,7 +16,7 @@ import selectedIcCardImage from '../../assets/Rectangle.png';
 import backImage from '../../assets/back.png';
 import searchImage from '../../assets/ic_search.png';
 import filterImage from '../../assets/ic_filter.png';
-import { pcPartSubcategoryApi, addToCartAdvance, advancedBuilderItems } from '../../api/buildYourPc';
+import { addToCartAdvance, advancedBuilderItems } from '../../api/buildYourPc';
 import LinearGradient from 'react-native-linear-gradient';
 import cardImage from '../../assets/ic_card_a0.png';
 import thumbnail from '../../assets/thumbnail.png';
@@ -50,18 +50,24 @@ const AdvanceBuilder = (props) => {
   const [showSubmit, setShowSubmit] = useState(false);
   const [totalPrice, setTotalPrice] = useState(0);
   const [selectStatus, setSelctStatus] = useState([]);
-  const [isOptional,setIsOptional] = useState([]);
+  const [isOptional,setIsOptional] = useState([])
   const maxlimit = 20;
-  console.log("***** is optional array")
-  console.log(isOptional)
+
+  function filterIsOPtion(arr) {
+    let optionalArray = [];
+    for(let sub of arr){
+      if(sub.is_optional === false){
+        optionalArray.push(sub.sub_category_id)
+      }
+    }
+    setIsOptional(optionalArray)
+  }
 
   useEffect(() => {
     setLoading(true);
     setMaxIndex(props.categories.length);
+    filterIsOPtion(props.categories);
     props.categories.map((subCat, i) => {
-      if(subCat.is_optional === false){
-        setIsOptional([...isOptional,subCat.name])
-      }
       if (i == 0) {
         setSubCategoryid(subCat.sub_category_id)
         advancedBuilderItems(subCat.sub_category_id).then((response) => {
@@ -106,8 +112,6 @@ const AdvanceBuilder = (props) => {
 
 
   const subCategoryFun = (subCatId, index, source) => {
-    // console.log(source);
-
     if (source == 1) {
       setSubCategoryid(subCatId);
       setLastIndexedCat(subCatId);
@@ -161,7 +165,6 @@ const AdvanceBuilder = (props) => {
     } else {
 
       let result = itemList.map(({ item_id, quantity, is_advance_builder }) => ({ item_id, quantity: 1, is_advance_builder: 1 }));
-      console.log(result)
       addToCartAdvance(result).then((response) => {
         if (response.code == 200) {
           props.add()
@@ -187,14 +190,23 @@ const AdvanceBuilder = (props) => {
     // setTick([...tick, subCatId.sub_category_id]);
   }
 
-  const checkSelectedForNext = () => { 
-      
-    // return itemList.some(function (el) {
-    //   return el.sub_category_id === subCategoryId;
-    // });
-  }
- 
+
+
   
+  const checkSelectedForNext = () => {
+    return itemList.some(function (el) {
+      return el.sub_category_id === subCategoryId;
+    });
+  }
+
+  // const matchItemId = () => {
+  //   if(!isOptional.includes(subCategoryId)){
+  //     checkSelectedForNext()
+  //   }
+  //   else{
+  //     return false
+  //   }
+  // }
 
   const selectItem = (i) => {
     // console.log(i.sub_category_id);
@@ -541,7 +553,7 @@ const AdvanceBuilder = (props) => {
                             <NextBtn name='Submit' price={totalPrice} />
                           </View>
                         </TouchableOpacity> :
-                        checkSelectedForNext()?
+                        checkSelectedForNext?
                           <TouchableOpacity onPress={() => { submitNow() }}>
                             <View style={styles.nextBtn}>
                               <NextBtn name='Next' price={totalPrice} />

@@ -122,6 +122,7 @@ const Cart = (props) => {
   };
    const paymentOption = (paymentType) => {
      orderPlace(paymentType).then((response) => {
+       console.log(response.message);
         setLoading(false)
         props.navigation.navigate('checkout', { paymentUrl: response.data.data.paymenturl })
       }).catch((error) => {
@@ -1317,7 +1318,7 @@ const Cart = (props) => {
         data={[
           { paymentType:1, icon:<Icons name="credit-card" color={"#D2D7F9"} size={25} />, key: 'KNET'},
           { paymentType:2,icon:<Icons name="credit-card" color={"#D2D7F9"}  size={25} />, key: 'VISA'},
-          { paymentType:2,icon:<Icons name="briefcase"  color={"#D2D7F9"} size={25}/>, key: 'Cash On Delivery'}, 
+          { paymentType:3,icon:<Icons name="briefcase"  color={"#D2D7F9"} size={25}/>, key: 'Cash On Delivery'}, 
         ]}
         renderItem={({item}) => <TouchableOpacity onPress={() => paymentOption(item.paymentType)} ><View style={styles.itemContainer} >{item.icon}<Text style={styles.item}>{item.key}</Text></View></TouchableOpacity>}
       />

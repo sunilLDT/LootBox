@@ -8,7 +8,8 @@ import {
   ImageBackground,
   ActivityIndicator,
   ScrollView,
-  FlatList
+  FlatList,
+  StyleSheet
 } from 'react-native';
 import GradientCircle from '../components/gradientCircle';
 import LinearGradient from 'react-native-linear-gradient';
@@ -23,8 +24,8 @@ import Dialog, {
   DialogContent,
   SlideAnimation,
 } from 'react-native-popup-dialog';
-import { cartActions } from '../actions/user';
-import {languagename} from '../components/LanguageName';
+import { flattenDeep,values,keys } from 'lodash';
+import { languagename } from '../components/LanguageName';
 const { width, height } = Dimensions.get('window');
 
 const options = [
@@ -33,8 +34,9 @@ const options = [
   require('../assets/ic_search.png'),
   require('../assets/ic_filter.png'),
 ];
-
+const THUMB_RADIUS = 12;
 const LootStore = (props) => {
+ 
   const scrollRef = useRef();
 
   const { fetchCategories, fetchItems } = useContext(AuthContext);
@@ -55,15 +57,20 @@ const LootStore = (props) => {
   const [open, setOpen] = useState(false);
   const [filter, setFilter] = useState(false);
   const [callOnScrollEnd, setCallOnScrollEnd] = useState(false);
-  const [arOren,setarOren] = useState('en');
-  languagename().then(res => setarOren(res))
-  const [callOnScrollEnd, setCallOnScrollEnd] = useState(false);
-  const [filter, setFilter] = useState(false);
+  const [allfilter, setAllfilter] = useState(false);
+  const [allfilterId, setAllfilterId] = useState({}) 
+
   const [arOren, setarOren] = useState('en');
   languagename().then(res => setarOren(res));
   const [filterValues, setFilterApplied] = useState({});
+  
+  // console.log("selected Sub category " )
+  // console.log(selectedSubCategory)
+  // console.log("*** sub cat id");
+  // console.log(selectedSubCategory)
 
   const fetchData = useCallback(async () => {
+    try{
     if (selectedSubCategory === 0) {
       await fetchData1();
     } else {
@@ -71,6 +78,9 @@ const LootStore = (props) => {
         await fetchData1(subCategories[current][selectedSubCategory - 1].id);
       }
     }
+  }catch(errr ){
+    console.log(errr)
+  }
   }, [selectedSubCategory, current, filterValues]);
 
   const changeCategory = (id) => {
@@ -80,10 +90,19 @@ const LootStore = (props) => {
   }
 
   const changeSubCategory = (id) => {
-    setSelectedSubCategory(id);
     setPage(1)
     setlastPage(0)
     setFilterApplied({})
+  }
+
+  const allFilterFunction = async(r) => {
+
+    const cat =  categories.map((i,k) => {
+      return i.id;
+    });
+    const itemData = await fetchItems(cat[0], keys(selectedSubCategory)[0], page, r.filter_custome_field_id, r.filter_custome_values, r.minPrice, r.maxPrice);
+    setItems(itemData.data);
+    setFilteredDataSource(itemData.data);
   }
 
   const fetchData1 = async (b) => {
@@ -96,16 +115,14 @@ const LootStore = (props) => {
       });
       setCategories(x);
       var itemData = null;
-      console.log("B is value os " + x[current].id)
+      
       if (b) {
         itemData = await fetchItems(x[current].id, b, undefined, filterValues.filter_custome_field_id, filterValues.filter_custome_values, filterValues.minPrice, filterValues.maxPrice);
       } else {
         itemData = await fetchItems(x[current].id, subCategoryId, page, filterValues.filter_custome_field_id, filterValues.filter_custome_values, filterValues.minPrice, filterValues.maxPrice);
         setlastPage(itemData.parameter.last_page);
-        //setlastPage(itemData.parameter.to)
 
       }
-      //console.log(itemData);
 
       if (itemData) {
         setItems(itemData.data);
@@ -182,9 +199,20 @@ const LootStore = (props) => {
   }
 
   const handleFilters = (filterValues) => {
-    console.log(filterValues)
+    
     setFilterApplied(filterValues)
-    setFilter(false)
+    setFilter(!filter)
+  }
+
+  const checkFilter = () => {
+    selectedSubCategory==0
+    ? setAllfilter(true)
+    :setFilter(!filter)
+  }
+  const openNextModal = () => {
+    setAllfilter(!allfilter)
+    setFilter(!filter)
+    handleFilters({ filter_custome_field_id: keys(selectedSubCategory), filter_custome_values: flattenDeep(values(selectedSubCategory)) })
   }
 
   return (
@@ -207,8 +235,83 @@ const LootStore = (props) => {
         >
           <DialogContent>
             <View>
-              <Filter initalValues={filterValues} handleFilters={handleFilters} selectedSubCategory={selectedSubCategory} allCategories={subCategories[0]} />
+              <Filter initalValues={filterValues} filter1={(r) => {
+                console.log("***** r value")
+                console.log()
+                setFilterApplied(r);
+                allFilterFunction(r)
+                 setFilter(!filter)
+                }} selectedSubCategory={selectedSubCategory} allCategories={subCategories[0]} />
             </View>
+          </DialogContent>
+        </Dialog>
+        {/* filter for all */}
+        <Dialog
+          visible={allfilter}
+          containerStyle={{ zIndex: 10, elevation: 10 }}
+          onHardwareBackPress={() => handlePress()}
+          dialogStyle={{ backgroundColor: '#272732', width: '100%', height: '50%' }}
+          dialogAnimation={new SlideAnimation({
+            slideFrom: 'bottom',
+          })}
+          onTouchOutside={() => { setAllfilter(!allfilter) }}
+        >
+          <DialogContent>
+            {/* <View>
+            {subCategories[0].map((items) => {
+            return <Text>{items.name}</Text> })}
+            </View> */}
+            <View style={{ height: '100%', width: '100%', marginTop: 15, paddingBottom: 15 }}>
+            <View style={{ width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+              <View>
+                <TouchableOpacity
+                  onPress={() => setAllfilter(false)}>
+                  <Text style={styles.textStyle}>Cancel</Text>
+                </TouchableOpacity>
+              </View>
+      
+              <View>
+                <TouchableOpacity
+                  onPress={() => openNextModal() }
+                  >
+                  <Text style={styles.textStyle}>Choose</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+            <ScrollView
+              style={{
+                height: '100%', width: '100%',
+                overflow: 'hidden',
+              }}>
+                  <View style={styles.tab} >
+                      { subCategories.length !==0 ? subCategories[current].map((filterData) => {
+                    return <TouchableOpacity
+                        style={{
+                          marginRight: 10,
+                          marginBottom: 10
+                        }}
+                        onPress={() => {
+                          if (selectedSubCategory[filterData.id] && selectedSubCategory[filterData.id].includes(filterData.name)) {
+                            const filterValues = flattenDeep(values(selectedSubCategory));
+                            const filterReturn = filterValues.filter(item => item !== filterData.name)
+                            setSelectedSubCategory({ ...selectedSubCategory, [filterData.id]: filterReturn })
+                          } else if (selectedSubCategory[filterData.id]) {
+                            setSelectedSubCategory({ ...selectedSubCategory, ...selectedSubCategory[filterData.id].push(filterData.name) });
+                          } else {
+                            setSelectedSubCategory({ ...selectedSubCategory, [filterData.id]: [filterData.name] });
+                          }
+                        }}>
+                        
+                        <SmallLGBtn
+                          text={filterData.name}
+                         selected={selectedSubCategory.length !== 0 && selectedSubCategory[filterData.id] && selectedSubCategory[filterData.id].includes(filterData.name)}
+                        />
+                      </TouchableOpacity>
+                } ):<Text>Loader</Text>}
+                  </View>
+                
+            </ScrollView>
+          </View>
           </DialogContent>
         </Dialog>
 
@@ -247,7 +350,7 @@ const LootStore = (props) => {
             {options.map(
               (i, k) =>
                 k !== 0 && (
-                  <TouchableOpacity key={k} onPress={() => { k === 1 ? props.navigation.navigate('cart') : k === 2 ? openClose() : setFilter(true) }}>
+                  <TouchableOpacity key={k} onPress={() => { k === 1 ? props.navigation.navigate('cart') : k === 2 ? openClose() : checkFilter() }}>
                     {k === 1 && (
                       <LinearGradient
                         start={{ x: 0, y: 1 }}
@@ -402,11 +505,13 @@ const LootStore = (props) => {
                   }}
                   onPress={() => {
                     changeSubCategory(0);
+                    setSelectedSubCategory(0);
                     setOpen(false)
                   }}>
                   <SmallLGBtn
                     text="All"
                     selected={selectedSubCategory === 0}
+                    
                   />
                 </TouchableOpacity>
 
@@ -418,8 +523,9 @@ const LootStore = (props) => {
                       }}
                       key={k}
                       onPress={() => {
-                        setSelectedSubCategory(k + 1);
+                        setSelectedSubCategory(k + 1)
                         setOpen(false)
+                        changeSubCategory(0);
                       }}>
                       <SmallLGBtn
                         text={i.name}
@@ -631,5 +737,63 @@ const actionCreators = {
   add: cartActions.showCart,
 
 };
+
+const styles = StyleSheet.create({
+  notch: {
+    width: 8,
+    height: 8,
+    borderLeftColor: 'transparent',
+    borderRightColor: 'transparent',
+    borderTopColor: '#4499ff',
+    borderLeftWidth: 4,
+    borderRightWidth: 4,
+    borderTopWidth: 8,
+  },
+  rail: {
+    flex: 1,
+    height: 4,
+    borderRadius: 2,
+    backgroundColor: '#7f7f7f',
+  },
+  label: {
+    alignItems: 'center',
+    padding: 8,
+    backgroundColor: '#4499ff',
+    borderRadius: 4,
+  },
+  labeltext: {
+    fontSize: 16,
+    color: '#fff',
+  },
+  thumb: {
+    width: THUMB_RADIUS * 2,
+    height: THUMB_RADIUS * 2,
+    borderRadius: THUMB_RADIUS,
+    borderWidth: 2,
+    borderColor: '#7f7f7f',
+    backgroundColor: '#ffffff',
+  },
+  railselected: {
+    height: 4,
+    backgroundColor: '#4499ff',
+    borderRadius: 2,
+  },
+  priceSeector: {
+    marginTop: 10,
+    marginBottom: 10
+  },
+  tab: {
+    display: 'flex',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    marginBottom: 10
+  },
+  textStyle: {
+    fontSize: 18,
+    color: '#fff',
+    letterSpacing: 1,
+    marginBottom: 10
+  }
+});
 
 export default connect(mapStateToProps, actionCreators)(LootStore);

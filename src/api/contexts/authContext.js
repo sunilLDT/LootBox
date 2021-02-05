@@ -487,36 +487,59 @@ const fetchCategories = (dispatch) => async () => {
   }
 };
 
-const fetchItems = (dispatch) => async (category_id, subcategory_id, page, filterId, filterValues, minPrice, maxPrice) => {
+const fetchItems = (dispatch) => async (category_id, sub_category_id, page, filterId, filterValues, minPrice, maxPrice) => {
   try {
-    console.log('===================================')
-    console.log('Category Id     :' + filterId)
-    console.log('Sub Category Id :' + subcategory_id)
-    console.log('Page Number     :' + page);
-    console.log('===================================')
 
-    if (subcategory_id) {
+    // console.log('===================================')
+    // console.log('Category Id     :' + filterId)
+    // console.log('Sub Category Id :' + subcategory_id)
+    // console.log('Page Number     :' + page);
+    // console.log('===================================')
+
+    if (sub_category_id) {
       if (filterId) {
-        const response = await Api.get(`app/items/list?category_id=${category_id}&&sub_category_id=${subcategory_id}&&filter_custome_field_id=${[filterId]}&&filter_custome_values=${[filterValues]}&&min_price=${minPrice}&&max_price=${maxPrice}`);
+        const allVariables = {
+          category_id:category_id,
+          sub_category_id:sub_category_id ,
+          filter_custome_field_id:filterId == ""?null:filterId,
+          filter_custome_values:filterValues == ""?null:filterValues,
+          min_price:parseInt(minPrice),
+          max_price:parseInt(maxPrice)
+        }
+        console.log("****/////////// all variables")
+        console.log(allVariables)
+        const response = await Api.post('app/items/list',allVariables);
+        console.log('filtersssss')
         console.log(response.data)
-        console.log(response.data.parameter.last_page)
         return response.data;
       } else {
-        const response = await Api.get(`app/items/list?category_id=${category_id}&&sub_category_id=${subcategory_id}`);
-        console.log(response.data)
-        console.log(response.data.parameter.last_page)
+        const response = await Api.post('app/items/list',{
+          category_id:category_id,
+          sub_category_id:sub_category_id,
+        });
         return response.data;
       }
     } else {
       if (filterId) {
-        const response = await Api.get(`app/items/list?category_id=${category_id}&&page=${page}&&filter_custome_field_id=${[filterId]}&&filter_custome_values=${[filterValues]}&&min_price=${minPrice}&&max_price=${maxPrice}`);
-        console.log(response.data)
-        console.log(response.data.parameter.last_page)
+        const response = await Api.post('app/items/list',{
+         category_id,
+         page,
+         filter_custome_field_id: [filterId],
+         filter_custome_values: [filterValues],
+         min_price:minPrice,
+         max_price:maxPrice
+
+        });
+        
+        // console.log(response.data.parameter.last_page)
         return response.data;
       } else {
-        const response = await Api.get(`app/items/list?category_id=${category_id}&&page=${page}`);
-        console.log(response.data)
-        console.log(response.data.parameter.last_page)
+        const response = await Api.post('app/items/list',{
+          category_id,
+          page
+        });
+        // console.log(response.data)
+        // console.log(response.data.parameter.last_page)
         return response.data;
       }
 
