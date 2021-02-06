@@ -15,7 +15,7 @@ import ExpandImage from '../../assets/ic_expand1.png';
 import CloseImage from '../../assets/ic-3copy.png';
 import { ScrollView } from 'react-native-gesture-handler';
 import ItemCard from '../../assets/ic_card.png';
-import { getCategoriesItem } from '../../api/buildYourPc';
+import { getCategoriesItem , packageDetailsById} from '../../api/buildYourPc';
 import ItemDetails from './ItemDetails';
 import { connect } from 'react-redux';
 import { cartActions } from '../../actions/user';
@@ -76,7 +76,6 @@ const ListDetails = (props) => {
     }
 
     const idExists=(id)=> {
-        console.log("== props.packages == console.log(props.packages)==")
         return props.packages.some(function(el) {
           return el.item_id === id;
         }); 

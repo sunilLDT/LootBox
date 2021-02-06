@@ -15,9 +15,10 @@ export async function packageListByGames(gameIds) {
   return response.data;
 }
 
-export async function packageDetailsById(packageId) {
+export async function packageDetailsById(packageId, cartPackageId) {
   const response = await Api.post('app/build-pc/package-details', {
     package_id: packageId,
+    cart_package_id:cartPackageId
   });
   return response.data;
 }
