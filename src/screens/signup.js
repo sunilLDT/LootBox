@@ -62,6 +62,7 @@ const Signup = ({navigation, route}) => {
   };
 
   const submit = async () => {
+    await AsyncStorage.setItem('email',email)
     const userType = await AsyncStorage.getItem('user_type')
     const user_id = await AsyncStorage.getItem('user_id')
     if(JSON.parse(userType) == 2) {

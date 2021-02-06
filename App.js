@@ -49,7 +49,7 @@ import { initLanguages, LanguageProvider } from '@language';
 import { languages } from '@config';
 import AsyncStorage from '@react-native-community/async-storage';
 import NewPassword from './src/screens/newPassword';
-import messaging from '@react-native-firebase/messaging';
+// import messaging from '@react-native-firebase/messaging';
 const strings = initLanguages(languages);
 const { width, height } = Dimensions.get('window');
 const Stack = createStackNavigator();
@@ -123,7 +123,7 @@ const App = () => {
   useEffect(() => {
     check();
 
-    requestUserPermission();
+    /*requestUserPermission();
     const unsubscribe = messaging().onMessage(async remoteMessage => {
       Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
     });
@@ -138,7 +138,7 @@ const App = () => {
       .getToken()
       .then(token => {
         //return saveTokenToDatabase(token);
-      });
+      });*/
    
   }, []);
 
