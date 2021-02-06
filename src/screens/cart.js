@@ -590,6 +590,21 @@ const Cart = (props) => {
                                   justifyContent: "space-between",
                                   
                                 }}>
+                                  {/* edit icon*/}
+                                  <TouchableOpacity onPress={async() =>
+                                  {
+                                    await AsyncStorage.setItem('cart_package_id', packages.cart_package_id.toString())
+                                    props.navigation.navigate({name: "ProductDetails"})
+                                  }
+                                    }> 
+                                  {/* {
+                                trashPackageLoader && trashPackageLoaderID=== packages.cart_package_id
+                                ?(<View style={{alignSelf:'center', paddingTop:8}}><ActivityIndicator color="#ECDBFA" size="small"  /></View>
+                                ):( */}
+                                <Icons name="pencil" color={"white"} size={15} style={{alignSelf:'center'}} />
+                                {/* } */}
+                                  </TouchableOpacity>
+
                                   <TouchableOpacity onPress={() => removePackage(packages.cart_package_id) }> 
                                   {
                                 trashPackageLoader && trashPackageLoaderID=== packages.cart_package_id
