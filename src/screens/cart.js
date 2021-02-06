@@ -67,6 +67,8 @@ const Cart = (props) => {
   const [decreaseLoaderId,setDecreaseLoaderId] = useState();
   const maxlimit = 20;
   var imgSource = upwardImage ? ExpandImage : CloseImage;
+
+  console.log(cartData)
   
 
   useEffect(() => {

@@ -440,6 +440,9 @@ const onPressTouch = () => {
 
                               keyExtractor={(item) => item.item_id}
                               renderItem={({ item: i }, k) => {
+                                // console.log("@@@@@@@@")
+                                // console.log(i.status)
+                                
                                   return (
                                     <View  style={{flexGrow:1}} key={k}>
                                       <TouchableOpacity
