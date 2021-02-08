@@ -249,3 +249,7 @@ export async function removePackageApi(id) {
   return response.data;
 }
 
+export async function getNotification() {
+  const response = await Api.get('app/user/notification-list');
+  return response.data;
+}
