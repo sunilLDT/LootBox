@@ -123,46 +123,44 @@ const App = () => {
   useEffect(() => {
     check();
 
-    /*requestUserPermission();
-    const unsubscribe = messaging().onMessage(async remoteMessage => {
-      Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
-    });
+//  requestUserPermission();
+    // const unsubscribe = messaging().onMessage(async remoteMessage => {
+    //   Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
+    // });
 
-    return unsubscribe;
+    // return unsubscribe;
 
   }, []);
 
-  useEffect(() => {
-    // Get the device token
-    messaging()
-      .getToken()
-      .then(token => {
-        //return saveTokenToDatabase(token);
-      });*/
-   
-  }, []);
+  // useEffect(() => {
+  //   // Get the device token
+  //   messaging()
+  //     .getToken()
+  //     .then(token => {
+  //       //return saveTokenToDatabase(token);
+  //     });
+  // }, []);
 
-  requestUserPermission = async () => {
-    const authStatus = await messaging().requestPermission();
-    const enabled =
-      authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
-      authStatus === messaging.AuthorizationStatus.PROVISIONAL;
+  // requestUserPermission = async () => {
+  //   const authStatus = await messaging().requestPermission();
+  //   const enabled =
+  //     authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
+  //     authStatus === messaging.AuthorizationStatus.PROVISIONAL;
 
-    if (enabled) {
-      getFcmToken() //<---- Add this
-      console.log('Authorization status:', authStatus);
-    }
-  }
+  //   if (enabled) {
+  //     getFcmToken() //<---- Add this
+  //     console.log('Authorization status:', authStatus);
+  //   }
+  // }
 
-  getFcmToken = async () => {
-    const fcmToken = await messaging().getToken();
-    if (fcmToken) {
-     console.log(fcmToken);
-     console.log("Your Firebase Token is:", fcmToken);
-    } else {
-     console.log("Failed", "No token received");
-    }
-  }
+  // getFcmToken = async () => {
+  //   const fcmToken = await messaging().getToken();
+  //   if (fcmToken) {
+  //    console.log("Your Firebase Token is:", fcmToken);
+  //   } else {
+  //    console.log("Failed", "No token received");
+  //   }
+  // }
 
   return (
     <View
@@ -263,11 +261,11 @@ export default () => {
     <LanguageProvider 
       strings={strings}
       language={set}>
-    <Provider store={store}>
-      <AuthProvider>
-        <App />
-      </AuthProvider>
-    </Provider>
+      <Provider store={store}>
+        <AuthProvider>
+          <App />
+        </AuthProvider>
+      </Provider>
     </LanguageProvider>
   );
 };

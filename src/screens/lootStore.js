@@ -632,6 +632,7 @@ const LootStore = (props) => {
                                           paddingTop: 20,
                                           width: width * 0.36,
                                           marginVertical: i.image ? 20 : 10,
+                                         
                                         }}>
                                         {i.image ? (
                                           <Image
@@ -645,6 +646,8 @@ const LootStore = (props) => {
                                               position: 'absolute',
                                               top: -24,
                                               left: '14%',
+                                              // borderRadius:50,
+                                              // resizeMode:'center'
                                             }}
                                           />
                                         ) : (

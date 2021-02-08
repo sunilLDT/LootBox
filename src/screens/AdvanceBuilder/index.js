@@ -64,7 +64,7 @@ const AdvanceBuilder = (props) => {
   function filterIsOPtion(arr) {
     let optionalArray = [];
     for(let sub of arr){
-      if(sub.is_optional === false){
+      if(sub.is_optional === true){
         optionalArray.push(sub.sub_category_id)
       }
     }
@@ -121,6 +121,7 @@ const AdvanceBuilder = (props) => {
 
   const subCategoryFun = (subCatId, index, source) => {
     if (source == 1 || !filterValues) {
+      alert("i am in if")
       setSubCategoryid(subCatId);
       setLastIndexedCat(subCatId);
       let id = subCatId;
@@ -130,20 +131,19 @@ const AdvanceBuilder = (props) => {
          id = result.item_id;
        }*/
       advancedBuilderItems(id, filterValues.filter_custome_field_id, filterValues.filter_custome_values).then((response) => {
-        console.log('Got the response from API')
-        console.log(response.data)
         let d = {
           "name": response.data[0].name,
           "price": response.data[0].price,
           "sub_category_id": response.data[0].sub_category_id
         }
+        console.log("advance builder response *********")
+        console.log(response.data)
         setItems(response.data)
         setFilteredDataSource(response.data)
       })
     } else {
-
       let result = itemList.find(x => x.sub_category_id === subCatId);
-      console.log('result', result)
+
       if (result) {
         let id = subCatId;
         advancedBuilderItems(id, filterValues.filter_custome_field_id, filterValues.filter_custome_values).then((response) => {
@@ -152,7 +152,6 @@ const AdvanceBuilder = (props) => {
             "price": response.data[0].price,
             "sub_category_id": response.data[0].sub_category_id
           }
-          console.log('adv response filter', response)
           setItems(response.data)
           setFilteredDataSource(response.data)
         })
@@ -180,7 +179,6 @@ const AdvanceBuilder = (props) => {
       })
     }
   }
-
   const submitNow = () => {
     scrollRef.current?.scrollTo({
       animated: true,
@@ -193,7 +191,22 @@ const AdvanceBuilder = (props) => {
     // if (subCatId.link_item_available) {
     //   setLinkedItems({ catId: subCatId.sub_category_id, linkedItemId: subCatId.link_item_available })
     // }
-    subCatId && subCategoryFun(subCatId.sub_category_id, i, 1);
+  
+    if(!isOptional.includes(subCategoryId)){
+      if(checkSelectedForNext()){
+        subCatId && subCategoryFun(subCatId.sub_category_id, i, 1);
+      }
+      else{
+        alert("select any one item")
+      }
+      
+    }
+    else{
+      alert("is it right")
+      subCategoryFun(subCatId.sub_category_id, i, 1);
+    }
+    
+    
     // setTick([...tick, subCatId.sub_category_id]);
   }
 
@@ -205,15 +218,6 @@ const AdvanceBuilder = (props) => {
       return el.sub_category_id === subCategoryId;
     });
   }
-
-  // const matchItemId = () => {
-  //   if(!isOptional.includes(subCategoryId)){
-  //     checkSelectedForNext()
-  //   }
-  //   else{
-  //     return false
-  //   }
-  // }
 
   const selectItem = (i) => {
     let result = itemList.some(x => x.sub_category_id === i.sub_category_id);
@@ -331,8 +335,6 @@ const AdvanceBuilder = (props) => {
   useEffect(() => {
     if (filterValues)
     {advancedBuilderItems(subCategoryId, filterValues.filter_custome_field_id, filterValues.filter_custome_values).then((response) => {
-      console.log('Got the response from API')
-      console.log(response.data)
       let d = {
         "name": response.data[0].name,
         "price": response.data[0].price,
@@ -597,7 +599,7 @@ const AdvanceBuilder = (props) => {
                         }}
                         numColumns={2}
                       />
-                      {showSubmit ?
+                      {/* {showSubmit ?
                         <TouchableOpacity onPress={() => { finalSubmit() }}>
                           <View style={styles.nextBtn}>
                             <NextBtn name='Submit' price={totalPrice} />
@@ -609,27 +611,34 @@ const AdvanceBuilder = (props) => {
                               <NextBtn name='Next' price={totalPrice} />
                             </View>
                           </TouchableOpacity>
-                          : null}
+                          : null} */}
                     </View> : <ActivityIndicator color="#ECDBFA" size="large" />}
                 </View>
               </>
             )}
         </ScrollView>
-       
-      </ImageBackground>
-      {/* {showSubmit ?
-        <TouchableOpacity  onPress={() => { finalSubmit() }}>
-          <View style={{flex:1,justifyContent:'flex-end'}}>
+        {showSubmit ?
+        <TouchableOpacity style={{
+          width: '80%',
+          height:60,
+          marginLeft:"25%",
+        }}  onPress={() => { finalSubmit() }}>
+          <View >
             <NextBtn name='Submit' price={totalPrice} />
           </View>
         </TouchableOpacity> :
-        checkSelectedForNext() ?
-          <TouchableOpacity style={{flex:1,justifyContent:'flex-end',}}  onPress={() => { submitNow() }}>
-            <View style={{flex:1,justifyContent:'flex-end',}}>
-              <NextBtn name='Next' price={totalPrice} />
-            </View>
-          </TouchableOpacity>
-          : null} */}
+        <TouchableOpacity style={{
+          width: '80%',
+          height:60,
+          marginLeft:"25%"
+        }}  
+        onPress={() => { submitNow() }}>
+          <View>
+            <NextBtn name='Next' price={totalPrice} />
+          </View>
+        </TouchableOpacity>
+       }
+      </ImageBackground>
     </View>
   );
 
@@ -641,8 +650,8 @@ const styles = StyleSheet.create({
     width: width,
     display: 'flex',
     alignItems: 'center',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    // flexDirection: 'row',
+    // justifyContent: 'space-between',
     
   },
   topContainer: {
@@ -712,11 +721,13 @@ const styles = StyleSheet.create({
     resizeMode: 'center',
   },
   itemImage: {
-    width: 65,
+    width: 55,
     height: 45,
     alignSelf: 'center',
     position: 'relative',
-    bottom: 20
+    bottom: 20,
+    borderRadius:50,
+    // resizeMode:"center"
 
   },
   brand: {
