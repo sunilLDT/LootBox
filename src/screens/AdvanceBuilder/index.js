@@ -59,6 +59,13 @@ const AdvanceBuilder = (props) => {
   const [filter, setFilter] = useState(false);
   const [filterValues, setFilterApplied] = useState({});
 
+  console.log("start ***********")
+  console.log("selected index:")
+  console.log(selectedIndex)
+  console.log("selectStatus:")
+  console.log(selectStatus)
+  
+  console.log("end ***********")
   const maxlimit = 20;
 
   function filterIsOPtion(arr) {
@@ -114,14 +121,12 @@ const AdvanceBuilder = (props) => {
     let a = selectStatus;
     let objIndex = a.findIndex((obj => obj.id == catId));    
     a[objIndex].status = true;
-    // console.log(a)
     setSelctStatus(a)
   }
 
 
   const subCategoryFun = (subCatId, index, source) => {
     if (source == 1 || !filterValues) {
-      alert("i am in if")
       setSubCategoryid(subCatId);
       setLastIndexedCat(subCatId);
       let id = subCatId;
@@ -136,14 +141,12 @@ const AdvanceBuilder = (props) => {
           "price": response.data[0].price,
           "sub_category_id": response.data[0].sub_category_id
         }
-        console.log("advance builder response *********")
-        console.log(response.data)
         setItems(response.data)
         setFilteredDataSource(response.data)
       })
     } else {
+      alert("in else")
       let result = itemList.find(x => x.sub_category_id === subCatId);
-
       if (result) {
         let id = subCatId;
         advancedBuilderItems(id, filterValues.filter_custome_field_id, filterValues.filter_custome_values).then((response) => {
@@ -155,7 +158,7 @@ const AdvanceBuilder = (props) => {
           setItems(response.data)
           setFilteredDataSource(response.data)
         })
-        // return false;
+        return false;
       }
     }
 
@@ -166,10 +169,6 @@ const AdvanceBuilder = (props) => {
   }
 
   const finalSubmit = () => {
-    if (tick.length !== props.categories.length) {
-      alert("Atleast one item is mandatory from each category")
-    } else {
-
       let result = itemList.map(({ item_id, quantity, is_advance_builder }) => ({ item_id, quantity: 1, is_advance_builder: 1 }));
       addToCartAdvance(result).then((response) => {
         if (response.code == 200) {
@@ -177,15 +176,22 @@ const AdvanceBuilder = (props) => {
           props.navigation.navigate('cart');
         }
       })
-    }
   }
   const submitNow = () => {
     scrollRef.current?.scrollTo({
       animated: true,
     });
-    let i = selectedIndex;
-    //i = i + 1;
-    // setSelectedIndex(i);
+    
+  
+    let i
+    if(isOptional.includes(subCategoryId)){
+     i = selectedIndex + 1;
+     setSelectedIndex(i)
+     setStatus(subCategoryId)
+    }
+    else{
+      i = selectedIndex;
+    }
 
     let subCatId = props.categories[i];
     // if (subCatId.link_item_available) {
@@ -197,16 +203,13 @@ const AdvanceBuilder = (props) => {
         subCatId && subCategoryFun(subCatId.sub_category_id, i, 1);
       }
       else{
-        alert("select any one item")
+        alert("please select one item from this category")
       }
       
     }
     else{
-      alert("is it right")
-      subCategoryFun(subCatId.sub_category_id, i, 1);
+      subCatId && subCategoryFun(subCatId.sub_category_id, i, 1);
     }
-    
-    
     // setTick([...tick, subCatId.sub_category_id]);
   }
 
@@ -228,8 +231,6 @@ const AdvanceBuilder = (props) => {
       setSelectedIndex(k);
       setTick([...tick, i.sub_category_id]);
     }
-
-
 
     let d = {
       "name": i.name,
@@ -262,12 +263,7 @@ const AdvanceBuilder = (props) => {
       }
       setTotalPrice(total.toFixed(3))
       setItemList(data);
-      // console.log('========')
-      // console.log('Selected Index ' + selectedIndex)
-      // console.log(maxIndex)
-      // console.log('========')
       let index = selectStatus.find(obj => obj.status === false);
-      // console.log(index)
       if (!index) {
         setShowSubmit(true)
       }
