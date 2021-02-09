@@ -75,6 +75,8 @@ const Cart = (props) => {
 
   const maxlimit = 20;
   var imgSource = upwardImage ? ExpandImage : CloseImage;
+
+  console.log(cartData)
   
   useEffect(() => {
     setLoading(true)

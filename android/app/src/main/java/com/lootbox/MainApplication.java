@@ -1,4 +1,4 @@
-package com.projtest;
+package com.lootbox;
 
 import android.app.Application;
 import android.content.Context;

@@ -122,24 +122,31 @@ const App = () => {
   };
   useEffect(() => {
     check();
+    requestUserPermission();
+    const unsubscribe = messaging().onMessage(async remoteMessage => {
+      console.log('A new FCM message arrived!', JSON.stringify(remoteMessage));
+    });
+    return unsubscribe;
+  },[]);
 
-//  requestUserPermission();
-    // const unsubscribe = messaging().onMessage(async remoteMessage => {
-    //   Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
-    // });
-
-    // return unsubscribe;
-
+  useEffect(() => {
+    messaging().onNotificationOpenedApp(remoteMessage => {
+      console.log(
+        'Notification caused app to open from background state:',
+        remoteMessage.notification,
+      );
+      navigation.navigate('home');
+    });
+    messaging().setBackgroundMessageHandler(async remoteMessage => {
+      console.log('Message handled in the background!', remoteMessage);
+    });
+    messaging()
+      .getToken()
+      .then(token => {
+        //return saveTokenToDatabase(token);
+      });
+   
   }, []);
-
-  // useEffect(() => {
-  //   // Get the device token
-  //   messaging()
-  //     .getToken()
-  //     .then(token => {
-  //       //return saveTokenToDatabase(token);
-  //     });
-  // }, []);
 
   // requestUserPermission = async () => {
   //   const authStatus = await messaging().requestPermission();

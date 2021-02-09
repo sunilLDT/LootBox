@@ -517,6 +517,7 @@ const AdvanceBuilder = (props) => {
                         keyExtractor={(item) => item.item_id}
                         data={filteredDataSource}
                         renderItem={({ item }, index) => {
+                         console.log(item.status + item.price + item.name);
                           const maxlimit = 22;
                           return (
                             <TouchableOpacity onPress={() => {

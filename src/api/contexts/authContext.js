@@ -96,8 +96,8 @@ const setNavigation = (dispatch) => async (name) => {
 const googleSignIn = (dispatch) => async () => {
   try {
     await GoogleSignin.configure({
-      webClientId: '201119561571-i15v7unj24qm39dt32bsvqtcbsqntkg0.apps.googleusercontent.com',
-      iosClientId: '201119561571-56nv0io5rjjsoq1et7qb734ok04s4ore.apps.googleusercontent.com',
+      webClientId: '85981177828-vimmqnf1kr23gvlct0mvkonp8nqre1n5.apps.googleusercontent.com',
+      iosClientId: '85981177828-ba0l913k7n5rjg220kf6tf7qeacvvu2b.apps.googleusercontent.com',
     });
     await GoogleSignin.hasPlayServices();
     const userInfo = await GoogleSignin.signIn();
