@@ -64,7 +64,6 @@ const AdvanceBuilder = (props) => {
   console.log(selectedIndex)
   console.log("selectStatus:")
   console.log(selectStatus)
-  
   console.log("end ***********")
   const maxlimit = 20;
 
@@ -185,10 +184,15 @@ const AdvanceBuilder = (props) => {
   
     let i
     if(isOptional.includes(subCategoryId)){
-      
      i = selectedIndex + 1;
      setSelectedIndex(i)
-     setStatus(subCategoryId)
+     for(let checkStatus of selectStatus){
+      if(checkStatus.id == subCategoryId && checkStatus.status === false){
+        alert("apply set")
+        setStatus(subCategoryId)
+      } 
+    }
+     
     }
     else{
       i = selectedIndex;
