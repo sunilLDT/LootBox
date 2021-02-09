@@ -1,5 +1,5 @@
 import { cartConstants } from './actionTypes';
-
+import {getLabelsApi} from '../api/buildYourPc';
 
 export const languageActions = {
     getLabelAction
@@ -8,18 +8,21 @@ export const languageActions = {
 function getLabelAction(lang) {
   return (dispatch) => {
     dispatch(request(lang));
-    if(lang='ar'){
-        dispatch(success(ar));
-    }  else{
-        dispatch(success(en));
-    }   
+    getLabelsApi().then((response) => {
+      dispatch(success(response.data));
+      console.log("****** labels api response *******")
+      console.log(response.data)
+    }).catch((error) => {
+      console.log("label api in redux" + error);
+        dispatch(failure(response.message))
+    });   
   };
 
-  function request(label) {
-    return { type: cartConstants.LABEL_REQUEST, label };
+  function request() {
+    return { type: cartConstants.LABEL_REQUEST };
   }
-  function success(id) {
-    return { type: cartConstants.LABEL_SUCCESS,label};
+  function success(labelData) {
+    return { type: cartConstants.LABEL_SUCCESS,labelData};
   }
 
   function failure(error) {
@@ -27,11 +30,3 @@ function getLabelAction(lang) {
   }
 }
 
-
-const ar = {
-    'Arabic':'arabic'
-}
-
-const en = {
-    'English':'english'
-}

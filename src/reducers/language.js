@@ -3,7 +3,7 @@ import { cartConstants } from '../actions/actionTypes';
 
 const initialState = {
   labels: [],
-  loginError: false,
+  error: false,
   loading: false,
   lang:'en',
 
@@ -11,7 +11,7 @@ const initialState = {
 
 export default function (state = initialState, action) {
   switch (action.type) {
-    case cartConstants.LABEL_SUCCESS:
+    case cartConstants.LABEL_REQUEST:
       return {
         ...state,
         loading: true,
@@ -20,21 +20,18 @@ export default function (state = initialState, action) {
     case cartConstants.LABEL_SUCCESS:
       return {
         ...state,
-        cart: action.label
+        labels: action.labelData
       };
 
 
     case cartConstants.LABEL_FAILED:
       return {
         ...state,
-        loginError: 'select Language .',
+        error: 'select Language .',
         loading: false,
+        labels:[]
       };
-      case cartConstants.GET_LANGUAGE:
-        return {
-          ...state,
-          lang:action.language,
-        };
+      
     default:
       return state;
   }

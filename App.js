@@ -49,7 +49,7 @@ import { initLanguages, LanguageProvider } from '@language';
 import { languages } from '@config';
 import AsyncStorage from '@react-native-community/async-storage';
 import NewPassword from './src/screens/newPassword';
-import messaging from '@react-native-firebase/messaging';
+// import messaging from '@react-native-firebase/messaging';
 const strings = initLanguages(languages);
 const { width, height } = Dimensions.get('window');
 const Stack = createStackNavigator();
@@ -122,18 +122,24 @@ const App = () => {
   };
   useEffect(() => {
     check();
-
     requestUserPermission();
     const unsubscribe = messaging().onMessage(async remoteMessage => {
-      Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
+      console.log('A new FCM message arrived!', JSON.stringify(remoteMessage));
     });
-
     return unsubscribe;
-
-  }, []);
+  },[]);
 
   useEffect(() => {
-    // Get the device token
+    messaging().onNotificationOpenedApp(remoteMessage => {
+      console.log(
+        'Notification caused app to open from background state:',
+        remoteMessage.notification,
+      );
+      navigation.navigate('home');
+    });
+    messaging().setBackgroundMessageHandler(async remoteMessage => {
+      console.log('Message handled in the background!', remoteMessage);
+    });
     messaging()
       .getToken()
       .then(token => {
@@ -142,27 +148,26 @@ const App = () => {
    
   }, []);
 
-  requestUserPermission = async () => {
-    const authStatus = await messaging().requestPermission();
-    const enabled =
-      authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
-      authStatus === messaging.AuthorizationStatus.PROVISIONAL;
+  // requestUserPermission = async () => {
+  //   const authStatus = await messaging().requestPermission();
+  //   const enabled =
+  //     authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
+  //     authStatus === messaging.AuthorizationStatus.PROVISIONAL;
 
-    if (enabled) {
-      getFcmToken() //<---- Add this
-      console.log('Authorization status:', authStatus);
-    }
-  }
+  //   if (enabled) {
+  //     getFcmToken() //<---- Add this
+  //     console.log('Authorization status:', authStatus);
+  //   }
+  // }
 
-  getFcmToken = async () => {
-    const fcmToken = await messaging().getToken();
-    if (fcmToken) {
-     console.log(fcmToken);
-     console.log("Your Firebase Token is:", fcmToken);
-    } else {
-     console.log("Failed", "No token received");
-    }
-  }
+  // getFcmToken = async () => {
+  //   const fcmToken = await messaging().getToken();
+  //   if (fcmToken) {
+  //    console.log("Your Firebase Token is:", fcmToken);
+  //   } else {
+  //    console.log("Failed", "No token received");
+  //   }
+  // }
 
   return (
     <View
@@ -263,11 +268,11 @@ export default () => {
     <LanguageProvider 
       strings={strings}
       language={set}>
-    <Provider store={store}>
-      <AuthProvider>
-        <App />
-      </AuthProvider>
-    </Provider>
+      <Provider store={store}>
+        <AuthProvider>
+          <App />
+        </AuthProvider>
+      </Provider>
     </LanguageProvider>
   );
 };

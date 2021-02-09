@@ -15,18 +15,19 @@ export async function packageListByGames(gameIds) {
   return response.data;
 }
 
-export async function packageDetailsById(packageId) {
+export async function packageDetailsById(packageId, cartPackageId) {
   const response = await Api.post('app/build-pc/package-details', {
     package_id: packageId,
+    cart_package_id:cartPackageId
   });
   return response.data;
 }
 
-export async function getCategoriesItem(sub_category_id, item_id, sub_category_name) {
-  const response = await Api.post('app/build-pc/category-items', {
-    sub_category_id: sub_category_id,
-    item_id: item_id,
-    sub_category_name: sub_category_name
+export async function getCategoriesItem(sub_category_id,item_id){
+  const response = await Api.post('app/build-pc/category-items',{
+    sub_category_id:sub_category_id,
+    item_id:item_id,
+    // sub_category_name:sub_category_name
   });
   return response.data;
 }
@@ -251,5 +252,9 @@ export async function removePackageApi(id) {
 
 export async function getNotification() {
   const response = await Api.get('app/user/notification-list');
+  return response.data;
+}
+export async function getLabelsApi(){
+  const response = await Api.get('app/label/list');
   return response.data;
 }

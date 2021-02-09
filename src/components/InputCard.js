@@ -1,9 +1,12 @@
-import React from 'react';
+import React,{useState} from 'react';
 import {Text, StyleSheet, Dimensions} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
+import { languagename } from '../components/LanguageName';
 const {height, width} = Dimensions.get('window');
 
 const InputCard = ({placeholder,style,inpStyle}) => {
+    const [arOren, setarOren] = useState('en');
+    languagename().then(res => setarOren(res))
     return(
         <LinearGradient
             start={{x: 0, y: 0}}
@@ -20,7 +23,12 @@ const InputCard = ({placeholder,style,inpStyle}) => {
             },
             style,
         ]}>
-            <Text style={[styles.inp, inpStyle]}>
+            <Text style={[{
+                fontSize: 13,
+                width: width * 0.7,
+                color: '#ECDBFA',
+                textAlign: arOren == "it"? 'right':'left'
+            }, inpStyle]}>
                 {placeholder}
             </Text>
         </LinearGradient>
@@ -28,11 +36,7 @@ const InputCard = ({placeholder,style,inpStyle}) => {
 };
 
 const styles = StyleSheet.create({
-    inp: {
-      fontSize: 13,
-      width: width * 0.7,
-      color: '#ECDBFA',
-    },
+    
   });
 
   export default InputCard;

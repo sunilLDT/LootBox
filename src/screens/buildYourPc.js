@@ -23,6 +23,7 @@ import AdvanceBuilderButton from '../components/AdvanceBuilderBtn';
 import strings from '../languages/index';
 import { SearchBar } from 'react-native-elements';
 import filter from 'lodash.filter';
+import {languagename} from '../components/LanguageName';
 
 const { width, height } = Dimensions.get('window');
 
@@ -34,6 +35,8 @@ const BuildYourPc = ({ navigation }) => {
   const [loading, setLoading] = useState(true);
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState('');
+  const [arOren,setarOren] = useState('en');
+  languagename().then(res => setarOren(res))
 
   useEffect(() => {
     setLoading(true)
@@ -135,9 +138,6 @@ const changeResolution = (res) => {
                 resizeMode="contain"
                 style={{
                   width: 48,
-                  transform: [
-                    { scaleX: -1 }
-                  ]
                 }}
               />
             </TouchableOpacity>

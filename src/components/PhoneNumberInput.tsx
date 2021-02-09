@@ -2,14 +2,12 @@ import React,{useState} from 'react';
 import {TextInput,
     StyleSheet,
     Dimensions,View,
-    Text,
-    PixelRatio,
-    Switch,
     TouchableOpacity
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import CountryPicker,{ DARK_THEME } from 'react-native-country-picker-modal';
 import { CountryCode, Country } from './types';
+import {languagename} from '../components/LanguageName';
 const {height, width} = Dimensions.get('window');
 
 const Input = ({
@@ -42,7 +40,8 @@ const Input = ({
     const switchVisible = () => {
         setVisible(!visible)
     }
-    
+    const [arOren,setarOren] = useState('en');
+    languagename().then(res => setarOren(res))
     const onSelect = (country: Country) => {
         console.log(country)
         setCountryCode(country.cca2)
@@ -108,7 +107,12 @@ const Input = ({
                 editable={editable}
                 defaultValue={defaultValue}
                 keyboardType={email ? 'email-address' : tel ? 'phone-pad' : 'default'}
-                style={[styles.inp, inpStyle]}
+                style={[{
+                  fontSize: 13,
+                  width: width * 0.65,
+                  color: '#ECDBFA',
+                  textAlign: arOren == "it"? 'right':'left'
+                }, inpStyle]}
                 />
             </View>
         </LinearGradient>

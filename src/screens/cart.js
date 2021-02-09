@@ -44,7 +44,7 @@ import PayBtn from '../components/PayBtn';
 import Icon from 'react-native-vector-icons/Feather';
 import strings from '../languages/index';
 import AsyncStorage from '@react-native-community/async-storage';
-
+import {languagename} from '../components/LanguageName';
 
 const { width, height } = Dimensions.get('window');
 
@@ -70,12 +70,14 @@ const Cart = (props) => {
   const [removeLoaderID,setremoveLoaderID] = useState();
   const [trashPackageLoader,settrashPackageLoader] = useState(false);
   const [trashPackageLoaderID,settrashPackageLoaderID] = useState();
-  
+  const [arOren,setarOren] = useState('en');
+  languagename().then(res => setarOren(res))
 
   const maxlimit = 20;
   var imgSource = upwardImage ? ExpandImage : CloseImage;
+
+  console.log(cartData)
   
-console.log(cartData)
   useEffect(() => {
     setLoading(true)
     showCartData().then((response) => {
@@ -101,7 +103,6 @@ console.log(cartData)
 
   const checkout = async () => {
     const userType = await AsyncStorage.getItem('user_type');
-    console.log(props.address)
     setLoading(true)
     if (JSON.parse(userType) == 2) {
       props.navigation.navigate('auth', {
@@ -250,7 +251,6 @@ console.log(cartData)
     setremoveLoader(true);
     removeItemAPI(id).then((response) => {
       reloadData();
-      console.log(response.data)
     })
     
   };
@@ -292,7 +292,6 @@ console.log(cartData)
     settrashPackageLoaderID(id);
     removePackageApi(id).then((response) => {
       reloadData();
-      console.log(response.data)
     })
   }
 
@@ -320,6 +319,10 @@ console.log(cartData)
     })
   }
   }
+
+  const editpackage = (cartPackageId,packageId) => {
+    alert(cartPackageId+ "pack" + packageId)
+  }
   const refRBSheet = useRef();
   return (
     <ImageBackground
@@ -340,9 +343,14 @@ console.log(cartData)
             <View
               style={{
                 paddingVertical: width * 0.05,
+<<<<<<< HEAD
                 
                 paddingHorizontal: Platform.OS == 'android' ?width * 0.05:width *0.07,
 
+=======
+                // paddingHorizontal: Platform.OS == 'android' ?width * 0.1:width *0.07,
+                paddingHorizontal:arOren == "it"?width * 0.07:width * 0.08
+>>>>>>> f38df9e44be848b0952831b4f94326759c0844bd
               }}>
               <Dialog
                 visible={addressModal}
@@ -504,8 +512,6 @@ console.log(cartData)
                                   }}>
                                   KD {sum(packages.cart_package_items)}
                                 </Text>
-                                
-                                
                                 <View
                                   style={{
                                     display: 'flex',
@@ -519,6 +525,20 @@ console.log(cartData)
                                     borderColor: '#ffffff',
                                     borderWidth: 0,
                                   }}>
+                                    {/* <TouchableOpacity style={{
+                                      borderColor:'#fff',
+                                      borderWidth:2,
+                                    }} 
+                                    onPress={() => editpackage(packages.cart_package_id,packages.package_id)}>
+                                      <View>
+                                        <Text style={{
+                                          color:'#D2D7F9',
+                                          marginRight:'10%',
+                                          fontFamily: 'Montserrat-Medium',
+                                        }}>Edit
+                                        </Text>
+                                      </View>
+                                    </TouchableOpacity> */}
                                     {DecreasePackageLoader && decreaseLoaderPackageID == packages.cart_package_id ?(
                                       <View style={{  }}>
                                         <ActivityIndicator color="#ECDBFA" size="small" />
@@ -573,13 +593,27 @@ console.log(cartData)
                             </View>
 
                             <View style={{ direction: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-                             
                               <View
                                 style={{
                                   flex: 1,
                                   justifyContent: "space-between",
                                   
                                 }}>
+                                  {/* edit icon*/}
+                                  <TouchableOpacity onPress={async() =>
+                                  {
+                                    await AsyncStorage.setItem('cart_package_id', packages.cart_package_id.toString())
+                                    props.navigation.navigate({name: "ProductDetails"})
+                                  }
+                                    }> 
+                                  {/* {
+                                trashPackageLoader && trashPackageLoaderID=== packages.cart_package_id
+                                ?(<View style={{alignSelf:'center', paddingTop:8}}><ActivityIndicator color="#ECDBFA" size="small"  /></View>
+                                ):( */}
+                                <Icons name="pencil" color={"white"} size={15} style={{alignSelf:'center'}} />
+                                {/* } */}
+                                  </TouchableOpacity>
+
                                   <TouchableOpacity onPress={() => removePackage(packages.cart_package_id) }> 
                                   {
                                 trashPackageLoader && trashPackageLoaderID=== packages.cart_package_id
@@ -998,7 +1032,13 @@ console.log(cartData)
                {strings.deliveryTo}
               </Text>
               {props.address?props.address.length === 1?(
-              <View >
+              <View 
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  flexDirection: 'row',
+                }}
+              >
                 <Text
                   numberOfLines={3}
                   style={{
@@ -1044,7 +1084,11 @@ console.log(cartData)
                 );
               }):null:null}
             </View>
-                <View>
+                <View style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  flexDirection: 'row',
+                }}> 
                   <TouchableOpacity
                     onPress={() => changeAddressPop()}>
                     <Text
@@ -1075,6 +1119,9 @@ console.log(cartData)
                       padding: 20,
                       borderBottomColor: 'rgba(255,255,255,0.3)',
                       borderBottomWidth: 0.3,
+                      display: 'flex',
+                      alignItems: 'center',
+                      flexDirection: 'row',
                     }}>
                     <Text
                       style={{
@@ -1383,13 +1430,6 @@ const styles = StyleSheet.create({
     fontSize: 14,
     height: 44,
   },
-  // crossIconForPackage: {
-  //   display: 'flex',
-  //   alignSelf: 'flex-end',
-  //   position: 'relative',
-  //   top: -55,
-  //   right: -5,
-  // }
 });
 
 const mapStateToProps = (state) => ({

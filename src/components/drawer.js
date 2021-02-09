@@ -26,11 +26,9 @@ import { connect } from '@language';
 const { width, height } = Dimensions.get('window');
 
 const Drawer = (props) => {
-
   const { signout, state } = useContext(AuthContext)
   const isDrawerOpen = useIsDrawerOpen()
   const [profileDetails, setProfileDetails] = useState({});
-  const [lang, setLang] = useState('en');
   const [disableEdit, setDisable] = useState(false)
   const [languageImage, setLanguageImage] = useState();
   const [ignored, forceUpdate] = useReducer(x => x + 1, 0);
@@ -115,7 +113,6 @@ const Drawer = (props) => {
     languageChange()
     language.setLanguage('it')
     await AsyncStorage.setItem('language', 'it');
-    setLang('it')
     I18nManager.forceRTL(true)
     RNRestart.Restart();
   }
@@ -238,7 +235,7 @@ const Drawer = (props) => {
                 color: '#ECDBFA',
                 opacity: 0.6,
                 marginBottom: height * 0.1,
-                width: width * 0.6,
+                width: arOren == "it"?width * 0.4:width * 0.6,
                 marginTop: 8,
               }}>
               {profileDetails.email}
@@ -343,7 +340,6 @@ const styles = StyleSheet.create({
     width,
     overflow: 'hidden',
     display: 'flex',
-    // flexDirection: 'row',
   },
 });
 

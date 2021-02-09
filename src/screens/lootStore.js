@@ -15,11 +15,8 @@ import GradientCircle from '../components/gradientCircle';
 import LinearGradient from 'react-native-linear-gradient';
 import { Context as AuthContext } from '../api/contexts/authContext';
 import SmallLGBtn from './smallLGBtn';
-import { showCartData } from '../api/buildYourPc';
-import SaveButton from '../components/SaveBtn';
 import { SearchBar } from 'react-native-elements';
 import strings from '../languages/index';
-import { connectAdvanced } from 'react-redux';
 import { connect } from 'react-redux';
 import { cartActions } from '../actions/user';
 import Filter from './filter';
@@ -58,8 +55,8 @@ const LootStore = (props) => {
   const [totalPage, setToalPage] = useState(0);
   const [search, setSearch] = useState('');
   const [open, setOpen] = useState(false);
-  const [callOnScrollEnd, setCallOnScrollEnd] = useState(false);
   const [filter, setFilter] = useState(false);
+  const [callOnScrollEnd, setCallOnScrollEnd] = useState(false);
   const [allfilter, setAllfilter] = useState(false);
   const [allfilterId, setAllfilterId] = useState({});
   const [all1,setAll1] = useState();
@@ -416,25 +413,39 @@ const LootStore = (props) => {
             }}
             inputContainerStyle={{ height: 30, backgroundColor: '#D2D7F9' }}
           />) : null}
-        <Text
+        <View
           style={{
-            color: '#ECDBFA',
-            fontSize: 12,
-            lineHeight: 16,
-            fontFamily: Platform.OS == 'android' ? 'Montserrat-LightItalic' : 'Montserrat',
-            paddingHorizontal: width * 0.1,
+            display: 'flex',
+            alignItems: 'center',
+            flexDirection: 'row',
           }}>
+          <Text
+            style={{
+              color: '#ECDBFA',
+              fontSize: 12,
+              lineHeight: 16,
+              fontFamily: Platform.OS == 'android' ? 'Montserrat-LightItalic' : 'Montserrat',
+              paddingHorizontal: width * 0.1,
+            }}>
           DISCOVER
           </Text>
-        <Text
+        </View>
+        <View
           style={{
-            color: '#ECDBFA',
-            fontSize: 20,
-            fontFamily: Platform.OS == 'android' ? 'Michroma-Regular' : 'Michroma',
-            paddingHorizontal: width * 0.1,
+            display: 'flex',
+            alignItems: 'center',
+            flexDirection: 'row',
           }}>
-          {strings.lootStore}
-        </Text>
+          <Text
+            style={{
+              color: '#ECDBFA',
+              fontSize: 20,
+              fontFamily: Platform.OS == 'android' ? 'Michroma-Regular' : 'Michroma',
+              paddingHorizontal: width * 0.1,
+            }}>
+            {strings.lootStore}
+          </Text>
+        </View>
 
         {data ? (
           <View style={{ width: '100%' }}>
@@ -624,6 +635,7 @@ const LootStore = (props) => {
                                           paddingTop: 20,
                                           width: width * 0.36,
                                           marginVertical: i.image ? 20 : 10,
+                                         
                                         }}>
                                         {i.image ? (
                                           <Image
@@ -637,6 +649,8 @@ const LootStore = (props) => {
                                               position: 'absolute',
                                               top: -24,
                                               left: '14%',
+                                              // borderRadius:50,
+                                              // resizeMode:'center'
                                             }}
                                           />
                                         ) : (
@@ -652,16 +666,29 @@ const LootStore = (props) => {
                                               }}
                                             />
                                           )}
-                                        <Text
+                                          <View
                                           style={{
-                                            fontFamily: Platform.OS == 'android' ? 'Montserrat Regular' : 'Montserrat',
-                                            color: '#D2D7F9',
-                                            opacity: 0.5,
-                                            fontSize: 14,
-                                            marginTop: 60,
-                                          }}>
-                                          {i.brand}
-                                        </Text>
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            flexDirection: 'row',
+                                          }}>  
+                                            <Text
+                                              style={{
+                                                fontFamily: Platform.OS == 'android' ? 'Montserrat Regular' : 'Montserrat',
+                                                color: '#D2D7F9',
+                                                opacity: 0.5,
+                                                fontSize: 14,
+                                                marginTop: 60,
+                                              }}>
+                                              {i.brand}
+                                            </Text>
+                                          </View>
+                                          <View
+                                          style={{
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            flexDirection: 'row',
+                                          }}>  
                                         <Text
                                           numberOfLines={2}
                                           style={{
@@ -669,10 +696,17 @@ const LootStore = (props) => {
                                             color: '#ECDBFA',
                                             fontFamily: Platform.OS == 'android' ? 'Montserrat-Bold' : 'Montserrat',
                                             marginTop: 2,
-                                            marginRight: "2%"
+                                            marginRight: arOren == "it"?"12%":'2%',
                                           }}>
                                           {((i.name).length > maxlimit) ? (((i.name).substring(0, maxlimit - 3)) + '...') : i.name}
                                         </Text>
+                                        </View>
+                                        <View
+                                          style={{
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            flexDirection: 'row',
+                                          }}>  
                                         <Text
                                           style={{
                                             color: '#DF2EDC',
@@ -682,6 +716,7 @@ const LootStore = (props) => {
                                           }}>
                                           KD {i.price}
                                         </Text>
+                                        </View>
                                       </ImageBackground>
                                     </TouchableOpacity>
                                   </View>

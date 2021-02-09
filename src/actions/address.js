@@ -12,6 +12,7 @@ function showAddress(addresses) {
           dispatch(success(response.data));
       }).catch((error) => {
         console.log("address" + error);
+          dispatch(failure(response.data))
       });
   };
 

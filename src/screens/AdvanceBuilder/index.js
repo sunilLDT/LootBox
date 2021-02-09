@@ -16,7 +16,7 @@ import selectedIcCardImage from '../../assets/Rectangle.png';
 import backImage from '../../assets/back.png';
 import searchImage from '../../assets/ic_search.png';
 import filterImage from '../../assets/ic_filter.png';
-import { pcPartSubcategoryApi, addToCartAdvance, advancedBuilderItems } from '../../api/buildYourPc';
+import { addToCartAdvance, advancedBuilderItems } from '../../api/buildYourPc';
 import LinearGradient from 'react-native-linear-gradient';
 import cardImage from '../../assets/ic_card_a0.png';
 import thumbnail from '../../assets/thumbnail.png';
@@ -36,10 +36,6 @@ import Dialog, {
 import Filter from '../filter';
 const { width, height } = Dimensions.get('window');
 
-function useForceUpdate() {
-  const [value, setValue] = useState(0); // integer state
-  return () => setValue(value => ++value); // update the state to force render
-}
 
 const AdvanceBuilder = (props) => {
   const scrollRef = useRef();
@@ -58,16 +54,27 @@ const AdvanceBuilder = (props) => {
   const [linkedItems, setLinkedItems] = useState({});
   const [showSubmit, setShowSubmit] = useState(false);
   const [totalPrice, setTotalPrice] = useState(0);
-  const [lastCatId, setLastCatId] = useState([]);
   const [selectStatus, setSelctStatus] = useState([]);
+  const [isOptional,setIsOptional] = useState([])
   const [filter, setFilter] = useState(false);
   const [filterValues, setFilterApplied] = useState({});
 
   const maxlimit = 20;
 
+  function filterIsOPtion(arr) {
+    let optionalArray = [];
+    for(let sub of arr){
+      if(sub.is_optional === true){
+        optionalArray.push(sub.sub_category_id)
+      }
+    }
+    setIsOptional(optionalArray)
+  }
+
   useEffect(() => {
     setLoading(true);
     setMaxIndex(props.categories.length);
+    filterIsOPtion(props.categories);
     props.categories.map((subCat, i) => {
       if (i == 0) {
         setSubCategoryid(subCat.sub_category_id)
@@ -107,13 +114,14 @@ const AdvanceBuilder = (props) => {
     let a = selectStatus;
     let objIndex = a.findIndex((obj => obj.id == catId));    
     a[objIndex].status = true;
-    console.log(a)
+    // console.log(a)
     setSelctStatus(a)
   }
 
 
   const subCategoryFun = (subCatId, index, source) => {
     if (source == 1 || !filterValues) {
+      alert("i am in if")
       setSubCategoryid(subCatId);
       setLastIndexedCat(subCatId);
       let id = subCatId;
@@ -123,20 +131,19 @@ const AdvanceBuilder = (props) => {
          id = result.item_id;
        }*/
       advancedBuilderItems(id, filterValues.filter_custome_field_id, filterValues.filter_custome_values).then((response) => {
-        console.log('Got the response from API')
-        console.log(response.data)
         let d = {
           "name": response.data[0].name,
           "price": response.data[0].price,
           "sub_category_id": response.data[0].sub_category_id
         }
+        console.log("advance builder response *********")
+        console.log(response.data)
         setItems(response.data)
         setFilteredDataSource(response.data)
       })
     } else {
-
       let result = itemList.find(x => x.sub_category_id === subCatId);
-      console.log('result', result)
+
       if (result) {
         let id = subCatId;
         advancedBuilderItems(id, filterValues.filter_custome_field_id, filterValues.filter_custome_values).then((response) => {
@@ -145,7 +152,6 @@ const AdvanceBuilder = (props) => {
             "price": response.data[0].price,
             "sub_category_id": response.data[0].sub_category_id
           }
-          console.log('adv response filter', response)
           setItems(response.data)
           setFilteredDataSource(response.data)
         })
@@ -165,7 +171,6 @@ const AdvanceBuilder = (props) => {
     } else {
 
       let result = itemList.map(({ item_id, quantity, is_advance_builder }) => ({ item_id, quantity: 1, is_advance_builder: 1 }));
-      console.log(result)
       addToCartAdvance(result).then((response) => {
         if (response.code == 200) {
           props.add()
@@ -174,8 +179,10 @@ const AdvanceBuilder = (props) => {
       })
     }
   }
-
   const submitNow = () => {
+    scrollRef.current?.scrollTo({
+      animated: true,
+    });
     let i = selectedIndex;
     //i = i + 1;
     // setSelectedIndex(i);
@@ -184,10 +191,28 @@ const AdvanceBuilder = (props) => {
     // if (subCatId.link_item_available) {
     //   setLinkedItems({ catId: subCatId.sub_category_id, linkedItemId: subCatId.link_item_available })
     // }
-    subCatId && subCategoryFun(subCatId.sub_category_id, i, 1);
+  
+    if(!isOptional.includes(subCategoryId)){
+      if(checkSelectedForNext()){
+        subCatId && subCategoryFun(subCatId.sub_category_id, i, 1);
+      }
+      else{
+        alert("select any one item")
+      }
+      
+    }
+    else{
+      alert("is it right")
+      subCategoryFun(subCatId.sub_category_id, i, 1);
+    }
+    
+    
     // setTick([...tick, subCatId.sub_category_id]);
   }
 
+
+
+  
   const checkSelectedForNext = () => {
     return itemList.some(function (el) {
       return el.sub_category_id === subCategoryId;
@@ -237,12 +262,12 @@ const AdvanceBuilder = (props) => {
       }
       setTotalPrice(total.toFixed(3))
       setItemList(data);
-      console.log('========')
-      console.log('Selected Index ' + selectedIndex)
-      console.log(maxIndex)
-      console.log('========')
+      // console.log('========')
+      // console.log('Selected Index ' + selectedIndex)
+      // console.log(maxIndex)
+      // console.log('========')
       let index = selectStatus.find(obj => obj.status === false);
-      console.log(index)
+      // console.log(index)
       if (!index) {
         setShowSubmit(true)
       }
@@ -310,8 +335,6 @@ const AdvanceBuilder = (props) => {
   useEffect(() => {
     if (filterValues)
     {advancedBuilderItems(subCategoryId, filterValues.filter_custome_field_id, filterValues.filter_custome_values).then((response) => {
-      console.log('Got the response from API')
-      console.log(response.data)
       let d = {
         "name": response.data[0].name,
         "price": response.data[0].price,
@@ -337,6 +360,7 @@ const AdvanceBuilder = (props) => {
     <View
       style={{
         backgroundColor: '#261D2A',
+        flex:1
       }}>
       <ImageBackground
         source={require('../../assets/dottedBackground.png')}
@@ -497,13 +521,12 @@ const AdvanceBuilder = (props) => {
                         keyExtractor={(item) => item.item_id}
                         data={filteredDataSource}
                         renderItem={({ item }, index) => {
-                          console.log((item.status));
+                         console.log(item.status + item.price + item.name);
                           const maxlimit = 22;
                           return (
                             <TouchableOpacity onPress={() => {
-                              item.status === 1 
-                              ? selectItem(item) 
-                              : onPressTouch()
+                            selectItem(item) 
+                            onPressTouch()
                             }
                             // {
                             //   selectItem(item)
@@ -534,18 +557,39 @@ const AdvanceBuilder = (props) => {
                                         style={styles.itemImage}
                                       />
                                     )}
-                                  <Text
-                                    style={styles.brand}>
-                                    {item.brand}
-                                  </Text>
-                                  <Text ellipsizeMode='tail' numberOfLines={1}
-                                    style={styles.name}>
-                                    {((item.name).length > maxlimit) ? (((item.name).substring(0, 12 - 3)) + '...') : item.name}
-                                  </Text>
-                                  <Text
-                                    style={styles.price}>
-                                    KD {item.price}
-                                  </Text>
+                                  <View
+                                    style={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    flexDirection: 'row',
+                                  }}>  
+                                    <Text
+                                      style={styles.brand}>
+                                      {item.brand}
+                                    </Text>
+                                  </View>
+                                  <View
+                                    style={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    flexDirection: 'row',
+                                  }}>  
+                                    <Text ellipsizeMode='tail' numberOfLines={1}
+                                      style={styles.name}>
+                                      {((item.name).length > maxlimit) ? (((item.name).substring(0, 12 - 3)) + '...') : item.name}
+                                    </Text>
+                                  </View>
+                                  <View
+                                    style={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    flexDirection: 'row',
+                                  }}>  
+                                    <Text
+                                      style={styles.price}>
+                                      KD {item.price}
+                                    </Text>
+                                  </View>
                                 </View>
                               </ImageBackground>
                               <ItemDetails
@@ -556,7 +600,7 @@ const AdvanceBuilder = (props) => {
                         }}
                         numColumns={2}
                       />
-                      {showSubmit ?
+                      {/* {showSubmit ?
                         <TouchableOpacity onPress={() => { finalSubmit() }}>
                           <View style={styles.nextBtn}>
                             <NextBtn name='Submit' price={totalPrice} />
@@ -568,12 +612,33 @@ const AdvanceBuilder = (props) => {
                               <NextBtn name='Next' price={totalPrice} />
                             </View>
                           </TouchableOpacity>
-                          : null}
+                          : null} */}
                     </View> : <ActivityIndicator color="#ECDBFA" size="large" />}
                 </View>
               </>
             )}
         </ScrollView>
+        {showSubmit ?
+        <TouchableOpacity style={{
+          width: '80%',
+          height:60,
+          marginLeft:"25%",
+        }}  onPress={() => { finalSubmit() }}>
+          <View >
+            <NextBtn name='Submit' price={totalPrice} />
+          </View>
+        </TouchableOpacity> :
+        <TouchableOpacity style={{
+          width: '80%',
+          height:60,
+          marginLeft:"25%"
+        }}  
+        onPress={() => { submitNow() }}>
+          <View>
+            <NextBtn name='Next' price={totalPrice} />
+          </View>
+        </TouchableOpacity>
+       }
       </ImageBackground>
     </View>
   );
@@ -586,8 +651,9 @@ const styles = StyleSheet.create({
     width: width,
     display: 'flex',
     alignItems: 'center',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    // flexDirection: 'row',
+    // justifyContent: 'space-between',
+    
   },
   topContainer: {
     display: 'flex',
@@ -656,11 +722,13 @@ const styles = StyleSheet.create({
     resizeMode: 'center',
   },
   itemImage: {
-    width: 65,
+    width: 55,
     height: 45,
     alignSelf: 'center',
     position: 'relative',
-    bottom: 20
+    bottom: 20,
+    borderRadius:50,
+    // resizeMode:"center"
 
   },
   brand: {

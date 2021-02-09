@@ -380,6 +380,8 @@ const signup = (dispatch) => async (data) => {
     if (res.data.data.is_otp_verified) {
       await AsyncStorage.setItem('token', res.data.data.token);
       navigate({ name: 'slider' });
+      
+
     } else {
       await AsyncStorage.setItem('userId', res.data.data.user_id.toString());
       navigate({ name: 'otp' });

@@ -18,7 +18,9 @@ import {packageListByGames} from '../../api/buildYourPc';
 import PlayableImg from '../../assets/playable.png';
 import Thumbnail from '../../assets/thumbnail.png';
 import strings from '../../languages/index';
+import {languagename} from '../../components/LanguageName';
 const {width, height} = Dimensions.get('window');
+
 const PcDetails = ({navigation, route}) => {
 
   const {selectedGames} = route.params;
@@ -26,13 +28,15 @@ const PcDetails = ({navigation, route}) => {
   const [item, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [arOren,setarOren] = useState('en')
+
+  languagename().then(res => setarOren(res))
     useEffect(() => {
-    languageChange()
     setLoading(true)
     packageListByGames(selectedGames).then((response) => {
       setPackageData(response.data);
       setItems(response.data[0].items);
-      setLoading(false)
+      setLoading(false);
+      console.log(packageData)
     }).catch((error) => {
         console.log("Package list by games" + error)
         setLoading(false)
@@ -41,11 +45,6 @@ const PcDetails = ({navigation, route}) => {
         console.log("willUnMount");
     }
   }, [selectedGames]);
-
-  const languageChange = async () => {
-    let languagename = await AsyncStorage.getItem('language');
-    setarOren(languagename)
-  };
 
   const sum = (pack) => {
     var total = 0
@@ -118,7 +117,12 @@ const PcDetails = ({navigation, route}) => {
                 alignItems: 'center',
                 flexDirection: 'row',
             }}>
-            <ImageBackground style={styles.linearGradient}
+            <ImageBackground style={{
+                 width:Platform.OS=='android'?372:350,
+                 height:278,
+                 marginVertical:"5%",
+                 marginLeft:arOren == "it"?"-7%":"0%",
+            }}
             source={DetailsInfoCard}
             >
                 <View style={styles.container}>
@@ -128,7 +132,14 @@ const PcDetails = ({navigation, route}) => {
                         <Image source={require('../../assets/thumbnail.png')} style={styles.images}/>
                     )}
                     <View style={styles.detailsContainer}>
-                        <Text numberOfLines={3}  style={styles.detailsText}>{cpuDetail.name}</Text>
+
+                        <Text numberOfLines={3} style={{color:'white',
+                            fontSize:15,
+                            fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma',
+                            fontWeight:"100",
+                            marginLeft:arOren == "it"?'-20%':"0%",
+                            }}>{cpuDetail.name}
+                        </Text>
                         <Text style={styles.detailsText1}>KD {sum(cpuDetail.items)}</Text>
                         <Image style={styles.arrow} source={PriceArrowImage}/>
                     </View>
@@ -151,8 +162,32 @@ const PcDetails = ({navigation, route}) => {
                                 return (
                                     <View key={index} style={styles.attributesView}>
                                         <View style={styles.attributesViewTouch}>
-                                            <Text style={styles.attrHeading}>{item.name}</Text>
-                                            <Text style={styles.attrText}>{item.brand}</Text>
+                                            <Text style={{
+                                                color:'#ECDBFA',
+                                                borderWidth:1,
+                                                padding:6,
+                                                borderTopLeftRadius:arOren == "it"? 0:8,
+                                                borderBottomLeftRadius:arOren == "it"? 0:8,
+                                                borderTopRightRadius:arOren == "it"? 8:0,    //ar
+                                                borderBottomRightRadius:arOren == "it"? 8:0,  //ar
+                                                paddingHorizontal:10,
+                                                fontStyle:'italic',
+                                                borderColor:'#5A5963',
+                                                fontSize:12,
+                                            }}>{item.name}</Text>
+                                            <Text style={{
+                                                color:'#5A5963',
+                                                padding:6,
+                                                borderWidth:1,
+                                                paddingHorizontal:10,
+                                                borderTopRightRadius:arOren == "it"?0:8,
+                                                borderBottomRightRadius:arOren == "it"?0:8,
+                                                borderTopLeftRadius:arOren == "it"?8:0,
+                                                borderBottomLeftRadius:arOren == "it"?8:0,
+                                                borderLeftWidth:arOren == "it"? 1:0,
+                                                borderColor:'#5A5963',
+                                                fontSize:12,
+                                            }}>{item.brand}</Text>
                                         </View>
                                     </View>
                                 );
@@ -221,26 +256,13 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         marginBottom:-11
     },
-    linearGradient:{
-        // height:height * 0.33,
-        // width:351.21,
-        width:Platform.OS=='android'?372:350,
-        height:278,
-        marginVertical:"5%",
-    },
     detailsContainer:{
         display:'flex',
         alignItems:'flex-start',
         flexDirection:'column',
         marginHorizontal:"5%",
     },
-    detailsText:{
-        color:'white',
-        fontSize:15,
-        fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma',
-        fontWeight:"100",
-        // paddingRight:"43%",
-    },
+   
     detailsText1:{
         color:'#75788E',
         marginVertical:7,
@@ -270,19 +292,10 @@ const styles = StyleSheet.create({
         padding:6,
         borderTopLeftRadius:8,
         borderBottomLeftRadius:8,
+        borderTopRightRadius:8,    //ar
+        borderBottomRightRadius:8,  //ar
         paddingHorizontal:10,
         fontStyle:'italic',
-        borderColor:'#5A5963',
-        fontSize:12,
-    },
-    attrText:{
-        color:'#5A5963',
-        padding:6,
-        borderWidth:1,
-        paddingHorizontal:10,
-        borderTopRightRadius:8,
-        borderBottomRightRadius:8,
-        borderLeftWidth:0,
         borderColor:'#5A5963',
         fontSize:12,
     },

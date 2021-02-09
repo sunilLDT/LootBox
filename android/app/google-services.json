@@ -7,7 +7,7 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:85981177828:android:4bae8e870b4e1f7a4ac9f1",
+        "mobilesdk_app_id": "1:85981177828:android:ae259ea985d790c74ac9f1",
         "android_client_info": {
           "package_name": "com.lootbox"
         }
@@ -37,6 +37,13 @@
             {
               "client_id": "85981177828-vimmqnf1kr23gvlct0mvkonp8nqre1n5.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "85981177828-ba0l913k7n5rjg220kf6tf7qeacvvu2b.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.lootbox"
+              }
             }
           ]
         }

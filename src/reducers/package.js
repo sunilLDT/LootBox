@@ -65,7 +65,6 @@ export default function (state = initialState, action) {
         totalPrice: action.packages.totalPrice
       };
     case cartConstants.CAT_REQUEST:
-      console.log("Trueing cat request")
       return {
         ...state,
         loadingCat: true
@@ -101,8 +100,8 @@ export default function (state = initialState, action) {
         loadingSubCat: true
       };
     case cartConstants.SUBCAT_SUCCESS:
-      console.log('response.data ###########################');
-      console.log(action.subcat.items);
+      // console.log('response.data ###########################');
+      // console.log(action.subcat.items);
       return {
         ...state,
         subCategories: action.subcat.items,
@@ -117,10 +116,10 @@ export default function (state = initialState, action) {
 
 
 getSubCat = (data) => {
-  console.log('chakenh')
+  // console.log('chakenh')
   let a = data;
   a[0].name = "kaka";
-  console.log(a)
+  // console.log(a)
   return a;
 }
 
