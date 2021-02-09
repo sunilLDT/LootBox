@@ -4,7 +4,7 @@
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
 #import <RNGoogleSignin/RNGoogleSignin.h>
-#import <Firebase.h>
+// #import <Firebase.h>
 #ifdef FB_SONARKIT_ENABLED
 #import <FlipperKit/FlipperClient.h>
 #import <FlipperKitLayoutPlugin/FlipperKitLayoutPlugin.h>
@@ -34,6 +34,7 @@ static void InitializeFlipper(UIApplication *application) {
   if ([FIRApp defaultApp] == nil) {
       [FIRApp configure];
     }
+
   //[[RCTI18nUtil sharedInstance] allowRTL:YES];
   //[[RCTI18nUtil sharedInstance] forceRTL:YES];
 

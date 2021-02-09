@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useState} from 'react';
 import {Text, StyleSheet, Dimensions} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { languagename } from '../components/LanguageName';
