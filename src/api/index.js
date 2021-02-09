@@ -11,11 +11,12 @@ instance.interceptors.request.use(
     config.headers.Accept = 'application/json';
     config.headers['X-Localization'] = 'en';
     config.headers['Content-Type'] = 'application/json';
-
     if (token && token.length > 0) {
       config.headers.Authorization = `Bearer ${token}`;
     }
+   
     return config;
+    
   },
   (err) => {
     // console.log("interceptors==================************")

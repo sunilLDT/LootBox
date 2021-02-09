@@ -11,7 +11,6 @@ import {
 import LinearGradient from 'react-native-linear-gradient';
 import { Context as AuthContext } from '../api/contexts/authContext';
 import LanguageCard from '../svgs/cardLang';
-import { languageRestart } from '../components/languageRestart';
 import strings,{ changeLaguage } from '../languages/index';
 import { connect } from '@language';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -21,7 +20,6 @@ import RNRestart from 'react-native-restart';
 const { height, width } = Dimensions.get('window');
 
 const Language = (props) => {
-
   const { state, checkUser, setLanguage } = useContext(AuthContext);
   let { strings, language } = props;
 
@@ -36,31 +34,19 @@ const Language = (props) => {
     },
   ];
 
-  const enterToApp = () => {
-    if(state.token) {
-      props.navigation.navigate('home');
-    } else {
-      props.navigation.navigate('slider', {
-        screen: 'slider',
-      });
-    }
-  }
-
   const languageChange = async isOn => {
     try{
       await AsyncStorage.setItem('language', isOn);
       let languagename = await AsyncStorage.getItem('language');
       if(languagename == "it"){
         changeLaguage('it');
-        // I18nManager.forceRTL(true)
-        // RNRestart.Restart();
-        enterToApp()
+        I18nManager.forceRTL(true)
+        RNRestart.Restart();
       }
       else{
         changeLaguage('en');
-        // I18nManager.forceRTL(false)
-        // RNRestart.Restart();
-        enterToApp()
+        I18nManager.forceRTL(false)
+        RNRestart.Restart();
       }
     }
     catch(error)
@@ -78,7 +64,6 @@ const Language = (props) => {
         overflowX: 'hidden',
         display: 'flex',
         alignItems: 'center',
-        // paddingLeft: width * 0.08,
         justifyContent: 'center',
         flex: 1
       }}>

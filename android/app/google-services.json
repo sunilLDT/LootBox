@@ -1,43 +1,49 @@
 {
   "project_info": {
-    "project_number": "201119561571",
-    "firebase_url": "https://lootbox-820ff.firebaseio.com",
-    "project_id": "lootbox-820ff",
-    "storage_bucket": "lootbox-820ff.appspot.com"
+    "project_number": "85981177828",
+    "project_id": "lootbox-302409",
+    "storage_bucket": "lootbox-302409.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:201119561571:android:2dd3ede6186d17fbeb0556",
+        "mobilesdk_app_id": "1:85981177828:android:ae259ea985d790c74ac9f1",
         "android_client_info": {
-          "package_name": "com.projtest"
+          "package_name": "com.lootbox"
         }
       },
       "oauth_client": [
         {
-          "client_id": "201119561571-tpnhmei9en63u5m7p93217fq473dn8jg.apps.googleusercontent.com",
+          "client_id": "85981177828-lt79c90do6lu0vqvjaocjhuvum2c2a29.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.projtest",
+            "package_name": "com.lootbox",
             "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
           }
         },
         {
-          "client_id": "201119561571-i15v7unj24qm39dt32bsvqtcbsqntkg0.apps.googleusercontent.com",
+          "client_id": "85981177828-vimmqnf1kr23gvlct0mvkonp8nqre1n5.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBuOHMnb7B5uCihf70F3pgy4IZnPd1Amtw"
+          "current_key": "AIzaSyCicnkj5sWlycNFVA9zHMgs4TMSZsOLixA"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "201119561571-i15v7unj24qm39dt32bsvqtcbsqntkg0.apps.googleusercontent.com",
+              "client_id": "85981177828-vimmqnf1kr23gvlct0mvkonp8nqre1n5.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "85981177828-ba0l913k7n5rjg220kf6tf7qeacvvu2b.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.lootbox"
+              }
             }
           ]
         }

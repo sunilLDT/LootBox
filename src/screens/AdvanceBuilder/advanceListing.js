@@ -35,9 +35,9 @@ const ItemListing = (props) => {
     const [query, setQuery] = useState('');
     const [open, setOpen] = useState(false);
     const forceUpdate = useForceUpdate();
-  
+
     const selectHandler = (id, name, price) => {
-        
+
 
     }
 
@@ -91,6 +91,11 @@ const ItemListing = (props) => {
     const openClose = () => {
         setOpen(!open)
     }
+    const handlePress = () => {
+        setFilter(!filter)
+        return true;
+      }
+
     return (
         <ImageBackground
             source={require('../../assets/plainBg.png')}
@@ -137,7 +142,7 @@ const ItemListing = (props) => {
                             resizeMode="contain"
                         />
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => { }}>
+                    <TouchableOpacity onPress={() => setFilter(true)}>
                         <Image
                             style={styles.icons}
                             source={filterIcon}
@@ -146,6 +151,7 @@ const ItemListing = (props) => {
                     </TouchableOpacity>
                 </View>
             </View>
+
             <FlatList
                 keyExtractor={(item) => item.name}
                 ListHeaderComponent={renderHeader()}
@@ -153,65 +159,65 @@ const ItemListing = (props) => {
                 showsVerticalScrollIndicator={false}
                 renderItem={({ item }, index) => {
                     const maxlimit = 22;
-                        return (
-                            <TouchableOpacity
-                                key={index}
-                                onPressIn={() => { selectHandler(item.sub_category_name, item.name, item.price) }}
-                            >
-                                <ImageBackground
-                                    //onPress={() => { selectHandler(item.item_id) }}
-                                    source={idExists(item.item_id) ? IcCardImage : IcCardImage}
-                                    style={styles.cardConatiner}
-                                    key={index}>
-                                    <View
+                    return (
+                        <TouchableOpacity
+                            key={index}
+                            onPressIn={() => { selectHandler(item.sub_category_name, item.name, item.price) }}
+                        >
+                            <ImageBackground
+                                //onPress={() => { selectHandler(item.item_id) }}
+                                source={idExists(item.item_id) ? IcCardImage : IcCardImage}
+                                style={styles.cardConatiner}
+                                key={index}>
+                                <View
+                                    style={{
+                                        alignSelf: 'center',
+                                        justifyContent: 'center',
+                                        alignContent: 'center',
+                                    }}>
+                                    <Image
+                                        source={{ uri: item.image }}
+                                        style={{ width: 65, height: 45, marginBottom: 30, alignSelf: 'center', marginTop: '-10%' }}
+                                    />
+                                    <Text
+                                        numberOfLines={5}
+                                        adjustsFontSizeToFit={true}
                                         style={{
+                                            fontSize: 11,
+                                            fontWeight: 'bold',
+                                            color: '#FFFFFF',
+                                            marginBottom: 5,
                                             alignSelf: 'center',
-                                            justifyContent: 'center',
-                                            alignContent: 'center',
                                         }}>
-                                        <Image
-                                            source={{ uri: item.image }}
-                                            style={{ width: 65, height: 45, marginBottom: 30, alignSelf: 'center', marginTop: '-10%' }}
-                                        />
-                                        <Text
-                                            numberOfLines={5}
-                                            adjustsFontSizeToFit={true}
-                                            style={{
-                                                fontSize: 11,
-                                                fontWeight: 'bold',
-                                                color: '#FFFFFF',
-                                                marginBottom: 5,
-                                                alignSelf: 'center',
-                                            }}>
-                                            {item.name ? (((item.name).substring(0, maxlimit - 3)) + '...') : (((item.name).substring(0, maxlimit - 3)) + '...')}
-                                        </Text>
-                                        <Text
-                                            style={{
-                                                fontSize: 13,
-                                                fontWeight: '700',
-                                                color: '#FFFFFF',
-                                                marginBottom: 10,
-                                                opacity: 0.5,
-                                                textAlign: 'center',
-                                                fontWeight: '300',
-                                            }}>
-                                            {item.brand}
-                                        </Text>
-                                        <Text
-                                            style={{
-                                                fontSize: 12,
-                                                fontWeight: '400',
-                                                color: '#FFFFFF',
-                                                marginBottom: 20,
-                                                textAlign: 'center',
-                                            }}>
-                                            KD {item.price}
-                                        </Text>
-                                    </View>
-                                </ImageBackground>
-                            </TouchableOpacity>
-                        );
-                   
+                                        {item.name ? (((item.name).substring(0, maxlimit - 3)) + '...') : (((item.name).substring(0, maxlimit - 3)) + '...')}
+                                    </Text>
+                                    <Text
+                                        style={{
+                                            fontSize: 13,
+                                            fontWeight: '700',
+                                            color: '#FFFFFF',
+                                            marginBottom: 10,
+                                            opacity: 0.5,
+                                            textAlign: 'center',
+                                            fontWeight: '300',
+                                        }}>
+                                        {item.brand}
+                                    </Text>
+                                    <Text
+                                        style={{
+                                            fontSize: 12,
+                                            fontWeight: '400',
+                                            color: '#FFFFFF',
+                                            marginBottom: 20,
+                                            textAlign: 'center',
+                                        }}>
+                                        KD {item.price}
+                                    </Text>
+                                </View>
+                            </ImageBackground>
+                        </TouchableOpacity>
+                    );
+
                 }}
                 numColumns={2}
             />

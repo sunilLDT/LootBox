@@ -19,7 +19,7 @@ import SelectBtn from '../../components/SelectTheBtn';
 import { connect } from 'react-redux';
 import { cartActions } from '../../actions/user';
 import ViewMoreText from 'react-native-view-more-text';
-
+import {languagename} from '../../components/LanguageName';
 
 const { width, height } = Dimensions.get('window');
 const ItemDetails = (props) => {
@@ -29,6 +29,8 @@ const ItemDetails = (props) => {
     const [loading, setLoading] = useState(true);
     const [itemDetails,setItemDetails] = React.useState({});
     const [customFieldsValue,setCustomFieldsValue] =  React.useState([]);
+    const [arOren,setarOren] = useState('en');
+    languagename().then(res => setarOren(res))
     const maxlimit =25;
 
     const renderViewMore = (onPress) => {
@@ -60,19 +62,22 @@ const ItemDetails = (props) => {
             "item_id": id,
             "quantity": 1
         };
-        // setSelectedItems([...selectedItems, id]);
         props.add(item);
         refRBSheet.current.close()
     }
 
     return(
         <View>
-        <TouchableOpacity style={styles.expandContainer} onPress={() => GetItemDetails()}>
+        <TouchableOpacity style={{
+        display:"flex",
+        alignItems:'flex-end',
+        bottom:arOren == "it"?16: 13,
+        right:arOren == "it"?2: 8,
+        }} onPress={() => GetItemDetails()}>
             <Image style={styles.expand} source={Expand}/>
         </TouchableOpacity>
         <RBSheet
             ref={refRBSheet}
-            // closeOnDragDown={true}
             style={styles.bottomSheet}
             animationType="fade"
             height={500}
@@ -100,8 +105,22 @@ const ItemDetails = (props) => {
                         source={{uri:itemDetails.image}}
                         style={styles.image}
                         />
-                        <Text numberOfLines={2} style={styles.item}>{itemDetails.name}</Text>
-                        <Text style={styles.brand}>{itemDetails.brand}</Text>
+                        <View
+                        style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            flexDirection: 'row',
+                        }}>  
+                            <Text numberOfLines={2} style={styles.item}>{itemDetails.name}</Text>
+                        </View>
+                        <View
+                        style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            flexDirection: 'row',
+                        }}>
+                            <Text style={styles.brand}>{itemDetails.brand}</Text>
+                        </View>
                     </View>
                     <View style={styles.brandItem}>
                         <Icons
@@ -127,7 +146,14 @@ const ItemDetails = (props) => {
                     </View>
                     <ImageBackground
                     source={IcDetailCard}
-                    style={styles.detailsCardImage}
+                    style={{
+                        width:width*0.9,
+                        position:'relative',
+                        left:arOren == "it"?"0%":"10%",
+                        borderRadius: 10,
+                        marginVertical: "2%",
+                        overflow: 'hidden',
+                    }}
                     >
                         <View
                             style={styles.headingView}>
@@ -178,12 +204,6 @@ const styles = StyleSheet.create({
     },
     bottomSheet:{
         backgroundColor: "transparent",
-    },
-    expandContainer:{
-        display:"flex",
-        alignItems:'flex-end',
-        bottom: 13,
-        right:8,
     },
     image:{
         width:width*0.2,
@@ -246,17 +266,15 @@ const styles = StyleSheet.create({
         justifyContent:'center',
     },
     detailsCardImage:{
-        width:width*0.9,
-        position:'relative',
-        left:"10%",
-        borderRadius: 10,
-        marginVertical: "2%",
-        overflow: 'hidden',
+        
     },
     headingView:{
         padding: 20,
         borderBottomColor: 'rgba(255,255,255,0.3)',
         borderBottomWidth: 0.3,
+        display: 'flex',
+        alignItems: 'center',
+        flexDirection: 'row',
     },
     packageText:{
         color: '#fff',

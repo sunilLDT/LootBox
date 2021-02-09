@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useEffect, useContext,useState } from 'react';
 import { NavigationContainer, useIsFocused } from '@react-navigation/native';
 import { Easing, Platform, Dimensions, View, StatusBar, SafeAreaView } from 'react-native';
 import {
@@ -49,7 +49,7 @@ import { initLanguages, LanguageProvider } from '@language';
 import { languages } from '@config';
 import AsyncStorage from '@react-native-community/async-storage';
 import NewPassword from './src/screens/newPassword';
-
+import messaging from '@react-native-firebase/messaging';
 const strings = initLanguages(languages);
 const { width, height } = Dimensions.get('window');
 const Stack = createStackNavigator();
@@ -122,7 +122,53 @@ const App = () => {
   };
   useEffect(() => {
     check();
+    requestUserPermission();
+    const unsubscribe = messaging().onMessage(async remoteMessage => {
+      console.log('A new FCM message arrived!', JSON.stringify(remoteMessage));
+    });
+    return unsubscribe;
+  },[]);
+
+  useEffect(() => {
+    messaging().onNotificationOpenedApp(remoteMessage => {
+      console.log(
+        'Notification caused app to open from background state:',
+        remoteMessage.notification,
+      );
+      navigation.navigate('home');
+    });
+    messaging().setBackgroundMessageHandler(async remoteMessage => {
+      console.log('Message handled in the background!', remoteMessage);
+    });
+    messaging()
+      .getToken()
+      .then(token => {
+        //return saveTokenToDatabase(token);
+      });
+   
   }, []);
+
+  requestUserPermission = async () => {
+    const authStatus = await messaging().requestPermission();
+    const enabled =
+      authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
+      authStatus === messaging.AuthorizationStatus.PROVISIONAL;
+
+    if (enabled) {
+      getFcmToken() //<---- Add this
+      console.log('Authorization status:', authStatus);
+    }
+  }
+
+  getFcmToken = async () => {
+    const fcmToken = await messaging().getToken();
+    if (fcmToken) {
+     console.log(fcmToken);
+     console.log("Your Firebase Token is:", fcmToken);
+    } else {
+     console.log("Failed", "No token received");
+    }
+  }
 
   return (
     <View
@@ -211,17 +257,18 @@ const App = () => {
     </View>
   );
 };
-// const languageChange = async () => {
-//     let languagename = await AsyncStorage.getItem('language');
-//     console.log(languagename);
-// };
-
 
 export default () => {
+  const [set,noset] = useState('en');
+  const languageChange = async () => {
+      let languagename = await AsyncStorage.getItem('language');
+      noset(languagename)
+  };
+  languageChange()
   return (
     <LanguageProvider 
       strings={strings}
-      language="en">
+      language={set}>
     <Provider store={store}>
       <AuthProvider>
         <App />

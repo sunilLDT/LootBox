@@ -15,12 +15,13 @@ import ExpandImage from '../../assets/ic_expand1.png';
 import CloseImage from '../../assets/ic-3copy.png';
 import { ScrollView } from 'react-native-gesture-handler';
 import ItemCard from '../../assets/ic_card.png';
-import { packageDetailsById, addToCart } from '../../api/buildYourPc';
+import { packageDetailsById, addToCart,removePackageApi } from '../../api/buildYourPc';
 import ListDetails from '../PcDetails/List';
 import { connect } from 'react-redux';
 import { cartActions } from '../../actions/user';
 import { packageActions } from '../../actions/package';
 import strings from '../../languages/index';
+import AsyncStorage from '@react-native-community/async-storage';
 const { width, height } = Dimensions.get('window');
 
 const ProductDetails = (props) => {
@@ -37,6 +38,7 @@ const ProductDetails = (props) => {
   const [totalPrice, setTotalPrice] = useState(0);
   const [upwardImage, setUpwardImage] = useState(true);
   const [loading, setLoading] = useState(false);
+  const [edit, setEdit] = useState(false);
   const maxlimit = 12;
   const kd = "KD ";
   var imgSource = upwardImage ? ExpandImage : CloseImage;
@@ -45,13 +47,20 @@ const ProductDetails = (props) => {
     props.getPackages(PackageId);
   }, [PackageId]);
 
-  const addIntoCart = () => {
+  const addIntoCart = async() => {
+    const packageId = await AsyncStorage.getItem('cart_package_id');
     setLoading(true);
+    if (packageId) {
+      removePackageApi(packageId).then((response) => {
+       console.log(response)
+      })
+    }
     let result = props.packages.map(({ item_id, quantity }) => ({ item_id, quantity: 1 }));
     addToCart(PackageId, result, true).then((response) => {
       setLoading(false);
       props.add()
       props.navigation.navigate('cart');
+      AsyncStorage.removeItem('cart_package_id');
     }).catch((error) => {
       console.log("addToCart" + error);
     });

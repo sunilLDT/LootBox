@@ -61,6 +61,9 @@ const reducer = (state, action) => {
 const checkUser = (dispatch) => async () => {
   const token = await AsyncStorage.getItem('token');
   const language = await AsyncStorage.getItem('language');
+  console.log("////////")
+  console.log(language)
+  console.log("//////// language name")
   if (token && token.length > 0) {
     dispatch({
       type: 'signin',
@@ -71,7 +74,7 @@ const checkUser = (dispatch) => async () => {
     if (token && token.length > 0) {
       navigate({ name: 'home' });
     } else {
-      // navigate({name: 'slider'});
+      navigate({ name: 'slider' });
     }
   } else {
     if (token && token.length > 0) {
@@ -93,8 +96,8 @@ const setNavigation = (dispatch) => async (name) => {
 const googleSignIn = (dispatch) => async () => {
   try {
     await GoogleSignin.configure({
-      webClientId: '201119561571-i15v7unj24qm39dt32bsvqtcbsqntkg0.apps.googleusercontent.com',
-      iosClientId: '201119561571-56nv0io5rjjsoq1et7qb734ok04s4ore.apps.googleusercontent.com',
+      webClientId: '85981177828-vimmqnf1kr23gvlct0mvkonp8nqre1n5.apps.googleusercontent.com',
+      iosClientId: '85981177828-ba0l913k7n5rjg220kf6tf7qeacvvu2b.apps.googleusercontent.com',
     });
     await GoogleSignin.hasPlayServices();
     const userInfo = await GoogleSignin.signIn();
@@ -484,24 +487,60 @@ const fetchCategories = (dispatch) => async () => {
   }
 };
 
-const fetchItems = (dispatch) => async (category_id, subcategory_id, page) => {
+const fetchItems = (dispatch) => async (category_id, sub_category_id, page, filterId, filterValues, minPrice, maxPrice , all ) => {
   try {
-    console.log('===================================')
-    console.log('Category Id     :' + category_id)
-    console.log('Sub Category Id :' + subcategory_id)
-    console.log('Page Number     :' + page);
-    console.log('===================================')
+    // console.log('===================================')
+    // console.log('Category Id     :' + filterId)
+    // console.log('Sub Category Id :' + subcategory_id)
+    // console.log('Page Number     :' + page);
+    // console.log('===================================')
 
-    if (subcategory_id) {
-      const response = await Api.get(`app/items/list?category_id=${category_id}&&sub_category_id=${subcategory_id}`);
-      console.log(response.data)
-      console.log(response.data.parameter.last_page)
-      return response.data;
+    if (sub_category_id) {
+      if (filterId) {
+        const allVariables = {
+          category_id:category_id,
+          sub_category_id:  sub_category_id  ,
+          filter_custome_field_id:filterId == ""?null: all ? filterId : filterId.map((items) => parseInt(items) + parseInt(category_id) -1 ),
+          filter_custome_values:filterValues == ""?null:filterValues,
+          min_price:parseInt(minPrice),
+          max_price:parseInt(maxPrice)
+        }
+        console.log("****/////////// all variables")
+        console.log(allVariables)
+        const response = await Api.post('app/items/list',allVariables);
+        console.log('filtersssss')
+        console.log(response.data)
+        return response.data;
+      } else {
+        const response = await Api.post('app/items/list',{
+          category_id:category_id,
+          sub_category_id:sub_category_id,
+        });
+        return response.data;
+      }
     } else {
-      const response = await Api.get(`app/items/list?category_id=${category_id}&&page=${page}`);
-      console.log(response.data)
-      console.log(response.data.parameter.last_page)
-      return response.data;
+      if (filterId) {
+        const response = await Api.post('app/items/list',{
+         category_id,
+         page,
+         filter_custome_field_id: [filterId],
+         filter_custome_values: [filterValues],
+         min_price:minPrice,
+         max_price:maxPrice
+
+        });
+        
+        // console.log(response.data.parameter.last_page)
+        return response.data;
+      } else {
+        const response = await Api.post('app/items/list',{
+          category_id,
+          page
+        });
+        // console.log(response.data)
+        // console.log(response.data.parameter.last_page)
+        return response.data;
+      }
 
     }
   } catch (e) {

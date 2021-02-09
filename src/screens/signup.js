@@ -23,6 +23,8 @@ import ContinueBtn from '../components/ContinueGmailBtn';
 import bgImage from '../assets/signup.png';
 import Icons  from 'react-native-vector-icons/FontAwesome';
 import AsyncStorage from '@react-native-community/async-storage';
+import {languagename} from '../components/LanguageName';
+
 
 const {height, width} = Dimensions.get('window');
 
@@ -45,7 +47,9 @@ const Signup = ({navigation, route}) => {
   const [password, setPassword] = useState(null);
   const [user_type, setUserType] = useState(1);
   const [is_google, setIsGoogle] = useState(0);
-  const [showPassword, setPasswordVisibility] = useState(false)
+  const [showPassword, setPasswordVisibility] = useState(false);
+  const [arOren,setarOren] = useState('en');
+  languagename().then(res => setarOren(res))
 
   const data = {
     first_name,
@@ -119,7 +123,9 @@ const Signup = ({navigation, route}) => {
                     style={{
                       color: '#ECDBFA',
                       fontSize: 20,
-                      paddingRight:20,
+                      // paddingRight:20,
+                      paddingLeft:arOren == 'it'?20:0,
+                      paddingRight:arOren == 'it'?0:20,
                       opacity: 0.24,
                       fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma',
                     }}>
@@ -132,7 +138,8 @@ const Signup = ({navigation, route}) => {
                     style={{
                       color: '#ECDBFA',
                       fontSize: 20,
-                      paddingLeft:20,
+                      paddingLeft:arOren == 'it'?0:20,
+                      paddingRight:arOren == 'it'?20:0,
                       fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma',
                     }}>
                     Signup
@@ -297,23 +304,18 @@ const Signup = ({navigation, route}) => {
                   }
                   else if (!first_name) {
                     alert('All fields are required');
-                    // setValidationError('First Name Is Required');
                   }
                   else if (!last_name) {
                     alert('All fields are required');
-                    // setValidationError('Last Name Is Required');
                   }
                   else if (!phone) {
                     alert('All fields are required');
-                    // setValidationError('Phone Number Is Required');
                   }
                   else if (!email) {
                     alert('All fields are required');
-                    // setValidationError('Email Address Is Required');
                   }
                   else if (!password) {
                     alert('All fields are required');
-                    // setValidationError('Password Is Required');
                   }
                   else if (!selected) {
                     alert('Agree to our terms and conditions');
@@ -322,7 +324,7 @@ const Signup = ({navigation, route}) => {
                     console.log("error");
                   }
                 }
-                // navigation.navigate('otp');
+
               }}
               style={{
                 width: '80%',

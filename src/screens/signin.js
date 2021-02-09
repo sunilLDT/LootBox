@@ -23,13 +23,16 @@ import Btn from './btn';
 import ContinueBtn from '../components/ContinueGmailBtn';
 import bgImage from '../assets/signup.png';
 import Icons  from 'react-native-vector-icons/FontAwesome';
+import {languagename} from '../components/LanguageName';
 
 const { height, width } = Dimensions.get('window');
 
 const Signin = ({ navigation }) => {
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
-  const [showPassword, setPasswordVisibility] = useState(false)
+  const [showPassword, setPasswordVisibility] = useState(false);
+  const [arOren,setarOren] = useState('en');
+  languagename().then(res => setarOren(res))
 
   const { signin, state, googleSignIn, setValidationError } = useContext(
     AuthContext,
@@ -153,7 +156,8 @@ const Signin = ({ navigation }) => {
                     style={{
                       color: '#ECDBFA',
                       fontSize: 20,
-                      paddingRight: 20,
+                      paddingLeft:arOren == 'it'?20:0,
+                      paddingRight:arOren == 'it'?0:20,
                       fontFamily: Platform.OS == 'android' ? 'Michroma-Regular' : 'Michroma',
 
                     }}>
@@ -169,7 +173,8 @@ const Signin = ({ navigation }) => {
                     style={{
                       color: '#ECDBFA',
                       fontSize: 20,
-                      paddingLeft: 20,
+                      paddingLeft:arOren == 'it'?0:20,
+                      paddingRight:arOren == 'it'?20:0,
                       opacity: 0.24,
                       fontFamily: Platform.OS == 'android' ? 'Michroma-Regular' : 'Michroma',
 

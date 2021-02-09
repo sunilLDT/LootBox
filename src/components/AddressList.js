@@ -7,8 +7,11 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import { addressActions } from '../actions/address';
+import {languagename} from '../components/LanguageName';
 
 const AddressList = (props) => {
+    const [arOren,setarOren] = useState('en');
+    languagename().then(res => setarOren(res))
     useEffect(() => {
         props.showAddress();
     },[]);
@@ -34,7 +37,7 @@ const AddressList = (props) => {
                         style={{
                             fontSize: 12,
                             color: '#ECDBFA',
-                            
+                            marginRight:arOren == "it"?"6%":"0%",
                         }}>
                     {values.area_name},{values.city_name}
                     </Text>
@@ -55,6 +58,7 @@ const AddressList = (props) => {
                             fontSize: 12,
                             color: '#ECDBFA',
                             opacity: 0.5,
+                            marginRight:arOren == "it"?"6%":"0%",
                             
                         }}>
                     {values.area_name},{values.city_name}

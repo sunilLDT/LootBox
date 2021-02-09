@@ -14,6 +14,7 @@ import {
 import Icons from 'react-native-vector-icons/FontAwesome';
 import RBSheet from "react-native-raw-bottom-sheet";
 import ItemCard from '../assets/ic_card.png';
+import outofstock from '../assets/outofstock.jpeg';
 import IcDetailCard from '../assets/ic_details_card.png';
 import {
   showCartData,
@@ -43,7 +44,7 @@ import PayBtn from '../components/PayBtn';
 import Icon from 'react-native-vector-icons/Feather';
 import strings from '../languages/index';
 import AsyncStorage from '@react-native-community/async-storage';
-
+import {languagename} from '../components/LanguageName';
 
 const { width, height } = Dimensions.get('window');
 
@@ -65,12 +66,18 @@ const Cart = (props) => {
   const [decreaseLoaderPackageID,setDecreaseLoaderPackageID] = useState();
   const [decreaseLoaderItem,setDecreaseLoaderItem] = useState(false);
   const [decreaseLoaderId,setDecreaseLoaderId] = useState();
+  const [removeLoader,setremoveLoader] = useState(false);
+  const [removeLoaderID,setremoveLoaderID] = useState();
+  const [trashPackageLoader,settrashPackageLoader] = useState(false);
+  const [trashPackageLoaderID,settrashPackageLoaderID] = useState();
+  const [arOren,setarOren] = useState('en');
+  languagename().then(res => setarOren(res))
+
   const maxlimit = 20;
   var imgSource = upwardImage ? ExpandImage : CloseImage;
 
   console.log(cartData)
   
-
   useEffect(() => {
     setLoading(true)
     showCartData().then((response) => {
@@ -96,7 +103,6 @@ const Cart = (props) => {
 
   const checkout = async () => {
     const userType = await AsyncStorage.getItem('user_type');
-    console.log(props.address)
     setLoading(true)
     if (JSON.parse(userType) == 2) {
       props.navigation.navigate('auth', {
@@ -116,8 +122,9 @@ const Cart = (props) => {
       refRBSheet.current.open();
     }
   };
-   const paymentOption = () => {
-     orderPlace().then((response) => {
+   const paymentOption = (paymentType) => {
+     orderPlace(paymentType).then((response) => {
+       console.log(response.message);
         setLoading(false)
         props.navigation.navigate('checkout', { paymentUrl: response.data.data.paymenturl })
       }).catch((error) => {
@@ -240,10 +247,12 @@ const Cart = (props) => {
   }
 
   const removeItem = (id) => {
+    setremoveLoaderID(id);
+    setremoveLoader(true);
     removeItemAPI(id).then((response) => {
       reloadData();
-      console.log(response.data)
     })
+    
   };
 
   const addItem = (id) => {
@@ -279,9 +288,10 @@ const Cart = (props) => {
   }
 
   const removePackage = (id) => {
+    settrashPackageLoader(true);
+    settrashPackageLoaderID(id);
     removePackageApi(id).then((response) => {
       reloadData();
-      console.log(response.data)
     })
   }
 
@@ -309,6 +319,10 @@ const Cart = (props) => {
     })
   }
   }
+
+  const editpackage = (cartPackageId,packageId) => {
+    alert(cartPackageId+ "pack" + packageId)
+  }
   const refRBSheet = useRef();
   return (
     <ImageBackground
@@ -328,8 +342,8 @@ const Cart = (props) => {
             <View
               style={{
                 paddingVertical: width * 0.05,
-                paddingHorizontal: Platform.OS == 'android' ?width * 0.1:width *0.07,
-
+                // paddingHorizontal: Platform.OS == 'android' ?width * 0.1:width *0.07,
+                paddingHorizontal:arOren == "it"?width * 0.07:width * 0.08
               }}>
               <Dialog
                 visible={addressModal}
@@ -463,6 +477,7 @@ const Cart = (props) => {
                                   paddingLeft: 10,
                                   marginBottom:10
                                 }}>
+
                                 <Text
                                   style={{
                                     fontSize: 12,
@@ -503,6 +518,20 @@ const Cart = (props) => {
                                     borderColor: '#ffffff',
                                     borderWidth: 0,
                                   }}>
+                                    {/* <TouchableOpacity style={{
+                                      borderColor:'#fff',
+                                      borderWidth:2,
+                                    }} 
+                                    onPress={() => editpackage(packages.cart_package_id,packages.package_id)}>
+                                      <View>
+                                        <Text style={{
+                                          color:'#D2D7F9',
+                                          marginRight:'10%',
+                                          fontFamily: 'Montserrat-Medium',
+                                        }}>Edit
+                                        </Text>
+                                      </View>
+                                    </TouchableOpacity> */}
                                     {DecreasePackageLoader && decreaseLoaderPackageID == packages.cart_package_id ?(
                                       <View style={{  }}>
                                         <ActivityIndicator color="#ECDBFA" size="small" />
@@ -557,12 +586,34 @@ const Cart = (props) => {
                             </View>
 
                             <View style={{ direction: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-                             
                               <View
                                 style={{
                                   flex: 1,
-                                  justifyContent: "flex-end",
+                                  justifyContent: "space-between",
+                                  
                                 }}>
+                                  {/* edit icon*/}
+                                  <TouchableOpacity onPress={async() =>
+                                  {
+                                    await AsyncStorage.setItem('cart_package_id', packages.cart_package_id.toString())
+                                    props.navigation.navigate({name: "ProductDetails"})
+                                  }
+                                    }> 
+                                  {/* {
+                                trashPackageLoader && trashPackageLoaderID=== packages.cart_package_id
+                                ?(<View style={{alignSelf:'center', paddingTop:8}}><ActivityIndicator color="#ECDBFA" size="small"  /></View>
+                                ):( */}
+                                <Icons name="pencil" color={"white"} size={15} style={{alignSelf:'center'}} />
+                                {/* } */}
+                                  </TouchableOpacity>
+
+                                  <TouchableOpacity onPress={() => removePackage(packages.cart_package_id) }> 
+                                  {
+                                trashPackageLoader && trashPackageLoaderID=== packages.cart_package_id
+                                ?(<View style={{alignSelf:'center', paddingTop:8}}><ActivityIndicator color="#ECDBFA" size="small"  /></View>
+                                ):(
+                                <Icons name="trash" color={"white"} size={15} style={{alignSelf:'center', paddingTop: 8}} />)}
+                                  </TouchableOpacity>
                                 <Image
                                   source={imgSource}
                                   width={100}
@@ -666,7 +717,7 @@ const Cart = (props) => {
                     key={k}
                   >
                     <ImageBackground
-                      source={ItemCard}
+                      source={items.status === 1 ? ItemCard :outofstock }
                       style={{
                         width: 351,
                         height: 75,
@@ -815,6 +866,21 @@ const Cart = (props) => {
                         right:5
                       }}>
                       </View>
+                      <View style={{ direction: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                            <View
+                              style={{
+                                flex: 1,
+                                justifyContent: "space-between",
+                              }}>
+                                <TouchableOpacity onPress={() => removeItem(items.cart_item_id) }> 
+                                {
+                                removeLoader && removeLoaderID=== items.cart_item_id 
+                                ?(<View style={{alignSelf:'center', paddingTop:8}}><ActivityIndicator color="#ECDBFA" size="small"  /></View>
+                                ):(
+                                <Icons name="trash" color={"#D2D7F9"} size={15} style={{alignSelf:'center', paddingTop: 8}} />)}
+                                
+                                </TouchableOpacity></View>
+                           </View>
                     </ImageBackground>
                   </View>
                 );
@@ -868,7 +934,8 @@ const Cart = (props) => {
                             style={{
                               color: 'rgba(255,255,255,0.8)',
                               fontSize: 15,
-                              fontFamily: 'Montserrat-Regular'
+                              fontFamily: 'Montserrat-Regular',
+                              textDecorationLine: items.status === 0 ? 'line-through' : "none",
                             }}>
                             {((items.name).length > maxlimit) ? (((items.name).substring(0, maxlimit - 3)) + '...') : items.name}
                             {items.quantity > 1 ? <Text style={{ color: '#fff' }}> ({items.quantity})</Text> : null}
@@ -878,6 +945,7 @@ const Cart = (props) => {
                             style={{
                               color: 'rgba(255,255,255,0.3)',
                               fontSize: 12,
+                              textDecorationLine: items.status === 0 ? 'line-through' : "none",
                             }}>
                             KD {items.sub_total}
                           </Text>) :
@@ -886,6 +954,7 @@ const Cart = (props) => {
                                 color: 'rgba(255,255,255,0.3)',
                                 fontSize: 12,
                                 fontFamily: 'Montserrat-Regular',
+                                textDecorationLine: items.status === 0 ? 'line-through' : "none",
                               }}>
                               KD {items.price}
                             </Text>
@@ -956,7 +1025,13 @@ const Cart = (props) => {
                {strings.deliveryTo}
               </Text>
               {props.address?props.address.length === 1?(
-              <View >
+              <View 
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  flexDirection: 'row',
+                }}
+              >
                 <Text
                   numberOfLines={3}
                   style={{
@@ -1002,7 +1077,11 @@ const Cart = (props) => {
                 );
               }):null:null}
             </View>
-                <View>
+                <View style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  flexDirection: 'row',
+                }}> 
                   <TouchableOpacity
                     onPress={() => changeAddressPop()}>
                     <Text
@@ -1033,6 +1112,9 @@ const Cart = (props) => {
                       padding: 20,
                       borderBottomColor: 'rgba(255,255,255,0.3)',
                       borderBottomWidth: 0.3,
+                      display: 'flex',
+                      alignItems: 'center',
+                      flexDirection: 'row',
                     }}>
                     <Text
                       style={{
@@ -1100,7 +1182,7 @@ const Cart = (props) => {
                           style={{
                             color: 'rgba(255,255,255,0.8)',
                             fontSize: 15,
-                            fontFamily: 'Montserrat-Regular'
+                            fontFamily: 'Montserrat-Regular',textDecorationLine: items.status === 0 ? 'line-through' : "none",
                           }}>
                           {((items.name).length > maxlimit) ? (((items.name).substring(0, maxlimit - 3)) + '...') : items.name}
                           {items.quantity > 1 ? <Text style={{ color: '#fff' }}> ({items.quantity})</Text> : null}
@@ -1110,6 +1192,7 @@ const Cart = (props) => {
                           style={{
                             color: 'rgba(255,255,255,0.3)',
                             fontSize: 12,
+                            textDecorationLine: items.status === 0 ? 'line-through' : "none",
                           }}>
                           KD {items.sub_total}
                         </Text>) :
@@ -1118,6 +1201,7 @@ const Cart = (props) => {
                               color: 'rgba(255,255,255,0.3)',
                               fontSize: 12,
                               fontFamily: 'Montserrat-Regular',
+                              textDecorationLine: items.status === 0 ? 'line-through' : "none",
                             }}>
                             KD {items.price}
                           </Text>
@@ -1226,10 +1310,10 @@ const Cart = (props) => {
         closeOnPressMask={true}
         customStyles={{
           draggableIcon: {
-            backgroundColor: "#2E2E3A"
+            backgroundColor: "#292633"
           },
           container:{
-              backgroundColor: "#2E2E3A", 
+              backgroundColor: "#292633", 
               borderTopLeftRadius:30,
               borderTopRightRadius:30,
           }
@@ -1249,11 +1333,11 @@ const Cart = (props) => {
       <View style={styles.bottomListContainer}>
       <FlatList
         data={[
-          {  icon:<Icons name="credit-card" color={"white"} size={25} />, key: 'KNET'},
-          { icon:<Icons name="credit-card" color={"white"}  size={25} />, key: 'Credit Card'},
-          { icon:<Icons name="briefcase"  color={"white"} size={25}/>, key: 'Pay From Wallet'}, 
+          { paymentType:1, icon:<Icons name="credit-card" color={"#D2D7F9"} size={25} />, key: 'KNET'},
+          { paymentType:2,icon:<Icons name="credit-card" color={"#D2D7F9"}  size={25} />, key: 'VISA'},
+          { paymentType:3,icon:<Icons name="briefcase"  color={"#D2D7F9"} size={25}/>, key: 'Cash On Delivery'}, 
         ]}
-        renderItem={({item}) => <TouchableOpacity onPress={() => paymentOption()} ><View style={styles.itemContainer} >{item.icon}<Text style={styles.item}>{item.key}</Text></View></TouchableOpacity>}
+        renderItem={({item}) => <TouchableOpacity onPress={() => paymentOption(item.paymentType)} ><View style={styles.itemContainer} >{item.icon}<Text style={styles.item}>{item.key}</Text></View></TouchableOpacity>}
       />
       </View>
         </View>
@@ -1313,36 +1397,32 @@ const styles = StyleSheet.create({
     fontFamily: 'Montserrat-Medium',
   },
   bottomTabTitle: {
-    color:'white',
-    fontWeight:'bold',
+    color: '#fff',
     alignSelf:'center',
-    fontSize:20,
+    fontSize:18,
+    fontFamily:Platform.OS=='android'?'Michroma-Regular':'Michroma',
   },
   bottomTabContainer: {
-    color:'white',
+    color: '#fff',
     backgroundColor:'blue',
+    
    },
   bottomListContainer: {
-    paddingTop: 20
-   },
+    paddingTop: 20,
+    paddingLeft:10 
+  },
    itemContainer:{
     flex:1,
     flexDirection:'row',
     padding:5
    },
    item: {
-     color:'white',
+    fontFamily:'Montserrat-Regular',
+    color:'white',
     marginLeft:15,
-    fontSize: 18,
+    fontSize: 14,
     height: 44,
   },
-  // crossIconForPackage: {
-  //   display: 'flex',
-  //   alignSelf: 'flex-end',
-  //   position: 'relative',
-  //   top: -55,
-  //   right: -5,
-  // }
 });
 
 const mapStateToProps = (state) => ({

@@ -76,12 +76,12 @@ function getPackagesList(name) {
 
 function updatePackages(id) {
     return (dispatch) => {
-        console.log(id);
+        // console.log(id);
         dispatch(success({
             items: id,
             totalPrice: id.reduce(function (cnt, o) { 
                 let a = parseFloat(cnt) + parseFloat(o.price);
-                console.log(a.toFixed(3))
+                // console.log(a.toFixed(3))
                 return a.toFixed(3);
              }, 0)
         }));
