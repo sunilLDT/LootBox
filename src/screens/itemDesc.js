@@ -117,6 +117,7 @@ const renderViewLess = (onPress) => {
     addToCartForStore(isUpdate,item).then((response) => {
       setAddItems(response.data)
       props.add();
+      alert("Item added to the cart Sucessfully")
     }).catch((error) => {
       console.log("addToCartForStore" + error);
     });

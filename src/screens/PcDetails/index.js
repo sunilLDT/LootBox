@@ -76,7 +76,7 @@ const PcDetails = ({navigation, route}) => {
             overflowX: 'hidden',
             backgroundColor: '#2A2D39',
             // paddingHorizontal: width * 0.09,
-            paddingLeft:width*0.09,
+            paddingLeft:width*0.04,
         }}>
         
         <View
@@ -132,13 +132,7 @@ const PcDetails = ({navigation, route}) => {
                         <Image source={require('../../assets/thumbnail.png')} style={styles.images}/>
                     )}
                     <View style={styles.detailsContainer}>
-                        <Text numberOfLines={3} style={{color:'white',
-                            fontSize:15,
-                            fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma',
-                            fontWeight:"100",
-                            marginLeft:arOren == "it"?'-20%':"0%",
-                            }}>{cpuDetail.name}
-                        </Text>
+                        <Text numberOfLines={3}  style={styles.detailsText}>{cpuDetail.name}</Text>
                         <Text style={styles.detailsText1}>KD {sum(cpuDetail.items)}</Text>
                         <Image style={styles.arrow} source={PriceArrowImage}/>
                     </View>
@@ -312,11 +306,14 @@ const styles = StyleSheet.create({
         height:22,
         justifyContent:'center',
         alignItems:'center',
+        marginRight:'5%'
     },
     playableText:{
         color:'#7A7584',
         fontWeight:'100',
         fontSize:12,
+        marginRight:'5%'
+
     },
 });
 

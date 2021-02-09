@@ -24,7 +24,7 @@ import Dialog, {
   DialogContent,
   SlideAnimation,
 } from 'react-native-popup-dialog';
-import { flattenDeep,values,keys } from 'lodash';
+import { flattenDeep,values,keys, map } from 'lodash';
 import { languagename } from '../components/LanguageName';
 const { width, height } = Dimensions.get('window');
 
@@ -65,6 +65,7 @@ const LootStore = (props) => {
   const [arOren, setarOren] = useState('en');
   languagename().then(res => setarOren(res));
   const [filterValues, setFilterApplied] = useState({});
+  
 
   // console.log("selected Sub category " )
   // console.log(selectedSubCategory)
@@ -107,7 +108,7 @@ const LootStore = (props) => {
 
     const itemData = await fetchItems(cat[current], keys(selectedSubCategory)[0], page, r.filter_custome_field_id, r.filter_custome_values, r.minPrice, r.maxPrice,r.all);
     setItems(itemData.data);
-    setFilteredDataSource(itemData.data);
+    setFilteredDataSource(itemData.data);``
   }
 
   const fetchData1 = async (b) => {
@@ -217,7 +218,9 @@ const LootStore = (props) => {
   const openNextModal = () => {
     setAllfilter(!allfilter)
     setFilter(!filter)
-    handleFilters({filter_custome_field_id: keys(selectedSubCategory), filter_custome_values: flattenDeep(values(selectedSubCategory))}  )
+    handleFilters({filter_custome_field_id: keys(selectedSubCategory), filter_custome_values: flattenDeep(values(
+      console.log(selectedSubCategory)
+    ))}  )
 
 
   }

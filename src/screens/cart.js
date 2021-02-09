@@ -331,6 +331,7 @@ const Cart = (props) => {
         width,
         height,
         overflowX: 'hidden',
+        
       }}>
       <ScrollView showsVerticalScrollIndicator={false}>
         {loading ? (
@@ -342,8 +343,9 @@ const Cart = (props) => {
             <View
               style={{
                 paddingVertical: width * 0.05,
-                // paddingHorizontal: Platform.OS == 'android' ?width * 0.1:width *0.07,
-                paddingHorizontal:arOren == "it"?width * 0.07:width * 0.08
+                
+                paddingHorizontal: Platform.OS == 'android' ?width * 0.05:width *0.07,
+
               }}>
               <Dialog
                 visible={addressModal}
@@ -453,8 +455,8 @@ const Cart = (props) => {
                               resizeMode="contain"
                               source={{ uri: packages.image }}
                               style={{
-                                width: 63,
-                                height: 60,
+                                width: 54,
+                                height: 56,
                                 position: 'relative',
                                 right: 30,
                                 alignSelf: 'center',
