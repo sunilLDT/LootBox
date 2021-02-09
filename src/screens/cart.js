@@ -328,6 +328,7 @@ console.log(cartData)
         width,
         height,
         overflowX: 'hidden',
+        
       }}>
       <ScrollView showsVerticalScrollIndicator={false}>
         {loading ? (
@@ -339,7 +340,8 @@ console.log(cartData)
             <View
               style={{
                 paddingVertical: width * 0.05,
-                paddingHorizontal: Platform.OS == 'android' ?width * 0.1:width *0.07,
+                
+                paddingHorizontal: Platform.OS == 'android' ?width * 0.05:width *0.07,
 
               }}>
               <Dialog
@@ -450,8 +452,8 @@ console.log(cartData)
                               resizeMode="contain"
                               source={{ uri: packages.image }}
                               style={{
-                                width: 63,
-                                height: 60,
+                                width: 54,
+                                height: 56,
                                 position: 'relative',
                                 right: 30,
                                 alignSelf: 'center',

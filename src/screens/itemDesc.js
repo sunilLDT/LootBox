@@ -119,6 +119,7 @@ const renderViewLess = (onPress) => {
       console.log("@@@@@@@@")
       setAddItems(response.data)
       props.add();
+      alert("Item added to the cart Sucessfully")
     }).catch((error) => {
       console.log("addToCartForStore" + error);
     });
