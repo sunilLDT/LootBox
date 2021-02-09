@@ -185,6 +185,7 @@ const AdvanceBuilder = (props) => {
   
     let i
     if(isOptional.includes(subCategoryId)){
+      
      i = selectedIndex + 1;
      setSelectedIndex(i)
      setStatus(subCategoryId)
@@ -517,7 +518,6 @@ const AdvanceBuilder = (props) => {
                         keyExtractor={(item) => item.item_id}
                         data={filteredDataSource}
                         renderItem={({ item }, index) => {
-                         console.log(item.status + item.price + item.name);
                           const maxlimit = 22;
                           return (
                             <TouchableOpacity onPress={() => {
