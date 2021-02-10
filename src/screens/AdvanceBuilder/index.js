@@ -55,28 +55,27 @@ const AdvanceBuilder = (props) => {
   const [showSubmit, setShowSubmit] = useState(false);
   const [totalPrice, setTotalPrice] = useState(0);
   const [selectStatus, setSelctStatus] = useState([]);
-  const [isOptional,setIsOptional] = useState([])
+  const [isOptional,setIsOptional] = useState([]);
+  const [isMultiple,setIsMultiple] = useState([]);
   const [filter, setFilter] = useState(false);
   const [filterValues, setFilterApplied] = useState({});
-
-  console.log("start ***********")
-  console.log("selected index:")
-  console.log(selectedIndex)
-  console.log("selectStatus:")
-  console.log(selectStatus)
-  console.log("end ***********")
   const maxlimit = 20;
 
   function filterIsOPtion(arr) {
+    let isMultipleArray = [];
     let optionalArray = [];
     for(let sub of arr){
       if(sub.is_optional === true){
         optionalArray.push(sub.sub_category_id)
       }
+      if(sub.is_multiple === true){
+        isMultipleArray.push(sub.sub_category_id)
+      }
     }
     setIsOptional(optionalArray)
+    setIsMultiple(isMultipleArray)
   }
-
+  
   useEffect(() => {
     setLoading(true);
     setMaxIndex(props.categories.length);
@@ -84,20 +83,6 @@ const AdvanceBuilder = (props) => {
     props.categories.map((subCat, i) => {
       if (i == 0) {
         setSubCategoryid(subCat.sub_category_id)
-        advancedBuilderItems(subCat.sub_category_id).then((response) => {
-          let d = {
-            "name": response.data[0].name,
-            "price": response.data[0].price,
-            "sub_category_id": response.data[0].sub_category_id
-          }
-          setItems(response.data)
-          setLastIndexedCat(response.data[0].sub_category_id)
-          setFilteredDataSource(response.data)
-          if (subCat.link_item_available) {
-            setLinkedItems({ catId: subCat.sub_category_id, linkedItemId: subCat.link_sub_category_id })
-          }
-        })
-        //setSelectedIndex(1);
       }
     });
     props.categoryList();
@@ -144,10 +129,10 @@ const AdvanceBuilder = (props) => {
         setFilteredDataSource(response.data)
       })
     } else {
-      alert("in else")
       let result = itemList.find(x => x.sub_category_id === subCatId);
       if (result) {
         let id = subCatId;
+        setSubCategoryid(id);
         advancedBuilderItems(id, filterValues.filter_custome_field_id, filterValues.filter_custome_values).then((response) => {
           let d = {
             "name": response.data[0].name,
@@ -157,7 +142,7 @@ const AdvanceBuilder = (props) => {
           setItems(response.data)
           setFilteredDataSource(response.data)
         })
-        return false;
+        // return false;
       }
     }
 
@@ -180,18 +165,19 @@ const AdvanceBuilder = (props) => {
     scrollRef.current?.scrollTo({
       animated: true,
     });
-    
   
     let i
     if(isOptional.includes(subCategoryId)){
-     i = selectedIndex + 1;
-     setSelectedIndex(i)
-     for(let checkStatus of selectStatus){
-      if(checkStatus.id == subCategoryId && checkStatus.status === false){
-        alert("apply set")
-        setStatus(subCategoryId)
-      } 
-    }
+     let objIndex = selectStatus.findIndex((obj => obj.id == subCategoryId));
+     const statusOfSelect =  selectStatus[objIndex].status;
+     if(statusOfSelect === false){
+      i = selectedIndex + 1;
+      setSelectedIndex(i)
+      setStatus(subCategoryId)
+     }
+     else{
+      i = selectedIndex;
+     }    
      
     }
     else{
@@ -227,6 +213,14 @@ const AdvanceBuilder = (props) => {
     });
   }
 
+  const checkSelectedForNextForMultiple = () => {
+    return itemList.some(function (el) {
+      return el.sub_category_id === subCategoryId;
+    });
+  }
+
+ 
+
   const selectItem = (i) => {
     let result = itemList.some(x => x.sub_category_id === i.sub_category_id);
     if (!result) {
@@ -237,42 +231,51 @@ const AdvanceBuilder = (props) => {
       setTick([...tick, i.sub_category_id]);
     }
 
-    let d = {
-      "name": i.name,
-      "price": i.price,
-      "sub_category_id": i.sub_category_id
+    var data = itemList;
+    const checkitemExist = () => {
+      return itemList.some(function (el) {
+        return el.item_id === i.item_id;
+      });
     }
-
-    setSelectedItem(d);
-    let a = itemList;
-    var data = [];
-
-    if (a.length == 0) {
-      a.push(i);
-      setItemList([i])
-      setTotalPrice(parseFloat(i.price))
-      // setClickedIndex([i.sub_category_id])
-
-    } else {
-      for (j = 0; j < a.length; j++) {
-        if (a[j].sub_category_id === i.sub_category_id) {
-          // a.splice(j);
-        } else {
-          data.push(a[j]);
-        }
+    
+    if(isMultiple.includes(subCategoryId)){
+      if(checkitemExist()){
+        // console.log("don't need to push already we have")
+      }else{
+        data.push(i)
+        setItemList(data);
       }
-      data.push(i);
+    }
+    else{
+      // console.log("not muliple")
+      if(checkSelectedForNextForMultiple()){
+        let objIndex = data.findIndex((obj => obj.sub_category_id == i.sub_category_id));
+        if(objIndex == 1){
+          for(var j = 0; j < data.length; j++) {
+            if(data[j].sub_category_id == i.sub_category_id) {
+                //console.log("remove prev and add new one")
+                data.splice(j,1)
+                data.push(i)
+            }else{
+              //console.log("nothing to do")
+            }
+          }
+        }
+      }else{
+        // console.log("no we don't have")
+        data.push(i)
+      }
+    }
+   
       var total = 0
       for (var i = 0, _len = data.length; i < _len; i++) {
         total += parseFloat(data[i]['price'])
       }
       setTotalPrice(total.toFixed(3))
-      setItemList(data);
       let index = selectStatus.find(obj => obj.status === false);
       if (!index) {
         setShowSubmit(true)
       }
-    }
   }
 
   const searchFilterFunction = (text) => {
@@ -296,7 +299,7 @@ const AdvanceBuilder = (props) => {
 
   const getName = (id) => {
     let a = itemList;
-    for (j = 0; j < a.length; j++) {
+    for (var j = 0; j < a.length; j++) {
       if (a[j].sub_category_id === id) {
         return a[j].name.lenght > maxlimit ? (((a[j].name).substring(0, maxlimit - 3)) + '...') : a[j].name;
         break;
@@ -307,7 +310,7 @@ const AdvanceBuilder = (props) => {
 
   const getPrice = (id) => {
     let a = itemList;
-    for (j = 0; j < a.length; j++) {
+    for (var j = 0; j < a.length; j++) {
       if (a[j].sub_category_id === id) {
         return 'KD ' + a[j].price;
         break;
@@ -526,12 +529,8 @@ const AdvanceBuilder = (props) => {
                           return (
                             <TouchableOpacity onPress={() => {
                             selectItem(item) 
-                            onPressTouch()
+                            // onPressTouch()
                             }
-                            // {
-                            //   selectItem(item)
-                            //   onPressTouch()
-                            // }
                             }>
                               <ImageBackground
                                 // onPress={() => { }}
