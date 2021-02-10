@@ -132,7 +132,14 @@ const PcDetails = ({navigation, route}) => {
                         <Image source={require('../../assets/thumbnail.png')} style={styles.images}/>
                     )}
                     <View style={styles.detailsContainer}>
-                        <Text numberOfLines={3}  style={styles.detailsText}>{cpuDetail.name}</Text>
+
+                        <Text numberOfLines={3} style={{color:'white',
+                            fontSize:15,
+                            fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma',
+                            fontWeight:"100",
+                            marginLeft:arOren == "it"?'-20%':"0%",
+                            }}>{cpuDetail.name}
+                        </Text>
                         <Text style={styles.detailsText1}>KD {sum(cpuDetail.items)}</Text>
                         <Image style={styles.arrow} source={PriceArrowImage}/>
                     </View>
@@ -254,6 +261,7 @@ const styles = StyleSheet.create({
         alignItems:'flex-start',
         flexDirection:'column',
         marginHorizontal:"5%",
+        width:"50%"
     },
    
     detailsText1:{

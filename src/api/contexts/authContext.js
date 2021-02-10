@@ -4,6 +4,7 @@ import Api from '../index';
 import { navigate } from './navigationRef';
 import AsyncStorage from '@react-native-community/async-storage';
 import { GoogleSignin, statusCodes } from '@react-native-community/google-signin';
+import { Platform } from 'react-native';
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -184,6 +185,16 @@ const signin = (dispatch) => async ({ email, password }) => {
       await AsyncStorage.setItem('user_type', JSON.stringify(1));
       await AsyncStorage.setItem('userId', JSON.stringify(res.data.data.user_id));
       await AsyncStorage.setItem('is_OTP_Verified', JSON.stringify(true))
+      // console.log("sign innnn")
+      const value = await AsyncStorage.getItem('token');
+      console.log (value)
+     const store = await Api.post('app/user/device-token',{
+       token: value,
+       language:"en",
+       device_type:Platform.OS=='android' ? 1 : 2,
+       action_type:1
+     });
+     alert(store.data.message)
       navigate({ name: 'home' });
     } else if (res.data.data.is_otp_verified === false) {
       await AsyncStorage.setItem('userId', res.data.data.user_id.toString());
@@ -263,6 +274,15 @@ const verifyOtp = (dispatch) => async ({ otp }) => {
           await AsyncStorage.setItem('token', res.data.data.token);
           await AsyncStorage.setItem('user_type', JSON.stringify(1));
           await AsyncStorage.setItem('is_OTP_Verified', JSON.stringify(true))
+          const value = await AsyncStorage.getItem('token');
+          console.log (value)
+          const store = await Api.post('app/user/device-token',{
+          token: value,
+          language:"en",
+          device_type:Platform.OS=='android' ? 1 : 2,
+          action_type:1
+ });
+     alert(store.data.message)
         }
         navigate({ name: navigationName || 'home' });
       } else {
@@ -380,8 +400,13 @@ const signup = (dispatch) => async (data) => {
     if (res.data.data.is_otp_verified) {
       await AsyncStorage.setItem('token', res.data.data.token);
       navigate({ name: 'slider' });
+
     } else {
       await AsyncStorage.setItem('userId', res.data.data.user_id.toString());
+      
+      
+      console.log(" firebase token %^&%^&^&")
+       
       navigate({ name: 'otp' });
     }
     dispatch({
@@ -445,9 +470,18 @@ const signout = (dispatch) => async () => {
     dispatch({
       type: 'toggle_loading',
     });
+    const value = await AsyncStorage.getItem('token');
+    console.log (value)
+    const store = await Api.post('app/user/device-token',{
+    token: value,
+    language:"en",
+    device_type:Platform.OS=='android' ? 1 : 2,
+    action_type:2
+});
+alert(store.data.message)
     await AsyncStorage.clear();
     dispatch({ type: 'signout' });
-    navigate({ name: 'auth' });
+navigate({ name: 'auth' });
   } catch (e) {
     dispatch({
       type: 'add_msg',
