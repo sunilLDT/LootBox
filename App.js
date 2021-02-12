@@ -50,6 +50,7 @@ import { languages } from '@config';
 import AsyncStorage from '@react-native-community/async-storage';
 import NewPassword from './src/screens/newPassword';
  import messaging from '@react-native-firebase/messaging';
+ import { navigate } from './src/api/contexts/navigationRef';
 const strings = initLanguages(languages);
 const { width, height } = Dimensions.get('window');
 const Stack = createStackNavigator();
@@ -130,23 +131,38 @@ const App = () => {
   },[]);
 
   useEffect(() => {
+    
     messaging().onNotificationOpenedApp(remoteMessage => {
       console.log(
         'Notification caused app to open from background state:',
         remoteMessage.notification,
       );
-      navigation.navigate('home');
+      navigate({ name: 'orders' });
     });
     messaging().setBackgroundMessageHandler(async remoteMessage => {
       console.log('Message handled in the background!', remoteMessage);
+      
     });
     messaging()
       .getToken()
       .then(token => {
         //return saveTokenToDatabase(token);
       });
-   
-  }, []);
+     
+      messaging()
+      .getInitialNotification()
+      .then(remoteMessage => {
+        if (remoteMessage) {
+          console.log(
+            'Notification caused app to open from quit state:',
+            remoteMessage.notification,
+          );
+
+           navigate({ name: 'orders' });
+        }
+       
+      });
+  }, [ ]);
 
    requestUserPermission = async () => {
      const authStatus = await messaging().requestPermission();

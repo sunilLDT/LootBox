@@ -537,7 +537,8 @@ const fetchItems = (dispatch) => async (category_id, sub_category_id, page, filt
           filter_custome_field_id:filterId == ""?null: all ? filterId : filterId.map((items) => parseInt(items) + parseInt(category_id) -1 ),
           filter_custome_values:filterValues == ""?null:filterValues,
           min_price:parseInt(minPrice),
-          max_price:parseInt(maxPrice)
+          max_price:parseInt(maxPrice),
+          limit:6
         }
         console.log("****/////////// all variables")
         console.log(allVariables)
@@ -570,7 +571,8 @@ const fetchItems = (dispatch) => async (category_id, sub_category_id, page, filt
       } else {
         const response = await Api.post('app/items/list',{
           category_id,
-          page
+          page,
+          limit:6
         });
         // console.log(response.data)
         // console.log(response.data.parameter.last_page)
