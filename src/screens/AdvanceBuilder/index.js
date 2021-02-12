@@ -16,7 +16,7 @@ import selectedIcCardImage from '../../assets/Rectangle.png';
 import backImage from '../../assets/back.png';
 import searchImage from '../../assets/ic_search.png';
 import filterImage from '../../assets/ic_filter.png';
-import { addToCartAdvance, advancedBuilderItems } from '../../api/buildYourPc';
+import { addToCartAdvance, advancedBuilderItems,itemsAddedInCartApi,removeItemAPI, } from '../../api/buildYourPc';
 import LinearGradient from 'react-native-linear-gradient';
 import cardImage from '../../assets/ic_card_a0.png';
 import thumbnail from '../../assets/thumbnail.png';
@@ -38,11 +38,12 @@ const { width, height } = Dimensions.get('window');
 
 
 const AdvanceBuilder = (props) => {
+  const {fromCart} = props.route.params;
+  
   const scrollRef = useRef();
   const [loading, setLoading] = useState(true);
   const [subCategoryId, setSubCategoryid] = useState("");
   const [items, setItems] = useState([]);
-  const [selectedItem, setSelectedItem] = useState({});
   const [itemList, setItemList] = useState([]);
   const [search, setSearch] = useState('');
   const [filteredDataSource, setFilteredDataSource] = useState([]);
@@ -59,7 +60,20 @@ const AdvanceBuilder = (props) => {
   const [isMultiple,setIsMultiple] = useState([]);
   const [filter, setFilter] = useState(false);
   const [filterValues, setFilterApplied] = useState({});
+  const [cartAddedFilterItems,setCartAddedFilterItems] = useState([]);
+  const [cartItemId,setCartItemId] = useState([]);
   const maxlimit = 20;
+
+  console.log("**** sele")
+  console.log(selectStatus)
+  
+  function selectedSubCategoryAdvance(arr){
+    let selSubAdv = [];
+    for(let subCat of arr){
+      selSubAdv.push(subCat.cart_item_id)
+    }
+    setCartItemId(selSubAdv)
+  }
 
   function filterIsOPtion(arr) {
     let isMultipleArray = [];
@@ -78,6 +92,24 @@ const AdvanceBuilder = (props) => {
   
   useEffect(() => {
     setLoading(true);
+    if(fromCart === 1){
+      cartAddedFilterItems.map((subCat, i) => {
+        if(i == 0){
+          setSubCategoryid(subCat.sub_category_id)
+        }
+      })
+      itemsAddedInCartApi().then((response) => {
+        setCartAddedFilterItems(response.data)
+        selectedSubCategoryAdvance(response.data)
+        setItemList(response.data)
+        var total = 0
+        for (var i = 0, _len = response.data.length; i < _len; i++) {
+          total += parseFloat(response.data[i]['price'])
+        }
+        setTotalPrice(total.toFixed(3))
+        }).catch(error => console.log("itemsAddedInCartApi" + error))
+        
+    }
     setMaxIndex(props.categories.length);
     filterIsOPtion(props.categories);
     props.categories.map((subCat, i) => {
@@ -120,11 +152,6 @@ const AdvanceBuilder = (props) => {
          id = result.item_id;
        }*/
       advancedBuilderItems(id, filterValues.filter_custome_field_id, filterValues.filter_custome_values).then((response) => {
-        let d = {
-          "name": response.data[0].name,
-          "price": response.data[0].price,
-          "sub_category_id": response.data[0].sub_category_id
-        }
         setItems(response.data)
         setFilteredDataSource(response.data)
       })
@@ -134,11 +161,6 @@ const AdvanceBuilder = (props) => {
         let id = subCatId;
         setSubCategoryid(id);
         advancedBuilderItems(id, filterValues.filter_custome_field_id, filterValues.filter_custome_values).then((response) => {
-          let d = {
-            "name": response.data[0].name,
-            "price": response.data[0].price,
-            "sub_category_id": response.data[0].sub_category_id
-          }
           setItems(response.data)
           setFilteredDataSource(response.data)
         })
@@ -152,8 +174,15 @@ const AdvanceBuilder = (props) => {
     setOpen(!open)
   }
 
-  const finalSubmit = () => {
+  const finalSubmit = (ids) => {
+    if(fromCart === 1){
+      removeItemAPI(ids).then((response) => {
+        console.log(response.data)
+      }).catch(err => console.log(err))
+    }
       let result = itemList.map(({ item_id, quantity, is_advance_builder }) => ({ item_id, quantity: 1, is_advance_builder: 1 }));
+      console.log("final result send")
+      console.log(result)
       addToCartAdvance(result).then((response) => {
         if (response.code == 200) {
           props.add()
@@ -168,20 +197,34 @@ const AdvanceBuilder = (props) => {
   
     let i
     if(isOptional.includes(subCategoryId)){
+      // alert("first alert")
      let objIndex = selectStatus.findIndex((obj => obj.id == subCategoryId));
      const statusOfSelect =  selectStatus[objIndex].status;
      if(statusOfSelect === false){
+      // alert("second alert")
       i = selectedIndex + 1;
       setSelectedIndex(i)
       setStatus(subCategoryId)
      }
      else{
+      // alert("third alert")
       i = selectedIndex;
      }    
      
     }
     else{
-      i = selectedIndex;
+      // alert("fourth alert")
+      if(fromCart === 1){
+        i = selectedIndex + 1;
+        setSelectedIndex(i)
+        setStatus(subCategoryId)
+      }
+      else{
+        // alert("fifith")
+        i = selectedIndex;
+        setSelectedIndex(i) 
+      }
+      
     }
 
     let subCatId = props.categories[i];
@@ -223,6 +266,7 @@ const AdvanceBuilder = (props) => {
 
   const selectItem = (i) => {
     let result = itemList.some(x => x.sub_category_id === i.sub_category_id);
+    
     if (!result) {
       setStatus(i.sub_category_id);
       let k = selectedIndex;
@@ -239,25 +283,35 @@ const AdvanceBuilder = (props) => {
     }
     
     if(isMultiple.includes(subCategoryId)){
+      // alert("multiple wala hai ")
       if(checkitemExist()){
+        alert("don't need to push already we have")
         // console.log("don't need to push already we have")
       }else{
+        // alert("neeed to push")
         data.push(i)
         setItemList(data);
       }
     }
     else{
+      // alert("not muliple")
       // console.log("not muliple")
       if(checkSelectedForNextForMultiple()){
-        let objIndex = data.findIndex((obj => obj.sub_category_id == i.sub_category_id));
-        if(objIndex == 1){
+        let objIndex = data.some((obj => obj.sub_category_id == i.sub_category_id));
+        // console.log("**** data variable *****")
+        // console.log(data)
+        
+        // console.log("*** object index")
+        // console.log(objIndex)
+        if(objIndex === true){
+          alert("matched")
           for(var j = 0; j < data.length; j++) {
             if(data[j].sub_category_id == i.sub_category_id) {
-                //console.log("remove prev and add new one")
+                // console.log("remove prev and add new one")
                 data.splice(j,1)
                 data.push(i)
             }else{
-              //console.log("nothing to do")
+              // console.log("nothing to do")
             }
           }
         }
@@ -622,7 +676,7 @@ const AdvanceBuilder = (props) => {
           width: '80%',
           height:60,
           marginLeft:"25%",
-        }}  onPress={() => { finalSubmit() }}>
+        }}  onPress={() => { finalSubmit(cartItemId) }}>
           <View >
             <NextBtn name='Submit' price={totalPrice} />
           </View>

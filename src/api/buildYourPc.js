@@ -180,11 +180,9 @@ export async function pcPartSubcategoryApi() {
 }
 
 export async function advancedBuilderItems(id, filterId, filterValues) {
-  console.log(id, filterId, filterValues)
   let data = {
     "sub_category_id": id
   }
-
   if (filterId) {
     data = {
       ...data,
@@ -192,14 +190,11 @@ export async function advancedBuilderItems(id, filterId, filterValues) {
       "filter_custome_values": filterValues
     }
   }
-
   const response = await Api.post('app/advance-builder/get-items', {...data});
-
-return response.data;
+  return response.data;
 }
 
 export async function getFilterData(id) {
-
   const response = await Api.post(`app/items/filter-data`, {
     'sub_category_id': id
   });
@@ -254,7 +249,13 @@ export async function getLabelsApi(){
   const response = await Api.get('app/label/list');
   return response.data;
 }
+
 export async function getNotification() {
   const response = await Api.get('app/user/notification-list');
+  return response.data;
+}
+
+export async function itemsAddedInCartApi() {
+  const response = await Api.get('app/advance-builder/cart-added-item');
   return response.data;
 }
