@@ -39,6 +39,7 @@ import AlertMessage from './src/components/AlertMessage';
 import changePasswordNumber from './src/screens/changePhoneNumber';
 import Address from './src/screens/Address';
 import OrderDetails from './src/screens/OrderDetails';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { store, persistedStore } from './src/store/index';
 import { Provider } from 'react-redux';
 import SplashScreen from 'react-native-splash-screen';
@@ -49,7 +50,7 @@ import { initLanguages, LanguageProvider } from '@language';
 import { languages } from '@config';
 import AsyncStorage from '@react-native-community/async-storage';
 import NewPassword from './src/screens/newPassword';
- import messaging from '@react-native-firebase/messaging';
+import messaging from '@react-native-firebase/messaging';
 const strings = initLanguages(languages);
 const { width, height } = Dimensions.get('window');
 const Stack = createStackNavigator();
@@ -162,14 +163,15 @@ const App = () => {
 
    getFcmToken = async () => {
      const fcmToken = await messaging().getToken();
-     if (fcmToken) {
+   if (fcmToken) {
       console.log("Your Firebase Token is:", fcmToken);
      } else {
-      console.log("Failed", "No token received");
+     console.log("Failed", "No token received");
      }
-   }
+  }
 
   return (
+    <SafeAreaProvider>
     <View
       style={{
         width,
@@ -220,19 +222,18 @@ const App = () => {
           <Stack.Screen name="ProductDetails" component={ProductDetails} />
           <Stack.Screen name="ItemListing" component={ItemListing} />
           <Stack.Screen name="OrderDetails" component={OrderDetails} />
-          <Stack.Screen name="Faq" 
-          
-          options={{
-            headerShown: true,
-            headerStyle: {
-              backgroundColor: '#292633',
-            },
-            headerTintColor: '#fff',
-            headerTitleStyle: {
-              fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma',
-            },
-            title: 'FAQ'
-            }} 
+          <Stack.Screen name="Faq"  
+            options={{
+             headerShown: true,
+             headerStyle: {
+                backgroundColor: '#292633',
+             },
+              headerTintColor: '#fff',
+              headerTitleStyle: {
+                fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma',
+             },
+             title: 'FAQ'
+             }} 
           component={Faq} />
           <Stack.Screen  options={{
             headerShown: true,
@@ -254,6 +255,7 @@ const App = () => {
         </Stack.Navigator>
       </NavigationContainer>
     </View>
+    </SafeAreaProvider>
   );
 };
 
