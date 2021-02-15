@@ -71,7 +71,6 @@ export default function (state = initialState, action) {
 
       };
     case cartConstants.CAT_SUCCESS:
-      //console.log()
       return {
         ...state,
         categories: action.cat.items, //.map(obj => ({ ...obj, 'na': 'hello' })),

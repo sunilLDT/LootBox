@@ -142,7 +142,7 @@ const changeResolution = (res) => {
               />
             </TouchableOpacity>
             <TouchableOpacity
-            onPress={() => navigation.navigate('AdvanceBuilder')}>
+            onPress={() => navigation.navigate('AdvanceBuilder',{fromCart:0})}>
               <View style={{
                   height: 32,
                   width: 153,

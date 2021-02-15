@@ -119,6 +119,7 @@ PODS:
     - DoubleConversion
     - glog
   - glog (0.3.5)
+<<<<<<< HEAD
   - GoogleAppMeasurement (7.4.0):
     - GoogleUtilities/AppDelegateSwizzler (~> 7.0)
     - GoogleUtilities/MethodSwizzler (~> 7.0)
@@ -127,10 +128,13 @@ PODS:
     - nanopb (~> 2.30907.0)
   - GoogleDataTransport (8.2.0):
     - nanopb (~> 2.30907.0)
+=======
+>>>>>>> e986bb57050eb65c6231f6016fdd3c63ab7faa33
   - GoogleSignIn (5.0.2):
     - AppAuth (~> 1.2)
     - GTMAppAuth (~> 1.0)
     - GTMSessionFetcher/Core (~> 1.1)
+<<<<<<< HEAD
   - GoogleUtilities/AppDelegateSwizzler (7.2.2):
     - GoogleUtilities/Environment
     - GoogleUtilities/Logger
@@ -150,6 +154,8 @@ PODS:
     - GoogleUtilities/Logger
   - GoogleUtilities/UserDefaults (7.2.2):
     - GoogleUtilities/Logger
+=======
+>>>>>>> e986bb57050eb65c6231f6016fdd3c63ab7faa33
   - GTMAppAuth (1.1.0):
     - AppAuth/Core (~> 1.4)
     - GTMSessionFetcher (~> 1.4)
@@ -158,6 +164,7 @@ PODS:
   - GTMSessionFetcher/Core (1.5.0)
   - GTMSessionFetcher/Full (1.5.0):
     - GTMSessionFetcher/Core (= 1.5.0)
+<<<<<<< HEAD
   - nanopb (2.30907.0):
     - nanopb/decode (= 2.30907.0)
     - nanopb/encode (= 2.30907.0)
@@ -167,6 +174,11 @@ PODS:
     - OpenSSL-Universal/Static (= 1.0.2.20)
   - OpenSSL-Universal/Static (1.0.2.20)
   - PromisesObjC (1.2.12)
+=======
+  - OpenSSL-Universal (1.0.2.20):
+    - OpenSSL-Universal/Static (= 1.0.2.20)
+  - OpenSSL-Universal/Static (1.0.2.20)
+>>>>>>> e986bb57050eb65c6231f6016fdd3c63ab7faa33
   - RCTRequired (0.63.2)
   - RCTTypeSafety (0.63.2):
     - FBLazyVector (= 0.63.2)
@@ -533,7 +545,10 @@ SPEC REPOS:
     - AppAuth
     - boost-for-react-native
     - CocoaAsyncSocket
+<<<<<<< HEAD
     - CocoaLibEvent
+=======
+>>>>>>> e986bb57050eb65c6231f6016fdd3c63ab7faa33
     - Firebase
     - FirebaseAnalytics
     - FirebaseCore
@@ -554,6 +569,10 @@ SPEC REPOS:
     - GoogleUtilities
     - GTMAppAuth
     - GTMSessionFetcher
+<<<<<<< HEAD
+=======
+    - libevent
+>>>>>>> e986bb57050eb65c6231f6016fdd3c63ab7faa33
     - nanopb
     - OpenSSL-Universal
     - PromisesObjC
@@ -690,14 +709,21 @@ SPEC CHECKSUMS:
   FlipperKit: bc68102cd4952a258a23c9c1b316c7bec1fecf83
   Folly: b73c3869541e86821df3c387eb0af5f65addfab4
   glog: 40a13f7840415b9a77023fbcae0f1e6f43192af3
+<<<<<<< HEAD
   GoogleAppMeasurement: 688d7f00e2894d9e13823ed9a028b13b993bc277
+=======
+>>>>>>> e986bb57050eb65c6231f6016fdd3c63ab7faa33
   GoogleDataTransport: 1024b1a4dfbd7a0e92cb20d7e0a6f1fb66b449a4
   GoogleSignIn: 7137d297ddc022a7e0aa4619c86d72c909fa7213
   GoogleUtilities: 31c5b01f978a70c6cff2afc6272b3f1921614b43
   GTMAppAuth: 197a8dabfea5d665224aa00d17f164fc2248dab9
   GTMSessionFetcher: b3503b20a988c4e20cc189aa798fd18220133f52
   nanopb: 59221d7f958fb711001e6a449489542d92ae113e
+<<<<<<< HEAD
   OpenSSL-Universal: ff34003318d5e1163e9529b08470708e389ffcdd
+=======
+  OpenSSL-Universal: 1aa4f6a6ee7256b83db99ec1ccdaa80d10f9af9b
+>>>>>>> e986bb57050eb65c6231f6016fdd3c63ab7faa33
   PromisesObjC: 3113f7f76903778cf4a0586bd1ab89329a0b7b97
   RCTRequired: f13f25e7b12f925f1f6a6a8c69d929a03c0129fe
   RCTTypeSafety: 44982c5c8e43ff4141eb519a8ddc88059acd1f3a

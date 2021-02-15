@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useState,useEffect} from 'react';
 import {
   TouchableOpacity,
   Image,
@@ -8,10 +8,21 @@ import {
   View,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-
+import {getNotification} from '../api/buildYourPc';
 const {width, height} = Dimensions.get('window');
 
 const Notifications = ({navigation}) => {
+const [notification, setNotification] = useState([]);
+  useEffect(() => {
+    getNotification().then((response) => {
+      console.log("****************");
+      // console.log(response.data);
+       setNotification(response.data);
+    
+    }).catch((error) => {
+      console.log("notification error" + error)
+    })
+  },[])
   return (
     <View
       style={{
@@ -53,9 +64,9 @@ const Notifications = ({navigation}) => {
           </Text>
         </View>
 
-        {[...Array(3).keys()].map((i, k) => (
+        {notification.map((data) => (
           <LinearGradient
-            key={k}
+            key={data.order_id}
             start={{x: 0, y: 0}}
             end={{x: 1, y: 0}}
             colors={['rgba(255,255,255,0.069)', 'rgba(255,255,255,0.003) ']}
@@ -76,16 +87,16 @@ const Notifications = ({navigation}) => {
                 color: '#ECDBFA',
                 fontSize: 16,
               }}>
-              Ramadan Sale
+            {data.title_en}
             </Text>
             <Text
               style={{
-               
+               paddingTop : "4%",
                 color: '#ECDBFA',
                 fontSize: 14,
                 opacity: 0.4
               }}>
-              Get 50% Discount on all the products
+            {data.description_en}
             </Text>
           </LinearGradient>
         ))}

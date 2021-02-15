@@ -131,7 +131,6 @@ function getAdvanceCatList() {
 function getAdvanceSubCatList(id) {
     return (dispatch) => {
         dispatch(request(id));
-
         advancedBuilderItems(id).then((response) => {
             dispatch(success({
                 items: response.data,

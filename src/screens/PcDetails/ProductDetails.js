@@ -15,7 +15,7 @@ import ExpandImage from '../../assets/ic_expand1.png';
 import CloseImage from '../../assets/ic-3copy.png';
 import { ScrollView } from 'react-native-gesture-handler';
 import ItemCard from '../../assets/ic_card.png';
-import { packageDetailsById, addToCart,removePackageApi } from '../../api/buildYourPc';
+import {addToCart,removePackageApi} from '../../api/buildYourPc';
 import ListDetails from '../PcDetails/List';
 import { connect } from 'react-redux';
 import { cartActions } from '../../actions/user';
@@ -28,11 +28,7 @@ const ProductDetails = (props) => {
 
   const { PackageId } = props.route.params;
   const [packageDetailsData, setPackageDetailsData] = useState({});
-  const [packageDetails, setPackageDetails] = useState([]);
-  const [packageDetailsTemp, setPackageDetailsTemp] = useState([]);
   const [coverImage, setCoverImage] = useState([]);
-  const [addItems, setAddItems] = useState();
-  const [finalData, setFinalData] = useState([]);
   const [showCpuPerocessersList, setShowCpuProcesserList] = useState(false);
   const [open, setOpen] = useState();
   const [totalPrice, setTotalPrice] = useState(0);
@@ -142,8 +138,6 @@ const ProductDetails = (props) => {
                 "quantity": 1,
                 "price": item.price
               };
-              // console.log("Calling prop add")
-              //props.add(i);
               return (
                 <View key={index}>
                   <ListDetails

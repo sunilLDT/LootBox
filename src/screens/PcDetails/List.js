@@ -46,7 +46,6 @@ const ListDetails = (props) => {
     var imgSource = upwardImage ? ExpandImage : CloseImage;
     useEffect(() => {
         getCategoriesItem(props.data.sub_category_id, props.data.item_id, props.data.sub_category_name).then((response) => {
-            console.log(response.data)
             setCategoyItems(response.data);
             let item = {
                 "item_id": response.data[0].item_id,
@@ -62,10 +61,8 @@ const ListDetails = (props) => {
     }, []);
 
     const selectHandler = (id, name, price) => {
-        console.log(price);
         let ar = [];
         ar = props.packages;
-        console.log(ar[props.parentIndex]);
         ar[props.parentIndex].item_id = id;
         ar[props.parentIndex].name = name;
         ar[props.parentIndex].price = price;
