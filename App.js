@@ -178,12 +178,12 @@ const App = () => {
 
    getFcmToken = async () => {
      const fcmToken = await messaging().getToken();
-     if (fcmToken) {
+   if (fcmToken) {
       console.log("Your Firebase Token is:", fcmToken);
      } else {
-      console.log("Failed", "No token received");
+     console.log("Failed", "No token received");
      }
-   }
+  }
 
   return (
     <View

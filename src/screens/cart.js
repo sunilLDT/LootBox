@@ -70,13 +70,24 @@ const Cart = (props) => {
   const [removeLoaderID,setremoveLoaderID] = useState();
   const [trashPackageLoader,settrashPackageLoader] = useState(false);
   const [trashPackageLoaderID,settrashPackageLoaderID] = useState();
+  const [removeAdvanceLoader,setRemoveAdvanceLoader] = useState(false);
   const [arOren,setarOren] = useState('en');
+  const [advanceItems,setAdvanceIems] = useState([])
   languagename().then(res => setarOren(res))
+
 
   const maxlimit = 20;
   var imgSource = upwardImage ? ExpandImage : CloseImage;
 
-  console.log(cartData)
+  function advanceBuilderIds(arr) {
+    let itemsId = [];
+    for(let sub of arr){
+      if(sub.is_advance_builder === 1){
+        itemsId.push(sub.cart_item_id)
+      }
+    }
+    setAdvanceIems(itemsId)
+  }
   
   useEffect(() => {
     setLoading(true)
@@ -249,8 +260,10 @@ const Cart = (props) => {
   const removeItem = (id) => {
     setremoveLoaderID(id);
     setremoveLoader(true);
-    removeItemAPI(id).then((response) => {
+    advanceBuilderIds(cartItems)
+    removeItemAPI([id]).then((response) => {
       reloadData();
+      setremoveLoader(false)
     })
     
   };
@@ -309,20 +322,36 @@ const Cart = (props) => {
     setDecreasePackageLoader(true)
     if(quantity==1){
       removePackage(id);
-    }else{
-    setDecreaseLoaderPackageID(id)
-    setDecreasePackageLoader(true)
-    let remaningPackage = quantity - 1;
-    addPackage(id, remaningPackage).then((response) => {
-      reloadData();
-      setDecreasePackageLoader(false)
-    })
-  }
+    }else
+    {
+      setDecreaseLoaderPackageID(id)
+      setDecreasePackageLoader(true)
+      let remaningPackage = quantity - 1;
+      addPackage(id, remaningPackage).then((response) => {
+        reloadData();
+        setDecreasePackageLoader(false)
+      })
+    }
   }
 
-  const editpackage = (cartPackageId,packageId) => {
-    alert(cartPackageId+ "pack" + packageId)
+  const removeAdvanceBuilder = (advanceItems) => {
+    console.log("advance items who gona delete")
+    console.log(advanceItems)
+    setRemoveAdvanceLoader(true)
+    advanceBuilderIds(cartItems)
+    removeItemAPI(advanceItems).then((response) => {
+      reloadData();
+      setRemoveAdvanceLoader(false)
+    }).catch((error) => {
+      console.log("remove advance builder"+ error)
+      setRemoveAdvanceLoader(false)
+    })
   }
+
+  const editAdvanceBuilder = () => {
+    props.navigation.navigate('AdvanceBuilder',{fromCart:1})
+  }
+
   const refRBSheet = useRef();
   return (
     <ImageBackground
@@ -521,20 +550,6 @@ const Cart = (props) => {
                                     borderColor: '#ffffff',
                                     borderWidth: 0,
                                   }}>
-                                    {/* <TouchableOpacity style={{
-                                      borderColor:'#fff',
-                                      borderWidth:2,
-                                    }} 
-                                    onPress={() => editpackage(packages.cart_package_id,packages.package_id)}>
-                                      <View>
-                                        <Text style={{
-                                          color:'#D2D7F9',
-                                          marginRight:'10%',
-                                          fontFamily: 'Montserrat-Medium',
-                                        }}>Edit
-                                        </Text>
-                                      </View>
-                                    </TouchableOpacity> */}
                                     {DecreasePackageLoader && decreaseLoaderPackageID == packages.cart_package_id ?(
                                       <View style={{  }}>
                                         <ActivityIndicator color="#ECDBFA" size="small" />
@@ -595,11 +610,10 @@ const Cart = (props) => {
                                   justifyContent: "space-between",
                                   
                                 }}>
-                                  {/* edit icon*/}
                                   <TouchableOpacity onPress={async() =>
                                   {
                                     await AsyncStorage.setItem('cart_package_id', packages.cart_package_id.toString())
-                                    props.navigation.navigate({name: "ProductDetails"})
+                                    props.navigation.navigate('ProductDetails',{PackageId:packages.package_id})
                                   }
                                     }> 
                                   {/* {
@@ -907,6 +921,9 @@ const Cart = (props) => {
                     padding: 20,
                     borderBottomColor: 'rgba(255,255,255,0.3)',
                     borderBottomWidth: 0.3,
+                    display:'flex',
+                    flexDirection:'row',
+                    justifyContent: 'space-between',
                   }}>
                   <Text
                     style={{
@@ -917,6 +934,27 @@ const Cart = (props) => {
                     }}>
                     Advance Builder Items
                   </Text>
+                  <View style={{
+                    display:'flex',
+                    flexDirection:'row',
+                    
+                  }}>
+                    <TouchableOpacity onPress={() => editAdvanceBuilder()} style={{
+                      paddingRight:15
+                    }}>
+                      <Icons name="pencil" color={"white"} size={15} style={{alignSelf:'center'}} />
+                    </TouchableOpacity>
+                    {removeAdvanceLoader?(
+                      <View >
+                        <ActivityIndicator color="#ECDBFA" size="small"  />
+                      </View>
+                    ):(
+                      <TouchableOpacity  onPress={() => removeAdvanceBuilder(advanceItems)}>
+                        <Icons name="trash" color={"#D2D7F9"} size={15}/>
+                      </TouchableOpacity>
+                    )}
+                  </View>
+                  
                 </View>
                 <View
                   style={{
@@ -963,6 +1001,20 @@ const Cart = (props) => {
                               KD {items.price}
                             </Text>
                           }
+                          {items.is_optional == 1?(
+                            <TouchableOpacity onPress={() => removeItem(items.cart_item_id)}>
+                              { removeLoader && removeLoaderID=== items.cart_item_id 
+                                ?(
+                                <View >
+                                  <ActivityIndicator color="#ECDBFA" size="small"  />
+                                </View>
+                                ):(
+                                <Icons name="trash" color={"#D2D7F9"} size={15}  />
+                              )}
+                            </TouchableOpacity>
+                          ):(
+                            null
+                          )}
                         </View>
                       );
                   }
