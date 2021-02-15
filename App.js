@@ -49,7 +49,7 @@ import { initLanguages, LanguageProvider } from '@language';
 import { languages } from '@config';
 import AsyncStorage from '@react-native-community/async-storage';
 import NewPassword from './src/screens/newPassword';
- import messaging from '@react-native-firebase/messaging';
+import messaging from '@react-native-firebase/messaging';
 const strings = initLanguages(languages);
 const { width, height } = Dimensions.get('window');
 const Stack = createStackNavigator();
@@ -162,12 +162,12 @@ const App = () => {
 
    getFcmToken = async () => {
      const fcmToken = await messaging().getToken();
-     if (fcmToken) {
+   if (fcmToken) {
       console.log("Your Firebase Token is:", fcmToken);
      } else {
-      console.log("Failed", "No token received");
+     console.log("Failed", "No token received");
      }
-   }
+  }
 
   return (
     <View
