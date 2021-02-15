@@ -7,20 +7,20 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		00E356F31AD99517003FC87E /* projtestTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* projtestTests.m */; };
+		00E356F31AD99517003FC87E /* lootboxTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* lootboxTests.m */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		2D02E4BC1E0B4A80006451C7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		2DCD954D1E0B4F2C00145EB5 /* projtestTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* projtestTests.m */; };
-		3ADFF1E3E4EC070352400AF5 /* libPods-projtest.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 32963C0B4CD74FCD5A982077 /* libPods-projtest.a */; };
-		4A168C732ED5993A575358CD /* libPods-projtest-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DC131C653A093F7FB7A5768F /* libPods-projtest-tvOS.a */; };
+		2DCD954D1E0B4F2C00145EB5 /* lootboxTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* lootboxTests.m */; };
+		3ADFF1E3E4EC070352400AF5 /* libPods-lootbox.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 32963C0B4CD74FCD5A982077 /* libPods-lootbox.a */; };
+		4A168C732ED5993A575358CD /* libPods-lootbox-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DC131C653A093F7FB7A5768F /* libPods-lootbox-tvOS.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		84B65B21251901E500784621 /* credentials.plist in Resources */ = {isa = PBXBuildFile; fileRef = 84B65B20251901E400784621 /* credentials.plist */; };
 		84B65B23251926E900784621 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 84B65B22251926E800784621 /* GoogleService-Info.plist */; };
-		B4967CC9449CF5C6F59021FA /* libPods-projtest-projtestTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C12F376D264A26C7880068B /* libPods-projtest-projtestTests.a */; };
+		B4967CC9449CF5C6F59021FA /* libPods-lootbox-lootboxTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C12F376D264A26C7880068B /* libPods-lootbox-lootboxTests.a */; };
 		CD39DB88259DAC20001CB3B3 /* Montserrat-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CD39DB87259DAC1F001CB3B3 /* Montserrat-SemiBold.ttf */; };
 		CD74636A257F545B00784C52 /* Michroma-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CD746368257F50CC00784C52 /* Michroma-Regular.ttf */; };
 		CD74638025823C0800784C52 /* Montserrat-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CD74637425823C0700784C52 /* Montserrat-Medium.ttf */; };
@@ -30,7 +30,7 @@
 		CDE6B21D258867D2001C939A /* Montserrat-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CDE6B21C258867D2001C939A /* Montserrat-BoldItalic.ttf */; };
 		CDE6B21F25886A04001C939A /* Montserrat-BlackItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CDE6B21E25886A04001C939A /* Montserrat-BlackItalic.ttf */; };
 		CDE6B22225886DE7001C939A /* Montserrat-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CDE6B22125886DE7001C939A /* Montserrat-LightItalic.ttf */; };
-		D844592584090DB36DB734C0 /* libPods-projtest-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3933C9984ABBD6EE381C8A94 /* libPods-projtest-tvOSTests.a */; };
+		D844592584090DB36DB734C0 /* libPods-lootbox-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3933C9984ABBD6EE381C8A94 /* libPods-lootbox-tvOSTests.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -39,57 +39,57 @@
 			containerPortal = 83CBB9F71A601CBA00E9B192 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 13B07F861A680F5B00A75B9A;
-			remoteInfo = projtest;
+			remoteInfo = lootbox;
 		};
 		2D02E4911E0B4A5D006451C7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 83CBB9F71A601CBA00E9B192 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 2D02E47A1E0B4A5D006451C7;
-			remoteInfo = "projtest-tvOS";
+			remoteInfo = "lootbox-tvOS";
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		008F07F21AC5B25A0029DE68 /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = main.jsbundle; sourceTree = "<group>"; };
-		00E356EE1AD99517003FC87E /* projtestTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = projtestTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		00E356EE1AD99517003FC87E /* lootboxTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = lootboxTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		00E356F21AD99517003FC87E /* projtestTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = projtestTests.m; sourceTree = "<group>"; };
+		00E356F21AD99517003FC87E /* lootboxTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = lootboxTests.m; sourceTree = "<group>"; };
 		0C108525498D423EA15441E3 /* EvilIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = EvilIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf"; sourceTree = "<group>"; };
-		126BEB0E44F096DF653A00C8 /* Pods-projtest-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-projtest-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-projtest-tvOS/Pods-projtest-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
+		126BEB0E44F096DF653A00C8 /* Pods-lootbox-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lootbox-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-lootbox-tvOS/Pods-lootbox-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* Lootbox.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Lootbox.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = projtest/AppDelegate.h; sourceTree = "<group>"; };
-		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = projtest/AppDelegate.m; sourceTree = "<group>"; };
-		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = projtest/Images.xcassets; sourceTree = "<group>"; };
-		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = projtest/Info.plist; sourceTree = "<group>"; };
-		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = projtest/main.m; sourceTree = "<group>"; };
+		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = lootbox/AppDelegate.h; sourceTree = "<group>"; };
+		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = lootbox/AppDelegate.m; sourceTree = "<group>"; };
+		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = lootbox/Images.xcassets; sourceTree = "<group>"; };
+		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = lootbox/Info.plist; sourceTree = "<group>"; };
+		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = lootbox/main.m; sourceTree = "<group>"; };
 		14A560DE18984EAFA7EB8C62 /* Fontisto.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Fontisto.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Fontisto.ttf"; sourceTree = "<group>"; };
 		161FB011A66B41F8A41D4F6B /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
 		182A513D25A0A69A003909A9 /* libYogaKit.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libYogaKit.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		1C12F376D264A26C7880068B /* libPods-projtest-projtestTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-projtest-projtestTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		1C12F376D264A26C7880068B /* libPods-lootbox-lootboxTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-lootbox-lootboxTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		21A1A1DFD7DA46F49ADA8B46 /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = SimpleLineIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf"; sourceTree = "<group>"; };
 		2757D0E5D8054589B17CBFE4 /* AntDesign.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = AntDesign.ttf; path = "../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf"; sourceTree = "<group>"; };
 		27F5EE7025D242CB001950E9 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
-		2D02E47B1E0B4A5D006451C7 /* projtest-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "projtest-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		2D02E4901E0B4A5D006451C7 /* projtest-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "projtest-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		32963C0B4CD74FCD5A982077 /* libPods-projtest.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-projtest.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2D02E47B1E0B4A5D006451C7 /* lootbox-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "lootbox-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2D02E4901E0B4A5D006451C7 /* lootbox-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "lootbox-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		32963C0B4CD74FCD5A982077 /* libPods-lootbox.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-lootbox.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3503BB2F5A7347819D0B116F /* Octicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Octicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; };
 		35397DC12DEE474F8197F45D /* MaterialCommunityIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialCommunityIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf"; sourceTree = "<group>"; };
-		3933C9984ABBD6EE381C8A94 /* libPods-projtest-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-projtest-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		3933C9984ABBD6EE381C8A94 /* libPods-lootbox-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-lootbox-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4F9E99E7A4F544DABF883C61 /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
 		554F7F227F2D40C69735823D /* FontAwesome5_Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Regular.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Regular.ttf"; sourceTree = "<group>"; };
 		5FAAACDB066D429DA5686F89 /* Feather.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Feather.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Feather.ttf"; sourceTree = "<group>"; };
-		70BD77D2C273F93E7EBDEC76 /* Pods-projtest-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-projtest-tvOS.release.xcconfig"; path = "Target Support Files/Pods-projtest-tvOS/Pods-projtest-tvOS.release.xcconfig"; sourceTree = "<group>"; };
-		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = projtest/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		70BD77D2C273F93E7EBDEC76 /* Pods-lootbox-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lootbox-tvOS.release.xcconfig"; path = "Target Support Files/Pods-lootbox-tvOS/Pods-lootbox-tvOS.release.xcconfig"; sourceTree = "<group>"; };
+		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = lootbox/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		84B65B20251901E400784621 /* credentials.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = credentials.plist; sourceTree = "<group>"; };
 		84B65B22251926E800784621 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		924AA13B975A7D1DA9F8D23A /* Pods-projtest-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-projtest-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-projtest-tvOSTests/Pods-projtest-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
+		924AA13B975A7D1DA9F8D23A /* Pods-lootbox-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lootbox-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-lootbox-tvOSTests/Pods-lootbox-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
 		9D23C4D11AF24A4EACBCD9FF /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
 		A25938D8D79D4965923BA27A /* FontAwesome.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
 		AC9435DA63624BEABE76C6E4 /* Foundation.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Foundation.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Foundation.ttf"; sourceTree = "<group>"; };
 		BA386B9B66C042468CCAAF0C /* FontAwesome5_Solid.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Solid.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Solid.ttf"; sourceTree = "<group>"; };
-		BD615135A8EDC93BC9D31C3C /* Pods-projtest.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-projtest.debug.xcconfig"; path = "Target Support Files/Pods-projtest/Pods-projtest.debug.xcconfig"; sourceTree = "<group>"; };
-		BF09B3CA9687EFA285C7517A /* Pods-projtest-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-projtest-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-projtest-tvOSTests/Pods-projtest-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
+		BD615135A8EDC93BC9D31C3C /* Pods-lootbox.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lootbox.debug.xcconfig"; path = "Target Support Files/Pods-lootbox/Pods-lootbox.debug.xcconfig"; sourceTree = "<group>"; };
+		BF09B3CA9687EFA285C7517A /* Pods-lootbox-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lootbox-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-lootbox-tvOSTests/Pods-lootbox-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
 		CD39DB87259DAC1F001CB3B3 /* Montserrat-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Montserrat-SemiBold.ttf"; path = "../assets/fonts/Montserrat-SemiBold.ttf"; sourceTree = "<group>"; };
 		CD746368257F50CC00784C52 /* Michroma-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Michroma-Regular.ttf"; path = "../assets/fonts/Michroma-Regular.ttf"; sourceTree = "<group>"; };
 		CD74637425823C0700784C52 /* Montserrat-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Montserrat-Medium.ttf"; path = "../assets/fonts/Montserrat-Medium.ttf"; sourceTree = "<group>"; };
@@ -103,14 +103,14 @@
 		CDE6B22025886A9E001C939A /* Montserrat-BoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Montserrat-BoldItalic.ttf"; path = "../assets/fonts/Montserrat-BoldItalic.ttf"; sourceTree = "<group>"; };
 		CDE6B22125886DE7001C939A /* Montserrat-LightItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Montserrat-LightItalic.ttf"; path = "../assets/fonts/Montserrat-LightItalic.ttf"; sourceTree = "<group>"; };
 		CDE6B22325886E74001C939A /* Montserrat-LightItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Montserrat-LightItalic.ttf"; path = "../assets/fonts/Montserrat-LightItalic.ttf"; sourceTree = "<group>"; };
-		D88CD6AB6094FA429DFEDB3B /* Pods-projtest-projtestTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-projtest-projtestTests.release.xcconfig"; path = "Target Support Files/Pods-projtest-projtestTests/Pods-projtest-projtestTests.release.xcconfig"; sourceTree = "<group>"; };
-		DC131C653A093F7FB7A5768F /* libPods-projtest-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-projtest-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D88CD6AB6094FA429DFEDB3B /* Pods-lootbox-lootboxTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lootbox-lootboxTests.release.xcconfig"; path = "Target Support Files/Pods-lootbox-lootboxTests/Pods-lootbox-lootboxTests.release.xcconfig"; sourceTree = "<group>"; };
+		DC131C653A093F7FB7A5768F /* libPods-lootbox-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-lootbox-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
 		ED89E4046BF74412BDA2597D /* FontAwesome5_Brands.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Brands.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Brands.ttf"; sourceTree = "<group>"; };
-		F6C9A83D8A12B5F6D43567E3 /* Pods-projtest.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-projtest.release.xcconfig"; path = "Target Support Files/Pods-projtest/Pods-projtest.release.xcconfig"; sourceTree = "<group>"; };
+		F6C9A83D8A12B5F6D43567E3 /* Pods-lootbox.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lootbox.release.xcconfig"; path = "Target Support Files/Pods-lootbox/Pods-lootbox.release.xcconfig"; sourceTree = "<group>"; };
 		FBF7A277FEA24C80A1369AED /* Entypo.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Entypo.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Entypo.ttf"; sourceTree = "<group>"; };
-		FC7BFAFE0FE2965B056B77EF /* Pods-projtest-projtestTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-projtest-projtestTests.debug.xcconfig"; path = "Target Support Files/Pods-projtest-projtestTests/Pods-projtest-projtestTests.debug.xcconfig"; sourceTree = "<group>"; };
+		FC7BFAFE0FE2965B056B77EF /* Pods-lootbox-lootboxTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lootbox-lootboxTests.debug.xcconfig"; path = "Target Support Files/Pods-lootbox-lootboxTests/Pods-lootbox-lootboxTests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -118,7 +118,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B4967CC9449CF5C6F59021FA /* libPods-projtest-projtestTests.a in Frameworks */,
+				B4967CC9449CF5C6F59021FA /* libPods-lootbox-lootboxTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -126,7 +126,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3ADFF1E3E4EC070352400AF5 /* libPods-projtest.a in Frameworks */,
+				3ADFF1E3E4EC070352400AF5 /* libPods-lootbox.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -134,7 +134,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4A168C732ED5993A575358CD /* libPods-projtest-tvOS.a in Frameworks */,
+				4A168C732ED5993A575358CD /* libPods-lootbox-tvOS.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -142,20 +142,20 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D844592584090DB36DB734C0 /* libPods-projtest-tvOSTests.a in Frameworks */,
+				D844592584090DB36DB734C0 /* libPods-lootbox-tvOSTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		00E356EF1AD99517003FC87E /* projtestTests */ = {
+		00E356EF1AD99517003FC87E /* lootboxTests */ = {
 			isa = PBXGroup;
 			children = (
-				00E356F21AD99517003FC87E /* projtestTests.m */,
+				00E356F21AD99517003FC87E /* lootboxTests.m */,
 				00E356F01AD99517003FC87E /* Supporting Files */,
 			);
-			path = projtestTests;
+			path = lootboxTests;
 			sourceTree = "<group>";
 		};
 		00E356F01AD99517003FC87E /* Supporting Files */ = {
@@ -169,19 +169,19 @@
 		0CFBBBF5AA5338C4839DA567 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				BD615135A8EDC93BC9D31C3C /* Pods-projtest.debug.xcconfig */,
-				F6C9A83D8A12B5F6D43567E3 /* Pods-projtest.release.xcconfig */,
-				FC7BFAFE0FE2965B056B77EF /* Pods-projtest-projtestTests.debug.xcconfig */,
-				D88CD6AB6094FA429DFEDB3B /* Pods-projtest-projtestTests.release.xcconfig */,
-				126BEB0E44F096DF653A00C8 /* Pods-projtest-tvOS.debug.xcconfig */,
-				70BD77D2C273F93E7EBDEC76 /* Pods-projtest-tvOS.release.xcconfig */,
-				BF09B3CA9687EFA285C7517A /* Pods-projtest-tvOSTests.debug.xcconfig */,
-				924AA13B975A7D1DA9F8D23A /* Pods-projtest-tvOSTests.release.xcconfig */,
+				BD615135A8EDC93BC9D31C3C /* Pods-lootbox.debug.xcconfig */,
+				F6C9A83D8A12B5F6D43567E3 /* Pods-lootbox.release.xcconfig */,
+				FC7BFAFE0FE2965B056B77EF /* Pods-lootbox-lootboxTests.debug.xcconfig */,
+				D88CD6AB6094FA429DFEDB3B /* Pods-lootbox-lootboxTests.release.xcconfig */,
+				126BEB0E44F096DF653A00C8 /* Pods-lootbox-tvOS.debug.xcconfig */,
+				70BD77D2C273F93E7EBDEC76 /* Pods-lootbox-tvOS.release.xcconfig */,
+				BF09B3CA9687EFA285C7517A /* Pods-lootbox-tvOSTests.debug.xcconfig */,
+				924AA13B975A7D1DA9F8D23A /* Pods-lootbox-tvOSTests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
 		};
-		13B07FAE1A68108700A75B9A /* projtest */ = {
+		13B07FAE1A68108700A75B9A /* lootbox */ = {
 			isa = PBXGroup;
 			children = (
 				84B65B22251926E800784621 /* GoogleService-Info.plist */,
@@ -194,7 +194,7 @@
 				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
 				13B07FB71A68108700A75B9A /* main.m */,
 			);
-			name = projtest;
+			name = lootbox;
 			sourceTree = "<group>";
 		};
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
@@ -203,10 +203,10 @@
 				182A513D25A0A69A003909A9 /* libYogaKit.a */,
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				ED2971642150620600B7C4FE /* JavaScriptCore.framework */,
-				32963C0B4CD74FCD5A982077 /* libPods-projtest.a */,
-				1C12F376D264A26C7880068B /* libPods-projtest-projtestTests.a */,
-				DC131C653A093F7FB7A5768F /* libPods-projtest-tvOS.a */,
-				3933C9984ABBD6EE381C8A94 /* libPods-projtest-tvOSTests.a */,
+				32963C0B4CD74FCD5A982077 /* libPods-lootbox.a */,
+				1C12F376D264A26C7880068B /* libPods-lootbox-lootboxTests.a */,
+				DC131C653A093F7FB7A5768F /* libPods-lootbox-tvOS.a */,
+				3933C9984ABBD6EE381C8A94 /* libPods-lootbox-tvOSTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -258,9 +258,9 @@
 				CDE6B21E25886A04001C939A /* Montserrat-BlackItalic.ttf */,
 				CDE6B21B2584864A001C939A /* Montserrat-Italic.ttf */,
 				CD74638325823CC000784C52 /* Montserrat-Bold.ttf */,
-				13B07FAE1A68108700A75B9A /* projtest */,
+				13B07FAE1A68108700A75B9A /* lootbox */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
-				00E356EF1AD99517003FC87E /* projtestTests */,
+				00E356EF1AD99517003FC87E /* lootboxTests */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				0CFBBBF5AA5338C4839DA567 /* Pods */,
@@ -275,9 +275,9 @@
 			isa = PBXGroup;
 			children = (
 				13B07F961A680F5B00A75B9A /* Lootbox.app */,
-				00E356EE1AD99517003FC87E /* projtestTests.xctest */,
-				2D02E47B1E0B4A5D006451C7 /* projtest-tvOS.app */,
-				2D02E4901E0B4A5D006451C7 /* projtest-tvOSTests.xctest */,
+				00E356EE1AD99517003FC87E /* lootboxTests.xctest */,
+				2D02E47B1E0B4A5D006451C7 /* lootbox-tvOS.app */,
+				2D02E4901E0B4A5D006451C7 /* lootbox-tvOSTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -285,30 +285,29 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		00E356ED1AD99517003FC87E /* projtestTests */ = {
+		00E356ED1AD99517003FC87E /* lootboxTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "projtestTests" */;
+			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "lootboxTests" */;
 			buildPhases = (
 				BFF0226688373F258AC7E9D0 /* [CP] Check Pods Manifest.lock */,
 				00E356EA1AD99517003FC87E /* Sources */,
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
 				470F9E6276DAC8F8BFA3AF8A /* [CP] Copy Pods Resources */,
-				448BAA0FA03CC0FE7C85999C /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 				00E356F51AD99517003FC87E /* PBXTargetDependency */,
 			);
-			name = projtestTests;
-			productName = projtestTests;
-			productReference = 00E356EE1AD99517003FC87E /* projtestTests.xctest */;
+			name = lootboxTests;
+			productName = lootboxTests;
+			productReference = 00E356EE1AD99517003FC87E /* lootboxTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		13B07F861A680F5B00A75B9A /* projtest */ = {
+		13B07F861A680F5B00A75B9A /* lootbox */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "projtest" */;
+			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "lootbox" */;
 			buildPhases = (
 				DC75934D59DAD296E63C40E5 /* [CP] Check Pods Manifest.lock */,
 				FD10A7F022414F080027D42C /* Start Packager */,
@@ -317,24 +316,20 @@
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				B8D0ED12CA023B188E8C4F85 /* [CP] Copy Pods Resources */,
-<<<<<<< HEAD
 				CE58E909857C20FBEA3ACEC8 /* [CP-User] [RNFB] Core Configuration */,
-				F604B4F1E2CFCFDD623F9DED /* [CP] Embed Pods Frameworks */,
-=======
->>>>>>> 9a02615cbc8dcb4c372a53edb8ce26a926bfde19
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			name = projtest;
-			productName = projtest;
+			name = lootbox;
+			productName = lootbox;
 			productReference = 13B07F961A680F5B00A75B9A /* Lootbox.app */;
 			productType = "com.apple.product-type.application";
 		};
-		2D02E47A1E0B4A5D006451C7 /* projtest-tvOS */ = {
+		2D02E47A1E0B4A5D006451C7 /* lootbox-tvOS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 2D02E4BA1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "projtest-tvOS" */;
+			buildConfigurationList = 2D02E4BA1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "lootbox-tvOS" */;
 			buildPhases = (
 				F9A6A3E03F4B720F8EA34F9F /* [CP] Check Pods Manifest.lock */,
 				FD10A7F122414F3F0027D42C /* Start Packager */,
@@ -347,14 +342,14 @@
 			);
 			dependencies = (
 			);
-			name = "projtest-tvOS";
-			productName = "projtest-tvOS";
-			productReference = 2D02E47B1E0B4A5D006451C7 /* projtest-tvOS.app */;
+			name = "lootbox-tvOS";
+			productName = "lootbox-tvOS";
+			productReference = 2D02E47B1E0B4A5D006451C7 /* lootbox-tvOS.app */;
 			productType = "com.apple.product-type.application";
 		};
-		2D02E48F1E0B4A5D006451C7 /* projtest-tvOSTests */ = {
+		2D02E48F1E0B4A5D006451C7 /* lootbox-tvOSTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 2D02E4BB1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "projtest-tvOSTests" */;
+			buildConfigurationList = 2D02E4BB1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "lootbox-tvOSTests" */;
 			buildPhases = (
 				3B537DB5F8397946FE2EFBA1 /* [CP] Check Pods Manifest.lock */,
 				2D02E48C1E0B4A5D006451C7 /* Sources */,
@@ -366,9 +361,9 @@
 			dependencies = (
 				2D02E4921E0B4A5D006451C7 /* PBXTargetDependency */,
 			);
-			name = "projtest-tvOSTests";
-			productName = "projtest-tvOSTests";
-			productReference = 2D02E4901E0B4A5D006451C7 /* projtest-tvOSTests.xctest */;
+			name = "lootbox-tvOSTests";
+			productName = "lootbox-tvOSTests";
+			productReference = 2D02E4901E0B4A5D006451C7 /* lootbox-tvOSTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -399,7 +394,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "projtest" */;
+			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "lootbox" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -412,10 +407,10 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				13B07F861A680F5B00A75B9A /* projtest */,
-				00E356ED1AD99517003FC87E /* projtestTests */,
-				2D02E47A1E0B4A5D006451C7 /* projtest-tvOS */,
-				2D02E48F1E0B4A5D006451C7 /* projtest-tvOSTests */,
+				13B07F861A680F5B00A75B9A /* lootbox */,
+				00E356ED1AD99517003FC87E /* lootboxTests */,
+				2D02E47A1E0B4A5D006451C7 /* lootbox-tvOS */,
+				2D02E48F1E0B4A5D006451C7 /* lootbox-tvOSTests */,
 			);
 		};
 /* End PBXProject section */
@@ -509,29 +504,11 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-projtest-tvOSTests-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-lootbox-tvOSTests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		448BAA0FA03CC0FE7C85999C /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-projtest-projtestTests/Pods-projtest-projtestTests-frameworks.sh",
-				"${PODS_XCFRAMEWORKS_BUILD_DIR}/OpenSSL/OpenSSL.framework/OpenSSL",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/OpenSSL.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-projtest-projtestTests/Pods-projtest-projtestTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		470F9E6276DAC8F8BFA3AF8A /* [CP] Copy Pods Resources */ = {
@@ -540,7 +517,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-projtest-projtestTests/Pods-projtest-projtestTests-resources.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-lootbox-lootboxTests/Pods-lootbox-lootboxTests-resources.sh",
 				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Entypo.ttf",
@@ -583,7 +560,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-projtest-projtestTests/Pods-projtest-projtestTests-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-lootbox-lootboxTests/Pods-lootbox-lootboxTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		B8D0ED12CA023B188E8C4F85 /* [CP] Copy Pods Resources */ = {
@@ -592,7 +569,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-projtest/Pods-projtest-resources.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-lootbox/Pods-lootbox-resources.sh",
 				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Entypo.ttf",
@@ -635,7 +612,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-projtest/Pods-projtest-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-lootbox/Pods-lootbox-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		BFF0226688373F258AC7E9D0 /* [CP] Check Pods Manifest.lock */ = {
@@ -653,7 +630,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-projtest-projtestTests-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-lootbox-lootboxTests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -685,29 +662,11 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-projtest-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-lootbox-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		F604B4F1E2CFCFDD623F9DED /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-projtest/Pods-projtest-frameworks.sh",
-				"${PODS_XCFRAMEWORKS_BUILD_DIR}/OpenSSL/OpenSSL.framework/OpenSSL",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/OpenSSL.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-projtest/Pods-projtest-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		F9A6A3E03F4B720F8EA34F9F /* [CP] Check Pods Manifest.lock */ = {
@@ -725,7 +684,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-projtest-tvOS-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-lootbox-tvOS-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -777,7 +736,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				00E356F31AD99517003FC87E /* projtestTests.m in Sources */,
+				00E356F31AD99517003FC87E /* lootboxTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -803,7 +762,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2DCD954D1E0B4F2C00145EB5 /* projtestTests.m in Sources */,
+				2DCD954D1E0B4F2C00145EB5 /* lootboxTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -812,12 +771,12 @@
 /* Begin PBXTargetDependency section */
 		00E356F51AD99517003FC87E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 13B07F861A680F5B00A75B9A /* projtest */;
+			target = 13B07F861A680F5B00A75B9A /* lootbox */;
 			targetProxy = 00E356F41AD99517003FC87E /* PBXContainerItemProxy */;
 		};
 		2D02E4921E0B4A5D006451C7 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 2D02E47A1E0B4A5D006451C7 /* projtest-tvOS */;
+			target = 2D02E47A1E0B4A5D006451C7 /* lootbox-tvOS */;
 			targetProxy = 2D02E4911E0B4A5D006451C7 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -825,14 +784,14 @@
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = FC7BFAFE0FE2965B056B77EF /* Pods-projtest-projtestTests.debug.xcconfig */;
+			baseConfigurationReference = FC7BFAFE0FE2965B056B77EF /* Pods-lootbox-lootboxTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = projtestTests/Info.plist;
+				INFOPLIST_FILE = lootboxTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				OTHER_LDFLAGS = (
@@ -842,17 +801,17 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/projtest.app/projtest";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/lootbox.app/lootbox";
 			};
 			name = Debug;
 		};
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D88CD6AB6094FA429DFEDB3B /* Pods-projtest-projtestTests.release.xcconfig */;
+			baseConfigurationReference = D88CD6AB6094FA429DFEDB3B /* Pods-lootbox-lootboxTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
-				INFOPLIST_FILE = projtestTests/Info.plist;
+				INFOPLIST_FILE = lootboxTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				OTHER_LDFLAGS = (
@@ -862,13 +821,13 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/projtest.app/projtest";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/lootbox.app/lootbox";
 			};
 			name = Release;
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BD615135A8EDC93BC9D31C3C /* Pods-projtest.debug.xcconfig */;
+			baseConfigurationReference = BD615135A8EDC93BC9D31C3C /* Pods-lootbox.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -877,7 +836,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = RJJ99X8FX3;
 				ENABLE_BITCODE = NO;
-				INFOPLIST_FILE = projtest/Info.plist;
+				INFOPLIST_FILE = lootbox/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				ONLY_ACTIVE_ARCH = NO;
@@ -886,7 +845,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.projtest;
+				PRODUCT_BUNDLE_IDENTIFIER = com.lootbox;
 				PRODUCT_NAME = Lootbox;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -897,7 +856,7 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F6C9A83D8A12B5F6D43567E3 /* Pods-projtest.release.xcconfig */;
+			baseConfigurationReference = F6C9A83D8A12B5F6D43567E3 /* Pods-lootbox.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -905,7 +864,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = RJJ99X8FX3;
-				INFOPLIST_FILE = projtest/Info.plist;
+				INFOPLIST_FILE = lootbox/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
@@ -913,7 +872,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.projtest;
+				PRODUCT_BUNDLE_IDENTIFIER = com.lootbox;
 				PRODUCT_NAME = Lootbox;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
@@ -923,7 +882,7 @@
 		};
 		2D02E4971E0B4A5E006451C7 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 126BEB0E44F096DF653A00C8 /* Pods-projtest-tvOS.debug.xcconfig */;
+			baseConfigurationReference = 126BEB0E44F096DF653A00C8 /* Pods-lootbox-tvOS.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -934,14 +893,14 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_TESTABILITY = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = "projtest-tvOS/Info.plist";
+				INFOPLIST_FILE = "lootbox-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.projtest-tvOS";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.lootbox-tvOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
 				TARGETED_DEVICE_FAMILY = 3;
@@ -951,7 +910,7 @@
 		};
 		2D02E4981E0B4A5E006451C7 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 70BD77D2C273F93E7EBDEC76 /* Pods-projtest-tvOS.release.xcconfig */;
+			baseConfigurationReference = 70BD77D2C273F93E7EBDEC76 /* Pods-lootbox-tvOS.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -962,14 +921,14 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = "projtest-tvOS/Info.plist";
+				INFOPLIST_FILE = "lootbox-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.projtest-tvOS";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.lootbox-tvOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
 				TARGETED_DEVICE_FAMILY = 3;
@@ -979,7 +938,7 @@
 		};
 		2D02E4991E0B4A5E006451C7 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BF09B3CA9687EFA285C7517A /* Pods-projtest-tvOSTests.debug.xcconfig */;
+			baseConfigurationReference = BF09B3CA9687EFA285C7517A /* Pods-lootbox-tvOSTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NONNULL = YES;
@@ -989,24 +948,24 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_TESTABILITY = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = "projtest-tvOSTests/Info.plist";
+				INFOPLIST_FILE = "lootbox-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.projtest-tvOSTests";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.lootbox-tvOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/projtest-tvOS.app/projtest-tvOS";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/lootbox-tvOS.app/lootbox-tvOS";
 				TVOS_DEPLOYMENT_TARGET = 10.1;
 			};
 			name = Debug;
 		};
 		2D02E49A1E0B4A5E006451C7 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 924AA13B975A7D1DA9F8D23A /* Pods-projtest-tvOSTests.release.xcconfig */;
+			baseConfigurationReference = 924AA13B975A7D1DA9F8D23A /* Pods-lootbox-tvOSTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NONNULL = YES;
@@ -1016,17 +975,17 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = "projtest-tvOSTests/Info.plist";
+				INFOPLIST_FILE = "lootbox-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.projtest-tvOSTests";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.lootbox-tvOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/projtest-tvOS.app/projtest-tvOS";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/lootbox-tvOS.app/lootbox-tvOS";
 				TVOS_DEPLOYMENT_TARGET = 10.1;
 			};
 			name = Release;
@@ -1147,7 +1106,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "projtestTests" */ = {
+		00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "lootboxTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				00E356F61AD99517003FC87E /* Debug */,
@@ -1156,7 +1115,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
-		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "projtest" */ = {
+		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "lootbox" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				13B07F941A680F5B00A75B9A /* Debug */,
@@ -1165,7 +1124,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
-		2D02E4BA1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "projtest-tvOS" */ = {
+		2D02E4BA1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "lootbox-tvOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				2D02E4971E0B4A5E006451C7 /* Debug */,
@@ -1174,7 +1133,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
-		2D02E4BB1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "projtest-tvOSTests" */ = {
+		2D02E4BB1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "lootbox-tvOSTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				2D02E4991E0B4A5E006451C7 /* Debug */,
@@ -1183,7 +1142,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
-		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "projtest" */ = {
+		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "lootbox" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				83CBBA201A601CBA00E9B192 /* Debug */,
