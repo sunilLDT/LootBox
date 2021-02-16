@@ -13,7 +13,9 @@
     "start": "react-native start",
     "test": "jest",
     "lint": "eslint .",
-    "prepare": "install-peers"
+    "prepare": "install-peers",
+"build:ios": "react-native bundle --entry-file='index.js' --bundle-output='./ios/main.jsbundle' --dev=false --platform='ios'"
+
   },
   "dependencies": {
     "@react-native-community/async-storage": "^1.12.1",
