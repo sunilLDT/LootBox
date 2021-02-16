@@ -95,6 +95,7 @@ const Cart = (props) => {
       setcartItems(response.data.items)
       setCartPackage(response.data.package)
       setCartData(response.data)
+      advanceBuilderIds(response.data.items)
       setLoading(false)
     }).catch((error) => {
       console.log("showCartData" + error);
@@ -135,7 +136,6 @@ const Cart = (props) => {
   };
    const paymentOption = (paymentType) => {
      orderPlace(paymentType).then((response) => {
-       console.log(response.message);
         setLoading(false)
         props.navigation.navigate('checkout', { paymentUrl: response.data.data.paymenturl })
       }).catch((error) => {
@@ -145,6 +145,7 @@ const Cart = (props) => {
    }
 
   useEffect(() => {
+    props.add()
     props.showAddress();
     addressListApi().then((response) => {
       setAllAddress(response.data)
@@ -335,8 +336,6 @@ const Cart = (props) => {
   }
 
   const removeAdvanceBuilder = (advanceItems) => {
-    console.log("advance items who gona delete")
-    console.log(advanceItems)
     setRemoveAdvanceLoader(true)
     advanceBuilderIds(cartItems)
     removeItemAPI(advanceItems).then((response) => {
