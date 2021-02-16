@@ -39,6 +39,7 @@ import AlertMessage from './src/components/AlertMessage';
 import changePasswordNumber from './src/screens/changePhoneNumber';
 import Address from './src/screens/Address';
 import OrderDetails from './src/screens/OrderDetails';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { store, persistedStore } from './src/store/index';
 import { Provider } from 'react-redux';
 import SplashScreen from 'react-native-splash-screen';
@@ -170,6 +171,7 @@ const App = () => {
   }
 
   return (
+    <SafeAreaProvider>
     <View
       style={{
         width,
@@ -220,19 +222,18 @@ const App = () => {
           <Stack.Screen name="ProductDetails" component={ProductDetails} />
           <Stack.Screen name="ItemListing" component={ItemListing} />
           <Stack.Screen name="OrderDetails" component={OrderDetails} />
-          <Stack.Screen name="Faq" 
-          
-          options={{
-            headerShown: true,
-            headerStyle: {
-              backgroundColor: '#292633',
-            },
-            headerTintColor: '#fff',
-            headerTitleStyle: {
-              fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma',
-            },
-            title: 'FAQ'
-            }} 
+          <Stack.Screen name="Faq"  
+            options={{
+             headerShown: true,
+             headerStyle: {
+                backgroundColor: '#292633',
+             },
+              headerTintColor: '#fff',
+              headerTitleStyle: {
+                fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma',
+             },
+             title: 'FAQ'
+             }} 
           component={Faq} />
           <Stack.Screen  options={{
             headerShown: true,
@@ -254,6 +255,7 @@ const App = () => {
         </Stack.Navigator>
       </NavigationContainer>
     </View>
+    </SafeAreaProvider>
   );
 };
 
@@ -263,7 +265,7 @@ export default () => {
       let languagename = await AsyncStorage.getItem('language');
       noset(languagename)
   };
-  languageChange()
+  languageChange();
   return (
     <LanguageProvider 
       strings={strings}
