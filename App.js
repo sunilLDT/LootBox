@@ -265,7 +265,7 @@ export default () => {
       let languagename = await AsyncStorage.getItem('language');
       noset(languagename)
   };
-  languageChange()
+  languageChange();
   return (
     <LanguageProvider 
       strings={strings}
