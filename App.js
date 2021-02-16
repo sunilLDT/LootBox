@@ -42,7 +42,8 @@ import OrderDetails from './src/screens/OrderDetails';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { store, persistedStore } from './src/store/index';
 import { Provider } from 'react-redux';
-
+import { connect } from 'react-redux';
+import { languageActions } from './src/actions/language';
 import SplashScreen from 'react-native-splash-screen';
 import Email from './src/screens/email';
 import AddToCart from './src/screens/AdvanceBuilder/addToCart';
@@ -116,13 +117,14 @@ const HomeScreen = () => (
   </Drawer.Navigator>
 );
 
-const App = () => {
+const App = (props) => {
   const { checkUser } = useContext(AuthContext);
   const check = async () => {
     await checkUser();
     SplashScreen.hide();
   };
   useEffect(() => {
+    store.dispatch(languageActions.getLabelAction(props.lang))
     check();
     requestUserPermission();
     const unsubscribe = messaging().onMessage(async remoteMessage => {
@@ -259,8 +261,16 @@ const App = () => {
     </SafeAreaProvider>
   );
 };
+const mapStateToProps = (state) => ({
+  //ddress: state.addressReducer.address,
+})
+const actionCreators = {
+  getLabelAction: languageActions.getLabelAction,
+};
 
-export default () => {
+connect(mapStateToProps, actionCreators)(App);
+
+export default() => {
   const [set,noset] = useState('en');
   const languageChange = async () => {
       let languagename = await AsyncStorage.getItem('language');
@@ -273,9 +283,17 @@ export default () => {
       language={set}>
       <Provider store={store}>
         <AuthProvider>
-          <App />
+          <App lang={set} />
         </AuthProvider>
       </Provider>
     </LanguageProvider>
   );
 };
+/*const mapStateToProps = (state) => ({
+  //ddress: state.addressReducer.address,
+})
+const actionCreators = {
+  getLabelAction: languageActions.getLabelAction,
+};
+
+export default connect(mapStateToProps, actionCreators)(App);*/

@@ -6,15 +6,19 @@ export const languageActions = {
 };
 
 function getLabelAction(lang) {
+  console.log('=================')
+  console.log(lang);
+  console.log('=================')
   return (dispatch) => {
     dispatch(request(lang));
-    getLabelsApi().then((response) => {
+ 
+    getLabelsApi(lang).then((response) => {
       dispatch(success(response.data));
       console.log("****** labels api response *******")
       console.log(response.data)
     }).catch((error) => {
       console.log("label api in redux" + error);
-        dispatch(failure(response.message))
+        dispatch(failure('error'))
     });   
   };
 
