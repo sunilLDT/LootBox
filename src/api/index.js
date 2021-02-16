@@ -31,7 +31,7 @@ instance.interceptors.request.use(
 instance.interceptors.response.use(
   (response) => response,
   (error) => {
-    alert(error.response.data.message)
+    // alert(error.response.data.message)
     // AsyncStorage.clear()
     // navigate({name: 'auth'})
     return Promise.reject(error)

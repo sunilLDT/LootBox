@@ -65,7 +65,6 @@ const AdvanceBuilder = (props) => {
   const [ItemToDelete,setItemToDelete] = useState([]);
   const maxlimit = 20;
 
-  console.log(selectStatus)
   const selectedSubCategoryAdvance = (arr) => {
     let a = []
     arr.forEach(function (obj, index) {
@@ -185,21 +184,13 @@ const AdvanceBuilder = (props) => {
 
   const finalSubmit = (ids) => { 
     if(fromCart === 1){
-      ids = ids.filter( function( item ) {
-        for( var i=0, len=itemList.length; i<len; i++ ){
-            if( itemList[i].item_id == item.item_id ) {
-              return false;
-            }
-        }
-        return true;
-      });
-      removeAdvanceBuilderItems(ids)
-      if(ItemToDelete.length !== 0){
+
+      if(removeAdvanceBuilderItems){
         removeItemAPI(ItemToDelete).then((response) => {
           if (response.code == 200) {
             props.add()
+            console.log(response)
           }
-          console.log(response.data)
         }).catch(err => console.log(err))
       }
     }
@@ -238,6 +229,10 @@ const AdvanceBuilder = (props) => {
      }
      else{
       i = selectedIndex;
+      if(fromCart === 1){
+        i = selectedIndex + 1;
+        setSelectedIndex(i)
+      }
      }    
      
     }
@@ -289,8 +284,9 @@ const AdvanceBuilder = (props) => {
     });
   }
 
-  const selectItem = (i) => {
+  const selectItem = (i,ids) => {
     let result = itemList.some(x => x.sub_category_id === i.sub_category_id);
+    
 
     if (!result) {
       setStatus(i.sub_category_id);
@@ -323,13 +319,26 @@ const AdvanceBuilder = (props) => {
             if(data[j].sub_category_id == i.sub_category_id) {
                 data.splice(j,1)
                 data.push(i)
-                setStatus(i.sub_category_id)
+                if(fromCart === 1){
+                  setStatus(i.sub_category_id)
+                }
             }
           }
         }
       }else{
         data.push(i)
       }
+    }
+    if(fromCart === 1){
+      ids = ids.filter( function( item ) {
+        for( var i=0, len=itemList.length; i<len; i++ ){
+            if( itemList[i].item_id == item.item_id ) {
+                return false;
+            }
+        }
+        return true;
+      });
+      removeAdvanceBuilderItems(ids)
     }
    
       var total = 0
@@ -593,7 +602,7 @@ const AdvanceBuilder = (props) => {
                           const maxlimit = 22;
                           return (
                             <TouchableOpacity onPress={() => {
-                            selectItem(item) 
+                            selectItem(item,cartItemId) 
                             // onPressTouch()
                             }
                             }>
@@ -791,7 +800,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     position: 'relative',
     bottom: 20,
-    borderRadius:50,
+    borderRadius:7,
     // resizeMode:"center"
 
   },
