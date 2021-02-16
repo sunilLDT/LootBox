@@ -345,8 +345,8 @@ PODS:
     - React
   - react-native-restart (0.0.17):
     - React
-  - react-native-safe-area-context (3.1.7):
-    - React
+  - react-native-safe-area-context (3.1.9):
+    - React-Core
   - react-native-splash-screen (3.2.0):
     - React
   - react-native-webview (10.10.2):
@@ -715,7 +715,7 @@ SPEC CHECKSUMS:
   react-native-image-picker: 32d1ad2c0024ca36161ae0d5c2117e2d6c441f11
   react-native-maps: f4b89da81626ad7f151a8bfcb79733295d31ce5c
   react-native-restart: 3b23471050bde7f392395703c4a3f959e2b0ff8e
-  react-native-safe-area-context: fcece23844742b6f7f0627c3715b806a7deff946
+  react-native-safe-area-context: 86612d2c9a9e94e288319262d10b5f93f0b395f5
   react-native-splash-screen: 200d11d188e2e78cea3ad319964f6142b6384865
   react-native-webview: ef8d30ecc5baf6bf7821690180c2f9bf2bdf00c0
   React-RCTActionSheet: 910163b6b09685a35c4ebbc52b66d1bfbbe39fc5

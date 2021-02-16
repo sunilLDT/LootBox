@@ -35,8 +35,8 @@ static void InitializeFlipper(UIApplication *application) {
       [FIRApp configure];
     }
 
-  //[[RCTI18nUtil sharedInstance] allowRTL:YES];
-  //[[RCTI18nUtil sharedInstance] forceRTL:YES];
+  [[RCTI18nUtil sharedInstance] allowRTL:YES];
+  [[RCTI18nUtil sharedInstance] forceRTL:YES];
 
 #ifdef FB_SONARKIT_ENABLED
   InitializeFlipper(application);
