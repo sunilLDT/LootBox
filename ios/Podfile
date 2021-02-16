@@ -3,7 +3,7 @@ require_relative '../node_modules/@react-native-community/cli-platform-ios/nativ
 
 platform :ios, '11.0'
 
-target 'projtest' do
+target 'lootbox' do
   config = use_native_modules!
 
   use_react_native!(:path => config["reactNativePath"])
@@ -22,7 +22,7 @@ target 'projtest' do
 
   pod 'Firebase/Analytics'
 
-  target 'projtestTests' do
+  target 'lootboxTests' do
     inherit! :complete
     # Pods for testing
   end
@@ -31,16 +31,17 @@ target 'projtest' do
   #
   # Note that if you have use_frameworks! enabled, Flipper will not work and
   # you should disable these next few lines.
-  use_flipper!
+  #use_flipper!
+  use_flipper!({ 'Flipper-Folly' => '2.3.0' }) # update this part
   post_install do |installer|
     flipper_post_install(installer)
   end
 end
 
-target 'projtest-tvOS' do
-  # Pods for projtest-tvOS
+target 'lootbox-tvOS' do
+  # Pods for lootbox-tvOS
 
-  target 'projtest-tvOSTests' do
+  target 'lootbox-tvOSTests' do
     inherit! :search_paths
     # Pods for testing
   end

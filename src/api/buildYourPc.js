@@ -213,6 +213,11 @@ export async function getOrderDetails(id) {
   return response.data;
 }
 
+export async function getLabels(id) {
+  const response = await Api.get('app/label/list');
+  return response.data;
+}
+
 export async function sendEmail(data) {
   const response = await Api.post('app/order/list', {
     data
