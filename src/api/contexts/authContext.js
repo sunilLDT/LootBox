@@ -61,9 +61,7 @@ const reducer = (state, action) => {
 const checkUser = (dispatch) => async () => {
   const token = await AsyncStorage.getItem('token');
   const language = await AsyncStorage.getItem('language');
-  console.log("////////")
-  console.log(language)
-  console.log("//////// language name")
+ 
   if (token && token.length > 0) {
     dispatch({
       type: 'signin',
