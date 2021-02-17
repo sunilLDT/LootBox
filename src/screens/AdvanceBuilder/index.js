@@ -796,8 +796,8 @@ const styles = StyleSheet.create({
     resizeMode: 'center',
   },
   itemImage: {
-    width: 55,
-    height: 45,
+    width: 75,
+    height: 55,
     alignSelf: 'center',
     position: 'relative',
     bottom: 20,
