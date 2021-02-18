@@ -64,7 +64,7 @@ const Slideshow = (props) => {
             fontFamily: Platform.OS == 'android' ? 'Michroma-Regular' : 'Michroma',
             fontSize: 20,
             lineHeight: 38,
-            bottom: Platform.OS == 'ios' ? 100 : 100,
+            bottom: Platform.OS == 'ios' ? 200 : 100,
           }}
           pages={
             bannerData.map((bd, i) => {
@@ -80,7 +80,7 @@ const Slideshow = (props) => {
                   // onLoadEnd={e => setLoading(false)}
                   // onProgress={e => console.log(e.nativeEvent.loaded / e.nativeEvent.total)}
                   //onProgress={e => {set}}
-                  resizeMode={FastImage.resizeMode.contain}
+                 // resizeMode={FastImage.resizeMode.contain}
                 />,
                 title: bannerData[0].title,
 
