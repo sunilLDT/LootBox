@@ -6,7 +6,6 @@ import {
   Image,
   ImageBackground
 } from 'react-native';
-import Btn from '../screens/btn';
 import { getBannerApi } from './../api/buildYourPc';
 import plainImage from '../assets/plainBg.png';
 import { Context as AuthContext } from '../api/contexts/authContext';
@@ -26,7 +25,14 @@ const Slideshow = (props) => {
   useEffect(() => {
     setLoading(true)
     getBannerApi().then((response) => {
-      setBannerData(response.data)
+      console.log('Banner %c data ??????????????????????????????????');
+
+      if (response.data) {
+        const imageUrls = response.data.map(res => res.image)
+        console.log(imageUrls)
+        setBannerData(imageUrls)
+      }
+
       setLoading(false)
     })
       .catch((error) => {
@@ -60,34 +66,43 @@ const Slideshow = (props) => {
             lineHeight: 38,
             bottom: Platform.OS == 'ios' ? 100 : 100,
           }}
-          pages={[
-            {
-              backgroundColor: '#272732',
+          pages={
+            bannerData.map((bd, i) => {
+              return {
+                backgroundColor: '#272732',
+                image: <FastImage
+                  style={{ width, height }}
+                  source={{
+                    uri: bd,
+                    priority: FastImage.priority.high,
+                  }}
+                  // onLoadStart={e => setLoading(true)}
+                  // onLoadEnd={e => setLoading(false)}
+                  // onProgress={e => console.log(e.nativeEvent.loaded / e.nativeEvent.total)}
+                  //onProgress={e => {set}}
+                  resizeMode={FastImage.resizeMode.contain}
+                />,
+                title: bannerData[0].title,
 
-              image: <FastImage
-                style={{ width, height }}
-                source={{
-                  uri: 'https://unsplash.it/400/400?image=1',
-                  priority: FastImage.priority.normal,
-                }}
-                resizeMode={FastImage.resizeMode.contain}
-              />,
-              title: bannerData[0].title,
-              subtitle: ''
-            },
-            {
-              backgroundColor: '#272732',
-              image: <Image style={{ width, height }} source={{ uri: bannerData[1].image }} />,
-              title: bannerData[1].title,
-              subtitle: '',
-            },
-            {
-              backgroundColor: '#272732',
-              image: <Image style={{ width, height }} source={{ uri: bannerData[2].image }} />,
-              title: bannerData[2].title,
-              subtitle: '',
-            }
-          ]}
+                subtitle: ''
+              }
+            })
+            //   [
+            // {
+            //   backgroundColor: '#272732',
+            //   image: <FastImage
+            //     style={{ width, height }}
+            //     source={{
+            //       uri: bannerData[0].image,
+            //       priority: FastImage.priority.high,
+            //     }}
+            //     resizeMode={FastImage.resizeMode.contain}
+            //   />,
+            //   title: bannerData[0].title,
+            //   subtitle: ''
+            // },
+            // ]
+          }
         />}
     </>
   );
