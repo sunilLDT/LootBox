@@ -136,6 +136,14 @@ const Cart = (props) => {
   };
    const paymentOption = (paymentType) => {
      orderPlace(paymentType).then((response) => {
+       if(paymentType === 3){
+         if(response.code == 200){
+           props.add()
+           props.navigation.navigate('alertMessage', { msgUrl: "success" })
+         }else{
+           alert(response.message)
+         }
+       }
         setLoading(false)
         props.navigation.navigate('checkout', { paymentUrl: response.data.data.paymenturl })
       }).catch((error) => {

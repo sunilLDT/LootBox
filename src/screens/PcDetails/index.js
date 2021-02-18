@@ -249,6 +249,7 @@ const styles = StyleSheet.create({
         width:width*0.4,
         height:height*0.2,
         resizeMode:'contain',
+        borderRadius:12
     },
     container:{
         display: 'flex',

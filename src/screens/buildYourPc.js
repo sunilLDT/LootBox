@@ -231,9 +231,9 @@ const changeResolution = (res) => {
               marginTop:'-7%',
               marginBottom:"3%",
               marginHorizontal:"5%",
-              borderRadius:20,
+              borderRadius:10,
              }}
-             inputContainerStyle={{ height: 30,backgroundColor:'#D2D7F9'}}
+             inputContainerStyle={{ height: 20,backgroundColor:'#D2D7F9',marginTop:-5}}
           />
         ) : null}
         </View>

@@ -209,6 +209,7 @@ const renderViewLess = (onPress) => {
                 height: 126,
                 width: 126,
                 marginRight: width * 0.05,
+                borderRadius:12
               }}
             />
           ) : (

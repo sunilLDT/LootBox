@@ -107,6 +107,7 @@ const ProductDetails = (props) => {
                   width: 312,
                   height: 200,
                   alignSelf: 'center',
+                  borderRadius:12
                 }}
               />
               <View
