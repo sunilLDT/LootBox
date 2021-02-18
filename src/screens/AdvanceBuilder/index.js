@@ -34,12 +34,13 @@ import Dialog, {
   SlideAnimation,
 } from 'react-native-popup-dialog';
 import Filter from '../filter';
+import { useIsFocused } from "@react-navigation/native";
 const { width, height } = Dimensions.get('window');
 
 
 const AdvanceBuilder = (props) => {
   const {fromCart} = props.route.params;
-  
+  const isFocused = useIsFocused();
   const scrollRef = useRef();
   const [loading, setLoading] = useState(true);
   const [subCategoryId, setSubCategoryid] = useState("");
@@ -64,6 +65,9 @@ const AdvanceBuilder = (props) => {
   const [cartItemId,setCartItemId] = useState([]);
   const [ItemToDelete,setItemToDelete] = useState([]);
   const maxlimit = 20;
+
+  console.log("** ItemToDelete *****")
+  console.log(ItemToDelete)
 
   const selectedSubCategoryAdvance = (arr) => {
     let a = []
@@ -121,7 +125,7 @@ const AdvanceBuilder = (props) => {
     props.categoryList();
     setLoading(false);
     getStatus(props.categories);
-  }, []);
+  }, [isFocused]);
 
   const getStatus = (arr) => {
     let a = []
@@ -142,7 +146,19 @@ const AdvanceBuilder = (props) => {
   }
 
 
-  const subCategoryFun = (subCatId, index, source) => {
+  const subCategoryFun = (subCatId, index, source,ids) => {
+
+    if(fromCart === 1){
+      ids = ids.filter( function( item ) {
+        for( var i=0, len=itemList.length; i<len; i++ ){
+            if( itemList[i].item_id == item.item_id ) {
+                return false;
+            }
+        }
+        return true;
+      });
+      removeAdvanceBuilderItems(ids)
+    }
     if (source == 1 || !filterValues) {
       setSubCategoryid(subCatId);
       setLastIndexedCat(subCatId);
@@ -175,6 +191,8 @@ const AdvanceBuilder = (props) => {
   }
 
   function removeAdvanceBuilderItems(arr){
+    console.log("arr ***")
+    console.log(arr)
     let itemsToDel = [];
     for(let cartItem of arr){
       itemsToDel.push(cartItem.cart_item_id)
@@ -184,15 +202,25 @@ const AdvanceBuilder = (props) => {
 
   const finalSubmit = (ids) => { 
     if(fromCart === 1){
+      ids = ids.filter( function( item ) {
+        for( var i=0, len=itemList.length; i<len; i++ ){
+            if( itemList[i].item_id == item.item_id ) {
+                return false;
+            }
+        }
+        return true;
+      });
+      removeAdvanceBuilderItems(ids)
 
       if(removeAdvanceBuilderItems){
         removeItemAPI(ItemToDelete).then((response) => {
           if (response.code == 200) {
             props.add()
-            console.log(response)
+            console.log(response.data)
           }
         }).catch(err => console.log(err))
       }
+      
     }
     let result = itemList.map(({ item_id, quantity, is_advance_builder }) => ({ item_id, quantity: 1, is_advance_builder: 1 }));
     addToCartAdvance(result).then((response) => {
@@ -207,17 +235,7 @@ const AdvanceBuilder = (props) => {
       animated: true,
     });
     
-    if(fromCart === 1){
-      ids = ids.filter( function( item ) {
-        for( var i=0, len=itemList.length; i<len; i++ ){
-            if( itemList[i].item_id == item.item_id ) {
-                return false;
-            }
-        }
-        return true;
-      });
-      removeAdvanceBuilderItems(ids)
-    }
+    
     let i
     if(isOptional.includes(subCategoryId)){
      let objIndex = selectStatus.findIndex((obj => obj.id == subCategoryId));
@@ -256,7 +274,7 @@ const AdvanceBuilder = (props) => {
   
     if(!isOptional.includes(subCategoryId)){
       if(checkSelectedForNext()){
-        subCatId && subCategoryFun(subCatId.sub_category_id, i, 1);
+        subCatId && subCategoryFun(subCatId.sub_category_id, i, 1,cartItemId);
       }
       else{
         alert("please select one item from this category")
@@ -264,7 +282,7 @@ const AdvanceBuilder = (props) => {
       
     }
     else{
-      subCatId && subCategoryFun(subCatId.sub_category_id, i, 1);
+      subCatId && subCategoryFun(subCatId.sub_category_id, i, 1,cartItemId);
     }
     // setTick([...tick, subCatId.sub_category_id]);
   }
@@ -300,6 +318,7 @@ const AdvanceBuilder = (props) => {
       });
     }
     
+    
     if(isMultiple.includes(subCategoryId)){
       if(checkitemExist()){
         for(var j = 0; j < data.length; j++) {
@@ -329,6 +348,7 @@ const AdvanceBuilder = (props) => {
       }else{
         data.push(i)
       }
+
     }
     if(fromCart === 1){
       ids = ids.filter( function( item ) {
@@ -349,6 +369,9 @@ const AdvanceBuilder = (props) => {
       setTotalPrice(total.toFixed(3))
       let index = selectStatus.find(obj => obj.status === false);
       if (!index) {
+        setShowSubmit(true)
+      }
+      else if(fromCart === 1){
         setShowSubmit(true)
       }
   }
@@ -533,7 +556,7 @@ const AdvanceBuilder = (props) => {
                         return (
                           <TouchableOpacity key={index} onPress={() => {
                             setFilterApplied({});
-                            subCategoryFun(part.sub_category_id, index, fromCart === 1?1:0)
+                            subCategoryFun(part.sub_category_id, index, fromCart === 1?1:0,cartItemId)
                           }}>
                             <View style={styles.box}>
                               {subCategoryId === part.sub_category_id ? (

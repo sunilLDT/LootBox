@@ -45,10 +45,12 @@ import Icon from 'react-native-vector-icons/Feather';
 import strings from '../languages/index';
 import AsyncStorage from '@react-native-community/async-storage';
 import {languagename} from '../components/LanguageName';
+import { useIsFocused } from "@react-navigation/native";
 
 const { width, height } = Dimensions.get('window');
 
 const Cart = (props) => {
+  const isFocused = useIsFocused();
   const [cartItems, setcartItems] = useState([]);
   const [upwardImage, setUpwardImage] = useState(true);
   const [cartPackage, setCartPackage] = useState([]);
@@ -101,7 +103,7 @@ const Cart = (props) => {
       console.log("showCartData" + error);
       setLoading(false)
     });
-  }, []);
+  }, [isFocused]);
 
   var y = allAddress.map((i) => {
     return i.is_default === 1 ? true : false;
@@ -153,7 +155,6 @@ const Cart = (props) => {
    }
 
   useEffect(() => {
-    props.add()
     props.showAddress();
     addressListApi().then((response) => {
       setAllAddress(response.data)
