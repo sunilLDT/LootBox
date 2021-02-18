@@ -66,9 +66,6 @@ const AdvanceBuilder = (props) => {
   const [ItemToDelete,setItemToDelete] = useState([]);
   const maxlimit = 20;
 
-  console.log("** ItemToDelete *****")
-  console.log(ItemToDelete)
-
   const selectedSubCategoryAdvance = (arr) => {
     let a = []
     arr.forEach(function (obj, index) {
@@ -215,8 +212,8 @@ const AdvanceBuilder = (props) => {
       if(removeAdvanceBuilderItems){
         removeItemAPI(ItemToDelete).then((response) => {
           if (response.code == 200) {
-            props.add()
             console.log(response.data)
+            props.add()
           }
         }).catch(err => console.log(err))
       }
@@ -225,10 +222,10 @@ const AdvanceBuilder = (props) => {
     let result = itemList.map(({ item_id, quantity, is_advance_builder }) => ({ item_id, quantity: 1, is_advance_builder: 1 }));
     addToCartAdvance(result).then((response) => {
       if (response.code == 200) {
-        props.add()
         props.navigation.navigate('cart');
+        props.add()
       }
-    })
+    }).catch(err => console.log("addtoCart"+ err))
   }
   const submitNow = (ids) => {
     scrollRef.current?.scrollTo({

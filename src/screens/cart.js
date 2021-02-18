@@ -77,7 +77,6 @@ const Cart = (props) => {
   const [advanceItems,setAdvanceIems] = useState([])
   languagename().then(res => setarOren(res))
 
-
   const maxlimit = 20;
   var imgSource = upwardImage ? ExpandImage : CloseImage;
 
@@ -103,7 +102,7 @@ const Cart = (props) => {
       console.log("showCartData" + error);
       setLoading(false)
     });
-  }, [isFocused]);
+  }, []);
 
   var y = allAddress.map((i) => {
     return i.is_default === 1 ? true : false;
@@ -137,10 +136,11 @@ const Cart = (props) => {
     }
   };
    const paymentOption = (paymentType) => {
+    setLoading(true)
      orderPlace(paymentType).then((response) => {
        if(paymentType === 3){
          if(response.code == 200){
-           props.add()
+          setLoading(false)
            props.navigation.navigate('alertMessage', { msgUrl: "success" })
          }else{
            alert(response.message)
