@@ -649,7 +649,7 @@ const LootStore = (props) => {
                                               position: 'absolute',
                                               top: -24,
                                               left: '14%',
-                                              // borderRadius:50,
+                                              borderRadius:12,
                                               // resizeMode:'center'
                                             }}
                                           />

@@ -31,7 +31,9 @@ const Home = (props) => {
         justifyContent: 'space-between',
         height,
         width,
-        backgroundColor: '#000',
+        backgroundColor: '#DF2EDC',
+        borderWidth:2,
+        borderColor:'#DF2EDC'
       }}>
       <TouchableOpacity
         onPress={() => {
@@ -67,7 +69,7 @@ const Home = (props) => {
                 width: '80%',
                 fontSize: 28,
                 textAlign: 'left',
-                fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma',        
+                fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma',      
                  }}>
               {strings.buildYourPc}
             </Text>

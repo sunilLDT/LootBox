@@ -269,8 +269,6 @@ const AdvanceBuilder = (props) => {
     // setTick([...tick, subCatId.sub_category_id]);
   }
 
-
-
   
   const checkSelectedForNext = () => {
     return itemList.some(function (el) {
@@ -287,7 +285,6 @@ const AdvanceBuilder = (props) => {
   const selectItem = (i,ids) => {
     let result = itemList.some(x => x.sub_category_id === i.sub_category_id);
     
-
     if (!result) {
       setStatus(i.sub_category_id);
       let k = selectedIndex;
@@ -305,7 +302,11 @@ const AdvanceBuilder = (props) => {
     
     if(isMultiple.includes(subCategoryId)){
       if(checkitemExist()){
-        // alert("don't need to push already we have")
+        for(var j = 0; j < data.length; j++) {
+          if(data[j].item_id == i.item_id) {
+              data.splice(j,1)
+          }
+        }
       }else{
         data.push(i)
         setItemList(data);
@@ -532,7 +533,7 @@ const AdvanceBuilder = (props) => {
                         return (
                           <TouchableOpacity key={index} onPress={() => {
                             setFilterApplied({});
-                            subCategoryFun(part.sub_category_id, index, 0)
+                            subCategoryFun(part.sub_category_id, index, fromCart === 1?1:0)
                           }}>
                             <View style={styles.box}>
                               {subCategoryId === part.sub_category_id ? (
@@ -795,8 +796,8 @@ const styles = StyleSheet.create({
     resizeMode: 'center',
   },
   itemImage: {
-    width: 55,
-    height: 45,
+    width: 75,
+    height: 55,
     alignSelf: 'center',
     position: 'relative',
     bottom: 20,

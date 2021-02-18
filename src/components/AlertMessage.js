@@ -39,11 +39,15 @@ const AlertMessage = (props) => {
             <SafeAreaView style={styles.mainContainer}>
 
                 <View style={styles.container}>
-                    {msgUrl == "https://test-api.loot-box.co/api/hesabe-success-callback" ? <Image style={styles.checkImage} source={require('../assets/check.png')} /> : <Icons name="x" size={35}
+                    {msgUrl == "https://test-api.loot-box.co/api/hesabe-success-callback" ||msgUrl == "success"  ?
+                     <Image style={styles.checkImage} source={require('../assets/check.png')} />
+                      : 
+                      <Icons name="x" size={35}
                         style={styles.cross}
-                    />}
-                    {msgUrl == "https://test-api.loot-box.co/api/hesabe-success-callback" ? <Text style={styles.msg}>Order{"\n"}Successful</Text> : <Text style={styles.msg}>Order{"\n"}Failed</Text>}
-                    {msgUrl == "https://test-api.loot-box.co/api/hesabe-success-callback" ? <Text style={styles.line}>Your Order will be delivered{"\n"}between 48-72 Hours</Text> : <Text style={styles.line}>You can try again !</Text>}
+                     />
+                    }
+                    {msgUrl == "https://test-api.loot-box.co/api/hesabe-success-callback" ||msgUrl == "success" ? <Text style={styles.msg}>Order{"\n"}Successful</Text> : <Text style={styles.msg}>Order{"\n"}Failed</Text>}
+                    {msgUrl == "https://test-api.loot-box.co/api/hesabe-success-callback" ||msgUrl == "success" ? <Text style={styles.line}>Your Order will be delivered{"\n"}between 48-72 Hours</Text> : <Text style={styles.line}>You can try again !</Text>}
                 </View>
                 <View style={styles.btnCotainer}>
                     <TouchableOpacity onPress={() => props.navigation.navigate('orders')}>
