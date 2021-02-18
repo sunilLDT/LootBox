@@ -379,8 +379,11 @@ const Cart = (props) => {
             <View
               style={{
                 paddingVertical: width * 0.05,
+
                 
                 paddingHorizontal: Platform.OS == 'android' ?width * 0.05:width *0.07,
+                // paddingHorizontal: Platform.OS == 'android' ?width * 0.1:width *0.07,
+                paddingHorizontal:arOren == "it"?width * 0.07:width * 0.08
 
               }}>
               <Dialog
