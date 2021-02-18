@@ -280,7 +280,7 @@ const verifyOtp = (dispatch) => async ({ otp }) => {
           device_type:Platform.OS=='android' ? 1 : 2,
           action_type:1
  });
-     alert(store.data.message)
+    //  alert(store.data.message)
         }
         navigate({ name: navigationName || 'home' });
       } else {
@@ -477,7 +477,7 @@ const signout = (dispatch) => async () => {
     device_type:Platform.OS=='android' ? 1 : 2,
     action_type:2
 });
-alert(store.data.message)
+// alert(store.data.message)
     await AsyncStorage.clear();
     dispatch({ type: 'signout' });
 navigate({ name: 'auth' });

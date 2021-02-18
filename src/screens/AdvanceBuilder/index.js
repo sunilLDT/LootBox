@@ -65,7 +65,8 @@ const AdvanceBuilder = (props) => {
   const [cartItemId,setCartItemId] = useState([]);
   const [ItemToDelete,setItemToDelete] = useState([]);
   const maxlimit = 20;
-
+  console.log("*** item delete ****")
+  console.log(ItemToDelete)
   const selectedSubCategoryAdvance = (arr) => {
     let a = []
     arr.forEach(function (obj, index) {
@@ -188,8 +189,6 @@ const AdvanceBuilder = (props) => {
   }
 
   function removeAdvanceBuilderItems(arr){
-    console.log("arr ***")
-    console.log(arr)
     let itemsToDel = [];
     for(let cartItem of arr){
       itemsToDel.push(cartItem.cart_item_id)
@@ -199,31 +198,21 @@ const AdvanceBuilder = (props) => {
 
   const finalSubmit = (ids) => { 
     if(fromCart === 1){
-      ids = ids.filter( function( item ) {
-        for( var i=0, len=itemList.length; i<len; i++ ){
-            if( itemList[i].item_id == item.item_id ) {
-                return false;
-            }
-        }
-        return true;
-      });
-      removeAdvanceBuilderItems(ids)
-
-      if(removeAdvanceBuilderItems){
+      
         removeItemAPI(ItemToDelete).then((response) => {
+          console.log("here we are")
           if (response.code == 200) {
             console.log(response.data)
             props.add()
           }
         }).catch(err => console.log(err))
-      }
       
     }
     let result = itemList.map(({ item_id, quantity, is_advance_builder }) => ({ item_id, quantity: 1, is_advance_builder: 1 }));
     addToCartAdvance(result).then((response) => {
       if (response.code == 200) {
-        props.navigation.navigate('cart');
         props.add()
+        props.navigation.navigate('cart');
       }
     }).catch(err => console.log("addtoCart"+ err))
   }
@@ -565,8 +554,8 @@ const AdvanceBuilder = (props) => {
                                     width: 8,
                                     height: 8,
                                     position: 'absolute',
-                                    right: 22,
-                                    top: 22,
+                                    right: 75,
+                                    top: 18,
                                     zIndex: 100,
                                     borderRadius: 50,
                                     alignItems: 'center',

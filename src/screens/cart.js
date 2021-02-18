@@ -50,6 +50,7 @@ import { useIsFocused } from "@react-navigation/native";
 const { width, height } = Dimensions.get('window');
 
 const Cart = (props) => {
+  
   const isFocused = useIsFocused();
   const [cartItems, setcartItems] = useState([]);
   const [upwardImage, setUpwardImage] = useState(true);
@@ -75,7 +76,9 @@ const Cart = (props) => {
   const [removeAdvanceLoader,setRemoveAdvanceLoader] = useState(false);
   const [arOren,setarOren] = useState('en');
   const [advanceItems,setAdvanceIems] = useState([])
+  const [checkCOD,setCheckCOD] = useState(false);
   languagename().then(res => setarOren(res))
+
 
   const maxlimit = 20;
   var imgSource = upwardImage ? ExpandImage : CloseImage;
@@ -102,7 +105,8 @@ const Cart = (props) => {
       console.log("showCartData" + error);
       setLoading(false)
     });
-  }, []);
+
+  },checkCOD?[""]:[isFocused]);
 
   var y = allAddress.map((i) => {
     return i.is_default === 1 ? true : false;
@@ -136,6 +140,9 @@ const Cart = (props) => {
     }
   };
    const paymentOption = (paymentType) => {
+     if(paymentType === 3){
+      setCheckCOD(true)
+     }
     setLoading(true)
      orderPlace(paymentType).then((response) => {
        if(paymentType === 3){
@@ -180,7 +187,7 @@ const Cart = (props) => {
       setCartData(response.data)
       props.add();
     }).catch((error) => {
-      console.log("showCartData" + error);
+      console.log("showCartData reload" + error);
     });
   }
 
@@ -1351,9 +1358,9 @@ const Cart = (props) => {
               }
             </View>
             <View style={styles.bottom}>
-              <Text style={styles.forgotText}>
+              {/* <Text style={styles.forgotText}>
                 {strings.forgotToAdd}
-              </Text>
+              </Text> */}
               <View>
                 <TouchableOpacity style={{ marginTop: 10, marginLeft: 40 }} onPress={() => props.navigation.navigate('home')}>
                   <View style={{ width: "87%", }}>

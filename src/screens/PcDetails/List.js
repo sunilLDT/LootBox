@@ -278,7 +278,7 @@ const ListDetails = (props) => {
                                                 />):(
                                                 <Image
                                                     source={{ uri: processer.image }}
-                                                    style={{ width: 48, height: 40, marginBottom: 10, alignSelf: 'center' }}
+                                                    style={{ width: 48, height: 40, marginBottom: 10, alignSelf: 'center',borderRadius:7 }}
                                                 />
                                                 )}
                                                 
