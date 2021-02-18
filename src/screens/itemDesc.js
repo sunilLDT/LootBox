@@ -1,4 +1,4 @@
-import React, {useEffect, useContext, useState} from 'react';
+import React, { useEffect, useContext, useState } from 'react';
 import {
   ImageBackground,
   Dimensions,
@@ -11,13 +11,13 @@ import {
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import Btn from './btn';
-import {Context as AuthContext} from '../api/contexts/authContext';
-import {showCartData,addToCartForStore} from '../api/buildYourPc';
+import { Context as AuthContext } from '../api/contexts/authContext';
+import { showCartData, addToCartForStore } from '../api/buildYourPc';
 import ViewMoreText from 'react-native-view-more-text';
 import { connect } from 'react-redux';
 import { cartActions } from '../actions/user';
 
-const {width, height} = Dimensions.get('window');
+const { width, height } = Dimensions.get('window');
 
 const performanceDetails = [
   {
@@ -65,20 +65,20 @@ const data = [performanceDetails, processorDetails];
 
 
 const ItemDesc = (props) => {
-  const {fetchItemsInfo} = useContext(AuthContext);
+  const { fetchItemsInfo } = useContext(AuthContext);
   const [itemData, setData] = useState([]);
   const [qty, setQty] = useState(1);
-  const [AddItems,setAddItems] = useState([]);
+  const [AddItems, setAddItems] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const renderViewMore = (onPress) => {
-    return(
-      <Text style={{color:'#fff',fontWeight:'bold',}} onPress={onPress}>more</Text>
+    return (
+      <Text style={{ color: '#fff', fontWeight: 'bold', }} onPress={onPress}>more</Text>
     )
   };
-const renderViewLess = (onPress) => {
-    return(
-      <Text style={{color:'#fff',fontWeight:'bold',}} onPress={onPress}>less</Text>
+  const renderViewLess = (onPress) => {
+    return (
+      <Text style={{ color: '#fff', fontWeight: 'bold', }} onPress={onPress}>less</Text>
     )
   };
 
@@ -98,23 +98,17 @@ const renderViewLess = (onPress) => {
 
   const isUpdate = false;
   const item = [
-          {
-              "item_id":props.route.params.id,
-              "quantity":qty,
-          }, 
-        ];   
+    {
+      "item_id": props.route.params.id,
+      "quantity": qty,
+    },
+  ];
   const proceedToCheckout = () => {
-    addToCartForStore(isUpdate,item).then((response) => {
-      setAddItems(response.data)
-      props.navigation.navigate('cart');
-      props.add();
-    }).catch((error) => {
-      console.log("addToCartForStore" + error);
-    });
+    props.navigation.navigate('cart');
   }
 
   const addIntoCart = () => {
-    addToCartForStore(isUpdate,item).then((response) => {
+    addToCartForStore(isUpdate, item).then((response) => {
       setAddItems(response.data)
       props.add();
       alert("Item added to the cart Sucessfully")
@@ -163,13 +157,13 @@ const renderViewLess = (onPress) => {
               <Image
                 resizeMode="contain"
                 source={require('../assets/ic_cart2.png')}
-                style={{width: 40}}
+                style={{ width: 40 }}
               />
             </TouchableOpacity>
 
             <LinearGradient
-              start={{x: 0, y: 1}}
-              end={{x: 1, y: 0}}
+              start={{ x: 0, y: 1 }}
+              end={{ x: 1, y: 0 }}
               colors={['#C01C8A', '#865CF4']}
               style={{
                 width: 16,
@@ -187,7 +181,7 @@ const renderViewLess = (onPress) => {
                   color: '#fff',
                   fontSize: 12,
                 }}>
-                {props.itemCount == undefined?"0":props.itemCount}
+                {props.itemCount == undefined ? "0" : props.itemCount}
               </Text>
             </LinearGradient>
           </View>
@@ -209,36 +203,36 @@ const renderViewLess = (onPress) => {
                 height: 126,
                 width: 126,
                 marginRight: width * 0.05,
-                borderRadius:12
+                borderRadius: 12
               }}
             />
           ) : (
-            <Image
-              // source={{
-              //   uri:
-              //     'https://cdn.pixabay.com/photo/2015/03/21/06/27/technology-683243_960_720.png',
-              // }}
-              source={
-                props.route.params.image
-                  ? props.route.params.image
-                  : require('../assets/thumbnail1.png')
-              }
-              style={{
-                height: 126,
-                width: 126,
-                marginRight: width * 0.05,
-              }}
-            />
-          )}
+              <Image
+                // source={{
+                //   uri:
+                //     'https://cdn.pixabay.com/photo/2015/03/21/06/27/technology-683243_960_720.png',
+                // }}
+                source={
+                  props.route.params.image
+                    ? props.route.params.image
+                    : require('../assets/thumbnail1.png')
+                }
+                style={{
+                  height: 126,
+                  width: 126,
+                  marginRight: width * 0.05,
+                }}
+              />
+            )}
 
-          <View style={{marginRight:"36%"}}>
+          <View style={{ marginRight: "36%" }}>
             <Text
               numberOfLines={3}
               style={{
-                  color: '#ECDBFA',
-                  fontSize: 18,
-                  fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma',        
-                  }}
+                color: '#ECDBFA',
+                fontSize: 18,
+                fontFamily: Platform.OS == 'android' ? 'Michroma-Regular' : 'Michroma',
+              }}
             >
               {props.route.params.name}
             </Text>
@@ -247,8 +241,8 @@ const renderViewLess = (onPress) => {
                 color: '#ECDBFA',
                 fontSize: 14,
                 opacity: 0.5,
-                fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma',       
-                     }}>
+                fontFamily: Platform.OS == 'android' ? 'Michroma-Regular' : 'Michroma',
+              }}>
               {props.route.params.brand}
             </Text>
           </View>
@@ -265,8 +259,8 @@ const renderViewLess = (onPress) => {
           <Text
             style={{
               fontSize: 14,
-              fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma',   
-                     color: '#ECDBFA',
+              fontFamily: Platform.OS == 'android' ? 'Michroma-Regular' : 'Michroma',
+              color: '#ECDBFA',
               opacity: 0.5,
             }}>
             Price
@@ -274,8 +268,8 @@ const renderViewLess = (onPress) => {
           <Text
             style={{
               fontSize: 14,
-              fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma',           
-                color: '#ECDBFA',
+              fontFamily: Platform.OS == 'android' ? 'Michroma-Regular' : 'Michroma',
+              color: '#ECDBFA',
             }}>
             KD {props.route.params.price}
           </Text>
@@ -291,8 +285,8 @@ const renderViewLess = (onPress) => {
           <Text
             style={{
               fontSize: 14,
-              fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma',     
-                     color: '#ECDBFA',
+              fontFamily: Platform.OS == 'android' ? 'Michroma-Regular' : 'Michroma',
+              color: '#ECDBFA',
               opacity: 0.5,
             }}>
             Qty
@@ -320,7 +314,7 @@ const renderViewLess = (onPress) => {
             <Text
               style={{
                 fontSize: 14,
-                fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma', 
+                fontFamily: Platform.OS == 'android' ? 'Michroma-Regular' : 'Michroma',
                 color: '#ECDBFA',
                 marginHorizontal: 10,
               }}>
@@ -342,35 +336,35 @@ const renderViewLess = (onPress) => {
           </View>
         </View>
         <View
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-        }}>
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+          }}>
           <Text
             style={{
               fontSize: 14,
-              fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma',    
-                      color: '#ECDBFA',
+              fontFamily: Platform.OS == 'android' ? 'Michroma-Regular' : 'Michroma',
+              color: '#ECDBFA',
               opacity: 0.5,
               marginTop: 20,
             }}>
             Description
           </Text>
         </View>
-        <View style={{marginTop:10}}>
-            <ViewMoreText
-                numberOfLines={3}
-                renderViewMore={renderViewMore}
-                renderViewLess={renderViewLess}
-                textStyle={{textAlign:'left',color:'rgba(255,255,255,0.3)'}}
-            >
+        <View style={{ marginTop: 10 }}>
+          <ViewMoreText
+            numberOfLines={3}
+            renderViewMore={renderViewMore}
+            renderViewLess={renderViewLess}
+            textStyle={{ textAlign: 'left', color: 'rgba(255,255,255,0.3)' }}
+          >
             <Text
-             style={{
-             fontSize: 12,
-             color: 'rgba(236,219,250,0.5)',
-            }}>
+              style={{
+                fontSize: 12,
+                color: 'rgba(236,219,250,0.5)',
+              }}>
               {props.route.params.description}
             </Text>
           </ViewMoreText>
@@ -380,8 +374,8 @@ const renderViewLess = (onPress) => {
             k === 0 && (
               <LinearGradient
                 key={k}
-                start={{x: 0, y: 0}}
-                end={{x: 1, y: 0}}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
                 colors={['rgba(255,255,255,0.069)', 'rgba(255,255,255,0.003) ']}
                 style={[
                   {
@@ -405,11 +399,11 @@ const renderViewLess = (onPress) => {
                       alignItems: 'center',
                       flexDirection: 'row',
                       justifyContent: 'space-between',
-                  }}>
+                    }}>
                     <Text
                       style={{
                         marginLeft: '7%',
-                      
+
                         color: '#ECDBFA',
                         fontSize: 14,
                       }}>
@@ -423,58 +417,60 @@ const renderViewLess = (onPress) => {
                     width: '100%',
                     minHeight: height * 0.27,
                   }}>
-                  {loading?(
-                  <View style={{width: '100%', marginTop: height * 0.1}}>
-                    <ActivityIndicator color="#ECDBFA" size="small" />
-                  </View>):itemData.length === 0 ?(
-                    <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
-                      <Text style={{color:'#ECDBFA',fontSize:20}}>No Records</Text>
-                    </View>
-                  ):
-                  itemData.map((a, b) => (
-                    <View
-                      key={b}
-                      style={{
-                        width: '100%',
-                        justifyContent: 'space-between',
-                        flexDirection: 'row',
-                        marginVertical: 10,
-                        display: 'flex',
-                      }}>
-                      <Text
-                        style={{
-                          width: '50%',
-                          color: '#ECDBFA',
-                          fontSize: 12,
-                          opacity: 0.5,
-                        }}>
-                        {a.name}
-                      </Text>
-                      <Text
-                        style={{
-                          width: '50%',
-                          color: '#ECDBFA',
-                          fontSize: 12,
-                          
-                          opacity: 0.5,
-                          textAlign: 'right',
-                          paddingLeft: 20,
-                        }}>
-                        {a.value ? a.value : 0}
-                      </Text>
-                    </View>
-                  ))}
+                  {loading ? (
+                    <View style={{ width: '100%', marginTop: height * 0.1 }}>
+                      <ActivityIndicator color="#ECDBFA" size="small" />
+                    </View>) : itemData.length === 0 ? (
+                      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                        <Text style={{ color: '#ECDBFA', fontSize: 20 }}>No Records</Text>
+                      </View>
+                    ) :
+                      itemData.map((a, b) => (
+                        <View
+                          key={b}
+                          style={{
+                            width: '100%',
+                            justifyContent: 'space-between',
+                            flexDirection: 'row',
+                            marginVertical: 10,
+                            display: 'flex',
+                          }}>
+                          <Text
+                            style={{
+                              width: '50%',
+                              color: '#ECDBFA',
+                              fontSize: 12,
+                              opacity: 0.5,
+                            }}>
+                            {a.name}
+                          </Text>
+                          <Text
+                            style={{
+                              width: '50%',
+                              color: '#ECDBFA',
+                              fontSize: 12,
+
+                              opacity: 0.5,
+                              textAlign: 'right',
+                              paddingLeft: 20,
+                            }}>
+                            {a.value ? a.value : 0}
+                          </Text>
+                        </View>
+                      ))}
                 </View>
               </LinearGradient>
             ),
         )}
         <TouchableOpacity onPress={() => addIntoCart()}>
-          <Btn text="ADD TO CART" pay= ""/>
+          <Btn text="ADD TO CART" pay="" />
         </TouchableOpacity>
+        {props.itemCount !== 0 && (
+          <TouchableOpacity style={{ marginTop: -28 }} onPress={() => proceedToCheckout()}>
+            <Btn text="PROCEED TO CHECKOUT" pay="" x="-15" />
+          </TouchableOpacity>
+        )}
 
-        <TouchableOpacity style={{marginTop:-28}} onPress={() => proceedToCheckout()}>
-          <Btn text="PROCEED TO CHECKOUT" pay= "" x= "-15"/>
-        </TouchableOpacity>
       </ImageBackground>
     </ScrollView>
   );
@@ -482,10 +478,10 @@ const renderViewLess = (onPress) => {
 
 const mapStateToProps = (state) => ({
   cart: state.cartReducer.cart,
-  itemCount:state.cartReducer.totalItems,
+  itemCount: state.cartReducer.totalItems,
 })
 const actionCreators = {
   add: cartActions.addCartAction,
 };
 
-export default connect(mapStateToProps,actionCreators)(ItemDesc);
+export default connect(mapStateToProps, actionCreators)(ItemDesc);

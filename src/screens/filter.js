@@ -8,7 +8,7 @@ import { filter, flattenDeep, keys, values, without } from 'lodash';
 const { width, height } = Dimensions.get('window');
 const THUMB_RADIUS = 12;
 const options = ['24 cm', '12 cm', '30 cm', '14 cm', '16 cm', '340 cm']
-const Filter = (props) => {
+const Filter = (props) => {    
   
   const [low, setLow] = useState(null);
   const [high, setHigh] = useState(null);

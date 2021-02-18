@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, Image } from 'react-native';
-import MapView from 'react-native-maps'
+import MapView, { PROVIDER_GOOGLE } from 'react-native-maps'
 import Geolocation from '@react-native-community/geolocation';
 import Geocoder from 'react-native-geocoder';
 
@@ -25,7 +25,7 @@ export const GoogleMap = (props) => {
 
   const handleCurrentLocation = () => {
     Geolocation.getCurrentPosition(pos => {
-      mapRef &&  mapRef.animateToRegion({
+      mapRef && mapRef.animateToRegion({
         ...region,
         latitude: pos.coords.latitude,
         longitude: pos.coords.longitude
@@ -41,9 +41,9 @@ export const GoogleMap = (props) => {
     }, err => alert(err));
   }
 
-  getAddress = async(lat,lng) => {
+  getAddress = async (lat, lng) => {
     await Geocoder.fallbackToGoogle('AIzaSyAFnuK5g04r4aqBoLt1sdzCDcL9TJW9z4A');
-    let res = await Geocoder.geocodePosition({lat, lng});
+    let res = await Geocoder.geocodePosition({ lat, lng });
     let addrs = res[0];
     props.handleAddress(addrs)
     // alert(JSON.stringify(addrs))
@@ -55,8 +55,9 @@ export const GoogleMap = (props) => {
   }
 
   return (
-    <View style={{flex:1, position: 'relative', zIndex: 1 }}>
+    <View style={{ flex: 1, position: 'relative', zIndex: 1 }}>
       <MapView
+        provider={PROVIDER_GOOGLE}
         style={{ flex: 1, marginBottom }}
         initialRegion={region}
         showsUserLocation={true}
@@ -64,8 +65,8 @@ export const GoogleMap = (props) => {
         onRegionChangeComplete={onRegionChange}
         ref={(ref) => mapRef = ref}
       />
-      <View style={{top: '50%', left: '50%', marginLeft: -24, marginTop: -48, position: 'absolute'}}>
-        <Image style={{width: 48, height: 48}} source={require('../assets/marker.png')} />
+      <View style={{ top: '50%', left: '50%', marginLeft: -24, marginTop: -48, position: 'absolute' }}>
+        <Image style={{ width: 48, height: 48 }} source={require('../assets/marker.png')} />
       </View>
     </View>
   )
