@@ -123,29 +123,29 @@ const App = () => {
   };
   useEffect(() => {
     check();
-    requestUserPermission();
-    const unsubscribe = messaging().onMessage(async remoteMessage => {
-      console.log('A new FCM message arrived!', JSON.stringify(remoteMessage));
-    });
-    return unsubscribe;
+    // requestUserPermission();
+    // const unsubscribe = messaging().onMessage(async remoteMessage => {
+    //   console.log('A new FCM message arrived!', JSON.stringify(remoteMessage));
+    // });
+    // return unsubscribe;
   },[]);
 
   useEffect(() => {
-    messaging().onNotificationOpenedApp(remoteMessage => {
-      console.log(
-        'Notification caused app to open from background state:',
-        remoteMessage.notification,
-      );
-      navigation.navigate('home');
-    });
-    messaging().setBackgroundMessageHandler(async remoteMessage => {
-      console.log('Message handled in the background!', remoteMessage);
-    });
-    messaging()
-      .getToken()
-      .then(token => {
-        //return saveTokenToDatabase(token);
-      });
+    // messaging().onNotificationOpenedApp(remoteMessage => {
+    //   console.log(
+    //     'Notification caused app to open from background state:',
+    //     remoteMessage.notification,
+    //   );
+    //   //navigation.navigate('home');
+    // });
+    // messaging().setBackgroundMessageHandler(async remoteMessage => {
+    //   console.log('Message handled in the background!', remoteMessage);
+    // });
+    // messaging()
+    //   .getToken()
+    //   .then(token => {
+    //     //return saveTokenToDatabase(token);
+    //   });
    
   }, []);
 
@@ -269,7 +269,7 @@ export default () => {
   return (
     <LanguageProvider 
       strings={strings}
-      language={set}>
+      language={'en'}>
       <Provider store={store}>
         <AuthProvider>
           <App />
