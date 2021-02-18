@@ -380,8 +380,11 @@ const Cart = (props) => {
             <View
               style={{
                 paddingVertical: width * 0.05,
+
                 
                 paddingHorizontal: Platform.OS == 'android' ?width * 0.05:width *0.07,
+                // paddingHorizontal: Platform.OS == 'android' ?width * 0.1:width *0.07,
+                paddingHorizontal:arOren == "it"?width * 0.07:width * 0.08
 
               }}>
               <Dialog
@@ -487,13 +490,14 @@ const Cart = (props) => {
                               height: 75,
                               marginVertical: 10,
                               flexDirection: 'row',
+                              paddingRight:"3%"
                             }}>
                             <Image
                               resizeMode="contain"
                               source={{ uri: packages.image }}
                               style={{
-                                width: 54,
-                                height: 56,
+                                width: 63,
+                                height:69,
                                 position: 'relative',
                                 right: 30,
                                 alignSelf: 'center',
@@ -747,6 +751,7 @@ const Cart = (props) => {
                         height: 75,
                         marginVertical: 10,
                         flexDirection: 'row',
+                        paddingRight:"3%"
                       }}>
                       <Image
                         resizeMode="contain"
@@ -901,7 +906,7 @@ const Cart = (props) => {
                                 removeLoader && removeLoaderID=== items.cart_item_id 
                                 ?(<View style={{alignSelf:'center', paddingTop:8}}><ActivityIndicator color="#ECDBFA" size="small"  /></View>
                                 ):(
-                                <Icons name="trash" color={"#D2D7F9"} size={15} style={{alignSelf:'center', paddingTop: 8}} />)}
+                                <Icons name="trash" color={"white"} size={15} style={{alignSelf:'center', paddingTop: 8}} />)}
                                 
                                 </TouchableOpacity></View>
                            </View>

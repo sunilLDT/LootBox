@@ -245,11 +245,6 @@ export async function removePackageApi(id) {
   return response.data;
 }
 
-export async function getLabelsApi(){
-  const response = await Api.get('app/label/list');
-  return response.data;
-}
-
 export async function getNotification() {
   const response = await Api.get('app/user/notification-list');
   return response.data;
@@ -257,5 +252,8 @@ export async function getNotification() {
 
 export async function itemsAddedInCartApi() {
   const response = await Api.get('app/advance-builder/cart-added-item');
+}
+export async function getLabelsApi(){
+  const response = await Api.get('app/label/list');
   return response.data;
 }

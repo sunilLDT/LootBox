@@ -17,7 +17,7 @@ import IcDetailCard from '../assets/ic_details_card.png';
 import { endOfDay } from 'date-fns';
 import ExpandImage from '../assets/ic_expand1.png';
 import CloseImage from '../assets/ic-3copy.png';
-import IcCardImage from '../assets/ic3.png';
+import IcCardImage from '../assets/ic3.png';                                                                                            
 import Bar1 from '../components/bar1';
 import Bar2 from '../components/bar2';
 import Bar3 from '../components/bar3';
@@ -54,6 +54,7 @@ const OrderDetails = ({ navigation, route }) => {
       setpackageItems(response.data.order_package_items)
       setitems(response.data.items)
       setLoading(false)
+      console.log(orderDetails)
     }).catch((error) => {
       console.log("Order Details" + error);
       setLoading(false)
@@ -134,6 +135,13 @@ const OrderDetails = ({ navigation, route }) => {
                   Order ID {orderId}
                 </Text>
               </View>
+ <View style={{ flexDirection:'row' }}  >
+<View style={{backgroundColor:orderDetails.order_status == 1 ? '#DF2EDC' : '#ECDBFA', height:15 , width: '.5%',  marginTop: '7%', position: 'absolute', marginLeft:18  }} ></View>
+
+<View style={{backgroundColor:orderDetails.order_status == 2 ? '#DF2EDC' : '#ECDBFA' ,height:15 , maxHeight:26, width: '.5%',  marginTop: '21%', position: 'absolute', marginLeft:18  }} ></View>
+{/* <View style={{backgroundColor:'#DF2EDC' ,height:55 , width: '.5%',  marginTop: '21%', position: 'absolute', marginLeft:18  }} ></View> */}
+
+<View  >
               <View style={{
                 display: 'flex',
                 flexDirection: 'row',
@@ -146,7 +154,11 @@ const OrderDetails = ({ navigation, route }) => {
                   width: '13%',
                   marginTop: '-4%',
                 }}>
-                  <Bar1 />
+                   {orderDetails.order_status == 1 ? (
+                    <Bar1 />
+                  ) : (
+                      <Bar2/>
+                    )}
                 </View>
                 <View style={{
                   display: 'flex',
@@ -159,7 +171,7 @@ const OrderDetails = ({ navigation, route }) => {
                       lineHeight: 24,
                       marginBottom: 20,
                       fontFamily: Platform.OS == 'android' ? 'Michroma-Regular' : 'Michroma',
-                      color: orderDetails.order_status == 0 ? '#DF2EDC' : '#ECDBFA',
+                      color: orderDetails.order_status == 1 ? '#DF2EDC' : '#ECDBFA',
                     }}>
                     Confirmed
               </Text>
@@ -178,11 +190,7 @@ const OrderDetails = ({ navigation, route }) => {
                   width: '13%',
                   marginTop: '2%',
                 }}>
-                  {orderDetails.order_status == 1 ? (
-                    <Bar1 />
-                  ) : (
-                      <Bar2 />
-                    )}
+                  { orderDetails.order_status ==1 ? <Bar2/>  : orderDetails.order_status == 2 ? <Bar1/>  : <Bar3/>  }
                 </View>
                 <View style={{
                   display: 'flex',
@@ -193,9 +201,9 @@ const OrderDetails = ({ navigation, route }) => {
                     style={{
                       fontFamily: 'Montserrat-Regular',
                       lineHeight: 14,
-                      color: orderDetails.order_status == 1 ? '#DF2EDC' : '#ECDBFA',
+                      color: orderDetails.order_status == 2 ? '#DF2EDC' : '#ECDBFA',
                       fontSize: 12,
-                      opacity: 0.5,
+                      opacity: orderDetails.order_status == 2 ? 1 : 0.24,
                       marginTop: 5,
                     }}>
                     Will be delivered{' '}
@@ -208,7 +216,6 @@ const OrderDetails = ({ navigation, route }) => {
                   </Text>
                 </View>
               </View>
-
               {/* third bar */}
               <View style={{
                 display: 'flex',
@@ -222,9 +229,10 @@ const OrderDetails = ({ navigation, route }) => {
                   width: '13%',
                   marginTop: '6%',
                 }}>
-                  {orderDetails.order_status == 2 ? (
+                  {orderDetails.order_status == 3 ? (
                     <Bar1 />
-                  ) : (
+                  ) : orderDetails.order_status == 2 ? <Bar2/> 
+                    :(
                       <Bar3 />
                     )}
                 </View>
@@ -237,16 +245,17 @@ const OrderDetails = ({ navigation, route }) => {
                     style={{
                       fontFamily: Platform.OS == 'android' ? 'Michroma-Regular' : 'Michroma',
                       lineHeight: 14,
-                      color: orderDetails.order_status == 2 ? '#DF2EDC' : '#ECDBFA',
+                      color: orderDetails.order_status == 3 ? '#DF2EDC' : '#ECDBFA',
                       fontSize: 12,
-                      opacity: orderDetails.order_status == 2 ? 1 : 0.24,
+                      opacity: orderDetails.order_status == 3 ? 1 : 0.24,
                       marginTop: 20,
                     }}>
                     Delivered{' '}
                   </Text>
                 </View>
+                </View>
               </View>
-
+              </View>
               {/* third end */}
 
 
