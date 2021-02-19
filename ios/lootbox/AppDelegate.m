@@ -5,6 +5,8 @@
 #import <React/RCTRootView.h>
 #import <RNGoogleSignin/RNGoogleSignin.h>
 #import <Firebase.h>
+#import <GoogleMaps/GoogleMaps.h>
+#import <React/RCTI18nUtil.h>
 #ifdef FB_SONARKIT_ENABLED
 #import <FlipperKit/FlipperClient.h>
 #import <FlipperKitLayoutPlugin/FlipperKitLayoutPlugin.h>
@@ -12,7 +14,8 @@
 #import <FlipperKitNetworkPlugin/FlipperKitNetworkPlugin.h>
 #import <SKIOSNetworkPlugin/SKIOSNetworkAdapter.h>
 #import <FlipperKitReactPlugin/FlipperKitReactPlugin.h>
-#import <React/RCTI18nUtil.h>
+
+
 
 
 
@@ -32,9 +35,9 @@ static void InitializeFlipper(UIApplication *application) {
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-  if ([FIRApp defaultApp] == nil) {
-      [FIRApp configure];
-    }
+  [GMSServices provideAPIKey:@"AIzaSyD1XJ6Wl23ulIPLhBnKVzZ95_lmfNMUZUM"];
+  
+  [FIRApp configure];
 
   [[RCTI18nUtil sharedInstance] allowRTL:YES];
   [[RCTI18nUtil sharedInstance] forceRTL:YES];
