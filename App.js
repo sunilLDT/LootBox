@@ -166,7 +166,6 @@ const App = () => {
             'Notification caused app to open from quit state:',
             remoteMessage.notification,
           );
-
            navigate({ name: 'orders' });
         }
        
