@@ -192,7 +192,7 @@ const signin = (dispatch) => async ({ email, password }) => {
        device_type:Platform.OS=='android' ? 1 : 2,
        action_type:1
      });
-     alert(store.data.message)
+    //  alert(store.data.message)
       navigate({ name: 'home' });
     } else if (res.data.data.is_otp_verified === false) {
       await AsyncStorage.setItem('userId', res.data.data.user_id.toString());
