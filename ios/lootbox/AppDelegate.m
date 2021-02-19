@@ -36,9 +36,8 @@ static void InitializeFlipper(UIApplication *application) {
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
   [GMSServices provideAPIKey:@"AIzaSyD1XJ6Wl23ulIPLhBnKVzZ95_lmfNMUZUM"];
-  if ([FIRApp defaultApp] == nil) {
-      [FIRApp configure];
-    }
+  
+  [FIRApp configure];
 
   [[RCTI18nUtil sharedInstance] allowRTL:YES];
   [[RCTI18nUtil sharedInstance] forceRTL:YES];

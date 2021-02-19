@@ -449,6 +449,7 @@ DEPENDENCIES:
   - FBLazyVector (from `../node_modules/react-native/Libraries/FBLazyVector`)
   - FBReactNativeSpec (from `../node_modules/react-native/Libraries/FBReactNativeSpec`)
   - Firebase/Analytics
+  - Firebase/Messaging
   - Folly (from `../node_modules/react-native/third-party-podspecs/Folly.podspec`)
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
   - Google-Maps-iOS-Utils
@@ -717,6 +718,6 @@ SPEC CHECKSUMS:
   SDWebImageWebPCoder: d0dac55073088d24b2ac1b191a71a8f8d0adac21
   Yoga: 7740b94929bbacbddda59bf115b5317e9a161598
 
-PODFILE CHECKSUM: c6aeca2692ad092411ecde6e823da484ee2c9be9
+PODFILE CHECKSUM: cbfa3e64442a3ea829f0399f127d3883913f147f
 
 COCOAPODS: 1.10.1

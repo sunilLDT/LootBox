@@ -26,6 +26,9 @@ target 'lootbox' do
 
   pod 'Firebase/Analytics'
 
+  # Add the pod for Firebase Cloud Messaging
+  pod 'Firebase/Messaging'
+
   target 'lootboxTests' do
     inherit! :complete
     # Pods for testing
