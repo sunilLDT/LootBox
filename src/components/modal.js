@@ -1,6 +1,7 @@
 import React, {useState, useContext} from 'react';
 import {
   StyleSheet,
+  Modal,
 } from 'react-native';
 import {Context as AuthContext} from '../api/contexts/authContext';
 import SimpleAlert from './SimpleAlert';
