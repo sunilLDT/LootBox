@@ -14,23 +14,23 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "7ACAA9BE580DD31A5CB9D97C45D9492D"
-               BuildableName = "libReact-Core.a"
-               BlueprintName = "React-Core"
-               ReferencedContainer = "container:Pods/Pods.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
                BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
                BuildableName = "Lootbox.app"
                BlueprintName = "lootbox"
+               ReferencedContainer = "container:lootbox.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "NO"
+            buildForRunning = "NO"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "00E356ED1AD99517003FC87E"
+               BuildableName = "lootboxTests.xctest"
+               BlueprintName = "lootboxTests"
                ReferencedContainer = "container:lootbox.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -42,16 +42,6 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "00E356ED1AD99517003FC87E"
-               BuildableName = "lootboxTests.xctest"
-               BlueprintName = "lootboxTests"
-               ReferencedContainer = "container:lootbox.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction
