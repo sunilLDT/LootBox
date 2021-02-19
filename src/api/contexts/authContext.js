@@ -183,16 +183,15 @@ const signin = (dispatch) => async ({ email, password }) => {
       await AsyncStorage.setItem('user_type', JSON.stringify(1));
       await AsyncStorage.setItem('userId', JSON.stringify(res.data.data.user_id));
       await AsyncStorage.setItem('is_OTP_Verified', JSON.stringify(true))
-      // console.log("sign innnn")
-      const value = await AsyncStorage.getItem('token');
-      console.log (value)
-     const store = await Api.post('app/user/device-token',{
-       token: value,
+
+      const deviceToken = await AsyncStorage.getItem('deviceToken');
+      const store = await Api.post('app/user/device-token',{
+       token: deviceToken,
        language:"en",
        device_type:Platform.OS=='android' ? 1 : 2,
        action_type:1
      });
-    //  alert(store.data.message)
+     
       navigate({ name: 'home' });
     } else if (res.data.data.is_otp_verified === false) {
       await AsyncStorage.setItem('userId', res.data.data.user_id.toString());
@@ -216,6 +215,7 @@ const signin = (dispatch) => async ({ email, password }) => {
     dispatch({
       type: 'toggle_loading',
     });
+    alert("These Credential do not match to our records")
   }
 
 };
@@ -272,15 +272,17 @@ const verifyOtp = (dispatch) => async ({ otp }) => {
           await AsyncStorage.setItem('token', res.data.data.token);
           await AsyncStorage.setItem('user_type', JSON.stringify(1));
           await AsyncStorage.setItem('is_OTP_Verified', JSON.stringify(true))
-          const value = await AsyncStorage.getItem('token');
-          console.log (value)
+          const deviceToken = await AsyncStorage.getItem('deviceToken');
+          // console.log("** device token ****")
+          // console.log (deviceToken)
           const store = await Api.post('app/user/device-token',{
-          token: value,
+          token: deviceToken,
           language:"en",
           device_type:Platform.OS=='android' ? 1 : 2,
           action_type:1
  });
-    //  alert(store.data.message)
+    console.log (deviceToken)
+     alert(store.data.message)
         }
         navigate({ name: navigationName || 'home' });
       } else {
@@ -403,8 +405,9 @@ const signup = (dispatch) => async (data) => {
     } else {
       await AsyncStorage.setItem('userId', res.data.data.user_id.toString());
       
-      
-      console.log(" firebase token %^&%^&^&")
+      const deviceToken = await AsyncStorage.getItem('deviceToken');
+      console.log("** device token ****")
+      console.log (deviceToken)
        
       navigate({ name: 'otp' });
     }
@@ -469,15 +472,16 @@ const signout = (dispatch) => async () => {
     dispatch({
       type: 'toggle_loading',
     });
-    const value = await AsyncStorage.getItem('token');
-    console.log (value)
+    const value = await AsyncStorage.getItem('deviceToken');
     const store = await Api.post('app/user/device-token',{
     token: value,
     language:"en",
     device_type:Platform.OS=='android' ? 1 : 2,
     action_type:2
 });
-// alert(store.data.message)
+console.log("** device token ***")
+console.log(value)
+alert(store.data.message)
     await AsyncStorage.clear();
     dispatch({ type: 'signout' });
 navigate({ name: 'auth' });

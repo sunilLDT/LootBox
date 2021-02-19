@@ -14,17 +14,16 @@ instance.interceptors.request.use(
     if (token && token.length > 0) {
       config.headers.Authorization = `Bearer ${token}`;
     }
-   
+  //  console.log(token)
     return config;
     
   },
   (err) => {
-    // console.log("interceptors==================************")
-    // console.log(err)
-    // if(err.config.status === 422){
-    //   AsyncStorage.clear();
-    //   navigate({name: 'signin'});
-    // }
+    console.log(err)
+    if(err.config.status === 422){
+      AsyncStorage.clear();
+      navigate({name: 'signin'});
+    }
     return Promise.reject(err);
   },
 );
@@ -34,7 +33,7 @@ instance.interceptors.response.use(
     // alert(error.response.data.message)
     // AsyncStorage.clear()
     // navigate({name: 'auth'})
-    return Promise.reject(error)
+    // return Promise.reject(error)
   }
 )
 
