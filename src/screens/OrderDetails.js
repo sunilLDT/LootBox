@@ -149,59 +149,83 @@ const OrderDetails = ({ navigation, route }) => {
                 {/* <View style={{backgroundColor:'#DF2EDC' ,height:55 , width: '.5%',  marginTop: '21%', position: 'absolute', marginLeft:18  }} ></View> */}
 
                 <View >
-                  {steps.map((step, index) => (
-                    <View style={{ position: 'relative' }}>
-                      <View style={{
-                        display: 'flex',
-                        flexDirection: 'row',
-                        alignItems: 'center',
-                      }}>
-                        <View style={{
-                          display: 'flex',
-                          flexDirection: 'row',
-                          alignSelf: 'center',
-                          width: '13%',
-                          marginTop: orderDetails.order_status == step.order_status ? '-14%' : '-10%',
-                        }}>
-                          {/* {orderDetails.order_status == 1 ? (
-                          <Bar1 />
-                        ) : (
-                            <Bar3 />
-                          )} */}
+                  {orderDetails.order_status == 4 ? <Text
+                    style={{
+                      fontSize: 18,
+                      lineHeight: 24,
+                      fontFamily: Platform.OS == 'android' ? 'Michroma-Regular' : 'Michroma',
+                      color: '#DF2EDC' 
+                    }}>Cancelled</Text> : (
+                      steps.map((step, index) => (
+                        <View style={{ position: 'relative' }}>
+                          <View style={{
+                            display: 'flex',
+                            flexDirection: 'row',
+                            alignItems: 'center',
+                            width: '100%',
+                            marginVertical: 10
+                          }}>
+                            <View style={{
+                              display: 'flex',
+                              flexDirection: 'row',
+                              alignSelf: 'center',
+                              width: '13%',
+                              // marginTop: orderDetails.order_status == step.order_status ? '-14%' : '-10%',
+                            }}>
 
-                          {orderDetails.order_status == step.order_status ? <Bar2 /> : (
-                            orderDetails.order_status >= step.order_status ? <Bar1 /> : <Bar3 />
+
+                              {orderDetails.order_status == step.order_status ? <Bar2 /> : (
+                                orderDetails.order_status >= step.order_status ? <Bar1 /> : <Bar3 />
+                              )}
+                              {/* {o && <Bar1/>}
+                              {orderDetails.order_status <= step.order_status && <Bar3/>} */}
+                            </View>
+
+                            <View style={{
+                              display: 'flex',
+                              flexDirection: 'column',
+                              justifyContent: 'space-between',
+                              marginLeft: 10,
+                              // width: '10%',
+                              position: 'relative',
+
+                            }}>
+
+                              <Text
+                                style={{
+                                  fontSize: orderDetails.order_status == step.order_status ? 18 : 12,
+                                  lineHeight: 24,
+                                  fontFamily: Platform.OS == 'android' ? 'Michroma-Regular' : 'Michroma',
+                                  color: orderDetails.order_status == step.order_status ? '#DF2EDC' : '#ECDBFA',
+                                }}>{step.primary}</Text>
+                              {step.order_status == 2 && (
+                                <Text
+                                  style={{
+                                    fontFamily: 'Montserrat-Regular',
+                                    lineHeight: 14,
+                                    color: orderDetails.order_status == 2 ? '#DF2EDC' : '#ECDBFA',
+                                    fontSize: 12,
+                                    opacity: orderDetails.order_status == 2 ? 1 : 0.24,
+                                    marginTop: 5,
+                                  }}>
+                                  Will be delivered{' '}
+                                  <Text
+                                    style={{
+                                      fontFamily: 'Montserrat-Bold',
+                                    }}>tomorrow, 06:00 PM</Text>
+                                </Text>
+                              )}
+                            </View>
+                          </View>
+                          {index != 0 && (
+                            <View style={{ position: 'absolute', opacity: 0.2, bottom: '50%', left: '6%', width: 1, height: '100%', backgroundColor: '#fff' }} />
                           )}
-                          {/* {o && <Bar1/>}
-                          {orderDetails.order_status <= step.order_status && <Bar3/>} */}
+
                         </View>
 
-                        <View style={{
-                          display: 'flex',
-                          flexDirection: 'column',
-                          justifyContent: 'space-between',
-                          marginLeft: 10,
-                          position: 'relative',
+                      ))
+                    )}
 
-                        }}>
-
-                          <Text
-                            style={{
-                              fontSize: orderDetails.order_status == step.order_status ? 18 : 12,
-                              lineHeight: 24,
-                              marginBottom: 20,
-                              fontFamily: Platform.OS == 'android' ? 'Michroma-Regular' : 'Michroma',
-                              color: orderDetails.order_status == step.order_status ? '#DF2EDC' : '#ECDBFA',
-                            }}>{step.primary}</Text>
-                        </View>
-                      </View>
-                      {index != steps.length - 1 && (
-                        <View style={{ position: 'absolute', bottom: 0, left: 10, width: 1, height: '50%', backgroundColor: '#fff' }} />
-                      )}
-
-                    </View>
-
-                  ))}
 
                   {/* <View style={{
                     display: 'flex',
