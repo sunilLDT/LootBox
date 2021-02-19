@@ -465,7 +465,8 @@ const ItemDesc = (props) => {
         <TouchableOpacity onPress={() => addIntoCart()}>
           <Btn text="ADD TO CART" pay="" />
         </TouchableOpacity>
-        {props.itemCount !== 0 && (
+        {console.log('this is card item count ' +props.itemCount)}
+        {props.itemCount && props.itemCount !== 0 && (
           <TouchableOpacity style={{ marginTop: -28 }} onPress={() => proceedToCheckout()}>
             <Btn text="PROCEED TO CHECKOUT" pay="" x="-15" />
           </TouchableOpacity>

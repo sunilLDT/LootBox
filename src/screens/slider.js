@@ -28,7 +28,13 @@ const Slideshow = (props) => {
       console.log('Banner %c data ??????????????????????????????????');
 
       if (response.data) {
-        const imageUrls = response.data.map(res => res.image)
+        console.log(response.data)
+        const imageUrls = response.data.map(res => {
+          return {
+            image: res.image,
+            title: res.title
+          }
+        })
         console.log(imageUrls)
         setBannerData(imageUrls)
       }
@@ -73,16 +79,16 @@ const Slideshow = (props) => {
                 image: <FastImage
                   style={{ width, height }}
                   source={{
-                    uri: bd,
+                    uri: bd.image,
                     priority: FastImage.priority.high,
                   }}
-                  // onLoadStart={e => setLoading(true)}
-                  // onLoadEnd={e => setLoading(false)}
-                  // onProgress={e => console.log(e.nativeEvent.loaded / e.nativeEvent.total)}
-                  //onProgress={e => {set}}
-                 // resizeMode={FastImage.resizeMode.contain}
+                // onLoadStart={e => setLoading(true)}
+                // onLoadEnd={e => setLoading(false)}
+                // onProgress={e => console.log(e.nativeEvent.loaded / e.nativeEvent.total)}
+                //onProgress={e => {set}}
+                // resizeMode={FastImage.resizeMode.contain}
                 />,
-                title: bannerData[0].title,
+                title: bd.title,
 
                 subtitle: ''
               }

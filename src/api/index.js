@@ -8,6 +8,8 @@ const instance = axios.create({
 instance.interceptors.request.use(
   async (config) => {
     const token = await AsyncStorage.getItem('token');
+    console.log('tone bcahsbcahbvcahsbcdahsbdcdajdfhsabvhadfsbchjvabsd,cjzbchvzdscuvyahbdsciuvaSBDu')
+    console.log(token)
     config.headers.Accept = 'application/json';
     config.headers['X-Localization'] = 'en';
     config.headers['Content-Type'] = 'application/json';
