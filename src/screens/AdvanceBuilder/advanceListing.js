@@ -29,6 +29,7 @@ const ItemListing = (props) => {
 
     const { items } = props.route.params;
     const { pIndex } = props.route.params;
+    const {labels} = props
     const { sub_category_name } = props.route.params;
 
     const [data, setData] = useState(items);
@@ -272,13 +273,14 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => ({
     cart: state.cartReducer.cart,
     packages: state.packageReducer.packages,
+    labels: state.languageReducer.labels,
+
 
 })
 
 const actionCreators = {
     add: cartActions.addCartAction,
     updatePackages: packageActions.updatePackages,
-
 };
 
 export default connect(mapStateToProps, actionCreators)(React.memo(ItemListing))

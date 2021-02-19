@@ -483,7 +483,7 @@ const LootStore = (props) => {
               fontFamily: Platform.OS == 'android' ? 'Montserrat-LightItalic' : 'Montserrat',
               paddingHorizontal: width * 0.1,
             }}>
-          DISCOVER
+          {props.labels.discover}
           </Text>
         </View>
         <View
@@ -499,7 +499,7 @@ const LootStore = (props) => {
               fontFamily: Platform.OS == 'android' ? 'Michroma-Regular' : 'Michroma',
               paddingHorizontal: width * 0.1,
             }}>
-            {strings.lootStore}
+            {props.labels.LootStore}
           </Text>
         </View>
 
@@ -643,6 +643,7 @@ const LootStore = (props) => {
                             color: '#ECDBFA',
                             opacity: 0.4,
                           }}>
+                            {props.labels.noItemAvailable}
                           No Items Available !
                       </Text>
                       </View>
@@ -808,6 +809,7 @@ const LootStore = (props) => {
 const mapStateToProps = (state) => ({
   cart: state.cartReducer.cart,
   itemCount: state.cartReducer.totalItems,
+  labels: state.languageReducer.labels,
 })
 const actionCreators = {
   add: cartActions.showCart,
