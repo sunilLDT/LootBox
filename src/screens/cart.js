@@ -45,10 +45,13 @@ import Icon from 'react-native-vector-icons/Feather';
 import strings from '../languages/index';
 import AsyncStorage from '@react-native-community/async-storage';
 import {languagename} from '../components/LanguageName';
+import { useIsFocused } from "@react-navigation/native";
 
 const { width, height } = Dimensions.get('window');
 
 const Cart = (props) => {
+  
+  const isFocused = useIsFocused();
   const [cartItems, setcartItems] = useState([]);
   const [upwardImage, setUpwardImage] = useState(true);
   const [cartPackage, setCartPackage] = useState([]);
@@ -73,6 +76,7 @@ const Cart = (props) => {
   const [removeAdvanceLoader,setRemoveAdvanceLoader] = useState(false);
   const [arOren,setarOren] = useState('en');
   const [advanceItems,setAdvanceIems] = useState([])
+  const [checkCOD,setCheckCOD] = useState(false);
   languagename().then(res => setarOren(res))
 
 
@@ -101,7 +105,8 @@ const Cart = (props) => {
       console.log("showCartData" + error);
       setLoading(false)
     });
-  }, []);
+
+  },[]);
 
   var y = allAddress.map((i) => {
     return i.is_default === 1 ? true : false;
@@ -135,7 +140,19 @@ const Cart = (props) => {
     }
   };
    const paymentOption = (paymentType) => {
+     if(paymentType === 3){
+      setCheckCOD(true)
+     }
+    setLoading(true)
      orderPlace(paymentType).then((response) => {
+       if(paymentType === 3){
+         if(response.code == 200){
+          setLoading(false)
+           props.navigation.navigate('alertMessage', { msgUrl: "success" })
+         }else{
+           alert(response.message)
+         }
+       }
         setLoading(false)
         props.navigation.navigate('checkout', { paymentUrl: response.data.data.paymenturl })
       }).catch((error) => {
@@ -143,9 +160,26 @@ const Cart = (props) => {
     });
     refRBSheet.current.close();
    }
+  // const paymentOption = (paymentType) => {
+  //   orderPlace(paymentType).then((response) => {
+  //     if(paymentType == 3){
+  //       if(response.code == 200){
+  //         setLoading(false)
+  //           props.navigation.navigate('alertMessage', { msgUrl: "success" })
+  //         }else{
+  //           alert(response.message)
+  //         }
+  //     }
+  //     console.log(response.data);
+  //      setLoading(false)
+  //      props.navigation.navigate('checkout', { paymentUrl: response.data.data.paymenturl })
+  //    }).catch((error) => {
+  //      console.log("orderPlace" + error);
+  //  });
+  //  refRBSheet.current.close();
+  // }
 
   useEffect(() => {
-    props.add()
     props.showAddress();
     addressListApi().then((response) => {
       setAllAddress(response.data)
@@ -171,7 +205,7 @@ const Cart = (props) => {
       setCartData(response.data)
       props.add();
     }).catch((error) => {
-      console.log("showCartData" + error);
+      console.log("showCartData reload" + error);
     });
   }
 
@@ -371,8 +405,11 @@ const Cart = (props) => {
             <View
               style={{
                 paddingVertical: width * 0.05,
+
                 
                 paddingHorizontal: Platform.OS == 'android' ?width * 0.05:width *0.07,
+                // paddingHorizontal: Platform.OS == 'android' ?width * 0.1:width *0.07,
+                paddingHorizontal:arOren == "it"?width * 0.07:width * 0.08
 
               }}>
               <Dialog
@@ -478,13 +515,14 @@ const Cart = (props) => {
                               height: 75,
                               marginVertical: 10,
                               flexDirection: 'row',
+                              paddingRight:"3%"
                             }}>
                             <Image
                               resizeMode="contain"
                               source={{ uri: packages.image }}
                               style={{
-                                width: 54,
-                                height: 56,
+                                width: 63,
+                                height:69,
                                 position: 'relative',
                                 right: 30,
                                 alignSelf: 'center',
@@ -738,6 +776,7 @@ const Cart = (props) => {
                         height: 75,
                         marginVertical: 10,
                         flexDirection: 'row',
+                        paddingRight:"3%"
                       }}>
                       <Image
                         resizeMode="contain"
@@ -892,7 +931,7 @@ const Cart = (props) => {
                                 removeLoader && removeLoaderID=== items.cart_item_id 
                                 ?(<View style={{alignSelf:'center', paddingTop:8}}><ActivityIndicator color="#ECDBFA" size="small"  /></View>
                                 ):(
-                                <Icons name="trash" color={"#D2D7F9"} size={15} style={{alignSelf:'center', paddingTop: 8}} />)}
+                                <Icons name="trash" color={"white"} size={15} style={{alignSelf:'center', paddingTop: 8}} />)}
                                 
                                 </TouchableOpacity></View>
                            </View>
@@ -1337,9 +1376,9 @@ const Cart = (props) => {
               }
             </View>
             <View style={styles.bottom}>
-              <Text style={styles.forgotText}>
+              {/* <Text style={styles.forgotText}>
                 {strings.forgotToAdd}
-              </Text>
+              </Text> */}
               <View>
                 <TouchableOpacity style={{ marginTop: 10, marginLeft: 40 }} onPress={() => props.navigation.navigate('home')}>
                   <View style={{ width: "87%", }}>

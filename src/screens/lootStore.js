@@ -61,6 +61,8 @@ const LootStore = (props) => {
   const [allfilterId, setAllfilterId] = useState({});
   const [all1,setAll1] = useState();
 
+ const [paginationLoader, setPaginationLoader] = useState(false)
+
 
   const [arOren, setarOren] = useState('en');
   languagename().then(res => setarOren(res));
@@ -101,14 +103,16 @@ const LootStore = (props) => {
   }
 
   const allFilterFunction = async(r) => {
+    setPage(1)
     setAll1(r.all)
     const cat =  categories.map((i,k) => {
       return i.id;
     });
 
     const itemData = await fetchItems(cat[current], keys(selectedSubCategory)[0], page, r.filter_custome_field_id, r.filter_custome_values, r.minPrice, r.maxPrice,r.all);
+    
     setItems(itemData.data);
-    setFilteredDataSource(itemData.data);``
+    setFilteredDataSource( itemData.data);
   }
 
   const fetchData1 = async (b) => {
@@ -126,13 +130,17 @@ const LootStore = (props) => {
         itemData = await fetchItems(x[current].id, b, undefined, filterValues.filter_custome_field_id, filterValues.filter_custome_values, filterValues.minPrice, filterValues.maxPrice);
       } else {
         itemData = await fetchItems(x[current].id, subCategoryId, page, filterValues.filter_custome_field_id, filterValues.filter_custome_values, filterValues.minPrice, filterValues.maxPrice);
+        console.log("***** items ***")
+        console.log(itemData)
         setlastPage(itemData.parameter.last_page);
 
       }
 
       if (itemData) {
         setItems(itemData.data);
-        setFilteredDataSource(itemData.data);
+        setFilteredDataSource(  page === 1 ? itemData.data : [...filteredDataSource, ...itemData.data]);
+        console.log("filters page" + page)
+        // setFilteredDataSource(itemData.data)
       }1
 
       var y = categories.map((i) => {
@@ -152,6 +160,51 @@ const LootStore = (props) => {
       }
     }
   };
+  const fetchData2 = async (b) => {
+    setPaginationLoader(true);
+    const categories = await fetchCategories();
+    if (categories) {
+      setData(categories);
+      var x = categories.map((i, k) => {
+        return { id: i.category_id, name: i.name_en, index: k };
+      });
+      setCategories(x);
+      var itemData = null;
+      
+      if (b) {
+        itemData = await fetchItems(x[current].id, b, undefined, filterValues.filter_custome_field_id, filterValues.filter_custome_values, filterValues.minPrice, filterValues.maxPrice);
+      } else {
+        itemData = await fetchItems(x[current].id, subCategoryId, page, filterValues.filter_custome_field_id, filterValues.filter_custome_values, filterValues.minPrice, filterValues.maxPrice);
+        console.log("***** items ***")
+        console.log(itemData)
+        setlastPage(itemData.parameter.last_page);
+
+      }
+
+      if (itemData) {
+        setItems(itemData.data);
+        setFilteredDataSource(  page === 1 ? itemData.data : [...filteredDataSource, ...itemData.data]);
+        console.log("filters page" + page)
+        // setFilteredDataSource(itemData.data)
+      }1
+
+      var y = categories.map((i) => {
+        return i.sub_category.map((x, k) => {
+          return {
+            name: x.name,
+            id: x.sub_category_id,
+            category_id: x.category_id,
+            index: k,
+          };
+        });
+      });
+      setSubCategories(y);
+      setPaginationLoader(false);
+      if (page !== lastPage) {
+        setPage(page + 1);
+      }
+    }
+  };
 
   useEffect(() => {
     fetchData();
@@ -159,8 +212,11 @@ const LootStore = (props) => {
 
   const handleLodeMore = () => {
     if (page <= lastPage) {
+      setLoading(false)
+      console.log("handeloadmore called")
       setPage(page + 1);
-      fetchData1();
+      fetchData2();
+      
     }
     //else {
     //   setPage(1);
@@ -471,6 +527,7 @@ const LootStore = (props) => {
                     setPage(1);
                     setOpen(false)
                     onPressTouch()
+                    
                   }}
                   key={i.index}>
                   {i.index === current && (
@@ -600,9 +657,10 @@ const LootStore = (props) => {
                               showsVerticalScrollIndicator={false}
                               scrollEnabled={true}
                               data={filteredDataSource}
-                              onEndThreshold={0.0}
+                              // 
+                              onEndReachedThreshold={0.1}
                               // onMomentumScrollEnd={() => handleLodeMore()}
-                              // onEndReached={() => setCallOnScrollEnd(true)}
+                               onEndReached={() => handleLodeMore()}
                               // onMomentumScrollEnd={() => {
                               //   callOnScrollEnd && handleLodeMore()
                               //   setCallOnScrollEnd(false)
@@ -725,12 +783,18 @@ const LootStore = (props) => {
                               }
                               numColumns={2}
                             />
+                            { paginationLoader ?
+                             <View style={{  marginBottom: height * 3  }}>
+                             <ActivityIndicator color="#ECDBFA" size="small" />
+                             </View>
+                             : null
+                            }
                           </View>
                         </>
                       )}
                   </View>
                 </>
-              )}
+               )}
           </View>
         ) : (
             <View style={{ marginTop: height * 0.35 }}>

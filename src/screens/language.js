@@ -1,4 +1,4 @@
-import React, { useContext ,useState} from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import {
   Platform,
   View,
@@ -11,17 +11,51 @@ import {
 import LinearGradient from 'react-native-linear-gradient';
 import { Context as AuthContext } from '../api/contexts/authContext';
 import LanguageCard from '../svgs/cardLang';
-import strings,{ changeLaguage } from '../languages/index';
+import strings, { changeLaguage } from '../languages/index';
 import { connect } from '@language';
 import AsyncStorage from '@react-native-community/async-storage';
-import {I18nManager} from "react-native";
+import { I18nManager } from "react-native";
 import RNRestart from 'react-native-restart';
+import FastImage from 'react-native-fast-image'
+import { getBannerApi } from './../api/buildYourPc';
+
+
 
 const { height, width } = Dimensions.get('window');
 
 const Language = (props) => {
   const { state, checkUser, setLanguage } = useContext(AuthContext);
   let { strings, language } = props;
+  // const [BannerData, setBannerData] = useState([]);
+  const [Loading, setLoading] = useState(false);
+
+
+  useEffect(() => {
+    setLoading(true)
+    getBannerApi().then((response) => {
+      if (response.data) {
+        const imageUrls = response.data.map(res => res.image)
+        FastImage.preload(
+          imageUrls.map((r) => {return {uri: r}})
+          // {
+          //     uri: 'https://facebook.github.io/react/img/logo_og.png',
+          //     headers: { Authorization: 'someAuthToken' },
+          // },
+          // {
+          //     uri: 'https://facebook.github.io/react/img/logo_og.png',
+          //     headers: { Authorization: 'someAuthToken' },
+          // },
+        )
+      }
+
+
+      setLoading(false)
+    })
+      .catch((error) => {
+        console.log("banner" + error);
+        setLoading(false)
+      })
+  }, []);
 
   const data = [
     {
@@ -35,22 +69,21 @@ const Language = (props) => {
   ];
 
   const languageChange = async isOn => {
-    try{
+    try {
       await AsyncStorage.setItem('language', isOn);
       let languagename = await AsyncStorage.getItem('language');
-      if(languagename == "it"){
+      if (languagename == "it") {
         changeLaguage('it');
         I18nManager.forceRTL(true)
         RNRestart.Restart();
       }
-      else{
+      else {
         changeLaguage('en');
         I18nManager.forceRTL(false)
         RNRestart.Restart();
       }
     }
-    catch(error)
-    {
+    catch (error) {
       console.log(error)
     }
   };
@@ -80,57 +113,57 @@ const Language = (props) => {
               color: '#ECDBFA',
               fontFamily: Platform.OS == 'android' ? 'Michroma-Regular' : 'Michroma',
             }}>
-           {strings.chooseLang}
-            </Text>
+            {strings.chooseLang}
+          </Text>
 
           {data.map((i, k) => {
             return (
-            <TouchableOpacity
-              key={k}
-              style={{
-                marginTop: 30,
-              }}
-              onPress={() => {
-                languageChange(k == 0?'it':'en')
-              }}>
-              <View
+              <TouchableOpacity
+                key={k}
                 style={{
-                  position: 'absolute',
-                  ...StyleSheet.absoluteFillObject,
+                  marginTop: 30,
+                }}
+                onPress={() => {
+                  languageChange(k == 0 ? 'it' : 'en')
                 }}>
-                <LanguageCard />
-              </View>
-              <View
-                style={{
-                  width: '100%',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  flexDirection: 'row',
-                  display: 'flex',
-                  marginTop: 10,
-                }}>
-                <Image
-                  resizeMode="contain"
+                <View
                   style={{
-                    width: 72,
-                  }}
-                  source={i.image}
-                />
-                <Text
-                  style={{
-                    color: '#ECDBFA',
-                    fontSize: 24,
-                    lineHeight: 32,
-                    marginLeft: 10,
-
+                    position: 'absolute',
+                    ...StyleSheet.absoluteFillObject,
                   }}>
-                  {i.title}
-                </Text>
-              </View>
-            </TouchableOpacity>
-          );
-        }
-        )}
+                  <LanguageCard />
+                </View>
+                <View
+                  style={{
+                    width: '100%',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    flexDirection: 'row',
+                    display: 'flex',
+                    marginTop: 10,
+                  }}>
+                  <Image
+                    resizeMode="contain"
+                    style={{
+                      width: 72,
+                    }}
+                    source={i.image}
+                  />
+                  <Text
+                    style={{
+                      color: '#ECDBFA',
+                      fontSize: 24,
+                      lineHeight: 32,
+                      marginLeft: 10,
+
+                    }}>
+                    {i.title}
+                  </Text>
+                </View>
+              </TouchableOpacity>
+            );
+          }
+          )}
         </View>
       </View>
     </LinearGradient>

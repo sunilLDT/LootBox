@@ -123,11 +123,11 @@ const App = () => {
   };
   useEffect(() => {
     check();
-    requestUserPermission();
-    const unsubscribe = messaging().onMessage(async remoteMessage => {
-      console.log('A new FCM message arrived!', JSON.stringify(remoteMessage));
-    });
-    return unsubscribe;
+    // requestUserPermission();
+    // const unsubscribe = messaging().onMessage(async remoteMessage => {
+    //   console.log('A new FCM message arrived!', JSON.stringify(remoteMessage));
+    // });
+    // return unsubscribe;
   },[]);
 
   useEffect(() => {
@@ -283,7 +283,7 @@ export default () => {
   return (
     <LanguageProvider 
       strings={strings}
-      language={set}>
+      language={'en'}>
       <Provider store={store}>
         <AuthProvider>
           <App />

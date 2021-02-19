@@ -20,7 +20,11 @@ import { SearchBar } from 'react-native-elements';
 import { packageActions } from '../../actions/package';
 import thumbnail from '../../assets/thumbnail.png';
 import ItemDetails from './ItemDetails';
-
+import Dialog, {
+  DialogContent,
+  SlideAnimation,
+} from 'react-native-popup-dialog';
+import Filter from '../filter'
 function useForceUpdate(){
   const [value, setValue] = useState(0); // integer state
   return () => setValue(value => ++value); // update the state to force render
@@ -40,6 +44,8 @@ const ItemListing = (props) => {
   const [data, setData] = useState(items);
   const [query, setQuery] = useState('');
   const [open, setOpen] = useState(false);
+  const [filter , setFilter ] = useState(false)
+  const [filterValues, setFilterApplied ] = useState({})
   const forceUpdate = useForceUpdate();
   const selectHandler = (id, name, price) => {
     
@@ -112,6 +118,12 @@ const ItemListing = (props) => {
   const openClose = () => {
     setOpen(!open)
   }
+
+  const handleFilters = (filterValues) => {
+    setFilterApplied(filterValues)
+    setFilter(false);
+    // fetchData()
+  }
   return (
     <ImageBackground
       source={require('../../assets/plainBg.png')}
@@ -158,7 +170,23 @@ const ItemListing = (props) => {
               resizeMode="contain"
             />
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => { }}>
+          <Dialog
+                visible={filter}
+                containerStyle={{ zIndex: 10, elevation: 10 }}
+                onHardwareBackPress={() => handlePress()}
+                dialogStyle={{ backgroundColor: '#272732', width: '100%', height: '50%' }}
+                dialogAnimation={new SlideAnimation({
+                    slideFrom: 'bottom',
+                })}
+                onTouchOutside={() => { setFilter(!filter) }}
+            >
+                <DialogContent>
+                    <View>
+                      <Filter type="advanceBuilder" filter1={(r) => handleFilters(r)} initalValues={filterValues}  allCategories={items} />
+                    </View>
+                </DialogContent>
+            </Dialog>
+          <TouchableOpacity onPress={() => setFilter(!filter) }>
             <Image
               style={styles.icons}
               source={filterIcon}
