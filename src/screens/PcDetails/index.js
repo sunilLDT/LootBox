@@ -16,8 +16,6 @@ import PriceArrowImage from '../../assets/ic_arrow1.png';
 import DetailsInfoCard from '../../assets/buildYourPc/details_info_card.png';
 import { packageListByGames } from '../../api/buildYourPc';
 import PlayableImg from '../../assets/playable.png';
-import Thumbnail from '../../assets/thumbnail.png';
-import strings from '../../languages/index';
 import { languagename } from '../../components/LanguageName';
 const { width, height } = Dimensions.get('window');
 import { connect } from 'react-redux'

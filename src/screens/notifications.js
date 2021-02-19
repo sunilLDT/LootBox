@@ -10,8 +10,9 @@ import {
 import LinearGradient from 'react-native-linear-gradient';
 import {getNotification} from '../api/buildYourPc';
 const {width, height} = Dimensions.get('window');
+import {connect}  from 'react-redux'
 
-const Notifications = ({navigation}) => {
+const Notifications = ({navigation, labels}) => {
 const [notification, setNotification] = useState([]);
   useEffect(() => {
     getNotification().then((response) => {
@@ -60,7 +61,7 @@ const [notification, setNotification] = useState([]);
               color: '#ECDBFA',
               marginLeft: 10,
             }}>
-            NOTIFICATIONS
+            {labels.notifications}
           </Text>
         </View>
 
@@ -105,4 +106,8 @@ const [notification, setNotification] = useState([]);
   );
 };
 
-export default Notifications;
+const mapStateToProps = (state) => ({
+  labels:state.languageReducer.labels,
+})
+export default connect(mapStateToProps)(Notifications);
+
