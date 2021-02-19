@@ -144,45 +144,28 @@ const Cart = (props) => {
       refRBSheet.current.open();
     }
   };
-   const paymentOption = (paymentType) => {
-     if(paymentType === 3){
+  
+  const paymentOption = (paymentType) => {
+    if(paymentType === 3){
       setCheckCOD(true)
-     }
-    setLoading(true)
-     orderPlace(paymentType).then((response) => {
-       if(paymentType === 3){
-         if(response.code == 200){
+    }
+    orderPlace(paymentType).then((response) => {
+      console.log(response.data)
+      if(paymentType === 3){
+        if(response.code == 200){
           setLoading(false)
-           props.navigation.navigate('alertMessage', { msgUrl: "success" })
-         }else{
-           alert(response.message)
-         }
-       }
-        setLoading(false)
-        props.navigation.navigate('checkout', { paymentUrl: response.data.data.paymenturl })
-      }).catch((error) => {
-        console.log("orderPlace" + error);
-    });
-    refRBSheet.current.close();
-   }
-  // const paymentOption = (paymentType) => {
-  //   orderPlace(paymentType).then((response) => {
-  //     if(paymentType == 3){
-  //       if(response.code == 200){
-  //         setLoading(false)
-  //           props.navigation.navigate('alertMessage', { msgUrl: "success" })
-  //         }else{
-  //           alert(response.message)
-  //         }
-  //     }
-  //     console.log(response.data);
-  //      setLoading(false)
-  //      props.navigation.navigate('checkout', { paymentUrl: response.data.data.paymenturl })
-  //    }).catch((error) => {
-  //      console.log("orderPlace" + error);
-  //  });
-  //  refRBSheet.current.close();
-  // }
+            props.navigation.navigate('alertMessage', { msgUrl: "success" })
+          }else{
+            alert(response.message)
+          }
+      }
+       setLoading(false)
+       props.navigation.navigate('checkout', { paymentUrl: response.data.data.paymenturl })
+     }).catch((error) => {
+       console.log("orderPlace" + error);
+   });
+   refRBSheet.current.close();
+  }
 
   useEffect(() => {
     props.showAddress();
@@ -532,6 +515,7 @@ const Cart = (props) => {
                                 right: 30,
                                 alignSelf: 'center',
                                 justifyContent: 'center',
+                                borderRadius:15
                               }}
                             />
                             <View
@@ -793,6 +777,7 @@ const Cart = (props) => {
                           right: 30,
                           alignSelf: 'center',
                           justifyContent: 'center',
+                          borderRadius:10
                         }}
                       />
                       <View

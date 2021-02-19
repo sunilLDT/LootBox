@@ -153,7 +153,9 @@ const App = () => {
     messaging()
       .getToken()
       .then(token => {
-        //return saveTokenToDatabase(token);
+        console.log("**** token on appp ********")
+        console.log(token)
+        AsyncStorage.setItem('deviceToken', token);
       });
      
       messaging()
