@@ -18,8 +18,9 @@ import {
   StyleSheet,
 } from 'react-native';
 import GradientCircle from '../components/gradientCircle';
-import {useIsFocused} from '@react-navigation/native';
 import LinearGradient from 'react-native-linear-gradient';
+import {useIsFocused} from '@react-navigation/native';
+
 import {Context as AuthContext} from '../api/contexts/authContext';
 import SmallLGBtn from './smallLGBtn';
 import {SearchBar} from 'react-native-elements';
@@ -40,9 +41,9 @@ const options = [
 ];
 const THUMB_RADIUS = 12;
 const LootStore = (props) => {
-  // const scrollRef = useRef();
-  const isFocused = useIsFocused();
-
+  const scrollRef = useRef();
+  const [isFocused, setIsFocused] = useState(false);
+  const [isRoll, setIsRoll] = useState(false);
   const {fetchCategories, fetchItems} = useContext(AuthContext);
   const [data, setData] = useState(null);
   const [categories, setCategories] = useState([]);
@@ -277,11 +278,11 @@ const LootStore = (props) => {
     setOpen(!open);
   };
 
-  const onPressTouch = () => {
+  const onPressTouch = (k) => {
     scrollRef.current?.scrollTo({
-      x: 0,
       y: 0,
-      animated: true,
+      x: 0,
+      animated: false,
     });
   };
 
@@ -572,7 +573,8 @@ const LootStore = (props) => {
         {open ? (
           <SearchBar
             placeholder="Type here..."
-            round
+            lightTheme
+            zround
             editable={true}
             value={search}
             onChangeText={(text) => searchFilterFunction(text)}
@@ -646,7 +648,9 @@ const LootStore = (props) => {
                     changeCategory(0);
                     setPage(1);
                     setOpen(false);
-                    // onPressTouch();
+                    onPressTouch(k);
+                    setIsFocused(true);
+                    // setIsRoll(true);
                   }}
                   key={i.index}>
                   {i.index === current && (
@@ -671,19 +675,17 @@ const LootStore = (props) => {
               ))}
             </ScrollView>
 
-            <View style={{width: '100%'}}>
+            <View style={{width: '100%', alignItems: 'flex-start'}}>
               <ScrollView
                 alwaysBounceHorizontal={true}
-                ref={(ref) => {
-                  let myScroll = ref;
-                  myScroll.scrollTo({x: 0}); // !!
-                }}
+                ref={scrollRef}
                 contentContainerStyle={{
-                  display: 'flex',
                   flexDirection: 'row',
                   justifyContent: 'space-between',
                   paddingLeft: width * 0.1,
                 }}
+                // snapToStart={isFocused == true && isRoll == true ? true : false}
+                // scrollEventThrottle={200}
                 showsHorizontalScrollIndicator={false}
                 horizontal>
                 <TouchableOpacity
@@ -694,13 +696,10 @@ const LootStore = (props) => {
                     changeSubCategory(0);
                     setSelectedSubCategory(0);
                     setOpen(false);
+                    setIsFocused(false);
+                    setIsRoll(false);
                   }}>
-                  {isFocused ? (
-                    <SmallLGBtn
-                      text="All"
-                      selected={selectedSubCategory === 0}
-                    />
-                  ) : null}
+                  <SmallLGBtn text="All" selected={selectedSubCategory === 0} />
                 </TouchableOpacity>
 
                 {subCategories[current] &&
@@ -715,6 +714,9 @@ const LootStore = (props) => {
                         setOpen(false);
                         changeSubCategory(0);
                         setAll1('');
+                        // onPressTouch(k);
+                        setIsFocused(false);
+                        setIsRoll(false);
                       }}>
                       <SmallLGBtn
                         text={i.name}
@@ -733,7 +735,6 @@ const LootStore = (props) => {
               <>
                 <View
                   style={{
-                    display: 'flex',
                     marginVertical: 50,
                     flexDirection: 'row',
                     justifyContent: 'space-between',
