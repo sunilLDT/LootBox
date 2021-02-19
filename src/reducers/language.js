@@ -2,7 +2,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import { cartConstants } from '../actions/actionTypes';
 
 const initialState = {
-  labels: [],
+  labels: {},
   error: false,
   loading: false,
   lang:'en',
@@ -11,20 +11,20 @@ const initialState = {
 
 export default function (state = initialState, action) {
   switch (action.type) {
-    case cartConstants.LABEL_REQUEST:
+    case cartConstants.LABELS_REQUEST:
       return {
         ...state,
         loading: true,
       };
   
-    case cartConstants.LABEL_SUCCESS:
+    case cartConstants.LABELS_SUCCESS:
       return {
         ...state,
         labels: action.labelData
       };
 
 
-    case cartConstants.LABEL_FAILED:
+    case cartConstants.LABELS_FAILED:
       return {
         ...state,
         error: 'select Language .',

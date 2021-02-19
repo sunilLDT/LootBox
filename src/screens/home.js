@@ -71,7 +71,7 @@ const Home = (props) => {
                 textAlign: 'left',
                 fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma',      
                  }}>
-              {strings.buildYourPc}
+              {props.labels.buildYourPc}
             </Text>
             {/* <Text
               style={{
@@ -175,7 +175,7 @@ const Home = (props) => {
                 textAlign: 'right',
                 fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma',        
                     }}>
-             {strings.lootStore}
+             {props.labels.lootStore}
             </Text>
             {/* <Text
               style={{
@@ -207,6 +207,7 @@ const Home = (props) => {
 const mapStateToProps = (state) => ({
   cart: state.cartReducer.cart,
   itemCount:state.cartReducer.totalItems,
+  labels:state.languageReducer.labels,
 })
 const actionCreators = {
   add: cartActions.addCartAction,

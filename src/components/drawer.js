@@ -21,7 +21,8 @@ import arabicImage from '../assets/arabic.png';
 import RNRestart from 'react-native-restart';
 import { I18nManager } from "react-native"
 import AsyncStorage from '@react-native-community/async-storage';
-import { connect } from '@language';
+import { connect } from 'react-redux';
+
 
 const { width, height } = Dimensions.get('window');
 
@@ -43,11 +44,11 @@ const Drawer = (props) => {
 
   let options = [
     {
-      name: strings.cart,
+      name: props.labels.cart,
       path: 'cart',
     },
     {
-      name: strings.order,
+      name: props.labels.myOrders,
       path: 'orders',
     },
     // {
@@ -55,10 +56,10 @@ const Drawer = (props) => {
     //   path: 'Faq',
     // },
     {
-      name: strings.contactUs,
+      name: props.labels.contactUs,
       path: 'contact',
     }, {
-      name: strings.logout,
+      name: props.labels.logout,
       path: '',
     }
   ];
@@ -110,16 +111,12 @@ const Drawer = (props) => {
   }, [props.navigation]);
 
   const arabicLang = async () => {
-    languageChange()
-    language.setLanguage('it')
-    await AsyncStorage.setItem('language', 'it');
+    await AsyncStorage.setItem('language', 'ar');
     I18nManager.forceRTL(true)
     RNRestart.Restart();
   }
 
-  const englishLang = async () => {
-    languageChange()
-    language.setLanguage('en')
+  const englishLang = async () => {  
     await AsyncStorage.setItem('language', 'en');
     I18nManager.forceRTL(false)
     RNRestart.Restart();
@@ -241,7 +238,7 @@ const Drawer = (props) => {
               {profileDetails.email}
             </Text>
             </View>
-            <Text>{strings.changeLanguage}</Text>
+            <Text>{props.labels.changeLanguage}</Text>
 
             {options.map((i, k) => (
               disableEdit ?
@@ -342,5 +339,10 @@ const styles = StyleSheet.create({
     display: 'flex',
   },
 });
-
-export default connect(Drawer);
+const mapStateToProps = (state) => ({
+  labels:state.languageReducer.labels,
+})
+const actionCreators = {
+  
+};
+export default connect(mapStateToProps,actionCreators)(Drawer);

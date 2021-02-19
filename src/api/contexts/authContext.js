@@ -71,14 +71,19 @@ const checkUser = (dispatch) => async () => {
   }
   if (language) {
     if (token && token.length > 0) {
+      console.log("home");
       navigate({ name: 'home' });
     } else {
+      console.log("slider");
       navigate({ name: 'slider' });
     }
   } else {
+    
     if (token && token.length > 0) {
+      console.log("home else");
       navigate({ name: 'home' });
     } else {
+      console.log("language");
       navigate({ name: 'language' });
     }
   }
