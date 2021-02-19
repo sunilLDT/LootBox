@@ -25,8 +25,6 @@ const Slideshow = (props) => {
   useEffect(() => {
     setLoading(true)
     getBannerApi().then((response) => {
-      console.log('Banner %c data ??????????????????????????????????');
-
       if (response.data) {
         console.log(response.data)
         const imageUrls = response.data.map(res => {
@@ -38,7 +36,6 @@ const Slideshow = (props) => {
         console.log(imageUrls)
         setBannerData(imageUrls)
       }
-
       setLoading(false)
     })
       .catch((error) => {

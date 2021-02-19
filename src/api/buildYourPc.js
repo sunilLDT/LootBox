@@ -1,5 +1,5 @@
 import Api from './index';
-
+import AsyncStorage from '@react-native-community/async-storage';
 export async function getAllGames(type) {
   const response = await Api.post('app/build-pc/get-games', {
     resolution: type,
@@ -228,6 +228,7 @@ export async function getProfilApi() {
 
 export async function getBannerApi() {
   const response = await Api.get('app/banner/list');
+  console.log(response)
   return response.data;
 }
 
@@ -255,6 +256,7 @@ export async function itemsAddedInCartApi() {
   return response.data;
 }
 export async function getLabelsApi(){
-  const response = await Api.get('app/label/list');
+  const lang = await AsyncStorage.getItem('language');
+  const response = await Api.get('app/label/list',{ headers: { 'X-Localization': lang }});
   return response.data;
 }

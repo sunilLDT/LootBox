@@ -12,7 +12,8 @@ import LinearGradient from 'react-native-linear-gradient';
 import { Context as AuthContext } from '../api/contexts/authContext';
 import LanguageCard from '../svgs/cardLang';
 import strings, { changeLaguage } from '../languages/index';
-import { connect } from '@language';
+import { connect } from 'react-redux';
+
 import AsyncStorage from '@react-native-community/async-storage';
 import { I18nManager } from "react-native";
 import RNRestart from 'react-native-restart';
@@ -20,13 +21,10 @@ import FastImage from 'react-native-fast-image'
 import { getBannerApi } from './../api/buildYourPc';
 
 
-
 const { height, width } = Dimensions.get('window');
 
 const Language = (props) => {
   const { state, checkUser, setLanguage } = useContext(AuthContext);
-  let { strings, language } = props;
-  // const [BannerData, setBannerData] = useState([]);
   const [Loading, setLoading] = useState(false);
 
 
@@ -72,13 +70,11 @@ const Language = (props) => {
     try {
       await AsyncStorage.setItem('language', isOn);
       let languagename = await AsyncStorage.getItem('language');
-      if (languagename == "it") {
-        changeLaguage('it');
+      if (languagename == "ar") {
         I18nManager.forceRTL(true)
         RNRestart.Restart();
       }
       else {
-        changeLaguage('en');
         I18nManager.forceRTL(false)
         RNRestart.Restart();
       }
@@ -113,7 +109,7 @@ const Language = (props) => {
               color: '#ECDBFA',
               fontFamily: Platform.OS == 'android' ? 'Michroma-Regular' : 'Michroma',
             }}>
-            {strings.chooseLang}
+            {props.labels.chooseLang}
           </Text>
 
           {data.map((i, k) => {
@@ -169,5 +165,13 @@ const Language = (props) => {
     </LinearGradient>
   );
 };
+const mapStateToProps = (state) => ({
 
-export default connect(Language);
+  labels:state.languageReducer.labels,
+})
+const actionCreators = {
+ 
+
+};
+
+export default connect(mapStateToProps,actionCreators)(Language);

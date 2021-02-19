@@ -51,7 +51,8 @@ import AsyncStorage from '@react-native-community/async-storage';
 import NewPassword from './src/screens/newPassword';
  import messaging from '@react-native-firebase/messaging';
  import { navigate } from './src/api/contexts/navigationRef';
-const strings = initLanguages(languages);
+ import { languageActions } from './src/actions/language';
+
 const { width, height } = Dimensions.get('window');
 const Stack = createStackNavigator();
 const Auth = createStackNavigator();
@@ -122,6 +123,12 @@ const App = () => {
     SplashScreen.hide();
   };
   useEffect(() => {
+    
+    AsyncStorage.getItem("phoneNumber").then((value) => {
+      store.dispatch(languageActions.getLabelAction(value));
+    })
+  
+    
     check();
     // requestUserPermission();
     // const unsubscribe = messaging().onMessage(async remoteMessage => {
@@ -213,12 +220,14 @@ const App = () => {
           }}
           //headerMode="none"
           >
+           
           <Stack.Screen name="language" component={Language} />
+          <Stack.Screen name="home" component={HomeScreen} />
           <Stack.Screen name="auth" component={AuthScreen} options={{ gestureEnabled: false }} />
           <Stack.Screen name="otp" component={OtpVerification} />
           <Stack.Screen name="newPassword" component={NewPassword} />
           <Stack.Screen name="slider" component={Slider} />
-          <Stack.Screen name="home" component={HomeScreen} />
+          
           <Stack.Screen name="buildYourPc" component={BuildYourPc} />
           <Stack.Screen name="contact" component={ContactUs} />
           <Stack.Screen name="profile" component={Profile} />
@@ -281,14 +290,12 @@ export default () => {
   };
   languageChange()
   return (
-    <LanguageProvider 
-      strings={strings}
-      language={'en'}>
+  
       <Provider store={store}>
         <AuthProvider>
           <App />
         </AuthProvider>
       </Provider>
-    </LanguageProvider>
+    
   );
 };
