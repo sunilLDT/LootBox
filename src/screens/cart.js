@@ -89,18 +89,24 @@ const Cart = (props) => {
     setAdvanceIems(itemsId)
   }
   
+  
   useEffect(() => {
-    setLoading(true)
-    showCartData().then((response) => {
-      setcartItems(response.data.items)
-      setCartPackage(response.data.package)
-      setCartData(response.data)
-      advanceBuilderIds(response.data.items)
-      setLoading(false)
-    }).catch((error) => {
-      console.log("showCartData" + error);
-      setLoading(false)
-    });
+    const getD = () => {
+      setLoading(true)
+      showCartData().then((response) => {
+        setcartItems(response.data.items)
+        setCartPackage(response.data.package)
+        setCartData(response.data)
+        advanceBuilderIds(response.data.items)
+        setLoading(false)
+      }).catch((error) => {
+        console.log("showCartData" + error);
+        setLoading(false)
+      });
+    }
+    getD()
+    
+    
   }, []);
 
   var y = allAddress.map((i) => {
@@ -115,7 +121,7 @@ const Cart = (props) => {
 
   const checkout = async () => {
     const userType = await AsyncStorage.getItem('user_type');
-    setLoading(true)
+    
     if (JSON.parse(userType) == 2) {
       props.navigation.navigate('auth', {
         screen: 'signup',
