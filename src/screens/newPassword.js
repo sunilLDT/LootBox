@@ -22,10 +22,11 @@ import Modal from '../components/modal';
 import Btn from '../screens/btn';
 import bgImage from '../assets/signup.png';
 import Icons  from 'react-native-vector-icons/FontAwesome';
+import {connect} from 'react-redux'
 
 const {height, width} = Dimensions.get('window');
 
-const NewPassword = ({navigation}) => {
+const NewPassword = ({navigation, labels}) => {
   const [newPassword, setNewPassword] = useState(null);
   const [confirmPassword, setConfirmPassword] = useState(null);
   const [showNewPassword, setNewPasswordVisibility] = useState(false);
@@ -65,7 +66,7 @@ const NewPassword = ({navigation}) => {
                 color: '#676773',
                 marginLeft: 10,
               }}>
-              NEW PASSWORD
+             {labels.newPassword}
             </Text>
           </View>
         <ScrollView>
@@ -88,7 +89,7 @@ const NewPassword = ({navigation}) => {
               <Input
                 value={newPassword}
                 onChangeText={setNewPassword}
-                placeholder="New Password"
+                placeholder={labels.newPassword}
                 password={showNewPassword}
               />
               <TouchableOpacity style={styles.icon} onPress={() => setNewPasswordVisibility(!showNewPassword)}>
@@ -99,7 +100,7 @@ const NewPassword = ({navigation}) => {
                 <Input
                   value={confirmPassword}
                   onChangeText={setConfirmPassword}
-                  placeholder="Confirm Password"
+                  placeholder={confirmPassword}
                   password={showConfirmPassword}
                 />
                 <TouchableOpacity style={styles.icon} onPress={() => setConfirmPasswordVisibility(!showConfirmPassword)}>
@@ -112,10 +113,10 @@ const NewPassword = ({navigation}) => {
               onPress={() => {
                 if (newPassword !== confirmPassword) {
                   Alert.alert(
-                    "Lootbox",
-                    "New Password and Confirm Password do not match",
+                    labels.lootBox,
+                    labels.notMatch,
                     [
-                      { text: "OK", onPress: () => console.log("OK Pressed") }
+                      { text: labels.ok, onPress: () => console.log("OK Pressed") }
                     ],
                     { cancelable: false }
                   );
@@ -128,7 +129,7 @@ const NewPassword = ({navigation}) => {
                 width: '100%',
               }}>
                 {!state.loading ? (
-                <Btn text="SUBMIT" x={"38"} pay=""/>
+                <Btn text={labels.submit} x={"38"} pay=""/>
                 ) : (
                   <>
                   <Btn text={' '} x="38" pay="" />
@@ -165,4 +166,9 @@ const styles = StyleSheet.create({
   }
 });
 
-export default NewPassword;
+const mapStateToProps = (state) => ({
+  labels:state.languageReducer.labels,
+})
+
+export default connect(mapStateToProps)(NewPassword);
+

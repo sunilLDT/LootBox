@@ -39,6 +39,7 @@ import {languagename} from '../components/LanguageName';
 const { width, height } = Dimensions.get('window');
 
 const Profile = (props) => {
+  const {labels} = props
 
   const [DOB, setDOB] = useState(new Date());
   const [show, setShow] = useState(false);
@@ -101,13 +102,13 @@ const Profile = (props) => {
 
   const changePassword = () => {
     if (newPassword !== confirmPassword) {
-      alert("confirm password doesn't match");
+      alert(labels.passwordNotMatch);
     }
     else if (newPassword == "" && confirmPassword == "" && oldPassword == "") {
-      alert("please fill all input fields");
+      alert(labels.fillAllField);
     }
     else if (newPassword.length < 8 && confirmPassword.length < 8) {
-      alert("new password must be greater then 8 digits");
+      alert(labels.notMoreThan8);
     }
     else {
       changePasswordApi(oldPassword, newPassword, confirmPassword).then((response) => {
@@ -118,7 +119,7 @@ const Profile = (props) => {
         }
       }).catch((error) => {
         console.log("ChangePassword" + error);
-        alert("The current password is not match with old password")
+        alert(labels.passNotMatch)
       })
     }
   };
@@ -230,18 +231,18 @@ const Profile = (props) => {
                 <Text style={{ color: '#fff', fontSize: 20, alignSelf: 'center', fontFamily: Platform.OS == 'android' ? 'Michroma-Regular' : 'Michroma' }}>Change Password</Text>
               </View>
               <View style={{ marginVertical: 15 }}>
-                <Input placeholder="Current Password" password onChangeText={(oldPassword) => setOldPassword(oldPassword)} />
+                <Input placeholder={label.currentPassword} password onChangeText={(oldPassword) => setOldPassword(oldPassword)} />
               </View>
               <View style={{ marginVertical: 15 }}>
-                <Input placeholder="New Password" password onChangeText={(newPassword) => setnewPassword(newPassword)} />
+                <Input placeholder={labels.newPassword} password onChangeText={(newPassword) => setnewPassword(newPassword)} />
               </View>
               <View style={{ marginVertical: 15 }}>
-                <Input placeholder="Confirm Password" password onChangeText={(confPassword) => setconfirmPassword(confPassword)} />
+                <Input placeholder={label.confirmPassword} password onChangeText={(confPassword) => setconfirmPassword(confPassword)} />
               </View>
               <TouchableWithoutFeedback
                 onPress={() => changePassword()}>
                 <View style={{ marginVertical: 5 }}>
-                  <SaveBtn text="Save" />
+                  <SaveBtn text={labels.save} />
                 </View>
               </TouchableWithoutFeedback>
             </View>
@@ -361,13 +362,13 @@ const Profile = (props) => {
                     )} 
                   </View>
                   <View style={{ marginBottom: 10, marginTop: 20 }}>
-                    <Input placeholder="firstName" value={first_name} onChangeText={(first_name) => setFirstName(first_name)} />
+                    <Input placeholder={labels.firstName} value={first_name} onChangeText={(first_name) => setFirstName(first_name)} />
                   </View>
                   <View style={{ marginBottom: 10, marginTop: 20 }}>
-                    <Input placeholder="lastName" value={last_name} onChangeText={(last_name) => setLastName(last_name)} />
+                    <Input placeholder={labels.lastName} value={last_name} onChangeText={(last_name) => setLastName(last_name)} />
                   </View>
                   <View style={{ marginBottom: 10, marginTop: 20 }}>
-                    <Input placeholder="Email" email value={email} onChangeText={(email) => setEmail(email)} />
+                    <Input placeholder={labels.email} email value={email} onChangeText={(email) => setEmail(email)} />
                   </View>
                   <View style={{ marginVertical: 10 }}>
                     <TouchableOpacity onPress={() => { setpasswordModal(!passwordModal) }}>
@@ -537,7 +538,7 @@ const Profile = (props) => {
                           />
                         </>
                       ) : (
-                          <SaveBtn text="Save" />
+                          <SaveBtn text={labels.save} />
                         )}
                     </View>
                   </TouchableWithoutFeedback>
@@ -587,6 +588,7 @@ const pickerStyle = {
 const mapStateToProps = (state) => ({
   profileData: state.profileReducer.profile,
   profileLoader:state.profileReducer.loading,
+  labels:state.languageReducer.labels,
 });
 
 const actionCreators = {
