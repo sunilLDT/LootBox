@@ -190,9 +190,10 @@ const signin = (dispatch) => async ({ email, password }) => {
       await AsyncStorage.setItem('is_OTP_Verified', JSON.stringify(true))
 
       const deviceToken = await AsyncStorage.getItem('deviceToken');
+      const language = await AsyncStorage.getItem('language');
       const store = await Api.post('app/user/device-token',{
        token: deviceToken,
-       language:"en",
+       language:language,
        device_type:Platform.OS=='android' ? 1 : 2,
        action_type:1
      });
@@ -278,11 +279,10 @@ const verifyOtp = (dispatch) => async ({ otp }) => {
           await AsyncStorage.setItem('user_type', JSON.stringify(1));
           await AsyncStorage.setItem('is_OTP_Verified', JSON.stringify(true))
           const deviceToken = await AsyncStorage.getItem('deviceToken');
-          // console.log("** device token ****")
-          // console.log (deviceToken)
+          const language = await AsyncStorage.getItem('language');
           const store = await Api.post('app/user/device-token',{
           token: deviceToken,
-          language:"en",
+          language:language,
           device_type:Platform.OS=='android' ? 1 : 2,
           action_type:1
  });
@@ -401,18 +401,16 @@ const signup = (dispatch) => async (data) => {
     dispatch({
       type: 'toggle_loading',
     });
+    console.log(data)
     const res = await Api.post('app/user/register', data);
     if (res.data.data.is_otp_verified) {
       await AsyncStorage.setItem('token', res.data.data.token);
       navigate({ name: 'slider' });
-      
 
     } else {
       await AsyncStorage.setItem('userId', res.data.data.user_id.toString());
       
       const deviceToken = await AsyncStorage.getItem('deviceToken');
-      console.log("** device token ****")
-      console.log (deviceToken)
        
       navigate({ name: 'otp' });
     }
@@ -478,14 +476,16 @@ const signout = (dispatch) => async () => {
       type: 'toggle_loading',
     });
     const value = await AsyncStorage.getItem('deviceToken');
+    const language = await AsyncStorage.getItem('language');
     const store = await Api.post('app/user/device-token',{
     token: value,
-    language:"en",
+    language:language,
     device_type:Platform.OS=='android' ? 1 : 2,
     action_type:2
 });
 
-    await AsyncStorage.clear();
+    await AsyncStorage.removeItem('deviceToken');
+    await AsyncStorage.removeItem('token');
     dispatch({ type: 'signout' });
 navigate({ name: 'auth' });
   } catch (e) {

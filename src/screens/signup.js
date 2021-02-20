@@ -62,6 +62,7 @@ const Signup = ({navigation, route, labels}) => {
     is_google,
   };
 
+
   const submit = async () => {
     await AsyncStorage.setItem('email',email)
     const userType = await AsyncStorage.getItem('user_type')

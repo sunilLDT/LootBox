@@ -317,7 +317,7 @@ const Drawer = (props) => {
 
         <TouchableOpacity
           style={{
-            width: arOren == "ar"?width * 0.35:width * 0.6,
+            // width: arOren == "ar"?width * 0.35:width * 0.6,
             height: height * 0.9,
             position: 'absolute',
             top: height * 0.03,
