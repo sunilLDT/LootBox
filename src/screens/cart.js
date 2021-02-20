@@ -93,20 +93,25 @@ const Cart = (props) => {
     setAdvanceIems(itemsId)
   }
   
+  
   useEffect(() => {
-    setLoading(true)
-    showCartData().then((response) => {
-      setcartItems(response.data.items)
-      setCartPackage(response.data.package)
-      setCartData(response.data)
-      advanceBuilderIds(response.data.items)
-      setLoading(false)
-    }).catch((error) => {
-      console.log("showCartData" + error);
-      setLoading(false)
-    });
-
-  },checkCOD?[""]:[isFocused]);
+    const getD = () => {
+      setLoading(true)
+      showCartData().then((response) => {
+        setcartItems(response.data.items)
+        setCartPackage(response.data.package)
+        setCartData(response.data)
+        advanceBuilderIds(response.data.items)
+        setLoading(false)
+      }).catch((error) => {
+        console.log("showCartData" + error);
+        setLoading(false)
+      });
+    }
+    getD()
+    
+    
+  }, []);
 
   var y = allAddress.map((i) => {
     return i.is_default === 1 ? true : false;
@@ -120,7 +125,7 @@ const Cart = (props) => {
 
   const checkout = async () => {
     const userType = await AsyncStorage.getItem('user_type');
-    setLoading(true)
+    
     if (JSON.parse(userType) == 2) {
       props.navigation.navigate('auth', {
         screen: 'signup',
@@ -988,8 +993,9 @@ const Cart = (props) => {
                           style={{
                             display: 'flex',
                             flexDirection: 'row',
-                            justifyContent: 'space-between',
+                            alignItems:'center',
                             marginVertical: 8,
+                            justifyContent:'space-between'
                           }}
                           key={k}
                         >
@@ -1004,38 +1010,46 @@ const Cart = (props) => {
                             {items.quantity > 1 ? <Text style={{ color: '#fff' }}> ({items.quantity})</Text> : null}
                             <Text style={{ fontSize: 12, color: 'rgba(255,255,255,0.3)' }}>{"   " + items.brand}</Text>
                           </Text>
-                          {items.quantity > 1 ? (<Text
-                            style={{
-                              color: 'rgba(255,255,255,0.3)',
-                              fontSize: 12,
-                              textDecorationLine: items.status === 0 ? 'line-through' : "none",
-                            }}>
-                            KD {items.sub_total}
-                          </Text>) :
-                            <Text
+                          <View style={{
+                            flexDirection:'row',
+                            display:'flex',
+                            marginHorizontal:10,
+                            
+                            
+                          }}>
+                            {items.quantity > 1 ? (<Text
                               style={{
                                 color: 'rgba(255,255,255,0.3)',
                                 fontSize: 12,
-                                fontFamily: 'Montserrat-Regular',
                                 textDecorationLine: items.status === 0 ? 'line-through' : "none",
                               }}>
-                              KD {items.price}
-                            </Text>
-                          }
-                          {items.is_optional == 1?(
-                            <TouchableOpacity onPress={() => removeItem(items.cart_item_id)}>
-                              { removeLoader && removeLoaderID=== items.cart_item_id 
-                                ?(
-                                <View >
-                                  <ActivityIndicator color="#ECDBFA" size="small"  />
-                                </View>
-                                ):(
-                                <Icons name="trash" color={"#D2D7F9"} size={15}  />
-                              )}
-                            </TouchableOpacity>
-                          ):(
-                            null
-                          )}
+                              KD {items.sub_total}
+                            </Text>) :
+                              <Text
+                                style={{
+                                  color: 'rgba(255,255,255,0.3)',
+                                  fontSize: 12,
+                                  fontFamily: 'Montserrat-Regular',
+                                  textDecorationLine: items.status === 0 ? 'line-through' : "none",
+                                }}>
+                                KD {items.price}
+                              </Text>
+                            }
+                            {items.is_optional == 1?(
+                              <TouchableOpacity style={{marginLeft:5}} onPress={() => removeItem(items.cart_item_id)}>
+                                { removeLoader && removeLoaderID=== items.cart_item_id 
+                                  ?(
+                                  <View >
+                                    <ActivityIndicator color="#ECDBFA" size="small"  />
+                                  </View>
+                                  ):(
+                                  <Icons name="trash" color={"#D2D7F9"} size={15}  />
+                                )}
+                              </TouchableOpacity>
+                            ):(
+                              null
+                            )}
+                          </View>
                         </View>
                       );
                   }

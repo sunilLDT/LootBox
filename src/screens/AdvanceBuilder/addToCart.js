@@ -18,8 +18,11 @@ import IcCardImage from '../../assets/ic3.png';
 import thumbnail from '../../assets/thumbnail.png';
 import CloseImage from '../../assets/ic-3copy.png';
 const {width, height} = Dimensions.get('window');
+import {connect} from 'react-redux'
+import { values } from 'lodash';
 
 const AddToCart = (props) => {
+    const {labels} = props
     const [showCpuPerocessersList, setShowCpuProcesserList] = useState(false);
     const [upwardImage, setUpwardImage] = useState(true);
     const[categoryItems, setCategoryItems]=useState([]);
@@ -71,7 +74,7 @@ const AddToCart = (props) => {
                     </View>
                 </View>
                 <View>
-                    <Text style={styles.advanceBuilderText}>Advance Builder</Text>
+                    <Text style={styles.advanceBuilderText}>{labels.advancedBuilder}</Text>
                     <Text style={styles.lineText}>KD {totalPrice}.000</Text>
                 </View>
 
@@ -268,13 +271,17 @@ const AddToCart = (props) => {
                 ):null}
                 <View style={styles.bottom}>
                     <TouchableOpacity  onPress={() => {}}>
-                        <PayBtn price={totalPrice} text="ADD TO CART" x="175"/>             
+                        <PayBtn price={totalPrice} text={values.addToCart} x="175"/>             
                     </TouchableOpacity>
                 </View>  
             </View>            
         </ImageBackground>
     );
 }
+
+const mapStateToProps = (state) => ({
+    labels: state.languageReducer.labels,
+})
 
 const styles = StyleSheet.create({
 background:{
@@ -311,5 +318,4 @@ bottom:{
     marginLeft:"9%"
 }
 });
-
-export default AddToCart;
+export default connect(mapStateToProps)(AddToCart);

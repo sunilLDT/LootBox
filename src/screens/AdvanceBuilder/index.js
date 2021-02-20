@@ -16,7 +16,7 @@ import selectedIcCardImage from '../../assets/Rectangle.png';
 import backImage from '../../assets/back.png';
 import searchImage from '../../assets/ic_search.png';
 import filterImage from '../../assets/ic_filter.png';
-import { addToCartAdvance, advancedBuilderItems,itemsAddedInCartApi,removeItemAPI, } from '../../api/buildYourPc';
+import { addToCartAdvance, advancedBuilderItems,getLabelsApi,itemsAddedInCartApi,removeItemAPI, } from '../../api/buildYourPc';
 import LinearGradient from 'react-native-linear-gradient';
 import cardImage from '../../assets/ic_card_a0.png';
 import thumbnail from '../../assets/thumbnail.png';
@@ -35,11 +35,13 @@ import Dialog, {
 } from 'react-native-popup-dialog';
 import Filter from '../filter';
 import { useIsFocused } from "@react-navigation/native";
+import { values } from 'lodash';
 const { width, height } = Dimensions.get('window');
 
 
 const AdvanceBuilder = (props) => {
   const {fromCart} = props.route.params;
+  const {labels} = props
   const isFocused = useIsFocused();
   const scrollRef = useRef();
   const [loading, setLoading] = useState(true);
@@ -65,8 +67,9 @@ const AdvanceBuilder = (props) => {
   const [cartItemId,setCartItemId] = useState([]);
   const [ItemToDelete,setItemToDelete] = useState([]);
   const maxlimit = 20;
-  console.log("*** item delete ****")
-  console.log(ItemToDelete)
+
+  
+
   const selectedSubCategoryAdvance = (arr) => {
     let a = []
     arr.forEach(function (obj, index) {
@@ -198,14 +201,15 @@ const AdvanceBuilder = (props) => {
 
   const finalSubmit = (ids) => { 
     if(fromCart === 1){
-      
+      console.log("*** item delete ****")
+      console.log(ItemToDelete)
         removeItemAPI(ItemToDelete).then((response) => {
+          console.log(response)
           console.log("here we are")
           if (response.code == 200) {
-            console.log(response.data)
             props.add()
           }
-        }).catch(err => console.log(err))
+        }).catch(err => console.log("advance builder item del"+err))
       
     }
     let result = itemList.map(({ item_id, quantity, is_advance_builder }) => ({ item_id, quantity: 1, is_advance_builder: 1 }));
@@ -512,7 +516,7 @@ const AdvanceBuilder = (props) => {
           </View>
           {open ?
             <SearchBar
-              placeholder="Type here..."
+              placeholder={values.typeHere}
               lightTheme round editable={true}
               value={search}
               onChangeText={(text) => searchFilterFunction(text)}
@@ -531,8 +535,8 @@ const AdvanceBuilder = (props) => {
           ) : (
               <>
                 <View>
-                  <Text style={styles.advanceBuilderText}>Advance Builder</Text>
-                  <Text style={styles.lineText}>Select the configuration you like the most.</Text>
+                  <Text style={styles.advanceBuilderText}>{labels.advanceBuilder}</Text>
+                  <Text style={styles.lineText}>{labels.selectTheMost}</Text>
                 </View>
 
                 <View style={styles.mainContainer}>
@@ -579,7 +583,7 @@ const AdvanceBuilder = (props) => {
                               />
                               <Text
                                 style={styles.subName}
-                                numberOfLines={1}
+                                numberOfLines={2}
                               > {((part.name).length > maxlimit) ? (((part.name).substring(0, 12 - 3)) + '...') : part.name}
                               </Text>
                               <View style={styles.selectedDetails}>
@@ -776,7 +780,7 @@ const styles = StyleSheet.create({
     width: width * 0.71,
   },
   box: {
-    width: width * 0.26,
+    width: width * 0.28,
     height: height * 0.12,
     // borderBottomWidth: 0.3,
     // borderBottomColor: "#3D3E48",
@@ -794,6 +798,7 @@ const styles = StyleSheet.create({
     color: '#e6e6e6',
     fontSize: 9,
     paddingHorizontal: 12,
+    textAlign:'center',
 
   },
   cardConatiner: {
@@ -866,6 +871,7 @@ const mapStateToProps = (state) => ({
   categories: state.packageReducer.categories,
   subCategories: state.packageReducer.subCategories,
   loadingCat: state.packageReducer.loadingCat,
+  labels: state.languageReducer.labels,
   //selectStatus:state.packageReducer.selectStatus
 })
 

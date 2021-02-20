@@ -28,6 +28,7 @@ const { width, height } = Dimensions.get('window');
 
 const Address = (props) => {
     const { addressId } = props.route.params;
+    const {labels} = labels
     const [specficAddress, setSpecficAddress] = useState({});
     const [loading, setLoading] = useState(false);
     const [allAddress, setAllAddress] = useState([]);
@@ -108,20 +109,20 @@ const Address = (props) => {
 
     const addAddress = (address_id) => {
         if (city == ""  || name == "" || block == "" || street == "" || building == "") {
-            alert("Please fill all fields");
+            alert(labels.fillAllFields);
         }
         // else if (email &&
         //     !/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
         //     alert("Invalid Email Address");
         // }
         else if (typeof addressType == "undefined") {
-            alert("Please fill all fields");
+            alert(labels.fillAllFields);
         }
         else if (selectedCity == "") {
-            alert("Please select City");
+            alert(labels.pleaseSelectCity);
         }
         else if (selectedArea == "") {
-            alert("Please select area");
+            alert(labels.pleaseSelectArea);
         }
         else {
             setLoadingBtn(true)
@@ -148,7 +149,7 @@ const Address = (props) => {
                     props.navigation.goBack();
                 }
             }).catch((error) => {
-                alert("something went wrong");
+                alert(labels.somethingWentWrong);
                 console.log("AddAddress" + error)
                 setLoadingBtn(false)
             })
@@ -209,12 +210,12 @@ const Address = (props) => {
                                                 color: '#ECDBFA',
                                                 marginLeft: 10,
                                             }}>
-                                            {addressId && addressId !== "" ? "UPDATE ADDRESS" : "ADD ADDRESS"}
+                                            {addressId && addressId !== "" ? labels.updateAddress : labels.addAddress}
                                         </Text>
                                     </View>
                                         <View style={{ marginVertical: 15, paddingHorizontal: '7%', }}>
                                             <TouchableOpacity >
-                                                <Input placeholder="Address Name" value={name} onChangeText={(Name) => setName(Name)} />
+                                                <Input placeholder={labels.addressName} value={name} onChangeText={(Name) => setName(Name)} />
                                             </TouchableOpacity>
                                         </View>
                                         {/* <View style={{ marginVertical: 15, paddingHorizontal: '7%', }}>
@@ -237,9 +238,9 @@ const Address = (props) => {
                                             {Platform.OS == "android" ? (
                                                 <Picker
                                                     dropdownIconColor="#ECDBFA"
-                                                    iosHeader="Please select City"
+                                                    iosHeader={labels.pleaseSelectCity}
                                                     mode="dropdown"
-                                                    placeholder="Please select City"
+                                                    placeholder={labels.pleaseSelectCity}
                                                     selectedValue={selectedCity}
                                                     style={{
                                                         height: Platform.OS == 'android' ? 65 : 250,
@@ -253,7 +254,7 @@ const Address = (props) => {
                                                         sendCityId(itemValue)
                                                     }
                                                 >
-                                                    <Picker.Item label='Select City' value='' />
+                                                    <Picker.Item label={labels.selectCity} value='' />
                                                     {city.map((cityWithArea, index) => {
                                                         return (
                                                             <Picker.Item
@@ -278,7 +279,7 @@ const Address = (props) => {
                                                                 this.inputRefs.favSport1.togglePicker();
                                                             }}
                                                             placeholder={{
-                                                                label: 'Please Select City',
+                                                                label: labels.pleaseSelectCity,
                                                                 value: null,
                                                             }}
                                                             value={selectedCity}
@@ -309,9 +310,9 @@ const Address = (props) => {
                                             {Platform.OS == "android" ? (
                                                 <Picker
                                                     dropdownIconColor="#ECDBFA"
-                                                    iosHeader="Please select area"
+                                                    iosHeader={labels.pleaseSelectArea}
                                                     mode="dropdown"
-                                                    placeholder="Please select area"
+                                                    placeholder={labels.pleaseSelectArea}
                                                     selectedValue={selectedArea}
                                                     style={{
                                                         height: Platform.OS == 'android' ? 65 : 250,
@@ -343,7 +344,7 @@ const Address = (props) => {
                                                                 setSelectedArea(itemValue)
                                                             }
                                                             placeholder={{
-                                                                label: 'Please Select Area',
+                                                                label: labels.pleaseSelectArea,
                                                                 value: null,
                                                             }}
                                                             style={
@@ -432,7 +433,7 @@ const Address = (props) => {
                                                                 setAddressType(itemValue)
                                                             }
                                                             placeholder={{
-                                                                label: 'Please Select Address Type',
+                                                                label: labels.pleaseSelectAddressType,
                                                                 value: null,
                                                             }}
                                                             value={addressType}
@@ -542,13 +543,13 @@ const pickerStyle = {
     },
     inputAndroid: {
         color: '#ffffff',
-
     },
 };
   
 
 const mapStateToProps = (state) => ({
     address: state.addressReducer.address,
+    labels:state.languageReducer.labels,
 })
 const actionCreators = {
     showAddress: addressActions.showAddress,
