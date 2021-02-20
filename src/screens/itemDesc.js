@@ -535,7 +535,7 @@ const renderViewLess = (onPress) => {
             )
         )}
         <TouchableOpacity onPress={() => addIntoCart()}>
-          <Btn text={addToCart} pay= ""/>
+          <Btn text={labels.addToCart} pay= ""/>
         </TouchableOpacity>
 
         <TouchableOpacity style={{marginTop:-28}} onPress={() => proceedToCheckout()}>
