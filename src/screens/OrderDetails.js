@@ -14,14 +14,13 @@ import Btn from './btn';
 import { getOrderDetails } from '../api/buildYourPc';
 import ItemCard from '../assets/ic_card.png';
 import IcDetailCard from '../assets/ic_details_card.png';
-import { endOfDay } from 'date-fns';
 import ExpandImage from '../assets/ic_expand1.png';
 import CloseImage from '../assets/ic-3copy.png';
 import IcCardImage from '../assets/ic3.png';
 import Bar1 from '../components/bar1';
 import Bar2 from '../components/bar2';
 import Bar3 from '../components/bar3';
-import AsyncStorage from '@react-native-community/async-storage';
+import {connect} from 'react-redux'
 
 
 const steps = [
@@ -1149,4 +1148,8 @@ const OrderDetails = ({ navigation, route }) => {
   );
 };
 
-export default OrderDetails;
+const mapStateToProps = (state) => ({
+  labels:state.languageReducer.labels,
+})
+
+export default connect(mapStateToProps)(OrderDetails);

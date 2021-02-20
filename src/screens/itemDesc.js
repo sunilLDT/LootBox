@@ -69,6 +69,7 @@ const data = [performanceDetails, processorDetails];
 
 
 const ItemDesc = (props) => {
+  const {labels} = props
   const {fetchItemsInfo} = useContext(AuthContext);
   const [itemData, setData] = useState([]);
   const [qty, setQty] = useState(1);
@@ -421,7 +422,7 @@ const renderViewLess = (onPress) => {
               opacity: 0.5,
               marginTop: 20,
             }}>
-            Description
+            {labels.description}
           </Text>
         </View>
         <View style={{marginTop:10}}>
@@ -478,7 +479,7 @@ const renderViewLess = (onPress) => {
                         color: '#ECDBFA',
                         fontSize: 14,
                       }}>
-                      {k === 0 ? 'Performance' : 'Processor Graphics'}
+                      {k === 0 ? labels.performance : labels.processorGraphics}
                     </Text>
                   </View>
                 </View>
@@ -493,7 +494,7 @@ const renderViewLess = (onPress) => {
                     <ActivityIndicator color="#ECDBFA" size="small" />
                   </View>):itemData.length === 0 ?(
                     <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
-                      <Text style={{color:'#ECDBFA',fontSize:20}}>No Records</Text>
+                      <Text style={{color:'#ECDBFA',fontSize:20}}>{labels.noRecords}</Text>
                     </View>
                   ):
                   itemData.map((a, b) => (
@@ -531,14 +532,14 @@ const renderViewLess = (onPress) => {
                   ))}
                 </View>
               </LinearGradient>
-            ),
+            )
         )}
         <TouchableOpacity onPress={() => addIntoCart()}>
-          <Btn text="ADD TO CART" pay= ""/>
+          <Btn text={addToCart} pay= ""/>
         </TouchableOpacity>
 
         <TouchableOpacity style={{marginTop:-28}} onPress={() => proceedToCheckout()}>
-          <Btn text="PROCEED TO CHECKOUT" pay= "" x= "-15"/>
+          <Btn text={labels.proceedToCheckout} pay= "" x= "-15"/>
         </TouchableOpacity>
       </ImageBackground>
     </ScrollView>
@@ -548,6 +549,8 @@ const renderViewLess = (onPress) => {
 const mapStateToProps = (state) => ({
   cart: state.cartReducer.cart,
   itemCount:state.cartReducer.totalItems,
+  labels:state.languageReducer.labels,
+
 })
 const actionCreators = {
   add: cartActions.addCartAction,

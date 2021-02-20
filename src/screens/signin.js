@@ -24,10 +24,11 @@ import ContinueBtn from '../components/ContinueGmailBtn';
 import bgImage from '../assets/signup.png';
 import Icons  from 'react-native-vector-icons/FontAwesome';
 import {languagename} from '../components/LanguageName';
+import { connect } from 'react-redux';
 
 const { height, width } = Dimensions.get('window');
 
-const Signin = ({ navigation }) => {
+const Signin = ({ navigation ,labels}) => {
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
   const [showPassword, setPasswordVisibility] = useState(false);
@@ -44,32 +45,32 @@ const Signin = ({ navigation }) => {
 
     if (isNaN(email)) {
       if (!email) {
-        alert('Please fill the Email or Phone Number');
+        alert(labels.invaildEmail);
       }
       else if (password && (password.length < 8)) {
-        alert('Password must be at least 8 characters',);
+        alert(labels.validPhoneNumber);
       }
       else if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
-        alert('Invalid Email Address ')
+        alert(labels.invaildEmail)
       }
       else if (!password) {
-        alert('All fields are required')
+        alert(labels.allFieldsAreRequired)
       }
       else {
         signin({ email, password });
       }
     } else {
       if (email && !(email.length == 8)) {
-        alert('Invalid  Phone number')
+        alert(labels.validPhoneNumber)
       }
       else if (!password) {
-        alert('All fields are required')
+        alert(labels.allFieldsAreRequired)
       }
       else if (!email) {
-        alert('Please fill the Email or Phone Number');
+        alert(labels.emailPhoneInvalid);
       }
       else if (password && (password.length < 8)) {
-        alert('Password must be at least 8 characters',);
+        alert(label.passwordEightCharacters);
       }
       else {
         signin({ email, password });
@@ -161,7 +162,7 @@ const Signin = ({ navigation }) => {
                       fontFamily: Platform.OS == 'android' ? 'Michroma-Regular' : 'Michroma',
 
                     }}>
-                    Login
+                    {labels.login}
                   </Text>
                 </TouchableOpacity>
                 <Text style={{ color: '#373843', fontSize: 30 }}>|</Text>
@@ -179,7 +180,7 @@ const Signin = ({ navigation }) => {
                       fontFamily: Platform.OS == 'android' ? 'Michroma-Regular' : 'Michroma',
 
                     }}>
-                    Signup
+                    {labels.singnUp}
                   </Text>
                 </TouchableOpacity>
               </View>
@@ -187,14 +188,14 @@ const Signin = ({ navigation }) => {
               <Input
                 value={email}
                 onChangeText={setEmail}
-                placeholder="Phone Number Or Email"
+                placeholder={labels.phoneNumberOrEmail}
               />
 
               <View style={{ marginTop: 20, position: 'relative' }}>
                 <Input
                   value={password}
                   onChangeText={setPassword}
-                  placeholder="Password"
+                  placeholder={labels.password}
                   password={showPassword}
 
                 />
@@ -231,7 +232,7 @@ const Signin = ({ navigation }) => {
                 height: height * 0.1,
               }}>
               {!state.loading ? (
-                <Btn text="LOGIN" pay="" x="54" />
+                <Btn text={labels.login.toUpperCase()} pay="" x="54" />
               ) : (
                   <>
                     <Btn text={' '} x="54" pay="" />
@@ -249,7 +250,7 @@ const Signin = ({ navigation }) => {
               }}
             >
               <View style={{ marginVertical: 10 }}>
-                <ContinueBtn text="Continue With Gmail" />
+                <ContinueBtn text={labels.continueWithGmail} />
               </View>
             </TouchableWithoutFeedback>
           </ScrollView>
@@ -277,4 +278,12 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Signin;
+
+const mapStateToProps = (state) => ({
+  labels:state.languageReducer.labels,
+})
+const actionCreators = {
+
+};
+
+export default connect(mapStateToProps,actionCreators)(Signin);

@@ -17,10 +17,10 @@ import Modal from '../components/modal';
 import Btn from '../screens/btn';
 import bgImage from '../assets/signup.png';
 import AsyncStorage from '@react-native-community/async-storage';
-
+import { connect } from 'react-redux';
 const {height, width} = Dimensions.get('window');
 
-const Otp = ({navigation}) => {
+const Otp = ({navigation,labels}) => {
   const [otp, setOtp] = useState();
   const {verifyOtp, state, resendOtp} = useContext(AuthContext);
   const [count, setCount] = useState(0);
@@ -100,7 +100,7 @@ const Otp = ({navigation}) => {
             marginTop:20,
             fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma',
           }}>
-          Verification OTP sent to your mobile number
+          {labels.verificationOtp}
         </Text>
         <View
           style={{
@@ -146,7 +146,7 @@ const Otp = ({navigation}) => {
               fontSize: 12,
               marginLeft:10
               }}>
-                RESEND OTP
+               {labels.resendOtp}
             </Text>
           </TouchableOpacity>
           :null}
@@ -158,7 +158,7 @@ const Otp = ({navigation}) => {
             // }
           }}
           style={styles.btnContainer}>
-          <Btn text={'VERIFY'} x={"54"} pay=""/>
+          <Btn text={labels.verify.toUpperCase()} x={"54"} pay=""/>
         </TouchableOpacity>
       </ImageBackground>
     </LinearGradient>
@@ -173,4 +173,11 @@ const styles = StyleSheet.create({
   }
 })
 
-export default Otp;
+const mapStateToProps = (state) => ({
+  labels:state.languageReducer.labels,
+})
+const actionCreators = {
+
+};
+
+export default connect(mapStateToProps,actionCreators)(Otp);

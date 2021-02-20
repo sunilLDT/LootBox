@@ -42,7 +42,6 @@ import IcCardImage from '../assets/ic3.png';
 import thumbnail from '../assets/thumbnail.png';
 import PayBtn from '../components/PayBtn';
 import Icon from 'react-native-vector-icons/Feather';
-import strings from '../languages/index';
 import AsyncStorage from '@react-native-community/async-storage';
 import {languagename} from '../components/LanguageName';
 import { useIsFocused } from "@react-navigation/native";
@@ -50,6 +49,7 @@ import { useIsFocused } from "@react-navigation/native";
 const { width, height } = Dimensions.get('window');
 
 const Cart = (props) => {
+  const {labels} = props
   
   const isFocused = useIsFocused();
   const [cartItems, setcartItems] = useState([]);
@@ -93,20 +93,25 @@ const Cart = (props) => {
     setAdvanceIems(itemsId)
   }
   
+  
   useEffect(() => {
-    setLoading(true)
-    showCartData().then((response) => {
-      setcartItems(response.data.items)
-      setCartPackage(response.data.package)
-      setCartData(response.data)
-      advanceBuilderIds(response.data.items)
-      setLoading(false)
-    }).catch((error) => {
-      console.log("showCartData" + error);
-      setLoading(false)
-    });
-
-  },checkCOD?[""]:[isFocused]);
+    const getD = () => {
+      setLoading(true)
+      showCartData().then((response) => {
+        setcartItems(response.data.items)
+        setCartPackage(response.data.package)
+        setCartData(response.data)
+        advanceBuilderIds(response.data.items)
+        setLoading(false)
+      }).catch((error) => {
+        console.log("showCartData" + error);
+        setLoading(false)
+      });
+    }
+    getD()
+    
+    
+  }, []);
 
   var y = allAddress.map((i) => {
     return i.is_default === 1 ? true : false;
@@ -120,7 +125,7 @@ const Cart = (props) => {
 
   const checkout = async () => {
     const userType = await AsyncStorage.getItem('user_type');
-    setLoading(true)
+    
     if (JSON.parse(userType) == 2) {
       props.navigation.navigate('auth', {
         screen: 'signup',
@@ -408,9 +413,9 @@ const Cart = (props) => {
               >
                 <DialogContent>
                   <View style={styles.addressDialouge}>
-                    <Text style={styles.address}>{strings.address}</Text>
+                    <Text style={styles.address}>{labels.address}</Text>
                     <TouchableOpacity onPress={gotoAddress}>
-                      <Text style={styles.addAddress}>{strings.addAddress}</Text>
+                      <Text style={styles.addAddress}>{labels.addAddress}</Text>
                     </TouchableOpacity>
                   </View>
                   {props.address ? props.address.map((addValues, index) => {
@@ -468,7 +473,7 @@ const Cart = (props) => {
                       color: '#ECDBFA',
                       marginLeft: 10,
                     }}>
-                    {strings.yourCart}
+                    {labels.yourCart}
                   </Text>
                   <Text> </Text>
                   <Text
@@ -478,7 +483,7 @@ const Cart = (props) => {
                       fontStyle: 'italic',
                     }}
                   >
-                    ({Object.keys(cartData).length === 0 ? "0" : cartData.total_items} {cartData.total_items > 1 ? strings.items : " item"})
+                    ({Object.keys(cartData).length === 0 ? "0" : cartData.total_items} {cartData.total_items > 1 ? labels.items : " item"})
               </Text>
                 </View>
               </View>
@@ -1108,7 +1113,7 @@ const Cart = (props) => {
                 opacity: 0.5,
               }}
               >
-               {strings.deliveryTo}
+               {labels.deliveryTo}
               </Text>
               {props.address?props.address.length === 1?(
               <View 
@@ -1209,8 +1214,8 @@ const Cart = (props) => {
                         opacity: 0.8,
                         fontFamily: 'Montserrat-Medium',
                       }}>
-                      {strings.packageDetails}({Object.keys(cartData).length === 0 ? "0" : cartData.total_items}
-                      {cartData.total_items === 1 ? " item" : strings.items})
+                      {labels.packageDetails}({Object.keys(cartData).length === 0 ? "0" : cartData.total_items}
+                      {cartData.total_items === 1 ? " item" : labels.items})
                     </Text>
                   </View>
 
@@ -1310,7 +1315,7 @@ const Cart = (props) => {
                           fontSize: 15,
                           fontFamily: 'Montserrat-Regular',
                         }}
-                      >{strings.DeliveryFees}
+                      >{labels.DeliveryFees}
                       </Text>
                       <Text
                         style={{
@@ -1337,7 +1342,7 @@ const Cart = (props) => {
                           fontSize: 14,
                           fontFamily: 'Montserrat-Regular',
                         }}>
-                        {strings.total}
+                        {labels.total}
                       </Text>
                       <Text
                         style={{
@@ -1354,7 +1359,7 @@ const Cart = (props) => {
                 <TouchableOpacity onPress={() => checkout()}>
                   <View style={{ width: "105%" }}>
                     {!loading ? (
-                      <PayBtn text={strings.pay} price={cartData.grand_total} />
+                      <PayBtn text={labels.pay} price={cartData.grand_total} />
                     ) : (
                         <>
                           <PayBtn text={' '} x="54" price="" />
@@ -1376,7 +1381,7 @@ const Cart = (props) => {
               <View>
                 <TouchableOpacity style={{ marginTop: 10, marginLeft: 40 }} onPress={() => props.navigation.navigate('home')}>
                   <View style={{ width: "87%", }}>
-                    <SaveBtn text={strings.continueShoping} x="100" />
+                    <SaveBtn text={labels.continueShoping} x="100" />
                   </View>
                 </TouchableOpacity>
               </View>
@@ -1514,6 +1519,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => ({
   cart: state.cartReducer.cart,
   address: state.addressReducer.address,
+  labels:state.languageReducer.labels,
 })
 
 const actionCreators = {

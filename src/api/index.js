@@ -8,8 +8,10 @@ const instance = axios.create({
 instance.interceptors.request.use(
   async (config) => {
     const token = await AsyncStorage.getItem('token');
+    const lang = await AsyncStorage.getItem('language');
+    console.log('language is '+lang)
     config.headers.Accept = 'application/json';
-    config.headers['X-Localization'] = 'en';
+    config.headers['X-Localization'] = lang;
     config.headers['Content-Type'] = 'application/json';
     if (token && token.length > 0) {
       config.headers.Authorization = `Bearer ${token}`;

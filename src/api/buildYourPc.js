@@ -257,6 +257,9 @@ export async function itemsAddedInCartApi() {
 }
 export async function getLabelsApi(){
   const lang = await AsyncStorage.getItem('language');
+  console.log("================lang")
+  console.log(lang)
+  console.log("================lang")
   const response = await Api.get('app/label/list',{ headers: { 'X-Localization': lang }});
   return response.data;
 }

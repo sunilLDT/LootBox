@@ -7,6 +7,7 @@ export const languageActions = {
 
 function getLabelAction(lang) {
   return (dispatch) => {
+    console.log("****** labels api 1 response *******")
     //dispatch(request());
     getLabelsApi().then((response) => {
       console.log("****** labels api response *******")

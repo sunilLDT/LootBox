@@ -9,10 +9,11 @@ import {
   TouchableWithoutFeedback,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
+import { connect } from 'react-redux';
 
 const {height, width} = Dimensions.get('window');
 
-const OrderSuccess = () => {
+const OrderSuccess = ({labels}) => {
   return (
     <View
       style={{
@@ -104,4 +105,12 @@ const OrderSuccess = () => {
   );
 };
 
-export default OrderSuccess;
+
+const mapStateToProps = (state) => ({
+  labels:state.languageReducer.labels,
+})
+const actionCreators = {
+
+};
+
+export default connect(mapStateToProps,actionCreators)(OrderSuccess);

@@ -16,25 +16,11 @@ PODS:
     - React-Core (= 0.63.2)
     - React-jsi (= 0.63.2)
     - ReactCommon/turbomodule/core (= 0.63.2)
-  - Firebase/Analytics (7.5.0):
-    - Firebase/Core
-  - Firebase/Core (7.5.0):
-    - Firebase/CoreOnly
-    - FirebaseAnalytics (= 7.5.0)
   - Firebase/CoreOnly (7.5.0):
     - FirebaseCore (= 7.5.0)
   - Firebase/Messaging (7.5.0):
     - Firebase/CoreOnly
     - FirebaseMessaging (~> 7.5.0)
-  - FirebaseAnalytics (7.5.0):
-    - FirebaseCore (~> 7.0)
-    - FirebaseInstallations (~> 7.0)
-    - GoogleAppMeasurement (= 7.5.0)
-    - GoogleUtilities/AppDelegateSwizzler (~> 7.0)
-    - GoogleUtilities/MethodSwizzler (~> 7.0)
-    - GoogleUtilities/Network (~> 7.0)
-    - "GoogleUtilities/NSData+zlib (~> 7.0)"
-    - nanopb (~> 2.30907.0)
   - FirebaseCore (7.5.0):
     - FirebaseCoreDiagnostics (~> 7.4)
     - GoogleUtilities/Environment (~> 7.0)
@@ -87,12 +73,6 @@ PODS:
     - GoogleMaps
   - Google-Maps-iOS-Utils/QuadTree (2.1.0):
     - GoogleMaps
-  - GoogleAppMeasurement (7.5.0):
-    - GoogleUtilities/AppDelegateSwizzler (~> 7.0)
-    - GoogleUtilities/MethodSwizzler (~> 7.0)
-    - GoogleUtilities/Network (~> 7.0)
-    - "GoogleUtilities/NSData+zlib (~> 7.0)"
-    - nanopb (~> 2.30907.0)
   - GoogleDataTransport (8.2.0):
     - nanopb (~> 2.30907.0)
   - GoogleMaps (3.5.0):
@@ -112,8 +92,6 @@ PODS:
     - PromisesObjC (~> 1.2)
   - GoogleUtilities/Logger (7.2.2):
     - GoogleUtilities/Environment
-  - GoogleUtilities/MethodSwizzler (7.2.2):
-    - GoogleUtilities/Logger
   - GoogleUtilities/Network (7.2.2):
     - GoogleUtilities/Logger
     - "GoogleUtilities/NSData+zlib"
@@ -448,8 +426,6 @@ DEPENDENCIES:
   - DoubleConversion (from `../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec`)
   - FBLazyVector (from `../node_modules/react-native/Libraries/FBLazyVector`)
   - FBReactNativeSpec (from `../node_modules/react-native/Libraries/FBReactNativeSpec`)
-  - Firebase/Analytics
-  - Firebase/Messaging
   - Folly (from `../node_modules/react-native/third-party-podspecs/Folly.podspec`)
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
   - Google-Maps-iOS-Utils
@@ -510,14 +486,12 @@ SPEC REPOS:
     - AppAuth
     - boost-for-react-native
     - Firebase
-    - FirebaseAnalytics
     - FirebaseCore
     - FirebaseCoreDiagnostics
     - FirebaseInstallations
     - FirebaseInstanceID
     - FirebaseMessaging
     - Google-Maps-iOS-Utils
-    - GoogleAppMeasurement
     - GoogleDataTransport
     - GoogleMaps
     - GoogleSignIn
@@ -648,7 +622,6 @@ SPEC CHECKSUMS:
   FBLazyVector: 3ef4a7f62e7db01092f9d517d2ebc0d0677c4a37
   FBReactNativeSpec: dc7fa9088f0f2a998503a352b0554d69a4391c5a
   Firebase: fd5e4d2b756292c6e7ee6faac1eb320225d6e97e
-  FirebaseAnalytics: 00b7f74571d346ee1ffb9bf0a2e6f2ffff222bcc
   FirebaseCore: 06a2b68af8901f2244eb989419eb89edc3789b4d
   FirebaseCoreDiagnostics: 35685db68b11fe7d19d2d8b557fd7e3a56ac81cc
   FirebaseInstallations: a46ae59915f0931e18814164849cd0354bea24ed
@@ -657,7 +630,6 @@ SPEC CHECKSUMS:
   Folly: b73c3869541e86821df3c387eb0af5f65addfab4
   glog: 40a13f7840415b9a77023fbcae0f1e6f43192af3
   Google-Maps-iOS-Utils: c32891ff472eaaa1fca032beedafa1a013af7875
-  GoogleAppMeasurement: 65a1071e5f52f63ab03d0a4d814a54fd762d885a
   GoogleDataTransport: 1024b1a4dfbd7a0e92cb20d7e0a6f1fb66b449a4
   GoogleMaps: 32ca02de09de357a10ac773f2c70f1986751392d
   GoogleSignIn: 7137d297ddc022a7e0aa4619c86d72c909fa7213
@@ -718,6 +690,6 @@ SPEC CHECKSUMS:
   SDWebImageWebPCoder: d0dac55073088d24b2ac1b191a71a8f8d0adac21
   Yoga: 7740b94929bbacbddda59bf115b5317e9a161598
 
-PODFILE CHECKSUM: cbfa3e64442a3ea829f0399f127d3883913f147f
+PODFILE CHECKSUM: 960ccbeab9045dd68e3ba0d65545d9cd3ddb499d
 
 COCOAPODS: 1.10.1

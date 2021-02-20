@@ -24,10 +24,10 @@ target 'lootbox' do
 
   pod 'RNCAsyncStorage', :path => '../node_modules/@react-native-community/async-storage'
 
-  pod 'Firebase/Analytics'
+  #pod 'Firebase/Analytics'
 
   # Add the pod for Firebase Cloud Messaging
-  pod 'Firebase/Messaging'
+  #pod 'Firebase/Messaging', ~6.13.0
 
   target 'lootboxTests' do
     inherit! :complete

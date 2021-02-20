@@ -20,14 +20,13 @@ import Option2 from './2K';
 import {TouchableWithoutFeedback} from 'react-native-gesture-handler';
 import {getAllGames} from '../api/buildYourPc';
 import AdvanceBuilderButton from '../components/AdvanceBuilderBtn';
-import strings from '../languages/index';
-import {SearchBar} from 'react-native-elements';
-import filter from 'lodash.filter';
-import {languagename} from '../components/LanguageName';
+import { SearchBar } from 'react-native-elements';
+import { languagename } from '../components/LanguageName';
+import { connect } from 'react-redux';
 
 const {width, height} = Dimensions.get('window');
 
-const BuildYourPc = ({navigation}) => {
+const BuildYourPc = ({ navigation, labels }) => {
   const [selected, setSelected] = useState([]);
   const [resolution, setResolution] = useState('1080P');
   const [gameData, setGameData] = useState([]);
@@ -36,20 +35,18 @@ const BuildYourPc = ({navigation}) => {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState('');
   const [arOren, setarOren] = useState('en');
-  languagename().then((res) => setarOren(res));
+  languagename().then(res => setarOren(res))
 
   useEffect(() => {
-    setLoading(true);
-    getAllGames(resolution)
-      .then((response) => {
-        setGameData(response.data);
-        setFilterData(response.data);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.log('getAllGames' + error);
-        setLoading(false);
-      });
+    setLoading(true)
+    getAllGames(resolution).then((response) => {
+      setGameData(response.data);
+      setFilterData(response.data)
+      setLoading(false)
+    }).catch((error) => {
+      console.log("getAllGames" + error);
+      setLoading(false)
+    });
   }, [resolution]);
 
   const changeResolution = (res) => {
@@ -59,40 +56,45 @@ const BuildYourPc = ({navigation}) => {
 
   const submitGames = () => {
     if (selected.length > 0) {
-      navigation.navigate('PcDetails', {selectedGames: selected});
-    } else {
-      alert('Please select a game');
+      navigation.navigate('PcDetails', { selectedGames: selected })
     }
-  };
+    else {
+      alert(labels.pleaseSelectAGame)
+    }
+  }
   const checkResolution = (res) => {
-    setOpen(false);
+    setOpen(false)
     if (selected.length !== 0) {
       Alert.alert(
-        'Lootbox',
-        'You can choose only one resolution for games',
+        labels.lootbox,
+        labels.chooseResolutionForGames,
         [
           {
-            text: 'Cancel',
-            onPress: () => console.log('Cancel Pressed'),
-            style: 'cancel',
+            text: labels.cancel,
+            onPress: () => console.log("Cancel Pressed"),
+            style: "cancel"
           },
-          {text: 'OK', onPress: () => changeResolution(res)},
+          { text: labels.ok, onPress: () => changeResolution(res) }
         ],
-        {cancelable: false},
+        { cancelable: false }
       );
-    } else {
+    }
+    else {
       setResolution(res);
     }
-  };
+  }
 
   const handleSearch = (text) => {
     if (text) {
-      const newData = gameData.filter(function (item) {
-        const itemData = item.name ? item.name.toUpperCase() : ''.toUpperCase();
-        const textData = text.toUpperCase();
-        return itemData.indexOf(textData) > -1;
-      });
-      setFilterData(newData);
+      const newData = gameData.filter(
+        function (item) {
+          const itemData = item.name
+            ? item.name.toUpperCase()
+            : ''.toUpperCase();
+          const textData = text.toUpperCase();
+          return itemData.indexOf(textData) > -1;
+        });
+      setFilterData(newData)
       setQuery(text);
     } else {
       setFilterData(gameData);
@@ -105,10 +107,11 @@ const BuildYourPc = ({navigation}) => {
   };
 
   return (
-    <View style={{backgroundColor: '#292633', width: '100%', height: '100%'}}>
+    <View style={{ backgroundColor: '#292633', width: '100%', height: '100%' }}>
       <ScrollView
         showsVerticalScrollIndicator={false}
-        style={{width, height, overflowX: 'hidden'}}>
+        style={{ width, height, overflowX: 'hidden' }}
+      >
         <ImageBackground
           source={require('../assets/signup.png')}
           style={{
@@ -138,17 +141,14 @@ const BuildYourPc = ({navigation}) => {
               />
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={() =>
-                navigation.navigate('AdvanceBuilder', {fromCart: 0})
-              }>
-              <View
-                style={{
-                  height: 32,
-                  width: 153,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}>
-                <AdvanceBuilderButton />
+              onPress={() => navigation.navigate('AdvanceBuilder', { fromCart: 0 })}>
+              <View style={{
+                height: 32,
+                width: 153,
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}>
+                <AdvanceBuilderButton text={labels.advancedBuilder} />
               </View>
             </TouchableOpacity>
           </View>
@@ -163,10 +163,9 @@ const BuildYourPc = ({navigation}) => {
                 color: '#ECDBFA',
                 fontSize: 20,
                 lineHeight: 28,
-                fontFamily:
-                  Platform.OS == 'android' ? 'Michroma-Regular' : 'Michroma',
+                fontFamily: Platform.OS == 'android' ? 'Michroma-Regular' : 'Michroma',
               }}>
-              {strings.buildHeading}
+              {labels.buildHeading}
             </Text>
           </View>
           <View
@@ -185,21 +184,21 @@ const BuildYourPc = ({navigation}) => {
                 flexDirection: 'row',
               }}>
               <TouchableOpacity
-                style={{width: 116}}
+                style={{ width: 116, }}
                 onPress={() => {
                   checkResolution('1080P');
                 }}>
                 <Option1 selected={resolution === '1080P'} />
               </TouchableOpacity>
-              <View style={{position: 'relative', right: 48, width: 84}}>
+              <View style={{ position: 'relative', right: 48, width: 84, }}>
                 <TouchableOpacity
                   onPress={() => {
-                    checkResolution('2K');
+                    checkResolution('2K')
                   }}>
                   <Option2 selected={resolution === '2K'} text="2K" />
                 </TouchableOpacity>
               </View>
-              <View style={{position: 'relative', right: 94, width: 84}}>
+              <View style={{ position: 'relative', right: 94, width: 84 }}>
                 <TouchableOpacity
                   onPress={() => {
                     checkResolution('4K');
@@ -222,87 +221,77 @@ const BuildYourPc = ({navigation}) => {
           <View>
             {open ? (
               <SearchBar
-                placeholder="Search Game.."
-                round
-                editable={true}
+                placeholder={labels.searchGame}
+                lightTheme round editable={true}
                 value={query}
-                onChangeText={(queryText) => handleSearch(queryText)}
+                onChangeText={queryText => handleSearch(queryText)}
                 containerStyle={{
                   backgroundColor: '#D2D7F9',
                   marginTop: '-7%',
-                  height: 40,
-
-                  marginBottom: '3%',
-                  marginHorizontal: '5%',
+                  marginBottom: "3%",
+                  marginHorizontal: "5%",
                   borderRadius: 10,
                 }}
-                inputContainerStyle={{
-                  height: 20,
-                  backgroundColor: '#D2D7F9',
-                  marginTop: -5,
-                  borderRadius: 10,
-                }}
+                inputContainerStyle={{ height: 20, backgroundColor: '#D2D7F9', marginTop: -5 }}
               />
             ) : null}
           </View>
           {loading ? (
-            <View style={{marginTop: height * 0.19}}>
+            <View style={{ marginTop: height * 0.19 }}>
               <ActivityIndicator color="#ECDBFA" size="small" />
-            </View>
-          ) : gameData.length === 0 ? (
-            <Text
-              style={{
-                color: '#fff',
+            </View>) : gameData.length === 0 ? (
+              <Text style={{
+                color: "#fff",
                 lineHeight: 32,
-                fontFamily:
-                  Platform.OS == 'android' ? 'Michroma-Regular' : 'Michroma',
-                fontSize: 15,
-                marginTop: height * 0.18,
-              }}>
-              No GAMES AVAILABLE OF THIS QUALITY
-            </Text>
-          ) : (
-            <>
-              <FlatList
-                keyExtractor={(item) => item.name}
-                showsVerticalScrollIndicator={false}
-                data={filterData}
-                showsVerticalScrollIndicator={false}
-                renderItem={({item}, k) => {
-                  return (
-                    <View key={k} style={{width: '100%', marginVertical: 10}}>
-                      {!selected.includes(item.game_id) ? (
-                        <TouchableWithoutFeedback
-                          activeOpacity={0.2}
-                          onPressIn={() => {
-                            setSelected([...selected, item.game_id]);
-                          }}>
-                          <Card text={item.name} image={item.image} />
-                        </TouchableWithoutFeedback>
-                      ) : (
-                        <TouchableWithoutFeedback
-                          activeOpacity={0.2}
-                          onPressIn={() => {
-                            setSelected(
-                              selected.filter((x) => x !== item.game_id),
-                            );
-                          }}>
-                          <Testing text={item.name} image={item.image} />
-                        </TouchableWithoutFeedback>
-                      )}
-                    </View>
-                  );
-                }}
-              />
-              <View style={styles.bottom}>
-                <TouchableOpacity
-                  activeOpacity={0.1}
-                  onPress={() => submitGames()}>
-                  <Btn text={strings.BuildYourPc} pay="" />
-                </TouchableOpacity>
-              </View>
-            </>
-          )}
+                fontFamily: Platform.OS == 'android' ? 'Michroma-Regular' : 'Michroma',
+                fontSize: 15, marginTop: height * 0.18
+              }}
+              >{labels.noGameAvailable}
+              </Text>
+            ) : (
+                <>
+                  <FlatList
+                    keyExtractor={(item) => item.name}
+                    showsVerticalScrollIndicator={false}
+                    data={filterData}
+                    showsVerticalScrollIndicator={false}
+                    renderItem={({ item }, k) => {
+                      return (
+                        <View key={k} style={{ width: '100%', marginVertical: 10 }}>
+                          {!selected.includes(item.game_id) ? (
+                            <TouchableWithoutFeedback
+                              activeOpacity={0.2}
+                              onPressIn={() => {
+                                setSelected([...selected, item.game_id]);
+                              }}>
+                              <Card text={item.name} image={item.image} />
+                            </TouchableWithoutFeedback>
+                          ) : (
+                              <TouchableWithoutFeedback
+                                activeOpacity={0.2}
+                                onPressIn={() => {
+                                  setSelected(selected.filter((x) => x !== item.game_id));
+                                }}>
+                                <Testing text={item.name} image={item.image} />
+                              </TouchableWithoutFeedback>
+                            )}
+                        </View>
+                      );
+                    }
+                    }
+                  />
+                  <View style={styles.bottom}>
+                    <TouchableOpacity
+                      activeOpacity={0.1}
+                      onPress={() =>
+                        submitGames()
+                      }>
+                      <Btn text={labels.BuildYourPc} pay="" />
+
+                    </TouchableOpacity>
+                  </View>
+                </>
+              )}
         </ImageBackground>
       </ScrollView>
     </View>
@@ -314,5 +303,9 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
   },
 });
+const mapStateToProps = (state) => ({
+  labels: state.languageReducer.labels,
+})
 
-export default BuildYourPc;
+
+export default connect(mapStateToProps)(BuildYourPc);

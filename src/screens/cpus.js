@@ -8,10 +8,11 @@ import {
   Image,
   Text,
 } from 'react-native';
+import { connect } from 'react-redux'
 
-const {width, height} = Dimensions.get('window');
+const { width, height } = Dimensions.get('window');
 
-const Items = () => {
+const Items = ({ labels }) => {
   return (
     <ImageBackground
       source={require('../assets/plainBg.png')}
@@ -40,10 +41,10 @@ const Items = () => {
                 alignItems: 'center',
                 flexDirection: 'row',
               }}>
-              <TouchableOpacity onPress={() => {}}>
+              <TouchableOpacity onPress={() => { }}>
                 <Image
                   resizeMode="contain"
-                  style={{width: 48}}
+                  style={{ width: 48 }}
                   source={require('../assets/back.png')}
                 />
               </TouchableOpacity>
@@ -54,7 +55,7 @@ const Items = () => {
                   color: '#ECDBFA',
                   marginLeft: 10,
                 }}>
-                CPU 'S
+                {labels.cpus}
               </Text>
             </View>
             <View
@@ -64,18 +65,18 @@ const Items = () => {
                 justifyContent: 'space-between',
                 flexDirection: 'row',
               }}>
-              <TouchableOpacity onPress={() => {}}>
+              <TouchableOpacity onPress={() => { }}>
                 <Image
                   source={require('../assets/ic_search.png')}
                   resizeMode="contain"
-                  style={{width: 40}}
+                  style={{ width: 40 }}
                 />
               </TouchableOpacity>
-              <TouchableOpacity onPress={() => {}}>
+              <TouchableOpacity onPress={() => { }}>
                 <Image
                   source={require('../assets/ic_filter.png')}
                   resizeMode="contain"
-                  style={{width: 40}}
+                  style={{ width: 40 }}
                 />
               </TouchableOpacity>
             </View>
@@ -123,13 +124,13 @@ const Items = () => {
                         opacity: 0.87,
                         textAlign: 'center',
                         marginTop: 60,
-                       
+
                       }}>
                       i7 6369K
                     </Text>
                     <Text
                       style={{
-                       
+
                         color: '#D2D7F9',
                         opacity: 0.5,
                         fontSize: 14,
@@ -144,7 +145,7 @@ const Items = () => {
                         opacity: 0.7,
                         fontSize: 12,
                         textAlign: 'center',
-                       
+
                       }}>
                       KD 2,200
                     </Text>
@@ -159,4 +160,7 @@ const Items = () => {
   );
 };
 
-export default Items;
+const mapStateToProps = (state) => ({
+  labels: state.languageReducer.labels,
+})
+export default connect(mapStateToProps)(Items);
