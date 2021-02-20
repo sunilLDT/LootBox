@@ -134,35 +134,68 @@ const renderViewLess = (onPress) => {
         <Dialog
           visible={addressModal}
           onTouchOutside={() => { setaddressModal(!addressModal) }}
-          dialogStyle={{ backgroundColor: '#272732', width: "70%",height:"25%" }}
+          dialogStyle={{ backgroundColor: '#272732', width: "70%",paddingHorizontal:0 }}
           dialogAnimation={new SlideAnimation({
             slideFrom: 'bottom',
           })}
         >
-          <DialogContent>
+          
            <View>
              <View style={{
-               alignItems:'center',
-               paddingVertical:5,
-               borderBottomWidth:1,
-               borderColor:'#fff',
-               marginTop:3
+               alignItems:'center',               
+               height:45,
              }}>
-               <Text style={{
-                 color:"#fff",
-                 fontSize:20,
+               <LinearGradient start={{x: 0, y: 0}} end={{x: 1, y: 0}} colors={['#865CF4', '#C01C8A',]} style={{
+                  flex: 1,
+                  borderRadius: 5,
+                  width:"100%"
                }}>
+                <Text style={{
+                  fontSize: 18,
+                  fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma', 
+                  textAlign: 'center',
+                  color: '#ffffff',
+                  backgroundColor: 'transparent',
+                }}>
                   LootBox
-               </Text>
+                </Text>
+              </LinearGradient>
              </View>
-             {/* <Text style={{color:"#fff",alignSelf:'center',paddingTop:10,paddingBottom:5,fontSize:20}}>Alert</Text>
-             <Text style={{color:"#fff",alignSelf:'center',paddingVertical:20}}>
-              ITEM ADDED SUCCESSFULLY
-             </Text>
-             <View style={{borderWidth:0.5,borderColor:'#fff',width:'100%'}}></View>
-             <Text style={{color:"#fff",alignSelf:'center',paddingTop:10,}}>OK</Text> */}
+             <DialogContent >
+              <View style={{
+                alignItems:'center',
+                paddingVertical:"15%"
+              }}>
+                <Text style={{
+                  color:'#fff',
+                  fontSize:15,
+                  fontFamily:
+                  Platform.OS == 'android'
+                    ? 'Montserrat-Light'
+                    : 'Montserrat',
+                }}>
+                  Item added successfully
+                </Text>
+              </View>
+             </DialogContent>
            </View>
-          </DialogContent>
+           <View style={{
+              alignItems:'center',
+              paddingVertical:5,
+              borderTopWidth:0.5,
+              borderColor:'#fff'
+            }}>
+              <Text style={{
+                color:'#fff',
+                fontSize:18,
+                fontFamily:
+                Platform.OS == 'android'
+              ? 'Montserrat-Light'
+              : 'Montserrat',
+              }}>
+                OK
+              </Text>
+            </View>
         </Dialog>
       <ImageBackground
         source={require('../assets/plainBg.png')}

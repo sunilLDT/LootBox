@@ -290,6 +290,7 @@ const Signup = ({navigation, route}) => {
                 } else {
                   
                   if (password && password.length < 8) {
+                    setValidationError("Password must be at least 8 characters")
                     alert(
                       'Password must be at least 8 characters',
                     );

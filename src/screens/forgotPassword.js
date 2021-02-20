@@ -27,6 +27,7 @@ const {height, width} = Dimensions.get('window');
 const ForgotPassword = ({navigation}) => {
   const [email, setEmail] = useState(null);
   const {state, forgotPassword, setNavigation, setValidationError} = useContext(AuthContext);
+  const { validationError } = state;
 
   return (
     <View style={{backgroundColor:'#292633', width:'100%', height:'100%'}}>

@@ -484,9 +484,7 @@ const signout = (dispatch) => async () => {
     device_type:Platform.OS=='android' ? 1 : 2,
     action_type:2
 });
-console.log("** device token ***")
-console.log(value)
-alert(store.data.message)
+
     await AsyncStorage.clear();
     dispatch({ type: 'signout' });
 navigate({ name: 'auth' });
