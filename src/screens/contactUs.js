@@ -12,8 +12,9 @@ import {
 import LinearGradient from 'react-native-linear-gradient';
 
 const {width, height} = Dimensions.get('window');
+import {connect} from 'react-redux'
 
-const ContactUs = ({navigation}) => {
+const ContactUs = ({navigation, labels}) => {
   return (
     <View
       style={{
@@ -50,7 +51,7 @@ const ContactUs = ({navigation}) => {
               fontFamily: Platform.OS=='android'?'Montserrat Italic':'Montserrat',
               fontStyle:'italic'
             }}>
-            CONTACT US
+            {labels.contactUs}
           </Text>
         </View>
 
@@ -62,7 +63,7 @@ const ContactUs = ({navigation}) => {
             color: '#ECDBFA',
             marginBottom: 10,
           }}>
-          Need Our Help?
+          {labels.needHelp}
         </Text>
 
         <Text
@@ -74,7 +75,7 @@ const ContactUs = ({navigation}) => {
             opacity: 0.5,
             marginBottom: 20,
           }}>
-          Contact us through
+          {labels.contactUsThrough}
         </Text>
 
         <View style={{marginVertical: 15}}>
@@ -130,7 +131,7 @@ const ContactUs = ({navigation}) => {
                   fontFamily: Platform.OS=='android'?'Montserrat-Regular':'Montserrat',
                   color: '#ECDBFA',
                 }}>
-                Email
+                {labels.email}
               </Text>
             </LinearGradient>
           </TouchableOpacity>
@@ -160,7 +161,7 @@ const ContactUs = ({navigation}) => {
                   fontFamily: 'Montserrat-Regular',
                   color: '#ECDBFA',
                 }}>
-                Whatsapp
+                {labels.whatsapp}
               </Text>
             </LinearGradient>
           </TouchableOpacity>
@@ -172,4 +173,10 @@ const ContactUs = ({navigation}) => {
 
 const styles = StyleSheet.create({});
 
-export default ContactUs;
+const mapStateToProps = (state) => ({
+  labels:state.languageReducer.labels,
+})
+
+
+export default connect(mapStateToProps)(ContactUs);
+

@@ -16,10 +16,11 @@ import { changeNumberApi } from '../api/buildYourPc';
 import SaveBtn from '../components/SaveBtn'
 import { Context as AuthContext } from '../api/contexts/authContext';
 import AsyncStorage from '@react-native-community/async-storage';
+import {connect} from 'react-redux'
 
 const { width, height } = Dimensions.get('window');
 
-const ChangePhoneNumber = ({ navigation }) => {
+const ChangePhoneNumber = ({ navigation , labels}) => {
 
     const [phoneNumber, setPhoneNumber] = useState("");
     const [loadingBtn, setLoadingBtn] = useState(false);
@@ -28,13 +29,13 @@ const ChangePhoneNumber = ({ navigation }) => {
     const numberChange = async () => {
         const otpVerified = await AsyncStorage.getItem('is_OTP_Verified');
         if (!JSON.parse(otpVerified)) {
-            alert("Please verify otp first");
+            alert(labels.VerifyOtpFirst);
         } else {
             if (phoneNumber == "") {
-                alert("Please fill the Phone Number");
+                alert(labels.fillPhone);
             }
             else if (phoneNumber.length < 8) {
-                alert("Phone number must be greater then 8 digits");
+                alert(labels.notGreaterThan8);
             }
             else {
                 setLoadingBtn(true)
@@ -94,12 +95,12 @@ const ChangePhoneNumber = ({ navigation }) => {
                             color: '#ECDBFA',
                             marginLeft: 10,
                         }}>
-                        CHANGE PHONE NUMBER
+                        {labels.changePhoneNumber}
                     </Text>
                 </View>
 
                 <View style={styles.phoneContainer}>
-                    <Input placeholder="Phone Number" tel value={phoneNumber} onChangeText={(number) => setPhoneNumber(number)} />
+                    <Input placeholder={labels.phoneNumber} tel value={phoneNumber} onChangeText={(number) => setPhoneNumber(number)} />
                 </View>
                 <View style={styles.btnView}>
                     <TouchableWithoutFeedback
@@ -115,7 +116,7 @@ const ChangePhoneNumber = ({ navigation }) => {
                                     />
                                 </View>
                             ) : (
-                                    <SaveBtn text="Save Changes" x="115.848624" />
+                                    <SaveBtn text={labels.saveChanges} x="115.848624" />
                                 )}
                         </View>
                     </TouchableWithoutFeedback>
@@ -140,4 +141,9 @@ const styles = StyleSheet.create({
     }
 });
 
-export default ChangePhoneNumber;
+const mapStateToProps = (state) => ({
+    labels:state.languageReducer.labels,
+  })
+
+export default connect(mapStateToProps)(ChangePhoneNumber);
+
