@@ -67,8 +67,9 @@ const AdvanceBuilder = (props) => {
   const [cartItemId,setCartItemId] = useState([]);
   const [ItemToDelete,setItemToDelete] = useState([]);
   const maxlimit = 20;
-  console.log("*** item delete ****")
-  console.log(ItemToDelete)
+
+  
+
   const selectedSubCategoryAdvance = (arr) => {
     let a = []
     arr.forEach(function (obj, index) {
@@ -200,14 +201,15 @@ const AdvanceBuilder = (props) => {
 
   const finalSubmit = (ids) => { 
     if(fromCart === 1){
-      
+      console.log("*** item delete ****")
+      console.log(ItemToDelete)
         removeItemAPI(ItemToDelete).then((response) => {
+          console.log(response)
           console.log("here we are")
           if (response.code == 200) {
-            console.log(response.data)
             props.add()
           }
-        }).catch(err => console.log(err))
+        }).catch(err => console.log("advance builder item del"+err))
       
     }
     let result = itemList.map(({ item_id, quantity, is_advance_builder }) => ({ item_id, quantity: 1, is_advance_builder: 1 }));
@@ -581,7 +583,7 @@ const AdvanceBuilder = (props) => {
                               />
                               <Text
                                 style={styles.subName}
-                                numberOfLines={1}
+                                numberOfLines={2}
                               > {((part.name).length > maxlimit) ? (((part.name).substring(0, 12 - 3)) + '...') : part.name}
                               </Text>
                               <View style={styles.selectedDetails}>
@@ -778,7 +780,7 @@ const styles = StyleSheet.create({
     width: width * 0.71,
   },
   box: {
-    width: width * 0.26,
+    width: width * 0.28,
     height: height * 0.12,
     // borderBottomWidth: 0.3,
     // borderBottomColor: "#3D3E48",
@@ -796,6 +798,7 @@ const styles = StyleSheet.create({
     color: '#e6e6e6',
     fontSize: 9,
     paddingHorizontal: 12,
+    textAlign:'center',
 
   },
   cardConatiner: {

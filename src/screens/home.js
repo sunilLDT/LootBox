@@ -16,8 +16,6 @@ import { cartActions } from '../actions/user';
 const {height, width} = Dimensions.get('window');
 
 const Home = (props) => {
-
-  const [cartItems,setcartItems] = useState(0);
   
   useEffect(() => {
     props.add()
@@ -31,9 +29,9 @@ const Home = (props) => {
         justifyContent: 'space-between',
         height,
         width,
-        backgroundColor: '#DF2EDC',
-        borderWidth:2,
-        borderColor:'#DF2EDC'
+        backgroundColor: '#272732',
+       
+        
       }}>
       <TouchableOpacity
         onPress={() => {
@@ -66,11 +64,13 @@ const Home = (props) => {
               style={{
                 color: '#ECDBFA',
                 lineHeight: 32,
-                width: '80%',
+                // width: '80%',
                 fontSize: 28,
                 textAlign: 'left',
-                fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma',      
-                 }}>
+                fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma',
+                borderWidth:2,
+                      
+                }}>
               {props.labels.buildYourPc}
             </Text>
             {/* <Text
@@ -165,15 +165,15 @@ const Home = (props) => {
               </LinearGradient>
             </View>
           </View>
-          <View style={{marginBottom: height * 0.1, marginLeft: height * 0.05}}>
+          <View style={{marginBottom: height * 0.1, paddingHorizontal: "4%"}}>
             <Text
               style={{
                 color: '#ECDBFA',
-                lineHeight: 32,
                 // width:'90%',
                 fontSize: 28,
                 textAlign: 'right',
-                fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma',        
+                fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma',
+                       
                     }}>
              {props.labels.lootStore}
             </Text>

@@ -130,7 +130,7 @@ const App = () => {
   
     
     check();
-    // requestUserPermission();
+     requestUserPermission();
     // const unsubscribe = messaging().onMessage(async remoteMessage => {
     //   console.log('A new FCM message arrived!', JSON.stringify(remoteMessage));
     // });
@@ -153,8 +153,6 @@ const App = () => {
     messaging()
       .getToken()
       .then(token => {
-        console.log("**** token on appp ********")
-        console.log(token)
         AsyncStorage.setItem('deviceToken', token);
       });
      

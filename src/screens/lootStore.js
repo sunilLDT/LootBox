@@ -1,4 +1,10 @@
-import React, { useContext, useEffect, useState, useCallback, useRef } from 'react';
+import React, {
+  useContext,
+  useEffect,
+  useState,
+  useCallback,
+  useRef,
+} from 'react';
 import {
   View,
   Dimensions,
@@ -9,24 +15,23 @@ import {
   ActivityIndicator,
   ScrollView,
   FlatList,
-  StyleSheet
+  StyleSheet,
 } from 'react-native';
 import GradientCircle from '../components/gradientCircle';
 import LinearGradient from 'react-native-linear-gradient';
-import { Context as AuthContext } from '../api/contexts/authContext';
+import {useIsFocused} from '@react-navigation/native';
+
+import {Context as AuthContext} from '../api/contexts/authContext';
 import SmallLGBtn from './smallLGBtn';
-import { SearchBar } from 'react-native-elements';
+import {SearchBar} from 'react-native-elements';
 import strings from '../languages/index';
-import { connect } from 'react-redux';
-import { cartActions } from '../actions/user';
+import {connect} from 'react-redux';
+import {cartActions} from '../actions/user';
 import Filter from './filter';
-import Dialog, {
-  DialogContent,
-  SlideAnimation,
-} from 'react-native-popup-dialog';
-import { flattenDeep,values,keys, map } from 'lodash';
-import { languagename } from '../components/LanguageName';
-const { width, height } = Dimensions.get('window');
+import Dialog, {DialogContent, SlideAnimation} from 'react-native-popup-dialog';
+import {flattenDeep, values, keys, map} from 'lodash';
+import {languagename} from '../components/LanguageName';
+const {width, height} = Dimensions.get('window');
 
 const options = [
   require('../assets/back.png'),
@@ -36,10 +41,10 @@ const options = [
 ];
 const THUMB_RADIUS = 12;
 const LootStore = (props) => {
- 
   const scrollRef = useRef();
-
-  const { fetchCategories, fetchItems } = useContext(AuthContext);
+  const [isFocused, setIsFocused] = useState(false);
+  const [isRoll, setIsRoll] = useState(false);
+  const {fetchCategories, fetchItems} = useContext(AuthContext);
   const [data, setData] = useState(null);
   const [categories, setCategories] = useState([]);
   const [subCategories, setSubCategories] = useState([]);
@@ -50,7 +55,7 @@ const LootStore = (props) => {
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
   const maxlimit = 15;
-  const subCategoryId = "";
+  const subCategoryId = '';
   const [lastPage, setlastPage] = useState(0);
   const [totalPage, setToalPage] = useState(0);
   const [search, setSearch] = useState('');
@@ -59,15 +64,13 @@ const LootStore = (props) => {
   const [callOnScrollEnd, setCallOnScrollEnd] = useState(false);
   const [allfilter, setAllfilter] = useState(false);
   const [allfilterId, setAllfilterId] = useState({});
-  const [all1,setAll1] = useState();
+  const [all1, setAll1] = useState();
 
- const [paginationLoader, setPaginationLoader] = useState(false)
-
+  const [paginationLoader, setPaginationLoader] = useState(false);
 
   const [arOren, setarOren] = useState('en');
-  languagename().then(res => setarOren(res));
+  languagename().then((res) => setarOren(res));
   const [filterValues, setFilterApplied] = useState({});
-  
 
   // console.log("selected Sub category " )
   // console.log(selectedSubCategory)
@@ -75,45 +78,53 @@ const LootStore = (props) => {
   // console.log(selectedSubCategory)
 
   const fetchData = useCallback(async () => {
-    try{
-    if (selectedSubCategory === 0) {
-      await fetchData1();
-    } else {
-      if (selectedSubCategory !== 0) {
-        await fetchData1(subCategories[current][selectedSubCategory - 1].id);
+    try {
+      if (selectedSubCategory === 0) {
+        await fetchData1();
+      } else {
+        if (selectedSubCategory !== 0) {
+          await fetchData1(subCategories[current][selectedSubCategory - 1].id);
+        }
       }
+    } catch (errr) {
+      console.log(errr);
     }
-  }catch(errr ){
-    console.log(errr)
-  }
   }, [selectedSubCategory, current, filterValues]);
 
   const changeCategory = (id) => {
     setSelectedSubCategory(id);
     setPage(1);
-    setlastPage(0)
-    setFilterApplied({})
-
-  }
+    setlastPage(0);
+    setFilterApplied({});
+  };
 
   const changeSubCategory = (id) => {
-    setPage(1)
-    setlastPage(0)
-    setFilterApplied({})
-  }
+    setPage(1);
+    setlastPage(0);
+    setFilterApplied({});
+  };
 
-  const allFilterFunction = async(r) => {
-    setPage(1)
-    setAll1(r.all)
-    const cat =  categories.map((i,k) => {
+  const allFilterFunction = async (r) => {
+    setPage(1);
+    setAll1(r.all);
+    const cat = categories.map((i, k) => {
       return i.id;
     });
 
-    const itemData = await fetchItems(cat[current], keys(selectedSubCategory)[0], page, r.filter_custome_field_id, r.filter_custome_values, r.minPrice, r.maxPrice,r.all);
-    
+    const itemData = await fetchItems(
+      cat[current],
+      keys(selectedSubCategory)[0],
+      page,
+      r.filter_custome_field_id,
+      r.filter_custome_values,
+      r.minPrice,
+      r.maxPrice,
+      r.all,
+    );
+
     setItems(itemData.data);
-    setFilteredDataSource( itemData.data);
-  }
+    setFilteredDataSource(itemData.data);
+  };
 
   const fetchData1 = async (b) => {
     setLoading(true);
@@ -121,27 +132,47 @@ const LootStore = (props) => {
     if (categories) {
       setData(categories);
       var x = categories.map((i, k) => {
-        return { id: i.category_id, name: i.name_en, index: k };
+        return {id: i.category_id, name: i.name_en, index: k};
       });
       setCategories(x);
       var itemData = null;
-      
-      if (b) {
-        itemData = await fetchItems(x[current].id, b, undefined, filterValues.filter_custome_field_id, filterValues.filter_custome_values, filterValues.minPrice, filterValues.maxPrice);
-      } else {
-        itemData = await fetchItems(x[current].id, subCategoryId, page, filterValues.filter_custome_field_id, filterValues.filter_custome_values, filterValues.minPrice, filterValues.maxPrice);
-        console.log("***** items ***")
-        console.log(itemData)
-        setlastPage(itemData.parameter.last_page);
 
+      if (b) {
+        itemData = await fetchItems(
+          x[current].id,
+          b,
+          undefined,
+          filterValues.filter_custome_field_id,
+          filterValues.filter_custome_values,
+          filterValues.minPrice,
+          filterValues.maxPrice,
+        );
+      } else {
+        itemData = await fetchItems(
+          x[current].id,
+          subCategoryId,
+          page,
+          filterValues.filter_custome_field_id,
+          filterValues.filter_custome_values,
+          filterValues.minPrice,
+          filterValues.maxPrice,
+        );
+        console.log('***** items ***');
+        console.log(itemData);
+        setlastPage(itemData.parameter.last_page);
       }
 
       if (itemData) {
         setItems(itemData.data);
-        setFilteredDataSource(  page === 1 ? itemData.data : [...filteredDataSource, ...itemData.data]);
-        console.log("filters page" + page)
+        setFilteredDataSource(
+          page === 1
+            ? itemData.data
+            : [...filteredDataSource, ...itemData.data],
+        );
+        console.log('filters page' + page);
         // setFilteredDataSource(itemData.data)
-      }1
+      }
+      1;
 
       var y = categories.map((i) => {
         return i.sub_category.map((x, k) => {
@@ -166,27 +197,47 @@ const LootStore = (props) => {
     if (categories) {
       setData(categories);
       var x = categories.map((i, k) => {
-        return { id: i.category_id, name: i.name_en, index: k };
+        return {id: i.category_id, name: i.name_en, index: k};
       });
       setCategories(x);
       var itemData = null;
-      
-      if (b) {
-        itemData = await fetchItems(x[current].id, b, undefined, filterValues.filter_custome_field_id, filterValues.filter_custome_values, filterValues.minPrice, filterValues.maxPrice);
-      } else {
-        itemData = await fetchItems(x[current].id, subCategoryId, page, filterValues.filter_custome_field_id, filterValues.filter_custome_values, filterValues.minPrice, filterValues.maxPrice);
-        console.log("***** items ***")
-        console.log(itemData)
-        setlastPage(itemData.parameter.last_page);
 
+      if (b) {
+        itemData = await fetchItems(
+          x[current].id,
+          b,
+          undefined,
+          filterValues.filter_custome_field_id,
+          filterValues.filter_custome_values,
+          filterValues.minPrice,
+          filterValues.maxPrice,
+        );
+      } else {
+        itemData = await fetchItems(
+          x[current].id,
+          subCategoryId,
+          page,
+          filterValues.filter_custome_field_id,
+          filterValues.filter_custome_values,
+          filterValues.minPrice,
+          filterValues.maxPrice,
+        );
+        console.log('***** items ***');
+        console.log(itemData);
+        setlastPage(itemData.parameter.last_page);
       }
 
       if (itemData) {
         setItems(itemData.data);
-        setFilteredDataSource(  page === 1 ? itemData.data : [...filteredDataSource, ...itemData.data]);
-        console.log("filters page" + page)
+        setFilteredDataSource(
+          page === 1
+            ? itemData.data
+            : [...filteredDataSource, ...itemData.data],
+        );
+        console.log('filters page' + page);
         // setFilteredDataSource(itemData.data)
-      }1
+      }
+      1;
 
       var y = categories.map((i) => {
         return i.sub_category.map((x, k) => {
@@ -212,41 +263,36 @@ const LootStore = (props) => {
 
   const handleLodeMore = () => {
     if (page <= lastPage) {
-      setLoading(false)
-      console.log("handeloadmore called")
+      setLoading(false);
+      console.log('handeloadmore called');
       setPage(page + 1);
       fetchData2();
-      
     }
     //else {
     //   setPage(1);
     // }
     // setPage(1);
-
   };
 
   const openClose = () => {
-    setOpen(!open)
-  }
+    setOpen(!open);
+  };
 
-  const onPressTouch = () => {
+  const onPressTouch = (k) => {
     scrollRef.current?.scrollTo({
       y: 0,
-      animated: true,
+      x: 0,
+      animated: false,
     });
-  }
-
+  };
 
   const searchFilterFunction = (text) => {
     if (text) {
-      const newData = items.filter(
-        function (item) {
-          const itemData = item.name
-            ? item.name.toUpperCase()
-            : ''.toUpperCase();
-          const textData = text.toUpperCase();
-          return itemData.indexOf(textData) > -1;
-        });
+      const newData = items.filter(function (item) {
+        const itemData = item.name ? item.name.toUpperCase() : ''.toUpperCase();
+        const textData = text.toUpperCase();
+        return itemData.indexOf(textData) > -1;
+      });
       setFilteredDataSource(newData);
       setSearch(text);
     } else {
@@ -256,126 +302,186 @@ const LootStore = (props) => {
   };
 
   const handlePress = () => {
-    setFilter(!filter)
+    setFilter(!filter);
     return true;
-  }
+  };
 
   const handleFilters = (filterValues) => {
-    
-    setFilterApplied(filterValues)
-    setFilter(!filter)
-  }
+    setFilterApplied(filterValues);
+    setFilter(!filter);
+  };
 
   const checkFilter = () => {
-    selectedSubCategory==0
-    ? setAllfilter(true)
-    :setFilter(!filter)
-  }
+    selectedSubCategory == 0 ? setAllfilter(true) : setFilter(!filter);
+  };
   const openNextModal = () => {
-    setAllfilter(!allfilter)
-    setFilter(!filter)
-    handleFilters({filter_custome_field_id: keys(selectedSubCategory), filter_custome_values: flattenDeep(values(
-      console.log(selectedSubCategory)
-    ))}  )
-
-
-  }
+    setAllfilter(!allfilter);
+    setFilter(!filter);
+    handleFilters({
+      filter_custome_field_id: keys(selectedSubCategory),
+      filter_custome_values: flattenDeep(
+        values(console.log(selectedSubCategory)),
+      ),
+    });
+  };
 
   return (
-    <View style={{ backgroundColor: '#292633', width: '100%', height: '100%' }}>
+    <View style={{backgroundColor: '#292633', width: '100%', height: '100%'}}>
       <ImageBackground
         source={require('../assets/dottedBackground.png')}
         style={{
           height: height,
         }}>
-
         <Dialog
           visible={filter}
-          containerStyle={{ zIndex: 10, elevation: 10 }}
+          containerStyle={{zIndex: 10, elevation: 10}}
           onHardwareBackPress={() => handlePress()}
-          dialogStyle={{ backgroundColor: '#272732', width: '100%', height: '50%' }}
-          dialogAnimation={new SlideAnimation({
-            slideFrom: 'bottom',
-          })}
-          onTouchOutside={() => { setFilter(!filter) }}
-        >
+          dialogStyle={{
+            backgroundColor: '#272732',
+            width: '100%',
+            height: '50%',
+          }}
+          dialogAnimation={
+            new SlideAnimation({
+              slideFrom: 'bottom',
+            })
+          }
+          onTouchOutside={() => {
+            setFilter(!filter);
+          }}>
           <DialogContent>
             <View>
-              <Filter initalValues={filterValues} filter1={(r) => {
-                setFilterApplied(r);
-                allFilterFunction(r)
-                 setFilter(!filter)
-                }} selectedSubCategory={selectedSubCategory} allCategories={subCategories[0]} />
+              <Filter
+                initalValues={filterValues}
+                filter1={(r) => {
+                  setFilterApplied(r);
+                  allFilterFunction(r);
+                  setFilter(!filter);
+                }}
+                selectedSubCategory={selectedSubCategory}
+                allCategories={subCategories[0]}
+              />
             </View>
           </DialogContent>
         </Dialog>
         {/* filter for all */}
         <Dialog
           visible={allfilter}
-          containerStyle={{ zIndex: 10, elevation: 10 }}
+          containerStyle={{zIndex: 10, elevation: 10}}
           onHardwareBackPress={() => handlePress()}
-          dialogStyle={{ backgroundColor: '#272732', width: '100%', height: '50%' }}
-          dialogAnimation={new SlideAnimation({
-            slideFrom: 'bottom',
-          })}
-          onTouchOutside={() => { setAllfilter(!allfilter) }}
-        >
+          dialogStyle={{
+            backgroundColor: '#272732',
+            width: '100%',
+            height: '50%',
+          }}
+          dialogAnimation={
+            new SlideAnimation({
+              slideFrom: 'bottom',
+            })
+          }
+          onTouchOutside={() => {
+            setAllfilter(!allfilter);
+          }}>
           <DialogContent>
             {/* <View>
             {subCategories[0].map((items) => {
             return <Text>{items.name}</Text> })}
             </View> */}
-            <View style={{ height: '100%', width: '100%', marginTop: 15, paddingBottom: 15 }}>
-            <View style={{ width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-              <View>
-                <TouchableOpacity
-                  onPress={() => setAllfilter(false)}>
-                  <Text style={styles.textStyle}>Cancel</Text>
-                </TouchableOpacity>
-              </View>
-      
-              <View>
-                <TouchableOpacity
-                  onPress={() => openNextModal() }
-                  >
-                  <Text style={styles.textStyle}>Choose</Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-            <ScrollView
+            <View
               style={{
-                height: '100%', width: '100%',
-                overflow: 'hidden',
+                height: '100%',
+                width: '100%',
+                marginTop: 15,
+                paddingBottom: 15,
               }}>
-                  <View style={styles.tab} >
-                      { subCategories.length !==0 ? subCategories[current].map((filterData) => {
-                    return <TouchableOpacity
-                        style={{
-                          marginRight: 10,
-                          marginBottom: 10
-                        }}
-                        onPress={() => {
-                          if (selectedSubCategory[filterData.id] && selectedSubCategory[filterData.id].includes(filterData.name)) {
-                            const filterValues = flattenDeep(values(selectedSubCategory));
-                            const filterReturn = filterValues.filter(item => item !== filterData.name)
-                            setSelectedSubCategory({ ...selectedSubCategory, [filterData.id]: filterReturn })
-                          } else if (selectedSubCategory[filterData.id]) {
-                            setSelectedSubCategory({ ...selectedSubCategory, ...selectedSubCategory[filterData.id].push(filterData.name) });
-                          } else {
-                            setSelectedSubCategory({ ...selectedSubCategory, [filterData.id]: [filterData.name] });
-                          }
-                        }}>
-                        
-                        <SmallLGBtn
-                          text={filterData.name}
-                         selected={selectedSubCategory.length !== 0 && selectedSubCategory[filterData.id] && selectedSubCategory[filterData.id].includes(filterData.name)}
-                        />
-                      </TouchableOpacity>
-                } ):<ActivityIndicator marginTop={height * 0.12} color="#ECDBFA" size="small" />}
-                  </View>
-                
-            </ScrollView>
-          </View>
+              <View
+                style={{
+                  width: '100%',
+                  display: 'flex',
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                }}>
+                <View>
+                  <TouchableOpacity onPress={() => setAllfilter(false)}>
+                    <Text style={styles.textStyle}>Cancel</Text>
+                  </TouchableOpacity>
+                </View>
+
+                <View>
+                  <TouchableOpacity onPress={() => openNextModal()}>
+                    <Text style={styles.textStyle}>Choose</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+              <ScrollView
+                style={{
+                  height: '100%',
+                  width: '100%',
+                  overflow: 'hidden',
+                }}>
+                <View style={styles.tab}>
+                  {subCategories.length !== 0 ? (
+                    subCategories[current].map((filterData) => {
+                      return (
+                        <TouchableOpacity
+                          style={{
+                            marginRight: 10,
+                            marginBottom: 10,
+                          }}
+                          onPress={() => {
+                            if (
+                              selectedSubCategory[filterData.id] &&
+                              selectedSubCategory[filterData.id].includes(
+                                filterData.name,
+                              )
+                            ) {
+                              const filterValues = flattenDeep(
+                                values(selectedSubCategory),
+                              );
+                              const filterReturn = filterValues.filter(
+                                (item) => item !== filterData.name,
+                              );
+                              setSelectedSubCategory({
+                                ...selectedSubCategory,
+                                [filterData.id]: filterReturn,
+                              });
+                            } else if (selectedSubCategory[filterData.id]) {
+                              setSelectedSubCategory({
+                                ...selectedSubCategory,
+                                ...selectedSubCategory[filterData.id].push(
+                                  filterData.name,
+                                ),
+                              });
+                            } else {
+                              setSelectedSubCategory({
+                                ...selectedSubCategory,
+                                [filterData.id]: [filterData.name],
+                              });
+                            }
+                          }}>
+                          <SmallLGBtn
+                            text={filterData.name}
+                            selected={
+                              selectedSubCategory.length !== 0 &&
+                              selectedSubCategory[filterData.id] &&
+                              selectedSubCategory[filterData.id].includes(
+                                filterData.name,
+                              )
+                            }
+                          />
+                        </TouchableOpacity>
+                      );
+                    })
+                  ) : (
+                    <ActivityIndicator
+                      marginTop={height * 0.12}
+                      color="#ECDBFA"
+                      size="small"
+                    />
+                  )}
+                </View>
+              </ScrollView>
+            </View>
           </DialogContent>
         </Dialog>
 
@@ -392,7 +498,9 @@ const LootStore = (props) => {
               k === 0 && (
                 <TouchableOpacity
                   key={k}
-                  onPress={() => { props.navigation.goBack() }}>
+                  onPress={() => {
+                    props.navigation.goBack();
+                  }}>
                   <Image
                     resizeMode="contain"
                     source={i}
@@ -414,11 +522,19 @@ const LootStore = (props) => {
             {options.map(
               (i, k) =>
                 k !== 0 && (
-                  <TouchableOpacity key={k} onPress={() => { k === 1 ? props.navigation.navigate('cart') : k === 2 ? openClose() : checkFilter() }}>
+                  <TouchableOpacity
+                    key={k}
+                    onPress={() => {
+                      k === 1
+                        ? props.navigation.navigate('cart')
+                        : k === 2
+                        ? openClose()
+                        : checkFilter();
+                    }}>
                     {k === 1 && (
                       <LinearGradient
-                        start={{ x: 0, y: 1 }}
-                        end={{ x: 1, y: 0 }}
+                        start={{x: 0, y: 1}}
+                        end={{x: 1, y: 0}}
                         colors={['#C01C8A', '#865CF4']}
                         style={{
                           width: 16,
@@ -438,7 +554,7 @@ const LootStore = (props) => {
                             fontSize: 12,
                             fontFamily: 'Montserrat-Bold',
                           }}>
-                          {props.itemCount == undefined ? "0" : props.itemCount}
+                          {props.itemCount == undefined ? '0' : props.itemCount}
                         </Text>
                       </LinearGradient>
                     )}
@@ -447,7 +563,6 @@ const LootStore = (props) => {
                       source={i}
                       style={{
                         width: 48,
-
                       }}
                     />
                   </TouchableOpacity>
@@ -458,7 +573,9 @@ const LootStore = (props) => {
         {open ? (
           <SearchBar
             placeholder="Type here..."
-            lightTheme round editable={true}
+            lightTheme
+            zround
+            editable={true}
             value={search}
             onChangeText={(text) => searchFilterFunction(text)}
             containerStyle={{
@@ -467,8 +584,9 @@ const LootStore = (props) => {
               marginHorizontal: width * 0.1,
               borderRadius: 20,
             }}
-            inputContainerStyle={{ height: 30, backgroundColor: '#D2D7F9' }}
-          />) : null}
+            inputContainerStyle={{height: 30, backgroundColor: '#D2D7F9'}}
+          />
+        ) : null}
         <View
           style={{
             display: 'flex',
@@ -480,7 +598,10 @@ const LootStore = (props) => {
               color: '#ECDBFA',
               fontSize: 12,
               lineHeight: 16,
-              fontFamily: Platform.OS == 'android' ? 'Montserrat-LightItalic' : 'Montserrat',
+              fontFamily:
+                Platform.OS == 'android'
+                  ? 'Montserrat-LightItalic'
+                  : 'Montserrat',
               paddingHorizontal: width * 0.1,
             }}>
           {props.labels.discover}
@@ -496,7 +617,8 @@ const LootStore = (props) => {
             style={{
               color: '#ECDBFA',
               fontSize: 20,
-              fontFamily: Platform.OS == 'android' ? 'Michroma-Regular' : 'Michroma',
+              fontFamily:
+                Platform.OS == 'android' ? 'Michroma-Regular' : 'Michroma',
               paddingHorizontal: width * 0.1,
             }}>
             {props.labels.LootStore}
@@ -504,7 +626,7 @@ const LootStore = (props) => {
         </View>
 
         {data ? (
-          <View style={{ width: '100%' }}>
+          <View style={{width: '100%'}}>
             <ScrollView
               style={{
                 marginVertical: 20,
@@ -525,9 +647,10 @@ const LootStore = (props) => {
                     setCurrent(i.index);
                     changeCategory(0);
                     setPage(1);
-                    setOpen(false)
-                    onPressTouch()
-                    
+                    setOpen(false);
+                    onPressTouch(k);
+                    setIsFocused(true);
+                    // setIsRoll(true);
                   }}
                   key={i.index}>
                   {i.index === current && (
@@ -552,16 +675,17 @@ const LootStore = (props) => {
               ))}
             </ScrollView>
 
-            <View style={{ width: '100%' }}>
+            <View style={{width: '100%', alignItems: 'flex-start'}}>
               <ScrollView
                 alwaysBounceHorizontal={true}
                 ref={scrollRef}
                 contentContainerStyle={{
-                  display: 'flex',
                   flexDirection: 'row',
                   justifyContent: 'space-between',
                   paddingLeft: width * 0.1,
                 }}
+                // snapToStart={isFocused == true && isRoll == true ? true : false}
+                // scrollEventThrottle={200}
                 showsHorizontalScrollIndicator={false}
                 horizontal>
                 <TouchableOpacity
@@ -571,13 +695,11 @@ const LootStore = (props) => {
                   onPress={() => {
                     changeSubCategory(0);
                     setSelectedSubCategory(0);
-                    setOpen(false)
+                    setOpen(false);
+                    setIsFocused(false);
+                    setIsRoll(false);
                   }}>
-                  <SmallLGBtn
-                    text="All"
-                    selected={selectedSubCategory === 0 }
-                    
-                  />
+                  <SmallLGBtn text="All" selected={selectedSubCategory === 0} />
                 </TouchableOpacity>
 
                 {subCategories[current] &&
@@ -588,10 +710,13 @@ const LootStore = (props) => {
                       }}
                       key={k}
                       onPress={() => {
-                        setSelectedSubCategory(k + 1)
-                        setOpen(false)
+                        setSelectedSubCategory(k + 1);
+                        setOpen(false);
                         changeSubCategory(0);
-                        setAll1("")
+                        setAll1('');
+                        // onPressTouch(k);
+                        setIsFocused(false);
+                        setIsRoll(false);
                       }}>
                       <SmallLGBtn
                         text={i.name}
@@ -603,205 +728,213 @@ const LootStore = (props) => {
             </View>
 
             {loading ? (
-              <View style={{ marginTop: height * 0.27 }}>
+              <View style={{marginTop: height * 0.27}}>
                 <ActivityIndicator color="#ECDBFA" size="small" />
               </View>
             ) : (
-                <>
-                  <View
-                    style={{
-                      display: 'flex',
-                      marginVertical: 50,
-                      flexDirection: 'row',
-                      justifyContent: 'space-between',
-                      flexWrap: 'wrap',
-                      paddingHorizontal: width * 0.1,
-                    }}>
-                    {!items.length > 0 ? (
-                      <View
+              <>
+                <View
+                  style={{
+                    marginVertical: 50,
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    flexWrap: 'wrap',
+                    paddingHorizontal: width * 0.1,
+                  }}>
+                  {!items.length > 0 ? (
+                    <View
+                      style={{
+                        width: '100%',
+                        height: height * 0.3,
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                      }}>
+                      <Image
+                        resizeMode="contain"
+                        source={require('../assets/thumbnail1.png')}
                         style={{
-                          width: '100%',
-                          height: height * 0.3,
-                          alignItems: 'center',
+                          width: 127,
+                          height: 127,
+                          alignSelf: 'center',
                           justifyContent: 'center',
+                        }}
+                      />
+                      <Text
+                        style={{
+                          fontSize: 14,
+                          fontFamily: 'Montserrat-Bold',
+                          lineHeight: 16,
+                          color: '#ECDBFA',
+                          opacity: 0.4,
                         }}>
-                        <Image
-                          resizeMode="contain"
-                          source={require('../assets/thumbnail1.png')}
-                          style={{
-                            width: 127,
-                            height: 127,
-                            alignSelf: 'center',
-                            justifyContent: 'center',
-                          }}
-                        />
-                        <Text
-                          style={{
-                            fontSize: 14,
-                            fontFamily: 'Montserrat-Bold',
-                            lineHeight: 16,
-                            color: '#ECDBFA',
-                            opacity: 0.4,
-                          }}>
-                            {props.labels.noItemAvailable}
-                          No Items Available !
+                        {props.labels.noItemAvailable}
                       </Text>
-                      </View>
-                    ) : (
-                        <>
-                          <View style={{ flex: 1 }}>
-                            <FlatList
-                              style={{ height: height * 0.60, marginTop: -15 }}
-                              contentContainerStyle={{
-                                marginBottom: 10
-                              }}
-                              showsVerticalScrollIndicator={false}
-                              scrollEnabled={true}
-                              data={filteredDataSource}
-                              // 
-                              onEndReachedThreshold={0.1}
-                              // onMomentumScrollEnd={() => handleLodeMore()}
-                               onEndReached={() => handleLodeMore()}
-                              // onMomentumScrollEnd={() => {
-                              //   callOnScrollEnd && handleLodeMore()
-                              //   setCallOnScrollEnd(false)
-                              // }}
+                    </View>
+                  ) : (
+                    <>
+                      <View style={{flex: 1}}>
+                        <FlatList
+                          style={{height: height * 0.6, marginTop: -15}}
+                          contentContainerStyle={{
+                            marginBottom: 10,
+                          }}
+                          showsVerticalScrollIndicator={false}
+                          scrollEnabled={true}
+                          data={filteredDataSource}
+                          //
+                          onEndReachedThreshold={0.1}
+                          // onMomentumScrollEnd={() => handleLodeMore()}
+                          onEndReached={() => handleLodeMore()}
+                          // onMomentumScrollEnd={() => {
+                          //   callOnScrollEnd && handleLodeMore()
+                          //   setCallOnScrollEnd(false)
+                          // }}
 
-                              keyExtractor={(item) => item.item_id}
-                              renderItem={({ item: i }, k) => {
-                                return (
-                                  <View style={{ flexGrow: 1 }} key={k}>
-                                    <TouchableOpacity
-                                      onPress={() => {
-                                        props.navigation.navigate('itemDesc', {
-                                          price: i.price,
-                                          description: i.description,
-                                          brand: i.brand,
-                                          name: i.name,
-                                          value: i.value_en,
-                                          id: i.item_id,
-                                          image: i.image,
-                                        });
-                                      }}>
-                                      <ImageBackground
-                                        source={require('../assets/ic_card_a0.png')}
+                          keyExtractor={(item) => item.item_id}
+                          renderItem={({item: i}, k) => {
+                            return (
+                              <View style={{flexGrow: 1}} key={k}>
+                                <TouchableOpacity
+                                  onPress={() => {
+                                    props.navigation.navigate('itemDesc', {
+                                      price: i.price,
+                                      description: i.description,
+                                      brand: i.brand,
+                                      name: i.name,
+                                      value: i.value_en,
+                                      id: i.item_id,
+                                      image: i.image,
+                                    });
+                                  }}>
+                                  <ImageBackground
+                                    source={require('../assets/ic_card_a0.png')}
+                                    resizeMode="contain"
+                                    style={{
+                                      height: 195,
+                                      display: 'flex',
+                                      paddingLeft: 20,
+                                      marginHorizontal: 10,
+                                      paddingTop: 20,
+                                      width: width * 0.36,
+                                      marginVertical: i.image ? 20 : 10,
+                                    }}>
+                                    {i.image ? (
+                                      <Image
                                         resizeMode="contain"
+                                        source={{
+                                          uri: i.image,
+                                        }}
                                         style={{
-                                          height: 195,
-                                          display: 'flex',
-                                          paddingLeft: 20,
-                                          marginHorizontal: 10,
-                                          paddingTop: 20,
-                                          width: width * 0.36,
-                                          marginVertical: i.image ? 20 : 10,
-                                         
+                                          width: 108,
+                                          height: 81,
+                                          position: 'absolute',
+                                          top: -24,
+                                          left: '14%',
+                                          borderRadius: 16,
+                                          // resizeMode:'cover'
+                                        }}
+                                      />
+                                    ) : (
+                                      <Image
+                                        resizeMode="contain"
+                                        source={require('../assets/thumbnail1.png')}
+                                        style={{
+                                          width: 108,
+                                          height: 81,
+                                          position: 'absolute',
+                                          top: -24,
+                                          left: '14%',
+                                        }}
+                                      />
+                                    )}
+                                    <View
+                                      style={{
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        flexDirection: 'row',
+                                      }}>
+                                      <Text
+                                        style={{
+                                          fontFamily:
+                                            Platform.OS == 'android'
+                                              ? 'Montserrat Regular'
+                                              : 'Montserrat',
+                                          color: '#D2D7F9',
+                                          opacity: 0.5,
+                                          fontSize: 14,
+                                          marginTop: 60,
                                         }}>
-                                        {i.image ? (
-                                          <Image
-                                            resizeMode="contain"
-                                            source={{
-                                              uri: i.image,
-                                            }}
-                                            style={{
-                                              width: 108,
-                                              height: 81,
-                                              position: 'absolute',
-                                              top: -24,
-                                              left: '14%',
-                                              borderRadius:12,
-                                              // resizeMode:'center'
-                                            }}
-                                          />
-                                        ) : (
-                                            <Image
-                                              resizeMode="contain"
-                                              source={require('../assets/thumbnail1.png')}
-                                              style={{
-                                                width: 108,
-                                                height: 81,
-                                                position: 'absolute',
-                                                top: -24,
-                                                left: '14%',
-                                              }}
-                                            />
-                                          )}
-                                          <View
-                                          style={{
-                                            display: 'flex',
-                                            alignItems: 'center',
-                                            flexDirection: 'row',
-                                          }}>  
-                                            <Text
-                                              style={{
-                                                fontFamily: Platform.OS == 'android' ? 'Montserrat Regular' : 'Montserrat',
-                                                color: '#D2D7F9',
-                                                opacity: 0.5,
-                                                fontSize: 14,
-                                                marginTop: 60,
-                                              }}>
-                                              {i.brand}
-                                            </Text>
-                                          </View>
-                                          <View
-                                          style={{
-                                            display: 'flex',
-                                            alignItems: 'center',
-                                            flexDirection: 'row',
-                                          }}>  
-                                        <Text
-                                          numberOfLines={2}
-                                          style={{
-                                            fontSize: 16,
-                                            color: '#ECDBFA',
-                                            fontFamily: Platform.OS == 'android' ? 'Montserrat-Bold' : 'Montserrat',
-                                            marginTop: 2,
-                                            marginRight: arOren == "it"?"12%":'2%',
-                                          }}>
-                                          {((i.name).length > maxlimit) ? (((i.name).substring(0, maxlimit - 3)) + '...') : i.name}
-                                        </Text>
-                                        </View>
-                                        <View
-                                          style={{
-                                            display: 'flex',
-                                            alignItems: 'center',
-                                            flexDirection: 'row',
-                                          }}>  
-                                        <Text
-                                          style={{
-                                            color: '#DF2EDC',
-                                            fontSize: 12,
-                                            fontFamily: Platform.OS == 'android' ? 'Montserrat Regular' : 'Montserrat',
-                                            marginVertical: 10
-                                          }}>
-                                          KD {i.price}
-                                        </Text>
-                                        </View>
-                                      </ImageBackground>
-                                    </TouchableOpacity>
-                                  </View>
-                                );
-                              }
-                              }
-                              numColumns={2}
-                            />
-                            { paginationLoader ?
-                             <View style={{  marginBottom: height * 3  }}>
-                             <ActivityIndicator color="#ECDBFA" size="small" />
-                             </View>
-                             : null
-                            }
+                                        {i.brand}
+                                      </Text>
+                                    </View>
+                                    <View
+                                      style={{
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        flexDirection: 'row',
+                                      }}>
+                                      <Text
+                                        numberOfLines={2}
+                                        style={{
+                                          fontSize: 16,
+                                          color: '#ECDBFA',
+                                          fontFamily:
+                                            Platform.OS == 'android'
+                                              ? 'Montserrat-Bold'
+                                              : 'Montserrat',
+                                          marginTop: 2,
+                                          marginRight:
+                                            arOren == 'it' ? '12%' : '2%',
+                                        }}>
+                                        {i.name.length > maxlimit
+                                          ? i.name.substring(0, maxlimit - 3) +
+                                            '...'
+                                          : i.name}
+                                      </Text>
+                                    </View>
+                                    <View
+                                      style={{
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        flexDirection: 'row',
+                                      }}>
+                                      <Text
+                                        style={{
+                                          color: '#DF2EDC',
+                                          fontSize: 12,
+                                          fontFamily:
+                                            Platform.OS == 'android'
+                                              ? 'Montserrat Regular'
+                                              : 'Montserrat',
+                                          marginVertical: 10,
+                                        }}>
+                                        KD {i.price}
+                                      </Text>
+                                    </View>
+                                  </ImageBackground>
+                                </TouchableOpacity>
+                              </View>
+                            );
+                          }}
+                          numColumns={2}
+                        />
+                        {paginationLoader ? (
+                          <View style={{marginBottom: height * 3}}>
+                            <ActivityIndicator color="#ECDBFA" size="small" />
                           </View>
-                        </>
-                      )}
-                  </View>
-                </>
-               )}
+                        ) : null}
+                      </View>
+                    </>
+                  )}
+                </View>
+              </>
+            )}
           </View>
         ) : (
-            <View style={{ marginTop: height * 0.35 }}>
-              <ActivityIndicator color="#ECDBFA" size="small" />
-            </View>
-          )}
+          <View style={{marginTop: height * 0.35}}>
+            <ActivityIndicator color="#ECDBFA" size="small" />
+          </View>
+        )}
       </ImageBackground>
     </View>
   );
@@ -813,7 +946,6 @@ const mapStateToProps = (state) => ({
 })
 const actionCreators = {
   add: cartActions.showCart,
-
 };
 
 const styles = StyleSheet.create({
@@ -858,20 +990,20 @@ const styles = StyleSheet.create({
   },
   priceSeector: {
     marginTop: 10,
-    marginBottom: 10
+    marginBottom: 10,
   },
   tab: {
     display: 'flex',
     flexDirection: 'row',
     flexWrap: 'wrap',
-    marginBottom: 10
+    marginBottom: 10,
   },
   textStyle: {
     fontSize: 18,
     color: '#fff',
     letterSpacing: 1,
-    marginBottom: 10
-  }
+    marginBottom: 10,
+  },
 });
 
 export default connect(mapStateToProps, actionCreators)(LootStore);
