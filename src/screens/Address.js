@@ -75,10 +75,11 @@ const Address = (props) => {
     let cityaArea = [];
     city.map((i, k) => {
         cityaArea.push({
-            label: i.areas[0].name,
-            value: i.areas[0].city_id,
+            label: i.name,
+            value: i.city_id,
         });
     });
+
 
     let areasArray = [];
     {
@@ -446,7 +447,9 @@ const Address = (props) => {
                                                                 color: 'white',
                                                                 marginLeft: 100,
                                                                 borderRadius: 5,
+                                                                
                                                             }}
+                                                            
                                                             inputAndroid={{
                                                                 color: 'white',
                                                                 paddingHorizontal: 10,
