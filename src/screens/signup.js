@@ -24,11 +24,12 @@ import bgImage from '../assets/signup.png';
 import Icons  from 'react-native-vector-icons/FontAwesome';
 import AsyncStorage from '@react-native-community/async-storage';
 import {languagename} from '../components/LanguageName';
+import { connect } from 'react-redux';
 
 
 const {height, width} = Dimensions.get('window');
 
-const Signup = ({navigation, route}) => {
+const Signup = ({navigation, route, labels}) => {
   const [selected, setSelected] = useState(false);
   const {signup, registerGuestUser, setNavigation, setValidationError, googleSignIn, state} = useContext(
     AuthContext,
@@ -130,7 +131,7 @@ const Signup = ({navigation, route}) => {
                       opacity: 0.24,
                       fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma',
                     }}>
-                    Login
+                    {labels.login}
                   </Text>
                 </TouchableOpacity>
                 <Text style={{color:'#373843', fontSize:30}}>|</Text>
@@ -143,21 +144,21 @@ const Signup = ({navigation, route}) => {
                       paddingRight:arOren == 'it'?20:0,
                       fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma',
                     }}>
-                    Signup
+                    {labels.singnUp}
                   </Text>
                 </TouchableOpacity>
               </View>
             </View>
             <View style={{marginLeft:75}}>
               <Input
-                  placeholder="First Name"
+                  placeholder={labels.firstName}
                   defaultValue={first_name}
                   onChangeText={setFirstName}
                   style={{width:width * 0.95,paddingRight:'15%'}}
                 />
                 <View style={{marginTop: 20}}>
                   <Input
-                    placeholder="Last Name"
+                    placeholder={labels.lastName}
                     defaultValue={last_name}
                     onChangeText={setLastName}
                     style={{width:width * 0.95,paddingRight:'15%'}}
@@ -166,7 +167,7 @@ const Signup = ({navigation, route}) => {
 
                 <View style={{marginTop: 20}}>
                   <PhoneNumberInput
-                    placeholder="Phone Number"
+                    placeholder={labels.phoneNumber}
                     tel
                     onChangeText={setPhone}
                     style={{width:width * 0.95,paddingRight:'15%'}}
@@ -176,7 +177,7 @@ const Signup = ({navigation, route}) => {
 
                 <View style={{marginTop: 20}}>
                   <Input
-                    placeholder="Email"
+                    placeholder={labels.email}
                     email
                     onChangeText={setEmail}
                     defaultValue={email}
@@ -186,7 +187,7 @@ const Signup = ({navigation, route}) => {
 
                 <View style={{marginTop: 20}}>
                   <Input
-                    placeholder="Password"
+                    placeholder={labels.password}
                     onChangeText={setPassword}
                     password={!showPassword}
                     style={{width:width * 0.95,paddingRight:'15%'}}
@@ -250,7 +251,7 @@ const Signup = ({navigation, route}) => {
                   fontFamily:Platform.OS=='android'?'Montserrat SemiBold':'Montserrat',
                   zIndex: 333,
                 }}>
-                By clicking signup you agree to our{' '}
+                {labels.agreeToOur}{' '}
                 <Text
                   style={{
                     fontWeight: 'bold',
@@ -260,16 +261,16 @@ const Signup = ({navigation, route}) => {
                     fontFamily:Platform.OS=='android'?'Montserrat SemiBold':'Montserrat',
                     opacity:1,
                   }}>
-                  Terms & Conditions{' '}
+                  {labels.termsAndCondition}{' '}
                 </Text>
-                <Text>and </Text>
+                <Text>{labels.and} </Text>
                 <Text
                   style={{
                     fontWeight: 'bold',
                     color: '#fff',
                     fontStyle:'normal'
                   }}>
-                  Privacy Policy
+                  {labels.privacyPolicy}
                 </Text>
               </Text>
             </View>
@@ -291,35 +292,35 @@ const Signup = ({navigation, route}) => {
                   
                   if (password && password.length < 8) {
                     alert(
-                      'Password must be at least 8 characters',
+                      label.passwordEightCharacters,
                     );
                   }
                   else if (
                     email &&
                     !/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)
                   ) {
-                    alert('Invalid Email Address');
+                    alert(labels.invaildEmail);
                   }
                   else if (phone && !(phone.length == 8)) {
-                    alert('Enter a valid phone number');
+                    alert(labels.validPhoneNumber);
                   }
                   else if (!first_name) {
-                    alert('All fields are required');
+                    alert(labels.allFieldsAreRequired);
                   }
                   else if (!last_name) {
-                    alert('All fields are required');
+                    alert(labels.allFieldsAreRequired);
                   }
                   else if (!phone) {
-                    alert('All fields are required');
+                    alert(labels.allFieldsAreRequired);
                   }
                   else if (!email) {
-                    alert('All fields are required');
+                    alert(labels.allFieldsAreRequired);
                   }
                   else if (!password) {
-                    alert('All fields are required');
+                    alert(labels.allFieldsAreRequired);
                   }
                   else if (!selected) {
-                    alert('Agree to our terms and conditions');
+                    alert(labels.agreeAlert);
                   }
                   else {
                     console.log("error");
@@ -331,7 +332,7 @@ const Signup = ({navigation, route}) => {
                 width: '80%',
               }}>
               {!state.loading ? (
-                <Btn text="SIGNUP" x="54" pay=""/>
+                <Btn text={labels.singnUp.toUpperCase()} x="54" pay=""/>
               ) : (
                 <>
                   <Btn text={' '} x="54" pay="" />
@@ -350,7 +351,7 @@ const Signup = ({navigation, route}) => {
               }}
               >
               <View style={{width:"80%",bottom:20,}}>
-                  <ContinueBtn text="Continue With Gmail"/>
+                  <ContinueBtn text={labels.continueWithGmail}/>
               </View>
             </TouchableWithoutFeedback>
           </SafeAreaView>
@@ -380,4 +381,11 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Signup;
+const mapStateToProps = (state) => ({
+  labels:state.languageReducer.labels,
+})
+const actionCreators = {
+
+};
+
+export default connect(mapStateToProps,actionCreators)(Signup);

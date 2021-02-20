@@ -61,17 +61,21 @@ const Profile = (props) => {
   var formattedDOB = format(DOB, "d-MM-yyyy");
 
   useEffect(() => {
-      props.sendaction()
-      setEmail(props.profileData.email)
-      setFirstName(props.profileData.first_name)
-      setLastName(props.profileData.last_name)
-      setPhoto(props.profileData.profile_image.replace('user/profile/',''))
-      props.profileData.date_of_birth !== null ? setDOB(new Date(props.profileData.date_of_birth)) : setDOB(new Date())
-      setGender(props.profileData.gender ? props.profileData.gender : 1)
+    props.sendaction();
+    waitForProp();
     return () => {
       console.log("willUnMount")
     }
   }, []);
+
+  const waitForProp = async () => {
+    setEmail(props.profileData.email)
+      setFirstName(props.profileData.first_name)
+      setLastName(props.profileData.last_name)
+      setPhoto(props.profileData.profile_image.replace('user/profile/',''))
+      props.profileData.date_of_birth !== null ? setDOB(new Date(props.profileData.date_of_birth)) : setDOB(new Date())
+      setGender(props.profileData.gender ? props.profileData.gender : 1);
+  }
 
   const ProfileUpdate = () => {
     if (!email) {
