@@ -460,7 +460,7 @@ const ItemDesc = (props) => {
                       ))}
                 </View>
               </LinearGradient>
-            ),
+            )
         )}
         <TouchableOpacity onPress={() => addIntoCart()}>
           <Btn text="ADD TO CART" pay="" />
