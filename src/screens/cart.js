@@ -1315,7 +1315,7 @@ const Cart = (props) => {
                           fontSize: 15,
                           fontFamily: 'Montserrat-Regular',
                         }}
-                      >{labels.DeliveryFees}
+                      >{labels.deliveryFees}
                       </Text>
                       <Text
                         style={{
@@ -1381,7 +1381,7 @@ const Cart = (props) => {
               <View>
                 <TouchableOpacity style={{ marginTop: 10, marginLeft: 40 }} onPress={() => props.navigation.navigate('home')}>
                   <View style={{ width: "87%", }}>
-                    <SaveBtn text={labels.continueShoping} x="100" />
+                    <SaveBtn text={labels.continueShopping} x="100" />
                   </View>
                 </TouchableOpacity>
               </View>

@@ -28,7 +28,7 @@ const { width, height } = Dimensions.get('window');
 
 const Address = (props) => {
     const { addressId } = props.route.params;
-    const {labels} = labels
+    const {labels} = props
     const [specficAddress, setSpecficAddress] = useState({});
     const [loading, setLoading] = useState(false);
     const [allAddress, setAllAddress] = useState([]);

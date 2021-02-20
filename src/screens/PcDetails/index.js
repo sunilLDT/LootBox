@@ -94,7 +94,7 @@ const PcDetails = ({ navigation, route, labels }) => {
                                 style={{
                                     width: 48,
                                     transform: [
-                                        { scaleX: arOren == "it" ? -1 : 1 }
+                                        { scaleX: arOren == "ar" ? -1 : 1 }
                                     ]
                                 }}
                             />
@@ -120,7 +120,7 @@ const PcDetails = ({ navigation, route, labels }) => {
                                         width: Platform.OS == 'android' ? 372 : 350,
                                         height: 278,
                                         marginVertical: "5%",
-                                        marginLeft: arOren == "it" ? "-7%" : "0%",
+                                        marginLeft: arOren == "ar" ? "-7%" : "0%",
                                     }}
                                         source={DetailsInfoCard}
                                     >
@@ -137,7 +137,6 @@ const PcDetails = ({ navigation, route, labels }) => {
                                                     fontSize: 15,
                                                     fontFamily: Platform.OS == 'android' ? 'Michroma-Regular' : 'Michroma',
                                                     fontWeight: "100",
-                                                    marginLeft: arOren == "it" ? '-20%' : "0%",
                                                 }}>{cpuDetail.name}
                                                 </Text>
                                                 <Text style={styles.detailsText1}>KD {sum(cpuDetail.items)}</Text>
@@ -166,10 +165,10 @@ const PcDetails = ({ navigation, route, labels }) => {
                                                                             color: '#ECDBFA',
                                                                             borderWidth: 1,
                                                                             padding: 6,
-                                                                            borderTopLeftRadius: arOren == "it" ? 0 : 8,
-                                                                            borderBottomLeftRadius: arOren == "it" ? 0 : 8,
-                                                                            borderTopRightRadius: arOren == "it" ? 8 : 0,    //ar
-                                                                            borderBottomRightRadius: arOren == "it" ? 8 : 0,  //ar
+                                                                            borderTopLeftRadius: arOren == "ar" ? 0 : 8,
+                                                                            borderBottomLeftRadius: arOren == "ar" ? 0 : 8,
+                                                                            borderTopRightRadius: arOren == "ar" ? 8 : 0,    //ar
+                                                                            borderBottomRightRadius: arOren == "ar" ? 8 : 0,  //ar
                                                                             paddingHorizontal: 10,
                                                                             fontStyle: 'italic',
                                                                             borderColor: '#5A5963',
@@ -180,11 +179,11 @@ const PcDetails = ({ navigation, route, labels }) => {
                                                                             padding: 6,
                                                                             borderWidth: 1,
                                                                             paddingHorizontal: 10,
-                                                                            borderTopRightRadius: arOren == "it" ? 0 : 8,
-                                                                            borderBottomRightRadius: arOren == "it" ? 0 : 8,
-                                                                            borderTopLeftRadius: arOren == "it" ? 8 : 0,
-                                                                            borderBottomLeftRadius: arOren == "it" ? 8 : 0,
-                                                                            borderLeftWidth: arOren == "it" ? 1 : 0,
+                                                                            borderTopRightRadius: arOren == "ar" ? 0 : 8,
+                                                                            borderBottomRightRadius: arOren == "ar" ? 0 : 8,
+                                                                            borderTopLeftRadius: arOren == "ar" ? 8 : 0,
+                                                                            borderBottomLeftRadius: arOren == "ar" ? 8 : 0,
+                                                                            borderLeftWidth: arOren == "ar" ? 1 : 0,
                                                                             borderColor: '#5A5963',
                                                                             fontSize: 12,
                                                                         }}>{item.brand}</Text>
