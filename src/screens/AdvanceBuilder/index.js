@@ -581,7 +581,7 @@ const AdvanceBuilder = (props) => {
                               />
                               <Text
                                 style={styles.subName}
-                                numberOfLines={1}
+                                numberOfLines={2}
                               > {((part.name).length > maxlimit) ? (((part.name).substring(0, 12 - 3)) + '...') : part.name}
                               </Text>
                               <View style={styles.selectedDetails}>
@@ -778,7 +778,7 @@ const styles = StyleSheet.create({
     width: width * 0.71,
   },
   box: {
-    width: width * 0.26,
+    width: width * 0.28,
     height: height * 0.12,
     // borderBottomWidth: 0.3,
     // borderBottomColor: "#3D3E48",
@@ -796,6 +796,7 @@ const styles = StyleSheet.create({
     color: '#e6e6e6',
     fontSize: 9,
     paddingHorizontal: 12,
+    textAlign:'center',
 
   },
   cardConatiner: {

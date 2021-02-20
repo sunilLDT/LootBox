@@ -988,8 +988,9 @@ const Cart = (props) => {
                           style={{
                             display: 'flex',
                             flexDirection: 'row',
-                            justifyContent: 'space-between',
+                            alignItems:'center',
                             marginVertical: 8,
+                            justifyContent:'space-between'
                           }}
                           key={k}
                         >
@@ -1004,38 +1005,46 @@ const Cart = (props) => {
                             {items.quantity > 1 ? <Text style={{ color: '#fff' }}> ({items.quantity})</Text> : null}
                             <Text style={{ fontSize: 12, color: 'rgba(255,255,255,0.3)' }}>{"   " + items.brand}</Text>
                           </Text>
-                          {items.quantity > 1 ? (<Text
-                            style={{
-                              color: 'rgba(255,255,255,0.3)',
-                              fontSize: 12,
-                              textDecorationLine: items.status === 0 ? 'line-through' : "none",
-                            }}>
-                            KD {items.sub_total}
-                          </Text>) :
-                            <Text
+                          <View style={{
+                            flexDirection:'row',
+                            display:'flex',
+                            marginHorizontal:10,
+                            
+                            
+                          }}>
+                            {items.quantity > 1 ? (<Text
                               style={{
                                 color: 'rgba(255,255,255,0.3)',
                                 fontSize: 12,
-                                fontFamily: 'Montserrat-Regular',
                                 textDecorationLine: items.status === 0 ? 'line-through' : "none",
                               }}>
-                              KD {items.price}
-                            </Text>
-                          }
-                          {items.is_optional == 1?(
-                            <TouchableOpacity onPress={() => removeItem(items.cart_item_id)}>
-                              { removeLoader && removeLoaderID=== items.cart_item_id 
-                                ?(
-                                <View >
-                                  <ActivityIndicator color="#ECDBFA" size="small"  />
-                                </View>
-                                ):(
-                                <Icons name="trash" color={"#D2D7F9"} size={15}  />
-                              )}
-                            </TouchableOpacity>
-                          ):(
-                            null
-                          )}
+                              KD {items.sub_total}
+                            </Text>) :
+                              <Text
+                                style={{
+                                  color: 'rgba(255,255,255,0.3)',
+                                  fontSize: 12,
+                                  fontFamily: 'Montserrat-Regular',
+                                  textDecorationLine: items.status === 0 ? 'line-through' : "none",
+                                }}>
+                                KD {items.price}
+                              </Text>
+                            }
+                            {items.is_optional == 1?(
+                              <TouchableOpacity style={{marginLeft:5}} onPress={() => removeItem(items.cart_item_id)}>
+                                { removeLoader && removeLoaderID=== items.cart_item_id 
+                                  ?(
+                                  <View >
+                                    <ActivityIndicator color="#ECDBFA" size="small"  />
+                                  </View>
+                                  ):(
+                                  <Icons name="trash" color={"#D2D7F9"} size={15}  />
+                                )}
+                              </TouchableOpacity>
+                            ):(
+                              null
+                            )}
+                          </View>
                         </View>
                       );
                   }
