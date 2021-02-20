@@ -48,11 +48,10 @@ const LootStore = (props) => {
   const [data, setData] = useState(null);
   const [categories, setCategories] = useState([]);
   const [subCategories, setSubCategories] = useState([]);
+  const [selectedSubCategory, setSelectedSubCategory] = useState(0);
   const [current, setCurrent] = useState(0);
   const [items, setItems] = useState([]);
   const [filteredDataSource, setFilteredDataSource] = useState([]);
-  const [selectedSubCategory, setSelectedSubCategory] = useState(0);
-  const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
   const maxlimit = 15;
   const subCategoryId = '';
@@ -65,6 +64,7 @@ const LootStore = (props) => {
   const [allfilter, setAllfilter] = useState(false);
   const [allfilterId, setAllfilterId] = useState({});
   const [all1, setAll1] = useState();
+  const [loading, setLoading] = useState(false);
 
   const [paginationLoader, setPaginationLoader] = useState(false);
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useState, useCallback, useContext} from 'react';
 import {
   View,
   Text,
@@ -10,45 +10,50 @@ import {
   FlatList,
 } from 'react-native';
 import IcCardImage from '../../assets/ic3.png';
-import { connect } from 'react-redux';
-import { cartActions } from '../../actions/user';
+import {connect} from 'react-redux';
+import {cartActions} from '../../actions/user';
+import {Context as AuthContext} from '../../api/contexts/authContext';
+import {flattenDeep, values, keys, map} from 'lodash';
+
 import selectedIcCardImage from '../../assets/Rectangle.png';
 import searchIcon from '../../assets/ic_search.png';
 import filterIcon from '../../assets/ic_filter.png';
 import filter from 'lodash.filter';
-import { SearchBar } from 'react-native-elements';
-import { packageActions } from '../../actions/package';
+import {SearchBar} from 'react-native-elements';
+import {packageActions} from '../../actions/package';
 import thumbnail from '../../assets/thumbnail.png';
 import ItemDetails from './ItemDetails';
-import Dialog, {
-  DialogContent,
-  SlideAnimation,
-} from 'react-native-popup-dialog';
-import Filter from '../filter'
-function useForceUpdate(){
+import Dialog, {DialogContent, SlideAnimation} from 'react-native-popup-dialog';
+import Filter from '../filter';
+function useForceUpdate() {
   const [value, setValue] = useState(0); // integer state
-  return () => setValue(value => ++value); // update the state to force render
+  return () => setValue((value) => ++value); // update the state to force render
 }
-const { width, height } = Dimensions.get('window');
+const {width, height} = Dimensions.get('window');
 
 const ItemListing = (props) => {
-  // const [selectedItems, setSelectedItems] = useState({
-  //   "item_id": 1,
-  //   "quantity": 1
-  // });
-  const { items } = props.route.params;
-  const { pIndex } = props.route.params;
-  // console.log(pIndex);
-
-  const { sub_category_name } = props.route.params;
+  const {items} = props.route.params;
+  const {pIndex} = props.route.params;
+  const {sub_category_id} = props.route.params;
+  const {fetchCategories, fetchItems} = useContext(AuthContext);
+  const {sub_category_name} = props.route.params;
+  const [categories, setCategories] = useState([]);
+  const [subCategories, setSubCategories] = useState([]);
+  const [selectedSubCategory, setSelectedSubCategory] = useState(0);
+  const [current, setCurrent] = useState(0);
+  // const [items, setItems] = useState([]);
+  const [filteredDataSource, setFilteredDataSource] = useState([]);
+  const [page, setPage] = useState(1);
+  const [allfilter, setAllfilter] = useState(false);
   const [data, setData] = useState(items);
   const [query, setQuery] = useState('');
   const [open, setOpen] = useState(false);
-  const [filter , setFilter ] = useState(false)
-  const [filterValues, setFilterApplied ] = useState({})
+  const [filter, setFilter] = useState(false);
+  const [all1, setAll1] = useState();
+  const [loading, setLoading] = useState(false);
+  const [filterValues, setFilterApplied] = useState({});
   const forceUpdate = useForceUpdate();
   const selectHandler = (id, name, price) => {
-    
     let ar = [];
     ar = props.packages;
     ar[pIndex].item_id = id;
@@ -62,33 +67,32 @@ const ItemListing = (props) => {
     props.updatePackages(ar);
     //props.navigation.goBack();
     forceUpdate();
-
-  }
+  };
 
   const idExists = (id) => {
     return props.packages.some(function (el) {
       return el.item_id === id;
     });
-  }
+  };
 
   const selectDisplay = (id) => {
-    let a = [...selectedItems]
+    let a = [...selectedItems];
     if (!a.includes(id)) {
       return true;
     }
     if (a.includes(id)) {
       return false;
     }
-  }
-  const handleSearch = text => {
+  };
+  const handleSearch = (text) => {
     const formattedQuery = text.toLowerCase();
-    const filteredData = filter(items, item => {
+    const filteredData = filter(items, (item) => {
       return contains(item, formattedQuery);
     });
     setData(filteredData);
     setQuery(text);
   };
-  const contains = ({ name }, query) => {
+  const contains = ({name}, query) => {
     if (name.toLowerCase().includes(query)) {
       return true;
     }
@@ -100,46 +104,113 @@ const ItemListing = (props) => {
         {open ? (
           <SearchBar
             placeholder="Type here..."
-            lightTheme round editable={true}
+            lightTheme
+            round
+            editable={true}
             value={query}
-            onChangeText={queryText => handleSearch(queryText)}
+            onChangeText={(queryText) => handleSearch(queryText)}
             containerStyle={{
-              backgroundColor:'#D2D7F9',
+              backgroundColor: '#D2D7F9',
               marginBottom: 20,
               marginHorizontal: width * 0.1,
-              borderRadius:20,
-             }}
-             inputContainerStyle={{ height: 30,backgroundColor:'#D2D7F9'}}
+              borderRadius: 20,
+            }}
+            inputContainerStyle={{height: 30, backgroundColor: '#D2D7F9'}}
           />
         ) : null}
       </>
     );
   };
   const openClose = () => {
-    setOpen(!open)
-  }
+    setOpen(!open);
+  };
 
   const handleFilters = (filterValues) => {
-    setFilterApplied(filterValues)
+    setFilterApplied(filterValues);
     setFilter(false);
-    // fetchData()
-  }
+    fetchData();
+  };
+
+  const allFilterFunction = async (r) => {
+    setPage(1);
+    setAll1(r.all);
+    const cat = categories.map((i, k) => {
+      return i.id;
+    });
+
+    const itemData = await fetchItems(
+      cat[current],
+      keys(selectedSubCategory)[0],
+      page,
+      r.filter_custome_field_id,
+      r.filter_custome_values,
+      r.minPrice,
+      r.maxPrice,
+      r.all,
+    );
+  };
+  const fetchData = useCallback(async () => {
+    try {
+      await fetchData1();
+    } catch (errr) {
+      console.log(errr);
+    }
+  }, [selectedSubCategory, current, filterValues]);
+
+  const fetchData1 = async (b) => {
+    setLoading(true);
+    const categories = await fetchCategories();
+    if (categories) {
+      setData(categories);
+      var x = categories.map((i, k) => {
+        return {id: i.category_id, name: i.name_en, index: k};
+      });
+      setCategories(x);
+      var itemData = null;
+
+      if (b) {
+        itemData = await fetchItems(
+          x.id,
+          b,
+          undefined,
+          filterValues.filter_custome_field_id,
+          filterValues.filter_custome_values,
+          filterValues.minPrice,
+          filterValues.maxPrice,
+        );
+      } else {
+        itemData = await fetchItems(
+          x.id,
+          sub_category_id,
+          page,
+          filterValues.filter_custome_field_id,
+          filterValues.filter_custome_values,
+          filterValues.minPrice,
+          filterValues.maxPrice,
+        );
+        console.log('***** items ***');
+        console.log(itemData);
+        // setlastPage(itemData.parameter.last_page);
+      }
+    }
+  };
   return (
     <ImageBackground
       source={require('../../assets/plainBg.png')}
       style={styles.container}>
-      <View style={{
-        display: 'flex',
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-around'
-      }}>
+      <View
+        style={{
+          display: 'flex',
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'space-around',
+        }}>
         <View
           style={{
             display: 'flex',
             alignItems: 'center',
             flexDirection: 'row',
-            marginLeft: "-5%"
+            marginLeft: '-5%',
           }}>
           <TouchableOpacity
             onPress={() => {
@@ -151,9 +222,7 @@ const ItemListing = (props) => {
               style={styles.backImage}
             />
           </TouchableOpacity>
-          <Text style={styles.pageName}>
-            {sub_category_name}
-          </Text>
+          <Text style={styles.pageName}>{sub_category_name}</Text>
         </View>
         <View
           style={{
@@ -161,7 +230,7 @@ const ItemListing = (props) => {
             alignItems: 'center',
             flexDirection: 'row',
             justifyContent: 'space-between',
-            marginLeft: "13%"
+            marginLeft: '13%',
           }}>
           <TouchableOpacity onPress={() => openClose()}>
             <Image
@@ -171,22 +240,40 @@ const ItemListing = (props) => {
             />
           </TouchableOpacity>
           <Dialog
-                visible={filter}
-                containerStyle={{ zIndex: 10, elevation: 10 }}
-                onHardwareBackPress={() => handlePress()}
-                dialogStyle={{ backgroundColor: '#272732', width: '100%', height: '50%' }}
-                dialogAnimation={new SlideAnimation({
-                    slideFrom: 'bottom',
-                })}
-                onTouchOutside={() => { setFilter(!filter) }}
-            >
-                <DialogContent>
-                    <View>
-                      <Filter type="advanceBuilder" filter1={(r) => handleFilters(r)} initalValues={filterValues}  allCategories={items} />
-                    </View>
-                </DialogContent>
-            </Dialog>
-          <TouchableOpacity onPress={() => setFilter(!filter) }>
+            visible={filter}
+            containerStyle={{zIndex: 10, elevation: 10}}
+            onHardwareBackPress={() => handlePress()}
+            dialogStyle={{
+              backgroundColor: '#272732',
+              width: '100%',
+              height: '50%',
+            }}
+            dialogAnimation={
+              new SlideAnimation({
+                slideFrom: 'bottom',
+              })
+            }
+            onTouchOutside={() => {
+              setFilter(!filter);
+            }}>
+            <DialogContent>
+              <View>
+                <Filter
+                  type="advanceBuilder"
+                  filter1={(r) => {
+                    handleFilters(r);
+                    allFilterFunction(r);
+                    setFilterApplied(r);
+                    setFilter(!filter);
+                  }}
+                  initalValues={filterValues}
+                  allCategories={items}
+                  selectedSubCategory={selectedSubCategory}
+                />
+              </View>
+            </DialogContent>
+          </Dialog>
+          <TouchableOpacity onPress={() => setFilter(!filter)}>
             <Image
               style={styles.icons}
               source={filterIcon}
@@ -200,19 +287,21 @@ const ItemListing = (props) => {
         ListHeaderComponent={renderHeader()}
         data={data}
         showsVerticalScrollIndicator={false}
-        renderItem={({ item }, index) => {
-          
+        renderItem={({item}, index) => {
           const maxlimit = 18;
           return (
             <TouchableOpacity
               key={index}
               style={styles.cardConatiner}
-              onPress={() => { selectHandler(item.item_id, item.name, item.price) }}
-            >
+              onPress={() => {
+                selectHandler(item.item_id, item.name, item.price);
+              }}>
               <ImageBackground
-                source={idExists(item.item_id) ? selectedIcCardImage : IcCardImage}
+                source={
+                  idExists(item.item_id) ? selectedIcCardImage : IcCardImage
+                }
                 // style={styles.cardConatiner}
-                style={{ width: 139, height: 151 }}
+                style={{width: 139, height: 151}}
                 key={index}>
                 <View
                   style={{
@@ -220,28 +309,45 @@ const ItemListing = (props) => {
                     justifyContent: 'center',
                     alignContent: 'center',
                   }}>
-                  {item.image !== "" && item.image?(
-                  <Image
-                    source={{ uri: item.image }}
-                    style={{ width: 65, height: 45, marginBottom: 30, alignSelf: 'center', marginTop: '-10%' }}
-                  />
-                  ):(
+                  {item.image !== '' && item.image ? (
                     <Image
-                    source={thumbnail}
-                    style={{ width: 65, height: 45, marginBottom: 30, alignSelf: 'center', marginTop: '-15%' }}
-                  />
+                      source={{uri: item.image}}
+                      style={{
+                        width: 65,
+                        height: 45,
+                        marginBottom: 30,
+                        alignSelf: 'center',
+                        marginTop: '-10%',
+                      }}
+                    />
+                  ) : (
+                    <Image
+                      source={thumbnail}
+                      style={{
+                        width: 65,
+                        height: 45,
+                        marginBottom: 30,
+                        alignSelf: 'center',
+                        marginTop: '-15%',
+                      }}
+                    />
                   )}
                   <Text
-                  numberOfLines={5}
-                  adjustsFontSizeToFit={true}
+                    numberOfLines={5}
+                    adjustsFontSizeToFit={true}
                     style={{
                       fontSize: 14,
                       color: '#D2D7F9',
                       marginBottom: 5,
                       alignSelf: 'center',
-                      fontFamily:Platform.OS=='android'?'Montserrat Bold':'Montserrat',
+                      fontFamily:
+                        Platform.OS == 'android'
+                          ? 'Montserrat Bold'
+                          : 'Montserrat',
                     }}>
-                    {item.name ? (((item.name).substring(0, maxlimit - 3)) + '...') : (((item.name).substring(0, maxlimit - 3)) + '...')}
+                    {item.name
+                      ? item.name.substring(0, maxlimit - 3) + '...'
+                      : '...'}
                   </Text>
                   <Text
                     style={{
@@ -252,7 +358,10 @@ const ItemListing = (props) => {
                       opacity: 0.5,
                       textAlign: 'center',
                       fontWeight: '300',
-                      fontFamily:Platform.OS=='android'?'Montserrat Regular':'Montserrat',
+                      fontFamily:
+                        Platform.OS == 'android'
+                          ? 'Montserrat Regular'
+                          : 'Montserrat',
                     }}>
                     {item.brand}
                   </Text>
@@ -263,15 +372,18 @@ const ItemListing = (props) => {
                       color: '#D2D7F9',
                       marginBottom: 20,
                       textAlign: 'center',
-                      fontFamily:Platform.OS=='android'?'Montserrat Regular':'Montserrat',
+                      fontFamily:
+                        Platform.OS == 'android'
+                          ? 'Montserrat Regular'
+                          : 'Montserrat',
                     }}>
                     KD {item.price}
                   </Text>
                 </View>
               </ImageBackground>
               <ItemDetails
-                  itemid={item.item_id}
-                  sub_category_name={sub_category_name}
+                itemid={item.item_id}
+                sub_category_name={sub_category_name}
               />
             </TouchableOpacity>
           );
@@ -308,8 +420,8 @@ const styles = StyleSheet.create({
   cardConatiner: {
     width: 139, //width*0.38,
     height: 151, //height*0.20,
-    marginHorizontal:"8%",
-    marginVertical:"10%",
+    marginHorizontal: '8%',
+    marginVertical: '10%',
     borderRadius: 20,
   },
   pageName: {
@@ -322,21 +434,21 @@ const styles = StyleSheet.create({
   icons: {
     width: 40,
     height: 40,
-    marginLeft: 10
+    marginLeft: 10,
   },
 });
 
 const mapStateToProps = (state) => ({
   cart: state.cartReducer.cart,
   packages: state.packageReducer.packages,
-
-})
+});
 
 const actionCreators = {
   add: cartActions.addCartAction,
   updatePackages: packageActions.updatePackages,
-
 };
 
-export default connect(mapStateToProps, actionCreators)(React.memo(ItemListing))
-
+export default connect(
+  mapStateToProps,
+  actionCreators,
+)(React.memo(ItemListing));
