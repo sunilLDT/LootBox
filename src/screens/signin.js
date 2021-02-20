@@ -157,8 +157,8 @@ const Signin = ({ navigation ,labels}) => {
                     style={{
                       color: '#ECDBFA',
                       fontSize: 20,
-                      paddingLeft:arOren == 'it'?20:0,
-                      paddingRight:arOren == 'it'?0:20,
+                      paddingLeft:arOren == 'ar'?20:0,
+                      paddingRight:arOren == 'ar'?0:20,
                       fontFamily: Platform.OS == 'android' ? 'Michroma-Regular' : 'Michroma',
 
                     }}>
@@ -174,8 +174,8 @@ const Signin = ({ navigation ,labels}) => {
                     style={{
                       color: '#ECDBFA',
                       fontSize: 20,
-                      paddingLeft:arOren == 'it'?0:20,
-                      paddingRight:arOren == 'it'?20:0,
+                      paddingLeft:arOren == 'ar'?0:20,
+                      paddingRight:arOren == 'ar'?20:0,
                       opacity: 0.24,
                       fontFamily: Platform.OS == 'android' ? 'Michroma-Regular' : 'Michroma',
 

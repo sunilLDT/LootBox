@@ -621,7 +621,7 @@ const LootStore = (props) => {
                 Platform.OS == 'android' ? 'Michroma-Regular' : 'Michroma',
               paddingHorizontal: width * 0.1,
             }}>
-            {props.labels.lootstore}
+            {props.labels.lootStore}
           </Text>
         </View>
 

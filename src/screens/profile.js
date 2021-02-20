@@ -231,13 +231,13 @@ const Profile = (props) => {
                 <Text style={{ color: '#fff', fontSize: 20, alignSelf: 'center', fontFamily: Platform.OS == 'android' ? 'Michroma-Regular' : 'Michroma' }}>Change Password</Text>
               </View>
               <View style={{ marginVertical: 15 }}>
-                <Input placeholder={label.currentPassword} password onChangeText={(oldPassword) => setOldPassword(oldPassword)} />
+                <Input placeholder={labels.currentPassword} password onChangeText={(oldPassword) => setOldPassword(oldPassword)} />
               </View>
               <View style={{ marginVertical: 15 }}>
                 <Input placeholder={labels.newPassword} password onChangeText={(newPassword) => setnewPassword(newPassword)} />
               </View>
               <View style={{ marginVertical: 15 }}>
-                <Input placeholder={label.confirmPassword} password onChangeText={(confPassword) => setconfirmPassword(confPassword)} />
+                <Input placeholder={labels.confirmPassword} password onChangeText={(confPassword) => setconfirmPassword(confPassword)} />
               </View>
               <TouchableWithoutFeedback
                 onPress={() => changePassword()}>
@@ -516,7 +516,7 @@ const Profile = (props) => {
                             fontSize: 10,
                             color: '#DF2EDC',
                             fontStyle: 'italic',
-                            marginRight:arOren == "it"?"13%":"0%",
+                            marginRight:arOren == "ar"?"13%":"0%",
                           }}>
                           + {strings.address}
                         </Text>
