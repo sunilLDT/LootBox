@@ -12,10 +12,12 @@ import SmallLGBtn from './smallLGBtn';
 import {getFilterData} from '../api/buildYourPc';
 import {ScrollView} from 'react-native-gesture-handler';
 import {filter, flattenDeep, keys, values, without} from 'lodash';
+import {connect} from 'react-redux'
 const {width, height} = Dimensions.get('window');
 const THUMB_RADIUS = 12;
 const options = ['24 cm', '12 cm', '30 cm', '14 cm', '16 cm', '340 cm'];
 const Filter = (props) => {
+  const {labels} = props
   const [low, setLow] = useState(null);
   const [high, setHigh] = useState(null);
   const [filterOptions, setFilterOptions] = useState([]);
@@ -104,7 +106,7 @@ const Filter = (props) => {
                 maxPrice: high,
               })
             }>
-            <Text style={styles.textStyle}>Apply</Text>
+            <Text style={styles.textStyle}>{getLabelsApi.apply}</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -120,7 +122,7 @@ const Filter = (props) => {
           textAlign:'center',
           fontFamily:Platform.OS == 'android' ? 'Michroma-Regular' : 'Michroma',
           fontSize:16
-          }]}>Price</Text>
+          }]}>{labels.price}</Text>
         {filterOptions.length !== 0 && (
           <RangeSlider
             style={styles.priceSeector}
@@ -153,7 +155,7 @@ const Filter = (props) => {
           fontFamily:Platform.OS == 'android' ? 'Michroma-Regular' : 'Michroma',
           fontSize:16
           }]}>
-            {'Custom Fields'}
+            {labels.customField}
           </Text>
         </View>
         {filterOptions.length !== 0 ? (
@@ -293,4 +295,9 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Filter;
+const mapStateToProps = (state) => ({
+  labels:state.languageReducer.labels,
+})
+
+export default connect(mapStateToProps)(Filter);
+

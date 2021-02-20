@@ -18,13 +18,13 @@ import {
 import Logo from '../assets/launch_screen.png';
 import Input from '../components/input';
 import {Context as AuthContext} from '../api/contexts/authContext';
-import Modal from '../components/modal';
 import Btn from '../screens/btn';
 import bgImage from '../assets/signup.png';
+import {connect} from 'react-redux'
 
 const {height, width} = Dimensions.get('window');
 
-const ForgotPassword = ({navigation}) => {
+const ForgotPassword = ({navigation, labels}) => {
   const [email, setEmail] = useState(null);
   const {state, forgotPassword, setNavigation, setValidationError} = useContext(AuthContext);
 
@@ -61,7 +61,7 @@ const ForgotPassword = ({navigation}) => {
                 color: '#676773',
                 marginLeft: 10,
               }}>
-              FORGOT PASSWORD
+              {labels.forgetPassword}
             </Text>
           </View>
         <ScrollView>
@@ -83,7 +83,7 @@ const ForgotPassword = ({navigation}) => {
               <Input
                 value={email}
                 onChangeText={setEmail}
-                placeholder="Email or Phone"
+                placeholder={labels.emailOrPhone}
               />
             </KeyboardAvoidingView>
 
@@ -92,10 +92,10 @@ const ForgotPassword = ({navigation}) => {
                 let isEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)
                 if (!email) {
                   Alert.alert(
-                    "Lootbox",
+                    labels.lootbox,
                     "Email Address is Required",
                     [
-                      { text: "OK", onPress: () => console.log("OK Pressed") }
+                      { text: labels.ok, onPress: () => console.log("OK Pressed") }
                     ],
                     { cancelable: false }
                   );
@@ -105,10 +105,10 @@ const ForgotPassword = ({navigation}) => {
                   (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email) && !/\d{8}/.test(email))
                 ) {
                   Alert.alert(
-                    "Lootbox",
-                    "Invalid Email Address or Phone",
+                    labels.lootbox,
+                    labels.nvalidEmailPhone,
                     [
-                      { text: "OK", onPress: () => {console.log("clicked")} }
+                      { text: labels.ok, onPress: () => {console.log("clicked")} }
                     ],
                     { cancelable: false }
                   );
@@ -122,7 +122,7 @@ const ForgotPassword = ({navigation}) => {
                 width: '100%',
               }}>
                 {!state.loading ? (
-                <Btn text="SUBMIT" x={"38"} pay=""/>
+                <Btn text={labels.submit} x={"38"} pay=""/>
                 ) : (
                   <>
                   <Btn text={' '} x="38" pay="" />
@@ -148,4 +148,8 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ForgotPassword;
+const mapStateToProps = (state) => ({
+  labels:state.languageReducer.labels,
+})
+
+export default connect(mapStateToProps)(ForgotPassword);

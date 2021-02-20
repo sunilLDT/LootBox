@@ -13,10 +13,10 @@ import Input from '../components/input';
 import Btn from './btn';
 import {Context as AuthContext} from '../api/contexts/authContext';
 import Modal from '../components/modal';
-
+import {connect} from 'react-redux'
 const {width, height} = Dimensions.get('window');
 
-const Email = ({navigation}) => {
+const Email = ({navigation, labels}) => {
   const {state, sendEmail} = useContext(AuthContext);
   const [title, setTitle] = useState(null);
   const [description, setDescription] = useState(null);
@@ -24,10 +24,10 @@ const Email = ({navigation}) => {
   const sendEmailFun = async () => {
     if(!title)
     {
-      alert("Please Fill the Title")
+      alert(labels.fillTitle)
     }
     else if(!description){
-      alert("Please Fill the description")
+      alert(labels.fillDesc)
     }
     else{
       sendEmail(title, description);
@@ -69,7 +69,7 @@ const Email = ({navigation}) => {
               marginLeft: 10,
               fontFamily: 'Montserrat-Italic',
             }}>
-            CONTACT US
+            {labels.contactUs}
           </Text>
         </View>
         {state.msg ? (
@@ -116,7 +116,7 @@ const Email = ({navigation}) => {
               height: height * 0.1,
             }}>
             {!state.loading ? (
-              <Btn text="SUBMIT" x="45" pay="" />
+              <Btn text={labels.submit} x="45" pay="" />
             ) : (
               <>
                 <Btn text={' '} x="45" pay=""/>
@@ -134,4 +134,8 @@ const Email = ({navigation}) => {
   );
 };
 
-export default Email;
+const mapStateToProps = (state) => ({
+  labels:state.languageReducer.labels,
+})
+
+export default connect(mapStateToProps)(Email);

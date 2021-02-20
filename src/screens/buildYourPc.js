@@ -59,22 +59,22 @@ const BuildYourPc = ({ navigation, labels }) => {
       navigation.navigate('PcDetails', { selectedGames: selected })
     }
     else {
-      alert("Please select a game")
+      alert(labels.pleaseSelectAGame)
     }
   }
   const checkResolution = (res) => {
     setOpen(false)
     if (selected.length !== 0) {
       Alert.alert(
-        "Lootbox",
-        "You can choose only one resolution for games",
+        labels.lootbox,
+        labels.chooseResolutionForGames,
         [
           {
-            text: "Cancel",
+            text: labels.cancel,
             onPress: () => console.log("Cancel Pressed"),
             style: "cancel"
           },
-          { text: "OK", onPress: () => changeResolution(res) }
+          { text: labels.ok, onPress: () => changeResolution(res) }
         ],
         { cancelable: false }
       );
@@ -246,7 +246,7 @@ const BuildYourPc = ({ navigation, labels }) => {
                 fontFamily: Platform.OS == 'android' ? 'Michroma-Regular' : 'Michroma',
                 fontSize: 15, marginTop: height * 0.18
               }}
-              >No GAMES AVAILABLE OF THIS QUALITY
+              >{labels.noGameAvailable}
               </Text>
             ) : (
                 <>
@@ -306,8 +306,6 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => ({
   labels: state.languageReducer.labels,
 })
-const actionCreators = {
 
-};
 
-export default connect(mapStateToProps, actionCreators)(BuildYourPc);
+export default connect(mapStateToProps)(BuildYourPc);
