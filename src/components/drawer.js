@@ -22,6 +22,7 @@ import RNRestart from 'react-native-restart';
 import { I18nManager } from "react-native"
 import AsyncStorage from '@react-native-community/async-storage';
 import { connect } from 'react-redux';
+import Api from '../api/index';
 
 
 const { width, height } = Dimensions.get('window');
@@ -114,12 +115,34 @@ const Drawer = (props) => {
     await AsyncStorage.setItem('language', 'ar');
     I18nManager.forceRTL(true)
     RNRestart.Restart();
+    const value = await AsyncStorage.getItem('deviceToken');
+    const language = await AsyncStorage.getItem('language');
+    const data = {
+      token: value,
+      language:language,
+      device_type:Platform.OS=='android' ? 1 : 2,
+      action_type:1
+    }
+    const checking =   await Api.post('app/user/device-token',data);
+    
+    
   }
 
   const englishLang = async () => {  
     await AsyncStorage.setItem('language', 'en');
     I18nManager.forceRTL(false)
     RNRestart.Restart();
+    const value = await AsyncStorage.getItem('deviceToken');
+    const language = await AsyncStorage.getItem('language');
+    const data = {
+      token: value,
+      language:language,
+      device_type:Platform.OS=='android' ? 1 : 2,
+      action_type:1
+    }
+   
+    const making =  await Api.post('app/user/device-token',data);
+   
   };
 
   return (
@@ -215,7 +238,8 @@ const Drawer = (props) => {
                   lineHeight: 27.2,
                   color: '#ECDBFA',
                 }}>
-                {profileDetails.full_name}
+                  {arOren !== "en"?"حساب زائر":profileDetails.full_name}
+                {/* {profileDetails.full_name} */}
               </Text>
             </View>  
             <View

@@ -11,7 +11,6 @@ export async function packageListByGames(gameIds) {
   const response = await Api.post('app/build-pc/get-packages', {
     game_ids: gameIds,
   });
-  console.log(response);
   return response.data;
 }
 
@@ -228,7 +227,7 @@ export async function getProfilApi() {
 
 export async function getBannerApi() {
   const response = await Api.get('app/banner/list');
-  console.log(response)
+
   return response.data;
 }
 
@@ -257,9 +256,6 @@ export async function itemsAddedInCartApi() {
 }
 export async function getLabelsApi(){
   const lang = await AsyncStorage.getItem('language');
-  console.log("================lang")
-  console.log(lang)
-  console.log("================lang")
   const response = await Api.get('app/label/list',{ headers: { 'X-Localization': lang }});
   return response.data;
 }

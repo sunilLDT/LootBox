@@ -71,19 +71,19 @@ const checkUser = (dispatch) => async () => {
   }
   if (language) {
     if (token && token.length > 0) {
-      console.log("home");
+
       navigate({ name: 'home' });
     } else {
-      console.log("slider");
+
       navigate({ name: 'slider' });
     }
   } else {
     
     if (token && token.length > 0) {
-      console.log("home else");
+
       navigate({ name: 'home' });
     } else {
-      console.log("language");
+
       navigate({ name: 'language' });
     }
   }
@@ -124,7 +124,7 @@ const googleSignIn = (dispatch) => async () => {
         },
       });
     } else if (data.token) {
-      console.log(data)
+ 
       dispatch({
         type: 'signin',
         payload: {
@@ -190,9 +190,10 @@ const signin = (dispatch) => async ({ email, password }) => {
       await AsyncStorage.setItem('is_OTP_Verified', JSON.stringify(true))
 
       const deviceToken = await AsyncStorage.getItem('deviceToken');
+      const language = await AsyncStorage.getItem('language');
       const store = await Api.post('app/user/device-token',{
        token: deviceToken,
-       language:"en",
+       language:language,
        device_type:Platform.OS=='android' ? 1 : 2,
        action_type:1
      });
@@ -278,16 +279,13 @@ const verifyOtp = (dispatch) => async ({ otp }) => {
           await AsyncStorage.setItem('user_type', JSON.stringify(1));
           await AsyncStorage.setItem('is_OTP_Verified', JSON.stringify(true))
           const deviceToken = await AsyncStorage.getItem('deviceToken');
-          // console.log("** device token ****")
-          // console.log (deviceToken)
+          const language = await AsyncStorage.getItem('language');
           const store = await Api.post('app/user/device-token',{
           token: deviceToken,
-          language:"en",
+          language:language,
           device_type:Platform.OS=='android' ? 1 : 2,
           action_type:1
  });
-    console.log (deviceToken)
-     alert(store.data.message)
         }
         navigate({ name: navigationName || 'home' });
       } else {
@@ -478,15 +476,15 @@ const signout = (dispatch) => async () => {
       type: 'toggle_loading',
     });
     const value = await AsyncStorage.getItem('deviceToken');
+    const language = await AsyncStorage.getItem('language');
     const store = await Api.post('app/user/device-token',{
     token: value,
-    language:"en",
+    language:language,
     device_type:Platform.OS=='android' ? 1 : 2,
     action_type:2
 });
-console.log("** device token ***")
-console.log(value)
-alert(store.data.message)
+
+// alert(store.data.message)
     await AsyncStorage.clear();
     dispatch({ type: 'signout' });
 navigate({ name: 'auth' });
@@ -519,6 +517,7 @@ const fetchCategories = (dispatch) => async () => {
   try {
     const response = await Api('app/category/subcategory-list');
     if (response.data.success) {
+      console.log("fetch categories in auth context **** ")
       console.log(response.data.data);
       return response.data.data;
     } else {
@@ -531,11 +530,7 @@ const fetchCategories = (dispatch) => async () => {
 
 const fetchItems = (dispatch) => async (category_id, sub_category_id, page, filterId, filterValues, minPrice, maxPrice , all ) => {
   try {
-    // console.log('===================================')
-    // console.log('Category Id     :' + filterId)
-    console.log('Sub Category Id :' + sub_category_id)
-    // console.log('Page Number     :' + page);
-    // console.log('===================================')
+    
 
     if (sub_category_id) {
       if (filterId) {
@@ -548,12 +543,8 @@ const fetchItems = (dispatch) => async (category_id, sub_category_id, page, filt
           max_price:parseInt(maxPrice),
           limit:6
         }
-        console.log("****/////////// all variables")
-        console.log(allVariables)
+       
        let response = await Api.post('app/items/list',allVariables);
-
-        console.log('filtersssss *********')
-        console.log(response.data)
         return response.data;
       } else {
         const response = await Api.post('app/items/list',{

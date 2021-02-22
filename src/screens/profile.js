@@ -70,7 +70,7 @@ const Profile = (props) => {
   }, []);
 
   const waitForProp = async () => {
-    setEmail(props.profileData.email)
+      setEmail(props.profileData.email)
       setFirstName(props.profileData.first_name)
       setLastName(props.profileData.last_name)
       setPhoto(props.profileData.profile_image.replace('user/profile/',''))
@@ -231,13 +231,13 @@ const Profile = (props) => {
                 <Text style={{ color: '#fff', fontSize: 20, alignSelf: 'center', fontFamily: Platform.OS == 'android' ? 'Michroma-Regular' : 'Michroma' }}>Change Password</Text>
               </View>
               <View style={{ marginVertical: 15 }}>
-                <Input placeholder={label.currentPassword} password onChangeText={(oldPassword) => setOldPassword(oldPassword)} />
+                <Input placeholder={labels.currentPassword} password onChangeText={(oldPassword) => setOldPassword(oldPassword)} />
               </View>
               <View style={{ marginVertical: 15 }}>
                 <Input placeholder={labels.newPassword} password onChangeText={(newPassword) => setnewPassword(newPassword)} />
               </View>
               <View style={{ marginVertical: 15 }}>
-                <Input placeholder={label.confirmPassword} password onChangeText={(confPassword) => setconfirmPassword(confPassword)} />
+                <Input placeholder={labels.confirmPassword} password onChangeText={(confPassword) => setconfirmPassword(confPassword)} />
               </View>
               <TouchableWithoutFeedback
                 onPress={() => changePassword()}>

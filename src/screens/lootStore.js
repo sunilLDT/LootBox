@@ -41,6 +41,7 @@ const options = [
 ];
 const THUMB_RADIUS = 12;
 const LootStore = (props) => {
+  
   const scrollRef = useRef();
   const [isFocused, setIsFocused] = useState(false);
   const [isRoll, setIsRoll] = useState(false);
@@ -65,17 +66,13 @@ const LootStore = (props) => {
   const [allfilter, setAllfilter] = useState(false);
   const [allfilterId, setAllfilterId] = useState({});
   const [all1, setAll1] = useState();
-
   const [paginationLoader, setPaginationLoader] = useState(false);
-
   const [arOren, setarOren] = useState('en');
   languagename().then((res) => setarOren(res));
   const [filterValues, setFilterApplied] = useState({});
 
-  // console.log("selected Sub category " )
-  // console.log(selectedSubCategory)
-  // console.log("*** sub cat id");
-  // console.log(selectedSubCategory)
+  console.log("****  categories ***")
+  console.log(categories)
 
   const fetchData = useCallback(async () => {
     try {
@@ -132,7 +129,7 @@ const LootStore = (props) => {
     if (categories) {
       setData(categories);
       var x = categories.map((i, k) => {
-        return {id: i.category_id, name: i.name_en, index: k};
+        return {id: i.category_id, name: i.name_ar, index: k};
       });
       setCategories(x);
       var itemData = null;
@@ -157,8 +154,6 @@ const LootStore = (props) => {
           filterValues.minPrice,
           filterValues.maxPrice,
         );
-        console.log('***** items ***');
-        console.log(itemData);
         setlastPage(itemData.parameter.last_page);
       }
 
@@ -222,8 +217,7 @@ const LootStore = (props) => {
           filterValues.minPrice,
           filterValues.maxPrice,
         );
-        console.log('***** items ***');
-        console.log(itemData);
+       
         setlastPage(itemData.parameter.last_page);
       }
 
@@ -621,7 +615,7 @@ const LootStore = (props) => {
                 Platform.OS == 'android' ? 'Michroma-Regular' : 'Michroma',
               paddingHorizontal: width * 0.1,
             }}>
-            {props.labels.lootstore}
+            {props.labels.lootStore}
           </Text>
         </View>
 
@@ -641,7 +635,8 @@ const LootStore = (props) => {
               }}
               showsVerticalScrollIndicator={false}
               horizontal>
-              {categories.map((i, k) => (
+              {categories.map((i, k) => {
+              return (
                 <TouchableOpacity
                   onPress={() => {
                     setCurrent(i.index);
@@ -672,7 +667,8 @@ const LootStore = (props) => {
                     {i.name}
                   </Text>
                 </TouchableOpacity>
-              ))}
+              );
+            })}
             </ScrollView>
 
             <View style={{width: '100%', alignItems: 'flex-start'}}>
