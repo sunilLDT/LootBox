@@ -71,15 +71,36 @@ const BuildYourPc = ({ navigation, labels }) => {
 
     }
   }
+  // const checkResolution = (res) => {
+  //   setOpen(false)
+  //   if (selected.length !== 0) {
+  //     setPopModal(true);
+  //     setContentModal(labels.chooseResolutionForGames);
+  //   }
+  //   else {
+  //     setResolution(res);
+  //   }
+  // }
   const checkResolution = (res) => {
     setOpen(false)
-    if (selected.length !== 0) {
-      setPopModal(true);
-      setContentModal(labels.chooseResolutionForGames);
-    }
-    else {
-      setResolution(res);
-    }
+      if(selected.length !== 0){
+        Alert.alert(
+          "Loot",
+          "You can choose only one resolution for games",
+          [
+            {
+              text: "Cancel",
+              onPress: () => console.log("Cancel Pressed"),
+              style: "cancel"
+            },
+            { text: "OK", onPress: () => changeResolution(res)}
+          ],
+          { cancelable: false }
+        );
+      }
+      else{
+        setResolution(res);
+      }
   }
 
   const handleSearch = (text) => {
