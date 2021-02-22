@@ -28,7 +28,7 @@ import strings from '../languages/index';
 import {connect} from 'react-redux';
 import {cartActions} from '../actions/user';
 import Filter from './filter';
-import Dialog, {DialogContent, SlideAnimation} from 'react-native-popup-dialog';
+import Dialog,{DialogContent, SlideAnimation} from 'react-native-popup-dialog';
 import {flattenDeep, values, keys, map} from 'lodash';
 import {languagename} from '../components/LanguageName';
 const {width, height} = Dimensions.get('window');
@@ -352,6 +352,7 @@ const LootStore = (props) => {
           <DialogContent>
             <View>
               <Filter
+                labels={props.labels}
                 initalValues={filterValues}
                 filter1={(r) => {
                   setFilterApplied(r);
