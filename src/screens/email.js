@@ -13,26 +13,36 @@ import Input from '../components/input';
 import Btn from './btn';
 import {Context as AuthContext} from '../api/contexts/authContext';
 import Modal from '../components/modal';
-import {connect} from 'react-redux'
+import {connect} from 'react-redux';
+import PopUp from '../components/popup';
+
 const {width, height} = Dimensions.get('window');
 
 const Email = ({navigation, labels}) => {
   const {state, sendEmail} = useContext(AuthContext);
   const [title, setTitle] = useState(null);
   const [description, setDescription] = useState(null);
+  const [popModal, setPopModal] = useState(false);
+  const [contentModal, setContentModal] = useState('');
 
   const sendEmailFun = async () => {
     if(!title)
     {
-      alert(labels.fillTitle)
-    }
+      setPopModal(true);
+      setContentModal(labels.fillTitle);
+     }
     else if(!description){
-      alert(labels.fillDesc)
+      setPopModal(true);
+      setContentModal(labels.fillDesc);
+     
     }
     else{
       sendEmail(title, description);
     }
   }
+  const popUpHandler=()=>{
+    setPopModal(!popModal);
+}
 
   return (
     <View
@@ -47,6 +57,7 @@ const Email = ({navigation, labels}) => {
           overflow: 'hidden',
           padding: width * 0.1,
         }}>
+          <PopUp visible={popModal} title={'Loot'} closeText={labels.ok} callBack={popUpHandler} content={contentModal}/>
         <View
           style={{display: 'flex', alignItems: 'center', flexDirection: 'row'}}>
           <TouchableOpacity

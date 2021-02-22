@@ -25,6 +25,7 @@ import Icons  from 'react-native-vector-icons/FontAwesome';
 import AsyncStorage from '@react-native-community/async-storage';
 import {languagename} from '../components/LanguageName';
 import { connect } from 'react-redux';
+import PopUp from '../components/popup';
 
 
 const {height, width} = Dimensions.get('window');
@@ -50,6 +51,8 @@ const Signup = ({navigation, route, labels}) => {
   const [is_google, setIsGoogle] = useState(0);
   const [showPassword, setPasswordVisibility] = useState(false);
   const [arOren,setarOren] = useState('en');
+  const [addressModal, setaddressModal] = useState(false);
+  const [contentModal, setContentModal] = useState('');
   languagename().then(res => setarOren(res))
 
   const data = {
@@ -61,7 +64,9 @@ const Signup = ({navigation, route, labels}) => {
     user_type,
     is_google,
   };
-
+  const popUpHandler=()=>{
+      setaddressModal(!addressModal);
+  }
 
   const submit = async () => {
     await AsyncStorage.setItem('email',email)
@@ -108,7 +113,7 @@ const Signup = ({navigation, route, labels}) => {
                 }}
               />
             </View>
-
+            <PopUp visible={addressModal} title={'Loot'} closeText={labels.ok} callBack={popUpHandler} content={contentModal}/>
             <View style={{width,alignItems:'center'}}>
               <View
                 style={{
@@ -292,38 +297,46 @@ const Signup = ({navigation, route, labels}) => {
                 } else {
                   
                   if (password && password.length < 8) {
-                    setValidationError("Password must be at least 8 characters")
-                    alert(
-                      label.passwordEightCharacters,
-                    );
+                    setValidationError("Password must be at least 8 characters");
+                    setaddressModal(true);
+                    setContentModal("label.passwordEightCharacters")
                   }
                   else if (
                     email &&
                     !/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)
                   ) {
-                    alert(labels.invaildEmail);
+                    setaddressModal(true);
+                    setContentModal(labels.invaildEmail)
+      
                   }
                   else if (phone && !(phone.length == 8)) {
-                    alert(labels.validPhoneNumber);
+                    setaddressModal(true);
+                    setContentModal(labels.validPhoneNumber)
                   }
                   else if (!first_name) {
-                    alert(labels.allFieldsAreRequired);
+                    setaddressModal(true);
+                    setContentModal(labels.allFieldsAreRequired)
                   }
                   else if (!last_name) {
-                    alert(labels.allFieldsAreRequired);
+                    setaddressModal(true);
+                    setContentModal(labels.allFieldsAreRequired)
                   }
                   else if (!phone) {
-                    alert(labels.allFieldsAreRequired);
+                    setaddressModal(true);
+                    setContentModal(labels.allFieldsAreRequired)
                   }
                   else if (!email) {
-                    alert(labels.allFieldsAreRequired);
+                    setaddressModal(true);
+                    setContentModal(labels.allFieldsAreRequired)
                   }
                   else if (!password) {
-                    alert(labels.allFieldsAreRequired);
+                    setaddressModal(true);
+                    setContentModal(labels.allFieldsAreRequired)
                   }
                   else if (!selected) {
-                    alert(labels.agreeAlert);
-                  }
+                    setaddressModal(true);
+                    setContentModal(labels.agreeAlert)
+                   }
                   else {
                     console.log("error");
                   }

@@ -18,12 +18,17 @@ import Btn from '../screens/btn';
 import bgImage from '../assets/signup.png';
 import AsyncStorage from '@react-native-community/async-storage';
 import { connect } from 'react-redux';
+import PopUp from '../components/popup';
+
 const {height, width} = Dimensions.get('window');
 
 const Otp = ({navigation,labels}) => {
   const [otp, setOtp] = useState();
   const {verifyOtp, state, resendOtp} = useContext(AuthContext);
   const [count, setCount] = useState(0);
+  const [addressModal, setaddressModal] = useState(false);
+  const [contentModal, setContentModal] = useState('');
+
 
   const backAction = () => {
    navigation.navigate("auth");
@@ -51,6 +56,7 @@ const Otp = ({navigation,labels}) => {
   }, []);
 
   return (
+    
     <LinearGradient
       colors={['#2A2D39', '#261D2A']}
       style={{

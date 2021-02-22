@@ -36,6 +36,7 @@ import Dialog, {
 import Filter from '../filter';
 import { useIsFocused } from "@react-navigation/native";
 import { values } from 'lodash';
+import PopUp from '../../components/popup';
 const { width, height } = Dimensions.get('window');
 
 
@@ -66,6 +67,8 @@ const AdvanceBuilder = (props) => {
   const [cartAddedFilterItems,setCartAddedFilterItems] = useState([]);
   const [cartItemId,setCartItemId] = useState([]);
   const [ItemToDelete,setItemToDelete] = useState([]);
+  const [popModal, setPopModal] = useState(false);
+  const [contentModal, setContentModal] = useState('');
   const maxlimit = 20;
 
   
@@ -80,6 +83,10 @@ const AdvanceBuilder = (props) => {
     });
     setCartItemId(a)
   }
+
+  const popUpHandler=()=>{
+    setPopModal(!popModal);
+}
 
   function filterIsOPtion(arr) {
     let isMultipleArray = [];
@@ -267,7 +274,9 @@ const AdvanceBuilder = (props) => {
         subCatId && subCategoryFun(subCatId.sub_category_id, i, 1,cartItemId);
       }
       else{
-        alert("please select one item from this category")
+        setPopModal(true);
+        setContentModal("please select one item from this category");
+  
       }
       
     }
@@ -458,6 +467,7 @@ const AdvanceBuilder = (props) => {
         source={require('../../assets/dottedBackground.png')}
         style={styles.background}
       >
+         <PopUp visible={popModal} title={'Loot'} closeText={labels.ok} callBack={popUpHandler} content={contentModal}/>
         <ScrollView
           ref={scrollRef}
           showsVerticalScrollIndicator={false}

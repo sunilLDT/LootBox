@@ -23,6 +23,7 @@ import AdvanceBuilderButton from '../components/AdvanceBuilderBtn';
 import { SearchBar } from 'react-native-elements';
 import { languagename } from '../components/LanguageName';
 import { connect } from 'react-redux';
+import PopUp from '../components/popup';
 
 const {width, height} = Dimensions.get('window');
 
@@ -35,6 +36,8 @@ const BuildYourPc = ({ navigation, labels }) => {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState('');
   const [arOren, setarOren] = useState('en');
+  const [popModal, setPopModal] = useState(false);
+  const [contentModal, setContentModal] = useState('');
   languagename().then(res => setarOren(res))
 
   useEffect(() => {
@@ -54,30 +57,25 @@ const BuildYourPc = ({ navigation, labels }) => {
     setResolution(res);
   };
 
+  const popUpHandler=()=>{
+    setPopModal(!popModal);
+}
+
   const submitGames = () => {
     if (selected.length > 0) {
       navigation.navigate('PcDetails', { selectedGames: selected })
     }
     else {
-      alert(labels.pleaseSelectAGame)
+      setPopModal(true);
+      setContentModal(labels.pleaseSelectAGame);
+
     }
   }
   const checkResolution = (res) => {
     setOpen(false)
     if (selected.length !== 0) {
-      Alert.alert(
-        labels.lootbox,
-        labels.chooseResolutionForGames,
-        [
-          {
-            text: labels.cancel,
-            onPress: () => console.log("Cancel Pressed"),
-            style: "cancel"
-          },
-          { text: labels.ok, onPress: () => changeResolution(res) }
-        ],
-        { cancelable: false }
-      );
+      setPopModal(true);
+      setContentModal(labels.chooseResolutionForGames);
     }
     else {
       setResolution(res);
@@ -121,6 +119,7 @@ const BuildYourPc = ({ navigation, labels }) => {
             backgroundColor: '#2A2D39',
             paddingHorizontal: width * 0.09,
           }}>
+             <PopUp visible={popModal} title={'Loot'} closeText={labels.ok} callBack={popUpHandler} content={contentModal}/>
           <View
             style={{
               display: 'flex',

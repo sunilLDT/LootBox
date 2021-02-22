@@ -63,6 +63,7 @@ import Dialog, {
                     </View>
                 </DialogContent>
             </View>
+            <TouchableOpacity onPress={() =>  props.callBack()}>
             <View style={{
                 alignItems: 'center',
                 paddingVertical: 5,
@@ -85,6 +86,7 @@ import Dialog, {
               </Text>
               </TouchableOpacity>
             </View>
+            </TouchableOpacity>
         </Dialog>
     )
 }

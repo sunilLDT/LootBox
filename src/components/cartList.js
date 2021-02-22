@@ -28,7 +28,7 @@ import IcCardImage from '../assets/ic3.png';
 import thumbnail from '../assets/thumbnail.png';
 import PayBtn from '../components/PayBtn';
 import { startClock } from 'react-native-reanimated';
-
+import PopUp from '../components/popup';
 const {width, height} = Dimensions.get('window');
 
 const CartList = (props) => {
@@ -42,6 +42,8 @@ const CartList = (props) => {
   const [open, setOpen] = useState();
   const [showCpuPerocessersList, setShowCpuProcesserList] = useState(false);
   const [packagePrice, setPackagePrice] = useState([]);
+  const [popModal, setPopModal] = useState(false);
+  const [contentModal, setContentModal] = useState('');
   // console.log(Number(packagePrice));
   const maxlimit = 22;
   var imgSource = upwardImage ? ExpandImage : CloseImage;
@@ -64,10 +66,15 @@ const CartList = (props) => {
     });
   }, []);
 
+  const popUpHandler=()=>{
+    setPopModal(!popModal);
+}
+
   const checkout = () => {
     setLoading(true)
     if(allAddress.length === 0){
-      alert("Please add address for the Delivery")
+      setPopModal(true);
+      setContentModal("Please add address for the Delivery");
       setLoading(false)
     }else{
       orderPlace().then((response) => {
@@ -139,6 +146,7 @@ const CartList = (props) => {
         height,
         overflowX: 'hidden',
       }}>
+            <PopUp visible={popModal} title={'Loot'} closeText={labels.ok} callBack={popUpHandler} content={contentModal}/>
       <ScrollView showsVerticalScrollIndicator={false}>
       {loading ? (
         <View style={{marginTop: height * 0.47}}>

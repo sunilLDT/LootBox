@@ -71,19 +71,19 @@ const checkUser = (dispatch) => async () => {
   }
   if (language) {
     if (token && token.length > 0) {
-      console.log("home");
+
       navigate({ name: 'home' });
     } else {
-      console.log("slider");
+
       navigate({ name: 'slider' });
     }
   } else {
     
     if (token && token.length > 0) {
-      console.log("home else");
+
       navigate({ name: 'home' });
     } else {
-      console.log("language");
+
       navigate({ name: 'language' });
     }
   }
@@ -124,7 +124,7 @@ const googleSignIn = (dispatch) => async () => {
         },
       });
     } else if (data.token) {
-      console.log(data)
+ 
       dispatch({
         type: 'signin',
         payload: {
@@ -516,6 +516,7 @@ const fetchCategories = (dispatch) => async () => {
   try {
     const response = await Api('app/category/subcategory-list');
     if (response.data.success) {
+      console.log("fetch categories in auth context **** ")
       console.log(response.data.data);
       return response.data.data;
     } else {
@@ -528,11 +529,7 @@ const fetchCategories = (dispatch) => async () => {
 
 const fetchItems = (dispatch) => async (category_id, sub_category_id, page, filterId, filterValues, minPrice, maxPrice , all ) => {
   try {
-    // console.log('===================================')
-    // console.log('Category Id     :' + filterId)
-    console.log('Sub Category Id :' + sub_category_id)
-    // console.log('Page Number     :' + page);
-    // console.log('===================================')
+    
 
     if (sub_category_id) {
       if (filterId) {
@@ -545,12 +542,8 @@ const fetchItems = (dispatch) => async (category_id, sub_category_id, page, filt
           max_price:parseInt(maxPrice),
           limit:6
         }
-        console.log("****/////////// all variables")
-        console.log(allVariables)
+       
        let response = await Api.post('app/items/list',allVariables);
-
-        console.log('filtersssss *********')
-        console.log(response.data)
         return response.data;
       } else {
         const response = await Api.post('app/items/list',{

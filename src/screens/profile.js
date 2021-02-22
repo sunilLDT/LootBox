@@ -36,6 +36,7 @@ import RNPickerSelect from 'react-native-picker-select';
 import { S3, util } from 'aws-sdk';
 import fs from 'react-native-fs';
 import {languagename} from '../components/LanguageName';
+import PopUp from '../components/popup';
 const { width, height } = Dimensions.get('window');
 
 const Profile = (props) => {
@@ -57,6 +58,9 @@ const Profile = (props) => {
   const [last_name, setLastName] = useState();
   const [imageLoader,setImageLoader] = useState(false);
   const [arOren,setarOren] = useState('en');
+  const [addressModal, setaddressModal] = useState(false);
+  const [contentModal, setContentModal] = useState('');
+  const [popModal, setPopModal] = useState(false);
   languagename().then(res => setarOren(res))
 
   var formattedDOB = format(DOB, "d-MM-yyyy");
@@ -70,7 +74,7 @@ const Profile = (props) => {
   }, []);
 
   const waitForProp = async () => {
-    setEmail(props.profileData.email)
+      setEmail(props.profileData.email)
       setFirstName(props.profileData.first_name)
       setLastName(props.profileData.last_name)
       setPhoto(props.profileData.profile_image.replace('user/profile/',''))
@@ -78,21 +82,30 @@ const Profile = (props) => {
       setGender(props.profileData.gender ? props.profileData.gender : 1);
   }
 
+  const popUpHandler=()=>{
+    setPopModal(!popModal);
+  }
+
   const ProfileUpdate = () => {
     if (!email) {
-      alert("Please Fill the email")
+      setPopModal(true);
+      setContentModal("Please Fill the email");
     }
     else if (email == "" || !/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
-      alert("Invalid Email Address")
+      setPopModal(true);
+      setContentModal("Invalid Email Address");
     }
     else if (gender == "") {
-      alert("Please choose the Gender");
+      setPopModal(true);
+      setContentModal("Invalid Email Address");
     }
     else {
       setLoadingBtn(true)
       profileUpdateApi(email, formattedDOB, gender, first_name, last_name).then((response) => {
-        setLoadingBtn(false)
-        alert(response.message);
+        setLoadingBtn(false);
+        setPopModal(true);
+        setContentModal(response.message);
+
       }).catch((error) => {
         console.log("profileUpdate" + error);
         setLoadingBtn(false)
@@ -102,24 +115,30 @@ const Profile = (props) => {
 
   const changePassword = () => {
     if (newPassword !== confirmPassword) {
-      alert(labels.passwordNotMatch);
+      setPopModal(true);
+      setContentModal(labels.passwordNotMatch);
+
     }
     else if (newPassword == "" && confirmPassword == "" && oldPassword == "") {
-      alert(labels.fillAllField);
+      setaddressModal(true);
+      setContentModal(labels.fillAllField)
+  
     }
     else if (newPassword.length < 8 && confirmPassword.length < 8) {
-      alert(labels.notMoreThan8);
+      setaddressModal(true);
+      setContentModal(labels.notMoreThan8)
     }
     else {
       changePasswordApi(oldPassword, newPassword, confirmPassword).then((response) => {
         setpasswordModal(!passwordModal)
-        alert(response.message)
+        setPopModal(true);
+        setContentModal(response.message)
         if (response.success == true) {
           signout()
         }
       }).catch((error) => {
-        console.log("ChangePassword" + error);
-        alert(labels.passNotMatch)
+        setpasswordModal(!passwordModal)
+        setaddressModal(true);
       })
     }
   };
@@ -215,6 +234,7 @@ const Profile = (props) => {
           height,
           overflow: 'hidden',
         }}>
+          <PopUp visible={popModal} title={'Loot'} closeText={labels.ok} callBack={popUpHandler} content={contentModal}/>
         <Dialog
           visible={passwordModal}
           containerStyle={{ zIndex: 10, elevation: 10 }}
@@ -225,6 +245,7 @@ const Profile = (props) => {
           })}
           onTouchOutside={() => { setpasswordModal(!passwordModal) }}
         >
+            
           <DialogContent>
             <View>
               <View style={{ marginTop: 15 }}>

@@ -123,8 +123,7 @@ const ProductDetails = (props) => {
                   </View>
                 </View>
                 {props.packages.map((item, index) => {
-                  console.log("*** items ***")
-                  console.log(item)
+                 
                   let i = {
                     "item_id": item.item_id,
                     "quantity": 1,
