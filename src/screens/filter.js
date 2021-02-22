@@ -15,7 +15,7 @@ import {filter, flattenDeep, keys, values, without} from 'lodash';
 import {connect} from 'react-redux'
 const {width, height} = Dimensions.get('window');
 const THUMB_RADIUS = 12;
-const options = ['24 cm', '12 cm', '30 cm', '14 cm', '16 cm', '340 cm'];
+
 const Filter = (props) => {
   const {labels} = props
   const [low, setLow] = useState(null);
@@ -106,7 +106,7 @@ const Filter = (props) => {
                 maxPrice: high,
               })
             }>
-            <Text style={styles.textStyle}>{getLabelsApi.apply}</Text>
+            <Text style={styles.textStyle}>{labels.apply}</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -295,9 +295,9 @@ const styles = StyleSheet.create({
   },
 });
 
-const mapStateToProps = (state) => ({
-  labels:state.languageReducer.labels,
-})
+// const mapStateToProps = (state) => ({
+//  labels:state.languageReducer.labels,
+// })
 
-export default connect(mapStateToProps)(Filter);
+export default Filter;
 

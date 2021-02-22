@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useFocusEffect,useRef } from 'react';
+import React, { useState, useEffect, useCallback,useFocusEffect,useRef } from 'react';
 import {
   ImageBackground,
   View,
@@ -93,7 +93,7 @@ const Cart = (props) => {
     setAdvanceIems(itemsId)
   }
   
-  
+
   useEffect(() => {
     const getD = () => {
       setLoading(true)
@@ -108,10 +108,9 @@ const Cart = (props) => {
         setLoading(false)
       });
     }
-    getD()
-    
-    
-  }, []);
+    getD();
+   
+  }, checkCOD?[]:[isFocused]);
 
   var y = allAddress.map((i) => {
     return i.is_default === 1 ? true : false;
@@ -150,7 +149,6 @@ const Cart = (props) => {
       setCheckCOD(true)
     }
     orderPlace(paymentType).then((response) => {
-      console.log(response.data)
       if(paymentType === 3){
         if(response.code == 200){
           setLoading(false)
@@ -372,9 +370,9 @@ const Cart = (props) => {
   const editAdvanceBuilder = () => {
     props.navigation.navigate('AdvanceBuilder',{fromCart:1})
   }
-
   const refRBSheet = useRef();
   return (
+    
     <ImageBackground
       source={require('../assets/plainBg.png')}
       style={{
@@ -393,11 +391,9 @@ const Cart = (props) => {
             <View
               style={{
                 paddingVertical: width * 0.05,
-
-                
-                paddingHorizontal: Platform.OS == 'android' ?width * 0.05:width *0.07,
-                // paddingHorizontal: Platform.OS == 'android' ?width * 0.1:width *0.07,
-                paddingHorizontal:arOren == "it"?width * 0.07:width * 0.08
+                // paddingHorizontal:arOren == "it"?width * 0.07:width * 0.08
+                // paddingLeft:Platform.OS == 'android' ?width * 0.09:width *0.07
+                paddingLeft:Platform.OS == 'android' ?width * 0.09:width *0.09,
 
               }}>
               <Dialog
@@ -635,23 +631,22 @@ const Cart = (props) => {
                                   justifyContent: "space-between",
                                   
                                 }}>
-                                  <TouchableOpacity onPress={async() =>
+                                  <TouchableOpacity onPress={() => 
                                   {
-                                    await AsyncStorage.setItem('cart_package_id', packages.cart_package_id.toString())
-                                    props.navigation.navigate('ProductDetails',{PackageId:packages.package_id})
+                                    // await AsyncStorage.setItem('cart_package_id', packages.cart_package_id.toString())
+                                    props.navigation.navigate('ProductDetails',{PackageId:packages.package_id,cart_package_id:packages.cart_package_id})
                                   }
                                     }> 
                                   {/* {
-                                trashPackageLoader && trashPackageLoaderID=== packages.cart_package_id
-                                ?(<View style={{alignSelf:'center', paddingTop:8}}><ActivityIndicator color="#ECDBFA" size="small"  /></View>
-                                ):( */}
-                                <Icons name="pencil" color={"white"} size={15} style={{alignSelf:'center'}} />
-                                {/* } */}
+                                  trashPackageLoader && trashPackageLoaderID=== packages.cart_package_id
+                                  ?(<View style={{alignSelf:'center', paddingTop:8}}><ActivityIndicator color="#ECDBFA" size="small"  /></View>
+                                  ):( */}
+                                  <Icons name="pencil" color={"white"} size={15} style={{alignSelf:'center'}} />
+                                  {/* } */}
                                   </TouchableOpacity>
 
-                                  <TouchableOpacity onPress={() => removePackage(packages.cart_package_id) }> 
-                                  {
-                                trashPackageLoader && trashPackageLoaderID=== packages.cart_package_id
+                                <TouchableOpacity onPress={() => removePackage(packages.cart_package_id) }> 
+                                  {trashPackageLoader && trashPackageLoaderID=== packages.cart_package_id
                                 ?(<View style={{alignSelf:'center', paddingTop:8}}><ActivityIndicator color="#ECDBFA" size="small"  /></View>
                                 ):(
                                 <Icons name="trash" color={"white"} size={15} style={{alignSelf:'center', paddingTop: 8}} />)}
@@ -697,7 +692,7 @@ const Cart = (props) => {
                                         }}>
                                         <Image
                                           source={{ uri: packageItems.image }}
-                                          style={{ width: 48, height: 40, marginBottom: 10, alignSelf: 'center' }} />
+                                          style={{ width: 48, height: 40, marginBottom: 10, alignSelf: 'center',borderRadius:10}} />
                                         <Text
                                           adjustsFontSizeToFit={true}
                                           numberOfLines={2}
@@ -958,7 +953,7 @@ const Cart = (props) => {
                       opacity: 0.8,
                       fontFamily: 'Montserrat-Medium',
                     }}>
-                    Advance Builder Items
+                    {labels.advanceBuilderItems}
                   </Text>
                   <View style={{
                     display:'flex',

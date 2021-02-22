@@ -35,7 +35,6 @@ const PcDetails = ({ navigation, route, labels }) => {
             setPackageData(response.data);
             setItems(response.data[0].items);
             setLoading(false);
-            console.log(packageData)
         }).catch((error) => {
             console.log("Package list by games" + error)
             setLoading(false)
@@ -105,6 +104,7 @@ const PcDetails = ({ navigation, route, labels }) => {
                         </Text>
                     </View>
                     {packageData.map((cpuDetail, index) => {
+                        
                         return (
                             <TouchableOpacity
                                 key={index}
@@ -203,10 +203,10 @@ const PcDetails = ({ navigation, route, labels }) => {
                                             >
                                                 <Text
                                                     style={styles.playableText}>
-                                                    Playable at <Text style={{ color: '#fff', fontWeight: 'bold', fontStyle: 'italic' }}>
+                                                    {labels.playableAt} <Text style={{ color: '#fff', fontWeight: 'bold', fontStyle: 'italic' }}>
                                                         {cpuDetail.graphic_quality == 1 ? "LOW " : cpuDetail.graphic_quality == 2 ? "MEDIUM " : "HIGH "}
                                                     </Text>
-                                                    <Text style={{ color: '#fff', }}>Graphics</Text>
+                                                    <Text style={{ color: '#fff', }}>{labels.graphics}</Text>
                                                 </Text>
                                             </ImageBackground>
                                         </View>

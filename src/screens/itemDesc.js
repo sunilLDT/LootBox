@@ -180,6 +180,7 @@ const renderViewLess = (onPress) => {
               </View>
              </DialogContent>
            </View>
+           <TouchableOpacity onPress={() =>  setaddressModal(!addressModal)}>
            <View style={{
               alignItems:'center',
               paddingVertical:5,
@@ -197,6 +198,7 @@ const renderViewLess = (onPress) => {
                 OK
               </Text>
             </View>
+            </TouchableOpacity>
         </Dialog>
       <ImageBackground
         source={require('../assets/plainBg.png')}

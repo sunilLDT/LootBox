@@ -82,6 +82,22 @@ const Drawer = (props) => {
     }
   }
 
+  const checkProfileNmae = () => {
+    if(profileDetails.full_name == 0){
+      if(arOren == "ar"){
+        return "حساب زائر";
+      }
+      else{
+        return "Guest User"
+      }
+    }
+    else{
+      return profileDetails.full_name;
+    }
+  }
+
+
+
   useEffect(() => {
     gettingLangName()
     checkUserType()
@@ -216,7 +232,7 @@ const Drawer = (props) => {
                   color: '#ECDBFA',
                   paddingHorizontal:4
                 }}>
-                {profileDetails.full_name}
+                {checkProfileNmae()}
               </Text>
             </View>  
             <View

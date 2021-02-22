@@ -33,13 +33,14 @@ const steps = [
 
 const { height, width } = Dimensions.get('window');
 
-const OrderDetails = ({ navigation, route }) => {
+const OrderDetails = (props) => {
+  const {labels} = props
   // async function getEmail() {
   //   return await AsyncStorage.getItem('email')
   // }
 
 
-  const { orderId } = route.params;
+  const { orderId } = props.route.params;
   const [loading, setLoading] = useState(true);
   const [upwardImage, setUpwardImage] = useState(true);
   const [orderDetails, setorderDetails] = useState({});
@@ -51,7 +52,6 @@ const OrderDetails = ({ navigation, route }) => {
   // const [email, setemail] = useState('')
   const maxlimit = 22;
   var imgSource = upwardImage ? ExpandImage : CloseImage;
-  console.log(items)
 
 
   useEffect(() => {
@@ -131,7 +131,7 @@ const OrderDetails = ({ navigation, route }) => {
                   flexDirection: 'row',
                   alignItems: 'center',
                 }}>
-                <TouchableOpacity onPress={() => navigation.navigate('orders')}>
+                <TouchableOpacity onPress={() => props.navigation.navigate('orders')}>
                   <Image
                     resizeMode="contain"
                     style={{ width: 48, height: 48 }}
@@ -146,7 +146,7 @@ const OrderDetails = ({ navigation, route }) => {
                     marginLeft: 10,
                     fontFamily: 'Montserrat-Regular',
                   }}>
-                  Order ID {orderId}
+                  {labels.orderId}{orderId}
                 </Text>
               </View>
               <View style={{ flexDirection: 'row' }}  >
@@ -1138,7 +1138,7 @@ const OrderDetails = ({ navigation, route }) => {
                 </View>
               </ImageBackground>
 
-              <TouchableOpacity onPress={() => navigation.navigate('contact')}>
+              <TouchableOpacity onPress={() => props.navigation.navigate('contact')}>
                 <Btn text="Need any help?" x="15" pay="" />
               </TouchableOpacity>
             </View>

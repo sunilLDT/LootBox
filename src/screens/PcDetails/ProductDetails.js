@@ -11,22 +11,20 @@ import {
 } from 'react-native';
 import BackgroundImage from '../../assets/buildYourPc/triangleBg.png';
 import Btn from '../btn';
-import ExpandImage from '../../assets/ic_expand1.png';
-import CloseImage from '../../assets/ic-3copy.png';
 import { ScrollView } from 'react-native-gesture-handler';
 import ItemCard from '../../assets/ic_card.png';
-import {addToCart,removePackageApi} from '../../api/buildYourPc';
+import { addToCart, removePackageApi } from '../../api/buildYourPc';
 import ListDetails from '../PcDetails/List';
 import { connect } from 'react-redux';
 import { cartActions } from '../../actions/user';
 import { packageActions } from '../../actions/package';
-import strings from '../../languages/index';
 import AsyncStorage from '@react-native-community/async-storage';
 const { width, height } = Dimensions.get('window');
 
 const ProductDetails = (props) => {
 
   const { PackageId } = props.route.params;
+  const { cart_package_id } = props.route.params;
   const [packageDetailsData, setPackageDetailsData] = useState({});
   const [coverImage, setCoverImage] = useState([]);
   const [showCpuPerocessersList, setShowCpuProcesserList] = useState(false);
@@ -37,42 +35,33 @@ const ProductDetails = (props) => {
   const [edit, setEdit] = useState(false);
   const maxlimit = 12;
   const kd = "KD ";
-  var imgSource = upwardImage ? ExpandImage : CloseImage;
 
   useEffect(() => {
     props.getPackages(PackageId);
   }, [PackageId]);
 
-  const addIntoCart = async() => {
-    const packageId = await AsyncStorage.getItem('cart_package_id');
+  const addIntoCart = async () => {
     setLoading(true);
-    if (packageId) {
-      removePackageApi(packageId).then((response) => {
-       console.log(response)
-      })
+    try {
+      if (cart_package_id) {
+        const response = await removePackageApi(cart_package_id);
+        console.log(response);
+      }
+      let result = props.packages.map(({ item_id }) => ({ item_id, quantity: 1 }));
+        const deleteResponse = await addToCart(PackageId, result, true)
+        props.add()
+        console.log(deleteResponse)
+        setLoading(false);
+        props.navigation.navigate('cart');
+    } catch (e) {
+      console.log(e)
     }
-    let result = props.packages.map(({ item_id, quantity }) => ({ item_id, quantity: 1 }));
-    addToCart(PackageId, result, true).then((response) => {
-      setLoading(false);
-      props.add()
-      props.navigation.navigate('cart');
-      AsyncStorage.removeItem('cart_package_id');
-    }).catch((error) => {
-      console.log("addToCart" + error);
-    });
   }
 
   const changeData = (item) => {
     //setFinalData([finalData,...item]);
     //setFinalData([...finalData, item]);
     //setTotalPrice(finalData.reduce( function(cnt,o){ return cnt + parseInt(o.price); }, 0))
-  }
-
-  const openClose = (item_id) => {
-    setUpwardImage(!upwardImage)
-    setOpen("");
-    setOpen(item_id);
-    setShowCpuProcesserList(!showCpuPerocessersList)
   }
   return (
     <View style={{ backgroundColor: '#292633', width: '100%', height: '100%' }}>
@@ -89,100 +78,102 @@ const ProductDetails = (props) => {
             />
           </View>
         </TouchableOpacity>
-        {props.loading?(
+        {props.loading ? (
           <View style={{ marginTop: height * 0.4 }}>
             <ActivityIndicator color="#ECDBFA" size="small" />
           </View>
-        ):(
-        <ScrollView
-          style={styles.scrollViewContainer}
-          showsHorizontalScrollIndicator={false}>
-          <View>
-            <View >
-              <Image
-                source={{ uri: props.packageData.image }}
-                width={100}
-                height={100}
-                style={{
-                  width: 312,
-                  height: 200,
-                  alignSelf: 'center',
-                  borderRadius:12
-                }}
-              />
-              <View
-                style={{
-                  marginVertical: 20,
-                  flexDirection: 'row',
-                  justifyContent: 'space-around',
-                }}>
-                <View style={{ alignSelf: 'center', paddingLeft: '2%' }}>
-                  <Text style={styles.brandTitle}>{props.packageData.name}</Text>
-                  <Text style={styles.brandPrice}>{kd}{props.totalPrice}</Text>
+        ) : (
+            <ScrollView
+              style={styles.scrollViewContainer}
+              showsHorizontalScrollIndicator={false}>
+              <View>
+                <View >
+                  <Image
+                    source={{ uri: props.packageData.image }}
+                    width={100}
+                    height={100}
+                    style={{
+                      width: 312,
+                      height: 200,
+                      alignSelf: 'center',
+                      borderRadius: 12
+                    }}
+                  />
+                  <View
+                    style={{
+                      marginVertical: 20,
+                      flexDirection: 'row',
+                      justifyContent: 'space-around',
+                    }}>
+                    <View style={{ alignSelf: 'center', paddingLeft: '2%' }}>
+                      <Text style={styles.brandTitle}>{props.packageData.name}</Text>
+                      <Text style={styles.brandPrice}>{kd}{props.totalPrice}</Text>
+                    </View>
+                    <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+                      {props.coverImage ? props.coverImage.map((cImages, index) => {
+                        return (
+                          <Image
+                            key={index}
+                            source={{ uri: cImages.image_path }}
+                            style={styles.coverImage}
+                          />
+                        );
+                      }) : null}
+                    </ScrollView>
+                  </View>
                 </View>
-                <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-                  {props.coverImage ? props.coverImage.map((cImages, index) => {
-                    return (
-                      <Image
-                        key={index}
-                        source={{ uri: cImages.image_path }}
-                        style={styles.coverImage}
-                      />
-                    );
-                  }) : null}
-                </ScrollView>
+                {props.packages.map((item, index) => {
+                  console.log("*** items ***")
+                  console.log(item)
+                  let i = {
+                    "item_id": item.item_id,
+                    "quantity": 1,
+                    "price": item.price
+                  };
+                  return (
+                    <View key={index}>
+                      <ListDetails
+                        key={Math.floor((Math.random() * 100) + 1)}
+                        data={item}
+                        navigation={props.navigation}
+                        parentIndex={index}
+                        parentMethod={changeData}
+                        imData={packageDetailsData.image}
+                        packName={packageDetailsData.name}
+                        coverImage={coverImage}
+                        price={totalPrice}
+                      ></ListDetails>
+                    </View>
+                  );
+                })}
               </View>
-            </View>
-            {props.packages.map((item, index) => {
-              let i = {
-                "item_id": item.item_id,
-                "quantity": 1,
-                "price": item.price
-              };
-              return (
-                <View key={index}>
-                  <ListDetails
-                    key={Math.floor((Math.random() * 100) + 1)}
-                    data={item}
-                    navigation={props.navigation}
-                    parentIndex={index}
-                    parentMethod={changeData}
-                    imData={packageDetailsData.image}
-                    packName={packageDetailsData.name}
-                    coverImage={coverImage}
-                    price={totalPrice}
-                  ></ListDetails>
-                </View>
-              );
-            })}
-          </View>
-          {props.packages.length === 0 ? (
-            <View style={{ marginTop: height * 0 }}>
-              <ActivityIndicator color="#ECDBFA" size="large" />
-            </View>) : (
-              <View style={styles.bottom}>
-                <TouchableOpacity
-                  activeOpacity={0.1}
-                  onPress={() => addIntoCart()}>
-                  {!loading ? (
-                    <Btn text={'BUILD YOUR PC'} pay=" " />
-                  ) : (
-                      <>
-                        <Btn text={''}  pay=" " />
-                        <ActivityIndicator
-                          color="#ECDBFA"
-                          size="small"
-                          style={{ bottom: 63 }}
-                        />
-                      </>
-                    )}
+              {props.packages.length === 0 ? (
+                <View style={{ marginTop: height * 0 }}>
+                  <ActivityIndicator color="#ECDBFA" size="large" />
+                </View>) : (
+                  <View style={styles.bottom}>
+                    <TouchableOpacity
+                      activeOpacity={0.1}
+                      onPress={() => addIntoCart()}>
+                      {!loading ? (
+                        <Btn text={props.labels.BuildYourPc} pay=" " />
+                      ) : (
+                          <>
+                            <Btn text={''} pay=" " />
+                            <ActivityIndicator
+                              color="#ECDBFA"
+                              size="small"
+                              style={{ bottom: 63 }}
+                            />
+                          </>
+                        )}
 
-                </TouchableOpacity>
-              </View>
-            )}
+                    </TouchableOpacity>
+                  </View>
+                )}
 
-        </ScrollView>
-        )}
+            </ScrollView>
+          )}
       </ImageBackground>
     </View>
   );
@@ -218,7 +209,7 @@ const styles = StyleSheet.create({
     width: 139,
     fontFamily: Platform.OS == 'android' ? 'Michroma-Regular' : 'Michroma',
   },
-  brandPrice:{
+  brandPrice: {
     fontSize: 14,
     color: 'rgba(255,255,255,0.3)',
     marginTop: 5,
@@ -254,7 +245,8 @@ const mapStateToProps = (state) => ({
   packageData: state.packageReducer.packageData,
   coverImage: state.packageReducer.coverImage,
   totalPrice: state.packageReducer.totalPrice,
-  loading:state.packageReducer.loading
+  loading: state.packageReducer.loading,
+  labels: state.languageReducer.labels,
 })
 
 const actionCreators = {

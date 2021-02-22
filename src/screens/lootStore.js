@@ -28,7 +28,7 @@ import strings from '../languages/index';
 import {connect} from 'react-redux';
 import {cartActions} from '../actions/user';
 import Filter from './filter';
-import Dialog, {DialogContent, SlideAnimation} from 'react-native-popup-dialog';
+import Dialog,{DialogContent, SlideAnimation} from 'react-native-popup-dialog';
 import {flattenDeep, values, keys, map} from 'lodash';
 import {languagename} from '../components/LanguageName';
 const {width, height} = Dimensions.get('window');
@@ -41,6 +41,7 @@ const options = [
 ];
 const THUMB_RADIUS = 12;
 const LootStore = (props) => {
+  
   const scrollRef = useRef();
   const [isFocused, setIsFocused] = useState(false);
   const [isRoll, setIsRoll] = useState(false);
@@ -352,6 +353,7 @@ const LootStore = (props) => {
           <DialogContent>
             <View>
               <Filter
+                labels={props.labels}
                 initalValues={filterValues}
                 filter1={(r) => {
                   setFilterApplied(r);
@@ -403,13 +405,13 @@ const LootStore = (props) => {
                 }}>
                 <View>
                   <TouchableOpacity onPress={() => setAllfilter(false)}>
-                    <Text style={styles.textStyle}>Cancel</Text>
+                    <Text style={styles.textStyle}>{props.labels.cancel}</Text>
                   </TouchableOpacity>
                 </View>
 
                 <View>
                   <TouchableOpacity onPress={() => openNextModal()}>
-                    <Text style={styles.textStyle}>Choose</Text>
+                    <Text style={styles.textStyle}>{props.labels.choose}</Text>
                   </TouchableOpacity>
                 </View>
               </View>

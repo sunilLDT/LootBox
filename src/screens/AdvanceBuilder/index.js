@@ -508,7 +508,7 @@ const AdvanceBuilder = (props) => {
             >
                 <DialogContent>
                     <View>
-                      <Filter type="advanceBuilder" filter1={(r) => handleFilters(r)} initalValues={filterValues} selectedSubCategory={selectedIndex} allCategories={items} />
+                      <Filter labels={props.labels} type="advanceBuilder" filter1={(r) => handleFilters(r)} initalValues={filterValues} selectedSubCategory={selectedIndex} allCategories={items} />
                     </View>
                 </DialogContent>
             </Dialog>

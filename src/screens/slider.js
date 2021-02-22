@@ -11,8 +11,8 @@ import plainImage from '../assets/plainBg.png';
 import { Context as AuthContext } from '../api/contexts/authContext';
 import Onboarding from 'react-native-onboarding-swiper';
 const { width, height } = Dimensions.get('window');
-import FastImage from 'react-native-fast-image'
-
+import FastImage from 'react-native-fast-image';
+import {connect} from 'react-redux';
 
 
 const Slideshow = (props) => {
@@ -55,6 +55,8 @@ const Slideshow = (props) => {
           </View>
         </ImageBackground>) :
         <Onboarding
+          nextLabel = {props.labels.Next}
+          skipLabel = {props.labels.Skip}
           onSkip={() => { guestUserSignIn() }}
           onDone={() => { guestUserSignIn() }}
           imageContainerStyles={{ height }}
@@ -84,29 +86,16 @@ const Slideshow = (props) => {
                 // resizeMode={FastImage.resizeMode.contain}
                 />,
                 title: bd.title,
-
                 subtitle: ''
               }
             })
-            //   [
-            // {
-            //   backgroundColor: '#272732',
-            //   image: <FastImage
-            //     style={{ width, height }}
-            //     source={{
-            //       uri: bannerData[0].image,
-            //       priority: FastImage.priority.high,
-            //     }}
-            //     resizeMode={FastImage.resizeMode.contain}
-            //   />,
-            //   title: bannerData[0].title,
-            //   subtitle: ''
-            // },
-            // ]
           }
         />}
     </>
   );
 }
+const mapStateToProps = (state) => ({
+  labels: state.languageReducer.labels,
+})
 
-export default Slideshow;
+export default connect(mapStateToProps)(Slideshow);

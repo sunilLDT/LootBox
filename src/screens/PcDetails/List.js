@@ -39,7 +39,6 @@ const ListDetails = (props) => {
         "quantity": 1,
         "price": 0
     });
-    const [totalPrice, setTotalPrice] = useState(0);
     const [arOren,setarOren] = useState('en');
     languagename().then(res => setarOren(res))
 
@@ -237,7 +236,6 @@ const ListDetails = (props) => {
                         <View>
                             <TouchableOpacity
                                 onPress={() => {
-                                    console.log(props.parentIndex)
                                     props.navigation.navigate('ItemListing', {
                                         items: categoryItems,
                                         sub_category_name: props.data.sub_category_name,

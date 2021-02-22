@@ -232,7 +232,7 @@ const guestUserSignIn = (dispatch) => async () => {
       type: 'add_guest_user',
     });
     const res = await Api.post('app/user/register', {
-      first_name: "Guest User",
+      first_name: "0",
       user_type: 2,
       is_google: 0
     });
@@ -287,7 +287,6 @@ const verifyOtp = (dispatch) => async ({ otp }) => {
           action_type:1
  });
     console.log (deviceToken)
-     alert(store.data.message)
         }
         navigate({ name: navigationName || 'home' });
       } else {

@@ -145,8 +145,6 @@ const BuildYourPc = ({ navigation, labels }) => {
               <View style={{
                 height: 32,
                 width: 153,
-                alignItems: 'center',
-                justifyContent: 'center',
               }}>
                 <AdvanceBuilderButton text={labels.advancedBuilder} />
               </View>
