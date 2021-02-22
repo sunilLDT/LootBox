@@ -399,18 +399,16 @@ const signup = (dispatch) => async (data) => {
     dispatch({
       type: 'toggle_loading',
     });
+    console.log(data)
     const res = await Api.post('app/user/register', data);
     if (res.data.data.is_otp_verified) {
       await AsyncStorage.setItem('token', res.data.data.token);
       navigate({ name: 'slider' });
-      
 
     } else {
       await AsyncStorage.setItem('userId', res.data.data.user_id.toString());
       
       const deviceToken = await AsyncStorage.getItem('deviceToken');
-      console.log("** device token ****")
-      console.log (deviceToken)
        
       navigate({ name: 'otp' });
     }
@@ -484,8 +482,8 @@ const signout = (dispatch) => async () => {
     action_type:2
 });
 
-// alert(store.data.message)
-    await AsyncStorage.clear();
+    await AsyncStorage.removeItem('deviceToken');
+    await AsyncStorage.removeItem('token');
     dispatch({ type: 'signout' });
 navigate({ name: 'auth' });
   } catch (e) {

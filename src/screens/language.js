@@ -120,7 +120,7 @@ const Language = (props) => {
                   marginTop: 30,
                 }}
                 onPress={() => {
-                  languageChange(k == 0 ? 'it' : 'en')
+                  languageChange(k == 0 ? 'ar' : 'en')
                 }}>
                 <View
                   style={{

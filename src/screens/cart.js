@@ -45,6 +45,7 @@ import Icon from 'react-native-vector-icons/Feather';
 import AsyncStorage from '@react-native-community/async-storage';
 import {languagename} from '../components/LanguageName';
 import { useIsFocused } from "@react-navigation/native";
+import PopUp from '../components/popup';
 
 const { width, height } = Dimensions.get('window');
 
@@ -77,6 +78,8 @@ const Cart = (props) => {
   const [arOren,setarOren] = useState('en');
   const [advanceItems,setAdvanceIems] = useState([])
   const [checkCOD,setCheckCOD] = useState(false);
+  const [popModal, setPopModal] = useState(false);
+  const [contentModal, setContentModal] = useState('');
   languagename().then(res => setarOren(res))
 
 
@@ -123,6 +126,10 @@ const Cart = (props) => {
     })
   }
 
+  const popUpHandler=()=>{
+    setPopModal(!popModal);
+  }
+
   const checkout = async () => {
     const userType = await AsyncStorage.getItem('user_type');
     
@@ -132,8 +139,9 @@ const Cart = (props) => {
       })
     } else if (props.address.length === 0)
       {
-      alert("Please add address for the Delivery")
-      setLoading(false)
+        setPopModal(true);
+        setContentModal("Please add address for the Delivery")
+        setLoading(false)
     }
     // else if (!y.includes(true)) {
     //   alert("Please select the Delivery address")
@@ -156,7 +164,9 @@ const Cart = (props) => {
           setLoading(false)
             props.navigation.navigate('alertMessage', { msgUrl: "success" })
           }else{
-            alert(response.message)
+            setPopModal(true);
+            setContentModal(response.message)
+ 
           }
       }
        setLoading(false)
@@ -400,6 +410,7 @@ const Cart = (props) => {
                 paddingHorizontal:arOren == "it"?width * 0.07:width * 0.08
 
               }}>
+                 <PopUp visible={popModal} title={'Loot'} closeText={labels.ok} callBack={popUpHandler} content={contentModal}/>
               <Dialog
                 visible={addressModal}
                 containerStyle={{ zIndex: 10, elevation: 10, }}
@@ -411,6 +422,7 @@ const Cart = (props) => {
                 onTouchOutside={() => { setaddressModal(!addressModal) }}
                 onDismiss={() => onDialougeShut()}
               >
+                
                 <DialogContent>
                   <View style={styles.addressDialouge}>
                     <Text style={styles.address}>{labels.address}</Text>
@@ -1315,7 +1327,7 @@ const Cart = (props) => {
                           fontSize: 15,
                           fontFamily: 'Montserrat-Regular',
                         }}
-                      >{labels.DeliveryFees}
+                      >{labels.deliveryFees}
                       </Text>
                       <Text
                         style={{
@@ -1381,7 +1393,7 @@ const Cart = (props) => {
               <View>
                 <TouchableOpacity style={{ marginTop: 10, marginLeft: 40 }} onPress={() => props.navigation.navigate('home')}>
                   <View style={{ width: "87%", }}>
-                    <SaveBtn text={labels.continueShoping} x="100" />
+                    <SaveBtn text={labels.continueShopping} x="100" />
                   </View>
                 </TouchableOpacity>
               </View>

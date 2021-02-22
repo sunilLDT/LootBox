@@ -17,6 +17,7 @@ import SaveBtn from '../components/SaveBtn'
 import { Context as AuthContext } from '../api/contexts/authContext';
 import AsyncStorage from '@react-native-community/async-storage';
 import {connect} from 'react-redux'
+import PopUp from '../components/popup';
 
 const { width, height } = Dimensions.get('window');
 
@@ -25,17 +26,25 @@ const ChangePhoneNumber = ({ navigation , labels}) => {
     const [phoneNumber, setPhoneNumber] = useState("");
     const [loadingBtn, setLoadingBtn] = useState(false);
     const { setNavigation } = useContext(AuthContext);
+    const [popModal, setPopModal] = useState(false);
+    const [contentModal, setContentModal] = useState('');
 
     const numberChange = async () => {
         const otpVerified = await AsyncStorage.getItem('is_OTP_Verified');
         if (!JSON.parse(otpVerified)) {
-            alert(labels.VerifyOtpFirst);
+            setPopModal(true);
+            setContentModal(labels.VerifyOtpFirst);
+
         } else {
             if (phoneNumber == "") {
-                alert(labels.fillPhone);
+                setPopModal(true);
+                setContentModal(labels.fillPhone);
+  
             }
             else if (phoneNumber.length < 8) {
-                alert(labels.notGreaterThan8);
+                setPopModal(true);
+                setContentModal(labels.notGreaterThan8);
+        
             }
             else {
                 setLoadingBtn(true)
@@ -46,14 +55,20 @@ const ChangePhoneNumber = ({ navigation , labels}) => {
                     })
                     setLoadingBtn(false);
                     setNavigation('profile')
-                    AsyncStorage.setItem('is_OTP_Verified', JSON.stringify(response.data.is_otp_verified))
-                    alert(response.message)
+                    AsyncStorage.setItem('is_OTP_Verified', JSON.stringify(response.data.is_otp_verified));
+                    setPopModal(true);
+                    setContentModal(response.message);
+                    //alert(response.message)
                 }).catch((error) => {
                     console.log("PhoneNumberChange" + error);
                     setLoadingBtn(false)
                 })
             }
         }
+    }
+
+    const popUpHandler=()=>{
+        setPopModal(!popModal);
     }
     return (
         <ScrollView
@@ -68,7 +83,7 @@ const ChangePhoneNumber = ({ navigation , labels}) => {
                     width,
                     minHeight: height,
                 }}>
-
+                <PopUp visible={popModal} title={'Loot'} closeText={labels.ok} callBack={popUpHandler} content={contentModal}/>
                 <View
                     style={{
                         display: 'flex',

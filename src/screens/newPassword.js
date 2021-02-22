@@ -23,6 +23,7 @@ import Btn from '../screens/btn';
 import bgImage from '../assets/signup.png';
 import Icons  from 'react-native-vector-icons/FontAwesome';
 import {connect} from 'react-redux'
+import PopUp from '../components/popup';
 
 const {height, width} = Dimensions.get('window');
 
@@ -32,6 +33,12 @@ const NewPassword = ({navigation, labels}) => {
   const [showNewPassword, setNewPasswordVisibility] = useState(false);
   const [showConfirmPassword, setConfirmPasswordVisibility] = useState(false);
   const {state, resetPassword, setValidationError} = useContext(AuthContext);
+  const [popModal, setPopModal] = useState(false);
+  const [contentModal, setContentModal] = useState('');
+
+  const popUpHandler=()=>{
+    setPopModal(!popModal);
+}
 
   return (
     <View style={{backgroundColor:'#292633', width:'100%', height:'100%'}}>
@@ -47,6 +54,7 @@ const NewPassword = ({navigation, labels}) => {
           paddingHorizontal: width * 0.09,
         }}
         source={bgImage}>
+            <PopUp visible={popModal} title={'Loot'} closeText={labels.ok} callBack={popUpHandler} content={contentModal}/>
           <View
             style={{display: 'flex',alignItems:'center', flexDirection: 'row'}}>
             <TouchableOpacity
@@ -112,14 +120,9 @@ const NewPassword = ({navigation, labels}) => {
             <TouchableOpacity
               onPress={() => {
                 if (newPassword !== confirmPassword) {
-                  Alert.alert(
-                    labels.lootBox,
-                    labels.notMatch,
-                    [
-                      { text: labels.ok, onPress: () => console.log("OK Pressed") }
-                    ],
-                    { cancelable: false }
-                  );
+                  setPopModal(true);
+                  setContentModal(labels.notMatch);
+                 
                 }
                 else {
                   resetPassword(newPassword);

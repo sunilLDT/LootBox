@@ -144,6 +144,7 @@ export async function addAddressApi(city, areas, addressType, name, block, stree
     apartment: apartment,
     address: "",
   });
+  console.log(response.data)
   return response.data;
 }
 

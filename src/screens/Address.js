@@ -23,12 +23,12 @@ import { addressListApi, deliveryAddressApi, defaultAddressApi } from '../api/bu
 import RNPickerSelect from 'react-native-picker-select';
 import { GoogleMap } from './googeMaps';
 import { he } from 'date-fns/locale';
-
+import PopUp from '../components/popup';
 const { width, height } = Dimensions.get('window');
 
 const Address = (props) => {
     const { addressId } = props.route.params;
-    const {labels} = labels
+    const {labels} = props
     const [specficAddress, setSpecficAddress] = useState({});
     const [loading, setLoading] = useState(false);
     const [allAddress, setAllAddress] = useState([]);
@@ -71,14 +71,16 @@ const Address = (props) => {
     const [floor, setFloor] = useState();
     const [apartment, setapartment] = useState();
     const [loadingBtn, setLoadingBtn] = useState(false);
-
+    const [addressModal, setaddressModal] = useState(false);
+    const [contentModal, setContentModal] = useState('');
     let cityaArea = [];
     city.map((i, k) => {
         cityaArea.push({
-            label: i.areas[0].name,
-            value: i.areas[0].city_id,
+            label: i.name,
+            value: i.city_id,
         });
     });
+
 
     let areasArray = [];
     {
@@ -98,7 +100,10 @@ const Address = (props) => {
         });
     }, []);
 
-
+    const popUpHandler=()=>{
+  
+        setaddressModal(!addressModal);
+      }
 
     const sendCityId = (itemValue) => {
         setselectedCity(itemValue)
@@ -109,28 +114,36 @@ const Address = (props) => {
 
     const addAddress = (address_id) => {
         if (city == ""  || name == "" || block == "" || street == "" || building == "") {
-            alert(labels.fillAllFields);
+            setaddressModal(true);
+            setContentModal(labels.fillAllFields)
         }
         // else if (email &&
         //     !/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
         //     alert("Invalid Email Address");
         // }
         else if (typeof addressType == "undefined") {
-            alert(labels.fillAllFields);
+            setaddressModal(true);
+            setContentModal(labels.fillAllFields)
         }
         else if (selectedCity == "") {
-            alert(labels.pleaseSelectCity);
+            setaddressModal(true);
+            setContentModal(labels.pleaseSelectCity)
         }
         else if (selectedArea == "") {
-            alert(labels.pleaseSelectArea);
+            setaddressModal(true);
+            setContentModal(labels.pleaseSelectArea)
         }
         else {
             setLoadingBtn(true)
             addAddressApi(selectedCity, selectedArea, addressType, name, block, street, building, floor, apartment, address_id).then((response) => {
                 props.showAddress();
                 setLoadingBtn(false)
+                console.log(response)
                 if (response.message) {
-                    alert(response.message);
+                    //setaddressModal(true);
+                    //setContentModal(response.message)
+                    alert(response.message)
+               
                     addressListApi().then((response) => {
                         response.data.map((address, i) => {
                             if (response.data.length === 1) {
@@ -149,7 +162,9 @@ const Address = (props) => {
                     props.navigation.goBack();
                 }
             }).catch((error) => {
-                alert(labels.somethingWentWrong);
+               
+                setaddressModal(true);
+                setContentModal(labels.somethingWentWrong)
                 console.log("AddAddress" + error)
                 setLoadingBtn(false)
             })
@@ -218,6 +233,7 @@ const Address = (props) => {
                                                 <Input placeholder={labels.addressName} value={name} onChangeText={(Name) => setName(Name)} />
                                             </TouchableOpacity>
                                         </View>
+                                        <PopUp visible={addressModal} title={'Loot'} closeText={labels.ok} callBack={popUpHandler} content={contentModal}/>
                                         {/* <View style={{ marginVertical: 15, paddingHorizontal: '7%', }}>
                                             <Input placeholder="Email" email value={email} onChangeText={(email) => setEmail(email)} />
                                         </View> */}
@@ -446,7 +462,9 @@ const Address = (props) => {
                                                                 color: 'white',
                                                                 marginLeft: 100,
                                                                 borderRadius: 5,
+                                                                
                                                             }}
+                                                            
                                                             inputAndroid={{
                                                                 color: 'white',
                                                                 paddingHorizontal: 10,

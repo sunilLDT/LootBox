@@ -210,7 +210,7 @@ const Drawer = (props) => {
                     borderRadius: 11,
                     height: 64,
                     width: 64,
-                    transform: [{ scaleX: -1 }]
+                    
                   }}
                 />
               ) : (
@@ -237,6 +237,7 @@ const Drawer = (props) => {
                   fontSize: 16,
                   lineHeight: 27.2,
                   color: '#ECDBFA',
+                  paddingHorizontal:4
                 }}>
                   {arOren !== "en"?"حساب زائر":profileDetails.full_name}
                 {/* {profileDetails.full_name} */}
@@ -256,8 +257,9 @@ const Drawer = (props) => {
                 color: '#ECDBFA',
                 opacity: 0.6,
                 marginBottom: height * 0.1,
-                width: arOren == "it"?width * 0.4:width * 0.6,
+                width: arOren == "ar"?width * 0.4:width * 0.6,
                 marginTop: 8,
+                paddingHorizontal:5
               }}>
               {profileDetails.email}
             </Text>
@@ -293,15 +295,22 @@ const Drawer = (props) => {
                 <TouchableOpacity key={k} disabled={k === options.length - 1 && disableEdit} onPress={() => {
                   k === options.length - 1 ? signout() : props.navigation.navigate(i.path)
                 }}>
-                  <Text
-                    style={{
-                      color: '#ECDBFA',
-                      fontSize: 14,
-                      lineHeight: 16,
-                      marginVertical: height * 0.02,
-                    }}>
-                    {i.name}
-                  </Text>
+                <View
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    flexDirection: 'row',
+                  }}>
+                    <Text
+                      style={{
+                        color: '#ECDBFA',
+                        fontSize: 14,
+                        lineHeight: 16,
+                        marginVertical: height * 0.02,
+                      }}>
+                      {i.name}
+                    </Text>
+                </View>
                 </TouchableOpacity>
             ))}
             <View style={{ marginVertical: 20, marginLeft: -10 }}>
@@ -332,11 +341,11 @@ const Drawer = (props) => {
 
         <TouchableOpacity
           style={{
-            width: arOren == "it"?width * 0.4:width * 0.5,
+            // width: arOren == "ar"?width * 0.35:width * 0.6,
             height: height * 0.9,
             position: 'absolute',
-            right: 0,
             top: height * 0.03,
+            right:0,
             // alignSelf: 'flex-end'
           }}
           onPress={() => {
@@ -345,7 +354,7 @@ const Drawer = (props) => {
           <ImageBackground
             source={require('../assets/menuImage.png')}
             style={{
-              width: width * 0.5,
+              width: width * 0.4,
               height: height * 0.9,
             }}
           />

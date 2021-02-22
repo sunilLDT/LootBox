@@ -25,7 +25,7 @@ import bgImage from '../assets/signup.png';
 import Icons  from 'react-native-vector-icons/FontAwesome';
 import {languagename} from '../components/LanguageName';
 import { connect } from 'react-redux';
-
+import PopUp from '../components/popup';
 const { height, width } = Dimensions.get('window');
 
 const Signin = ({ navigation ,labels}) => {
@@ -33,6 +33,9 @@ const Signin = ({ navigation ,labels}) => {
   const [password, setPassword] = useState(null);
   const [showPassword, setPasswordVisibility] = useState(false);
   const [arOren,setarOren] = useState('en');
+  const [popModal, setPopModal] = useState(false);
+  const [contentModal, setContentModal] = useState('');
+
   languagename().then(res => setarOren(res))
 
   const { signin, state, googleSignIn, setValidationError } = useContext(
@@ -41,36 +44,56 @@ const Signin = ({ navigation ,labels}) => {
 
   const { validationError } = state;
 
+  const popUpHandler=()=>{
+    setPopModal(!popModal);
+}
+
   const checkLoginFun = () => {
 
     if (isNaN(email)) {
       if (!email) {
-        alert(labels.invaildEmail);
+        setPopModal(true);
+        setContentModal(labels.invaildEmail);
+        
       }
       else if (password && (password.length < 8)) {
-        alert(labels.validPhoneNumber);
+        setPopModal(true);
+        setContentModal(labels.validPhoneNumber);
+       
       }
       else if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
-        alert(labels.invaildEmail)
+        setPopModal(true);
+        setContentModal(labels.invaildEmail);
+       
       }
       else if (!password) {
-        alert(labels.allFieldsAreRequired)
+        setPopModal(true);
+        setContentModal(labels.allFieldsAreRequired);
+     
       }
       else {
         signin({ email, password });
       }
     } else {
       if (email && !(email.length == 8)) {
-        alert(labels.validPhoneNumber)
+        setPopModal(true);
+        setContentModal(labels.validPhoneNumber);
+       
       }
       else if (!password) {
-        alert(labels.allFieldsAreRequired)
+        setPopModal(true);
+        setContentModal(labels.allFieldsAreRequired);
+   
       }
       else if (!email) {
-        alert(labels.emailPhoneInvalid);
+        setPopModal(true);
+        setContentModal(labels.emailPhoneInvalid);
+       
       }
       else if (password && (password.length < 8)) {
-        alert(label.passwordEightCharacters);
+        setPopModal(true);
+        setContentModal(labels.passwordEightCharacters);
+      
       }
       else {
         signin({ email, password });
@@ -113,6 +136,8 @@ const Signin = ({ navigation ,labels}) => {
           alignItems: 'center',
         }}
         >
+           <PopUp visible={popModal} title={'Loot'} closeText={labels.ok} callBack={popUpHandler} content={contentModal}/>
+      
           <ScrollView>
             {state.msg ? (
               <Modal msg={state.msg} hideBtn />
@@ -157,8 +182,8 @@ const Signin = ({ navigation ,labels}) => {
                     style={{
                       color: '#ECDBFA',
                       fontSize: 20,
-                      paddingLeft:arOren == 'it'?20:0,
-                      paddingRight:arOren == 'it'?0:20,
+                      paddingLeft:arOren == 'ar'?20:0,
+                      paddingRight:arOren == 'ar'?0:20,
                       fontFamily: Platform.OS == 'android' ? 'Michroma-Regular' : 'Michroma',
 
                     }}>
@@ -174,8 +199,8 @@ const Signin = ({ navigation ,labels}) => {
                     style={{
                       color: '#ECDBFA',
                       fontSize: 20,
-                      paddingLeft:arOren == 'it'?0:20,
-                      paddingRight:arOren == 'it'?20:0,
+                      paddingLeft:arOren == 'ar'?0:20,
+                      paddingRight:arOren == 'ar'?20:0,
                       opacity: 0.24,
                       fontFamily: Platform.OS == 'android' ? 'Michroma-Regular' : 'Michroma',
 

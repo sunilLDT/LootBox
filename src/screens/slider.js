@@ -26,14 +26,12 @@ const Slideshow = (props) => {
     setLoading(true)
     getBannerApi().then((response) => {
       if (response.data) {
-        console.log(response.data)
         const imageUrls = response.data.map(res => {
           return {
             image: res.image,
             title: res.title
           }
         })
-        console.log(imageUrls)
         setBannerData(imageUrls)
       }
       setLoading(false)

@@ -106,7 +106,7 @@ const Filter = (props) => {
                 maxPrice: high,
               })
             }>
-            <Text style={styles.textStyle}>{getLabelsApi.apply}</Text>
+            <Text style={styles.textStyle}>{labels.apply}</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -295,9 +295,9 @@ const styles = StyleSheet.create({
   },
 });
 
-const mapStateToProps = (state) => ({
-  labels:state.languageReducer.labels,
-})
+//const mapStateToProps = (state) => ({
+//  labels:state.languageReducer.labels,
+//})
 
-export default connect(mapStateToProps)(Filter);
+export default Filter;
 

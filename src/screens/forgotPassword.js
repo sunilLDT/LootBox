@@ -21,13 +21,22 @@ import {Context as AuthContext} from '../api/contexts/authContext';
 import Btn from '../screens/btn';
 import bgImage from '../assets/signup.png';
 import {connect} from 'react-redux'
+import PopUp from '../components/popup';
+
 
 const {height, width} = Dimensions.get('window');
 
 const ForgotPassword = ({navigation, labels}) => {
   const [email, setEmail] = useState(null);
   const {state, forgotPassword, setNavigation, setValidationError} = useContext(AuthContext);
+  const { validationError } = state;
+  const [addressModal, setaddressModal] = useState(false);
+  const [contentModal, setContentModal] = useState('');
 
+  const popUpHandler=()=>{
+  
+    setaddressModal(!addressModal);
+  }
   return (
     <View style={{backgroundColor:'#292633', width:'100%', height:'100%'}}>
     <TouchableWithoutFeedback
@@ -75,7 +84,7 @@ const ForgotPassword = ({navigation, labels}) => {
               }}
             />
 
-           
+            <PopUp visible={addressModal} title={'Loot'} closeText={labels.ok} callBack={popUpHandler} content={contentModal}/>
             <KeyboardAvoidingView
               behavior="position"
               keyboardVerticalOffset={50}
@@ -85,34 +94,24 @@ const ForgotPassword = ({navigation, labels}) => {
                 onChangeText={setEmail}
                 placeholder={labels.emailOrPhone}
               />
+              
             </KeyboardAvoidingView>
-
+           
             <TouchableOpacity
               onPress={() => {
                 let isEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)
+                
                 if (!email) {
-                  Alert.alert(
-                    labels.lootbox,
-                    "Email Address is Required",
-                    [
-                      { text: labels.ok, onPress: () => console.log("OK Pressed") }
-                    ],
-                    { cancelable: false }
-                  );
-                }
+                  setaddressModal(true);
+                  setContentModal("Email Address is Required")
+                  }
                 else if (
                   email &&
                   (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email) && !/\d{8}/.test(email))
                 ) {
-                  Alert.alert(
-                    labels.lootbox,
-                    labels.nvalidEmailPhone,
-                    [
-                      { text: labels.ok, onPress: () => {console.log("clicked")} }
-                    ],
-                    { cancelable: false }
-                  );
-                }
+                  setaddressModal(true);
+                  setContentModal(labels.invalidEmailPhone)
+                  }
                 else {
                   forgotPassword(email, isEmail);
                   setNavigation('newPassword')
