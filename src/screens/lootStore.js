@@ -71,9 +71,6 @@ const LootStore = (props) => {
   languagename().then((res) => setarOren(res));
   const [filterValues, setFilterApplied] = useState({});
 
-  console.log("****  categories ***")
-  console.log(categories)
-
   const fetchData = useCallback(async () => {
     try {
       if (selectedSubCategory === 0) {
@@ -129,7 +126,7 @@ const LootStore = (props) => {
     if (categories) {
       setData(categories);
       var x = categories.map((i, k) => {
-        return {id: i.category_id, name: i.name_ar, index: k};
+        return {id: i.category_id, name: i.name_en, index: k};
       });
       setCategories(x);
       var itemData = null;
@@ -194,6 +191,7 @@ const LootStore = (props) => {
       var x = categories.map((i, k) => {
         return {id: i.category_id, name: i.name_en, index: k};
       });
+      console.log(x)
       setCategories(x);
       var itemData = null;
 

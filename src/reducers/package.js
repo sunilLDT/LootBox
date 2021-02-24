@@ -13,7 +13,8 @@ const initialState = {
   loadingSubCat: false,
   categories: [],
   subCategories: [],
-  selectStatus: []
+  selectStatus: [],
+  firstSubCatid:{}
 };
 
 export default function (state = initialState, action) {
@@ -75,6 +76,7 @@ export default function (state = initialState, action) {
         ...state,
         categories: action.cat.items, //.map(obj => ({ ...obj, 'na': 'hello' })),
         loadingCat: false,
+        firstSubCatid:action.cat.items[0].sub_category_id
        // selectStatus: getStatus(action.cat.items),
 
 

@@ -11,8 +11,6 @@ function addCartAction(id) {
     return (dispatch) => {
       dispatch(request(id));
       showCartData().then((response) => {
-        console.log("*** response from user.tssx *** cart api ")
-        console.log(response.data)
           dispatch(success(response.data.total_items));
       }).catch((error) => {
         console.log("showCartDataOnHome" + error);

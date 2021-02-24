@@ -16,7 +16,7 @@ import selectedIcCardImage from '../../assets/Rectangle.png';
 import backImage from '../../assets/back.png';
 import searchImage from '../../assets/ic_search.png';
 import filterImage from '../../assets/ic_filter.png';
-import { addToCartAdvance, advancedBuilderItems,getLabelsApi,itemsAddedInCartApi,removeItemAPI, } from '../../api/buildYourPc';
+import { addToCartAdvance, advancedBuilderItems,itemsAddedInCartApi,removeItemAPI, } from '../../api/buildYourPc';
 import LinearGradient from 'react-native-linear-gradient';
 import cardImage from '../../assets/ic_card_a0.png';
 import thumbnail from '../../assets/thumbnail.png';
@@ -41,8 +41,9 @@ const { width, height } = Dimensions.get('window');
 
 
 const AdvanceBuilder = (props) => {
+  const propsFocused = props.navigation.isFocused();
   const {fromCart} = props.route.params;
-  const {labels} = props
+  const {labels} = props;
   const isFocused = useIsFocused();
   const scrollRef = useRef();
   const [loading, setLoading] = useState(true);
@@ -69,9 +70,8 @@ const AdvanceBuilder = (props) => {
   const [ItemToDelete,setItemToDelete] = useState([]);
   const [popModal, setPopModal] = useState(false);
   const [contentModal, setContentModal] = useState('');
+  const [storeSubCatId,setStoreSubCatId] = useState();
   const maxlimit = 20;
-
-  
 
   const selectedSubCategoryAdvance = (arr) => {
     let a = []
@@ -102,9 +102,21 @@ const AdvanceBuilder = (props) => {
     setIsOptional(optionalArray)
     setIsMultiple(isMultipleArray)
   }
+
+  // const getRemoveAdvance = async () => {
+  //   try {
+  //     const data = await AsyncStorage.getItem('removeAdvBuilder');
+  //     setIsAdvDel(JSON.parse(data));
+  //     return JSON.parse(data);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // }
   
   useEffect(() => {
     setLoading(true);
+    // console.log(getRemoveAdvance())
+    props.categoryList();
     if(fromCart === 1){
       cartAddedFilterItems.map((subCat, i) => {
         if(i == 0){
@@ -121,19 +133,34 @@ const AdvanceBuilder = (props) => {
         }
         setTotalPrice(total.toFixed(3))
         }).catch(error => console.log("itemsAddedInCartApi" + error))
+
+        let index = selectStatus.find(obj => obj.status === false);
+        if (!index) {
+          console.log("in index")
+          setShowSubmit(true)
+        }
+        // if(forEdit == 1){
+        //   console.log("edit")
+        //   setShowSubmit(true)
+        // }else{
+        //   console.log('remove')
+        //   setShowSubmit(false)
+        // }
+       
         
     }
     setMaxIndex(props.categories.length);
     filterIsOPtion(props.categories);
+    
     props.categories.map((subCat, i) => {
       if (i == 0) {
         setSubCategoryid(subCat.sub_category_id)
+        props.categorySubCatgoryList(props.firstSubCatid)
       }
     });
-    props.categoryList();
     setLoading(false);
     getStatus(props.categories);
-  }, [isFocused]);
+  }, [propsFocused]);
 
   const getStatus = (arr) => {
     let a = []
@@ -153,9 +180,7 @@ const AdvanceBuilder = (props) => {
     setSelctStatus(a)
   }
 
-
   const subCategoryFun = (subCatId, index, source,ids) => {
-
     if(fromCart === 1){
       ids = ids.filter( function( item ) {
         for( var i=0, len=itemList.length; i<len; i++ ){
@@ -206,27 +231,24 @@ const AdvanceBuilder = (props) => {
     setItemToDelete(itemsToDel)
   }
 
-  const finalSubmit = (ids) => { 
-    if(fromCart === 1){
-      console.log("*** item delete ****")
-      console.log(ItemToDelete)
-        removeItemAPI(ItemToDelete).then((response) => {
-          console.log(response)
-          console.log("here we are")
-          if (response.code == 200) {
-            props.add()
-          }
-        }).catch(err => console.log("advance builder item del"+err))
-      
-    }
-    let result = itemList.map(({ item_id, quantity, is_advance_builder }) => ({ item_id, quantity: 1, is_advance_builder: 1 }));
-    addToCartAdvance(result).then((response) => {
-      if (response.code == 200) {
+  const finalSubmit = async () => {
+    try{
+      if(fromCart === 1 && ItemToDelete.length !== 0){
+        const removeitemConst = await removeItemAPI(ItemToDelete);
+        console.log(removeitemConst)
+      }
+      let result = itemList.map(({ item_id}) => ({ item_id, quantity: 1, is_advance_builder: 1 }));
+      const addResponse = await addToCartAdvance(result);
+      if(addResponse.code == 200){
         props.add()
         props.navigation.navigate('cart');
       }
-    }).catch(err => console.log("addtoCart"+ err))
+      console.log(addResponse)
+    }catch(e){
+      console.log("final submit error "+e)
+    }
   }
+
   const submitNow = (ids) => {
     scrollRef.current?.scrollTo({
       animated: true,
@@ -275,8 +297,7 @@ const AdvanceBuilder = (props) => {
       }
       else{
         setPopModal(true);
-        setContentModal("please select one item from this category");
-  
+        setContentModal("Please select one item from this category");
       }
       
     }
@@ -301,11 +322,13 @@ const AdvanceBuilder = (props) => {
 
   const selectItem = (i,ids) => {
     let result = itemList.some(x => x.sub_category_id === i.sub_category_id);
-    
     if (!result) {
+      setStoreSubCatId(i.sub_category_id);
       setStatus(i.sub_category_id);
       let k = selectedIndex;
-      k = k + 1;
+      if(storeSubCatId !== i.sub_category_id){
+        k = k + 1;
+      }
       setSelectedIndex(k);
       setTick([...tick, i.sub_category_id]);
     }
@@ -316,8 +339,7 @@ const AdvanceBuilder = (props) => {
         return el.item_id === i.item_id;
       });
     }
-    
-    
+
     if(isMultiple.includes(subCategoryId)){
       if(checkitemExist()){
         for(var j = 0; j < data.length; j++) {
@@ -336,11 +358,17 @@ const AdvanceBuilder = (props) => {
         if(objIndex === true){
           for(var j = 0; j < data.length; j++) {
             if(data[j].sub_category_id == i.sub_category_id) {
+              if(data[j].item_id == i.item_id){
+                if(isOptional.includes(data[j].sub_category_id)){
+                  data.splice(j,1)
+                }
+              }else{
                 data.splice(j,1)
                 data.push(i)
-                if(fromCart === 1){
-                  setStatus(i.sub_category_id)
-                }
+              } 
+              if(fromCart === 1){
+                setStatus(i.sub_category_id)
+              }
             }
           }
         }
@@ -371,6 +399,7 @@ const AdvanceBuilder = (props) => {
         setShowSubmit(true)
       }
       else if(fromCart === 1){
+        console.log("select item ")
         setShowSubmit(true)
       }
   }
@@ -444,7 +473,7 @@ const AdvanceBuilder = (props) => {
       setItems(response.data)
       setFilteredDataSource(response.data)
     })}
-  }, [filterValues, subCategoryId])
+  }, [filterValues, subCategoryId,propsFocused])
 
   const handleFilters = (filterValues) => {
     setFilterApplied(filterValues)
@@ -882,6 +911,7 @@ const mapStateToProps = (state) => ({
   subCategories: state.packageReducer.subCategories,
   loadingCat: state.packageReducer.loadingCat,
   labels: state.languageReducer.labels,
+  firstSubCatid:state.packageReducer.firstSubCatid,
   //selectStatus:state.packageReducer.selectStatus
 })
 

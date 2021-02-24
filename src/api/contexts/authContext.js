@@ -516,8 +516,6 @@ const fetchCategories = (dispatch) => async () => {
   try {
     const response = await Api('app/category/subcategory-list');
     if (response.data.success) {
-      console.log("fetch categories in auth context **** ")
-      console.log(response.data.data);
       return response.data.data;
     } else {
       return null;

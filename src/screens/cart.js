@@ -80,6 +80,7 @@ const Cart = (props) => {
   const [checkCOD,setCheckCOD] = useState(false);
   const [popModal, setPopModal] = useState(false);
   const [contentModal, setContentModal] = useState('');
+  const [forDel,setForDel] = useState(0);
   languagename().then(res => setarOren(res))
 
 
@@ -365,19 +366,27 @@ const Cart = (props) => {
     }
   }
 
-  const removeAdvanceBuilder = (advanceItems) => {
-    setRemoveAdvanceLoader(true)
-    advanceBuilderIds(cartItems)
-    removeItemAPI(advanceItems).then((response) => {
+  const removeAdvanceBuilder = async advanceItems => {
+    try{
+      setRemoveAdvanceLoader(true)
+      advanceBuilderIds(cartItems)
+      const removeConst = await removeItemAPI(advanceItems);
+      if(removeConst.code == 200){
+        setForDel(1)
+        props.add()
+      }
+      console.log(removeConst)
       reloadData();
       setRemoveAdvanceLoader(false)
-    }).catch((error) => {
-      console.log("remove advance builder"+ error)
+    }
+    catch(e){
+      console.log("remove advance builder " + e)
       setRemoveAdvanceLoader(false)
-    })
+    }
+    
   }
 
-  const editAdvanceBuilder = () => {
+  const editAdvanceBuilder = async () => {
     props.navigation.navigate('AdvanceBuilder',{fromCart:1})
   }
   const refRBSheet = useRef();
@@ -465,7 +474,7 @@ const Cart = (props) => {
                     flexDirection: 'row',
                   }}>
                   <TouchableOpacity onPress={() => {
-                    props.navigation ? props.navigation.goBack() : props.navigation.navigate({name: 'home'})
+                    props.navigation ? props.navigation.goBack() : props.navigation.navigate('home')
                   }
                     }>
                     <Image

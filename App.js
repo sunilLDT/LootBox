@@ -193,7 +193,7 @@ const App = () => {
 
      if (enabled) {
        getFcmToken() //<---- Add this
-       console.log('Authorization status:', authStatus);
+      //  console.log('Authorization status:', authStatus);
      }
    }
 

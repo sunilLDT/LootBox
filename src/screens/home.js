@@ -12,13 +12,14 @@ import LinearGradient from 'react-native-linear-gradient';
 import strings from '../languages/index';
 import { connect } from 'react-redux';
 import { cartActions } from '../actions/user';
-
+import { packageActions } from '../actions/package';
 const {height, width} = Dimensions.get('window');
 
 const Home = (props) => {
-  
   useEffect(() => {
     props.add()
+    props.categories
+    props.categoryList();
   }, []);
 
   return (
@@ -208,10 +209,11 @@ const mapStateToProps = (state) => ({
   cart: state.cartReducer.cart,
   itemCount:state.cartReducer.totalItems,
   labels:state.languageReducer.labels,
+  categories: state.packageReducer.categories,
 })
 const actionCreators = {
   add: cartActions.addCartAction,
-
+  categoryList: packageActions.getAdvanceCatList,
 };
 
 export default connect(mapStateToProps,actionCreators)(Home);
