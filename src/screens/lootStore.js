@@ -71,8 +71,6 @@ const LootStore = (props) => {
   languagename().then((res) => setarOren(res));
   const [filterValues, setFilterApplied] = useState({});
 
-  console.log("****  categories ***")
-  console.log(categories)
 
   const fetchData = useCallback(async () => {
     try {
@@ -126,10 +124,11 @@ const LootStore = (props) => {
   const fetchData1 = async (b) => {
     setLoading(true);
     const categories = await fetchCategories();
+    
     if (categories) {
       setData(categories);
       var x = categories.map((i, k) => {
-        return {id: i.category_id, name: i.name_ar, index: k};
+        return {id: i.category_id, name: i.name_en, index: k};
       });
       setCategories(x);
       var itemData = null;
@@ -164,7 +163,7 @@ const LootStore = (props) => {
             ? itemData.data
             : [...filteredDataSource, ...itemData.data],
         );
-        console.log('filters page' + page);
+        //console.log('filters page' + page);
         // setFilteredDataSource(itemData.data)
       }
       1;
@@ -228,7 +227,7 @@ const LootStore = (props) => {
             ? itemData.data
             : [...filteredDataSource, ...itemData.data],
         );
-        console.log('filters page' + page);
+        //console.log('filters page' + page);
         // setFilteredDataSource(itemData.data)
       }
       1;
@@ -256,6 +255,7 @@ const LootStore = (props) => {
   }, [fetchData]);
 
   const handleLodeMore = () => {
+    console.log('handeloadmore called');
     if (page <= lastPage) {
       setLoading(false);
       console.log('handeloadmore called');
@@ -781,11 +781,11 @@ const LootStore = (props) => {
                           //
                           onEndReachedThreshold={0.1}
                           // onMomentumScrollEnd={() => handleLodeMore()}
-                          onEndReached={() => handleLodeMore()}
-                          // onMomentumScrollEnd={() => {
-                          //   callOnScrollEnd && handleLodeMore()
-                          //   setCallOnScrollEnd(false)
-                          // }}
+                          //onEndReached={() => handleLodeMore()}
+                           onMomentumScrollEnd={() => {
+                             callOnScrollEnd && handleLodeMore()
+                             setCallOnScrollEnd(false)
+                           }}
 
                           keyExtractor={(item) => item.item_id}
                           renderItem={({item: i}, k) => {

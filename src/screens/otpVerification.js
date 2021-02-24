@@ -8,7 +8,10 @@ import {
   Image,
   TouchableOpacity,
   StyleSheet,
-  BackHandler
+  BackHandler,
+  Keyboard,
+  KeyboardAvoidingView,
+  TouchableWithoutFeedback
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import {Context as AuthContext} from '../api/contexts/authContext';
@@ -24,17 +27,23 @@ const {height, width} = Dimensions.get('window');
 
 const Otp = ({navigation,labels}) => {
   const [otp, setOtp] = useState();
-  const {verifyOtp, state, resendOtp} = useContext(AuthContext);
+  const {verifyOtp, state, resendOtp, hidePops } = useContext(AuthContext);
   const [count, setCount] = useState(0);
   const [addressModal, setaddressModal] = useState(false);
   const [contentModal, setContentModal] = useState('');
-
+  const [popModal, setPopModal] = useState(false);
 
   const backAction = () => {
    navigation.navigate("auth");
     return true;
   };
   
+  const popUpHandler=()=>{
+    console.log("Going to hide this in ")
+    hidePops();
+    //setPopModal(!popModal);
+}
+
   useEffect(() => {
     let timer;
     if (count < 60 && count >= 0) {
@@ -45,6 +54,9 @@ const Otp = ({navigation,labels}) => {
       clearInterval(timer);
     }
     return () => clearInterval(timer);
+    console.log('====================')
+    console.log(state.showPopup)
+    console.log('====================')
   }, [count]);
   
 
@@ -56,7 +68,7 @@ const Otp = ({navigation,labels}) => {
   }, []);
 
   return (
-    
+   
     <LinearGradient
       colors={['#2A2D39', '#261D2A']}
       style={{
@@ -64,7 +76,8 @@ const Otp = ({navigation,labels}) => {
         minHeight: height,
         overflowX: 'hidden',
       }}>
-      {state.msg ? <Modal msg={state.msg} hideBtn /> : null}
+       <PopUp visible={state.showPopup} title={'Loot'} closeText={labels.ok} callBack={popUpHandler} content={state.msg}/>
+      
       <ImageBackground
         style={{
           height: height,
@@ -73,6 +86,8 @@ const Otp = ({navigation,labels}) => {
           paddingHorizontal: width * 0.09,
         }}
         source={bgImage}>
+        
+       
         <View
           style={{display: 'flex',alignItems:'center', flexDirection: 'row'}}>
           <TouchableOpacity
@@ -157,17 +172,22 @@ const Otp = ({navigation,labels}) => {
           </TouchableOpacity>
           :null}
         </View>
+       
+        <View  style={styles.btnContainer}>
         <TouchableOpacity
+        
           onPress={async () => {
             // if (count !== 0 && count !== 60) {
               await verifyOtp({otp});
             // }
           }}
-          style={styles.btnContainer}>
+         >
           <Btn text={labels.verify.toUpperCase()} x={"54"} pay=""/>
         </TouchableOpacity>
+        </View>
       </ImageBackground>
     </LinearGradient>
+   
   );
 };
 

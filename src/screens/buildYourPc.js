@@ -58,6 +58,7 @@ const BuildYourPc = ({ navigation, labels }) => {
   };
 
   const popUpHandler=()=>{
+    
     setPopModal(!popModal);
 }
 
