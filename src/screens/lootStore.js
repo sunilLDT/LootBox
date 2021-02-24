@@ -123,6 +123,7 @@ const LootStore = (props) => {
   const fetchData1 = async (b) => {
     setLoading(true);
     const categories = await fetchCategories();
+    
     if (categories) {
       setData(categories);
       var x = categories.map((i, k) => {
@@ -161,7 +162,7 @@ const LootStore = (props) => {
             ? itemData.data
             : [...filteredDataSource, ...itemData.data],
         );
-        console.log('filters page' + page);
+        //console.log('filters page' + page);
         // setFilteredDataSource(itemData.data)
       }
       1;
@@ -226,7 +227,7 @@ const LootStore = (props) => {
             ? itemData.data
             : [...filteredDataSource, ...itemData.data],
         );
-        console.log('filters page' + page);
+        //console.log('filters page' + page);
         // setFilteredDataSource(itemData.data)
       }
       1;
@@ -254,6 +255,7 @@ const LootStore = (props) => {
   }, [fetchData]);
 
   const handleLodeMore = () => {
+    console.log('handeloadmore called');
     if (page <= lastPage) {
       setLoading(false);
       console.log('handeloadmore called');
@@ -779,11 +781,11 @@ const LootStore = (props) => {
                           //
                           onEndReachedThreshold={0.1}
                           // onMomentumScrollEnd={() => handleLodeMore()}
-                          onEndReached={() => handleLodeMore()}
-                          // onMomentumScrollEnd={() => {
-                          //   callOnScrollEnd && handleLodeMore()
-                          //   setCallOnScrollEnd(false)
-                          // }}
+                          //onEndReached={() => handleLodeMore()}
+                           onMomentumScrollEnd={() => {
+                             callOnScrollEnd && handleLodeMore()
+                             setCallOnScrollEnd(false)
+                           }}
 
                           keyExtractor={(item) => item.item_id}
                           renderItem={({item: i}, k) => {

@@ -47,7 +47,7 @@ const Otp = ({otp, setOtp}) => {
         <TextInput
           placeholderTextColor="#ECDBFA"
           autoCompleteType={'off'}
-          returnKeyType="next"
+          returnKeyType={ 'done' }
           ref={pin1ref}
           maxLength={1}
           onChangeText={(value) => {
@@ -70,7 +70,7 @@ const Otp = ({otp, setOtp}) => {
         <TextInput
           placeholderTextColor="#ECDBFA"
           autoCompleteType={'off'}
-          returnKeyType="next"
+          returnKeyType={ 'done' }
           ref={pin2ref}
           onSubmitEditing={() => {
             pin3ref.current.focus();
@@ -103,7 +103,7 @@ const Otp = ({otp, setOtp}) => {
         <TextInput
           placeholderTextColor="#ECDBFA"
           autoCompleteType={'off'}
-          returnKeyType="next"
+          returnKeyType={ 'done' }
           ref={pin3ref}
           onSubmitEditing={() => {
             pin4ref.current.focus();

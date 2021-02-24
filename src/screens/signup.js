@@ -88,19 +88,19 @@ const Signup = ({navigation, route, labels}) => {
     style={{
       width: width,
       minHeight: height,
-      overflowX: 'hidden',
+     // overflowX: 'hidden',
       display: 'flex',
       alignItems: 'center',
     }}
     >
-      <KeyboardAvoidingView
-        behavior={Platform.OS == "ios" ? "padding" : "height"}
+      <SafeAreaView style={styles.container}>
+      <ScrollView style={styles.scrollView}>
+    
+         
+          <KeyboardAvoidingView 
+          behavior={Platform.OS == "ios" ? "padding" : "height"}
         // keyboardVerticalOffset={20}
-        style={styles.screen}>
-        <ScrollView
-          style={{width, height: height}}
-          showsVerticalScrollIndicator={false}>
-          <SafeAreaView style={{display: 'flex', alignItems: 'center'}}>
+          style={styles.screen}>
             <View style={{width, alignItems: 'center'}}>
               <Image
                 source={Logo}
@@ -297,9 +297,9 @@ const Signup = ({navigation, route, labels}) => {
                 } else {
                   
                   if (password && password.length < 8) {
-                    setValidationError("Password must be at least 8 characters");
+                    //setValidationError("Password must be at least 8 characters");
                     setaddressModal(true);
-                    setContentModal("label.passwordEightCharacters")
+                    setContentModal(labels.passwordEightCharacters)
                   }
                   else if (
                     email &&
@@ -369,9 +369,10 @@ const Signup = ({navigation, route, labels}) => {
                   <ContinueBtn text={labels.continueWithGmail}/>
               </View>
             </TouchableWithoutFeedback>
-          </SafeAreaView>
+            </KeyboardAvoidingView>
+         
         </ScrollView>
-      </KeyboardAvoidingView>
+     </SafeAreaView>
     </ImageBackground>
     </View>
   );

@@ -18,6 +18,7 @@ const reducer = (state, action) => {
     case 'add_msg':
       return {
         ...state,
+        showPopup:true,
         msg: action.payload,
       };
     case 'signout':
@@ -54,6 +55,12 @@ const reducer = (state, action) => {
         ...state,
         language: action.payload,
       };
+      case 'hidePopup':
+        console.log('========= Hahah=========')
+        return {
+          ...state,
+          showPopup: !state.showPopup,
+        };
     default:
       return state;
   }
@@ -252,6 +259,16 @@ const guestUserSignIn = (dispatch) => async () => {
     });
   }
 };
+
+const  hidePops = (dispatch) => async () =>{
+console.log('++++++++++>>><<<+++++++')
+  dispatch({
+    type: 'hidePopup',
+    payload: '',
+  });
+
+}
+
 
 const verifyOtp = (dispatch) => async ({ otp }) => {
   try {
@@ -655,7 +672,8 @@ export const { Context, Provider } = createDataContext(
     guestUserSignIn,
     registerGuestUser,
     resetPassword,
-    setNavigation
+    setNavigation,
+    hidePops
   },
   {
     token: null,
@@ -663,6 +681,7 @@ export const { Context, Provider } = createDataContext(
     loading: false,
     validationError: null,
     language: null,
-    navigation: null
+    navigation: null,
+    showPopup:false
   },
 );

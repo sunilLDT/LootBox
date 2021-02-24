@@ -95,6 +95,12 @@ export async function orderPlace(paymentType) {
 
 export async function profileUpdateApi(email, dob, gender, first_Name,
   last_name) {
+    console.log("email "+email)
+    console.log("dob "+dob);
+    console.log("gender "+gender)
+    console.log("name "+first_Name)
+    console.log("last "+last_name)
+
   const response = await Api.post('app/user/update-profile', {
     email: email,
     date_of_birth: dob,
@@ -102,6 +108,7 @@ export async function profileUpdateApi(email, dob, gender, first_Name,
     first_name: first_Name,
     last_name: last_name
   });
+  console.log(response.data)
   return response.data;
 }
 
