@@ -32,6 +32,7 @@ const Address = (props) => {
     const [specficAddress, setSpecficAddress] = useState({});
     const [loading, setLoading] = useState(false);
     const [allAddress, setAllAddress] = useState([]);
+    const [move,setMove] = useState(0);
     if (addressId && addressId !== "") {
         useEffect(() => {
             setLoading(true)
@@ -100,10 +101,12 @@ const Address = (props) => {
         });
     }, []);
 
-    const popUpHandler=()=>{
-  
+    const popUpHandler=(isOne)=>{
         setaddressModal(!addressModal);
-      }
+        if(move == isOne){
+            props.navigation.goBack();
+        }
+    }
 
     const sendCityId = (itemValue) => {
         setselectedCity(itemValue)
@@ -140,9 +143,9 @@ const Address = (props) => {
                 setLoadingBtn(false)
                 console.log(response)
                 if (response.message) {
-                    //setaddressModal(true);
-                    //setContentModal(response.message)
-                    alert(response.message)
+                    setaddressModal(true);
+                    setContentModal(response.message)
+                    setMove(1)
                
                     addressListApi().then((response) => {
                         response.data.map((address, i) => {
@@ -159,7 +162,6 @@ const Address = (props) => {
                             }
                         })
                     })
-                    props.navigation.goBack();
                 }
             }).catch((error) => {
                
@@ -172,18 +174,18 @@ const Address = (props) => {
     }
 
     const handleGoogleAddress = (address) => {
-        console.log(JSON.stringify(address))
+        // console.log(JSON.stringify(address))
         setselectedCity(address.locality)
         setStreet(address.streetName);
         // setAreas(address.adminArea);
         setBlock(address.streetNumber)
     }
     return (<>
-        {/* <View style={{ backgroundColor: '#292633', width: '100%', height: height, position: 'relative' }}> */}
+            {/* <View style={{ height: addressId ? height: height-290, marginTop: addressId ? 0 : 290 }}> */}
+            {/* <View style={{ backgroundColor: '#292633', width: '100%', height: height, position: 'relative' }}> 
             {!addressId && <View style={{ position: 'absolute', height: '35%', width: '100%' }}>
-                <GoogleMap handleAddress={handleGoogleAddress}/>
-            </View>}
-            <View style={{ height: addressId ? height: height-290, marginTop: addressId ? 0 : 290 }}>
+            <GoogleMap handleAddress={handleGoogleAddress}/> 
+            </View>} */}
                 <ScrollView
                     style={{
                         width: '100%', height: height, overflow: 'visible'
@@ -233,7 +235,7 @@ const Address = (props) => {
                                                 <Input placeholder={labels.addressName} value={name} onChangeText={(Name) => setName(Name)} />
                                             </TouchableOpacity>
                                         </View>
-                                        <PopUp visible={addressModal} title={'Loot'} closeText={labels.ok} callBack={popUpHandler} content={contentModal}/>
+                                        <PopUp visible={addressModal} title={'Loot'} closeText={labels.ok} callBack={() => {popUpHandler(1)}} content={contentModal}/>
                                         {/* <View style={{ marginVertical: 15, paddingHorizontal: '7%', }}>
                                             <Input placeholder="Email" email value={email} onChangeText={(email) => setEmail(email)} />
                                         </View> */}
@@ -498,7 +500,7 @@ const Address = (props) => {
                             )}
                     </ImageBackground>
                 </ScrollView>
-            </View>
+           
         {/* </View> */}
         </>
     );

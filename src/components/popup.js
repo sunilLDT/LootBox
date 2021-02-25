@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, useState } from 'react';
+import React, { useState } from 'react';
 import {
     View,
     Text,
@@ -10,10 +10,7 @@ import Dialog, {
     SlideAnimation,
 
 } from 'react-native-popup-dialog';
-    const PopUp = (props) => {
-    const [cartItems, setcartItems] = useState([]);
-
-
+const PopUp = (props) => {
     return (
         <Dialog
             visible={props.visible}
@@ -42,7 +39,7 @@ import Dialog, {
                             backgroundColor: 'transparent',
                         }}>
                             {props.title}
-                </Text>
+                        </Text>
                     </LinearGradient>
                 </View>
                 <DialogContent >
@@ -58,34 +55,34 @@ import Dialog, {
                                     ? 'Montserrat-Light'
                                     : 'Montserrat',
                         }}>
-                           {props.content}
-                </Text>
+                            {props.content}
+                        </Text>
                     </View>
                 </DialogContent>
             </View>
-            <TouchableOpacity onPress={() =>  props.callBack()}>
-            <View style={{
-                alignItems: 'center',
-                paddingVertical: 5,
-                borderTopWidth: 0.5,
-                borderColor: '#fff'
-            }}>
-                <TouchableOpacity
-              onPress={() => {
-                props.callBack()
-              }}>
-                <Text style={{
-                    color: '#fff',
-                    fontSize: 18,
-                    fontFamily:
-                        Platform.OS == 'android'
-                            ? 'Montserrat-Light'
-                            : 'Montserrat',
+            <TouchableOpacity onPress={() => props.callBack()}>
+                <View style={{
+                    alignItems: 'center',
+                    paddingVertical: 5,
+                    borderTopWidth: 0.5,
+                    borderColor: '#fff'
                 }}>
-                    {props.closeText}
-              </Text>
-              </TouchableOpacity>
-            </View>
+                    <TouchableOpacity
+                        onPress={() => {
+                            props.callBack()
+                        }}>
+                        <Text style={{
+                            color: '#fff',
+                            fontSize: 18,
+                            fontFamily:
+                                Platform.OS == 'android'
+                                    ? 'Montserrat-Light'
+                                    : 'Montserrat',
+                        }}>
+                            {props.closeText}
+                        </Text>
+                    </TouchableOpacity>
+                </View>
             </TouchableOpacity>
         </Dialog>
     )

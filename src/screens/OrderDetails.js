@@ -20,7 +20,7 @@ import IcCardImage from '../assets/ic3.png';
 import Bar1 from '../components/bar1';
 import Bar2 from '../components/bar2';
 import Bar3 from '../components/bar3';
-import {connect} from 'react-redux'
+import { connect } from 'react-redux'
 
 
 const steps = [
@@ -34,7 +34,7 @@ const steps = [
 const { height, width } = Dimensions.get('window');
 
 const OrderDetails = (props) => {
-  const {labels} = props
+  const { labels } = props
   // async function getEmail() {
   //   return await AsyncStorage.getItem('email')
   // }
@@ -94,12 +94,11 @@ const OrderDetails = (props) => {
 
   var dateTime = Object.keys(orderDetails).length === 0 ? " " : orderDetails.created_at.substring(0, 10);
 
-  if(Object.keys(orderDetails).length !== 0){
+  if (Object.keys(orderDetails).length !== 0) {
     var is_advace = items.map((k) => {
       return k.is_advance_builder === 1 ? true : false;
     })
   }
-
 
   return (
     <ImageBackground
@@ -149,18 +148,14 @@ const OrderDetails = (props) => {
                   {labels.orderId}{orderId}
                 </Text>
               </View>
-              <View style={{ flexDirection: 'row' }}  >
-                {/* <View style={{ backgroundColor: orderDetails.order_status == 1 ? '#DF2EDC' : '#ECDBFA', height: 15, width: '.5%', marginTop: '7%', position: 'absolute', marginLeft: 18 }} ></View> */}
-                {/* <View style={{ backgroundColor: orderDetails.order_status == 2 ? '#DF2EDC' : '#ECDBFA', height: 15, maxHeight: 26, width: '.5%', marginTop: '21%', position: 'absolute', marginLeft: 18 }} ></View> */}
-                {/* <View style={{backgroundColor:'#DF2EDC' ,height:55 , width: '.5%',  marginTop: '21%', position: 'absolute', marginLeft:18  }} ></View> */}
-
+              <View style={{ flexDirection: 'row' }}>
                 <View >
                   {orderDetails.order_status == 4 ? <Text
                     style={{
                       fontSize: 18,
                       lineHeight: 24,
                       fontFamily: Platform.OS == 'android' ? 'Michroma-Regular' : 'Michroma',
-                      color: '#DF2EDC' 
+                      color: '#DF2EDC'
                     }}>Cancelled</Text> : (
                       steps.map((step, index) => (
                         <View style={{ position: 'relative' }}>
@@ -176,15 +171,10 @@ const OrderDetails = (props) => {
                               flexDirection: 'row',
                               alignSelf: 'center',
                               width: '13%',
-                              // marginTop: orderDetails.order_status == step.order_status ? '-14%' : '-10%',
                             }}>
-
-
-                              {orderDetails.order_status == step.order_status ? <Bar2 /> : (
+                              {orderDetails.order_status == step.order_status ? <Bar1 /> : (
                                 orderDetails.order_status >= step.order_status ? <Bar1 /> : <Bar3 />
                               )}
-                              {/* {o && <Bar1/>}
-                              {orderDetails.order_status <= step.order_status && <Bar3/>} */}
                             </View>
 
                             <View style={{
@@ -192,9 +182,7 @@ const OrderDetails = (props) => {
                               flexDirection: 'column',
                               justifyContent: 'space-between',
                               marginLeft: 10,
-                              // width: '10%',
                               position: 'relative',
-
                             }}>
 
                               <Text
@@ -224,132 +212,20 @@ const OrderDetails = (props) => {
                             </View>
                           </View>
                           {index != 0 && (
-                            <View style={{ position: 'absolute', opacity: 0.2, bottom: '50%', left: '6%', width: 1, height: '100%', backgroundColor: '#fff' }} />
+                            <View style={{
+                               position: 'absolute',
+                               bottom: '50%',
+                               left: '6%',
+                               width: 1,
+                               height: '100%',
+                               opacity:0.5,
+                               backgroundColor: orderDetails.order_status == step.order_status || orderDetails.order_status >= step.order_status?"#DF2EDC":"#ECDBFA" }} />
                           )}
-
                         </View>
-
                       ))
                     )}
-
-
-                  {/* <View style={{
-                    display: 'flex',
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                  }}>
-                    <View style={{
-                      display: 'flex',
-                      flexDirection: 'row',
-                      alignSelf: 'center',
-                      width: '13%',
-                      marginTop: '-4%',
-                    }}>
-                      {orderDetails.order_status == 1 ? (
-                        <Bar1 />
-                      ) : (
-                          <Bar2 />
-                        )}
-                    </View>
-                    <View style={{
-                      display: 'flex',
-                      flexDirection: 'column',
-                      justifyContent: 'space-between',
-                    }}>
-                      <Text
-                        style={{
-                          fontSize: 12,
-                          lineHeight: 24,
-                          marginBottom: 20,
-                          fontFamily: Platform.OS == 'android' ? 'Michroma-Regular' : 'Michroma',
-                          color: orderDetails.order_status == 1 ? '#DF2EDC' : '#ECDBFA',
-                        }}>
-                        Confirmed
-              </Text>
-                    </View>
-                  </View> */}
-
-                  {/* <View style={{
-                    display: 'flex',
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                  }}>
-                    <View style={{
-                      display: 'flex',
-                      flexDirection: 'row',
-                      alignSelf: 'center',
-                      width: '13%',
-                      marginTop: '2%',
-                    }}>
-                      {orderDetails.order_status == 1 ? <Bar2 /> : orderDetails.order_status == 2 ? <Bar1 /> : <Bar3 />}
-                    </View>
-                    <View style={{
-                      display: 'flex',
-                      flexDirection: 'column',
-                      justifyContent: 'space-between',
-                    }}>
-                      <Text
-                        style={{
-                          fontFamily: 'Montserrat-Regular',
-                          lineHeight: 14,
-                          color: orderDetails.order_status == 2 ? '#DF2EDC' : '#ECDBFA',
-                          fontSize: 12,
-                          opacity: orderDetails.order_status == 2 ? 1 : 0.24,
-                          marginTop: 5,
-                        }}>
-                        Will be delivered{' '}
-                        <Text
-                          style={{
-                            fontFamily: 'Montserrat-Bold',
-                          }}>
-                          tomorrow, 06:00 PM
-                </Text>
-                      </Text>
-                    </View>
-                  </View> */}
-                  {/* third bar */}
-                  {/* <View style={{
-                    display: 'flex',
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                  }}>
-                    <View style={{
-                      display: 'flex',
-                      flexDirection: 'row',
-                      alignSelf: 'center',
-                      width: '13%',
-                      marginTop: '6%',
-                    }}>
-                      {orderDetails.order_status == 3 ? (
-                        <Bar1 />
-                      ) : orderDetails.order_status == 2 ? <Bar2 />
-                          : (
-                            <Bar3 />
-                          )}
-                    </View>
-                    <View style={{
-                      display: 'flex',
-                      flexDirection: 'column',
-                      justifyContent: 'space-between',
-                    }}>
-                      <Text
-                        style={{
-                          fontFamily: Platform.OS == 'android' ? 'Michroma-Regular' : 'Michroma',
-                          lineHeight: 14,
-                          color: orderDetails.order_status == 3 ? '#DF2EDC' : '#ECDBFA',
-                          fontSize: 12,
-                          opacity: orderDetails.order_status == 3 ? 1 : 0.24,
-                          marginTop: 20,
-                        }}>
-                        Delivered{' '}
-                      </Text>
-                    </View>
-                  </View>
-              */}
                 </View>
               </View>
-              {/* third end */}
-
 
               <View
                 style={{
@@ -559,123 +435,123 @@ const OrderDetails = (props) => {
 
 
               {items.map((i, k) => {
-                if(i.is_advance_builder === 0){
-                return (
-                  <View
-                    key={k}
-                    style={{
-                      width: '100%',
-                      height: height * 0.12,
-                      display: 'flex',
-                      flexDirection: 'row',
-                      marginVertical: Platform.OS === 'ios' ? 7 : 0,
-                    }}>
-                    <ImageBackground
-                      source={ItemCard}
+                if (i.is_advance_builder === 0) {
+                  return (
+                    <View
+                      key={k}
                       style={{
-                        width: 351,
-                        height: 75,
-                        marginVertical: 10,
+                        width: '100%',
+                        height: height * 0.12,
+                        display: 'flex',
                         flexDirection: 'row',
+                        marginVertical: Platform.OS === 'ios' ? 7 : 0,
                       }}>
-                      {i.image !== "" ? (
-                        <Image
-                          resizeMode="contain"
-                          source={{ uri: i.image }}
-                          style={{
-                            width: 70,
-                            height: 50,
-                            position: 'relative',
-                            right: 30,
-                            alignSelf: 'center',
-                            justifyContent: 'center',
-                          }}
-                        />
-                      ) : (
+                      <ImageBackground
+                        source={ItemCard}
+                        style={{
+                          width: 351,
+                          height: 75,
+                          marginVertical: 10,
+                          flexDirection: 'row',
+                        }}>
+                        {i.image !== "" ? (
                           <Image
                             resizeMode="contain"
-                            source={require('../assets/thumbnail.png')}
+                            source={{ uri: i.image }}
                             style={{
-                              //   width: 127,
+                              width: 70,
+                              height: 50,
                               position: 'relative',
                               right: 30,
                               alignSelf: 'center',
                               justifyContent: 'center',
                             }}
                           />
-                        )}
-                      <View
-                        style={{
-                          alignSelf: 'center',
-                          right: 30,
-                          display: 'flex',
-                          flexDirection: 'row',
-                          justifyContent: 'space-between',
-                          width: '72%',
-                        }}>
+                        ) : (
+                            <Image
+                              resizeMode="contain"
+                              source={require('../assets/thumbnail.png')}
+                              style={{
+                                //   width: 127,
+                                position: 'relative',
+                                right: 30,
+                                alignSelf: 'center',
+                                justifyContent: 'center',
+                              }}
+                            />
+                          )}
                         <View
                           style={{
+                            alignSelf: 'center',
+                            right: 30,
                             display: 'flex',
+                            flexDirection: 'row',
                             justifyContent: 'space-between',
+                            width: '72%',
                           }}>
-                          <Text
+                          <View
                             style={{
-                              fontFamily: 'Montserrat-Bold',
-                              fontSize: 14,
-                              color: '#D2D7F9',
-                              opacity: 0.87,
-                              paddingLeft: 5,
+                              display: 'flex',
+                              justifyContent: 'space-between',
                             }}>
-                            {((i.brand).length > maxlimit) ? (((i.brand).substring(0, maxlimit - 3)) + '...') : i.brand}
-                          </Text>
+                            <Text
+                              style={{
+                                fontFamily: 'Montserrat-Bold',
+                                fontSize: 14,
+                                color: '#D2D7F9',
+                                opacity: 0.87,
+                                paddingLeft: 5,
+                              }}>
+                              {((i.brand).length > maxlimit) ? (((i.brand).substring(0, maxlimit - 3)) + '...') : i.brand}
+                            </Text>
+                            <Text
+                              numberOfLines={2}
+                              ellipsizeMode='tail'
+                              style={{
+                                fontFamily: 'Montserrat-Regular',
+                                fontSize: 12,
+                                color: '#D2D7F9',
+                                opacity: 0.5,
+                                paddingLeft: 5,
+                              }}>
+                              {((i.name).length > maxlimit) ? (((i.name).substring(0, maxlimit - 3)) + '...') : i.name}
+                              {i.quantity > 1 ? <Text style={{ color: '#fff' }}> ({i.quantity})</Text> : null}
+                            </Text>
+                          </View>
                           <Text
-                            numberOfLines={2}
-                            ellipsizeMode='tail'
                             style={{
                               fontFamily: 'Montserrat-Regular',
                               fontSize: 12,
                               color: '#D2D7F9',
                               opacity: 0.5,
-                              paddingLeft: 5,
                             }}>
-                            {((i.name).length > maxlimit) ? (((i.name).substring(0, maxlimit - 3)) + '...') : i.name}
-                            {i.quantity > 1 ? <Text style={{ color: '#fff' }}> ({i.quantity})</Text> : null}
+                            KD {i.sub_total}
                           </Text>
                         </View>
-                        <Text
-                          style={{
-                            fontFamily: 'Montserrat-Regular',
-                            fontSize: 12,
-                            color: '#D2D7F9',
-                            opacity: 0.5,
-                          }}>
-                          KD {i.sub_total}
-                        </Text>
-                      </View>
-                    </ImageBackground>
-                  </View>
-                )
+                      </ImageBackground>
+                    </View>
+                  )
                 }
               })}
 
-              {is_advace.includes(true)?(
+              {is_advace.includes(true) ? (
                 <ImageBackground
-                source={IcDetailCard}
-                style={{
-                  width: 345,
-                  borderRadius: 10,
-                  marginVertical: 10,
-                  overflow: 'hidden',
-                }}>
-                  <View
+                  source={IcDetailCard}
                   style={{
-                    padding: 20,
-                    borderBottomColor: 'rgba(255,255,255,0.3)',
-                    borderBottomWidth: 0.3,
-                    display:'flex',
-                    flexDirection:'row',
-                    justifyContent: 'space-between',
+                    width: 345,
+                    borderRadius: 10,
+                    marginVertical: 10,
+                    overflow: 'hidden',
                   }}>
+                  <View
+                    style={{
+                      padding: 20,
+                      borderBottomColor: 'rgba(255,255,255,0.3)',
+                      borderBottomWidth: 0.3,
+                      display: 'flex',
+                      flexDirection: 'row',
+                      justifyContent: 'space-between',
+                    }}>
                     <Text
                       style={{
                         color: '#fff',
@@ -687,57 +563,57 @@ const OrderDetails = (props) => {
                     </Text>
                   </View>
                   <View
-                  style={{
-                    padding: 20,
-                  }}>
-                  {items.map((i, k) => {
-                    if(i.is_advance_builder === 1){
-                      return(
-                        <View
-                          style={{
-                            display: 'flex',
-                            flexDirection: 'row',
-                            justifyContent: 'space-between',
-                            marginVertical: 8,
-                          }}
-                          key={k}
-                        >
-                          <Text
+                    style={{
+                      padding: 20,
+                    }}>
+                    {items.map((i, k) => {
+                      if (i.is_advance_builder === 1) {
+                        return (
+                          <View
                             style={{
-                              color: 'rgba(255,255,255,0.8)',
-                              fontSize: 15,
-                              fontFamily: 'Montserrat-Regular',
-                              textDecorationLine: i.status === 0 ? 'line-through' : "none",
-                            }}>
-                            {((i.name).length > maxlimit) ? (((i.name).substring(0, maxlimit - 3)) + '...') : i.name}
-                            {i.quantity > 1 ? <Text style={{ color: '#fff' }}> ({i.quantity})</Text> : null}
-                            <Text style={{ fontSize: 12, color: 'rgba(255,255,255,0.3)' }}>{"   " + i.brand}</Text>
-                          </Text>
-                          {i.quantity > 1 ? (<Text
-                            style={{
-                              color: 'rgba(255,255,255,0.3)',
-                              fontSize: 12,
-                              textDecorationLine: i.status === 0 ? 'line-through' : "none",
-                            }}>
-                            KD {i.sub_total}
-                          </Text>) :
+                              display: 'flex',
+                              flexDirection: 'row',
+                              justifyContent: 'space-between',
+                              marginVertical: 8,
+                            }}
+                            key={k}
+                          >
                             <Text
                               style={{
-                                color: 'rgba(255,255,255,0.3)',
-                                fontSize: 12,
+                                color: 'rgba(255,255,255,0.8)',
+                                fontSize: 15,
                                 fontFamily: 'Montserrat-Regular',
                                 textDecorationLine: i.status === 0 ? 'line-through' : "none",
                               }}>
-                              KD {i.price}
+                              {((i.name).length > maxlimit) ? (((i.name).substring(0, maxlimit - 3)) + '...') : i.name}
+                              {i.quantity > 1 ? <Text style={{ color: '#fff' }}> ({i.quantity})</Text> : null}
+                              <Text style={{ fontSize: 12, color: 'rgba(255,255,255,0.3)' }}>{"   " + i.brand}</Text>
                             </Text>
-                          }
-                        </View>
-                      );
-                    }
-                  })}
-                </View>
+                            {i.quantity > 1 ? (<Text
+                              style={{
+                                color: 'rgba(255,255,255,0.3)',
+                                fontSize: 12,
+                                textDecorationLine: i.status === 0 ? 'line-through' : "none",
+                              }}>
+                              KD {i.sub_total}
+                            </Text>) :
+                              <Text
+                                style={{
+                                  color: 'rgba(255,255,255,0.3)',
+                                  fontSize: 12,
+                                  fontFamily: 'Montserrat-Regular',
+                                  textDecorationLine: i.status === 0 ? 'line-through' : "none",
+                                }}>
+                                KD {i.price}
+                              </Text>
+                            }
+                          </View>
+                        );
+                      }
+                    })}
+                  </View>
                 </ImageBackground>
-              ):null}
+              ) : null}
 
               <View
                 style={{
@@ -1149,7 +1025,7 @@ const OrderDetails = (props) => {
 };
 
 const mapStateToProps = (state) => ({
-  labels:state.languageReducer.labels,
+  labels: state.languageReducer.labels,
 })
 
 export default connect(mapStateToProps)(OrderDetails);

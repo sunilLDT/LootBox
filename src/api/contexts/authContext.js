@@ -56,7 +56,6 @@ const reducer = (state, action) => {
         language: action.payload,
       };
       case 'hidePopup':
-        console.log('========= Hahah=========')
         return {
           ...state,
           showPopup: !state.showPopup,
@@ -220,15 +219,14 @@ const signin = (dispatch) => async ({ email, password }) => {
       type: 'toggle_loading',
     });
   } catch (e) {
-    // console.log(e.response.data)
-    // dispatch({
-    //   type: 'add_msg',
-    //   payload: e.response.data.message,
-    // });
     dispatch({
       type: 'toggle_loading',
     });
-    alert("These Credential do not match to our records")
+    // alert("These credentials do not match our records")
+    dispatch({
+      type: 'add_msg',
+      payload: 'These credentials do not match our records',
+    });
   }
 
 };
@@ -417,7 +415,6 @@ const signup = (dispatch) => async (data) => {
     dispatch({
       type: 'toggle_loading',
     });
-    console.log(data)
     const res = await Api.post('app/user/register', data);
     if (res.data.data.is_otp_verified) {
       await AsyncStorage.setItem('token', res.data.data.token);
@@ -503,7 +500,7 @@ const signout = (dispatch) => async () => {
     await AsyncStorage.removeItem('deviceToken');
     await AsyncStorage.removeItem('token');
     dispatch({ type: 'signout' });
-navigate({ name: 'auth' });
+    navigate({ name: 'auth' });
   } catch (e) {
     dispatch({
       type: 'add_msg',

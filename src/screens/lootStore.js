@@ -568,7 +568,6 @@ const LootStore = (props) => {
         {open ? (
           <SearchBar
             placeholder="Type here..."
-            lightTheme
             zround
             editable={true}
             value={search}

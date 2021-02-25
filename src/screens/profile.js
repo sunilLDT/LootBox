@@ -119,13 +119,13 @@ const Profile = (props) => {
       setContentModal(labels.passwordNotMatch);
 
     }
-    else if (newPassword == "" && confirmPassword == "" && oldPassword == "") {
-      setaddressModal(true);
+    else if (newPassword == "" || confirmPassword == "" || oldPassword == "") {
+      setPopModal(true);
       setContentModal(labels.fillAllField)
   
     }
     else if (newPassword.length < 8 && confirmPassword.length < 8) {
-      setaddressModal(true);
+      setPopModal(true);
       setContentModal(labels.notMoreThan8)
     }
     else {
@@ -454,7 +454,7 @@ const Profile = (props) => {
                           marginLeft: '2%',
 
                         }}
-                        itemStyle={{ color: '#ffffff' }}
+                        itemStyle={{ color: '#fff' }}
                         onValueChange={(itemValue, itemIndex) =>
                           setGender(itemValue)
                         }
@@ -579,7 +579,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: 'gray',
     borderRadius: 4,
-    color: 'black',
+    color: '#fff',
     paddingRight: 30, // to ensure the text is never behind the icon
   },
   inputAndroid: {
@@ -589,7 +589,7 @@ const styles = StyleSheet.create({
     borderWidth: 0.5,
     borderColor: 'purple',
     borderRadius: 8,
-    color: 'black',
+    color: '#fff',
     paddingRight: 30, // to ensure the text is never behind the icon
   },
 })

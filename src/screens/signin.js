@@ -37,16 +37,17 @@ const Signin = ({ navigation ,labels}) => {
   const [contentModal, setContentModal] = useState('');
 
   languagename().then(res => setarOren(res))
-
-  const { signin, state, googleSignIn, setValidationError } = useContext(
+  const { signin, state, googleSignIn, setValidationError,hidePops } = useContext(
     AuthContext,
   );
-
   const { validationError } = state;
 
   const popUpHandler=()=>{
-    setPopModal(!popModal);
-}
+    hidePops();
+  }
+  const popUpHandler1=()=>{
+    setPopModal(!popModal)
+  }
 
   const checkLoginFun = () => {
 
@@ -136,14 +137,20 @@ const Signin = ({ navigation ,labels}) => {
           alignItems: 'center',
         }}
         >
-           <PopUp visible={popModal} title={'Loot'} closeText={labels.ok} callBack={popUpHandler} content={contentModal}/>
+           <PopUp visible={popModal} title={'Loot'} closeText={labels.ok} callBack={popUpHandler1} content={contentModal}/>
       
           <ScrollView>
-            {state.msg ? (
+            {/* {state.msg ? (
               <Modal msg={state.msg} hideBtn />
             ) : validationError ? (
-              <Modal msg={validationError} />
-            ) : null}
+              <Modal msg={valida
+                tionError} />
+            ) : null} */}
+            {state.msg ? (
+              <PopUp visible={state.showPopup} title={'Loot'} closeText={labels.ok} callBack={popUpHandler} content={state.msg}/>
+            ):null}
+            
+  
             <KeyboardAvoidingView
               behavior="position"
               keyboardVerticalOffset={50}

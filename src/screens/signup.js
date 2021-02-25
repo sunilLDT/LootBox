@@ -26,6 +26,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import {languagename} from '../components/LanguageName';
 import { connect } from 'react-redux';
 import PopUp from '../components/popup';
+import { navigate } from '../api/contexts/navigationRef';
 
 
 const {height, width} = Dimensions.get('window');
@@ -35,8 +36,6 @@ const Signup = ({navigation, route, labels}) => {
   const {signup, registerGuestUser, setNavigation, setValidationError, googleSignIn, state} = useContext(
     AuthContext,
   );
-
-  const {validationError} = state;
 
   const [first_name, setFirstName] = useState(
     route.params ? route.params.firstName : null,
@@ -95,9 +94,35 @@ const Signup = ({navigation, route, labels}) => {
     >
       <SafeAreaView style={styles.container}>
       <ScrollView style={styles.scrollView}>
-    
-         
-          <KeyboardAvoidingView 
+        <View
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            flexDirection: 'row',
+            paddingHorizontal:35
+          }}>
+          <TouchableOpacity
+            onPress={() => navigate({ name: 'auth' })}>
+            <Image
+              style={{ width: 48 }}
+              resizeMode="contain"
+              source={require('../assets/back.png')}
+            />
+          </TouchableOpacity>
+          <Text
+            style={{
+              fontFamily: 'Montserrat-LightItalic',
+              fontSize: 13,
+              lineHeight: 16,
+              opacity: 0.4,
+              color: '#ECDBFA',
+              marginLeft: 10,
+
+            }}>
+            {'Sign Up'}
+          </Text>
+        </View>
+        <KeyboardAvoidingView 
           behavior={Platform.OS == "ios" ? "padding" : "height"}
         // keyboardVerticalOffset={20}
           style={styles.screen}>

@@ -34,7 +34,6 @@ const ForgotPassword = ({navigation, labels}) => {
   const [contentModal, setContentModal] = useState('');
 
   const popUpHandler=()=>{
-  
     setaddressModal(!addressModal);
   }
   return (

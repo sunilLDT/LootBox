@@ -139,6 +139,7 @@ const AdvanceBuilder = (props) => {
           console.log("in index")
           setShowSubmit(true)
         }
+        
         // if(forEdit == 1){
         //   console.log("edit")
         //   setShowSubmit(true)
@@ -556,7 +557,7 @@ const AdvanceBuilder = (props) => {
           {open ?
             <SearchBar
               placeholder={values.typeHere}
-              lightTheme round editable={true}
+              round editable={true}
               value={search}
               onChangeText={(text) => searchFilterFunction(text)}
               containerStyle={{
@@ -565,7 +566,7 @@ const AdvanceBuilder = (props) => {
                 marginHorizontal: width * 0.1,
                 borderRadius: 20,
               }}
-              inputContainerStyle={{ height: 30, backgroundColor: '#D2D7F9' }}
+              inputContainerStyle={{ height: 30, backgroundColor: '#D2D7F9', marginTop: -5 }}
             /> : null}
           {loading ? (
             <View style={{ marginTop: height * 0.37 }}>

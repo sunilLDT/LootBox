@@ -122,6 +122,10 @@ const renderViewLess = (onPress) => {
       console.log("addToCartForStore" + error);
     });
   }
+  const handlePress = () => {
+    setaddressModal(!addressModal)
+    return true;
+  }
 
   return (
     <ScrollView
@@ -139,6 +143,7 @@ const renderViewLess = (onPress) => {
           dialogAnimation={new SlideAnimation({
             slideFrom: 'bottom',
           })}
+          onHardwareBackPress={() => handlePress()}
         >
           
            <View>
@@ -158,7 +163,7 @@ const renderViewLess = (onPress) => {
                   color: '#ffffff',
                   backgroundColor: 'transparent',
                 }}>
-                  LootBox
+                  Loot
                 </Text>
               </LinearGradient>
              </View>

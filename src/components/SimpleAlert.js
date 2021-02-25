@@ -9,7 +9,7 @@ const SimpleAlert = ({msg,removeError,setValid}) => {
         setValid;
     }
     Alert.alert(
-        "Lootbox",
+        "Lootdfsvfsvs",
         msg,
         [
             { text: "OK", onPress: () => errorMsg() }
@@ -18,6 +18,5 @@ const SimpleAlert = ({msg,removeError,setValid}) => {
     );
     return null;
 }
-
 
 export default SimpleAlert;

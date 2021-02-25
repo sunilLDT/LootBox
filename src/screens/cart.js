@@ -96,7 +96,6 @@ const Cart = (props) => {
     }
     setAdvanceIems(itemsId)
   }
-  
 
   useEffect(() => {
     const getD = () => {

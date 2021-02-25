@@ -124,7 +124,7 @@ const ItemDetails = (props) => {
                     </View>
                     <View style={styles.brandItem}>
                         <Icons
-                        name="x" size={20}
+                        name="arrow-down-circle" size={30}
                         onPress={() => refRBSheet.current.close()}
                         style={styles.cross}  
                         />

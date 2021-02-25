@@ -9,14 +9,10 @@ import {
   TouchableOpacity,
   StyleSheet,
   BackHandler,
-  Keyboard,
-  KeyboardAvoidingView,
-  TouchableWithoutFeedback
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import {Context as AuthContext} from '../api/contexts/authContext';
 import OtpInput from '../components/otp';
-import Modal from '../components/modal';
 import Btn from '../screens/btn';
 import bgImage from '../assets/signup.png';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -29,9 +25,6 @@ const Otp = ({navigation,labels}) => {
   const [otp, setOtp] = useState();
   const {verifyOtp, state, resendOtp, hidePops } = useContext(AuthContext);
   const [count, setCount] = useState(0);
-  const [addressModal, setaddressModal] = useState(false);
-  const [contentModal, setContentModal] = useState('');
-  const [popModal, setPopModal] = useState(false);
 
   const backAction = () => {
    navigation.navigate("auth");
@@ -39,9 +32,7 @@ const Otp = ({navigation,labels}) => {
   };
   
   const popUpHandler=()=>{
-    console.log("Going to hide this in ")
     hidePops();
-    //setPopModal(!popModal);
 }
 
   useEffect(() => {
@@ -54,21 +45,16 @@ const Otp = ({navigation,labels}) => {
       clearInterval(timer);
     }
     return () => clearInterval(timer);
-    console.log('====================')
-    console.log(state.showPopup)
-    console.log('====================')
   }, [count]);
   
 
   useEffect(() => {
     BackHandler.addEventListener("hardwareBackPress", backAction);
-
     return () =>
       BackHandler.removeEventListener("hardwareBackPress", backAction);
   }, []);
 
   return (
-   
     <LinearGradient
       colors={['#2A2D39', '#261D2A']}
       style={{
