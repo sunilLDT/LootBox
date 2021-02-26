@@ -40,7 +40,6 @@ const Signin = ({ navigation ,labels}) => {
   const { signin, state, googleSignIn, setValidationError,hidePops } = useContext(
     AuthContext,
   );
-  const { validationError } = state;
 
   const popUpHandler=()=>{
     hidePops();

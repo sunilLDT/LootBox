@@ -68,6 +68,10 @@ const BuildYourPc = ({ navigation, labels }) => {
   const popUpHandler=()=>{
     setPopModal(!popModal);
 }
+  // const backHandle = () => {
+  //   setPopModal(!popModal);
+  //   return true;
+  // }
 
   const submitGames = () => {
     if (selected.length > 0) {
@@ -132,7 +136,7 @@ const BuildYourPc = ({ navigation, labels }) => {
             backgroundColor: '#2A2D39',
             paddingHorizontal: width * 0.09,
           }}>
-             <PopUp visible={popModal} title={'Loot'} closeText={labels.ok} callBack={popUpHandler} content={contentModal}/>
+             <PopUp visible={popModal} title={'Loot'} closeText={labels.ok}  callBack={popUpHandler} content={contentModal}/>
              <Dialog
                 visible={chooseModal}
                 onTouchOutside={() => { setChooseModal(!chooseModal) }}

@@ -109,6 +109,7 @@ export default function (state = initialState, action) {
         loadingSubCat: false
 
       };
+      
 
     default:
       return state;

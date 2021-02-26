@@ -12,7 +12,8 @@ import {
 import Circle from '../components/gradientCircle';
 import { getOrderList } from '../api/buildYourPc';
 const { width, height } = Dimensions.get('window');
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
+import orderImage from '../assets/orderback.png';
 
 const Orders = ({ navigation, labels }) => {
   const [selected, setSelected] = useState(0);
@@ -157,13 +158,12 @@ const Orders = ({ navigation, labels }) => {
                     <TouchableOpacity
                       key={k}
                       onPress={() => navigation.navigate('OrderDetails', { orderId: i.order_id })}
-                    >
-                      <View
+                    > 
+                        <ImageBackground 
+                         source={orderImage}
                         style={{
-                          width: width * 0.8,
-                          height: height * 0.2,
-                          backgroundColor: '#000',
-                          borderRadius: 10,
+                          width: 341,
+                          height: 131,
                           marginVertical: 10,
                           padding: 20,
                           justifyContent: 'space-between',
@@ -175,6 +175,7 @@ const Orders = ({ navigation, labels }) => {
                               flexDirection: 'row',
                               justifyContent: 'space-between',
                               alignItems: 'center',
+                              paddingRight:10
                             }}>
                             <Text
                               style={{
@@ -234,7 +235,7 @@ const Orders = ({ navigation, labels }) => {
                           }}>
                           Will be delivered in 3-4 days
                 </Text>
-                      </View>
+                      </ImageBackground>
                     </TouchableOpacity>
                   ))}
                 </View>

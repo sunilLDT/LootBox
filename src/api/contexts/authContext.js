@@ -384,6 +384,8 @@ const registerGuestUser = (dispatch) => async (data) => {
       type: 'toggle_loading',
     });
     const res = await Api.post('app/user/register', data);
+    console.log("*** res")
+    console.log(res)
     if (res.data.data.is_otp_verified) {
       await AsyncStorage.setItem('token', res.data.data.token);
       await AsyncStorage.setItem('user_type', JSON.stringify(1));
@@ -399,10 +401,11 @@ const registerGuestUser = (dispatch) => async (data) => {
       type: 'toggle_loading',
     });
   } catch (e) {
-    console.log(e.message);
+    console.log("**** guest user sign up *****")
+    console.log(e);
     dispatch({
       type: 'add_msg',
-      payload: 'User with that email or phone number already exists',
+      payload: "The Phone number or email is already registered",
     });
     dispatch({
       type: 'toggle_loading',
@@ -422,9 +425,7 @@ const signup = (dispatch) => async (data) => {
 
     } else {
       await AsyncStorage.setItem('userId', res.data.data.user_id.toString());
-      
       const deviceToken = await AsyncStorage.getItem('deviceToken');
-       
       navigate({ name: 'otp' });
     }
     dispatch({
@@ -434,7 +435,7 @@ const signup = (dispatch) => async (data) => {
     console.log(e.message);
     dispatch({
       type: 'add_msg',
-      payload: 'User with that email or phone number already exists',
+      payload: "The Phone number or email is already registered",
     });
     dispatch({
       type: 'toggle_loading',
@@ -475,7 +476,7 @@ const forgotPassword = (dispatch) => async (email, isEmail) => {
   } catch (e) {
     dispatch({
       type: 'add_msg',
-      payload: 'The entered email or phone number is not registered',
+      payload: e.message,
     });
     dispatch({
       type: 'toggle_loading',

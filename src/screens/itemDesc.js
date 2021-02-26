@@ -144,8 +144,7 @@ const renderViewLess = (onPress) => {
             slideFrom: 'bottom',
           })}
           onHardwareBackPress={() => handlePress()}
-        >
-          
+        > 
            <View>
              <View style={{
                alignItems:'center',               

@@ -3,12 +3,14 @@ import {getProfilApi} from '../api/buildYourPc';
 
 export const profileActions = {
   showProfile,
+  logoutFun
 };
 
 function showProfile() {
     return (dispatch) => {
       dispatch(request());
       getProfilApi().then((response) => {
+        console.log("profile details from ********")
           dispatch(success(response.data));
       }).catch((error) => {
         console.log("profile" + error);
@@ -26,4 +28,13 @@ function showProfile() {
     return { type: cartConstants.PROFILE_FAILURE,error};
   }
 
+}
+
+function logoutFun(){
+  return (dispatch) => {
+    dispatch(request());
+  }
+  function request() {
+    return { type: cartConstants.LOGOUT };
+  }
 }

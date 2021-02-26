@@ -19,8 +19,8 @@ const PopUp = (props) => {
             dialogAnimation={new SlideAnimation({
                 slideFrom: 'bottom',
             })}
+            // onHardwareBackPress={() => {props.onhandlePress()}}
         >
-
             <View>
                 <View style={{
                     alignItems: 'center',

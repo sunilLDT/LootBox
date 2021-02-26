@@ -31,7 +31,6 @@ const AlertMessage = (props) => {
     }
 
     const { msgUrl } = props.route.params;
-
     return (
         <ImageBackground
             source={require('../assets/signup.png')}

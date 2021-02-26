@@ -23,6 +23,7 @@ import { I18nManager } from "react-native"
 import AsyncStorage from '@react-native-community/async-storage';
 import { connect } from 'react-redux';
 import Api from '../api/index';
+import { profileActions } from '../actions/profileAction';
 
 
 const { width, height } = Dimensions.get('window');
@@ -33,10 +34,9 @@ const Drawer = (props) => {
   const [profileDetails, setProfileDetails] = useState({});
   const [disableEdit, setDisable] = useState(false)
   const [languageImage, setLanguageImage] = useState();
-  const [ignored, forceUpdate] = useReducer(x => x + 1, 0);
+  const [ignored, forceUpdate] = useReducer(x => x + 1, 0); 
   const [arOren,setarOren] = useState('en');
   const [photo, setPhoto] = useState();
-  let { strings, language } = props;
   
   const languageChange = async () => {
     let languagename = await AsyncStorage.getItem('language');
@@ -103,25 +103,22 @@ const Drawer = (props) => {
     gettingLangName()
     checkUserType()
     languageChange()
-    getProfilApi().then((response) => {
-      setProfileDetails(response.data);
-      setPhoto(response.data.profile_image.replace('user/profile/',''))
-    }).catch((error) => {
-      console.log("profileDetailsDrawer" + error);
-    });
+    props.sendaction();
+    waitForProp();
     return () => {
       console.log("willUnMount")
     }
   }, []);
 
+  const waitForProp = async () => {
+    setProfileDetails(props.profileData);
+    setPhoto(props.profileData.profile_image.replace('user/profile/',''))
+  }
+
 
   React.useEffect(() => {
     const unsubscribe = props.navigation.addListener('focus', () => {
-      getProfilApi().then((response) => {
-        setProfileDetails(response.data);
-      }).catch((error) => {
-        console.log("profileDetailsDrawer" + error);
-      });
+      waitForProp();
     });
 
     return unsubscribe;
@@ -140,8 +137,11 @@ const Drawer = (props) => {
       action_type:1
     }
     const checking =   await Api.post('app/user/device-token',data);
-    
-    
+  }
+
+  const signoutReq = () => {
+    props.logoutaction();
+    signout()
   }
 
   const englishLang = async () => {  
@@ -156,7 +156,6 @@ const Drawer = (props) => {
       device_type:Platform.OS=='android' ? 1 : 2,
       action_type:1
     }
-   
     const making =  await Api.post('app/user/device-token',data);
    
   };
@@ -307,7 +306,7 @@ const Drawer = (props) => {
                 </TouchableOpacity>
                 :
                 <TouchableOpacity key={k} disabled={k === options.length - 1 && disableEdit} onPress={() => {
-                  k === options.length - 1 ? signout() : props.navigation.navigate(i.path)
+                  k === options.length - 1 ? signoutReq() : props.navigation.navigate(i.path)
                 }}>
                 <View
                   style={{
@@ -388,8 +387,11 @@ const styles = StyleSheet.create({
 });
 const mapStateToProps = (state) => ({
   labels:state.languageReducer.labels,
+  profileData: state.profileReducer.profile,
+  profileLoader:state.profileReducer.loading,
 })
 const actionCreators = {
-  
+  sendaction: profileActions.showProfile,
+  logoutaction:profileActions.logoutFun
 };
 export default connect(mapStateToProps,actionCreators)(Drawer);

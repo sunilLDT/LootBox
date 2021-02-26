@@ -50,8 +50,8 @@ import PopUp from '../components/popup';
 const { width, height } = Dimensions.get('window');
 
 const Cart = (props) => {
-  const {labels} = props
-  
+
+  const {labels} = props  
   const isFocused = useIsFocused();
   const [cartItems, setcartItems] = useState([]);
   const [upwardImage, setUpwardImage] = useState(true);
@@ -160,6 +160,8 @@ const Cart = (props) => {
       if(paymentType === 3){
         if(response.code == 200){
           setLoading(false)
+          props.emptyCart();
+          props.add();
             props.navigation.navigate('alertMessage', { msgUrl: "success" })
           }else{
             setPopModal(true);
@@ -168,7 +170,7 @@ const Cart = (props) => {
           }
       }
        setLoading(false)
-       props.navigation.navigate('checkout', { paymentUrl: response.data.data.paymenturl })
+       props.navigation.navigate('checkout', { paymentUrl: response.data.data.paymenturl,labels: labels})
      }).catch((error) => {
        console.log("orderPlace" + error);
    });
@@ -473,7 +475,7 @@ const Cart = (props) => {
                     flexDirection: 'row',
                   }}>
                   <TouchableOpacity onPress={() => {
-                    props.navigation ? props.navigation.goBack() : props.navigation.navigate('home')
+                    props.navigation ? props.navigation.navigate({name: 'home'}): props.navigation.navigate({name: 'home'})
                   }
                     }>
                     <Image
@@ -653,7 +655,6 @@ const Cart = (props) => {
                                 }}>
                                   <TouchableOpacity onPress={() => 
                                   {
-                                    // await AsyncStorage.setItem('cart_package_id', packages.cart_package_id.toString())
                                     props.navigation.navigate('ProductDetails',{PackageId:packages.package_id,cart_package_id:packages.cart_package_id})
                                   }
                                     }> 

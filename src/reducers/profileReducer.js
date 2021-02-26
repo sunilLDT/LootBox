@@ -25,6 +25,10 @@ const initialState = {
             profile:action.profileData,
             loading:false
         };
+        case cartConstants.LOGOUT:
+        return {
+          ...initialState
+        };
         default:
             return state;
         }

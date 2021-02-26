@@ -47,5 +47,7 @@ export const cartConstants = {
   LABELS_SUCCESS: 'LABELS_SUCCESS',
   LABELS_FAILED: 'LABELS_FAILED',
 
+  LOGOUT:'LOGOUT',
+
 };
 

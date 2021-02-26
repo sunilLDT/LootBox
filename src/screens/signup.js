@@ -33,7 +33,7 @@ const {height, width} = Dimensions.get('window');
 
 const Signup = ({navigation, route, labels}) => {
   const [selected, setSelected] = useState(false);
-  const {signup, registerGuestUser, setNavigation, setValidationError, googleSignIn, state} = useContext(
+  const {signup, registerGuestUser, setNavigation, setValidationError, googleSignIn, state,hidePops} = useContext(
     AuthContext,
   );
 
@@ -79,6 +79,9 @@ const Signup = ({navigation, route, labels}) => {
       setNavigation('home')
     }
   }
+  const popUpHandler1=()=>{
+    hidePops();
+  }
 
   return (
     <View style={{backgroundColor:'#292633', width:'100%', height:'100%'}}>
@@ -123,8 +126,8 @@ const Signup = ({navigation, route, labels}) => {
           </Text>
         </View>
         <KeyboardAvoidingView 
-          behavior={Platform.OS == "ios" ? "padding" : "height"}
-        // keyboardVerticalOffset={20}
+          // behavior={Platform.OS == "ios" ? "padding" : "height"}
+          keyboardVerticalOffset={20}
           style={styles.screen}>
             <View style={{width, alignItems: 'center'}}>
               <Image
@@ -139,6 +142,9 @@ const Signup = ({navigation, route, labels}) => {
               />
             </View>
             <PopUp visible={addressModal} title={'Loot'} closeText={labels.ok} callBack={popUpHandler} content={contentModal}/>
+            {state.msg ? (
+              <PopUp visible={state.showPopup} title={'Loot'} closeText={labels.ok} callBack={popUpHandler1} content={state.msg}/>
+            ):null}
             <View style={{width,alignItems:'center'}}>
               <View
                 style={{
