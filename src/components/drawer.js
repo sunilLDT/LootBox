@@ -24,12 +24,13 @@ import AsyncStorage from '@react-native-community/async-storage';
 import { connect } from 'react-redux';
 import Api from '../api/index';
 import { profileActions } from '../actions/profileAction';
-
+import { useIsFocused } from "@react-navigation/native";
 
 const { width, height } = Dimensions.get('window');
 
 const Drawer = (props) => {
-  const { signout, state } = useContext(AuthContext)
+  const { signout, state } = useContext(AuthContext);
+  const isFocused = useIsFocused();
   const isDrawerOpen = useIsDrawerOpen()
   const [profileDetails, setProfileDetails] = useState({});
   const [disableEdit, setDisable] = useState(false)
@@ -108,7 +109,7 @@ const Drawer = (props) => {
     return () => {
       console.log("willUnMount")
     }
-  }, []);
+  }, [isFocused]);
 
   const waitForProp = async () => {
     setProfileDetails(props.profileData);

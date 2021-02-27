@@ -66,7 +66,7 @@ const Orders = ({ navigation, labels }) => {
           style={{
             width,
             minHeight: height,
-            paddingHorizontal: width * 0.1,
+            paddingLeft: width * 0.1,
             //   paddingVertical: height * 0.1,
           }}
           showsVerticalScrollIndicator={false}>
@@ -175,7 +175,6 @@ const Orders = ({ navigation, labels }) => {
                               flexDirection: 'row',
                               justifyContent: 'space-between',
                               alignItems: 'center',
-                              paddingRight:10
                             }}>
                             <Text
                               style={{

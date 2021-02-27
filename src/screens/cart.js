@@ -467,6 +467,7 @@ const Cart = (props) => {
                   flexDirection: 'row',
                   alignItems: 'center',
                   justifyContent: 'space-between',
+                  marginVertical:20
                 }}>
                 <View
                   style={{
@@ -474,7 +475,7 @@ const Cart = (props) => {
                     alignItems: 'center',
                     flexDirection: 'row',
                   }}>
-                  <TouchableOpacity onPress={() => {
+                  {/* <TouchableOpacity onPress={() => {
                     props.navigation ? props.navigation.navigate({name: 'home'}): props.navigation.navigate({name: 'home'})
                   }
                     }>
@@ -483,7 +484,7 @@ const Cart = (props) => {
                       style={{ width: 48 }}
                       source={require('../assets/back.png')}
                     />
-                  </TouchableOpacity>
+                  </TouchableOpacity> */}
                   <Text
                     style={{
                       fontStyle: 'italic',

@@ -454,7 +454,7 @@ const Profile = (props) => {
                           marginLeft: '2%',
 
                         }}
-                        itemStyle={{ color: '#fff' }}
+                        itemStyle={{ color: '#ffffff' }}
                         onValueChange={(itemValue, itemIndex) =>
                           setGender(itemValue)
                         }
