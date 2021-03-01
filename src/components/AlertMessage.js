@@ -19,6 +19,8 @@ import { cartActions } from '../actions/user';
 const { width, height } = Dimensions.get('window');
 
 const AlertMessage = (props) => {
+    console.log("labales from success")
+    console.log(props.labels)
     useEffect(() => {
         props.empty();
         props.add();
@@ -45,18 +47,18 @@ const AlertMessage = (props) => {
                         style={styles.cross}
                      />
                     }
-                    {msgUrl == "https://test-api.loot-box.co/api/hesabe-success-callback" ||msgUrl == "success" ? <Text style={styles.msg}>Order{"\n"}Successful</Text> : <Text style={styles.msg}>Order{"\n"}Failed</Text>}
+                    {msgUrl == "https://test-api.loot-box.co/api/hesabe-success-callback" ||msgUrl == "success" ? <Text style={styles.msg}>{props.labels.order}{"\n"}{props.labels.successful}</Text> : <Text style={styles.msg}>props.labels.order{"\n"}props.labels.failed</Text>}
                     {msgUrl == "https://test-api.loot-box.co/api/hesabe-success-callback" ||msgUrl == "success" ? <Text style={styles.line}>Your Order will be delivered{"\n"}between 48-72 Hours</Text> : <Text style={styles.line}>You can try again !</Text>}
                 </View>
                 <View style={styles.btnCotainer}>
                     <TouchableOpacity onPress={() => props.navigation.navigate('orders')}>
-                        <ViewBtn text="View Order" x="117" />
+                        <ViewBtn text={props.labels.viewOrder} x="117" />
                     </TouchableOpacity>
                 </View>
                 <View>
           <TouchableOpacity style={{marginTop:5,marginLeft:40}} onPress={() => props.navigation.navigate('home')}>
             <View style={{width:"87%", marginVertical: 50,}}>
-              <ViewBtn text="Continue Shopping" x="100" />
+              <ViewBtn text={props.labels.continueShopping} x="100" />
             </View>
           </TouchableOpacity>
         </View>
@@ -111,6 +113,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => ({
     cart: state.cartReducer.cart,
+    labels: state.languageReducer.labels,
 })
 
 const actionCreators = {

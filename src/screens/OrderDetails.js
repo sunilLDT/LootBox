@@ -20,16 +20,7 @@ import IcCardImage from '../assets/ic3.png';
 import Bar1 from '../components/bar1';
 import Bar2 from '../components/bar2';
 import Bar3 from '../components/bar3';
-import { connect } from 'react-redux'
-
-
-const steps = [
-  { order_status: 0, primary: "Pending", secondary: '' },
-  { order_status: 1, primary: "Confirm", secondary: '' },
-  { order_status: 2, primary: "On The Way", secondary: '' },
-  { order_status: 3, primary: "Complete", secondary: '' }
-]
-
+import { connect } from 'react-redux';
 
 const { height, width } = Dimensions.get('window');
 
@@ -39,6 +30,12 @@ const OrderDetails = (props) => {
   //   return await AsyncStorage.getItem('email')
   // }
 
+  const steps = [
+    { order_status: 0, primary: labels.pending, secondary: '' },
+    { order_status: 1, primary: labels.confirmed, secondary: '' },
+    { order_status: 2, primary: labels.onTheWay, secondary: '' },
+    { order_status: 3, primary: labels.completed, secondary: '' }
+  ]
 
   const { orderId } = props.route.params;
   const [loading, setLoading] = useState(true);
@@ -241,7 +238,7 @@ const OrderDetails = (props) => {
                     lineHeight: 28,
                     color: '#ECDBFA',
                   }}>
-                  Items
+                  {labels.items}
             </Text>
                 <Text
                   style={{
@@ -642,7 +639,7 @@ const OrderDetails = (props) => {
                         paddingLeft: 20,
                         marginVertical: 5
                       }}>
-                      Deliver to
+                     {labels.deliverTo}
               </Text>
                     {orderDetails.address !== null ? (
                       <Text
