@@ -459,8 +459,8 @@ const Profile = (props) => {
                           setGender(itemValue)
                         }
                       >
-                        <Picker.Item label="Male" value="1" />
-                        <Picker.Item label="Female" value="2" />
+                        <Picker.Item label="Male" value="1" color="#ECDBFA"/>
+                        <Picker.Item label="Female" value="2"  color="#ECDBFA"/>
                       </Picker>
                     ) : (
                         <View>

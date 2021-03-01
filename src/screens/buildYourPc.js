@@ -253,7 +253,7 @@ const BuildYourPc = ({ navigation, labels }) => {
                 height: 32,
                 width: 153,
               }}>
-                <AdvanceBuilderButton text={labels.advancedBuilder} />
+                <AdvanceBuilderButton x={arOren == "ar"?20:0} text={labels.advancedBuilder} />
               </View>
             </TouchableOpacity>
           </View>

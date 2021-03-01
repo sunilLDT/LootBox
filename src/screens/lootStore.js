@@ -568,7 +568,7 @@ const LootStore = (props) => {
         {open ? (
           <SearchBar
             placeholder="Type here..."
-            zround
+            round
             editable={true}
             value={search}
             onChangeText={(text) => searchFilterFunction(text)}
@@ -578,7 +578,7 @@ const LootStore = (props) => {
               marginHorizontal: width * 0.1,
               borderRadius: 20,
             }}
-            inputContainerStyle={{height: 30, backgroundColor: '#D2D7F9'}}
+            inputContainerStyle={{height: 32, backgroundColor: '#D2D7F9'}}
           />
         ) : null}
         <View

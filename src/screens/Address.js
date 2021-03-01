@@ -267,18 +267,19 @@ const Address = (props) => {
                                                         color: '#ECDBFA',
                                                         marginLeft: '2%',
                                                     }}
-                                                    itemStyle={{ color: '#ffffff' }}
-                                                    onValueChange={(itemValue, itemIndex) =>
+                                                    itemStyle={{color:'#fff'}}
+                                                    onValueChange={(itemValue) =>
                                                         sendCityId(itemValue)
                                                     }
                                                 >
-                                                    <Picker.Item label={labels.selectCity} value='' />
+                                                    <Picker.Item label={labels.selectCity} value='' color="#fff"/>
                                                     {city.map((cityWithArea, index) => {
                                                         return (
                                                             <Picker.Item
                                                                 key={index}
                                                                 label={cityWithArea.name}
                                                                 value={cityWithArea.city_id}
+                                                                color="#ECDBFA"
                                                             />
                                                         );
                                                     })}
@@ -344,13 +345,14 @@ const Address = (props) => {
                                                         setSelectedArea(itemValue)
                                                     }
                                                 >
-                                                    <Picker.Item label='Select area' value='' />
+                                                    <Picker.Item label='Select area' value=''color="#ECDBFA" />
                                                     {areas.map((areasValues, index) => {
                                                         return (
                                                             <Picker.Item
                                                                 key={index}
                                                                 label={areasValues.name}
                                                                 value={areasValues.area_id}
+                                                                color="#ECDBFA"
                                                             />
                                                         );
                                                     })}
@@ -434,15 +436,15 @@ const Address = (props) => {
                                                         color: '#ECDBFA',
                                                         marginLeft: '2%',
                                                     }}
-                                                    itemStyle={{ color: '#ffffff' }}
+                                                    itemStyle={{ color: '#fff' }}
                                                     onValueChange={(itemValue, itemIndex) =>
                                                         setAddressType(itemValue)
                                                     }
                                                 >
-                                                    <Picker.Item label='Address Type' value='' />
-                                                    <Picker.Item label="Home" value="Home" />
-                                                    <Picker.Item label="Office" value="Office" />
-                                                    <Picker.Item label="Other" value="Other" />
+                                                    <Picker.Item label='Address Type' value='' color="#ECDBFA"/>
+                                                    <Picker.Item label="Home" value="Home" color="#ECDBFA"/>
+                                                    <Picker.Item label="Office" value="Office"color="#ECDBFA" />
+                                                    <Picker.Item label="Other" value="Other"color="#ECDBFA" />
                                                 </Picker>
                                             ) : (
                                                     <View >

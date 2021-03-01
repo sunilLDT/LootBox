@@ -150,6 +150,7 @@ const App = () => {
       console.log('Message handled in the background!', remoteMessage);
       
     });
+    
     messaging()
       .getToken()
       .then(token => {
