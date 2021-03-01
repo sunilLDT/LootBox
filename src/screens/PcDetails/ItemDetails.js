@@ -71,8 +71,8 @@ const ItemDetails = (props) => {
         <TouchableOpacity style={{
         display:"flex",
         alignItems:'flex-end',
-        bottom:arOren == "it"?16: 13,
-        right:arOren == "it"?2: 8,
+        bottom:arOren == "ar"?16: 13,
+        right:arOren == "ar"?2: 8,
         }} onPress={() => GetItemDetails()}>
             <Image style={styles.expand} source={Expand}/>
         </TouchableOpacity>
@@ -126,7 +126,12 @@ const ItemDetails = (props) => {
                         <Icons
                         name="arrow-down-circle" size={30}
                         onPress={() => refRBSheet.current.close()}
-                        style={styles.cross}  
+                        style={{
+                            position:'relative',
+                            left:arOren == "ar"?"0%":"80%",
+                            top:"-20%",
+                            color: '#842D8A',
+                        }}  
                         />
                         <Text style={styles.price}>KD {itemDetails.price}</Text>
                     </View>
@@ -149,7 +154,7 @@ const ItemDetails = (props) => {
                     style={{
                         width:width*0.9,
                         position:'relative',
-                        left:arOren == "it"?"0%":"10%",
+                        left:arOren == "ar"?"0%":"10%",
                         borderRadius: 10,
                         marginVertical: "2%",
                         overflow: 'hidden',
@@ -210,7 +215,7 @@ const styles = StyleSheet.create({
         height:height*0.1,
         position:'relative',
         marginVertical:10,
-
+        borderRadius:12
     },
     imageTextContainer:{
         display:'flex',
@@ -238,13 +243,12 @@ const styles = StyleSheet.create({
         marginVertical:5,
         fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma', 
     },
-    cross:{
-        position:'relative',
-        left:"80%",
-        top:"-20%",
-        color: '#842D8A',
-       
-    },
+    // cross:{
+    //     position:'relative',
+    //     left:arOren == "ar"?"0%":"10%",
+    //     top:"-20%",
+    //     color: '#842D8A',
+    // },
     price:{
         fontSize:12,
         position:'relative',

@@ -567,7 +567,7 @@ const LootStore = (props) => {
         </View>
         {open ? (
           <SearchBar
-            placeholder="Type here..."
+            placeholder={props.labels.typeHere}
             round
             editable={true}
             value={search}

@@ -263,7 +263,7 @@ const Signin = ({ navigation ,labels}) => {
                 height: height * 0.1,
               }}>
               {!state.loading ? (
-                <Btn text={labels.login.toUpperCase()} pay="" x="54" />
+                <Btn text={labels.login.toUpperCase()} pay="" x={arOren == "ar"?30:54} />
               ) : (
                   <>
                     <Btn text={' '} x="54" pay="" />
@@ -281,7 +281,7 @@ const Signin = ({ navigation ,labels}) => {
               }}
             >
               <View style={{ marginVertical: 10 }}>
-                <ContinueBtn text={labels.continueWithGmail} />
+                <ContinueBtn text={labels.continueWithGmail}  />
               </View>
             </TouchableWithoutFeedback>
           </ScrollView>

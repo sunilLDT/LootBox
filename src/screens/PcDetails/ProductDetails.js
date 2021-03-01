@@ -19,6 +19,7 @@ import { connect } from 'react-redux';
 import { cartActions } from '../../actions/user';
 import { packageActions } from '../../actions/package';
 import AsyncStorage from '@react-native-community/async-storage';
+import { languagename } from '../../components/LanguageName';
 const { width, height } = Dimensions.get('window');
 
 const ProductDetails = (props) => {
@@ -35,6 +36,8 @@ const ProductDetails = (props) => {
   const [edit, setEdit] = useState(false);
   const maxlimit = 12;
   const kd = "KD ";
+  const [arOren, setarOren] = useState('en');
+  languagename().then(res => setarOren(res))
 
   useEffect(() => {
     props.getPackages(PackageId);
@@ -74,7 +77,11 @@ const ProductDetails = (props) => {
             <Image
               source={require('../../assets/back.png')}
               resizeMode="contain"
-              style={styles.backImage}
+              style={{width: 48,
+                transform: [
+                  { scaleX: arOren == "ar" ? -1 : 1 }
+              ]
+              }}
             />
           </View>
         </TouchableOpacity>

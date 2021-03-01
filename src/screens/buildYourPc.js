@@ -8,7 +8,7 @@ import {
   Image,
   ActivityIndicator,
   ScrollView,
-  StyleSheet,
+  StyleSheet, 
   FlatList,
   Alert,
 } from 'react-native';

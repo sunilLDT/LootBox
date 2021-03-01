@@ -26,8 +26,8 @@ const InputCard = ({placeholder,style,inpStyle}) => {
             <Text style={[{
                 fontSize: 13,
                 width: width * 0.7,
-                color: '#ECDBFA',
-                textAlign: arOren == "ar"? 'right':'left'
+                color: '#ECDBFA', 
+                textAlign: arOren == "ar"? 'left':'right'
             }, inpStyle]}>
                 {placeholder}
             </Text>

@@ -15,6 +15,7 @@ import {Context as AuthContext} from '../api/contexts/authContext';
 import {showCartData,addToCartForStore} from '../api/buildYourPc';
 import ViewMoreText from 'react-native-view-more-text';
 import { connect } from 'react-redux';
+import { languagename } from '../components/LanguageName';
 import { cartActions } from '../actions/user';
 import Dialog, {
   DialogContent,
@@ -76,6 +77,8 @@ const ItemDesc = (props) => {
   const [AddItems,setAddItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [addressModal, setaddressModal] = useState(false);
+  const [arOren, setarOren] = useState('en');
+  languagename().then(res => setarOren(res))
 
   const renderViewMore = (onPress) => {
     return(
@@ -541,11 +544,11 @@ const renderViewLess = (onPress) => {
             )
         )}
         <TouchableOpacity onPress={() => addIntoCart()}>
-          <Btn text={labels.addToCart} pay= ""/>
+          <Btn text={labels.addToCart} x={arOren == "ar"? 35:0} pay= ""/>
         </TouchableOpacity>
 
         <TouchableOpacity style={{marginTop:-28}} onPress={() => proceedToCheckout()}>
-          <Btn text={labels.proceedToCheckout} pay= "" x= "-15"/>
+          <Btn text={labels.proceedToCheckout} pay= "" x= {arOren == "ar"?20: -15}/>
         </TouchableOpacity>
       </ImageBackground>
     </ScrollView>

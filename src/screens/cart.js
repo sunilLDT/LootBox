@@ -1373,7 +1373,7 @@ const Cart = (props) => {
                 </ImageBackground>
               }
               {Object.keys(cartData).length === 0 ? null : cartPackage.length === 0 && cartItems.length === 0 ? null :
-                <TouchableOpacity onPress={() => checkout()}>
+                <TouchableOpacity style={{marginRight:arOren =="ar"? 50:0}} onPress={() => checkout()}>
                   <View style={{ width: "105%" }}>
                     {!loading ? (
                       <PayBtn text={labels.pay} price={cartData.grand_total} />

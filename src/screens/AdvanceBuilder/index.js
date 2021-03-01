@@ -556,7 +556,7 @@ const AdvanceBuilder = (props) => {
           </View>
           {open ?
             <SearchBar
-              placeholder={values.typeHere}
+              placeholder={props.labels.typeHere}
               round editable={true}
               value={search}
               onChangeText={(text) => searchFilterFunction(text)}

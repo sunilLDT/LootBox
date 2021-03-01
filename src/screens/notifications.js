@@ -6,6 +6,7 @@ import {
   Text,
   Dimensions,
   View,
+  ScrollView
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import {getNotification} from '../api/buildYourPc';
@@ -16,8 +17,6 @@ const Notifications = ({navigation, labels}) => {
 const [notification, setNotification] = useState([]);
   useEffect(() => {
     getNotification().then((response) => {
-      console.log("****************");
-      console.log(response.data);
        setNotification(response.data);
     
     }).catch((error) => {
@@ -37,6 +36,8 @@ const [notification, setNotification] = useState([]);
           overflow: 'hidden',
           padding: width * 0.1,
         }}>
+        <ScrollView showsVerticalScrollIndicator={false}>
+          
         <View
           style={{
             display: 'flex',
@@ -66,41 +67,42 @@ const [notification, setNotification] = useState([]);
         </View>
 
         {notification.map((data) => (
-          <LinearGradient
-            key={data.order_id}
-            start={{x: 0, y: 0}}
-            end={{x: 1, y: 0}}
-            colors={['rgba(255,255,255,0.069)', 'rgba(255,255,255,0.003) ']}
-            style={[
-              {
-                display: 'flex',
-                justifyContent: 'space-around',
-                borderRadius: 10,
-                height: height * 0.15,
-                width: width * 0.8,
-                marginBottom: 30,
-                padding: 20,
-              },
-            ]}>
-            <Text
-              style={{
-               
-                color: '#ECDBFA',
-                fontSize: 16,
-              }}>
-            {data.title_en}
-            </Text>
-            <Text
-              style={{
-               paddingTop : "4%",
-                color: '#ECDBFA',
-                fontSize: 14,
-                opacity: 0.4
-              }}>
-            {data.description_en}
-            </Text>
-          </LinearGradient>
+            <LinearGradient
+              key={data.order_id}
+              start={{x: 0, y: 0}}
+              end={{x: 1, y: 0}}
+              colors={['rgba(255,255,255,0.069)', 'rgba(255,255,255,0.003) ']}
+              style={[
+                {
+                  display: 'flex',
+                  justifyContent: 'space-around',
+                  borderRadius: 10,
+                  height: height * 0.15,
+                  width: width * 0.8,
+                  marginBottom: 30,
+                  padding: 20,
+                },
+              ]}>
+              <Text
+                style={{
+                
+                  color: '#ECDBFA',
+                  fontSize: 16,
+                }}>
+              {data.title_en}
+              </Text>
+              <Text
+                style={{
+                paddingTop : "4%",
+                  color: '#ECDBFA',
+                  fontSize: 14,
+                  opacity: 0.4
+                }}>
+              {data.description_en}
+              </Text>
+            </LinearGradient>
         ))}
+        </ScrollView>
       </ImageBackground>
     </View>
   );

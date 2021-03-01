@@ -37,7 +37,7 @@ const AddressList = (props) => {
                         style={{
                             fontSize: 12,
                             color: '#ECDBFA',
-                            marginRight:arOren == "it"?"6%":"0%",
+                            marginRight:arOren == "ar"?"3%":"0%",
                         }}>
                     {values.area_name},{values.city_name}
                     </Text>
@@ -58,7 +58,7 @@ const AddressList = (props) => {
                             fontSize: 12,
                             color: '#ECDBFA',
                             opacity: 0.5,
-                            marginRight:arOren == "it"?"6%":"0%",
+                            marginRight:arOren == "ar"?"3%":"0%",
                             
                         }}>
                     {values.area_name},{values.city_name}
@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
         marginVertical:5,
         borderColor:'#ffffff',
         borderWidth:0,
-        marginLeft:10,
+        // marginLeft:10,
         flex:1,
         marginTop:20,
         justifyContent:'space-between'
