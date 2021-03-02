@@ -122,7 +122,7 @@ const Signup = ({navigation, route, labels}) => {
               marginLeft: 10,
 
             }}>
-            {'Sign Up'}
+            {labels.singnUp}
           </Text>
         </View>
         <KeyboardAvoidingView 
@@ -378,7 +378,7 @@ const Signup = ({navigation, route, labels}) => {
                 width: '80%',
               }}>
               {!state.loading ? (
-                <Btn text={labels.singnUp.toUpperCase()} x="54" pay=""/>
+                <Btn text={labels.singnUp.toUpperCase()} x={arOren == "ar"?160:54} pay=""/>
               ) : (
                 <>
                   <Btn text={' '} x="54" pay="" />

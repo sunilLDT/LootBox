@@ -104,7 +104,6 @@ const PcDetails = ({ navigation, route, labels }) => {
                         </Text>
                     </View>
                     {packageData.map((cpuDetail, index) => {
-                        
                         return (
                             <TouchableOpacity
                                 key={index}
@@ -120,28 +119,87 @@ const PcDetails = ({ navigation, route, labels }) => {
                                         width: Platform.OS == 'android' ? 372 : 350,
                                         height: 278,
                                         marginVertical: "5%",
-                                        marginLeft: arOren == "ar" ? "-7%" : "0%",
+                                        // marginLeft: arOren == "ar" ? "-7%" : "0%",
+                                        transform: [
+                                            { scaleX: arOren == "ar" ? -1 : 1 }
+                                        ]
                                     }}
                                         source={DetailsInfoCard}
                                     >
                                         <View style={styles.container}>
-                                            {cpuDetail.image ? (
-                                                <Image style={styles.images} source={{ uri: cpuDetail.image }} />
-                                            ) : (
+                                            {arOren == "ar"?(
+                                            <>
+                                                <View style={styles.detailsContainer}>
+                                                    <Text numberOfLines={3} style={{
+                                                        color: 'white',
+                                                        fontSize: 15,
+                                                        fontFamily: Platform.OS == 'android' ? 'Michroma-Regular' : 'Michroma',
+                                                        fontWeight: "100",
+                                                        transform: [
+                                                            { scaleX: arOren == "ar" ? -1 : 1 }
+                                                        ]
+                                                    }}>{cpuDetail.name}
+                                                    </Text>
+                                                    <Text style={{
+                                                        color: '#75788E',
+                                                        marginVertical: 7,
+                                                        fontFamily: Platform.OS == 'android' ? 'Michroma-Regular' : 'Michroma',
+                                                        fontSize: 10,
+                                                        transform: [
+                                                            { scaleX: arOren == "ar" ? -1 : 1 }
+                                                        ]
+                                                    }}>KD {sum(cpuDetail.items)}</Text>
+                                                    <Image style={styles.arrow} source={PriceArrowImage} />
+                                                </View>
+                                                {cpuDetail.image ? (
+                                                    <Image style={{
+                                                        width: width * 0.4,
+                                                        height: height * 0.2,
+                                                        resizeMode: 'contain',
+                                                        borderRadius: 12,
+                                                        
+                                                    }} source={{ uri: cpuDetail.image }} />
+                                                ) : (
                                                     <Image source={require('../../assets/thumbnail.png')} style={styles.images} />
                                                 )}
-                                            <View style={styles.detailsContainer}>
-
-                                                <Text numberOfLines={3} style={{
-                                                    color: 'white',
-                                                    fontSize: 15,
-                                                    fontFamily: Platform.OS == 'android' ? 'Michroma-Regular' : 'Michroma',
-                                                    fontWeight: "100",
-                                                }}>{cpuDetail.name}
-                                                </Text>
-                                                <Text style={styles.detailsText1}>KD {sum(cpuDetail.items)}</Text>
-                                                <Image style={styles.arrow} source={PriceArrowImage} />
-                                            </View>
+                                            </>
+                                            ):(
+                                                <>
+                                                    {cpuDetail.image ? (
+                                                        <Image style={{
+                                                            width: width * 0.4,
+                                                            height: height * 0.2,
+                                                            resizeMode: 'contain',
+                                                            borderRadius: 12,
+                                                            
+                                                        }} source={{ uri: cpuDetail.image }} />
+                                                    ) : (
+                                                        <Image source={require('../../assets/thumbnail.png')} style={styles.images} />
+                                                    )}
+                                                    <View style={styles.detailsContainer}>
+                                                        <Text numberOfLines={3} style={{
+                                                            color: 'white',
+                                                            fontSize: 15,
+                                                            fontFamily: Platform.OS == 'android' ? 'Michroma-Regular' : 'Michroma',
+                                                            fontWeight: "100",
+                                                            transform: [
+                                                                { scaleX: arOren == "ar" ? -1 : 1 }
+                                                            ]
+                                                        }}>{cpuDetail.name}
+                                                        </Text>
+                                                        <Text style={{
+                                                            color: '#75788E',
+                                                            marginVertical: 7,
+                                                            fontFamily: Platform.OS == 'android' ? 'Michroma-Regular' : 'Michroma',
+                                                            fontSize: 10,
+                                                            transform: [
+                                                                { scaleX: arOren == "ar" ? -1 : 1 }
+                                                            ]
+                                                        }}>KD {sum(cpuDetail.items)}</Text>
+                                                        <Image style={styles.arrow} source={PriceArrowImage} />
+                                                    </View>
+                                            </>
+                                            )}
                                         </View>
                                         <View style={{ zIndex: 8000, marginLeft: 50 }}>
                                             <ScrollView horizontal showsHorizontalScrollIndicator={false}
@@ -159,7 +217,16 @@ const PcDetails = ({ navigation, route, labels }) => {
                                                         data={cpuDetail.items}
                                                         renderItem={({ item }, index) => {
                                                             return (
-                                                                <View key={index} style={styles.attributesView}>
+                                                                <View key={index} style={{
+                                                                    display: 'flex',
+                                                                    flexDirection: 'row',
+                                                                    justifyContent: 'center',
+                                                                    marginLeft: "2%",
+                                                                    marginVertical: "1%",
+                                                                    transform: [
+                                                                        { scaleX: arOren == "ar" ? -1 : 1 }
+                                                                    ]
+                                                                }}>
                                                                     <View style={styles.attributesViewTouch}>
                                                                         <Text style={{
                                                                             color: '#ECDBFA',
@@ -173,6 +240,7 @@ const PcDetails = ({ navigation, route, labels }) => {
                                                                             fontStyle: 'italic',
                                                                             borderColor: '#5A5963',
                                                                             fontSize: 12,
+                                                                            
                                                                         }}>{item.name}</Text>
                                                                         <Text style={{
                                                                             color: '#5A5963',
@@ -196,7 +264,14 @@ const PcDetails = ({ navigation, route, labels }) => {
                                                 </View>
                                             </ScrollView>
                                         </View>
-                                        <View style={styles.playableView}>
+                                        <View style={{
+                                             flex: 1,
+                                             justifyContent: 'flex-end',
+                                             alignItems: 'flex-end',
+                                             transform: [
+                                                { scaleX: arOren == "ar" ? -1 : 1 }
+                                            ]
+                                        }}>
                                             <ImageBackground
                                                 source={PlayableImg}
                                                 style={styles.playableBtn}

@@ -9,7 +9,6 @@ function getLabelAction(lang) {
   return (dispatch) => {
     //dispatch(request());
     getLabelsApi().then((response) => {
-     
       dispatch(success(response.data));
     }).catch((error) => {
       console.log("label api in redux" + error);

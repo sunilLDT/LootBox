@@ -9,7 +9,8 @@ import {
   Text,
   StyleSheet,
   ActivityIndicator,
-  FlatList
+  FlatList,
+  BackHandler
 } from 'react-native';
 import Icons from 'react-native-vector-icons/FontAwesome';
 import RBSheet from "react-native-raw-bottom-sheet";
@@ -112,8 +113,13 @@ const Cart = (props) => {
       });
     }
     getD();
-   
+    BackHandler.addEventListener('hardwareBackPress', handleBackButton);
   }, checkCOD?[]:[isFocused]);
+
+  const handleBackButton = () => {
+    console.log('cart back  button is pressed');
+    return true;
+}
 
   var y = allAddress.map((i) => {
     return i.is_default === 1 ? true : false;
@@ -1087,7 +1093,7 @@ const Cart = (props) => {
                     fontSize: 20,
                     fontFamily: Platform.OS == 'android' ? 'Michroma-Regular' : 'Michroma'
                   }}
-                  >Your Cart is empty
+                  >{labels.yourCartIsEmpty}
             </Text>
                 </View>
               ) : cartPackage.length === 0 && cartItems.length === 0 ? <View style={{
@@ -1101,7 +1107,7 @@ const Cart = (props) => {
                   fontSize: 20,
                   fontFamily: Platform.OS == 'android' ? 'Michroma-Regular' : 'Michroma'
                 }}
-                >Your Cart is empty
+                >{labels.yourCartIsEmpty}
           </Text>
         </View>:
         <ImageBackground
@@ -1198,7 +1204,7 @@ const Cart = (props) => {
                         color: '#DF2EDC',
                         fontFamily: 'Montserrat-Medium',
                       }}>
-                      {props.address?props.address.length === 0 ? "Add Address" : "Change":null}
+                      {props.address?props.address.length === 0 ? labels.addAddress: labels.change:null}
                     </Text>
                   </TouchableOpacity>
                 </View>
@@ -1398,7 +1404,7 @@ const Cart = (props) => {
               <View>
                 <TouchableOpacity style={{ marginTop: 10, marginLeft: 40 }} onPress={() => props.navigation.navigate('home')}>
                   <View style={{ width: "87%", }}>
-                    <SaveBtn text={labels.continueShopping} x="100" />
+                    <SaveBtn text={labels.continueShopping} x={arOren == "ar" ? "250": "100"}/>
                   </View>
                 </TouchableOpacity>
               </View>
@@ -1437,13 +1443,13 @@ const Cart = (props) => {
       >
         {/* bottom tab component */}
       <View >
-            <Text style={styles.bottomTabTitle} >Select Payment Method</Text>
+            <Text style={styles.bottomTabTitle} >{labels.selectPaymentMethod}</Text>
       <View style={styles.bottomListContainer}>
       <FlatList
         data={[
           { paymentType:1, icon:<Icons name="credit-card" color={"#D2D7F9"} size={25} />, key: 'KNET'},
           { paymentType:2,icon:<Icons name="credit-card" color={"#D2D7F9"}  size={25} />, key: 'VISA'},
-          { paymentType:3,icon:<Icons name="briefcase"  color={"#D2D7F9"} size={25}/>, key: 'Cash On Delivery'}, 
+          { paymentType:3,icon:<Icons name="briefcase"  color={"#D2D7F9"} size={25}/>, key: labels.cashOnDelivery}, 
         ]}
         renderItem={({item}) => <TouchableOpacity onPress={() => paymentOption(item.paymentType)} ><View style={styles.itemContainer} >{item.icon}<Text style={styles.item}>{item.key}</Text></View></TouchableOpacity>}
       />

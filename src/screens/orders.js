@@ -20,6 +20,8 @@ const Orders = ({ navigation, labels }) => {
   const [orderList, setOrderList] = useState([]);
   const [loading, setLoading] = useState(false);
 
+  console.log(orderList)
+
   useEffect(() => {
     setLoading(true);
     getOrderList(1).then((response) => {
@@ -224,7 +226,7 @@ const Orders = ({ navigation, labels }) => {
                     </Text>
                           </View>
                         </View>
-                        <Text
+                        {/* <Text
                           style={{
                             color: '#ECDBFA',
 
@@ -233,7 +235,7 @@ const Orders = ({ navigation, labels }) => {
                             lineHeight: 20,
                           }}>
                           Will be delivered in 3-4 days
-                </Text>
+                </Text> */}
                       </ImageBackground>
                     </TouchableOpacity>
                   ))}

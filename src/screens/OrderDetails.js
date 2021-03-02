@@ -25,10 +25,8 @@ import { connect } from 'react-redux';
 const { height, width } = Dimensions.get('window');
 
 const OrderDetails = (props) => {
-  const { labels } = props
-  // async function getEmail() {
-  //   return await AsyncStorage.getItem('email')
-  // }
+  const { labels } = props;
+  console.log(labels.name)
 
   const steps = [
     { order_status: 0, primary: labels.pending, secondary: '' },
@@ -46,20 +44,19 @@ const OrderDetails = (props) => {
   const [showCpuPerocessersList, setShowCpuProcesserList] = useState(false);
   const [open, setOpen] = useState();
   const [download, setDownload] = useState(false);
-  // const [email, setemail] = useState('')
   const maxlimit = 22;
   var imgSource = upwardImage ? ExpandImage : CloseImage;
-
+  console.log("**** doenload ///")
+  console.log(orderDetails)
 
   useEffect(() => {
     setLoading(true);
-    // setemail(getEmail())
     getOrderDetails(orderId).then((response) => {
       setorderDetails(response.data)
       setpackageItems(response.data.order_package_items)
       setitems(response.data.items)
       setLoading(false)
-      console.log(orderDetails)
+
     }).catch((error) => {
       console.log("Order Details" + error);
       setLoading(false)
@@ -189,7 +186,7 @@ const OrderDetails = (props) => {
                                   fontFamily: Platform.OS == 'android' ? 'Michroma-Regular' : 'Michroma',
                                   color: orderDetails.order_status == step.order_status ? '#DF2EDC' : '#ECDBFA',
                                 }}>{step.primary}</Text>
-                              {step.order_status == 2 && (
+                              {/* {step.order_status == 2 && (
                                 <Text
                                   style={{
                                     fontFamily: 'Montserrat-Regular',
@@ -205,7 +202,7 @@ const OrderDetails = (props) => {
                                       fontFamily: 'Montserrat-Bold',
                                     }}>tomorrow, 06:00 PM</Text>
                                 </Text>
-                              )}
+                              )} */}
                             </View>
                           </View>
                           {index != 0 && (
@@ -267,6 +264,7 @@ const OrderDetails = (props) => {
                             height: 75,
                             marginVertical: 10,
                             flexDirection: 'row',
+                            
                           }}>
                           <Image
                             resizeMode="contain"
@@ -278,6 +276,7 @@ const OrderDetails = (props) => {
                               right: 30,
                               alignSelf: 'center',
                               justifyContent: 'center',
+                              borderRadius:15
                             }}
                           />
                           <View
@@ -375,7 +374,7 @@ const OrderDetails = (props) => {
                                       }}>
                                       <Image
                                         source={{ uri: packageItems.image }}
-                                        style={{ width: 48, height: 40, marginBottom: 10, alignSelf: 'center' }} />
+                                        style={{ width: 48, height: 40, marginBottom: 10, alignSelf: 'center', borderRadius:15 }} />
                                       <Text
                                         adjustsFontSizeToFit={true}
                                         numberOfLines={2}
@@ -384,7 +383,8 @@ const OrderDetails = (props) => {
                                           fontWeight: '700',
                                           color: '#FFFFFF',
                                           marginBottom: 10,
-                                          alignSelf: 'center'
+                                          alignSelf: 'center',
+                                         
                                         }}
                                       >
                                         {((packageItems.name).length > maxlimit) ? (((packageItems.name).substring(0, maxlimit - 3)) + '...') : packageItems.name}
@@ -462,6 +462,7 @@ const OrderDetails = (props) => {
                               right: 30,
                               alignSelf: 'center',
                               justifyContent: 'center',
+                              borderRadius:15
                             }}
                           />
                         ) : (
@@ -828,26 +829,45 @@ const OrderDetails = (props) => {
                   padding: 20,
                   overflow: 'hidden',
                 }}>
-                <View style={{ marginVertical: 7 }}>
-                  <Text
-                    style={{
-                      fontFamily: 'Montserrat-Regular',
-                      fontSize: 12,
-                      color: '#ECDBFA',
-                      opacity: 0.5,
-                    }}>
-                    Name
-              </Text>
-                  {orderDetails.address !== null ? (
+                <View style={{
+                    marginVertical: 7,
+                  }}>
+                  <View style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    flexDirection: 'row',
+                  }}>
                     <Text
                       style={{
-                        fontFamily: 'Montserrat-SemiBold',
-                        fontSize: 14,
+                        fontFamily: 'Montserrat-Regular',
+                        fontSize: 12,
                         color: '#ECDBFA',
+                        opacity: 0.5,
                       }}>
-                      {orderDetails.address.name}
+                      {labels.name}
                     </Text>
+                  </View>
+                  {orderDetails.address !== null ? (
+                    <View style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      flexDirection: 'row',
+                    }}>
+                      <Text
+                        style={{
+                          fontFamily: 'Montserrat-SemiBold',
+                          fontSize: 14,
+                          color: '#ECDBFA',
+                        }}>
+                        {orderDetails.address.name}
+                      </Text>
+                    </View>
                   ) : (
+                    <View style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      flexDirection: 'row',
+                    }}>
                       <Text
                         style={{
                           fontFamily: 'Montserrat-SemiBold',
@@ -856,34 +876,48 @@ const OrderDetails = (props) => {
                         }}>
                         Jhone
                       </Text>
+                    </View>
                     )}
                 </View>
                 <View style={{ marginVertical: 7 }}>
-                  <Text
-                    style={{
-                      fontFamily: 'Montserrat-Regular',
-                      fontSize: 12,
-                      color: '#ECDBFA',
-                      opacity: 0.5,
-                    }}>
-                    Shipping Address
-              </Text>
-                  {orderDetails.address !== null ? (
+                <View
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    flexDirection: 'row',
+                  }}>
                     <Text
                       style={{
-                        fontFamily: 'Montserrat-Bold',
-                        fontSize: 14,
-                        color: '#D2D7F9',
-                        opacity: 0.87,
-                        // paddingLeft:20,
+                        fontFamily: 'Montserrat-Regular',
+                        fontSize: 12,
+                        color: '#ECDBFA',
+                        opacity: 0.5,
                       }}>
-                      {orderDetails.address.city_name},
-                      {orderDetails.address.building},
-                      {orderDetails.address.street},
-                      {orderDetails.address.building},
-                      {orderDetails.address.apartment},
-                      {orderDetails.address.floor}
+                      {labels.shippingAddress}
                     </Text>
+                  </View>
+                  {orderDetails.address !== null ? (
+                    <View
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      flexDirection: 'row',
+                    }}>
+                      <Text
+                        style={{
+                          fontFamily: 'Montserrat-Bold',
+                          fontSize: 14,
+                          color: '#D2D7F9',
+                          opacity: 0.87,
+                        }}>
+                        {orderDetails.address.city_name},
+                        {orderDetails.address.building},
+                        {orderDetails.address.street},
+                        {orderDetails.address.building},
+                        {orderDetails.address.apartment},
+                        {orderDetails.address.floor}
+                      </Text>
+                    </View>
                   ) : <Text
                     style={{
                       fontFamily: 'Montserrat-Bold',
@@ -897,6 +931,12 @@ const OrderDetails = (props) => {
                 </View>
 
                 <View style={{ marginVertical: 7 }}>
+                <View
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    flexDirection: 'row',
+                  }}>
                   <Text
                     style={{
                       fontFamily: 'Montserrat-Regular',
@@ -904,19 +944,33 @@ const OrderDetails = (props) => {
                       color: '#ECDBFA',
                       opacity: 0.5,
                     }}>
-                    Payment Method
-              </Text>
+                    {labels.paymentMethod}
+                  </Text>
+                </View>
+                <View
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    flexDirection: 'row',
+                  }}>
                   <Text
                     style={{
                       fontFamily: 'Montserrat-SemiBold',
                       fontSize: 14,
                       color: '#ECDBFA',
                     }}>
-                    By {orderDetails.payment_type_text}
+                    {labels.by} {orderDetails.payment_type_text}
                   </Text>
+                </View>
                 </View>
 
                 <View style={{ marginVertical: 7 }}>
+                <View
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  flexDirection: 'row',
+                }}>
                   <Text
                     style={{
                       fontFamily: 'Montserrat-Regular',
@@ -924,8 +978,9 @@ const OrderDetails = (props) => {
                       color: '#ECDBFA',
                       opacity: 0.5,
                     }}>
-                    Invoice sent to
-              </Text>
+                    {labels.InvoiceSentTo}
+                  </Text>
+                </View>
                   <View
                     style={{
                       display: 'flex',
@@ -934,23 +989,37 @@ const OrderDetails = (props) => {
                       justifyContent: 'space-between',
                     }}>
                     {orderDetails.address !== null ? (
-                      <Text
-                        style={{
-                          fontFamily: 'Montserrat-SemiBold',
-                          fontSize: 14,
-                          color: '#ECDBFA',
-                        }}>
-                        {/* {email} */}
-                      </Text>
-                    ) : (
+                      <View
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        flexDirection: 'row',
+                      }}>
                         <Text
                           style={{
                             fontFamily: 'Montserrat-SemiBold',
                             fontSize: 14,
                             color: '#ECDBFA',
                           }}>
-                          Jhone@noemail.com
+                          {orderDetails.address.email}
                         </Text>
+                      </View>
+                    ) : (
+                      <View
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          flexDirection: 'row',
+                        }}>
+                          <Text
+                            style={{
+                              fontFamily: 'Montserrat-SemiBold',
+                              fontSize: 14,
+                              color: '#ECDBFA',
+                            }}>
+                            Jhone@noemail.com
+                          </Text>
+                        </View>
                       )}
 
 
@@ -962,15 +1031,18 @@ const OrderDetails = (props) => {
                       source={{ uri: download == true ? "https://test-api.loot-box.co/invoice.pdf" : "" }}
 
                     ></WebView>
-                      <Text style={{ color: "#DF2EDC", fontFamily: Platform.OS == 'android' ? 'Montserrat-SemiBold' : 'Montserrat', }} >Download</Text>
+                      <Text style={{ color: "#DF2EDC", fontFamily: Platform.OS == 'android' ? 'Montserrat-SemiBold' : 'Montserrat', }} >{labels.download}</Text>
                     </TouchableOpacity>
-
-
-
                   </View>
                 </View>
 
                 <View style={{ marginVertical: 7 }}>
+                <View
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    flexDirection: 'row',
+                }}>
                   <Text
                     style={{
                       fontFamily: 'Montserrat-Regular',
@@ -978,8 +1050,15 @@ const OrderDetails = (props) => {
                       color: '#ECDBFA',
                       opacity: 0.5,
                     }}>
-                    Payment ID
-              </Text>
+                    {labels.paymentID}
+                  </Text>
+                </View>
+                <View
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    flexDirection: 'row',
+                  }}>
                   <Text
                     style={{
                       fontFamily: 'Montserrat-SemiBold',
@@ -988,9 +1067,16 @@ const OrderDetails = (props) => {
                     }}>
                     {orderDetails.payment_id}
                   </Text>
+                  </View>
                 </View>
 
                 <View style={{ marginVertical: 7 }}>
+                <View
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  flexDirection: 'row',
+                }}>
                   <Text
                     style={{
                       fontFamily: 'Montserrat-Regular',
@@ -998,21 +1084,29 @@ const OrderDetails = (props) => {
                       color: '#ECDBFA',
                       opacity: 0.5,
                     }}>
-                    Date & Time
-              </Text>
-                  <Text
-                    style={{
-                      fontFamily: 'Montserrat-SemiBold',
-                      fontSize: 14,
-                      color: '#ECDBFA',
-                    }}>
-                    {dateTime}
+                    {labels.dateTime}
                   </Text>
+                </View>
+                <View
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    flexDirection: 'row',
+                  }}>
+                    <Text
+                      style={{
+                        fontFamily: 'Montserrat-SemiBold',
+                        fontSize: 14,
+                        color: '#ECDBFA',
+                      }}>
+                      {dateTime}
+                    </Text>
+                </View>
                 </View>
               </ImageBackground>
 
               <TouchableOpacity onPress={() => props.navigation.navigate('contact')}>
-                <Btn text="Need any help?" x="15" pay="" />
+                <Btn text={labels.needHelp} x="15" pay="" />
               </TouchableOpacity>
             </View>
           </ScrollView>

@@ -15,7 +15,6 @@ import { cartActions } from '../../actions/user';
 import selectedIcCardImage from '../../assets/Rectangle.png';
 import searchIcon from '../../assets/ic_search.png';
 import filterIcon from '../../assets/ic_filter.png';
-import filter from 'lodash.filter';
 import { SearchBar } from 'react-native-elements';
 import { packageActions } from '../../actions/package';
 import thumbnail from '../../assets/thumbnail.png';
@@ -24,7 +23,8 @@ import Dialog, {
   DialogContent,
   SlideAnimation,
 } from 'react-native-popup-dialog';
-import Filter from '../filter'
+import Filter from '../filter';
+import filter from 'lodash.filter';
 function useForceUpdate(){
   const [value, setValue] = useState(0); // integer state
   return () => setValue(value => ++value); // update the state to force render
@@ -44,7 +44,7 @@ const ItemListing = (props) => {
   const [data, setData] = useState(items);
   const [query, setQuery] = useState('');
   const [open, setOpen] = useState(false);
-  const [filter , setFilter ] = useState(false)
+  const [filterF , setFilter ] = useState(false)
   const [filterValues, setFilterApplied ] = useState({})
   const forceUpdate = useForceUpdate();
   const selectHandler = (id, name, price) => {
@@ -99,8 +99,8 @@ const ItemListing = (props) => {
       <>
         {open ? (
           <SearchBar
-            placeholder="Type here..."
-            lightTheme round editable={true}
+            placeholder={props.labels.typeHere}
+            round editable={true}
             value={query}
             onChangeText={queryText => handleSearch(queryText)}
             containerStyle={{
@@ -171,22 +171,22 @@ const ItemListing = (props) => {
             />
           </TouchableOpacity>
           <Dialog
-                visible={filter}
+                visible={filterF}
                 containerStyle={{ zIndex: 10, elevation: 10 }}
                 onHardwareBackPress={() => handlePress()}
                 dialogStyle={{ backgroundColor: '#272732', width: '100%', height: '50%' }}
                 dialogAnimation={new SlideAnimation({
                     slideFrom: 'bottom',
                 })}
-                onTouchOutside={() => { setFilter(!filter) }}
+                onTouchOutside={() => { setFilter(!filterF) }}
             >
                 <DialogContent>
                     <View>
-                      <Filter type="advanceBuilder" filter1={(r) => handleFilters(r)} initalValues={filterValues}  allCategories={items} />
+                      <Filter labels={props.labels} type="advanceBuilder" filter1={(r) => handleFilters(r)} initalValues={filterValues}  allCategories={items} />
                     </View>
                 </DialogContent>
             </Dialog>
-          <TouchableOpacity onPress={() => setFilter(!filter) }>
+          <TouchableOpacity onPress={() => setFilter(!filterF) }>
             <Image
               style={styles.icons}
               source={filterIcon}
@@ -329,13 +329,13 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => ({
   cart: state.cartReducer.cart,
   packages: state.packageReducer.packages,
-
+  labels: state.languageReducer.labels,
 })
 
 const actionCreators = {
   add: cartActions.addCartAction,
   updatePackages: packageActions.updatePackages,
-
+  
 };
 
 export default connect(mapStateToProps, actionCreators)(React.memo(ItemListing))

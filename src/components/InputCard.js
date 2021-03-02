@@ -1,5 +1,5 @@
 import React,{useState} from 'react';
-import {Text, StyleSheet, Dimensions} from 'react-native';
+import {Text, StyleSheet, Dimensions,View} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { languagename } from '../components/LanguageName';
 const {height, width} = Dimensions.get('window');
@@ -23,11 +23,12 @@ const InputCard = ({placeholder,style,inpStyle}) => {
             },
             style,
         ]}>
+            
             <Text style={[{
                 fontSize: 13,
                 width: width * 0.7,
                 color: '#ECDBFA', 
-                textAlign: arOren == "ar"? 'left':'right'
+                textAlign: arOren == "ar"?'left':'auto',
             }, inpStyle]}>
                 {placeholder}
             </Text>

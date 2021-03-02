@@ -249,7 +249,7 @@ const Profile = (props) => {
           <DialogContent>
             <View>
               <View style={{ marginTop: 15 }}>
-                <Text style={{ color: '#fff', fontSize: 20, alignSelf: 'center', fontFamily: Platform.OS == 'android' ? 'Michroma-Regular' : 'Michroma' }}>Change Password</Text>
+                <Text style={{ color: '#fff', fontSize: 20, alignSelf: 'center', fontFamily: Platform.OS == 'android' ? 'Michroma-Regular' : 'Michroma' }}>{labels.changePassword}</Text>
               </View>
               <View style={{ marginVertical: 15 }}>
                 <Input placeholder={labels.currentPassword} password onChangeText={(oldPassword) => setOldPassword(oldPassword)} />
@@ -263,7 +263,7 @@ const Profile = (props) => {
               <TouchableWithoutFeedback
                 onPress={() => changePassword()}>
                 <View style={{ marginVertical: 5 }}>
-                  <SaveBtn text={labels.save} />
+                  <SaveBtn text={labels.save} x={arOren == "ar"? 250:0}/>
                 </View>
               </TouchableWithoutFeedback>
             </View>
@@ -307,7 +307,7 @@ const Profile = (props) => {
                         marginLeft: 10,
 
                       }}>
-                      {strings.editProfile}
+                      {labels.editProfile}
                     </Text>
                   </View>
 
@@ -399,6 +399,19 @@ const Profile = (props) => {
                   </View>
                   <View style={{ marginVertical: 10 }}>
                     <TouchableOpacity onPress={() => { setShow(true) }}>
+                      {arOren == "ar"?(
+                        <InputCard
+                        placeholder={`تاريخ الولادة: ${DOB &&
+                          DOB
+                            .toLocaleDateString('en', {
+                              day: 'numeric',
+                              month: 'short',
+                              year: 'numeric',
+                            })
+                            .replace(/ /g, '-')
+                          }`}
+                      />
+                      ):(
                       <InputCard
                         placeholder={`Date of Birth : ${DOB &&
                           DOB
@@ -410,6 +423,7 @@ const Profile = (props) => {
                             .replace(/ /g, '-')
                           }`}
                       />
+                      )}
                     </TouchableOpacity>
                     {show && (
                       <DateTimePicker
@@ -459,8 +473,8 @@ const Profile = (props) => {
                           setGender(itemValue)
                         }
                       >
-                        <Picker.Item label="Male" value="1" color="#ECDBFA"/>
-                        <Picker.Item label="Female" value="2"  color="#ECDBFA"/>
+                        <Picker.Item label={labels.male} value="1" color="#ECDBFA"/>
+                        <Picker.Item label={labels.female} value="2"  color="#ECDBFA"/>
                       </Picker>
                     ) : (
                         <View>
@@ -479,8 +493,8 @@ const Profile = (props) => {
                                 : styles.inputAndroid
                             }
                             items={[
-                              { "label": "Male", "value": 1 },
-                              { "label": "Female", "value": 2 }
+                              { "label": labels.male, "value": 1 },
+                              { "label": labels.female, "value": 2 }
                             ]}
                             inputIOS={{
                               color: 'white',
@@ -529,7 +543,7 @@ const Profile = (props) => {
                           color: '#ECDBFA',
                           opacity: 0.5,
                         }}>
-                        {strings.address}
+                        {labels.address}
                       </Text>
                       <TouchableOpacity onPress={() => props.navigation.navigate('address', { addressId: "" })} activeOpacity={0.4}>
                         <Text
@@ -539,7 +553,7 @@ const Profile = (props) => {
                             fontStyle: 'italic',
                             marginRight:arOren == "ar"?"13%":"0%",
                           }}>
-                          + {strings.address}
+                          + {labels.address}
                         </Text>
                       </TouchableOpacity>
                     </View>
@@ -559,7 +573,7 @@ const Profile = (props) => {
                           />
                         </>
                       ) : (
-                          <SaveBtn text={labels.save} />
+                          <SaveBtn text={labels.save} x={arOren == "ar"? 250:0}/>
                         )}
                     </View>
                   </TouchableWithoutFeedback>

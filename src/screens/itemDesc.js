@@ -182,7 +182,7 @@ const renderViewLess = (onPress) => {
                     ? 'Montserrat-Light'
                     : 'Montserrat',
                 }}>
-                  Item added successfully
+                  {labels.itemAddedSuccessfully}
                 </Text>
               </View>
              </DialogContent>
@@ -202,7 +202,7 @@ const renderViewLess = (onPress) => {
               ? 'Montserrat-Light'
               : 'Montserrat',
               }}>
-                OK
+                {labels.ok}
               </Text>
             </View>
             </TouchableOpacity>

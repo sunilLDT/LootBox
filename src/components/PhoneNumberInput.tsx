@@ -111,7 +111,7 @@ const Input = ({
                   fontSize: 13,
                   width: width * 0.65,
                   color: '#ECDBFA',
-                  textAlign: arOren == "it"? 'right':'left'
+                  textAlign: arOren == "ar"? 'right':'left'
                 }, inpStyle]}
                 />
             </View>

@@ -253,7 +253,7 @@ const BuildYourPc = ({ navigation, labels }) => {
                 height: 32,
                 width: 153,
               }}>
-                <AdvanceBuilderButton x={arOren == "ar"?20:0} text={labels.advancedBuilder} />
+                <AdvanceBuilderButton x={arOren == "ar"?55:0} text={labels.advancedBuilder} />
               </View>
             </TouchableOpacity>
           </View>
@@ -392,7 +392,7 @@ const BuildYourPc = ({ navigation, labels }) => {
                       onPress={() =>
                         submitGames()
                       }>
-                      <Btn text={labels.BuildYourPc} pay="" />
+                      <Btn text={labels.BuildYourPc} pay=""  x={arOren == "ar"? 115:0}/>
 
                     </TouchableOpacity>
                   </View>

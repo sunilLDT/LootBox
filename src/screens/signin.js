@@ -252,7 +252,7 @@ const Signin = ({ navigation ,labels}) => {
                   fontWeight: 'bold',
 
                 }}>
-                Forgot Password?
+                {labels.forgotPassword}
               </Text>
             </TouchableOpacity>
 
@@ -263,7 +263,7 @@ const Signin = ({ navigation ,labels}) => {
                 height: height * 0.1,
               }}>
               {!state.loading ? (
-                <Btn text={labels.login.toUpperCase()} pay="" x={arOren == "ar"?30:54} />
+                <Btn text={labels.login.toUpperCase()} pay="" x={arOren == "ar"?120:54} />
               ) : (
                   <>
                     <Btn text={' '} x="54" pay="" />
@@ -281,7 +281,7 @@ const Signin = ({ navigation ,labels}) => {
               }}
             >
               <View style={{ marginVertical: 10 }}>
-                <ContinueBtn text={labels.continueWithGmail}  />
+                <ContinueBtn text={labels.continueWithGmail}  x={arOren == "ar"?205:0}/>
               </View>
             </TouchableWithoutFeedback>
           </ScrollView>

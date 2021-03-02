@@ -23,7 +23,6 @@ import { languagename } from '../../components/LanguageName';
 const { width, height } = Dimensions.get('window');
 
 const ProductDetails = (props) => {
-
   const { PackageId } = props.route.params;
   const { cart_package_id } = props.route.params;
   const [packageDetailsData, setPackageDetailsData] = useState({});
@@ -162,7 +161,7 @@ const ProductDetails = (props) => {
                       activeOpacity={0.1}
                       onPress={() => addIntoCart()}>
                       {!loading ? (
-                        <Btn text={props.labels.BuildYourPc} pay=" " />
+                        <Btn text={props.labels.BuildYourPc} pay=" " x={arOren == "ar"? 115:0}/>
                       ) : (
                           <>
                             <Btn text={''} pay=" " />

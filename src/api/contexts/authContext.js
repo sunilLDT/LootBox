@@ -432,6 +432,7 @@ const signup = (dispatch) => async (data) => {
       type: 'toggle_loading',
     });
   } catch (e) {
+    console.log("sign up error message ======")
     console.log(e.message);
     dispatch({
       type: 'add_msg',

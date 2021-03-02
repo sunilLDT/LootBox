@@ -24,6 +24,7 @@ import RNPickerSelect from 'react-native-picker-select';
 import { GoogleMap } from './googeMaps';
 import { he } from 'date-fns/locale';
 import PopUp from '../components/popup';
+import {languagename} from '../components/LanguageName';
 const { width, height } = Dimensions.get('window');
 
 const Address = (props) => {
@@ -33,6 +34,8 @@ const Address = (props) => {
     const [loading, setLoading] = useState(false);
     const [allAddress, setAllAddress] = useState([]);
     const [move,setMove] = useState(0);
+    const [arOren,setarOren] = useState('en');
+    languagename().then(res => setarOren(res))
     if (addressId && addressId !== "") {
         useEffect(() => {
             setLoading(true)
@@ -64,7 +67,6 @@ const Address = (props) => {
     const [addressType, setAddressType] = useState();
     const [selectedArea, setSelectedArea] = useState();
     const [selectedCity, setselectedCity] = useState();
-    // const [email, setEmail] = useState();
     const [name, setName] = useState();
     const [block, setBlock] = useState();
     const [street, setStreet] = useState();
@@ -345,7 +347,7 @@ const Address = (props) => {
                                                         setSelectedArea(itemValue)
                                                     }
                                                 >
-                                                    <Picker.Item label='Select area' value=''color="#ECDBFA" />
+                                                    <Picker.Item label={labels.selectArea} value=''color="#ECDBFA" />
                                                     {areas.map((areasValues, index) => {
                                                         return (
                                                             <Picker.Item
@@ -390,21 +392,21 @@ const Address = (props) => {
                                         </LinearGradient>
                                         <View style={styles.blockStreet}>
                                             <View style={styles.inputView}>
-                                                <Input placeholder="Block" style={styles.inputBlock} value={block} onChangeText={(Block) => setBlock(Block)} />
+                                                <Input placeholder={labels.block} style={styles.inputBlock} value={block} onChangeText={(Block) => setBlock(Block)} />
                                             </View>
                                             <View style={styles.inputView}>
-                                                <Input placeholder="Street" style={styles.input} value={street} onChangeText={(Street) => setStreet(Street)} />
+                                                <Input placeholder={labels.street} style={styles.input} value={street} onChangeText={(Street) => setStreet(Street)} />
                                             </View>
                                         </View>
                                         <View style={{ marginVertical: 15, paddingHorizontal: '7%', }}>
-                                            <Input placeholder="House" value={building} onChangeText={(Building) => setBuilding(Building)} />
+                                            <Input placeholder={labels.house} value={building} onChangeText={(Building) => setBuilding(Building)} />
                                         </View>
                                         <View style={styles.blockStreet}>
                                             <View style={styles.inputView}>
-                                                <Input placeholder="Floor (optional)" style={styles.input} value={floor} onChangeText={(Floor) => setFloor(Floor)} />
+                                                <Input placeholder={`${labels.floor} ${labels.optional}`} style={styles.input} value={floor} onChangeText={(Floor) => setFloor(Floor)} />
                                             </View>
                                             <View style={styles.inputView}>
-                                                <Input placeholder="Apartment (optional)" style={styles.input} value={apartment} onChangeText={(aprt) => setapartment(aprt)} />
+                                                <Input placeholder={`${labels.apartment} ${labels.optional}`} style={styles.input} value={apartment} onChangeText={(aprt) => setapartment(aprt)} />
                                             </View>
                                         </View>
                                         {/* <View style={{marginVertical: 15,paddingHorizontal:'7%',}}>
@@ -441,10 +443,10 @@ const Address = (props) => {
                                                         setAddressType(itemValue)
                                                     }
                                                 >
-                                                    <Picker.Item label='Address Type' value='' color="#ECDBFA"/>
-                                                    <Picker.Item label="Home" value="Home" color="#ECDBFA"/>
-                                                    <Picker.Item label="Office" value="Office"color="#ECDBFA" />
-                                                    <Picker.Item label="Other" value="Other"color="#ECDBFA" />
+                                                    <Picker.Item label={labels.addressType} value='' color="#ECDBFA"/>
+                                                    <Picker.Item label={labels.home} value="Home" color="#ECDBFA"/>
+                                                    <Picker.Item label={labels.office} value="Office"color="#ECDBFA" />
+                                                    <Picker.Item label={labels.other} value="Other"color="#ECDBFA" />
                                                 </Picker>
                                             ) : (
                                                     <View >
@@ -458,9 +460,9 @@ const Address = (props) => {
                                                             }}
                                                             value={addressType}
                                                             items={[
-                                                                { "label": "Home", "value": "Home" },
-                                                                { "label": "Office", "value": "Office" },
-                                                                { "label": "Other", "value": "Other" },
+                                                                { "label": labels.home, "value": "Home" },
+                                                                { "label": labels.office, "value": "Office" },
+                                                                { "label": labels.other, "value": "Other" },
                                                             ]}
                                                             inputIOS={{
                                                                 color: 'white',
@@ -493,7 +495,7 @@ const Address = (props) => {
                                                             />
                                                         </>
                                                     ) : (
-                                                            <SaveBtn text={addressId && addressId !== "" ? "UPDATE" : "SAVE"} />
+                                                            <SaveBtn text={addressId && addressId !== "" ? labels.update : labels.save} x={arOren == "ar"? 250:0}/>
                                                         )}
                                                 </View>
                                             </TouchableOpacity>

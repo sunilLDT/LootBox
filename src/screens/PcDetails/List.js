@@ -229,7 +229,7 @@ const ListDetails = (props) => {
                                         fontWeight: '300',
                                         fontStyle: 'italic'
                                     }}>
-                                    View all
+                                    {props.labels.viewAll}
                         </Text>
                             </TouchableOpacity>
                         </View>
@@ -390,7 +390,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => ({
     cart: state.cartReducer.cart,
     packages:state.packageReducer.packages,
-
+    labels: state.languageReducer.labels,
 })
 
 const actionCreators = {

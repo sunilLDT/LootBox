@@ -216,7 +216,6 @@ const LootStore = (props) => {
           filterValues.minPrice,
           filterValues.maxPrice,
         );
-       
         setlastPage(itemData.parameter.last_page);
       }
 
@@ -578,7 +577,7 @@ const LootStore = (props) => {
               marginHorizontal: width * 0.1,
               borderRadius: 20,
             }}
-            inputContainerStyle={{height: 32, backgroundColor: '#D2D7F9'}}
+            inputContainerStyle={{height: 35, backgroundColor: '#D2D7F9'}}
           />
         ) : null}
         <View
@@ -780,11 +779,11 @@ const LootStore = (props) => {
                           //
                           onEndReachedThreshold={0.1}
                           // onMomentumScrollEnd={() => handleLodeMore()}
-                          //onEndReached={() => handleLodeMore()}
-                           onMomentumScrollEnd={() => {
-                             callOnScrollEnd && handleLodeMore()
-                             setCallOnScrollEnd(false)
-                           }}
+                          onEndReached={() => handleLodeMore()}
+                          //  onMomentumScrollEnd={() => {
+                          //    callOnScrollEnd && handleLodeMore()
+                          //    setCallOnScrollEnd(false)
+                          //  }}
 
                           keyExtractor={(item) => item.item_id}
                           renderItem={({item: i}, k) => {

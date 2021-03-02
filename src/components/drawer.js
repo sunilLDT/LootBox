@@ -198,7 +198,7 @@ const Drawer = (props) => {
                   width: width * 0.5,
                   height: 25,
                 }}>
-                  <EditBtn />
+                  <EditBtn text={props.labels.editProfile} x={arOren == "ar"? 9:0}/>
                 </View>
               </TouchableOpacity>
             }
