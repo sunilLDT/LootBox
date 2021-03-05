@@ -114,7 +114,7 @@ const ForgotPassword = ({navigation, labels}) => {
                   }
                 else {
                   forgotPassword(email, isEmail);
-                  setNavigation('newPassword')
+                  //setNavigation('newPassword')
                   setMove(true)
                 }
               }}

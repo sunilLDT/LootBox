@@ -305,11 +305,9 @@ const Address = (props) => {
                                                             }}
                                                             value={selectedCity}
                                                             items={cityaArea}
-                                                            style={
-                                                                Platform.OS === 'ios'
-                                                                    ? styles.inputIOS
-                                                                    : styles.inputAndroid
-                                                            }
+                                                            style={{
+                                                                ...pickerStyle
+                                                            }}
                                                         />
                                                     </View>
                                                 )}
@@ -369,23 +367,12 @@ const Address = (props) => {
                                                                 label: labels.pleaseSelectArea,
                                                                 value: null,
                                                             }}
-                                                            style={
-                                                                Platform.OS === 'ios'
-                                                                    ? styles.inputIOS
-                                                                    : styles.inputAndroid
-                                                            }
+                                                            style={{
+                                                                ...pickerStyle
+                                                            }}
                                                             value={selectedArea}
                                                             items={areasArray}
-                                                            inputIOS={{
-                                                                color: 'white',
-                                                                marginLeft: 100,
-                                                                borderRadius: 5,
-                                                            }}
-                                                            inputAndroid={{
-                                                                color: 'white',
-                                                                paddingHorizontal: 10,
-                                                                borderRadius: 5,
-                                                            }}
+                                                            
                                                         />
                                                     </View>
                                                 )}
@@ -458,24 +445,16 @@ const Address = (props) => {
                                                                 label: labels.pleaseSelectAddressType,
                                                                 value: null,
                                                             }}
+                                                            style={{
+                                                                ...pickerStyle
+                                                            }}
                                                             value={addressType}
                                                             items={[
                                                                 { "label": labels.home, "value": "Home" },
                                                                 { "label": labels.office, "value": "Office" },
                                                                 { "label": labels.other, "value": "Other" },
                                                             ]}
-                                                            inputIOS={{
-                                                                color: 'white',
-                                                                marginLeft: 100,
-                                                                borderRadius: 5,
-                                                                
-                                                            }}
                                                             
-                                                            inputAndroid={{
-                                                                color: 'white',
-                                                                paddingHorizontal: 10,
-                                                                borderRadius: 5,
-                                                            }}
                                                         />
                                                     </View>
                                                 )}
@@ -560,13 +539,13 @@ const styles = StyleSheet.create({
 
 const pickerStyle = {
     inputIOS: {
-        color: '#ffffff',
+        color: '#ECDBFA',
     },
     placeholder: {
-        color: '#ffffff',
+        color: '#ECDBFA',
     },
     inputAndroid: {
-        color: '#ffffff',
+        color: '#ECDBFA',
     },
 };
   
