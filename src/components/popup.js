@@ -14,7 +14,7 @@ const PopUp = (props) => {
     return (
         <Dialog
             visible={props.visible}
-            onTouchOutside={() => { props.callBack() }}
+            onTouchOutside={() => { props.visible?props.callBack('OK'):props.callBack('CANCEL') }}
             dialogStyle={{ backgroundColor: '#272732', width: "70%", paddingHorizontal: 0 }}
             dialogAnimation={new SlideAnimation({
                 slideFrom: 'bottom',

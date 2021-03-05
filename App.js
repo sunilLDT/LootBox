@@ -169,6 +169,12 @@ const App = () => {
         }
        
       });
+
+      messaging().subscribeToTopic('broadcast_notifications_en')
+      .then(() => console.log('Subscribed to topic! en' ));
+      messaging().subscribeToTopic('broadcast_notifications_ar')
+      .then(() => console.log('Subscribed to topic! ar' ));
+
       messaging()
       .getToken()
       .then(token => {
