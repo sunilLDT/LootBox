@@ -32,7 +32,7 @@ instance.interceptors.response.use(
    // AsyncStorage.removeItem('deviceToken');
    // AsyncStorage.removeItem('token');
    // navigate({name: 'auth'})
-    //return Promise.reject(error)
+    return Promise.reject(error)
   }
 )
 

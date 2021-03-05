@@ -23,20 +23,63 @@ import bgImage from '../assets/signup.png';
 import {connect} from 'react-redux'
 import PopUp from '../components/popup';
 import { navigate } from '../api/contexts/navigationRef';
+import Api from '../api/index';
+import AsyncStorage from '@react-native-community/async-storage';
 
 const {height, width} = Dimensions.get('window');
 
 const ForgotPassword = ({navigation, labels}) => {
   const [email, setEmail] = useState(null);
-  const {state, forgotPassword, setNavigation, setValidationError} = useContext(AuthContext);
+  const {state, setNavigation,showPopup, hidePops,setValidationError} = useContext(AuthContext);
   const { validationError } = state;
+
   const [addressModal, setaddressModal] = useState(false);
   const [contentModal, setContentModal] = useState('');
+  const [valid, setValid] = useState(false);
+  const [load, setLoad] = useState(false);
   const [move,setMove] = useState(false);
 
-  const popUpHandler=()=>{
+  const popUpHandler=(data)=>{
+    console.log(data)
     setaddressModal(!addressModal);
+    if(valid){      
+      //setaddressModal(false);
+      navigate({ name: 'auth' });
+    } 
+    //setaddressModal(hidePops());
   }
+
+  const forgotPasswords = async (email, isEmail) => {
+    try {
+      console.log(isEmail)
+      setLoad(true);
+      const res = await Api.post('app/user/forgot-password', { email });
+      console.log(res)
+      
+      if (res.data.success) {
+        if (isEmail) {
+          setaddressModal(true);
+          console.log(res.data.message)
+          setContentModal(res.data.message);
+          setValid(true);
+          //navigate({ name: 'auth' });
+        } else {
+          navigate({ name: 'otp' });
+          await AsyncStorage.setItem('userId', res.data.data.user_id.toString());
+          await AsyncStorage.setItem('is_reset_password', JSON.stringify(true));
+        }
+        setLoad(false);
+      } else {
+        setLoad(false);
+      }
+    } catch (e) {
+      console.log(e)
+      setLoad(false);
+      setaddressModal(true);
+      setContentModal(e.response.data.message)
+    }
+  };
+
   return (
     <View style={{backgroundColor:'#292633', width:'100%', height:'100%'}}>
     <TouchableWithoutFeedback
@@ -113,7 +156,7 @@ const ForgotPassword = ({navigation, labels}) => {
                   setContentModal(labels.invalidEmailPhone)
                   }
                 else {
-                  forgotPassword(email, isEmail);
+                  forgotPasswords(email, isEmail);
                   //setNavigation('newPassword')
                   setMove(true)
                 }
@@ -121,7 +164,7 @@ const ForgotPassword = ({navigation, labels}) => {
               style={{
                 width: '100%',
               }}>
-                {!state.loading ? (
+                {!load ? (
                 <Btn text={labels.submit} x={"38"} pay=""/>
                 ) : (
                   <>
@@ -150,6 +193,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => ({
   labels:state.languageReducer.labels,
+
 })
 
 export default connect(mapStateToProps)(ForgotPassword);

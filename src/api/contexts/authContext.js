@@ -68,7 +68,7 @@ const reducer = (state, action) => {
 const checkUser = (dispatch) => async () => {
   const token = await AsyncStorage.getItem('token');
   const language = await AsyncStorage.getItem('language');
- 
+ console.log(token);
   if (token && token.length > 0) {
     dispatch({
       type: 'signin',
@@ -288,11 +288,15 @@ const verifyOtp = (dispatch) => async ({ otp }) => {
         otp,
         is_reset_password: JSON.parse(resetPassword)
       });
+      
       if (res.data.success) {
+       
         if (resetPassword && !JSON.parse(isLoggedIn)) {
+          
           await AsyncStorage.setItem('userId', res.data.data.user_id);
         } else {
-          await AsyncStorage.setItem('token', res.data.data.token);
+          console.log(res.data);
+          //await AsyncStorage.setItem('token', res.data.data.token);
           await AsyncStorage.setItem('user_type', JSON.stringify(1));
           await AsyncStorage.setItem('is_OTP_Verified', JSON.stringify(true))
           const deviceToken = await AsyncStorage.getItem('deviceToken');
@@ -306,6 +310,7 @@ const verifyOtp = (dispatch) => async ({ otp }) => {
         }
         navigate({ name: navigationName || 'home' });
       } else {
+        console.log('Invalid hai');
         dispatch({
           type: 'add_msg',
           payload: 'Invalid OTP',
@@ -313,6 +318,7 @@ const verifyOtp = (dispatch) => async ({ otp }) => {
       }
     }
   } catch (e) {
+    console.log('error hai');
     dispatch({
       type: 'add_msg',
       payload: e.response.data.message,
@@ -445,9 +451,12 @@ const forgotPassword = (dispatch) => async (email, isEmail) => {
     dispatch({
       type: 'toggle_loading',
     });
+    console.log(email)
     const res = await Api.post('app/user/forgot-password', { email });
-    console.log(res.data)
+    
     if (res.data.success) {
+      console.log("========== HAHAHAH ======");
+      console.log(res.data)
       dispatch({
         type: 'add_msg',
         payload: res.data.message,
@@ -458,7 +467,7 @@ const forgotPassword = (dispatch) => async (email, isEmail) => {
       if (isEmail) {
         navigate({ name: 'auth' });
       } else {
-        //navigate({ name: 'otp' });
+        navigate({ name: 'otp' });
         await AsyncStorage.setItem('userId', res.data.data.user_id.toString());
         await AsyncStorage.setItem('is_reset_password', JSON.stringify(true));
       }
@@ -472,6 +481,7 @@ const forgotPassword = (dispatch) => async (email, isEmail) => {
       });
     }
   } catch (e) {
+    console.log(e)
     dispatch({
       type: 'add_msg',
       payload: e.response.data.message,
