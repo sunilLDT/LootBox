@@ -51,11 +51,9 @@ const ForgotPassword = ({navigation, labels}) => {
 
   const forgotPasswords = async (email, isEmail) => {
     try {
-      console.log(isEmail)
       setLoad(true);
       const res = await Api.post('app/user/forgot-password', { email });
-      console.log(res)
-      
+
       if (res.data.success) {
         if (isEmail) {
           setaddressModal(true);
@@ -64,7 +62,7 @@ const ForgotPassword = ({navigation, labels}) => {
           setValid(true);
           //navigate({ name: 'auth' });
         } else {
-          navigate({ name: 'otp' });
+          navigate({ name: 'otp',params:1});
           await AsyncStorage.setItem('userId', res.data.data.user_id.toString());
           await AsyncStorage.setItem('is_reset_password', JSON.stringify(true));
         }
@@ -157,7 +155,7 @@ const ForgotPassword = ({navigation, labels}) => {
                   }
                 else {
                   forgotPasswords(email, isEmail);
-                  //setNavigation('newPassword')
+                  setNavigation('newPassword')
                   setMove(true)
                 }
               }}

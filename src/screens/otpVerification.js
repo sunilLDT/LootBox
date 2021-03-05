@@ -18,16 +18,22 @@ import bgImage from '../assets/signup.png';
 import AsyncStorage from '@react-native-community/async-storage';
 import { connect } from 'react-redux';
 import PopUp from '../components/popup';
+import { navigate } from '../api/contexts/navigationRef';
 
 const {height, width} = Dimensions.get('window');
 
-const Otp = ({navigation,labels}) => {
+const Otp = (props) => {
+  console.log("type ======")
+  const value = props.route.params;
+  console.log(value)
+  
+
   const [otp, setOtp] = useState();
   const {verifyOtp, state, resendOtp, hidePops } = useContext(AuthContext);
   const [count, setCount] = useState(0);
 
   const backAction = () => {
-   navigation.navigate("auth");
+   props.navigation.navigate("auth");
     return true;
   };
   
@@ -64,7 +70,7 @@ const Otp = ({navigation,labels}) => {
         minHeight: height,
         overflowX: 'hidden',
       }}>
-       <PopUp visible={state.showPopup} title={'Loot'} closeText={labels.ok} callBack={popUpHandler} content={state.msg}/>
+       <PopUp visible={state.showPopup} title={'Loot'} closeText={props.labels.ok} callBack={popUpHandler} content={state.msg}/>
       
       <ImageBackground
         style={{
@@ -82,7 +88,7 @@ const Otp = ({navigation,labels}) => {
             onPress={async () => {
               const isLoggedIn = await AsyncStorage.getItem('isLoggedIn');
               if(JSON.parse(isLoggedIn)) {
-                navigation.goBack();
+                props.navigation.goBack();
               } else backAction()
               }}>
             <Image
@@ -109,7 +115,7 @@ const Otp = ({navigation,labels}) => {
             marginTop:20,
             fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma',
           }}>
-          {labels.verificationOtp}
+          {props.labels.verificationOtp}
         </Text>
         <View
           style={{
@@ -155,7 +161,7 @@ const Otp = ({navigation,labels}) => {
               fontSize: 12,
               marginLeft:10
               }}>
-               {labels.resendOtp}
+               {props.labels.resendOtp}
             </Text>
           </TouchableOpacity>
           :null}
@@ -166,11 +172,13 @@ const Otp = ({navigation,labels}) => {
         
           onPress={async () => {
             // if (count !== 0 && count !== 60) {
-              await verifyOtp({otp});
+              console.log('%%%%%%%%%%%%')
+              console.log(value)
+              await verifyOtp(otp,value);
             // }
           }}
          >
-          <Btn text={labels.verify.toUpperCase()} x={"54"} pay=""/>
+          <Btn text={props.labels.verify.toUpperCase()} x={"54"} pay=""/>
         </TouchableOpacity>
         </View>
       </ImageBackground>

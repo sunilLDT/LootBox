@@ -90,10 +90,10 @@ const Profile = (props) => {
   const popUpHandler = async () => {
     try{
       if(move){
-          await AsyncStorage.removeItem('deviceToken');
+          //await AsyncStorage.removeItem('deviceToken');
           await AsyncStorage.removeItem('token');
           props.logoutaction();
-          guestUserSignIn('login');
+         // guestUserSignIn('login');
           navigate({ name: 'auth' });
       } 
     }catch(e){
@@ -354,7 +354,8 @@ const Profile = (props) => {
                           color: '#ECDBFA',
                           marginBottom: 10,
                         }}>
-                        {((props.profileData.full_name).length > maxlimit) ? (((props.profileData.full_name).substring(0, maxlimit - 3)) + '...') : props.profileData.full_name}
+                          {props.profileData.full_name}
+                        {/* {((props.profileData.full_name).length > maxlimit) ? (((props.profileData.full_name).substring(0, maxlimit - 3)) + '...') : props.profileData.full_name} */}
                       </Text>
                       <Text
                           numberOfLines={2}
@@ -366,7 +367,8 @@ const Profile = (props) => {
                             opacity: 0.5,
                             marginBottom: 20,
                           }}>
-                          {((props.profileData.email).length > emailmaxlimit) ? (((props.profileData.email).substring(0, emailmaxlimit - 3)) + '...') : props.profileData.email}
+                            {props.profileData.email}
+                          {/* {((props.profileData.email).length > emailmaxlimit) ? (((props.profileData.email).substring(0, emailmaxlimit - 3)) + '...') : props.profileData.email} */}
                         </Text>
 
                       </View>

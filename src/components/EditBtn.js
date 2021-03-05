@@ -1,26 +1,28 @@
 import React from 'react';
-import {Dimensions} from 'react-native';
 import {SvgXml} from 'react-native-svg';
-const {width, height} = Dimensions.get('window');
 
 export default ({x,text}) => {
-    const xml = `<?xml version="1.0" encoding="UTF-8"?>
-    <svg width="97px" height="24px" viewBox="0 0 97 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-        <title>edit</title>
-        <defs>
-            <linearGradient x1="104.414637%" y1="52.163155%" x2="0%" y2="46.9391009%" id="linearGradient-1">
-                <stop stop-color="#865CF4" offset="0%"></stop>
-                <stop stop-color="#C01C8A" offset="100%"></stop>
-            </linearGradient>
-        </defs>
-        <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-            <g id="edit">
-                <path d="M88.8318112,0.5 C90.3505943,0.5 91.7255943,1.11560847 92.7208985,2.1109127 C93.7162028,3.10621694 94.3318112,4.48121694 94.3318112,6 C94.3318112,6.55787071 94.2469359,7.11249458 94.0800987,7.64483383 L94.0800987,7.64483383 L90.356048,19.5274255 C89.9970039,20.6730528 89.2871146,21.636015 88.3668433,22.3129843 C87.4465721,22.9899537 86.315919,23.3809303 85.1153475,23.3825864 L85.1153475,23.3825864 L8.16672498,23.4887339 C6.64794337,23.490829 5.27209547,22.8771178 4.2754192,21.8831875 C3.27874293,20.8892572 2.6612383,19.5151077 2.6591432,17.9963261 C2.65837387,17.438621 2.74243401,16.8840428 2.9084399,16.3516167 L2.9084399,16.3516167 L6.64642544,4.36287759 C7.00464696,3.21396347 7.71558934,2.24824408 8.6378424,1.56975321 C9.56009547,0.89126234 10.6936592,0.5 11.8971235,0.5 L11.8971235,0.5 Z" id="Rectangle" stroke="url(#linearGradient-1)" fill-opacity="0.175562719" fill="#AA33B2"></path>
-                <text id="Edit-Profile" font-family="Montserrat" font-size="10" font-style="italic" font-weight="bold" line-spacing="12" fill="#ECDBFA">
-                    <tspan x=${x ? x : '19'} y="16">${text?text:"Edit Profile"}</tspan>
-                </text>
+    const xml = `
+    <?xml version="1.0" encoding="UTF-8"?>
+        <svg width="100px" height="24px" viewBox="0 0 100 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+            <title>verify copy 3</title>
+            <defs>
+                <linearGradient x1="104.414637%" y1="52.0353125%" x2="0%" y2="47.12%" id="linearGradient-1">
+                    <stop stop-color="#865CF4" offset="0%"></stop>
+                    <stop stop-color="#C01C8A" offset="100%"></stop>
+                </linearGradient>
+            </defs>
+            <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                <g id="bg1" transform="translate(-121.000000, -244.000000)">
+                    <g id="verify-copy-3" transform="translate(121.000000, 244.000000)">
+                        <path d="M92.6198837,0.5 C94.1386667,0.5 95.5136667,1.11560847 96.508971,2.1109127 C97.5042752,3.10621694 98.1198837,4.48121694 98.1198837,6 C98.1198837,6.37720433 98.0810795,6.75340806 98.0040838,7.12267053 L98.0040838,7.12267053 L95.5263664,19.0055213 C95.2607854,20.2792175 94.5670667,21.3727033 93.614471,22.1481878 C92.6618754,22.9236722 91.4504027,23.3811553 90.1493138,23.3828461 L90.1493138,23.3828461 L7.38150513,23.490407 C5.86272335,23.4923807 4.4869245,22.8785596 3.49032766,21.8845497 C2.49373082,20.8905397 1.87633599,19.5163409 1.87436226,17.9975591 C1.87387142,17.6198566 1.91228869,17.2431081 1.98900584,16.8732785 L1.98900584,16.8732785 L4.47628722,4.88286694 C4.74104636,3.60654529 5.43563773,2.51082856 6.38991261,1.73419223 C7.34418748,0.95755591 8.55814585,0.5 9.86163899,0.5 L9.86163899,0.5 Z" id="Rectangle" stroke="url(#linearGradient-1)" fill-opacity="0.175562719" fill="#AA33B2"></path>
+                        <text id="Verify-Order" opacity="0.870000005" font-family="Montserrat-BoldItalic, Montserrat" font-size="10" font-style="italic" font-weight="bold" line-spacing="16" fill="#FFFFFF">
+                            <tspan x=${x ? x : '19'} y="14">${text?text:"Edit Profile"}</tspan>
+                        </text>
+                    </g>
+                </g>
             </g>
-        </g>
-    </svg>`;
+        </svg>
+    `;
     return <SvgXml xml={xml} width="100%" />;
 };

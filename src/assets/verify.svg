@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="136px" height="28px" viewBox="0 0 136 28" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>verify</title>
+    <defs>
+        <linearGradient x1="100%" y1="50%" x2="2.65621706%" y2="48.7606579%" id="linearGradient-1">
+            <stop stop-color="#261F2C" offset="0%"></stop>
+            <stop stop-color="#5D5760" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="104.414637%" y1="54.153699%" x2="0%" y2="44.122449%" id="linearGradient-2">
+            <stop stop-color="#865CF4" offset="0%"></stop>
+            <stop stop-color="#C01C8A" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="bg1" transform="translate(-103.000000, -297.000000)">
+            <g id="verify" transform="translate(103.000000, 297.000000)">
+                <path d="M10.7151252,0 L128.61246,0 C131.926168,-1.35481834e-14 134.61246,2.6862915 134.61246,6 C134.61246,6.41346918 134.569721,6.82583097 134.484924,7.23051149 L131.161355,23.0918368 C130.579537,25.8684946 128.13249,27.8581816 125.295531,27.8613216 L7.38809282,27.9918228 C4.07438635,27.9954904 1.38512328,25.3121738 1.38145563,21.9984673 C1.38099784,21.5848504 1.42331074,21.1722947 1.50771929,20.7673819 L4.84139249,4.77555542 C5.4213259,1.99358077 7.87334654,1.41020468e-15 10.7151252,0 Z" id="Rectangle" fill="url(#linearGradient-1)"></path>
+                <path d="M11.0901213,2 L65.8370965,2 C68.5985202,2 70.8370965,4.23857625 70.8370965,7 C70.8370965,7.34631534 70.8011164,7.69169364 70.7297358,8.03057285 L67.8052,21.9147918 C67.3186313,24.2247742 65.2827305,25.8797232 62.9220637,25.8842099 L8.16832847,25.9882763 C5.40690971,25.9935247 3.16408282,23.7592072 3.15883439,20.9977885 C3.15817344,20.6500321 3.19379443,20.3031555 3.26511898,19.9627914 L6.19641495,5.97450606 C6.68171645,3.65862396 8.72393718,2 11.0901213,2 Z" id="Rectangle-Copy" fill="url(#linearGradient-2)"></path>
+                <text id="English" opacity="0.870000005" font-family="Montserrat-BoldItalic, Montserrat" font-size="10" font-style="italic" font-weight="bold" line-spacing="16" fill="#FFFFFF">
+                    <tspan x="17.075" y="16">English</tspan>
+                </text>
+                <text id="عربي" opacity="0.870000005" font-family="GeezaPro-Bold, Geeza Pro" font-size="10" font-weight="bold" line-spacing="16" fill="#FFFFFF">
+                    <tspan x="87" y="11">عربي</tspan>
+                </text>
+            </g>
+        </g>
+    </g>
+</svg>

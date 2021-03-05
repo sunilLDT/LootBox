@@ -108,7 +108,7 @@ const NewPassword = ({navigation, labels}) => {
                 <Input
                   value={confirmPassword}
                   onChangeText={setConfirmPassword}
-                  placeholder={confirmPassword}
+                  placeholder={labels.newPassword}
                   password={showConfirmPassword}
                 />
                 <TouchableOpacity style={styles.icon} onPress={() => setConfirmPasswordVisibility(!showConfirmPassword)}>

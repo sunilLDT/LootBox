@@ -84,7 +84,6 @@ const Cart = (props) => {
   const [contentModal, setContentModal] = useState('');
   const [forDel,setForDel] = useState(0);
   languagename().then(res => setarOren(res));
-  console.log(cartData)
 
   const kd = labels.kD;
 

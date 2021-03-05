@@ -63,7 +63,7 @@ const Home = (props) => {
               style={{width: 48}}
             />
           </TouchableOpacity>
-          <View style={{marginBottom: height * 0.1}}>
+          <View style={{marginBottom: height * 0.1,}}>
             {/* <Text
               style={{
                 color: '#ECDBFA',
@@ -158,7 +158,7 @@ const Home = (props) => {
               </LinearGradient>
             </View>
           </View>
-          <View style={{marginBottom: height * 0.1, paddingHorizontal: "4%"}}>
+          <View style={{marginBottom: height * 0.1, }}>
             {/* <Text
               style={{
                 color: '#ECDBFA',

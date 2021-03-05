@@ -184,6 +184,8 @@ const signin = (dispatch) => async ({ email, password }) => {
       email,
       password,
     });
+    console.log("====== consol 1")
+    console.log(res)
     if (res.data.data.token) {
       dispatch({
         type: 'signin',
@@ -217,7 +219,8 @@ const signin = (dispatch) => async ({ email, password }) => {
       type: 'toggle_loading',
     });
   } catch (e) {
-    
+    console.log("====== consol 2")
+    console.log(e.response)
     dispatch({
       type: 'toggle_loading',
     });
@@ -261,6 +264,32 @@ const guestUserSignIn = (dispatch) => async (type) => {
   }
 };
 
+
+const guestUserReSignIn = (dispatch) => async (type) => {
+  try {
+    
+    const res = await Api.post('app/user/register', {
+      first_name: "0",
+      user_type: 2,
+      is_google: 0
+    });
+    if (res.data.data.token) {
+      await AsyncStorage.setItem('token', res.data.data.token);
+      await AsyncStorage.setItem('user_id', JSON.stringify(res.data.data.user_id));
+      await AsyncStorage.setItem('user_type', JSON.stringify(res.data.data.user_type));
+           
+    }
+  } catch (e) {
+    dispatch({
+      type: 'add_msg',
+      payload: 'Something went wrong',
+    });
+    dispatch({
+      type: 'toggle_loading',
+    });
+  }
+};
+
 const  hidePops = (dispatch) => async () =>{
 console.log('++++++++++>>><<<+++++++')
   dispatch({
@@ -271,7 +300,10 @@ console.log('++++++++++>>><<<+++++++')
 }
 
 
-const verifyOtp = (dispatch) => async ({ otp }) => {
+const verifyOtp = (dispatch) => async ( otp,from ) => {
+  console.log("from ======= ")
+  console.log(from);
+
   try {
     if (!otp && otp !== "") {
       dispatch({
@@ -289,15 +321,21 @@ const verifyOtp = (dispatch) => async ({ otp }) => {
         otp,
         is_reset_password: JSON.parse(resetPassword)
       });
-      
+      console.log("forgot password ,=======")
+      console.log(res)
       if (res.data.success) {
        
         if (resetPassword && !JSON.parse(isLoggedIn)) {
           
           await AsyncStorage.setItem('userId', res.data.data.user_id);
+          console.log("===== user id 1 *****")
+          console.log(res.data.data.user_id)
         } else {
           console.log(res.data);
-          //await AsyncStorage.setItem('token', res.data.data.token);
+          if(from==1){
+           
+          }else{ await AsyncStorage.setItem('token', res.data.data.token);}
+          await AsyncStorage.setItem('userId', res.data.data.user_id);
           await AsyncStorage.setItem('user_type', JSON.stringify(1));
           await AsyncStorage.setItem('is_OTP_Verified', JSON.stringify(true))
           const deviceToken = await AsyncStorage.getItem('deviceToken');
@@ -330,28 +368,31 @@ const verifyOtp = (dispatch) => async ({ otp }) => {
 const resetPassword = (dispatch) => async (password) => {
   try {
     const user_id = await AsyncStorage.getItem('userId');
+    console.log("===== user id 2 *****")
+    console.log(user_id)
     await AsyncStorage.removeItem('is_reset_password');
     const res = await Api.post('app/user/reset-password', {
       user_id: user_id,
       password,
     });
+    console.log(res);
     if (res.data.success) {
       dispatch({
         type: 'add_msg',
-        payload: 'Password reset successfully, please login',
+        payload: res.data.message,
       });
       navigate({ name: 'auth' });
     } else {
       dispatch({
         type: 'add_msg',
-        payload: 'Something went wrong',
+        payload: e.response.data.message,
       });
     }
   } catch (e) {
-    console.log(e);
+    console.log(e.response);
     dispatch({
       type: 'add_msg',
-      payload: 'Something went wrong',
+      payload: e.response.data.message,
     });
   }
 };
@@ -429,7 +470,7 @@ const signup = (dispatch) => async (data) => {
     } else {
       await AsyncStorage.setItem('userId', res.data.data.user_id.toString());
       const deviceToken = await AsyncStorage.getItem('deviceToken');
-      navigate({ name: 'otp' });
+      navigate({ name: 'otp',params:0});
     }
     dispatch({
       type: 'toggle_loading',
@@ -451,12 +492,9 @@ const forgotPassword = (dispatch) => async (email, isEmail) => {
     dispatch({
       type: 'toggle_loading',
     });
-    console.log(email)
     const res = await Api.post('app/user/forgot-password', { email });
     
     if (res.data.success) {
-      console.log("========== HAHAHAH ======");
-      console.log(res.data)
       dispatch({
         type: 'add_msg',
         payload: res.data.message,
@@ -467,7 +505,7 @@ const forgotPassword = (dispatch) => async (email, isEmail) => {
       if (isEmail) {
         navigate({ name: 'auth' });
       } else {
-        navigate({ name: 'otp' });
+        navigate({ name: 'otp'},{params:0});
         await AsyncStorage.setItem('userId', res.data.data.user_id.toString());
         await AsyncStorage.setItem('is_reset_password', JSON.stringify(true));
       }
@@ -506,7 +544,7 @@ const signout = (dispatch) => async () => {
     action_type:2
     });
 
-    await AsyncStorage.removeItem('deviceToken');
+    //await AsyncStorage.removeItem('deviceToken');
     await AsyncStorage.removeItem('token');
     dispatch({ type: 'signout' });
     navigate({ name: 'auth' });
@@ -681,7 +719,8 @@ export const { Context, Provider } = createDataContext(
     registerGuestUser,
     resetPassword,
     setNavigation,
-    hidePops
+    hidePops,
+    guestUserReSignIn
   },
   {
     token: null,

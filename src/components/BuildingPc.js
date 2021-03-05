@@ -5,27 +5,29 @@ export default ({}) => {
     
   const xml = `
   <?xml version="1.0" encoding="UTF-8"?>
-  <svg width="147px" height="32px" viewBox="0 0 147 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-      <title>Group 9</title>
-      <defs>
-          <linearGradient x1="104.414637%" y1="51.6744566%" x2="0%" y2="47.6306169%" id="linearGradient-1">
-              <stop stop-color="#865CF4" offset="0%"></stop>
-              <stop stop-color="#C01C8A" offset="100%"></stop>
-          </linearGradient>
-      </defs>
-      <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-          <g id="Group-9">
-              <path d="M138.826258,0.5 C140.345041,0.5 141.720041,1.11560847 142.715345,2.1109127 C143.71065,3.10621694 144.326258,4.48121694 144.326258,6 C144.326258,6.55906642 144.241019,7.114865 144.073478,7.64823671 L144.073478,7.64823671 L137.84121,27.4888808 C137.481567,28.6338192 136.771461,29.5960379 135.851243,30.2723826 C134.931025,30.9487272 133.800694,31.3391979 132.6006,31.3406401 L132.6006,31.3406401 L8.17082291,31.4901799 C6.65204094,31.4920052 5.2763021,30.8780497 4.27980242,29.8839423 C3.28330275,28.8898349 2.66604225,27.5155758 2.66421698,25.9967938 C2.66354569,25.4382255 2.74796606,24.8828141 2.91457313,24.3496714 L2.91457313,24.3496714 L9.1615056,4.35948754 C9.52027335,3.21143075 10.231279,2.24655886 11.1532949,1.56870118 C12.0753107,0.890843489 13.2083368,0.5 14.4111455,0.5 L14.4111455,0.5 Z" id="Rectangle" stroke="url(#linearGradient-1)" fill-opacity="0.175562719" fill="#AA33B2"></path>
-              <g id="Group-14-Copy" transform="translate(34.000000, 8.000000)" fill="#FFFFFF" font-family="Avenir-Heavy, Avenir" font-size="12" font-weight="600" line-spacing="16">
-                  <g id="Group-2-Copy-2" transform="translate(0.935780, 0.000000)">
-                      <text id="Build-Your-PC">
-                          <tspan x="0.786220183" y="12">Building Pc</tspan>
-                      </text>
-                  </g>
-              </g>
-          </g>
-      </g>
-  </svg>
+    <svg width="170px" height="37px" viewBox="0 0 170 37" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+        <title>Group 9</title>
+        <defs>
+            <linearGradient x1="104.414637%" y1="51.6738411%" x2="0%" y2="47.6314879%" id="linearGradient-1">
+                <stop stop-color="#865CF4" offset="0%"></stop>
+                <stop stop-color="#C01C8A" offset="100%"></stop>
+            </linearGradient>
+        </defs>
+        <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+            <g id="bg1" transform="translate(-86.000000, -387.000000)">
+                <g id="Group-9" transform="translate(86.000000, 387.000000)">
+                    <path d="M161.825808,0.5 C163.344591,0.5 164.719591,1.11560847 165.714895,2.1109127 C166.710199,3.10621694 167.325808,4.48121694 167.325808,6 C167.325808,6.55916335 167.240539,7.11505716 167.072941,7.64851253 L167.072941,7.64851253 L159.276741,32.4634293 C158.917053,33.6082982 158.206942,34.5704481 157.286743,35.2467412 C156.366544,35.9230344 155.236257,36.3134709 154.036216,36.3149128 L154.036216,36.3149128 L8.17126943,36.4901812 C6.65248746,36.4920061 5.27674875,35.8780503 4.2802493,34.8839427 C3.28374985,33.8898351 2.66648965,32.5155758 2.66466471,30.9967939 C2.66399343,30.4381295 2.74844309,29.8826236 2.91510674,29.3493979 L2.91510674,29.3493979 L10.7259754,4.35921276 C11.0847874,3.21122547 11.7957982,2.24642228 12.7177948,1.56861591 C13.6397914,0.890809546 14.7727739,0.5 15.9755294,0.5 L15.9755294,0.5 Z" id="Rectangle" stroke="url(#linearGradient-1)" fill-opacity="0.175562719" fill="#AA33B2"></path>
+                    <g id="Group-14-Copy" transform="translate(40.000000, 11.000000)" fill="#FFFFFF" font-family="Avenir-Heavy, Avenir" font-size="14" font-weight="600" line-spacing="16">
+                        <g id="Group-2-Copy-2" transform="translate(0.054511, 0.000000)">
+                            <text id="Build-Your-PC">
+                                <tspan x="0.655905963" y="14">Build Your PC</tspan>
+                            </text>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </svg>
   `;
   return <SvgXml xml={xml} width="100%" />;
 };

@@ -38,9 +38,13 @@ const Signin = ({ navigation ,labels}) => {
   const [contentModal, setContentModal] = useState('');
 
   languagename().then(res => setarOren(res))
-  const { signin, state, googleSignIn, setValidationError,hidePops } = useContext(
+  const { signin, guestUserReSignIn, state, googleSignIn, setValidationError,hidePops } = useContext(
     AuthContext,
   );
+
+  useEffect(() => {
+    guestUserReSignIn('logout');
+  }, []);
 
   const popUpHandler=()=>{
     hidePops();
