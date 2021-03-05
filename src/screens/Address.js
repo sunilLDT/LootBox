@@ -14,6 +14,7 @@ import {
 } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import Input from '../components/input';
+import SmallInput from '../components/SmallInput';
 import LinearGradient from 'react-native-linear-gradient';
 import { cityApi, addAddressApi, getSpecificAddress } from '../api/buildYourPc';
 import SaveBtn from '../components/SaveBtn';
@@ -76,6 +77,8 @@ const Address = (props) => {
     const [loadingBtn, setLoadingBtn] = useState(false);
     const [addressModal, setaddressModal] = useState(false);
     const [contentModal, setContentModal] = useState('');
+    console.log(selectedArea)
+
     let cityaArea = [];
     city.map((i, k) => {
         cityaArea.push({
@@ -148,7 +151,6 @@ const Address = (props) => {
                     setaddressModal(true);
                     setContentModal(response.message)
                     setMove(1)
-               
                     addressListApi().then((response) => {
                         response.data.map((address, i) => {
                             if (response.data.length === 1) {
@@ -269,12 +271,12 @@ const Address = (props) => {
                                                         color: '#ECDBFA',
                                                         marginLeft: '2%',
                                                     }}
-                                                    itemStyle={{color:'#fff'}}
+                                                    itemStyle={{color:'#ECDBFA'}}
                                                     onValueChange={(itemValue) =>
                                                         sendCityId(itemValue)
                                                     }
                                                 >
-                                                    <Picker.Item label={labels.selectCity} value='' color="#fff"/>
+                                                    <Picker.Item label={labels.selectCity} value='' color="#ECDBFA"/>
                                                     {city.map((cityWithArea, index) => {
                                                         return (
                                                             <Picker.Item
@@ -340,7 +342,7 @@ const Address = (props) => {
                                                         color: '#ECDBFA',
                                                         marginLeft: '2%',
                                                     }}
-                                                    itemStyle={{ color: '#ffffff' }}
+                                                    itemStyle={{ color: '#ECDBFA' }}
                                                     onValueChange={(itemValue, itemIndex) =>
                                                         setSelectedArea(itemValue)
                                                     }
@@ -379,21 +381,22 @@ const Address = (props) => {
                                         </LinearGradient>
                                         <View style={styles.blockStreet}>
                                             <View style={styles.inputView}>
-                                                <Input placeholder={labels.block} style={styles.inputBlock} value={block} onChangeText={(Block) => setBlock(Block)} />
+                                                <SmallInput placeholder={labels.block} style={styles.inputBlock} value={block} onChangeText={(Block) => setBlock(Block)} />
                                             </View>
                                             <View style={styles.inputView}>
-                                                <Input placeholder={labels.street} style={styles.input} value={street} onChangeText={(Street) => setStreet(Street)} />
+                                                <SmallInput placeholder={labels.street} style={styles.input} value={street} onChangeText={(Street) => setStreet(Street)} />
                                             </View>
                                         </View>
+                                        
                                         <View style={{ marginVertical: 15, paddingHorizontal: '7%', }}>
                                             <Input placeholder={labels.house} value={building} onChangeText={(Building) => setBuilding(Building)} />
                                         </View>
                                         <View style={styles.blockStreet}>
                                             <View style={styles.inputView}>
-                                                <Input placeholder={`${labels.floor} ${labels.optional}`} style={styles.input} value={floor} onChangeText={(Floor) => setFloor(Floor)} />
+                                                <SmallInput placeholder={`${labels.floor} (${labels.optional})`} style={styles.input} value={floor} onChangeText={(Floor) => setFloor(Floor)} />
                                             </View>
                                             <View style={styles.inputView}>
-                                                <Input placeholder={`${labels.apartment} ${labels.optional}`} style={styles.input} value={apartment} onChangeText={(aprt) => setapartment(aprt)} />
+                                                <SmallInput placeholder={`${labels.apartment} (${labels.optional})`} style={styles.input} value={apartment} onChangeText={(aprt) => setapartment(aprt)} />
                                             </View>
                                         </View>
                                         {/* <View style={{marginVertical: 15,paddingHorizontal:'7%',}}>

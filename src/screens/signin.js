@@ -41,8 +41,6 @@ const Signin = ({ navigation ,labels}) => {
   const { signin, state, googleSignIn, setValidationError,hidePops } = useContext(
     AuthContext,
   );
-  console.log("labels ===")
-  console.log(labels);
 
   const popUpHandler=()=>{
     hidePops();
@@ -104,25 +102,6 @@ const Signin = ({ navigation ,labels}) => {
     }
 
   }
-
-  // const backAction = () => {
-  //   Alert.alert("LootBox", "Are you sure you want exit from App?", [
-  //     {
-  //       text: "Cancel",
-  //       onPress: () => null,
-  //       style: "cancel"
-  //     },
-  //     { text: "YES", onPress: () => BackHandler.exitApp() }
-  //   ]);
-  //   return true;
-  // };
-
-  // useEffect(() => {
-  //   BackHandler.addEventListener("hardwareBackPress", backAction);
-
-  //   return () =>
-  //     BackHandler.removeEventListener("hardwareBackPress", backAction);
-  // }, []);
 
   return (
     <View style={{ backgroundColor: '#292633', width: '100%', height: '100%' }}>

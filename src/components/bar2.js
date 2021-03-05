@@ -1,8 +1,5 @@
 import React from 'react';
-import {Dimensions} from 'react-native';
 import {SvgXml} from 'react-native-svg';
-
-const {width, height} = Dimensions.get('window');
 
 export default ({}) => {
     

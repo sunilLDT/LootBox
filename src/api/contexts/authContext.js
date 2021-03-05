@@ -207,7 +207,7 @@ const signin = (dispatch) => async ({ email, password }) => {
     } else if (res.data.data.is_otp_verified === false) {
       await AsyncStorage.setItem('userId', res.data.data.user_id.toString());
       await AsyncStorage.setItem('isLoggedIn', JSON.stringify(true));
-      // await navigate({ name: 'otp' });
+      await navigate({ name: 'otp' });
       dispatch({
         type: 'add_msg',
         payload:e.response.data.message,
@@ -217,6 +217,7 @@ const signin = (dispatch) => async ({ email, password }) => {
       type: 'toggle_loading',
     });
   } catch (e) {
+    
     dispatch({
       type: 'toggle_loading',
     });
@@ -399,11 +400,9 @@ const registerGuestUser = (dispatch) => async (data) => {
       type: 'toggle_loading',
     });
   } catch (e) {
-    console.log("**** guest user sign up *****")
-    console.log(e);
     dispatch({
       type: 'add_msg',
-      payload: "The Phone number or email is already registered",
+      payload: e.response.data.message,
     });
     dispatch({
       type: 'toggle_loading',
@@ -430,6 +429,7 @@ const signup = (dispatch) => async (data) => {
       type: 'toggle_loading',
     });
   } catch (e) {
+    console.log(e.response.data)
     dispatch({
       type: 'add_msg',
       payload: e.response.data.message,
@@ -465,7 +465,7 @@ const forgotPassword = (dispatch) => async (email, isEmail) => {
     } else {
       dispatch({
         type: 'add_msg',
-        payload: 'The entered email or phone number is not registered',
+        payload: e.response.data.message,
       });
       dispatch({
         type: 'toggle_loading',
@@ -499,7 +499,7 @@ const signout = (dispatch) => async () => {
     await AsyncStorage.removeItem('deviceToken');
     await AsyncStorage.removeItem('token');
     dispatch({ type: 'signout' });
-    avigate({ name: 'auth' });n
+    navigate({ name: 'auth' });
   } catch (e) {
     dispatch({
       type: 'add_msg',

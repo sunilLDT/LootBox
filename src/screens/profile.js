@@ -43,7 +43,7 @@ import { navigate } from '../api/contexts/navigationRef';
 const { width, height } = Dimensions.get('window');
 
 const Profile = (props) => {
-  const {labels} = props
+  const {labels} = props;
 
   const [DOB, setDOB] = useState(new Date());
   const [show, setShow] = useState(false);
@@ -65,6 +65,8 @@ const Profile = (props) => {
   const [popModal, setPopModal] = useState(false);
   const [move,setMove] = useState(false);
   languagename().then(res => setarOren(res))
+  const maxlimit = 15;
+  const emailmaxlimit = 25;
 
   var formattedDOB = format(DOB, "d-MM-yyyy");
 
@@ -88,24 +90,11 @@ const Profile = (props) => {
   const popUpHandler = async () => {
     try{
       if(move){
-       /* const value = await AsyncStorage.getItem('deviceToken');
-        console.log("device token ==============")
-        console.log(value)
-        const language = await AsyncStorage.getItem('language');
-        const store = await Api.post('app/user/device-token',{
-          token: value,
-          language:language,
-          device_type:Platform.OS=='android' ? 1 : 2,
-          action_type:2
-          });
-          alert(store)
-          */
           await AsyncStorage.removeItem('deviceToken');
           await AsyncStorage.removeItem('token');
           props.logoutaction();
           guestUserSignIn('login');
           navigate({ name: 'auth' });
-       
       } 
     }catch(e){
       console.log("logout after change password "+ e)
@@ -129,6 +118,7 @@ const Profile = (props) => {
     else {
       setLoadingBtn(true)
       profileUpdateApi(email, formattedDOB, gender, first_name, last_name).then((response) => {
+        props.sendaction();
         setLoadingBtn(false);
         setPopModal(true);
         setContentModal(response.message);
@@ -157,24 +147,6 @@ const Profile = (props) => {
       setContentModal(labels.notMoreThan8)
     }
     else {
-      // changePasswordApi(oldPassword, newPassword, confirmPassword).then((response) => {
-      //   setpasswordModal(!passwordModal)
-      //   setPopModal(true);
-      //   setContentModal(response.message)
-      //   console.log("---------------------------------------------------- fhvdfvfkvdf")
-      //   if (response.success == true) {
-      //     console.log("++++++++++++++++++++++++++++++ in if ")
-      //     console.log("response success in change password ======")
-      //     signout()
-      //     // props.logoutaction();
-      //   }
-      //   else{
-      //     setpasswordModal(!passwordModal)
-      //     setPopModal(true);
-      //     setContentModal(response.message)
-      //   }
-      // })
-      
       try{
         const changeRes = await changePasswordApi(oldPassword, newPassword, confirmPassword);
         if(changeRes.code == 200){
@@ -371,7 +343,6 @@ const Profile = (props) => {
                       <View style={{
                         display:'flex',
                         flexDirection:'column',
-                        
                       }}>
                         <Text
                         numberOfLines={2}
@@ -383,7 +354,7 @@ const Profile = (props) => {
                           color: '#ECDBFA',
                           marginBottom: 10,
                         }}>
-                        {props.profileData.full_name}
+                        {((props.profileData.full_name).length > maxlimit) ? (((props.profileData.full_name).substring(0, maxlimit - 3)) + '...') : props.profileData.full_name}
                       </Text>
                       <Text
                           numberOfLines={2}
@@ -395,7 +366,7 @@ const Profile = (props) => {
                             opacity: 0.5,
                             marginBottom: 20,
                           }}>
-                          {props.profileData.email}
+                          {((props.profileData.email).length > emailmaxlimit) ? (((props.profileData.email).substring(0, emailmaxlimit - 3)) + '...') : props.profileData.email}
                         </Text>
 
                       </View>

@@ -14,6 +14,8 @@ import { connect } from 'react-redux';
 import { cartActions } from '../actions/user';
 import { packageActions } from '../actions/package';
 import { profileActions } from '../actions/profileAction';
+import BuildingPc from '../components/BuildingPc';
+import LootStoreBtn from '../components/lootStoreBtn';
 const {height, width} = Dimensions.get('window');
 
 const Home = (props) => {
@@ -62,7 +64,7 @@ const Home = (props) => {
             />
           </TouchableOpacity>
           <View style={{marginBottom: height * 0.1}}>
-            <Text
+            {/* <Text
               style={{
                 color: '#ECDBFA',
                 lineHeight: 32,
@@ -74,19 +76,8 @@ const Home = (props) => {
                       
                 }}>
               {props.labels.buildYourPc}
-            </Text>
-            {/* <Text
-              style={{
-                color: '#ECDBFA',
-                lineHeight: 18,
-                width: '80%',
-                fontSize: 14,
-                opacity: 0.5,
-                textAlign: 'left',
-                fontFamily:Platform.OS=='android'?'Montserrat Regular':'Montserrat',
-              }}>
-             {strings.buildYourPcSubHeading}
             </Text> */}
+            <BuildingPc />
             <Image
               resizeMode="contain"
               source={require('../assets/ic_arrow0.png')}
@@ -168,7 +159,7 @@ const Home = (props) => {
             </View>
           </View>
           <View style={{marginBottom: height * 0.1, paddingHorizontal: "4%"}}>
-            <Text
+            {/* <Text
               style={{
                 color: '#ECDBFA',
                 // width:'90%',
@@ -178,19 +169,9 @@ const Home = (props) => {
                        
                     }}>
              {props.labels.lootStore}
-            </Text>
-            {/* <Text
-              style={{
-                color: '#ECDBFA',
-                lineHeight: 32,
-                // width:'90%',
-                fontSize: 14,
-                opacity: 0.5,
-                textAlign: 'right', 
-                fontFamily:Platform.OS=='android'?'Montserrat Regular':'Montserrat',
-              }}>
-              {strings.BuyItems}
             </Text> */}
+            <LootStoreBtn/>
+            
             <Image
               resizeMode="contain"
               source={require('../assets/ic_arrow0.png')}

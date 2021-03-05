@@ -207,7 +207,8 @@ const Drawer = (props) => {
             }
             <View
               style={{
-                backgroundColor: '#DF2EDC',
+                borderColor:'#272732',
+                borderWidth:2,
                 borderRadius: 11,
                 height: 70,
                 width: 70,
@@ -233,12 +234,12 @@ const Drawer = (props) => {
                 />
               ) : (
                   <Image
-                    resizeMode="contain"
+                    // resizeMode="contain"
                     source={{ uri:photo}}
                     style={{
-                      borderRadius: 20,
                       height: 65,
                       width: 70,
+                      borderRadius:11
                     }}
                   />
                 )}

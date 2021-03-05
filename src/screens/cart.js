@@ -48,6 +48,7 @@ import {languagename} from '../components/LanguageName';
 import { useIsFocused } from "@react-navigation/native";
 import PopUp from '../components/popup';
 
+
 const { width, height } = Dimensions.get('window');
 
 const Cart = (props) => {
@@ -83,6 +84,7 @@ const Cart = (props) => {
   const [contentModal, setContentModal] = useState('');
   const [forDel,setForDel] = useState(0);
   languagename().then(res => setarOren(res));
+  console.log(cartData)
 
   const kd = labels.kD;
 
@@ -427,7 +429,7 @@ const Cart = (props) => {
               <Dialog
                 visible={addressModal}
                 containerStyle={{ zIndex: 10, elevation: 10, }}
-                dialogStyle={{ backgroundColor: '#272732', width: "80%", height:"90%"}}
+                dialogStyle={{ backgroundColor: '#272732', width: "80%", }}
                 dialogAnimation={new SlideAnimation({
                   slideFrom: 'bottom',
                 })}

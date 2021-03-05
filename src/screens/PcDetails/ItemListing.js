@@ -32,13 +32,10 @@ function useForceUpdate(){
 const { width, height } = Dimensions.get('window');
 
 const ItemListing = (props) => {
-  // const [selectedItems, setSelectedItems] = useState({
-  //   "item_id": 1,
-  //   "quantity": 1
-  // });
   const { items } = props.route.params;
   const { pIndex } = props.route.params;
-  // console.log(pIndex);
+  console.log("=== items ******")
+  console.log(items)
 
   const { sub_category_name } = props.route.params;
   const [data, setData] = useState(items);
@@ -47,8 +44,13 @@ const ItemListing = (props) => {
   const [filterF , setFilter ] = useState(false)
   const [filterValues, setFilterApplied ] = useState({})
   const forceUpdate = useForceUpdate();
+  
+  console.log("filter valuse ============")
+  console.log(filterValues)
+
+
+
   const selectHandler = (id, name, price) => {
-    
     let ar = [];
     ar = props.packages;
     ar[pIndex].item_id = id;
@@ -60,9 +62,7 @@ const ItemListing = (props) => {
     //setPrice(price);
 
     props.updatePackages(ar);
-    //props.navigation.goBack();
     forceUpdate();
-
   }
 
   const idExists = (id) => {

@@ -12,7 +12,6 @@ import SmallLGBtn from './smallLGBtn';
 import {getFilterData} from '../api/buildYourPc';
 import {ScrollView} from 'react-native-gesture-handler';
 import {filter, flattenDeep, keys, values, without} from 'lodash';
-import {connect} from 'react-redux'
 const {width, height} = Dimensions.get('window');
 const THUMB_RADIUS = 12;
 
@@ -22,6 +21,7 @@ const Filter = (props) => {
   const [high, setHigh] = useState(null);
   const [filterOptions, setFilterOptions] = useState([]);
   const [selectedSubCategory, setSelectedSubCategory] = useState({});
+  const [subId,setSubId] = useState();
 
   const renderThumb = useCallback(() => <View style={styles.thumb} />, []);
   const renderRail = useCallback(() => <View style={styles.rail} />, []);
@@ -48,9 +48,9 @@ const Filter = (props) => {
 
   React.useEffect(() => {
     let allSubCategories;
-
     if (props.type === 'advanceBuilder') {
       allSubCategories = [props.allCategories[0].sub_category_id];
+      setSubId(allSubCategories)
     } else {
       if (Object.keys(props.selectedSubCategory)[0]) {
         allSubCategories =
@@ -100,6 +100,7 @@ const Filter = (props) => {
             onPress={() =>
               props.filter1({
                 all: 'all',
+                sub_category_id:subId,
                 filter_custome_field_id: keys(selectedSubCategory),
                 filter_custome_values: flattenDeep(values(selectedSubCategory)),
                 minPrice: low,
