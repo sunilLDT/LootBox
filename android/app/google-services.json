@@ -14,7 +14,7 @@
       },
       "oauth_client": [
         {
-          "client_id": "85981177828-lt79c90do6lu0vqvjaocjhuvum2c2a29.apps.googleusercontent.com",
+          "client_id": "85981177828-to7kfun681922vmmuo936me4lok7vuqi.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.lootbox",
@@ -42,7 +42,7 @@
               "client_id": "85981177828-ba0l913k7n5rjg220kf6tf7qeacvvu2b.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.lootbox"
+                "bundle_id": "com.projtest"
               }
             }
           ]

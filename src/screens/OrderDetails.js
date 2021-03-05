@@ -26,8 +26,8 @@ const { height, width } = Dimensions.get('window');
 
 const OrderDetails = (props) => {
   const { labels } = props;
-  console.log(labels.name)
-
+  const kd = labels.kD;
+  
   const steps = [
     { order_status: 0, primary: labels.pending, secondary: '' },
     { order_status: 1, primary: labels.confirmed, secondary: '' },
@@ -46,12 +46,12 @@ const OrderDetails = (props) => {
   const [download, setDownload] = useState(false);
   const maxlimit = 22;
   var imgSource = upwardImage ? ExpandImage : CloseImage;
-  console.log("**** doenload ///")
-  console.log(orderDetails)
 
   useEffect(() => {
     setLoading(true);
     getOrderDetails(orderId).then((response) => {
+      console.log("orderDetails **** ")
+      console.log(response)
       setorderDetails(response.data)
       setpackageItems(response.data.order_package_items)
       setitems(response.data.items)
@@ -245,7 +245,7 @@ const OrderDetails = (props) => {
                     lineHeight: 28,
                     color: '#ECDBFA',
                   }}>
-                  KD {orderDetails.sub_total}
+                  {kd} {orderDetails.sub_total}
                 </Text>
               </View>
               {/* // start */}
@@ -322,7 +322,7 @@ const OrderDetails = (props) => {
                                   alignSelf: 'center',
                                   fontFamily: 'Montserrat-Medium',
                                 }}>
-                                KD {sum(packages.items)}
+                                {kd} {sum(packages.items)}
                               </Text>
                             </View>
                           </View>
@@ -410,7 +410,7 @@ const OrderDetails = (props) => {
                                           textAlign: 'center',
                                           marginBottom: 40,
                                         }}>
-                                        +KD {packageItems.price}
+                                        +{kd} {packageItems.price}
                                       </Text>
                                     </View>
                                   </ImageBackground>
@@ -523,7 +523,7 @@ const OrderDetails = (props) => {
                               color: '#D2D7F9',
                               opacity: 0.5,
                             }}>
-                            KD {i.sub_total}
+                            {kd} {i.sub_total}
                           </Text>
                         </View>
                       </ImageBackground>
@@ -593,7 +593,7 @@ const OrderDetails = (props) => {
                                 fontSize: 12,
                                 textDecorationLine: i.status === 0 ? 'line-through' : "none",
                               }}>
-                              KD {i.sub_total}
+                              {kd} {i.sub_total}
                             </Text>) :
                               <Text
                                 style={{
@@ -602,7 +602,7 @@ const OrderDetails = (props) => {
                                   fontFamily: 'Montserrat-Regular',
                                   textDecorationLine: i.status === 0 ? 'line-through' : "none",
                                 }}>
-                                KD {i.price}
+                                {kd} {i.price}
                               </Text>
                             }
                           </View>
@@ -696,7 +696,7 @@ const OrderDetails = (props) => {
                       fontSize: 12,
                       opacity: 0.8,
                     }}>
-                    Package Details ({orderDetails.items_count} {orderDetails.items_count > 1 ? "items" : "item"})
+                    {labels.packageDetails} ({orderDetails.items_count} {orderDetails.items_count > 1 ? labels.items : labels.item})
               </Text>
                 </View>
 
@@ -732,7 +732,7 @@ const OrderDetails = (props) => {
                             fontSize: 12,
                             fontFamily: 'Montserrat-Regular',
                           }}>
-                          KD {sum(j.items)}
+                          {kd} {sum(j.items)}
                         </Text>
                       </View>
                     );
@@ -762,7 +762,7 @@ const OrderDetails = (props) => {
                           fontSize: 12,
                           fontFamily: 'Montserrat-Regular',
                         }}>
-                        KD {i.sub_total}
+                        {kd} {i.sub_total}
                       </Text>
                     </View>
                   ))}
@@ -787,7 +787,7 @@ const OrderDetails = (props) => {
                         fontSize: 12,
                         fontFamily: 'Montserrat-Regular',
                       }}>
-                      KD {orderDetails.delivery_charge}
+                      {kd} {orderDetails.delivery_charge}
                     </Text>
                   </View>
                 </View>
@@ -806,7 +806,7 @@ const OrderDetails = (props) => {
                         fontSize: 14,
                         fontFamily: 'Montserrat-Regular',
                       }}>
-                      Total
+                      {labels.total}
                 </Text>
                     <Text
                       style={{
@@ -814,7 +814,7 @@ const OrderDetails = (props) => {
                         fontSize: 14,
                         fontFamily: 'Montserrat-Regular',
                       }}>
-                      KD {orderDetails.grand_total}
+                      {kd} {orderDetails.grand_total}
                     </Text>
                   </View>
                 </View>

@@ -106,8 +106,8 @@ const setNavigation = (dispatch) => async (name) => {
 const googleSignIn = (dispatch) => async () => {
   try {
     await GoogleSignin.configure({
-      webClientId: '201119561571-i15v7unj24qm39dt32bsvqtcbsqntkg0.apps.googleusercontent.com',
-      iosClientId: '201119561571-56nv0io5rjjsoq1et7qb734ok04s4ore.apps.googleusercontent.com',
+      webClientId: '85981177828-vimmqnf1kr23gvlct0mvkonp8nqre1n5.apps.googleusercontent.com',
+      iosClientId: '85981177828-vimmqnf1kr23gvlct0mvkonp8nqre1n5.apps.googleusercontent.com',
     });
     await GoogleSignin.hasPlayServices();
     const userInfo = await GoogleSignin.signIn();
@@ -130,13 +130,13 @@ const googleSignIn = (dispatch) => async () => {
         },
       });
     } else if (data.token) {
- 
       dispatch({
         type: 'signin',
         payload: {
           token: data.token,
         },
       });
+      await AsyncStorage.setItem('user_type', JSON.stringify(1));
       await AsyncStorage.setItem('token', data.token);
       navigate({ name: 'home' });
     } else if (data.is_otp_verified === false) {
@@ -203,16 +203,14 @@ const signin = (dispatch) => async ({ email, password }) => {
        device_type:Platform.OS=='android' ? 1 : 2,
        action_type:1
      });
-     
       navigate({ name: 'home' });
     } else if (res.data.data.is_otp_verified === false) {
       await AsyncStorage.setItem('userId', res.data.data.user_id.toString());
       await AsyncStorage.setItem('isLoggedIn', JSON.stringify(true));
-      await navigate({ name: 'otp' });
+      // await navigate({ name: 'otp' });
       dispatch({
         type: 'add_msg',
-        payload:
-          'OTP not verified yet.We sent you an otp.Please verify it first !',
+        payload:e.response.data.message,
       });
     }
     dispatch({
@@ -222,16 +220,15 @@ const signin = (dispatch) => async ({ email, password }) => {
     dispatch({
       type: 'toggle_loading',
     });
-    // alert("These credentials do not match our records")
     dispatch({
       type: 'add_msg',
-      payload: 'These credentials do not match our records',
+      payload: e.response.data.message,
     });
   }
 
 };
 
-const guestUserSignIn = (dispatch) => async () => {
+const guestUserSignIn = (dispatch) => async (type) => {
   try {
     dispatch({
       type: 'add_guest_user',
@@ -245,7 +242,12 @@ const guestUserSignIn = (dispatch) => async () => {
       await AsyncStorage.setItem('token', res.data.data.token);
       await AsyncStorage.setItem('user_id', JSON.stringify(res.data.data.user_id));
       await AsyncStorage.setItem('user_type', JSON.stringify(res.data.data.user_type));
-      navigate({ name: 'home' });
+      if(type=='login'){
+        navigate({ name: 'auth' });
+      }else{
+        navigate({ name: 'home' });
+      }
+     
     }
   } catch (e) {
     dispatch({
@@ -296,12 +298,11 @@ const verifyOtp = (dispatch) => async ({ otp }) => {
           const deviceToken = await AsyncStorage.getItem('deviceToken');
           const language = await AsyncStorage.getItem('language');
           const store = await Api.post('app/user/device-token',{
-          token: deviceToken,
-          language:language,
-          device_type:Platform.OS=='android' ? 1 : 2,
-          action_type:1
- });
-    console.log (deviceToken)
+            token: deviceToken,
+            language:language,
+            device_type:Platform.OS=='android' ? 1 : 2,
+            action_type:1
+          });
         }
         navigate({ name: navigationName || 'home' });
       } else {
@@ -312,10 +313,9 @@ const verifyOtp = (dispatch) => async ({ otp }) => {
       }
     }
   } catch (e) {
-    console.log(e);
     dispatch({
       type: 'add_msg',
-      payload: 'Invalid OTP',
+      payload: e.response.data.message,
     });
   }
 };
@@ -384,8 +384,6 @@ const registerGuestUser = (dispatch) => async (data) => {
       type: 'toggle_loading',
     });
     const res = await Api.post('app/user/register', data);
-    console.log("*** res")
-    console.log(res)
     if (res.data.data.is_otp_verified) {
       await AsyncStorage.setItem('token', res.data.data.token);
       await AsyncStorage.setItem('user_type', JSON.stringify(1));
@@ -432,11 +430,9 @@ const signup = (dispatch) => async (data) => {
       type: 'toggle_loading',
     });
   } catch (e) {
-    console.log("sign up error message ======")
-    console.log(e.message);
     dispatch({
       type: 'add_msg',
-      payload: "The Phone number or email is already registered",
+      payload: e.response.data.message,
     });
     dispatch({
       type: 'toggle_loading',
@@ -450,6 +446,7 @@ const forgotPassword = (dispatch) => async (email, isEmail) => {
       type: 'toggle_loading',
     });
     const res = await Api.post('app/user/forgot-password', { email });
+    console.log(res.data)
     if (res.data.success) {
       dispatch({
         type: 'add_msg',
@@ -461,7 +458,7 @@ const forgotPassword = (dispatch) => async (email, isEmail) => {
       if (isEmail) {
         navigate({ name: 'auth' });
       } else {
-        navigate({ name: 'otp' });
+        //navigate({ name: 'otp' });
         await AsyncStorage.setItem('userId', res.data.data.user_id.toString());
         await AsyncStorage.setItem('is_reset_password', JSON.stringify(true));
       }
@@ -477,7 +474,7 @@ const forgotPassword = (dispatch) => async (email, isEmail) => {
   } catch (e) {
     dispatch({
       type: 'add_msg',
-      payload: e.message,
+      payload: e.response.data.message,
     });
     dispatch({
       type: 'toggle_loading',
@@ -497,12 +494,12 @@ const signout = (dispatch) => async () => {
     language:language,
     device_type:Platform.OS=='android' ? 1 : 2,
     action_type:2
-});
+    });
 
     await AsyncStorage.removeItem('deviceToken');
     await AsyncStorage.removeItem('token');
     dispatch({ type: 'signout' });
-    navigate({ name: 'auth' });
+    avigate({ name: 'auth' });n
   } catch (e) {
     dispatch({
       type: 'add_msg',
@@ -541,7 +538,7 @@ const fetchCategories = (dispatch) => async () => {
   }
 };
 
-const fetchItems = (dispatch) => async (category_id, sub_category_id, page, filterId, filterValues, minPrice, maxPrice , all ) => {
+const fetchItems = (dispatch) => async (category_id, sub_category_id, page, filterId, filterValues, minPrice, maxPrice , all ,text) => {
   try {
     
 
@@ -554,7 +551,8 @@ const fetchItems = (dispatch) => async (category_id, sub_category_id, page, filt
           filter_custome_values:filterValues == ""?null:filterValues,
           min_price:parseInt(minPrice),
           max_price:parseInt(maxPrice),
-          limit:6
+          limit:6,
+          search:text
         }
        
        let response = await Api.post('app/items/list',allVariables);
@@ -574,7 +572,8 @@ const fetchItems = (dispatch) => async (category_id, sub_category_id, page, filt
          filter_custome_field_id: [filterId],
          filter_custome_values: [filterValues],
          min_price:minPrice,
-         max_price:maxPrice
+         max_price:maxPrice,
+         search:text
 
         });
         
@@ -584,7 +583,8 @@ const fetchItems = (dispatch) => async (category_id, sub_category_id, page, filt
         const response = await Api.post('app/items/list',{
           category_id,
           page,
-          limit:6
+          limit:6,
+          search:text
         });
         // console.log(response.data)
         // console.log(response.data.parameter.last_page)
@@ -642,7 +642,6 @@ const sendEmail = (dispatch) => async (title, description) => {
       }
     }
   } catch (e) {
-    console.log(e);
     dispatch({
       type: 'toggle_loading',
     });

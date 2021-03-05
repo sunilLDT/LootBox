@@ -19,7 +19,7 @@ import PopUp from '../components/popup';
 const {width, height} = Dimensions.get('window');
 
 const Email = ({navigation, labels}) => {
-  const {state, sendEmail} = useContext(AuthContext);
+  const {state, sendEmail,hidePops} = useContext(AuthContext);
   const [title, setTitle] = useState(null);
   const [description, setDescription] = useState(null);
   const [popModal, setPopModal] = useState(false);
@@ -42,7 +42,10 @@ const Email = ({navigation, labels}) => {
   }
   const popUpHandler=()=>{
     setPopModal(!popModal);
-}
+  }
+  const popUpHandler1 = () => {
+    hidePops()
+  }
 
   return (
     <View
@@ -57,7 +60,7 @@ const Email = ({navigation, labels}) => {
           overflow: 'hidden',
           padding: width * 0.1,
         }}>
-          <PopUp visible={popModal} title={'Loot'} closeText={labels.ok} callBack={popUpHandler} content={contentModal}/>
+          <PopUp visible={popModal} title={labels.lootBox} closeText={labels.ok} callBack={popUpHandler} content={contentModal}/>
         <View
           style={{display: 'flex', alignItems: 'center', flexDirection: 'row'}}>
           <TouchableOpacity
@@ -83,11 +86,14 @@ const Email = ({navigation, labels}) => {
             {labels.contactUs}
           </Text>
         </View>
-        {state.msg ? (
+        {/* {state.msg ? (
           <Modal msg={state.msg} hideBtn />
         ) : state.validationError ? (
           <Modal msg={state.validationError} />
-        ) : null}
+        ) : null} */}
+        {state.msg ? (
+          <PopUp visible={state.showPopup} title={labels.lootBox} closeText={labels.ok} callBack={popUpHandler1} content={state.msg}/>
+        ):null}
         <View
           style={{
             display: 'flex',
@@ -99,7 +105,7 @@ const Email = ({navigation, labels}) => {
               <Input
                 value={title}
                 onChangeText={setTitle}
-                placeholder="Title"
+                placeholder={labels.title}
                 multiline
                 style={{
                   height: height * 0.1,
@@ -108,7 +114,7 @@ const Email = ({navigation, labels}) => {
             </View>
             <View style={{marginVertical: 15}}>
               <Input
-                placeholder="Description"
+                placeholder={labels.description}
                 multiline={true}
                 numberOfLines={4}
                 value={description}

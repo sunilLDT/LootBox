@@ -13,6 +13,7 @@ import strings from '../languages/index';
 import { connect } from 'react-redux';
 import { cartActions } from '../actions/user';
 import { packageActions } from '../actions/package';
+import { profileActions } from '../actions/profileAction';
 const {height, width} = Dimensions.get('window');
 
 const Home = (props) => {
@@ -214,6 +215,7 @@ const mapStateToProps = (state) => ({
 const actionCreators = {
   add: cartActions.addCartAction,
   categoryList: packageActions.getAdvanceCatList,
+  sendaction: profileActions.showProfile,
 };
 
 export default connect(mapStateToProps,actionCreators)(Home);

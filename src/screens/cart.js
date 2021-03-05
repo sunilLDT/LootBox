@@ -39,7 +39,7 @@ import Dialog, {
 import SaveBtn from '../components/SaveBtn';
 import ExpandImage from '../assets/ic_expand1.png';
 import CloseImage from '../assets/ic-3copy.png';
-import IcCardImage from '../assets/ic3.png';
+import IcCardImage from '../assets/ic.png';
 import thumbnail from '../assets/thumbnail.png';
 import PayBtn from '../components/PayBtn';
 import Icon from 'react-native-vector-icons/Feather';
@@ -82,7 +82,9 @@ const Cart = (props) => {
   const [popModal, setPopModal] = useState(false);
   const [contentModal, setContentModal] = useState('');
   const [forDel,setForDel] = useState(0);
-  languagename().then(res => setarOren(res))
+  languagename().then(res => setarOren(res));
+
+  const kd = labels.kD;
 
 
   const maxlimit = 20;
@@ -145,7 +147,7 @@ const Cart = (props) => {
     } else if (props.address.length === 0)
       {
         setPopModal(true);
-        setContentModal("Please add address for the Delivery")
+        setContentModal(labels.pleaseAddAddressForDelivery)
         setLoading(false)
     }
     // else if (!y.includes(true)) {
@@ -407,7 +409,7 @@ const Cart = (props) => {
         overflowX: 'hidden',
         
       }}>
-      <ScrollView showsVerticalScrollIndicator={false}>
+      <ScrollView  showsVerticalScrollIndicator={false}>
         {loading ? (
           <View style={{ marginTop: height * 0.47 }}>
             <ActivityIndicator color="#ECDBFA" size="small" />
@@ -417,16 +419,15 @@ const Cart = (props) => {
             <View
               style={{
                 paddingVertical: width * 0.05,
-                // paddingHorizontal:arOren == "it"?width * 0.07:width * 0.08
-                // paddingLeft:Platform.OS == 'android' ?width * 0.09:width *0.07
-                paddingLeft:Platform.OS == 'android' ?width * 0.09:width *0.09,
+                paddingHorizontal: Platform.OS == 'android' ?width * 0.05:width *0.07,
+                paddingHorizontal:arOren == "ar"?width * 0.07:width * 0.08
 
               }}>
                  <PopUp visible={popModal} title={'Loot'} closeText={labels.ok} callBack={popUpHandler} content={contentModal}/>
               <Dialog
                 visible={addressModal}
                 containerStyle={{ zIndex: 10, elevation: 10, }}
-                dialogStyle={{ backgroundColor: '#272732', width: "80%" }}
+                dialogStyle={{ backgroundColor: '#272732', width: "80%", height:"90%"}}
                 dialogAnimation={new SlideAnimation({
                   slideFrom: 'bottom',
                 })}
@@ -434,7 +435,7 @@ const Cart = (props) => {
                 onTouchOutside={() => { setaddressModal(!addressModal) }}
                 onDismiss={() => onDialougeShut()}
               >
-                
+                <ScrollView showsVerticalScrollIndicator={false}>
                 <DialogContent>
                   <View style={styles.addressDialouge}>
                     <Text style={styles.address}>{labels.address}</Text>
@@ -444,28 +445,29 @@ const Cart = (props) => {
                   </View>
                   {props.address ? props.address.map((addValues, index) => {
                     return (
-                      <TouchableOpacity key={index} onPress={() => defaultAddressfun(addValues.address_id)}>
-                        <View style={styles.addressDialouge} >
-                          <View style={styles.addressContainer}>
-                            {addValues.is_default == 1 ? <Text style={styles.addressType}>{addValues.address_type}</Text> :
-                              <Text style={{
-                                backgroundColor: '#353240',
-                                color: '#fff',
-                                paddingHorizontal: 10,
-                                borderRadius: 10,
-                                paddingTop: 7,
-                              }}>
-                                {addValues.address_type}
-                              </Text>
-                            }
-                            <Text style={styles.addressList}>{addValues.area_name},{addValues.block},{addValues.street}</Text>
+                        <TouchableOpacity key={index} onPress={() => defaultAddressfun(addValues.address_id)}>
+                          <View style={styles.addressDialouge} >
+                            <View style={styles.addressContainer}>
+                              {addValues.is_default == 1 ? <Text style={styles.addressType}>{addValues.address_type}</Text> :
+                                <Text style={{
+                                  backgroundColor: '#353240',
+                                  color: '#fff',
+                                  paddingHorizontal: 10,
+                                  borderRadius: 10,
+                                  paddingTop: 7,
+                                }}>
+                                  {addValues.address_type}
+                                </Text>
+                              }
+                              <Text style={styles.addressList}>{addValues.area_name},{addValues.block},{addValues.street}</Text>
+                            </View>
+                            {addValues.is_default == 1 ? <Icon name="check-circle" size={25} color="#fff" style={styles.icon} /> : null}
                           </View>
-                          {addValues.is_default == 1 ? <Icon name="check-circle" size={25} color="#fff" style={styles.icon} /> : null}
-                        </View>
-                      </TouchableOpacity>
+                        </TouchableOpacity>
                     );
                   }) : null}
                 </DialogContent>
+                </ScrollView>
               </Dialog>
               <View
                 style={{
@@ -585,7 +587,7 @@ const Cart = (props) => {
                                     alignSelf: 'center',
                                     fontFamily: 'Montserrat-Medium',
                                   }}>
-                                  KD {sum(packages.cart_package_items)}
+                                  {kd} {sum(packages.cart_package_items)}
                                 </Text>
                                 <View
                                   style={{
@@ -693,19 +695,19 @@ const Cart = (props) => {
                 //start of details  package
                 =========================== */}
                         {showCpuPerocessersList && open == packages.cart_package_id ? (
-                          <View>
-                            <View
-                              style={{
-                                flexDirection: 'row',
-                                justifyContent: 'space-between',
-                              }}>
-                            </View>
-                            <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} >
+                          <View
+                          >
+                            <ScrollView horizontal={true} style={{  scaleX:arOren == "ar"?-1:1}} showsHorizontalScrollIndicator={false} >
                               {packages.cart_package_items.map((packageItems, i) => {
                                 return (
+                                  <View
+                                  style={{
+                                    flexDirection:'row-reverse',
+                                  }}
+                                  >
                                   <TouchableOpacity
                                     key={i}
-                                    style={{ padding: 20 }}
+                                    style={{ padding: 20 ,scaleX:arOren == "ar"?-1:1}}
                                   >
                                     <ImageBackground
                                       source={IcCardImage}
@@ -755,11 +757,12 @@ const Cart = (props) => {
                                             textAlign: 'center',
                                             marginBottom: 40,
                                           }}>
-                                          +KD {packageItems.price}
+                                          +{kd} {packageItems.price}
                                         </Text>
                                       </View>
                                     </ImageBackground>
                                   </TouchableOpacity>
+                                  </View>
                                 );
                               })}
                             </ScrollView>
@@ -844,14 +847,14 @@ const Cart = (props) => {
                             color: 'rgba(255,255,255,0.3)',
                             fontSize: 12,
                           }}>
-                          KD {items.sub_total}
+                          {kd} {items.sub_total}
                         </Text>) :
                           <Text
                             style={{
                               color: 'rgba(255,255,255,0.3)',
                               fontSize: 12,
                             }}>
-                            KD {items.price}
+                            {kd} {items.price}
                           </Text>
                         }
                       </View>
@@ -1046,7 +1049,7 @@ const Cart = (props) => {
                                 fontSize: 12,
                                 textDecorationLine: items.status === 0 ? 'line-through' : "none",
                               }}>
-                              KD {items.sub_total}
+                              {kd} {items.sub_total}
                             </Text>) :
                               <Text
                                 style={{
@@ -1055,7 +1058,7 @@ const Cart = (props) => {
                                   fontFamily: 'Montserrat-Regular',
                                   textDecorationLine: items.status === 0 ? 'line-through' : "none",
                                 }}>
-                                KD {items.price}
+                                {kd} {items.price}
                               </Text>
                             }
                             {items.is_optional == 1?(
@@ -1274,7 +1277,7 @@ const Cart = (props) => {
                               fontSize: 12,
                               fontFamily: 'Montserrat-Regular',
                             }}>
-                            KD {sum(packages.cart_package_items)}
+                            {kd} {sum(packages.cart_package_items)}
                           </Text>
                         </View>
                       );
@@ -1308,7 +1311,7 @@ const Cart = (props) => {
                             fontSize: 12,
                             textDecorationLine: items.status === 0 ? 'line-through' : "none",
                           }}>
-                          KD {items.sub_total}
+                          {kd} {items.sub_total}
                         </Text>) :
                           <Text
                             style={{
@@ -1317,7 +1320,7 @@ const Cart = (props) => {
                               fontFamily: 'Montserrat-Regular',
                               textDecorationLine: items.status === 0 ? 'line-through' : "none",
                             }}>
-                            KD {items.price}
+                            {kd} {items.price}
                           </Text>
                         }
                       </View>
@@ -1346,7 +1349,7 @@ const Cart = (props) => {
                           fontSize: 12,
                           fontFamily: 'Montserrat-Regular',
                         }}>
-                        KD {cartData.delivery_charge}
+                        {kd} {cartData.delivery_charge}
                       </Text>
                     </View>
                   </View>
@@ -1372,7 +1375,7 @@ const Cart = (props) => {
                           color: 'rgba(255,255,255,0.8)',
                           fontSize: 14,
                         }}>
-                        KD {cartData.grand_total}
+                        {kd} {cartData.grand_total}
                       </Text>
                     </View>
                   </View>
@@ -1382,10 +1385,10 @@ const Cart = (props) => {
                 <TouchableOpacity style={{marginRight:arOren =="ar"? 50:0}} onPress={() => checkout()}>
                   <View style={{ width: "105%" }}>
                     {!loading ? (
-                      <PayBtn text={labels.pay} price={cartData.grand_total} />
+                      <PayBtn text={labels.pay} kd={kd} price={cartData.grand_total} />
                     ) : (
                         <>
-                          <PayBtn text={' '} x="54" price="" />
+                          <PayBtn text={' '} x="54" price="" kd=""/>
                           <ActivityIndicator
                             color="#ECDBFA"
                             size="small"

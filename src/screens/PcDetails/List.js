@@ -40,7 +40,8 @@ const ListDetails = (props) => {
         "price": 0
     });
     const [arOren,setarOren] = useState('en');
-    languagename().then(res => setarOren(res))
+    languagename().then(res => setarOren(res));
+    const kd = props.labels.kD;
 
     var imgSource = upwardImage ? ExpandImage : CloseImage;
     useEffect(() => {
@@ -178,7 +179,7 @@ const ListDetails = (props) => {
                                     fontStyle: 'italic',
                                     opacity: 0.5,
                                 }}>
-                                KD {props.data.price ? props.data.price : props.data.price}
+                                {kd} {props.data.price ? props.data.price : props.data.price}
                             </Text>
                         </View>
                         
@@ -313,7 +314,7 @@ const ListDetails = (props) => {
                                                         textAlign: 'center',
                                                         marginBottom: 40,
                                                     }}>
-                                                    +KD {processer.price}
+                                                    +{kd} {processer.price}
                                                 </Text>
                                             </View>
                                         </ImageBackground>

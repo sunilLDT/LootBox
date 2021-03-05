@@ -15,7 +15,6 @@ import { useIsDrawerOpen } from '@react-navigation/drawer';
 import LinearGradient from 'react-native-linear-gradient';
 import { Context as AuthContext } from '../api/contexts/authContext';
 import EditBtn from '../components/EditBtn';
-import { getProfilApi } from '../api/buildYourPc';
 import englishImage from '../assets/english.png';
 import arabicImage from '../assets/arabic.png';
 import RNRestart from 'react-native-restart';
@@ -25,6 +24,7 @@ import { connect } from 'react-redux';
 import Api from '../api/index';
 import { profileActions } from '../actions/profileAction';
 import { useIsFocused } from "@react-navigation/native";
+import {getProfilApi} from '../api/buildYourPc';
 
 const { width, height } = Dimensions.get('window');
 
@@ -43,6 +43,36 @@ const Drawer = (props) => {
     let languagename = await AsyncStorage.getItem('language');
     setarOren(languagename)
   };
+
+  useEffect(() => {
+    waitForProp();
+    gettingLangName()
+    checkUserType()
+    languageChange()
+    props.sendaction();
+    getProfilApi().then((response) => {
+      setProfileDetails(response.data)
+    }).catch((error) => {
+      console.log("profile in drawer" + error);
+    });
+    
+    return () => {
+      console.log("willUnMount")
+    }
+  }, [isFocused]);
+
+  const waitForProp = async () => {
+    setProfileDetails(props.profileData);
+    setPhoto(props.profileData.profile_image.replace('user/profile/',''))
+  }
+
+
+  // useEffect(() => {
+  //   const unsubscribe = props.navigation.addListener('focus', () => {
+  //     waitForProp();
+  //   });
+  //   return unsubscribe;
+  // }, []);
 
   let options = [
     {
@@ -97,33 +127,6 @@ const Drawer = (props) => {
       return profileDetails.full_name;
     }
   }
-
-
-
-  useEffect(() => {
-    gettingLangName()
-    checkUserType()
-    languageChange()
-    props.sendaction();
-    waitForProp();
-    return () => {
-      console.log("willUnMount")
-    }
-  }, [isFocused]);
-
-  const waitForProp = async () => {
-    setProfileDetails(props.profileData);
-    setPhoto(props.profileData.profile_image.replace('user/profile/',''))
-  }
-
-
-  React.useEffect(() => {
-    const unsubscribe = props.navigation.addListener('focus', () => {
-      waitForProp();
-    });
-
-    return unsubscribe;
-  }, [props.navigation]);
 
   const arabicLang = async () => {
     await AsyncStorage.setItem('language', 'ar');
@@ -260,7 +263,7 @@ const Drawer = (props) => {
             <View
               style={{
                 display: 'flex',
-                alignItems: 'center',
+                // alignItems: 'center',
                 flexDirection: 'row',
               }}>  
             <Text
@@ -271,9 +274,9 @@ const Drawer = (props) => {
                 color: '#ECDBFA',
                 opacity: 0.6,
                 marginBottom: height * 0.1,
-                width: arOren == "ar"?width * 0.4:width * 0.6,
+                // width: arOren == "ar"?width * 0.4:width * 0.6,
                 marginTop: 8,
-                paddingHorizontal:5
+                // paddingHorizontal:5
               }}>
               {profileDetails.email}
             </Text>

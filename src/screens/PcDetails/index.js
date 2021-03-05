@@ -27,6 +27,7 @@ const PcDetails = ({ navigation, route, labels }) => {
     const [item, setItems] = useState([]);
     const [loading, setLoading] = useState(true);
     const [arOren, setarOren] = useState('en')
+    const kd = labels.kD;
 
     languagename().then(res => setarOren(res))
     useEffect(() => {
@@ -148,7 +149,7 @@ const PcDetails = ({ navigation, route, labels }) => {
                                                         transform: [
                                                             { scaleX: arOren == "ar" ? -1 : 1 }
                                                         ]
-                                                    }}>KD {sum(cpuDetail.items)}</Text>
+                                                    }}>{kd} {sum(cpuDetail.items)}</Text>
                                                     <Image style={styles.arrow} source={PriceArrowImage} />
                                                 </View>
                                                 {cpuDetail.image ? (
@@ -195,13 +196,13 @@ const PcDetails = ({ navigation, route, labels }) => {
                                                             transform: [
                                                                 { scaleX: arOren == "ar" ? -1 : 1 }
                                                             ]
-                                                        }}>KD {sum(cpuDetail.items)}</Text>
+                                                        }}>{kd} {sum(cpuDetail.items)}</Text>
                                                         <Image style={styles.arrow} source={PriceArrowImage} />
                                                     </View>
                                             </>
                                             )}
                                         </View>
-                                        <View style={{ zIndex: 8000, marginLeft: 50 }}>
+                                        <View style={{ zIndex: 8000, marginLeft:arOren == "ar"?0:20,marginRight:arOren == "ar"?20:0 }}>
                                             <ScrollView horizontal showsHorizontalScrollIndicator={false}
                                                 contentContainerStyle={{
                                                     width: 550,

@@ -35,7 +35,7 @@ export default ({subCat, x}) => {
                 fill="#FFFFFF" font-family="Avenir-Black, Avenir" font-size="16" font-weight="700" line-spacing="16" opacity="0.870000005" >
                     <g id="Group-2-Copy-2" transform="translate(0.135120, 0.000000)">
                         <text id="Build-Your-PC">
-                            <tspan x=${x ? x : '15.901504017'} y="13.3199707">SELECT ${subCat ?subCat : ''}</tspan>
+                            <tspan x=${x ? x : '15.901504017'} y="13.3199707"> ${subCat ?subCat : ''}</tspan>
                         </text>
                     </g>
                 </g>

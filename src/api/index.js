@@ -28,8 +28,11 @@ instance.interceptors.response.use(
   (error) => {
     // alert(error.response.data.message)
     // AsyncStorage.clear()
-    // navigate({name: 'auth'})
-    // return Promise.reject(error)
+    
+   // AsyncStorage.removeItem('deviceToken');
+   // AsyncStorage.removeItem('token');
+   // navigate({name: 'auth'})
+    //return Promise.reject(error)
   }
 )
 

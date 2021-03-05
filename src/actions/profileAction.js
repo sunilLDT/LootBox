@@ -10,7 +10,6 @@ function showProfile() {
     return (dispatch) => {
       dispatch(request());
       getProfilApi().then((response) => {
-        console.log("profile details from ********")
           dispatch(success(response.data));
       }).catch((error) => {
         console.log("profile" + error);

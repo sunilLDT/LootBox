@@ -22,7 +22,7 @@ import Btn from '../screens/btn';
 import bgImage from '../assets/signup.png';
 import {connect} from 'react-redux'
 import PopUp from '../components/popup';
-
+import { navigate } from '../api/contexts/navigationRef';
 
 const {height, width} = Dimensions.get('window');
 
@@ -32,6 +32,7 @@ const ForgotPassword = ({navigation, labels}) => {
   const { validationError } = state;
   const [addressModal, setaddressModal] = useState(false);
   const [contentModal, setContentModal] = useState('');
+  const [move,setMove] = useState(false);
 
   const popUpHandler=()=>{
     setaddressModal(!addressModal);
@@ -114,6 +115,7 @@ const ForgotPassword = ({navigation, labels}) => {
                 else {
                   forgotPassword(email, isEmail);
                   setNavigation('newPassword')
+                  setMove(true)
                 }
               }}
               style={{

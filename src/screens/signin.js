@@ -26,6 +26,7 @@ import Icons  from 'react-native-vector-icons/FontAwesome';
 import {languagename} from '../components/LanguageName';
 import { connect } from 'react-redux';
 import PopUp from '../components/popup';
+import { navigate } from '../api/contexts/navigationRef';
 const { height, width } = Dimensions.get('window');
 
 const Signin = ({ navigation ,labels}) => {
@@ -40,16 +41,18 @@ const Signin = ({ navigation ,labels}) => {
   const { signin, state, googleSignIn, setValidationError,hidePops } = useContext(
     AuthContext,
   );
+  console.log("labels ===")
+  console.log(labels);
 
   const popUpHandler=()=>{
     hidePops();
+    // navigate({ name: 'otp' });
   }
   const popUpHandler1=()=>{
     setPopModal(!popModal)
   }
 
   const checkLoginFun = () => {
-
     if (isNaN(email)) {
       if (!email) {
         setPopModal(true);
@@ -136,19 +139,17 @@ const Signin = ({ navigation ,labels}) => {
           alignItems: 'center',
         }}
         >
-           <PopUp visible={popModal} title={'Loot'} closeText={labels.ok} callBack={popUpHandler1} content={contentModal}/>
+           <PopUp visible={popModal} title={labels.lootBox} closeText={labels.ok} callBack={popUpHandler1} content={contentModal}/>
       
           <ScrollView>
             {/* {state.msg ? (
               <Modal msg={state.msg} hideBtn />
             ) : validationError ? (
-              <Modal msg={valida
-                tionError} />
+              <Modal msg={state.msg} />
             ) : null} */}
             {state.msg ? (
-              <PopUp visible={state.showPopup} title={'Loot'} closeText={labels.ok} callBack={popUpHandler} content={state.msg}/>
+              <PopUp visible={state.showPopup} title={labels.lootBox} closeText={labels.ok} callBack={popUpHandler} content={state.msg}/>
             ):null}
-            
   
             <KeyboardAvoidingView
               behavior="position"
@@ -263,7 +264,7 @@ const Signin = ({ navigation ,labels}) => {
                 height: height * 0.1,
               }}>
               {!state.loading ? (
-                <Btn text={labels.login.toUpperCase()} pay="" x={arOren == "ar"?120:54} />
+                <Btn text={labels.login.toUpperCase()} pay="" x={arOren == "ar"?40:54} />
               ) : (
                   <>
                     <Btn text={' '} x="54" pay="" />
@@ -281,7 +282,7 @@ const Signin = ({ navigation ,labels}) => {
               }}
             >
               <View style={{ marginVertical: 10 }}>
-                <ContinueBtn text={labels.continueWithGmail}  x={arOren == "ar"?205:0}/>
+                <ContinueBtn text={labels.continueWithGmail}/>
               </View>
             </TouchableWithoutFeedback>
           </ScrollView>

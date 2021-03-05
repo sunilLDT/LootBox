@@ -163,7 +163,7 @@ const BuildYourPc = ({ navigation, labels }) => {
                         color: '#ffffff',
                         backgroundColor: 'transparent',
                       }}>
-                        Loot
+                        {labels.lootBox}
                       </Text>
                     </LinearGradient>
                   </View>
@@ -181,7 +181,7 @@ const BuildYourPc = ({ navigation, labels }) => {
                           : 'Montserrat',
                           paddingHorizontal:20
                       }}>
-                        You can choose only one resolution for games
+                        {labels.chooseResolutionForGames}
                       </Text>
                     </View>
                   </DialogContent>
@@ -207,7 +207,7 @@ const BuildYourPc = ({ navigation, labels }) => {
                         ? 'Montserrat-Light'
                         : 'Montserrat',
                         }}>
-                          Cancel
+                          {labels.cancel}
                         </Text>
                       </TouchableOpacity>
                       <TouchableOpacity style={{
@@ -223,7 +223,7 @@ const BuildYourPc = ({ navigation, labels }) => {
                         ? 'Montserrat-Light'
                         : 'Montserrat',
                         }}>
-                          OK
+                          {labels.ok}
                         </Text>
                       </TouchableOpacity>
                     </View>
@@ -253,7 +253,7 @@ const BuildYourPc = ({ navigation, labels }) => {
                 height: 32,
                 width: 153,
               }}>
-                <AdvanceBuilderButton x={arOren == "ar"?55:0} text={labels.advancedBuilder} />
+                <AdvanceBuilderButton x={arOren == "ar"?25:0} text={labels.advancedBuilder} />
               </View>
             </TouchableOpacity>
           </View>
@@ -273,6 +273,7 @@ const BuildYourPc = ({ navigation, labels }) => {
               {labels.buildHeading}
             </Text>
           </View>
+          
           <View
             style={{
               display: 'flex',
@@ -283,28 +284,41 @@ const BuildYourPc = ({ navigation, labels }) => {
             }}>
             <View
               style={{
-                width: 116,
+                width:116,
                 top: 10,
                 display: 'flex',
                 flexDirection: 'row',
               }}>
+               <View style={{ position: 'relative', right:arOren == "ar"?14: 38, width: 116,}}> 
               <TouchableOpacity
-                style={{ width: 116, }}
+                style={{ 
+                  position:'relative',
+                  right:arOren == "ar"?-12: -36
+                }}
                 onPress={() => {
                   checkResolution('1080P');
                 }}>
                 <Option1 selected={resolution === '1080P'} />
               </TouchableOpacity>
-              <View style={{ position: 'relative', right: 48, width: 84, }}>
+              </View> 
+              <View style={{ position: 'relative', right:arOren == "ar"?14: 84, width: 84 }}>
                 <TouchableOpacity
+                  style={{
+                    position:'relative',
+                    right:arOren == "ar"?35: -35
+                  }}
                   onPress={() => {
                     checkResolution('2K')
                   }}>
                   <Option2 selected={resolution === '2K'} text="2K" />
                 </TouchableOpacity>
               </View>
-              <View style={{ position: 'relative', right: 94, width: 84 }}>
+              <View style={{ position: 'relative', right:arOren == "ar"?50: 80, width: 84 }}>
                 <TouchableOpacity
+                  style={{
+                    position:'relative',
+                    right:arOren == "ar"?47:18
+                  }}
                   onPress={() => {
                     checkResolution('4K');
                   }}>
@@ -324,7 +338,7 @@ const BuildYourPc = ({ navigation, labels }) => {
             </TouchableOpacity>
           </View>
           <View>
-            {open ? (
+            {open &&  arOren == "en" ? (
               <SearchBar
                 placeholder={labels.searchGame}
                 round editable={true}
@@ -340,7 +354,24 @@ const BuildYourPc = ({ navigation, labels }) => {
                   }}
                 inputContainerStyle={{ height: 30, backgroundColor: '#D2D7F9',}}
               />
-            ) : null}
+            ) : open &&  arOren == "ar"?(
+              <SearchBar
+                placeholder={labels.searchGame}
+                round editable={true}
+                value={query}
+                onChangeText={queryText => handleSearch(queryText)}
+                containerStyle={{
+                   elevation:0,
+                   backgroundColor:'#D2D7F9',
+                   marginTop: '-7%',
+                   marginBottom: "3%",
+                   marginHorizontal: "5%",
+                   borderRadius: 20,
+                  }}
+                inputContainerStyle={{ height: 30, backgroundColor: '#D2D7F9',}}
+                inputStyle={{ textAlign:"right"}}
+              />
+            ):null}
           </View>
           {loading ? (
             <View style={{ marginTop: height * 0.19 }}>
@@ -370,7 +401,7 @@ const BuildYourPc = ({ navigation, labels }) => {
                               onPressIn={() => {
                                 setSelected([...selected, item.game_id]);
                               }}>
-                              <Card text={item.name} image={item.image} />
+                              <Card x={200} text={item.name} image={item.image} />
                             </TouchableWithoutFeedback>
                           ) : (
                               <TouchableWithoutFeedback
@@ -392,7 +423,7 @@ const BuildYourPc = ({ navigation, labels }) => {
                       onPress={() =>
                         submitGames()
                       }>
-                      <Btn text={labels.BuildYourPc} pay=""  x={arOren == "ar"? 115:0}/>
+                      <Btn text={labels.BuildYourPc} pay=""  x={arOren == "ar"? 40:0}/>
 
                     </TouchableOpacity>
                   </View>

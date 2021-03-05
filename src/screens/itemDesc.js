@@ -165,7 +165,7 @@ const renderViewLess = (onPress) => {
                   color: '#ffffff',
                   backgroundColor: 'transparent',
                 }}>
-                  Loot
+                  {labels.lootBox}
                 </Text>
               </LinearGradient>
              </View>
@@ -522,6 +522,7 @@ const renderViewLess = (onPress) => {
                           color: '#ECDBFA',
                           fontSize: 12,
                           opacity: 0.5,
+                          textAlign: arOren == "ar"?'left':'auto',
                         }}>
                         {a.name}
                       </Text>
@@ -530,7 +531,6 @@ const renderViewLess = (onPress) => {
                           width: '50%',
                           color: '#ECDBFA',
                           fontSize: 12,
-                          
                           opacity: 0.5,
                           textAlign: 'right',
                           paddingLeft: 20,

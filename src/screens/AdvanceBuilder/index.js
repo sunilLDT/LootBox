@@ -37,6 +37,7 @@ import Filter from '../filter';
 import { useIsFocused } from "@react-navigation/native";
 import { values } from 'lodash';
 import PopUp from '../../components/popup';
+import {languagename} from '../../components/LanguageName';
 const { width, height } = Dimensions.get('window');
 
 
@@ -72,7 +73,9 @@ const AdvanceBuilder = (props) => {
   const [contentModal, setContentModal] = useState('');
   const [storeSubCatId,setStoreSubCatId] = useState();
   const maxlimit = 20;
-
+  const [arOren, setarOren] = useState('en');
+  const kd = labels.kD;
+  languagename().then((res) => setarOren(res));
   const selectedSubCategoryAdvance = (arr) => {
     let a = []
     arr.forEach(function (obj, index) {
@@ -439,7 +442,7 @@ const AdvanceBuilder = (props) => {
     let a = itemList;
     for (var j = 0; j < a.length; j++) {
       if (a[j].sub_category_id === id) {
-        return 'KD ' + a[j].price;
+        return kd + a[j].price;
         break;
       }
     }
@@ -554,7 +557,7 @@ const AdvanceBuilder = (props) => {
             </Dialog>
 
           </View>
-          {open ?
+          {open &&  arOren == "en"?
             <SearchBar
               placeholder={props.labels.typeHere}
               round editable={true}
@@ -567,7 +570,22 @@ const AdvanceBuilder = (props) => {
                 borderRadius: 20,
               }}
               inputContainerStyle={{ height: 30, backgroundColor: '#D2D7F9', marginTop: -5 }}
-            /> : null}
+            /> : open &&  arOren == "ar"?(
+              <SearchBar
+              placeholder={props.labels.typeHere}
+              round editable={true}
+              value={search}
+              onChangeText={(text) => searchFilterFunction(text)}
+              containerStyle={{
+                backgroundColor: '#D2D7F9',
+                marginBottom: 20,
+                marginHorizontal: width * 0.1,
+                borderRadius: 20,
+              }}
+              inputContainerStyle={{ height: 30, backgroundColor: '#D2D7F9', marginTop: -5 }}
+              inputStyle={{ textAlign:"right"}}
+            />
+            ):null}
           {loading ? (
             <View style={{ marginTop: height * 0.37 }}>
               <ActivityIndicator color="#ECDBFA" size="small" />
@@ -619,7 +637,7 @@ const AdvanceBuilder = (props) => {
 
                               <Image style={styles.subImage}
                                 resizeMode="contain"
-                                source={filterImage}
+                                source={{uri:part.logo}}
                               />
                               <Text
                                 style={styles.subName}
@@ -714,7 +732,7 @@ const AdvanceBuilder = (props) => {
                                   }}>  
                                     <Text
                                       style={styles.price}>
-                                      KD {item.price}
+                                      {kd} {item.price}
                                     </Text>
                                   </View>
                                 </View>
@@ -752,7 +770,7 @@ const AdvanceBuilder = (props) => {
           marginLeft:"25%",
         }}  onPress={() => { finalSubmit(cartItemId) }}>
           <View >
-            <NextBtn name='Submit' price={totalPrice} />
+            <NextBtn name={props.labels.submit} kd={kd} price={totalPrice} />
           </View>
         </TouchableOpacity> :
         <TouchableOpacity style={{
@@ -762,7 +780,7 @@ const AdvanceBuilder = (props) => {
         }}  
         onPress={() => { submitNow(cartItemId) }}>
           <View>
-            <NextBtn name='Next' price={totalPrice} />
+            <NextBtn name={props.labels.Next} kd={kd} price={totalPrice} />
           </View>
         </TouchableOpacity>
        }

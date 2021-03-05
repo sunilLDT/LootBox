@@ -29,7 +29,7 @@ import {connect} from 'react-redux';
 import {cartActions} from '../actions/user';
 import Filter from './filter';
 import Dialog,{DialogContent, SlideAnimation} from 'react-native-popup-dialog';
-import {flattenDeep, values, keys, map} from 'lodash';
+import {flattenDeep, values, keys, map, set} from 'lodash';
 import {languagename} from '../components/LanguageName';
 const {width, height} = Dimensions.get('window');
 
@@ -205,6 +205,9 @@ const LootStore = (props) => {
           filterValues.filter_custome_values,
           filterValues.minPrice,
           filterValues.maxPrice,
+          undefined,
+          search
+        
         );
       } else {
         itemData = await fetchItems(
@@ -215,6 +218,8 @@ const LootStore = (props) => {
           filterValues.filter_custome_values,
           filterValues.minPrice,
           filterValues.maxPrice,
+          undefined,
+          search
         );
         setlastPage(itemData.parameter.last_page);
       }
@@ -280,7 +285,15 @@ const LootStore = (props) => {
   };
 
   const searchFilterFunction = (text) => {
-    if (text) {
+    
+    setPage(1);
+    setSearch(text);
+    if(text){
+      setTimeout(()=>{
+        fetchData2();
+      },1000)
+    }
+    /*if (text) {
       const newData = items.filter(function (item) {
         const itemData = item.name ? item.name.toUpperCase() : ''.toUpperCase();
         const textData = text.toUpperCase();
@@ -291,7 +304,7 @@ const LootStore = (props) => {
     } else {
       setFilteredDataSource(items);
       setSearch(text);
-    }
+    }*/
   };
 
   const handlePress = () => {
@@ -486,6 +499,7 @@ const LootStore = (props) => {
             flexDirection: 'row',
             justifyContent: 'space-between',
             paddingHorizontal: width * 0.1,
+           
           }}>
           {options.map(
             (i, k) =>
@@ -564,7 +578,7 @@ const LootStore = (props) => {
             )}
           </View>
         </View>
-        {open ? (
+        {open &&  arOren == "en"? (
           <SearchBar
             placeholder={props.labels.typeHere}
             round
@@ -577,9 +591,25 @@ const LootStore = (props) => {
               marginHorizontal: width * 0.1,
               borderRadius: 20,
             }}
-            inputContainerStyle={{height: 35, backgroundColor: '#D2D7F9'}}
+            inputContainerStyle={{height: 35, backgroundColor: '#D2D7F9',}}
           />
-        ) : null}
+        ) :open &&  arOren == "ar"?(
+          <SearchBar
+            placeholder={props.labels.typeHere}
+            round
+            editable={true}
+            value={search}
+            onChangeText={(text) => searchFilterFunction(text)}
+            containerStyle={{
+              backgroundColor: '#D2D7F9',
+              marginBottom: 20,
+              marginHorizontal: width * 0.1,
+              borderRadius: 20,
+            }}
+            inputContainerStyle={{height: 35, backgroundColor: '#D2D7F9',}}
+            inputStyle={{ textAlign:"right"}}
+          />
+        ):null}
         <View
           style={{
             display: 'flex',
@@ -670,7 +700,7 @@ const LootStore = (props) => {
             })}
             </ScrollView>
 
-            <View style={{width: '100%', alignItems: 'flex-start'}}>
+            <View style={{width: '100%',alignItems: 'flex-start',}}>
               <ScrollView
                 alwaysBounceHorizontal={true}
                 ref={scrollRef}
@@ -730,7 +760,7 @@ const LootStore = (props) => {
               <>
                 <View
                   style={{
-                    marginVertical: 50,
+                    paddingVertical:50,
                     flexDirection: 'row',
                     justifyContent: 'space-between',
                     flexWrap: 'wrap',
@@ -767,11 +797,12 @@ const LootStore = (props) => {
                     </View>
                   ) : (
                     <>
-                      <View style={{flex: 1}}>
+                      <View style={{flex: 1,}}>
                         <FlatList
-                          style={{height: height * 0.6, marginTop: -15}}
+                          style={{height: height * 0.6,}}
                           contentContainerStyle={{
                             marginBottom: 10,
+                            paddingTop:7
                           }}
                           showsVerticalScrollIndicator={false}
                           scrollEnabled={true}
@@ -825,7 +856,7 @@ const LootStore = (props) => {
                                           position: 'absolute',
                                           top: -24,
                                           left: '14%',
-                                          borderRadius: 16,
+                                          borderRadius: 15,
                                           // resizeMode:'cover'
                                         }}
                                       />

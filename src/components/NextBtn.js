@@ -4,7 +4,7 @@ import {SvgXml} from 'react-native-svg';
 
 const {width, height} = Dimensions.get('window');
 
-export default ({name,price}) => {
+export default ({name,price,kd}) => {
     const xml = `<?xml version="1.0" encoding="UTF-8"?>
     <svg width="281px" height="90px" viewBox="0 0 281 90" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
         <title>verify copy 2</title>
@@ -32,7 +32,7 @@ export default ({name,price}) => {
                     <tspan x="-65" y="15.6">${name}</tspan>
                 </text>
                 <text id="KWD-30,400">
-                    <tspan x=23 y="15.6">KD ${price?price:"000"}</tspan>
+                    <tspan x=23 y="15.6">${kd?kd:"KD"} ${price?price:"000"}</tspan>
                 </text>
                     </g>
                 </g>

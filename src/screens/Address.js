@@ -495,7 +495,7 @@ const Address = (props) => {
                                                             />
                                                         </>
                                                     ) : (
-                                                            <SaveBtn text={addressId && addressId !== "" ? labels.update : labels.save} x={arOren == "ar"? 250:0}/>
+                                                            <SaveBtn text={addressId && addressId !== "" ? labels.update : labels.save} x={arOren == "ar"? 0:0}/>
                                                         )}
                                                 </View>
                                             </TouchableOpacity>

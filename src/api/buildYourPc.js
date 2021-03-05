@@ -112,13 +112,17 @@ export async function profileUpdateApi(email, dob, gender, first_Name,
   return response.data;
 }
 
-export async function changePasswordApi(currPass, newPass, confPass) {
+export async function changePasswordApi(current_password, new_password, new_confirm_password) {
+  try{
   const response = await Api.post('app/user/change-password', {
-    current_password: currPass,
-    new_password: newPass,
-    new_confirm_password: confPass
+    current_password,
+    new_password,
+    new_confirm_password
   });
   return response.data;
+  }catch(e){
+    return e.response.data;
+  }
 }
 
 export async function changeNumberApi(number) {

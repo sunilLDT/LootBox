@@ -34,7 +34,7 @@ const ProductDetails = (props) => {
   const [loading, setLoading] = useState(false);
   const [edit, setEdit] = useState(false);
   const maxlimit = 12;
-  const kd = "KD ";
+  const kd = props.labels.kD;
   const [arOren, setarOren] = useState('en');
   languagename().then(res => setarOren(res))
 
@@ -161,7 +161,7 @@ const ProductDetails = (props) => {
                       activeOpacity={0.1}
                       onPress={() => addIntoCart()}>
                       {!loading ? (
-                        <Btn text={props.labels.BuildYourPc} pay=" " x={arOren == "ar"? 115:0}/>
+                        <Btn text={props.labels.BuildYourPc} pay=" " x={arOren == "ar"? 30:0}/>
                       ) : (
                           <>
                             <Btn text={''} pay=" " />

@@ -223,7 +223,7 @@ const ItemListing = (props) => {
                   {item.image !== "" && item.image?(
                   <Image
                     source={{ uri: item.image }}
-                    style={{ width: 65, height: 45, marginBottom: 30, alignSelf: 'center', marginTop: '-10%' }}
+                    style={{ width: 65, height: 45, marginBottom: 30,borderRadius:12, alignSelf: 'center', marginTop: '-10%' }}
                   />
                   ):(
                     <Image

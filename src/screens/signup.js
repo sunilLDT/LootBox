@@ -26,7 +26,6 @@ import AsyncStorage from '@react-native-community/async-storage';
 import {languagename} from '../components/LanguageName';
 import { connect } from 'react-redux';
 import PopUp from '../components/popup';
-import { navigate } from '../api/contexts/navigationRef';
 
 
 const {height, width} = Dimensions.get('window');
@@ -105,7 +104,7 @@ const Signup = ({navigation, route, labels}) => {
             paddingHorizontal:35
           }}>
           <TouchableOpacity
-            onPress={() => navigate({ name: 'auth' })}>
+            onPress={() => {navigation.goBack()}}>
             <Image
               style={{ width: 48 }}
               resizeMode="contain"
@@ -378,7 +377,7 @@ const Signup = ({navigation, route, labels}) => {
                 width: '80%',
               }}>
               {!state.loading ? (
-                <Btn text={labels.singnUp.toUpperCase()} x={arOren == "ar"?160:54} pay=""/>
+                <Btn text={labels.singnUp.toUpperCase()} x={arOren == "ar"?50:54} pay=""/>
               ) : (
                 <>
                   <Btn text={' '} x="54" pay="" />

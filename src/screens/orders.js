@@ -19,8 +19,7 @@ const Orders = ({ navigation, labels }) => {
   const [selected, setSelected] = useState(0);
   const [orderList, setOrderList] = useState([]);
   const [loading, setLoading] = useState(false);
-
-  console.log(orderList)
+  const kd = labels.kD;
 
   useEffect(() => {
     setLoading(true);
@@ -194,7 +193,7 @@ const Orders = ({ navigation, labels }) => {
                                 fontSize: 16,
                                 lineHeight: 20,
                               }}>
-                              KD {parseFloat(i.grand_total).toFixed(2)}
+                              {kd} {parseFloat(i.grand_total).toFixed(2)}
                             </Text>
                           </View>
                           <View

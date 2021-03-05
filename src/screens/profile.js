@@ -37,6 +37,9 @@ import { S3, util } from 'aws-sdk';
 import fs from 'react-native-fs';
 import {languagename} from '../components/LanguageName';
 import PopUp from '../components/popup';
+import AsyncStorage from '@react-native-community/async-storage';
+import Api from '../api/index';
+import { navigate } from '../api/contexts/navigationRef';
 const { width, height } = Dimensions.get('window');
 
 const Profile = (props) => {
@@ -47,20 +50,20 @@ const Profile = (props) => {
   const [email, setEmail] = useState("");
   const [gender, setGender] = useState(1);
   const [passwordModal, setpasswordModal] = useState(false);
-  const [oldPassword, setOldPassword] = useState("");
-  const [newPassword, setnewPassword] = useState("");
-  const [confirmPassword, setconfirmPassword] = useState("");
+  const [oldPassword, setOldPassword] = useState();
+  const [newPassword, setnewPassword] = useState();
+  const [confirmPassword, setconfirmPassword] = useState();
   const [photo, setPhoto] = useState();
-  const {signout } = useContext(AuthContext);
+  const { signout, guestUserSignIn,state } = useContext(AuthContext);
   const [loadingBtn, setLoadingBtn] = useState(false);
   const [loading,setloading] = useState(false);
   const [first_name, setFirstName] = useState();
   const [last_name, setLastName] = useState();
   const [imageLoader,setImageLoader] = useState(false);
   const [arOren,setarOren] = useState('en');
-  const [addressModal, setaddressModal] = useState(false);
   const [contentModal, setContentModal] = useState('');
   const [popModal, setPopModal] = useState(false);
+  const [move,setMove] = useState(false);
   languagename().then(res => setarOren(res))
 
   var formattedDOB = format(DOB, "d-MM-yyyy");
@@ -82,7 +85,31 @@ const Profile = (props) => {
       setGender(props.profileData.gender ? props.profileData.gender : 1);
   }
 
-  const popUpHandler=()=>{
+  const popUpHandler = async () => {
+    try{
+      if(move){
+       /* const value = await AsyncStorage.getItem('deviceToken');
+        console.log("device token ==============")
+        console.log(value)
+        const language = await AsyncStorage.getItem('language');
+        const store = await Api.post('app/user/device-token',{
+          token: value,
+          language:language,
+          device_type:Platform.OS=='android' ? 1 : 2,
+          action_type:2
+          });
+          alert(store)
+          */
+          await AsyncStorage.removeItem('deviceToken');
+          await AsyncStorage.removeItem('token');
+          props.logoutaction();
+          guestUserSignIn('login');
+          navigate({ name: 'auth' });
+       
+      } 
+    }catch(e){
+      console.log("logout after change password "+ e)
+    }
     setPopModal(!popModal);
   }
 
@@ -113,13 +140,14 @@ const Profile = (props) => {
     }
   };
 
-  const changePassword = () => {
+  const changePassword = async () => {
     if (newPassword !== confirmPassword) {
       setPopModal(true);
       setContentModal(labels.passwordNotMatch);
 
     }
     else if (newPassword == "" || confirmPassword == "" || oldPassword == "") {
+      console.log("all fields required")
       setPopModal(true);
       setContentModal(labels.fillAllField)
   
@@ -129,17 +157,38 @@ const Profile = (props) => {
       setContentModal(labels.notMoreThan8)
     }
     else {
-      changePasswordApi(oldPassword, newPassword, confirmPassword).then((response) => {
-        setpasswordModal(!passwordModal)
-        setPopModal(true);
-        setContentModal(response.message)
-        if (response.success == true) {
-          signout()
+      // changePasswordApi(oldPassword, newPassword, confirmPassword).then((response) => {
+      //   setpasswordModal(!passwordModal)
+      //   setPopModal(true);
+      //   setContentModal(response.message)
+      //   console.log("---------------------------------------------------- fhvdfvfkvdf")
+      //   if (response.success == true) {
+      //     console.log("++++++++++++++++++++++++++++++ in if ")
+      //     console.log("response success in change password ======")
+      //     signout()
+      //     // props.logoutaction();
+      //   }
+      //   else{
+      //     setpasswordModal(!passwordModal)
+      //     setPopModal(true);
+      //     setContentModal(response.message)
+      //   }
+      // })
+      
+      try{
+        const changeRes = await changePasswordApi(oldPassword, newPassword, confirmPassword);
+        if(changeRes.code == 200){
+          setpasswordModal(!passwordModal)
+          setPopModal(true);
+          setContentModal(changeRes.message)
+          setMove(true)
+        }else{
+          setPopModal(true);
+          setContentModal(changeRes.message)
         }
-      }).catch((error) => {
-        setpasswordModal(!passwordModal)
-        setaddressModal(true);
-      })
+      }catch(e){
+          console.log("error in change password " + e)
+      }
     }
   };
 
@@ -186,7 +235,8 @@ const Profile = (props) => {
           console.log("Respomse URL : "+ data.Location);
           uploadImageApi(data.Location).then((response) => {
             setImageLoader(false)
-            alert(response.message);
+            setPopModal(true);
+            setContentModal(response.message);
           }).catch((error) => {
             console.log("ImageUploadProfile" + error);
             setImageLoader(false)
@@ -243,7 +293,7 @@ const Profile = (props) => {
           dialogAnimation={new SlideAnimation({
             slideFrom: 'bottom',
           })}
-          onTouchOutside={() => { setpasswordModal(!passwordModal) }}
+          onTouchOutside={() => { setpasswordModal(!passwordModal)}}
         >
             
           <DialogContent>
@@ -263,7 +313,7 @@ const Profile = (props) => {
               <TouchableWithoutFeedback
                 onPress={() => changePassword()}>
                 <View style={{ marginVertical: 5 }}>
-                  <SaveBtn text={labels.save} x={arOren == "ar"? 250:0}/>
+                  <SaveBtn text={labels.save} x={arOren == "ar"? 0:0}/>
                 </View>
               </TouchableWithoutFeedback>
             </View>
@@ -318,10 +368,12 @@ const Profile = (props) => {
                       flexDirection: 'row',
                       justifyContent: 'space-between',
                     }}>
-                    <View style={{
-                      width: "60%"
-                    }}>
-                      <Text
+                      <View style={{
+                        display:'flex',
+                        flexDirection:'column',
+                        
+                      }}>
+                        <Text
                         numberOfLines={2}
                         ellipsizeMode='middle'
                         style={{
@@ -334,18 +386,19 @@ const Profile = (props) => {
                         {props.profileData.full_name}
                       </Text>
                       <Text
-                        numberOfLines={2}
-                        ellipsizeMode='middle'
-                        style={{
-                          fontSize: 16,
-                          lineHeight: 16,
-                          color: '#ECDBFA',
-                          opacity: 0.5,
-                          marginBottom: 20,
-                        }}>
-                        {props.profileData.email}
-                      </Text>
-                    </View>
+                          numberOfLines={2}
+                          ellipsizeMode='middle'
+                          style={{
+                            fontSize: 16,
+                            lineHeight: 16,
+                            color: '#ECDBFA',
+                            opacity: 0.5,
+                            marginBottom: 20,
+                          }}>
+                          {props.profileData.email}
+                        </Text>
+
+                      </View>
                     {!imageLoader?(
                     <TouchableOpacity
                       style={{ width: "40%" }}
@@ -392,7 +445,7 @@ const Profile = (props) => {
                     <Input placeholder={labels.email} email value={email} onChangeText={(email) => setEmail(email)} />
                   </View>
                   <View style={{ marginVertical: 10 }}>
-                    <TouchableOpacity onPress={() => { setpasswordModal(!passwordModal) }}>
+                    <TouchableOpacity onPress={() => { setpasswordModal(!passwordModal),setOldPassword(''),setnewPassword(''),setconfirmPassword('')  }}>
                       <InputCard
                         placeholder="***********" />
                     </TouchableOpacity>
@@ -454,6 +507,7 @@ const Profile = (props) => {
                       height: height * 0.09,
                       width: width * 0.85,
                       marginVertical: 10,
+                      flexDirection:'row'
                     }}>
                     {Platform.OS == "android" ? (
                       <Picker
@@ -466,14 +520,13 @@ const Profile = (props) => {
                           marginTop: Platform.OS == 'android' ? 0 : 30,
                           color: '#ECDBFA',
                           marginLeft: '2%',
-
                         }}
-                        itemStyle={{ color: '#ffffff' }}
+                        itemStyle={{ color: '#ffffff',textAlign:'left'}}
                         onValueChange={(itemValue, itemIndex) =>
                           setGender(itemValue)
                         }
                       >
-                        <Picker.Item label={labels.male} value="1" color="#ECDBFA"/>
+                        <Picker.Item label={labels.male} value="1" color="#ECDBFA" />
                         <Picker.Item label={labels.female} value="2"  color="#ECDBFA"/>
                       </Picker>
                     ) : (
@@ -573,7 +626,7 @@ const Profile = (props) => {
                           />
                         </>
                       ) : (
-                          <SaveBtn text={labels.save} x={arOren == "ar"? 250:0}/>
+                          <SaveBtn text={labels.save} x={arOren == "ar"? 0:0}/>
                         )}
                     </View>
                   </TouchableWithoutFeedback>
@@ -628,6 +681,7 @@ const mapStateToProps = (state) => ({
 
 const actionCreators = {
   sendaction: profileActions.showProfile,
+  logoutaction:profileActions.logoutFun
 };
 
 export default connect(mapStateToProps,actionCreators)(Profile)

@@ -18,7 +18,6 @@ const [notification, setNotification] = useState([]);
   useEffect(() => {
     getNotification().then((response) => {
        setNotification(response.data);
-    
     }).catch((error) => {
       console.log("notification error" + error)
     })

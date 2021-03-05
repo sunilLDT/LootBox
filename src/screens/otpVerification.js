@@ -33,7 +33,7 @@ const Otp = ({navigation,labels}) => {
   
   const popUpHandler=()=>{
     hidePops();
-}
+  }
 
   useEffect(() => {
     let timer;
@@ -45,6 +45,8 @@ const Otp = ({navigation,labels}) => {
       clearInterval(timer);
     }
     return () => clearInterval(timer);
+
+   
   }, [count]);
   
 

@@ -23,6 +23,8 @@ import {languagename} from '../../components/LanguageName';
 
 const { width, height } = Dimensions.get('window');
 const ItemDetails = (props) => {
+    const labels = props.labels;
+
     const itemId = props.itemid;
     const sub_category_name = props.sub_category_name;
     const refRBSheet = useRef();
@@ -133,7 +135,7 @@ const ItemDetails = (props) => {
                             color: '#842D8A',
                         }}  
                         />
-                        <Text style={styles.price}>KD {itemDetails.price}</Text>
+                        <Text style={styles.price}>{labels.kD}{itemDetails.price}</Text>
                     </View>
                 </View>
                 <View style={styles.desToBtn}>
@@ -142,8 +144,9 @@ const ItemDetails = (props) => {
                             numberOfLines={3}
                             renderViewMore={renderViewMore}
                             renderViewLess={renderViewLess}
-                            textStyle={{textAlign:'left'}}
+                            // textStyle={{textAlign:'left'}}
                         >
+                            
                             <Text style={styles.descriptionText}>
                             {itemDetails.description} 
                             </Text>
@@ -164,7 +167,7 @@ const ItemDetails = (props) => {
                             style={styles.headingView}>
                             <Text
                                 style={styles.packageText}>
-                                Performance{/*  ({customFieldsValue.length} items) */}
+                                {labels.performance}{/*  ({customFieldsValue.length} items) */}
                             </Text>
                         </View>
                         <View
@@ -175,12 +178,16 @@ const ItemDetails = (props) => {
                                 style={styles.permormanceDetails}
                                 key={index}>
                                 <Text
+                                numberOfLines={2}
                                     style={styles.performaceItem}>
-                                   {((customValues.name).length > maxlimit)?(((customValues.name).substring(0,maxlimit-3)) + '...'):customValues.name}
+                                   {/* {((customValues.name).length > maxlimit)?(((customValues.name).substring(0,maxlimit-3)) + '...'):customValues.name} */}
+                                   {customValues.name}
                                 </Text>
                                 <Text
+                                    numberOfLines={2}
                                     style={styles.itemData}>
-                                    {((customValues.value).length > maxlimit)?(((customValues.value).substring(0,maxlimit-3)) + '...'):customValues.value}
+                                    {/* {((customValues.value).length > maxlimit)?(((customValues.value).substring(0,maxlimit-3)) + '...'):customValues.value} */}
+                                    {customValues.value}
                                 </Text>
                                 </View>
                                 );
@@ -189,7 +196,7 @@ const ItemDetails = (props) => {
                     </ImageBackground>
 
                     <TouchableOpacity style={styles.btn} onPress={() => {selectItem(itemId)}}>
-                        <SelectBtn subCat={""} x="50"/>
+                        <SelectBtn subCat={labels.select} x="50"/>
                     </TouchableOpacity>
                 </View>
             </ScrollView>
@@ -260,6 +267,9 @@ const styles = StyleSheet.create({
         paddingHorizontal:"10%",
         position:'relative',
         marginVertical:5,
+        display: 'flex',
+        alignItems: 'center',
+        flexDirection: 'row',
     },
     descriptionText:{
         color: 'rgba(255,255,255,0.3)',
@@ -298,10 +308,15 @@ const styles = StyleSheet.create({
     performaceItem:{
         color: 'rgba(255,255,255,0.3)',
         fontSize: 14,
+        flexShrink: 1,
+        width:'50%',
     },
     itemData:{
         color: 'rgba(255,255,255,0.3)',
         fontSize: 12,
+        flexShrink: 1,
+        width:'50%',
+        paddingHorizontal:3
     },
     btn:{
         marginHorizontal:"7%",
@@ -314,7 +329,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => ({
     cart: state.cartReducer.cart,
-
+    labels: state.languageReducer.labels,
 })
 
 const actionCreators = {
