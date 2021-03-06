@@ -65,7 +65,7 @@ const Profile = (props) => {
   const [popModal, setPopModal] = useState(false);
   const [move,setMove] = useState(false);
   languagename().then(res => setarOren(res))
-  const maxlimit = 15;
+  const maxlimit = 20;
   const emailmaxlimit = 25;
 
   var formattedDOB = format(DOB, "d-MM-yyyy");
@@ -90,10 +90,9 @@ const Profile = (props) => {
   const popUpHandler = async () => {
     try{
       if(move){
-          //await AsyncStorage.removeItem('deviceToken');
+          await AsyncStorage.removeItem('callingCode');
           await AsyncStorage.removeItem('token');
           props.logoutaction();
-         // guestUserSignIn('login');
           navigate({ name: 'auth' });
       } 
     }catch(e){
@@ -148,18 +147,22 @@ const Profile = (props) => {
     }
     else {
       try{
+        setloading(true)
         const changeRes = await changePasswordApi(oldPassword, newPassword, confirmPassword);
         if(changeRes.code == 200){
+          setloading(false)
           setpasswordModal(!passwordModal)
           setPopModal(true);
           setContentModal(changeRes.message)
           setMove(true)
         }else{
+          setloading(false)
           setPopModal(true);
           setContentModal(changeRes.message)
         }
       }catch(e){
           console.log("error in change password " + e)
+          setloading(false)
       }
     }
   };
@@ -285,7 +288,19 @@ const Profile = (props) => {
               <TouchableWithoutFeedback
                 onPress={() => changePassword()}>
                 <View style={{ marginVertical: 5 }}>
-                  <SaveBtn text={labels.save} x={arOren == "ar"? 0:0}/>
+                  {loading?(
+                     <>
+                     <SaveBtn text={' '} />
+                     <ActivityIndicator
+                       color="#ECDBFA"
+                       size="small"
+                       style={{ bottom: 38 }}
+                     />
+                   </>
+                  ):(
+                    <SaveBtn text={labels.save} x={arOren == "ar"? 0:0}/>
+                  )}
+                  
                 </View>
               </TouchableWithoutFeedback>
             </View>
@@ -349,13 +364,12 @@ const Profile = (props) => {
                         ellipsizeMode='middle'
                         style={{
                           fontFamily: Platform.OS == 'android' ? 'Michroma-Regular' : 'Michroma',
-                          fontSize: 20,
+                          fontSize: 19,
                           lineHeight: 28,
                           color: '#ECDBFA',
                           marginBottom: 10,
                         }}>
-                          {props.profileData.full_name}
-                        {/* {((props.profileData.full_name).length > maxlimit) ? (((props.profileData.full_name).substring(0, maxlimit - 3)) + '...') : props.profileData.full_name} */}
+                          {props.profileData.full_name?((props.profileData.full_name).length > maxlimit) ? (((props.profileData.full_name).substring(0, maxlimit - 3)) + '...'):props.profileData.full_name:null}
                       </Text>
                       <Text
                           numberOfLines={2}
@@ -367,8 +381,7 @@ const Profile = (props) => {
                             opacity: 0.5,
                             marginBottom: 20,
                           }}>
-                            {props.profileData.email}
-                          {/* {((props.profileData.email).length > emailmaxlimit) ? (((props.profileData.email).substring(0, emailmaxlimit - 3)) + '...') : props.profileData.email} */}
+                            {props.profileData.email?((props.profileData.email).length > emailmaxlimit) ? (((props.profileData.email).substring(0, emailmaxlimit - 3)) + '...'):props.profileData.email:null}
                         </Text>
 
                       </View>

@@ -8,9 +8,11 @@ import LinearGradient from 'react-native-linear-gradient';
 import CountryPicker,{ DARK_THEME } from 'react-native-country-picker-modal';
 import { CountryCode, Country } from './types';
 import {languagename} from '../components/LanguageName';
+import AsyncStorage from '@react-native-community/async-storage';
+import { isGetAccessorDeclaration } from 'typescript';
 const {height, width} = Dimensions.get('window');
 
-const Input = ({
+const PhoneNumberInput = ({
   placeholder,
   onChangeText,
   editable,
@@ -42,11 +44,14 @@ const Input = ({
     }
     const [arOren,setarOren] = useState('en');
     languagename().then(res => setarOren(res))
-    const onSelect = (country: Country) => {
-        console.log(country)
+    const onSelect = async (country: Country) => {
         setCountryCode(country.cca2)
         setCountry(country)
-      }
+        await AsyncStorage.setItem('callingCode',("+"+country.callingCode[0]));
+    }
+    if(countryCode == "KW"){
+      AsyncStorage.setItem('callingCode',"+965")
+    }
     return (
         <LinearGradient
             start={{x: 0, y: 0}}
@@ -96,7 +101,7 @@ const Input = ({
                 onTouchStart={onFocus}
                 placeholderTextColor="#ECDBFA"
                 autoCompleteType={'off'}
-                maxLength={otp && 1 || tel && 10}
+                maxLength={otp && 1 || tel && 15}
                 autoCorrect={false}
                 autoFocus={autoFocus}
                 onChangeText={onChangeText}
@@ -127,4 +132,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Input;
+export default PhoneNumberInput;

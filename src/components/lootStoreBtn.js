@@ -1,7 +1,7 @@
 import React from 'react';
 import {SvgXml} from 'react-native-svg';
 
-export default ({}) => {
+export default ({text,x}) => {
     
   const xml = `
   <?xml version="1.0" encoding="UTF-8"?>
@@ -20,7 +20,7 @@ export default ({}) => {
                     <g id="Group-14-Copy" transform="translate(40.000000, 11.000000)" fill="#FFFFFF" font-family="Avenir-Heavy, Avenir" font-size="14" font-weight="600" line-spacing="16">
                         <g id="Group-2-Copy-2" transform="translate(0.054511, 0.000000)">
                             <text id="Loot-Store">
-                                <tspan x="4.97340596" y="10.2359009">Loot Store</tspan>
+                                <tspan x=${x ? x : '4.97340596'} y="10.2359009">${text?text:"Loot Store"}</tspan>
                             </text>
                         </g>
                     </g>

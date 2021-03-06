@@ -129,18 +129,23 @@ const Drawer = (props) => {
   }
 
   const arabicLang = async () => {
-    await AsyncStorage.setItem('language', 'ar');
-    I18nManager.forceRTL(true)
-    RNRestart.Restart();
-    const value = await AsyncStorage.getItem('deviceToken');
-    const language = await AsyncStorage.getItem('language');
-    const data = {
-      token: value,
-      language:language,
-      device_type:Platform.OS=='android' ? 1 : 2,
-      action_type:1
+    try{
+      await AsyncStorage.setItem('language', 'ar');
+     
+      const value = await AsyncStorage.getItem('deviceToken');
+      const language = await AsyncStorage.getItem('language');
+      const data = {
+        token: value,
+        language:language,
+        device_type:Platform.OS=='android' ? 1 : 2,
+        action_type:1
+      }
+      const checking =   await Api.post('app/user/device-token',data);
+      I18nManager.forceRTL(true)
+      RNRestart.Restart();
+    }catch(e){
+      console.log("checking ar+++++++++++++" + e)
     }
-    const checking =   await Api.post('app/user/device-token',data);
   }
 
   const signoutReq = () => {
@@ -148,20 +153,25 @@ const Drawer = (props) => {
     signout()
   }
 
-  const englishLang = async () => {  
-    await AsyncStorage.setItem('language', 'en');
-    I18nManager.forceRTL(false)
-    RNRestart.Restart();
-    const value = await AsyncStorage.getItem('deviceToken');
-    const language = await AsyncStorage.getItem('language');
-    const data = {
-      token: value,
-      language:language,
-      device_type:Platform.OS=='android' ? 1 : 2,
-      action_type:1
+  const englishLang = async () => {
+    try{  
+      await AsyncStorage.setItem('language', 'en');
+  
+      const value = await AsyncStorage.getItem('deviceToken');
+      const language = await AsyncStorage.getItem('language');
+      const data = {
+        token: value,
+        language:language,
+        device_type:Platform.OS=='android' ? 1 : 2,
+        action_type:1
+      }
+
+      const making =  await Api.post('app/user/device-token',data);
+      I18nManager.forceRTL(false)
+      RNRestart.Restart();
+    }catch(e){
+      console.log('en language change +++++++++++++'+ e)
     }
-    const making =  await Api.post('app/user/device-token',data);
-   
   };
 
   return (

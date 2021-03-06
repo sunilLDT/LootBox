@@ -70,14 +70,23 @@ const Signup = ({navigation, route, labels}) => {
     await AsyncStorage.setItem('email',email)
     const userType = await AsyncStorage.getItem('user_type')
     const user_id = await AsyncStorage.getItem('user_id')
+    const phoneNumberCode = await AsyncStorage.getItem('callingCode');
+
     if(JSON.parse(userType) == 2) {
-      registerGuestUser({...data, guest_user_id: user_id})
+      console.log("phone number country code guest user========")
+      console.log(phoneNumberCode)
+      registerGuestUser({...data, guest_user_id: user_id,country_code:phoneNumberCode})
       setNavigation('cart')
     } else {
-      signup(data);
+      console.log("phone number country code ========")
+      console.log(phoneNumberCode)
+      signup({...data,country_code:phoneNumberCode});
       setNavigation('home')
     }
+    console.log("after sign up +++")
+    console.log(phoneNumberCode)
   }
+  
   const popUpHandler1=()=>{
     hidePops();
   }
@@ -321,7 +330,7 @@ const Signup = ({navigation, route, labels}) => {
                   password &&
                   /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email) &&
                   password.length >= 8 &&
-                  phone.length == 8
+                  phone.length >= 8
                 ) {
                   submit()
                 } else {
@@ -339,7 +348,7 @@ const Signup = ({navigation, route, labels}) => {
                     setContentModal(labels.invaildEmail)
       
                   }
-                  else if (phone && !(phone.length == 8)) {
+                  else if (phone && phone.length < 8) {
                     setaddressModal(true);
                     setContentModal(labels.validPhoneNumber)
                   }

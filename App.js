@@ -178,7 +178,7 @@ const App = () => {
       messaging()
       .getToken()
       .then(token => {
-        console.log(token)
+        // console.log(token)
       });
       
     // If using other push notification providers (ie Amazon SNS, etc)

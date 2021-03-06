@@ -430,6 +430,8 @@ const resendOtp = (dispatch) => async () => {
 
 
 const registerGuestUser = (dispatch) => async (data) => {
+  console.log("register guest user in auth context ")
+  console.log(data)
   try {
     dispatch({
       type: 'toggle_loading',
@@ -438,11 +440,13 @@ const registerGuestUser = (dispatch) => async (data) => {
     if (res.data.data.is_otp_verified) {
       await AsyncStorage.setItem('token', res.data.data.token);
       await AsyncStorage.setItem('user_type', JSON.stringify(1));
+      await AsyncStorage.removeItem('callingCode');
       await AsyncStorage.setItem('user_id', JSON.stringify(res.data.data.user_id));
       navigate({ name: 'home' });
     } else {
       await AsyncStorage.setItem('user_type', JSON.stringify(1));
       await AsyncStorage.setItem('userId', res.data.data.user_id.toString());
+      await AsyncStorage.removeItem('callingCode');
       await AsyncStorage.setItem('user_id', JSON.stringify(res.data.data.user_id));
       navigate({ name: 'otp' });
     }
@@ -468,10 +472,12 @@ const signup = (dispatch) => async (data) => {
     const res = await Api.post('app/user/register', data);
     if (res.data.data.is_otp_verified) {
       await AsyncStorage.setItem('token', res.data.data.token);
+      await AsyncStorage.removeItem('callingCode');
       navigate({ name: 'slider' });
 
     } else {
       await AsyncStorage.setItem('userId', res.data.data.user_id.toString());
+      await AsyncStorage.removeItem('callingCode');
       const deviceToken = await AsyncStorage.getItem('deviceToken');
       navigate({ name: 'otp',params:0});
     }
@@ -548,6 +554,7 @@ const signout = (dispatch) => async () => {
     });
 
     //await AsyncStorage.removeItem('deviceToken');
+    await AsyncStorage.removeItem('callingCode');
     await AsyncStorage.removeItem('token');
     dispatch({ type: 'signout' });
     navigate({ name: 'auth' });

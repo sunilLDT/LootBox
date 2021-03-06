@@ -34,8 +34,6 @@ const { width, height } = Dimensions.get('window');
 const ItemListing = (props) => {
   const { items } = props.route.params;
   const { pIndex } = props.route.params;
-  console.log("=== items ******")
-  console.log(items)
 
   const { sub_category_name } = props.route.params;
   const [data, setData] = useState(items);
@@ -44,9 +42,6 @@ const ItemListing = (props) => {
   const [filterF , setFilter ] = useState(false)
   const [filterValues, setFilterApplied ] = useState({})
   const forceUpdate = useForceUpdate();
-  
-  console.log("filter valuse ============")
-  console.log(filterValues)
 
 
 
@@ -186,13 +181,13 @@ const ItemListing = (props) => {
                     </View>
                 </DialogContent>
             </Dialog>
-          <TouchableOpacity onPress={() => setFilter(!filterF) }>
+          {/* <TouchableOpacity onPress={() => setFilter(!filterF) }>
             <Image
               style={styles.icons}
               source={filterIcon}
               resizeMode="contain"
             />
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
       </View>
       <FlatList

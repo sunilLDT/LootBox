@@ -175,14 +175,13 @@ const Cart = (props) => {
           }else{
             setPopModal(true);
             setContentModal(response.message)
- 
           }
       }
+      setPopModal(true);
+      setContentModal(response.message)
        setLoading(false)
        props.navigation.navigate('checkout', { paymentUrl: response.data.data.paymenturl,labels: labels})
-     }).catch((error) => {
-       console.log("orderPlace" + error);
-   });
+     })
    refRBSheet.current.close();
   }
 
@@ -1408,7 +1407,7 @@ const Cart = (props) => {
               <View>
                 <TouchableOpacity style={{ marginTop: 10, marginLeft: 40 }} onPress={() => props.navigation.navigate('home')}>
                   <View style={{ width: "87%", }}>
-                    <SaveBtn text={labels.continueShopping} x={arOren == "ar" ? "250": "100"}/>
+                    <SaveBtn text={labels.continueShopping} x={arOren == "ar" ? "130": "100"}/>
                   </View>
                 </TouchableOpacity>
               </View>

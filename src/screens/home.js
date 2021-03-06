@@ -9,16 +9,21 @@ import {
 
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import strings from '../languages/index';
 import { connect } from 'react-redux';
 import { cartActions } from '../actions/user';
 import { packageActions } from '../actions/package';
 import { profileActions } from '../actions/profileAction';
 import BuildingPc from '../components/BuildingPc';
 import LootStoreBtn from '../components/lootStoreBtn';
+import { languagename } from '../components/LanguageName';
+
 const {height, width} = Dimensions.get('window');
 
+
+
 const Home = (props) => {
+  const [arOren, setarOren] = useState('en');
+  languagename().then(res => setarOren(res))
   useEffect(() => {
     props.add()
     props.categories
@@ -77,7 +82,7 @@ const Home = (props) => {
                 }}>
               {props.labels.buildYourPc}
             </Text> */}
-            <BuildingPc />
+            <BuildingPc text={props.labels.buildYourPc} x={arOren == "ar"? -40:0}/>
             <Image
               resizeMode="contain"
               source={require('../assets/ic_arrow0.png')}
@@ -170,7 +175,7 @@ const Home = (props) => {
                     }}>
              {props.labels.lootStore}
             </Text> */}
-            <LootStoreBtn/>
+            <LootStoreBtn text={props.labels.lootStore} x={arOren == "ar"?18:4.97340596}/>
             
             <Image
               resizeMode="contain"

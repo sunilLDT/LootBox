@@ -87,10 +87,15 @@ export async function showCartData() {
 }
 
 export async function orderPlace(paymentType) {
-  const response = await Api.post('app/order/place', {
-    payment_type: paymentType
-  });
-  return response.data;
+  try{
+    const response = await Api.post('app/order/place', {
+      payment_type: paymentType
+    });
+    return response.data;
+  }
+  catch(e){
+    return e.response.data;
+  }
 }
 
 export async function profileUpdateApi(email, dob, gender, first_Name,
