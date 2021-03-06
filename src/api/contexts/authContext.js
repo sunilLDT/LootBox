@@ -332,10 +332,13 @@ const verifyOtp = (dispatch) => async ( otp,from ) => {
           console.log(res.data.data.user_id)
         } else {
           console.log(res.data);
-          if(from==1){
-           
-          }else{ await AsyncStorage.setItem('token', res.data.data.token);}
-          await AsyncStorage.setItem('userId', res.data.data.user_id);
+          if(from== "undefined"){
+            console.log("===== 1 *****")
+            await AsyncStorage.setItem('token', res.data.data.token);
+          }else{
+            console.log("===== 2 *****")
+          }
+          await AsyncStorage.setItem('userId', JSON.stringify(res.data.data.user_id));
           await AsyncStorage.setItem('user_type', JSON.stringify(1));
           await AsyncStorage.setItem('is_OTP_Verified', JSON.stringify(true))
           const deviceToken = await AsyncStorage.getItem('deviceToken');

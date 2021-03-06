@@ -25,7 +25,7 @@ const {height, width} = Dimensions.get('window');
 const Otp = (props) => {
   console.log("type ======")
   const value = props.route.params;
-  console.log(value)
+  //console.log(props)
   
 
   const [otp, setOtp] = useState();
