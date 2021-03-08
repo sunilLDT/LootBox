@@ -12,7 +12,6 @@
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		271413B525E0AF8F007B0D10 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 271413B425E0AF8F007B0D10 /* HealthKit.framework */; };
-		27714A6B25F225140029D4D7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 27714A6A25F225140029D4D7 /* GoogleService-Info.plist */; };
 		2D02E4BC1E0B4A80006451C7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
@@ -21,6 +20,7 @@
 		4A168C732ED5993A575358CD /* libPods-lootbox-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DC131C653A093F7FB7A5768F /* libPods-lootbox-tvOS.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		84B65B21251901E500784621 /* credentials.plist in Resources */ = {isa = PBXBuildFile; fileRef = 84B65B20251901E400784621 /* credentials.plist */; };
+		962274D425F69C97000E53F1 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 962274D325F69C97000E53F1 /* GoogleService-Info.plist */; };
 		B4967CC9449CF5C6F59021FA /* libPods-lootbox-lootboxTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C12F376D264A26C7880068B /* libPods-lootbox-lootboxTests.a */; };
 		CD39DB88259DAC20001CB3B3 /* Montserrat-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CD39DB87259DAC1F001CB3B3 /* Montserrat-SemiBold.ttf */; };
 		CD74636A257F545B00784C52 /* Michroma-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CD746368257F50CC00784C52 /* Michroma-Regular.ttf */; };
@@ -73,7 +73,6 @@
 		271413B425E0AF8F007B0D10 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
 		271413BE25E0B491007B0D10 /* LootboxRelease.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = LootboxRelease.entitlements; path = lootbox/LootboxRelease.entitlements; sourceTree = "<group>"; };
 		2757D0E5D8054589B17CBFE4 /* AntDesign.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = AntDesign.ttf; path = "../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf"; sourceTree = "<group>"; };
-		27714A6A25F225140029D4D7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Desktop/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		2D02E47B1E0B4A5D006451C7 /* lootbox-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "lootbox-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* lootbox-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "lootbox-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		32963C0B4CD74FCD5A982077 /* libPods-lootbox.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-lootbox.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -87,6 +86,7 @@
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = lootbox/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		84B65B20251901E400784621 /* credentials.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = credentials.plist; sourceTree = "<group>"; };
 		924AA13B975A7D1DA9F8D23A /* Pods-lootbox-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lootbox-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-lootbox-tvOSTests/Pods-lootbox-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
+		962274D325F69C97000E53F1 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Desktop/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		9D23C4D11AF24A4EACBCD9FF /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
 		A25938D8D79D4965923BA27A /* FontAwesome.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
 		AC9435DA63624BEABE76C6E4 /* Foundation.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Foundation.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Foundation.ttf"; sourceTree = "<group>"; };
@@ -188,7 +188,7 @@
 		13B07FAE1A68108700A75B9A /* lootbox */ = {
 			isa = PBXGroup;
 			children = (
-				27714A6A25F225140029D4D7 /* GoogleService-Info.plist */,
+				962274D325F69C97000E53F1 /* GoogleService-Info.plist */,
 				271413BE25E0B491007B0D10 /* LootboxRelease.entitlements */,
 				271413B325E0AF8F007B0D10 /* LootboxDebug.entitlements */,
 				84B65B20251901E400784621 /* credentials.plist */,
@@ -433,7 +433,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				27714A6B25F225140029D4D7 /* GoogleService-Info.plist in Resources */,
+				962274D425F69C97000E53F1 /* GoogleService-Info.plist in Resources */,
 				CDE6B21D258867D2001C939A /* Montserrat-BoldItalic.ttf in Resources */,
 				CDE6B21F25886A04001C939A /* Montserrat-BlackItalic.ttf in Resources */,
 				CD39DB88259DAC20001CB3B3 /* Montserrat-SemiBold.ttf in Resources */,
