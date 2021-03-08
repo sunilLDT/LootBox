@@ -11,18 +11,16 @@ import {
   FlatList,
   ActivityIndicator
 } from 'react-native';
-import IcCardImage from '../../assets/ic_card_a0.png';
-import selectedIcCardImage from '../../assets/Rectangle.png';
+import IcCardImage from '../../assets/itemBack.png';
+import selectedIcCardImage from '../../assets/itemhover.png';
 import backImage from '../../assets/back.png';
 import searchImage from '../../assets/ic_search.png';
 import filterImage from '../../assets/ic_filter.png';
 import { addToCartAdvance, advancedBuilderItems,itemsAddedInCartApi,removeItemAPI, } from '../../api/buildYourPc';
 import LinearGradient from 'react-native-linear-gradient';
-import cardImage from '../../assets/ic_card_a0.png';
 import thumbnail from '../../assets/thumbnail.png';
 import NextBtn from '../../components/NextBtn';
 import SubCatBg from '../../assets/buildYourPc/Rectangle.png';
-import SelectedImage from '../../assets/Rectangle.png';
 import { connect } from 'react-redux';
 import { SearchBar } from 'react-native-elements';
 import { packageActions } from '../../actions/package';
@@ -301,7 +299,7 @@ const AdvanceBuilder = (props) => {
       }
       else{
         setPopModal(true);
-        setContentModal("Please select one item from this category");
+        setContentModal(labels.selectoneitem);
       }
       
     }
@@ -739,6 +737,7 @@ const AdvanceBuilder = (props) => {
                               </ImageBackground>
                               <ItemDetails
                                 itemid={item.item_id}
+                                styleForArrow={1}
                               />
                             </TouchableOpacity>
                           );
@@ -860,7 +859,7 @@ const styles = StyleSheet.create({
 
   },
   cardConatiner: {
-    width: 118,//width * 0.32,122,
+    width: 122,//width * 0.32,122,
     height: 145,//height * 0.17,150,
     marginTop: 40,
     borderRadius: 20,

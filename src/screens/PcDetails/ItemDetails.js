@@ -24,7 +24,7 @@ import {languagename} from '../../components/LanguageName';
 const { width, height } = Dimensions.get('window');
 const ItemDetails = (props) => {
     const labels = props.labels;
-
+    const styleFromAdvance =  props.styleForArrow;
     const itemId = props.itemid;
     const sub_category_name = props.sub_category_name;
     const refRBSheet = useRef();
@@ -76,7 +76,12 @@ const ItemDetails = (props) => {
         bottom:arOren == "ar"?16: 13,
         right:arOren == "ar"?2: 8,
         }} onPress={() => GetItemDetails()}>
-            <Image style={styles.expand} source={Expand}/>
+            <Image style={[{
+                width:25,
+                height:13,
+                left:styleFromAdvance == 1?5:0,
+                bottom:styleFromAdvance == 1?2:0,
+            }]} source={Expand}/>
         </TouchableOpacity>
         <RBSheet
             ref={refRBSheet}
@@ -207,10 +212,6 @@ const ItemDetails = (props) => {
 }
 
 const styles = StyleSheet.create({
-    expand:{
-        width:25,
-        height:13,
-    },
     scrollViewContainer:{
         width:width,
     },
@@ -316,7 +317,8 @@ const styles = StyleSheet.create({
         fontSize: 12,
         flexShrink: 1,
         width:'50%',
-        paddingHorizontal:3
+        paddingHorizontal:3,
+        textAlign:'right'
     },
     btn:{
         marginHorizontal:"7%",

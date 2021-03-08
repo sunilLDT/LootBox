@@ -400,6 +400,8 @@ const Profile = (props) => {
                             width: width * 0.4,
                             borderTopLeftRadius: 10,
                             borderBottomLeftRadius: 10,
+                            borderTopRightRadius:arOren == "ar"? 10:0,
+                            borderBottomRightRadius:arOren == "ar"?10:0,
                           }}
                         />
                       ) : (
@@ -411,6 +413,8 @@ const Profile = (props) => {
                               width: width * 0.4,
                               borderTopLeftRadius: 10,
                               borderBottomLeftRadius: 10,
+                              borderTopRightRadius:arOren == "ar"? 10:0,
+                              borderBottomRightRadius:arOren == "ar"?10:0,
                             }}
                           />
                         )}
@@ -506,8 +510,9 @@ const Profile = (props) => {
                           marginTop: Platform.OS == 'android' ? 0 : 30,
                           color: '#ECDBFA',
                           marginLeft: '2%',
+                          flexDirection:'row'
                         }}
-                        itemStyle={{ color: '#ffffff',textAlign:'left'}}
+                        itemStyle={{ color: '#ffffff',}}
                         onValueChange={(itemValue, itemIndex) =>
                           setGender(itemValue)
                         }

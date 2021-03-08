@@ -18,8 +18,10 @@
       android:supportsRtl="true"
       >
       <meta-data
-        android:name="com.google.android.geo.API_KEY"
-        android:value="AIzaSyD1XJ6Wl23ulIPLhBnKVzZ95_lmfNMUZUM"/>
+        android:value="AIzaSyD1XJ6Wl23ulIPLhBnKVzZ95_lmfNMUZUM"
+        android:name="com.google.firebase.messaging.default_notification_icon"
+        android:resource="@drawable/bootsplash_logo"
+      />
       
       <!-- You will also only need to add this uses-library tag -->
       <uses-library android:name="org.apache.http.legacy" android:required="false"/>

@@ -724,7 +724,7 @@ const LootStore = (props) => {
                     setIsFocused(false);
                     setIsRoll(false);
                   }}>
-                  <SmallLGBtn text="All" selected={selectedSubCategory === 0} />
+                  <SmallLGBtn text={props.labels.all} selected={selectedSubCategory === 0} />
                 </TouchableOpacity>
 
                 {subCategories[current] &&
@@ -851,13 +851,13 @@ const LootStore = (props) => {
                                           uri: i.image,
                                         }}
                                         style={{
-                                          width: 108,
+                                          width: 80,
                                           height: 81,
                                           position: 'absolute',
                                           top: -24,
-                                          left: '14%',
-                                          borderRadius: 15,
-                                          // resizeMode:'cover'
+                                          alignSelf:'center',
+                                          borderRadius: 10,
+                                          resizeMode:'cover'
                                         }}
                                       />
                                     ) : (
@@ -934,7 +934,7 @@ const LootStore = (props) => {
                                               : 'Montserrat',
                                           marginVertical: 10,
                                         }}>
-                                        KD {i.price}
+                                       {props.labels.kD} {i.price}
                                       </Text>
                                     </View>
                                   </ImageBackground>
