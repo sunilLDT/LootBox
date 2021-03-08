@@ -23,10 +23,6 @@ import { navigate } from '../api/contexts/navigationRef';
 const {height, width} = Dimensions.get('window');
 
 const Otp = (props) => {
-  console.log("type ======")
-  const value = props.route.params;
-  //console.log(props)
-  
 
   const [otp, setOtp] = useState();
   const {verifyOtp, state, resendOtp, hidePops } = useContext(AuthContext);

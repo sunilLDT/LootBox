@@ -40,6 +40,7 @@ import PopUp from '../components/popup';
 import AsyncStorage from '@react-native-community/async-storage';
 import Api from '../api/index';
 import { navigate } from '../api/contexts/navigationRef';
+import { transform } from '@babel/core';
 const { width, height } = Dimensions.get('window');
 
 const Profile = (props) => {
@@ -400,6 +401,8 @@ const Profile = (props) => {
                             width: width * 0.4,
                             borderTopLeftRadius: 10,
                             borderBottomLeftRadius: 10,
+                            borderTopRightRadius:arOren == "ar"? 10:0,
+                            borderBottomRightRadius:arOren == "ar"?10:0,
                           }}
                         />
                       ) : (
@@ -411,6 +414,8 @@ const Profile = (props) => {
                               width: width * 0.4,
                               borderTopLeftRadius: 10,
                               borderBottomLeftRadius: 10,
+                              borderTopRightRadius:arOren == "ar"? 10:0,
+                              borderBottomRightRadius:arOren == "ar"?10:0,
                             }}
                           />
                         )}
@@ -506,8 +511,9 @@ const Profile = (props) => {
                           marginTop: Platform.OS == 'android' ? 0 : 30,
                           color: '#ECDBFA',
                           marginLeft: '2%',
+                          flexDirection:'row'
                         }}
-                        itemStyle={{ color: '#ffffff',textAlign:'left'}}
+                        itemStyle={{ color: '#ffffff',}}
                         onValueChange={(itemValue, itemIndex) =>
                           setGender(itemValue)
                         }

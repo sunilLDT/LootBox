@@ -82,7 +82,11 @@ const Home = (props) => {
                 }}>
               {props.labels.buildYourPc}
             </Text> */}
-            <BuildingPc text={props.labels.buildYourPc} x={arOren == "ar"? -40:0}/>
+            <BuildingPc
+             text={props.labels.buildYourPc}
+             x={arOren == "ar"? 18:40}
+             size={arOren == "ar"? 10:16}
+             />
             <Image
               resizeMode="contain"
               source={require('../assets/ic_arrow0.png')}
@@ -175,8 +179,11 @@ const Home = (props) => {
                     }}>
              {props.labels.lootStore}
             </Text> */}
-            <LootStoreBtn text={props.labels.lootStore} x={arOren == "ar"?18:4.97340596}/>
-            
+            <BuildingPc
+             text={props.labels.lootStore}
+             x={arOren == "ar"? 70:45}
+             size={arOren == "ar"? 10:16}
+             />
             <Image
               resizeMode="contain"
               source={require('../assets/ic_arrow0.png')}
