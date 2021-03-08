@@ -299,7 +299,7 @@ const AdvanceBuilder = (props) => {
       }
       else{
         setPopModal(true);
-        setContentModal("Please select one item from this category");
+        setContentModal(labels.selectoneitem);
       }
       
     }

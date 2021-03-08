@@ -324,12 +324,10 @@ const verifyOtp = (dispatch) => async ( otp,from ) => {
       console.log("forgot password ,=======")
       console.log(res)
       if (res.data.success) {
-       
         if (resetPassword && !JSON.parse(isLoggedIn)) {
-          
           await AsyncStorage.setItem('userId', res.data.data.user_id);
-          console.log("===== user id 1 *****")
-          console.log(res.data.data.user_id)
+          // console.log("===== user id 1 *****")
+          // console.log(res.data.data.user_id)
         } else {
           console.log(res.data);
           if(from== "undefined"){

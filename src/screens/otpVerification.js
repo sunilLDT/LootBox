@@ -23,7 +23,6 @@ import { navigate } from '../api/contexts/navigationRef';
 const {height, width} = Dimensions.get('window');
 
 const Otp = (props) => {
-
   const [otp, setOtp] = useState();
   const {verifyOtp, state, resendOtp, hidePops } = useContext(AuthContext);
   const [count, setCount] = useState(0);
@@ -168,9 +167,8 @@ const Otp = (props) => {
         
           onPress={async () => {
             // if (count !== 0 && count !== 60) {
-              console.log('%%%%%%%%%%%%')
-              console.log(value)
-              await verifyOtp(otp,value);
+              
+              await verifyOtp(otp);
             // }
           }}
          >
