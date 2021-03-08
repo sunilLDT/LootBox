@@ -344,7 +344,7 @@ const renderViewLess = (onPress) => {
                      color: '#ECDBFA',
               opacity: 0.5,
             }}>
-            Price
+            {labels.price}
           </Text>
           <Text
             style={{
@@ -352,7 +352,7 @@ const renderViewLess = (onPress) => {
               fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma',           
                 color: '#ECDBFA',
             }}>
-            KD {props.route.params.price}
+            {labels.kD} {props.route.params.price}
           </Text>
         </View>
         <View
@@ -370,7 +370,7 @@ const renderViewLess = (onPress) => {
                      color: '#ECDBFA',
               opacity: 0.5,
             }}>
-            Qty
+            {labels.qty}
           </Text>
           <View
             style={{

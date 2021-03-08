@@ -520,7 +520,7 @@ const Cart = (props) => {
                       fontStyle: 'italic',
                     }}
                   >
-                    ({Object.keys(cartData).length === 0 ? "0" : cartData.total_items} {cartData.total_items > 1 ? labels.items : " item"})
+                    ({Object.keys(cartData).length === 0 ? "0" : cartData.total_items} {cartData.total_items > 1 ? labels.items : labels.item})
               </Text>
                 </View>
               </View>

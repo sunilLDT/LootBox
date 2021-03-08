@@ -21,6 +21,7 @@ import Bar1 from '../components/bar1';
 import Bar2 from '../components/bar2';
 import Bar3 from '../components/bar3';
 import { connect } from 'react-redux';
+import { languagename } from '../components/LanguageName';
 
 const { height, width } = Dimensions.get('window');
 
@@ -44,14 +45,14 @@ const OrderDetails = (props) => {
   const [showCpuPerocessersList, setShowCpuProcesserList] = useState(false);
   const [open, setOpen] = useState();
   const [download, setDownload] = useState(false);
+  const [arOren, setarOren] = useState('en');
   const maxlimit = 22;
+  languagename().then(res => setarOren(res))
   var imgSource = upwardImage ? ExpandImage : CloseImage;
 
   useEffect(() => {
     setLoading(true);
     getOrderDetails(orderId).then((response) => {
-      console.log("orderDetails **** ")
-      console.log(response)
       setorderDetails(response.data)
       setpackageItems(response.data.order_package_items)
       setitems(response.data.items)
@@ -462,7 +463,7 @@ const OrderDetails = (props) => {
                               right: 30,
                               alignSelf: 'center',
                               justifyContent: 'center',
-                              borderRadius:15
+                              borderRadius:15,
                             }}
                           />
                         ) : (
@@ -499,6 +500,7 @@ const OrderDetails = (props) => {
                                 color: '#D2D7F9',
                                 opacity: 0.87,
                                 paddingLeft: 5,
+                                paddingRight: arOren == "ar"?5:0
                               }}>
                               {((i.brand).length > maxlimit) ? (((i.brand).substring(0, maxlimit - 3)) + '...') : i.brand}
                             </Text>
@@ -511,6 +513,7 @@ const OrderDetails = (props) => {
                                 color: '#D2D7F9',
                                 opacity: 0.5,
                                 paddingLeft: 5,
+                                paddingRight: arOren == "ar"?5:0
                               }}>
                               {((i.name).length > maxlimit) ? (((i.name).substring(0, maxlimit - 3)) + '...') : i.name}
                               {i.quantity > 1 ? <Text style={{ color: '#fff' }}> ({i.quantity})</Text> : null}
@@ -557,7 +560,7 @@ const OrderDetails = (props) => {
                         opacity: 0.8,
                         fontFamily: 'Montserrat-Medium',
                       }}>
-                      Advance Builder Items
+                      {labels.advanceBuilderItems}
                     </Text>
                   </View>
                   <View
