@@ -40,7 +40,6 @@ import PopUp from '../components/popup';
 import AsyncStorage from '@react-native-community/async-storage';
 import Api from '../api/index';
 import { navigate } from '../api/contexts/navigationRef';
-import { transform } from '@babel/core';
 const { width, height } = Dimensions.get('window');
 
 const Profile = (props) => {

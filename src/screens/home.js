@@ -39,8 +39,6 @@ const Home = (props) => {
         height,
         width,
         backgroundColor: '#272732',
-       
-        
       }}>
       <TouchableOpacity
         onPress={() => {
@@ -54,7 +52,7 @@ const Home = (props) => {
             display: 'flex',
             flex: 1,
             justifyContent: 'space-between',
-            paddingLeft: width * 0.08,
+            // paddingLeft: width * 0.08,
             paddingVertical: height * 0.02,
           
           }}>
@@ -65,7 +63,7 @@ const Home = (props) => {
             <Image
               resizeMode="contain"
               source={require('../assets/menuWhiteTilt.png')}
-              style={{width: 48}}
+              style={{width: 48,marginLeft: width * 0.08,}}
             />
           </TouchableOpacity>
           <View style={{marginBottom: height * 0.1,}}>
@@ -87,7 +85,7 @@ const Home = (props) => {
              x={arOren == "ar"? 18:40}
              size={arOren == "ar"? 10:16}
              />
-            <Image
+            {/* <Image
               resizeMode="contain"
               source={require('../assets/ic_arrow0.png')}
               style={{
@@ -95,7 +93,7 @@ const Home = (props) => {
                 alignSelf: 'flex-start',
                 marginTop: 10,
               }}
-            />
+            /> */}
           </View>
         </ImageBackground>
       </TouchableOpacity>
@@ -112,7 +110,7 @@ const Home = (props) => {
             flex: 1,
             // alignItems: 'flex-end',
             justifyContent: 'space-between',
-            paddingRight: width * 0.08,
+            // paddingRight: width * 0.08,
             paddingVertical: height * 0.02,
           }}>
           <View
@@ -122,6 +120,7 @@ const Home = (props) => {
               alignItems: 'center',
               alignSelf: 'flex-end',
               marginTop: height * 0.038,
+              marginRight:width * 0.08,
             }}>
             <TouchableOpacity
               onPress={() => {
@@ -184,7 +183,7 @@ const Home = (props) => {
              x={arOren == "ar"? 70:45}
              size={arOren == "ar"? 10:16}
              />
-            <Image
+            {/* <Image
               resizeMode="contain"
               source={require('../assets/ic_arrow0.png')}
               style={{
@@ -192,7 +191,7 @@ const Home = (props) => {
                 marginTop: 10,
                 alignSelf: 'flex-end',
               }}
-            />
+            /> */}
           </View>
         </ImageBackground>
       </TouchableOpacity>

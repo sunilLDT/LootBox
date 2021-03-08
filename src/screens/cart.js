@@ -15,7 +15,6 @@ import {
 import Icons from 'react-native-vector-icons/FontAwesome';
 import RBSheet from "react-native-raw-bottom-sheet";
 import ItemCard from '../assets/ic_card.png';
-import outofstock from '../assets/outofstock.jpeg';
 import IcDetailCard from '../assets/ic_details_card.png';
 import {
   showCartData,
@@ -84,11 +83,9 @@ const Cart = (props) => {
   const [contentModal, setContentModal] = useState('');
   const [forDel,setForDel] = useState(0);
   languagename().then(res => setarOren(res));
-
   const kd = labels.kD;
-
-
   const maxlimit = 20;
+
   var imgSource = upwardImage ? ExpandImage : CloseImage;
 
   function advanceBuilderIds(arr) {
@@ -173,12 +170,16 @@ const Cart = (props) => {
           props.add();
             props.navigation.navigate('alertMessage', { msgUrl: "success" })
           }else{
-            setPopModal(true);
-            setContentModal(response.message)
+            if(response.code == 422){
+              setPopModal(true);
+              setContentModal(response.message)
+            }
           }
       }
-      setPopModal(true);
-      setContentModal(response.message)
+        if(response.code == 422){
+        setPopModal(true);
+        setContentModal(response.message)
+        }
        setLoading(false)
        props.navigation.navigate('checkout', { paymentUrl: response.data.data.paymenturl,labels: labels})
      })
@@ -252,6 +253,15 @@ const Cart = (props) => {
     }).catch((error) => {
       console.log("deliveryAddressApi" + error)
     })
+  };
+
+  const outofstock = (data) => {
+    let index = data.some(obj => obj.status === 0);
+    if(index == true){
+      return "(Out of Stock)";
+    }else{
+      return false;
+    }
   };
 
   const sum = (data) => {
@@ -572,6 +582,13 @@ const Cart = (props) => {
                                   }}>
                                   {((packages.name).length > maxlimit) ? (((packages.name).substring(0, maxlimit - 3)) + '...') : packages.name}
                                 </Text>
+                                <Text style={{
+                                  color:'#DF2EDC',
+                                  fontSize:10,
+                                }}>
+                                  {outofstock(packages.cart_package_items)} 
+                                </Text>
+                                  
                               </View>
                               <View
                                 style={{
@@ -785,7 +802,7 @@ const Cart = (props) => {
                     key={k}
                   >
                     <ImageBackground
-                      source={items.status === 1 ? ItemCard :outofstock }
+                      source={ItemCard}
                       style={{
                         width: 351,
                         height: 75,
@@ -841,6 +858,14 @@ const Cart = (props) => {
                             {((items.name).length > maxlimit) ? (((items.name).substring(0, maxlimit - 3)) + '...') : items.name}
                             {items.quantity > 1 ? <Text style={{ color: '#fff' }}> ({items.quantity})</Text> : null}
                           </Text>
+                          {items.status == 0?(
+                            <Text style={{
+                              color:'#DF2EDC',
+                              fontSize:10,
+                            }}>(Out of Stock)
+                            </Text>
+                          ):null}
+                          
                         </View>
                         {items.quantity > 1 ? (<Text
                           style={{
@@ -1025,17 +1050,28 @@ const Cart = (props) => {
                           }}
                           key={k}
                         >
-                          <Text
-                            style={{
-                              color: 'rgba(255,255,255,0.8)',
-                              fontSize: 15,
-                              fontFamily: 'Montserrat-Regular',
-                              textDecorationLine: items.status === 0 ? 'line-through' : "none",
-                            }}>
-                            {((items.name).length > maxlimit) ? (((items.name).substring(0, maxlimit - 3)) + '...') : items.name}
-                            {items.quantity > 1 ? <Text style={{ color: '#fff' }}> ({items.quantity})</Text> : null}
-                            <Text style={{ fontSize: 12, color: 'rgba(255,255,255,0.3)' }}>{"   " + items.brand}</Text>
-                          </Text>
+                          <View style={{
+                            flexDirection:'column',
+                          }}>
+                            <Text
+                              style={{
+                                color: 'rgba(255,255,255,0.8)',
+                                fontSize: 15,
+                                fontFamily: 'Montserrat-Regular',
+                                // textDecorationLine: items.status === 0 ? 'line-through' : "none",
+                              }}>
+                              {((items.name).length > maxlimit) ? (((items.name).substring(0, maxlimit - 3)) + '...') : items.name}
+                              {items.quantity > 1 ? <Text style={{ color: '#fff' }}> ({items.quantity})</Text> : null}
+                              <Text style={{ fontSize: 12, color: 'rgba(255,255,255,0.3)' }}>{"   " + items.brand}</Text>
+                            </Text>
+                            {items.status == 0?(
+                              <Text style={{
+                                color:'#DF2EDC',
+                                fontSize:10,
+                              }}>(Out of Stock)
+                              </Text>
+                            ):null}
+                          </View>
                           <View style={{
                             flexDirection:'row',
                             display:'flex',
@@ -1047,7 +1083,7 @@ const Cart = (props) => {
                               style={{
                                 color: 'rgba(255,255,255,0.3)',
                                 fontSize: 12,
-                                textDecorationLine: items.status === 0 ? 'line-through' : "none",
+                                // textDecorationLine: items.status === 0 ? 'line-through' : "none",
                               }}>
                               {kd} {items.sub_total}
                             </Text>) :
@@ -1056,7 +1092,7 @@ const Cart = (props) => {
                                   color: 'rgba(255,255,255,0.3)',
                                   fontSize: 12,
                                   fontFamily: 'Montserrat-Regular',
-                                  textDecorationLine: items.status === 0 ? 'line-through' : "none",
+                                  // textDecorationLine: items.status === 0 ? 'line-through' : "none",
                                 }}>
                                 {kd} {items.price}
                               </Text>
@@ -1161,9 +1197,9 @@ const Cart = (props) => {
                 }}>
                   {props.address[0].city_name},
                   {props.address[0].area_name},
+                  {props.address[0].building},
                   {props.address[0].block},
                   {props.address[0].street},
-                  {props.address[0].building},
                   {props.address[0].apartment},
                   {props.address[0].floor}
                 </Text>
@@ -1240,8 +1276,8 @@ const Cart = (props) => {
                         opacity: 0.8,
                         fontFamily: 'Montserrat-Medium',
                       }}>
-                      {labels.packageDetails}({Object.keys(cartData).length === 0 ? "0" : cartData.total_items}
-                      {cartData.total_items === 1 ? " item" : labels.items})
+                      {labels.summary} ({" "+ Object.keys(cartData).length === 0 ? "0" : cartData.total_items}
+                      { cartData.total_items === 1 ? labels.item : labels.items})
                     </Text>
                   </View>
 
@@ -1251,7 +1287,7 @@ const Cart = (props) => {
                       borderBottomColor: 'rgba(255,255,255,0.3)',
                       borderBottomWidth: 0.3,
                     }}>
-                    {cartPackage.map((packages, k) => {
+                    {/* {cartPackage.map((packages, k) => {
                       return (
                         <View
                           style={{
@@ -1281,11 +1317,11 @@ const Cart = (props) => {
                           </Text>
                         </View>
                       );
-                    })}
+                    })} */}
                     {/* // ===============
               // item details start
               // =============== */}
-                    {Object.keys(cartData).length === 0 ? null : cartItems.map((items, k) => (
+                    {/* {Object.keys(cartData).length === 0 ? null : cartItems.map((items, k) => (
                       <View
                         style={{
                           display: 'flex',
@@ -1324,10 +1360,35 @@ const Cart = (props) => {
                           </Text>
                         }
                       </View>
-                    ))}
+                    ))} */}
                     {/* // ===============
               // item details end
               // =============== */}
+                    <View
+                      style={{
+                        display: 'flex',
+                        flexDirection: 'row',
+                        justifyContent: 'space-between',
+                        marginVertical: 8,
+                      }}>
+                      <Text
+                        style={{
+                          color: 'rgba(255,255,255,0.8)',
+                          fontSize: 15,
+                          fontFamily: 'Montserrat-Regular',
+                        }}
+                      >{labels.total}
+                      </Text>
+                      <Text
+                        style={{
+                          color: 'rgba(255,255,255,0.3)',
+                          fontSize: 12,
+                          fontFamily: 'Montserrat-Regular',
+                        }}>
+                        {kd} {cartData.sub_total}
+                      </Text>
+                    </View>
+              
                     <View
                       style={{
                         display: 'flex',
@@ -1368,7 +1429,7 @@ const Cart = (props) => {
                           fontSize: 14,
                           fontFamily: 'Montserrat-Regular',
                         }}>
-                        {labels.total}
+                        {labels.subTotal}
                       </Text>
                       <Text
                         style={{

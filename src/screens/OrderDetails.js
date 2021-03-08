@@ -581,7 +581,6 @@ const OrderDetails = (props) => {
                                 color: 'rgba(255,255,255,0.8)',
                                 fontSize: 15,
                                 fontFamily: 'Montserrat-Regular',
-                                textDecorationLine: i.status === 0 ? 'line-through' : "none",
                               }}>
                               {((i.name).length > maxlimit) ? (((i.name).substring(0, maxlimit - 3)) + '...') : i.name}
                               {i.quantity > 1 ? <Text style={{ color: '#fff' }}> ({i.quantity})</Text> : null}
@@ -590,8 +589,7 @@ const OrderDetails = (props) => {
                             {i.quantity > 1 ? (<Text
                               style={{
                                 color: 'rgba(255,255,255,0.3)',
-                                fontSize: 12,
-                                textDecorationLine: i.status === 0 ? 'line-through' : "none",
+                                fontSize: 12,                               
                               }}>
                               {kd} {i.sub_total}
                             </Text>) :
@@ -600,7 +598,6 @@ const OrderDetails = (props) => {
                                   color: 'rgba(255,255,255,0.3)',
                                   fontSize: 12,
                                   fontFamily: 'Montserrat-Regular',
-                                  textDecorationLine: i.status === 0 ? 'line-through' : "none",
                                 }}>
                                 {kd} {i.price}
                               </Text>
@@ -653,12 +650,12 @@ const OrderDetails = (props) => {
                           opacity: 0.87,
                           paddingLeft: 20,
                         }}>
-                        {orderDetails.address.city_name},
-                        {orderDetails.address.building},
-                        {orderDetails.address.street},
-                        {orderDetails.address.building},
-                        {orderDetails.address.apartment},
-                        {orderDetails.address.floor}
+                        {orderDetails.address.city_name },
+                        { orderDetails.address.building },
+                        { orderDetails.address.street },
+                        { orderDetails.address.building },
+                        { orderDetails.address.apartment },
+                        { orderDetails.address.floor }
                       </Text>
                     ) : <Text
                       style={{
@@ -696,7 +693,7 @@ const OrderDetails = (props) => {
                       fontSize: 12,
                       opacity: 0.8,
                     }}>
-                    {labels.packageDetails} ({orderDetails.items_count} {orderDetails.items_count > 1 ? labels.items : labels.item})
+                    {labels.summary} ({orderDetails.items_count} {orderDetails.items_count > 1 ? labels.items : labels.item})
               </Text>
                 </View>
 
@@ -706,7 +703,7 @@ const OrderDetails = (props) => {
                     borderBottomColor: 'rgba(255,255,255,0.3)',
                     borderBottomWidth: 0.3,
                   }}>
-                  {packageItems.map((j, k) => {
+                  {/* {packageItems.map((j, k) => {
                     return (
                       <View
                         style={{
@@ -736,8 +733,8 @@ const OrderDetails = (props) => {
                         </Text>
                       </View>
                     );
-                  })}
-                  {items.map((i, k) => (
+                  })} */}
+                  {/* {items.map((i, k) => (
                     <View
                       style={{
                         display: 'flex',
@@ -765,7 +762,32 @@ const OrderDetails = (props) => {
                         {kd} {i.sub_total}
                       </Text>
                     </View>
-                  ))}
+                  ))} */}
+                  <View
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'row',
+                      justifyContent: 'space-between',
+                      marginVertical: 8,
+                    }}>
+                    <Text
+                      style={{
+                        color: 'rgba(255,255,255,0.8)',
+                        fontSize: 15,
+                        fontFamily: 'Montserrat-Regular',
+                      }}
+                    >{labels.total}
+                    </Text>
+                    <Text
+                      style={{
+                        color: 'rgba(255,255,255,0.3)',
+                        fontSize: 12,
+                        fontFamily: 'Montserrat-Regular',
+                      }}>
+                      {kd} {orderDetails.sub_total}
+                    </Text>
+                  </View>
+
                   <View
                     style={{
                       display: 'flex',
@@ -806,7 +828,7 @@ const OrderDetails = (props) => {
                         fontSize: 14,
                         fontFamily: 'Montserrat-Regular',
                       }}>
-                      {labels.total}
+                      {labels.subTotal}
                 </Text>
                     <Text
                       style={{
@@ -911,6 +933,7 @@ const OrderDetails = (props) => {
                           opacity: 0.87,
                         }}>
                         {orderDetails.address.city_name},
+                        {orderDetails.address.area_name},
                         {orderDetails.address.building},
                         {orderDetails.address.street},
                         {orderDetails.address.building},
