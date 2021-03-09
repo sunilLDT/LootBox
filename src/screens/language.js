@@ -11,7 +11,6 @@ import {
 import LinearGradient from 'react-native-linear-gradient';
 import { Context as AuthContext } from '../api/contexts/authContext';
 import LanguageCard from '../svgs/cardLang';
-import strings, { changeLaguage } from '../languages/index';
 import { connect } from 'react-redux';
 
 import AsyncStorage from '@react-native-community/async-storage';
@@ -69,12 +68,17 @@ const Language = (props) => {
   const languageChange = async isOn => {
     try {
       await AsyncStorage.setItem('language', isOn);
+      console.log("*****1************")
+      console.log(isOn)
+      console.log("*****************")
       let languagename = await AsyncStorage.getItem('language');
       if (languagename == "ar") {
+        await AsyncStorage.setItem('language', isOn);
         I18nManager.forceRTL(true)
         RNRestart.Restart();
       }
       else {
+        await AsyncStorage.setItem('language', isOn);
         I18nManager.forceRTL(false)
         RNRestart.Restart();
       }

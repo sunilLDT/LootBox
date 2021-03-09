@@ -99,7 +99,7 @@ const Otp = (props) => {
               color: '#676773',
               marginLeft: 10,
             }}>
-            VERIFY OTP
+            {props.labels.verifyOtp}
           </Text>
         </View>
         <Text

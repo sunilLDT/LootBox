@@ -31,7 +31,7 @@ const xml = `
                         <use fill="url(#linearGradient-6)" fill-rule="evenodd" xlink:href="#rect-7"></use>
                     </g>
                 </g>
-                <text id="The-Division" opacity="0.870000005" font-family="AvenirNext-Italic  Avenir Next" font-size="12" font-style="italic" font-weight="normal" fill="#FFFFFF" >
+                <text id="The-Division" opacity="0.870000005"  font-size="12" font-style="italic" font-weight="normal" fill="#FFFFFF" >
                     <tspan x="16" y="63">${text}</tspan>
                 </text>
             </g>

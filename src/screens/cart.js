@@ -205,15 +205,17 @@ const Cart = (props) => {
     })
   }, []);
 
-  const reloadData = () => {
-    showCartData().then((response) => {
-      setcartItems(response.data.items)
-      setCartPackage(response.data.package)
-      setCartData(response.data)
-      props.add();
-    }).catch((error) => {
-      console.log("showCartData reload" + error);
-    });
+  const reloadData = async () => {
+    const responsedata = await showCartData();
+    if(responsedata.code == 200){
+      setCartData(responsedata.data)
+      setcartItems(responsedata.data.items)
+      setCartPackage(responsedata.data.package)
+    }else{
+      console.log("reload data function in cart "+ e.responsedata.message)
+    }
+   
+    
   }
 
   const changeAddressPop = () => {
@@ -313,6 +315,7 @@ const Cart = (props) => {
     setremoveLoader(true);
     advanceBuilderIds(cartItems)
     removeItemAPI([id]).then((response) => {
+      props.add()
       reloadData();
       setremoveLoader(false)
     })
@@ -326,6 +329,7 @@ const Cart = (props) => {
     let data = [];
     data.push({ item_id: id.item_id,quantity:remainingQuantity})
     addToCartAdvance(data).then((response) => {
+      props.add()
       reloadData();
       setItemLoader(false)
     })
@@ -543,16 +547,16 @@ const Cart = (props) => {
                               paddingRight:"3%"
                             }}>
                             <Image
-                              resizeMode="contain"
+                              resizeMode="cover"
                               source={{ uri: packages.image }}
                               style={{
                                 width: 63,
-                                height:69,
+                                height:60,
                                 position: 'relative',
                                 right: 30,
                                 alignSelf: 'center',
                                 justifyContent: 'center',
-                                borderRadius:15
+                                borderRadius:10
                               }}
                             />
                             <View
@@ -811,7 +815,7 @@ const Cart = (props) => {
                         paddingRight:"3%"
                       }}>
                       <Image
-                        resizeMode="contain"
+                        resizeMode="cover"
                         source={{ uri: items.image }}
                         style={{
                           width: 63,

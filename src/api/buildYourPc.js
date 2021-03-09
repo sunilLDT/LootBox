@@ -82,8 +82,14 @@ export async function addToCartForStore(isUpdate, items) {
 }
 
 export async function showCartData() {
-  const response = await Api.get('app/cart/cart-list');
-  return response.data;
+  try{
+    const response = await Api.get('app/cart/cart-list');
+    return response.data;
+  }
+  catch(e){
+    return e.response.data
+  }
+  
 }
 
 export async function orderPlace(paymentType) {

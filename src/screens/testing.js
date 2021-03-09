@@ -37,7 +37,7 @@ export default ({text, image}) => {
                         <polyline id="Path" stroke="#FFFFFF" stroke-width="2" fill="none" stroke-linecap="square" transform="translate(29.000000, 58.454523) rotate(-45.000000) translate(-29.000000, -58.454523) " points="33 59.909047 25 59.7067303 25.0823612 57"></polyline>
                     </g>
                 </g>
-                                <text id="The-Division" opacity="0.870000005" font-family="AvenirNext-Italic, Avenir Next" font-size="15" font-style="italic" font-weight="700" fill="rgb(255,255,255)">
+                                <text id="The-Division" opacity="0.870000005" font-size="15" font-style="italic" font-weight="700" fill="rgb(255,255,255)">
                     <tspan x="63" y="45">${text}</tspan>
                 </text>
             </g>
