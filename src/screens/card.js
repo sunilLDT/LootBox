@@ -1,8 +1,10 @@
 import React from 'react';
 import {SvgXml} from 'react-native-svg';
-
+import {
+    Platform
+   } from 'react-native';
 export default ({text,image,x}) => {
-
+    const font = Platform.OS=='android'?'Montserrat Italic':'Montserrat';
 const xml = `
 <?xml version="1.0" encoding="UTF-8"?>
 <svg width="314px" height="80px" viewBox="0 0 314 80" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -31,7 +33,7 @@ const xml = `
                         <use fill="url(#linearGradient-6)" fill-rule="evenodd" xlink:href="#rect-7"></use>
                     </g>
                 </g>
-                <text id="The-Division" opacity="0.870000005" font-family="AvenirNext-Italic  Avenir Next" font-size="12" font-style="italic" font-weight="normal" fill="#FFFFFF" >
+                <text id="The-Division" opacity="0.870000005" font-family="${font}" font-size="12" font-style="italic" font-weight="normal" fill="#FFFFFF" >
                     <tspan x="16" y="63">${text}</tspan>
                 </text>
             </g>

@@ -14,7 +14,8 @@
     "test": "jest",
     "lint": "eslint .",
     "prepare": "install-peers",
-    "build:ios": "react-native bundle --entry-file='index.js' --bundle-output='./ios/main.jsbundle' --dev=false --platform='ios'"
+    "build:ios": "react-native bundle --entry-file='index.js' --bundle-output='./ios/main.jsbundle' --dev=false --platform='ios'",
+    "postinstall": "patch-package"
   },
   "dependencies": {
     "@react-native-community/async-storage": "^1.12.1",
@@ -37,6 +38,7 @@
     "install-peers-cli": "^2.2.0",
     "lodash": "^4.17.20",
     "lodash.filter": "^4.6.0",
+    "patch-package": "^6.4.6",
     "prop-types": "^15.7.2",
     "react": "16.13.1",
     "react-native": "0.63.2",

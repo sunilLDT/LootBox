@@ -82,7 +82,7 @@ const Home = (props) => {
             </Text> */}
             <BuildingPc
              text={props.labels.buildYourPc}
-             x={arOren == "ar"? 18:40}
+             x={arOren == "ar"? 12:40}
              size={arOren == "ar"? 10:16}
              />
             {/* <Image

@@ -9,7 +9,7 @@ import {
   TouchableOpacity,
   FlatList,
 } from 'react-native';
-import IcCardImage from '../../assets/ic3.png';
+import IcCardImage from '../../assets/ic.png';
 import { connect } from 'react-redux';
 import { cartActions } from '../../actions/user';
 import selectedIcCardImage from '../../assets/Rectangle.png';

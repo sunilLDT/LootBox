@@ -819,7 +819,8 @@ const LootStore = (props) => {
                           keyExtractor={(item) => item.item_id}
                           renderItem={({item: i}, k) => {
                             return (
-                              <View style={{flexGrow: 1}} key={k}>
+                              <View style={{flexGrow: 1,
+                              }} key={k}>
                                 <TouchableOpacity
                                   onPress={() => {
                                     props.navigation.navigate('itemDesc', {
@@ -843,6 +844,8 @@ const LootStore = (props) => {
                                       paddingTop: 20,
                                       width: width * 0.36,
                                       marginVertical: i.image ? 20 : 10,
+                                      // transform: [{ scaleX:arOren == "ar"? -1:1 }]
+
                                     }}>
                                     {i.image ? (
                                       <Image

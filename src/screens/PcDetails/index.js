@@ -117,7 +117,7 @@ const PcDetails = ({ navigation, route, labels }) => {
                                         flexDirection: 'row',
                                     }}>
                                     <ImageBackground style={{
-                                        width: Platform.OS == 'android' ? 372 : 350,
+                                        width: Platform.OS == 'android' ? 372 : 372,
                                         height: 278,
                                         marginVertical: "5%",
                                         // marginLeft: arOren == "ar" ? "-7%" : "0%",
@@ -136,6 +136,7 @@ const PcDetails = ({ navigation, route, labels }) => {
                                                         fontSize: 15,
                                                         fontFamily: Platform.OS == 'android' ? 'Michroma-Regular' : 'Michroma',
                                                         fontWeight: "100",
+                                                        overflow:'hidden',
                                                         transform: [
                                                             { scaleX: arOren == "ar" ? -1 : 1 }
                                                         ]
@@ -158,6 +159,7 @@ const PcDetails = ({ navigation, route, labels }) => {
                                                         height: height * 0.2,
                                                         resizeMode: 'contain',
                                                         borderRadius: 12,
+                                                        overflow:'hidden'
                                                         
                                                     }} source={{ uri: cpuDetail.image }} />
                                                 ) : (
@@ -169,9 +171,12 @@ const PcDetails = ({ navigation, route, labels }) => {
                                                     {cpuDetail.image ? (
                                                         <Image style={{
                                                             width: width * 0.4,
-                                                            height: height * 0.2,
-                                                            resizeMode: 'contain',
+                                                            height: height * 0.1,
+                                                            resizeMode: 'cover',
                                                             borderRadius: 12,
+                                                            overflow:'hidden',
+                                                            marginTop:"10%",
+                                                            marginBottom:'10%'
                                                             
                                                         }} source={{ uri: cpuDetail.image }} />
                                                     ) : (
@@ -208,7 +213,7 @@ const PcDetails = ({ navigation, route, labels }) => {
                                                     width: 550,
                                                     borderWidth: 0,
                                                     borderColor: '#ffffff',
-                                                    zIndex: 9000
+                                                    zIndex: 9000,
                                                 }}
                                             >
                                                 <View onStartShouldSetResponder={() => true}>
@@ -224,6 +229,7 @@ const PcDetails = ({ navigation, route, labels }) => {
                                                                     justifyContent: 'center',
                                                                     marginLeft: "2%",
                                                                     marginVertical: "1%",
+                                                                    overflow:'hidden',
                                                                     transform: [
                                                                         { scaleX: arOren == "ar" ? -1 : 1 }
                                                                     ]
@@ -241,6 +247,7 @@ const PcDetails = ({ navigation, route, labels }) => {
                                                                             fontStyle: 'italic',
                                                                             borderColor: '#5A5963',
                                                                             fontSize: 12,
+                                                                            overflow:'hidden'
                                                                             
                                                                         }}>{item.name}</Text>
                                                                         <Text style={{
@@ -255,6 +262,7 @@ const PcDetails = ({ navigation, route, labels }) => {
                                                                             borderLeftWidth: arOren == "ar" ? 1 : 0,
                                                                             borderColor: '#5A5963',
                                                                             fontSize: 12,
+                                                                            overflow:'hidden'
                                                                         }}>{item.brand}</Text>
                                                                     </View>
                                                                 </View>
@@ -350,7 +358,8 @@ const styles = StyleSheet.create({
         marginLeft: '10%',
         // paddingBottom:"2%",
         zIndex: 9000,
-        marginVertical: 13
+        marginVertical: 13,
+        bottom:15
     },
     attributesView: {
         display: 'flex',

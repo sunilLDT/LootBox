@@ -543,11 +543,11 @@ const Cart = (props) => {
                               paddingRight:"3%"
                             }}>
                             <Image
-                              resizeMode="contain"
+                              resizeMode="cover"
                               source={{ uri: packages.image }}
                               style={{
                                 width: 63,
-                                height:69,
+                                height:60,
                                 position: 'relative',
                                 right: 30,
                                 alignSelf: 'center',

@@ -9,7 +9,7 @@ import {
     TouchableOpacity,
 } from 'react-native';
 import SearchImage from '../../assets/buildYourPc/search.png';
-import IcCardImage from '../../assets/ic3.png';
+import IcCardImage from '../../assets/ic.png';
 import selectedIcCardImage from '../../assets/Rectangle.png'
 import ExpandImage from '../../assets/ic_expand1.png';
 import CloseImage from '../../assets/ic-3copy.png';

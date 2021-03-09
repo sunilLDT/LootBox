@@ -70,6 +70,9 @@ const Language = (props) => {
     try {
       await AsyncStorage.setItem('language', isOn);
       let languagename = await AsyncStorage.getItem('language');
+      console.log('====================');
+      console.log(languagename)
+      console.log('====================');
       if (languagename == "ar") {
         I18nManager.forceRTL(true)
         RNRestart.Restart();
@@ -78,6 +81,7 @@ const Language = (props) => {
         I18nManager.forceRTL(false)
         RNRestart.Restart();
       }
+      
     }
     catch (error) {
       console.log(error)
