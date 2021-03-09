@@ -307,9 +307,9 @@ export default () => {
   const [set,noset] = useState('en');
   const languageChange = async () => {
       let languagename = await AsyncStorage.getItem('language');
-      console.log('=========11===========');
+      console.log("*****app************")
       console.log(languagename)
-      console.log('=========22===========');
+      console.log("*****************")
       noset(languagename)
   };
   languageChange()

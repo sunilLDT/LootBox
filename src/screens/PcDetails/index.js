@@ -156,7 +156,7 @@ const PcDetails = ({ navigation, route, labels }) => {
                                                 {cpuDetail.image ? (
                                                     <Image style={{
                                                         width: width * 0.4,
-                                                        height: height * 0.2,
+                                                        height: height * 0.1,
                                                         resizeMode: 'contain',
                                                         borderRadius: 12,
                                                         overflow:'hidden'

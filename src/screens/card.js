@@ -33,7 +33,11 @@ const xml = `
                         <use fill="url(#linearGradient-6)" fill-rule="evenodd" xlink:href="#rect-7"></use>
                     </g>
                 </g>
+<<<<<<< HEAD
                 <text id="The-Division" opacity="0.870000005" font-family="${font}" font-size="12" font-style="italic" font-weight="normal" fill="#FFFFFF" >
+=======
+                <text id="The-Division" opacity="0.870000005"  font-size="12" font-style="italic" font-weight="normal" fill="#FFFFFF" >
+>>>>>>> 155368d0f9051c1ae4d836e90499bcf52cf9c366
                     <tspan x="16" y="63">${text}</tspan>
                 </text>
             </g>

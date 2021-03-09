@@ -11,6 +11,9 @@
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
+		18CC431D25F73DA100F13406 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 18CC431C25F73DA100F13406 /* GoogleService-Info.plist */; };
+		18CC43D125F7490B00F13406 /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = 008F07F21AC5B25A0029DE68 /* main.jsbundle */; };
+		18CC43E425F7850300F13406 /* assets in Resources */ = {isa = PBXBuildFile; fileRef = 18CC43D625F7494500F13406 /* assets */; };
 		271413B525E0AF8F007B0D10 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 271413B425E0AF8F007B0D10 /* HealthKit.framework */; };
 		2D02E4BC1E0B4A80006451C7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
@@ -69,6 +72,8 @@
 		14A560DE18984EAFA7EB8C62 /* Fontisto.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Fontisto.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Fontisto.ttf"; sourceTree = "<group>"; };
 		161FB011A66B41F8A41D4F6B /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
 		182A513D25A0A69A003909A9 /* libYogaKit.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libYogaKit.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		18CC431C25F73DA100F13406 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Desktop/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		18CC43D625F7494500F13406 /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; name = assets; path = ../assets; sourceTree = "<group>"; };
 		1C12F376D264A26C7880068B /* libPods-lootbox-lootboxTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-lootbox-lootboxTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		21A1A1DFD7DA46F49ADA8B46 /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = SimpleLineIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf"; sourceTree = "<group>"; };
 		271413B325E0AF8F007B0D10 /* LootboxDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = LootboxDebug.entitlements; path = lootbox/LootboxDebug.entitlements; sourceTree = "<group>"; };

@@ -59,7 +59,7 @@ const Drawer = (props) => {
     return () => {
       console.log("willUnMount")
     }
-  }, [isFocused]);
+  }, [isFocused,languageImage]);
 
   const waitForProp = async () => {
     setProfileDetails(props.profileData);
@@ -99,7 +99,13 @@ const Drawer = (props) => {
   const gettingLangName = async () => {
     try {
       const value = await AsyncStorage.getItem('language');
+      console.log("*****lang 1************")
+      console.log(value)
+      console.log("*****************")
       if (value !== null) {
+        console.log("*****lang 2************")
+        console.log(value)
+        console.log("*****************")
         setLanguageImage(value)
       }
     } catch (error) {
@@ -141,6 +147,9 @@ const Drawer = (props) => {
         action_type:1
       }
       const checking =   await Api.post('app/user/device-token',data);
+      console.log("*****arabic************")
+      console.log(language)
+      console.log("*****************")
       I18nManager.forceRTL(true)
       RNRestart.Restart();
     }catch(e){
@@ -167,12 +176,39 @@ const Drawer = (props) => {
       }
 
       const making =  await Api.post('app/user/device-token',data);
+      console.log("*****en************")
+      console.log(language)
+      console.log("*****************")
       I18nManager.forceRTL(false)
       RNRestart.Restart();
     }catch(e){
       console.log('en language change +++++++++++++'+ e)
     }
   };
+
+  const getLanguafeButton=()=>{
+    let d;
+    //AsyncStorage.getItem("language").then((value) => {
+      
+      if(languageImage=='en'){
+        
+       return( <TouchableOpacity onPress={() => arabicLang()}>
+          <Image
+            source={englishImage}
+          />
+        </TouchableOpacity>)
+        }else{
+ 
+         return( <TouchableOpacity onPress={() => englishLang()}>
+                        <Image
+                          source={arabicImage}
+                        />
+                      </TouchableOpacity>)
+               }
+
+  
+
+  }
 
   return (
     <Animatable.View
@@ -342,7 +378,8 @@ const Drawer = (props) => {
                 </TouchableOpacity>
             ))}
             <View style={{ marginVertical: 20, marginLeft: -10 }}>
-              {languageImage == "en" ? (
+            {getLanguafeButton()}
+              {/* {languageImage == "en" ? (
                 <TouchableOpacity onPress={() => arabicLang()}>
                   <Image
                     source={englishImage}
@@ -354,7 +391,7 @@ const Drawer = (props) => {
                       source={arabicImage}
                     />
                   </TouchableOpacity>
-                )}
+                )} */}
             </View>
           </View>
         ) : (
