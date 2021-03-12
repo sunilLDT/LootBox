@@ -20,7 +20,7 @@
       <meta-data
         android:value="AIzaSyD1XJ6Wl23ulIPLhBnKVzZ95_lmfNMUZUM"
         android:name="com.google.firebase.messaging.default_notification_icon"
-        android:resource="@drawable/bootsplash_logo"
+        android:resource="@drawable/notify"
       />
       <meta-data
         android:name="com.google.android.geo.API_KEY"

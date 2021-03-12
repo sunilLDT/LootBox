@@ -20,6 +20,8 @@ import { cartActions } from '../../actions/user';
 import { packageActions } from '../../actions/package';
 import AsyncStorage from '@react-native-community/async-storage';
 import { languagename } from '../../components/LanguageName';
+import BuildYourPcImg from '../../assets/lootbuttons/iOS/maincta.png';
+import PrimaryBtn from '../../components/PrimaryBtn';
 const { width, height } = Dimensions.get('window');
 
 const ProductDetails = (props) => {
@@ -161,14 +163,52 @@ const ProductDetails = (props) => {
                       activeOpacity={0.1}
                       onPress={() => addIntoCart()}>
                       {!loading ? (
-                        <Btn text={props.labels.BuildYourPc} pay=" " x={arOren == "ar"? 30:0}/>
+                        <ImageBackground
+                          source={BuildYourPcImg}
+                          style={{
+                            width:315,
+                            height:48,
+                            justifyContent:'center',
+                            alignItems:'center',
+                            marginTop:"10%"
+                          }} 
+                        >
+                          <Text
+                            style={{
+                              color:'#fff',
+                              fontSize:14,
+                              fontFamily:Platform.OS == 'android'? 'Montserrat-Bold':'Montserrat',
+                            }}
+                          >
+                            {props.labels.BuildYourPc}
+                          </Text>
+                        </ImageBackground>
                       ) : (
                           <>
-                            <Btn text={''} pay=" " />
+                            <ImageBackground
+                              source={BuildYourPcImg}
+                              style={{
+                                width:315,
+                                height:48,
+                                justifyContent:'center',
+                                alignItems:'center',
+                                marginTop:"10%"
+                              }} 
+                            >
+                              <Text
+                                style={{
+                                  color:'#fff',
+                                  fontSize:14,
+                                  fontFamily:Platform.OS == 'android'? 'Montserrat-Bold':'Montserrat',
+                                }}
+                              >
+                                {}
+                              </Text>
+                            </ImageBackground>
                             <ActivityIndicator
                               color="#ECDBFA"
                               size="small"
-                              style={{ bottom: 63 }}
+                              style={{ bottom: 35,right:30 }}
                             />
                           </>
                         )}

@@ -10,7 +10,6 @@ import {
   ScrollView,
   ActivityIndicator,
   Platform,
-  KeyboardAvoidingView
 } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import Input from '../components/input';
@@ -27,6 +26,7 @@ import { he } from 'date-fns/locale';
 import PopUp from '../components/popup';
 import {languagename} from '../components/LanguageName';
 const { width, height } = Dimensions.get('window');
+import { KeyboardAwareView } from 'react-native-keyboard-aware-view';
 
 const Address = (props) => {
     const { addressId } = props.route.params;
@@ -41,6 +41,8 @@ const Address = (props) => {
         useEffect(() => {
             setLoading(true)
             getSpecificAddress(addressId).then((response) => {
+                console.log("add address response getSpecificAddress -------------- ===== ")
+                console.log(response.data)
                 setSpecficAddress(response.data);
                 setAddressType(response.data.address_type);
                 setName(response.data.name);
@@ -49,6 +51,7 @@ const Address = (props) => {
                 setBlock(response.data.block);
                 setStreet(response.data.street);
                 setBuilding(response.data.building);
+                setAvenue(response.data.avenue);
                 setFloor(response.data.floor);
                 setapartment(response.data.apartment);
                 setSelectedArea(response.data.area_id);
@@ -77,7 +80,7 @@ const Address = (props) => {
     const [loadingBtn, setLoadingBtn] = useState(false);
     const [addressModal, setaddressModal] = useState(false);
     const [contentModal, setContentModal] = useState('');
-    console.log(selectedArea)
+    const [avenue,setAvenue] = useState();
 
     let cityaArea = [];
     city.map((i, k) => {
@@ -142,11 +145,14 @@ const Address = (props) => {
             setContentModal(labels.pleaseSelectArea)
         }
         else {
+            console.log("to check avenue ====")
+            console.log(avenue)
+            console.log("apartemt ====== for checkimg ")
+            console.log(apartment)
             setLoadingBtn(true)
-            addAddressApi(selectedCity, selectedArea, addressType, name, block, street, building, floor, apartment, address_id).then((response) => {
+            addAddressApi(selectedCity, selectedArea, addressType, name, block, street, building, floor, apartment,avenue, address_id).then((response) => {
                 props.showAddress();
                 setLoadingBtn(false)
-                console.log(response)
                 if (response.message) {
                     setaddressModal(true);
                     setContentModal(response.message)
@@ -190,6 +196,10 @@ const Address = (props) => {
             {!addressId && <View style={{ position: 'absolute', height: '35%', width: '100%' }}>
             <GoogleMap handleAddress={handleGoogleAddress}/> 
             </View>} */}
+                <KeyboardAwareView animated={false}
+                behavior={Platform.OS === "ios" ? "padding" : "height"}
+                style={{flex: 1}}
+                >
                 <ScrollView
                     style={{
                         width: '100%', height: height, overflow: 'visible'
@@ -391,6 +401,9 @@ const Address = (props) => {
                                         <View style={{ marginVertical: 15, paddingHorizontal: '7%', }}>
                                             <Input placeholder={labels.house} value={building} onChangeText={(Building) => setBuilding(Building)} />
                                         </View>
+                                        <View style={{ marginVertical: 15, paddingHorizontal: '7%', }}>
+                                            <Input placeholder={`${labels.avenue} (${labels.optional})`} value={avenue} onChangeText={(Avenue) => setAvenue(Avenue)} />
+                                        </View>
                                         <View style={styles.blockStreet}>
                                             <View style={styles.inputView}>
                                                 <SmallInput placeholder={`${labels.floor} (${labels.optional})`} style={styles.input} value={floor} onChangeText={(Floor) => setFloor(Floor)} />
@@ -457,7 +470,6 @@ const Address = (props) => {
                                                                 { "label": labels.office, "value": "Office" },
                                                                 { "label": labels.other, "value": "Other" },
                                                             ]}
-                                                            
                                                         />
                                                     </View>
                                                 )}
@@ -486,6 +498,7 @@ const Address = (props) => {
                             )}
                     </ImageBackground>
                 </ScrollView>
+                </KeyboardAwareView>
            
         {/* </View> */}
         </>

@@ -7,10 +7,10 @@ import {
   TouchableOpacity,
   Dimensions,
   ScrollView,
-  ActivityIndicator
+  ActivityIndicator,
+  Linking
 } from 'react-native';
 import { WebView } from 'react-native-webview';
-import Btn from './btn';
 import { getOrderDetails } from '../api/buildYourPc';
 import ItemCard from '../assets/ic_card.png';
 import IcDetailCard from '../assets/ic_details_card.png';
@@ -22,6 +22,7 @@ import Bar2 from '../components/bar2';
 import Bar3 from '../components/bar3';
 import { connect } from 'react-redux';
 import { languagename } from '../components/LanguageName';
+import PrimaryBtn from '../components/PrimaryBtn';
 
 const { height, width } = Dimensions.get('window');
 
@@ -86,6 +87,16 @@ const OrderDetails = (props) => {
     }
     return total
   }
+ 
+  handleClick = (url) => {
+    Linking.canOpenURL(url).then(supported => {
+      if (supported) {
+        Linking.openURL(url);
+      } else {
+        console.log("Don't know how to open URI: " + url);
+      }
+    });
+  };
 
   var dateTime = Object.keys(orderDetails).length === 0 ? " " : orderDetails.created_at.substring(0, 10);
 
@@ -1050,13 +1061,19 @@ const OrderDetails = (props) => {
 
 
 
-                    <TouchableOpacity onPress={() => setDownload(true)} onPressOut={() => setDownload(false)}
-                    ><WebView
-                      originWhitelist={['*']}
-                      scalesPageToFit={true}
-                      source={{ uri: download == true ? "https://test-api.loot-box.co/invoice.pdf" : "" }}
+                    <TouchableOpacity onPress={() => handleClick(orderDetails.invoice_pdf_url)}
+                    >
+                      {/* <WebView
+                        originWhitelist={['*']}
+                        scalesPageToFit={true}
+                        // allowUniversalAccessFromFileURLs={true}
+                        // javaScriptEnabled={true}
+                        // mixedContentMode={'always'}
+                        source={{ uri: download == true ? orderDetails.invoice_pdf_url : "" }}
+                        // onNavigationStateChange={(result) => console.log(result.url)}
+                      >
+                      </WebView> */}
 
-                    ></WebView>
                       <Text style={{ color: "#DF2EDC", fontFamily: Platform.OS == 'android' ? 'Montserrat-SemiBold' : 'Montserrat', }} >{labels.download}</Text>
                     </TouchableOpacity>
                   </View>
@@ -1132,7 +1149,7 @@ const OrderDetails = (props) => {
               </ImageBackground>
 
               <TouchableOpacity onPress={() => props.navigation.navigate('contact')}>
-                <Btn text={labels.needHelp} x="15" pay="" />
+                <PrimaryBtn text={labels.needHelp}  />
               </TouchableOpacity>
             </View>
           </ScrollView>

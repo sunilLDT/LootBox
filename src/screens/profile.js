@@ -31,15 +31,14 @@ import { Context as AuthContext } from '../api/contexts/authContext';
 import AddressList from '../components/AddressList';
 import SaveBtn from '../components/SaveBtn';
 import bgImage from '../assets/signup.png';
-import strings, { changeLaguage } from '../languages/index';
 import RNPickerSelect from 'react-native-picker-select';
 import { S3, util } from 'aws-sdk';
 import fs from 'react-native-fs';
 import {languagename} from '../components/LanguageName';
 import PopUp from '../components/popup';
 import AsyncStorage from '@react-native-community/async-storage';
-import Api from '../api/index';
 import { navigate } from '../api/contexts/navigationRef';
+import SecondaryBtn from '../components/SecondaryBtn';
 const { width, height } = Dimensions.get('window');
 
 const Profile = (props) => {
@@ -290,7 +289,7 @@ const Profile = (props) => {
                 <View style={{ marginVertical: 5 }}>
                   {loading?(
                      <>
-                     <SaveBtn text={' '} />
+                     <SecondaryBtn text={' '} />
                      <ActivityIndicator
                        color="#ECDBFA"
                        size="small"
@@ -298,7 +297,7 @@ const Profile = (props) => {
                      />
                    </>
                   ):(
-                    <SaveBtn text={labels.save} x={arOren == "ar"? 0:0}/>
+                    <SecondaryBtn text={labels.save} />
                   )}
                   
                 </View>
@@ -531,25 +530,14 @@ const Profile = (props) => {
                               label: 'Please Select Gender',
                               value: null,
                             }}
-                            style={
-                              Platform.OS === 'ios'
-                                ? styles.inputIOS
-                                : styles.inputAndroid
-                            }
+                            
                             items={[
                               { "label": labels.male, "value": 1 },
                               { "label": labels.female, "value": 2 }
                             ]}
-                            inputIOS={{
-                              color: 'white',
-                              marginLeft: 100,
-                              borderRadius: 5,
-                            }}
-                            inputAndroid={{
-                              color: 'white',
-                              paddingHorizontal: 10,
-                              borderRadius: 5,
-                            }}
+                            style={{
+                              ...pickerStyle
+                          }}
                           />
                         </View>
                       )}
@@ -630,26 +618,7 @@ const Profile = (props) => {
   );
 };
 const styles = StyleSheet.create({
-  inputIOS: {
-    fontSize: 16,
-    paddingVertical: 12,
-    paddingHorizontal: 10,
-    borderWidth: 1,
-    borderColor: 'gray',
-    borderRadius: 4,
-    color: '#fff',
-    paddingRight: 30, // to ensure the text is never behind the icon
-  },
-  inputAndroid: {
-    fontSize: 16,
-    paddingHorizontal: 10,
-    paddingVertical: 8,
-    borderWidth: 0.5,
-    borderColor: 'purple',
-    borderRadius: 8,
-    color: '#fff',
-    paddingRight: 30, // to ensure the text is never behind the icon
-  },
+  
 })
 
 const pickerStyle = {

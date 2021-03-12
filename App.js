@@ -45,8 +45,6 @@ import SplashScreen from 'react-native-splash-screen';
 import Email from './src/screens/email';
 import AddToCart from './src/screens/AdvanceBuilder/addToCart';
 import AddvanceListing from './src/screens/AdvanceBuilder/advanceListing';
-import { initLanguages, LanguageProvider } from '@language';
-import { languages } from '@config';
 import AsyncStorage from '@react-native-community/async-storage';
 import NewPassword from './src/screens/newPassword';
  import messaging from '@react-native-firebase/messaging';
@@ -123,14 +121,11 @@ const App = () => {
     SplashScreen.hide();
   };
   useEffect(() => {
-    
     AsyncStorage.getItem("phoneNumber").then((value) => {
       store.dispatch(languageActions.getLabelAction(value));
     })
-  
-    
     check();
-     requestUserPermission();
+    requestUserPermission();
     // const unsubscribe = messaging().onMessage(async remoteMessage => {
     //   console.log('A new FCM message arrived!', JSON.stringify(remoteMessage));
     // });
@@ -138,7 +133,6 @@ const App = () => {
   },[]);
 
   useEffect(() => {
-    
     messaging().onNotificationOpenedApp(remoteMessage => {
       console.log(
         'Notification caused app to open from background state:',
@@ -147,7 +141,12 @@ const App = () => {
       navigate({ name: 'orders' });
     });
     messaging().setBackgroundMessageHandler(async remoteMessage => {
-      console.log('Message handled in the background!', remoteMessage);
+      console.log('Message handled in the background!', remoteMessage.data);
+      if(remoteMessage.data.fcm_options.notificationType == 3){
+        navigate({ name: 'notifications' });
+      }else{
+        navigate({ name: 'orders' });
+      }
       
     });
     
@@ -165,30 +164,38 @@ const App = () => {
             'Notification caused app to open from quit state:',
             remoteMessage.notification,
           );
-           navigate({ name: 'orders' });
+          
         }
-       
       });
 
-      messaging().subscribeToTopic('broadcast_notifications_en')
-      .then(() => console.log('Subscribed to topic! en' ));
-      messaging().subscribeToTopic('broadcast_notifications_ar')
-      .then(() => console.log('Subscribed to topic! ar' ));
-
+      var forBoad = ""
+      AsyncStorage.getItem("language").then((res) => {
+        forBoad = res;
+        messaging().subscribeToTopic('broadcast_notifications_'+forBoad)
+        .then((res) => {
+          console.log('broadcast_notifications_'+forBoad )
+          if(res == "ar"){
+            messaging().unsubscribeFromTopic('broadcast_notifications_en')
+            .then(function(response) {
+              console.log('Successfully unsubscribed from topic in english:', response);
+            }).catch(function(error) {
+              console.log('Error unsubscribing from topic in english:', error);
+            });
+          }else{
+            messaging().unsubscribeFromTopic('broadcast_notifications_ar')
+            .then(function(response) {
+              console.log('Successfully unsubscribed from topic in arabic:', response);
+            }).catch(function(error) {
+              console.log('Error unsubscribing from topic in arabic:', error);
+            });
+          }
+        });
+      })
       messaging()
       .getToken()
       .then(token => {
         // console.log(token)
       });
-      
-    // If using other push notification providers (ie Amazon SNS, etc)
-    // you may need to get the APNs token instead for iOS:
-    // if(Platform.OS == 'ios') { messaging().getAPNSToken().then(token => { return saveTokenToDatabase(token); }); }
-
-    // Listen to whether the token changes
-    //return messaging().onTokenRefresh(token => {
-    //  saveTokenToDatabase(token);
-    //});
     
   }, [ ]);
 
@@ -277,7 +284,7 @@ const App = () => {
             headerTitleStyle: {
               fontFamily: Platform.OS=='android'?'Michroma-Regular':'Michroma',
             },
-            title: 'FAQ'
+            title: 'Invoice'
             }} 
           component={Faq} />
           <Stack.Screen  options={{
@@ -307,9 +314,6 @@ export default () => {
   const [set,noset] = useState('en');
   const languageChange = async () => {
       let languagename = await AsyncStorage.getItem('language');
-      console.log("*****app************")
-      console.log(languagename)
-      console.log("*****************")
       noset(languagename)
   };
   languageChange()

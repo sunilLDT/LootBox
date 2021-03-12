@@ -46,7 +46,8 @@ import AsyncStorage from '@react-native-community/async-storage';
 import {languagename} from '../components/LanguageName';
 import { useIsFocused } from "@react-navigation/native";
 import PopUp from '../components/popup';
-
+import BuildYourPcImg from '../assets/lootbuttons/iOS/maincta.png';
+import SecondaryBtn from '../components/SecondaryBtn';
 
 const { width, height } = Dimensions.get('window');
 
@@ -329,7 +330,6 @@ const Cart = (props) => {
     let data = [];
     data.push({ item_id: id.item_id,quantity:remainingQuantity})
     addToCartAdvance(data).then((response) => {
-      props.add()
       reloadData();
       setItemLoader(false)
     })
@@ -434,7 +434,7 @@ const Cart = (props) => {
               style={{
                 paddingVertical: width * 0.05,
                 paddingHorizontal: Platform.OS == 'android' ?width * 0.05:width *0.07,
-                paddingHorizontal:arOren == "ar"?width * 0.07:width * 0.08
+                paddingHorizontal:arOren == "ar"?width * 0.07:width * 0.08,
 
               }}>
                  <PopUp visible={popModal} title={'Loot'} closeText={labels.ok} callBack={popUpHandler} content={contentModal}/>
@@ -658,7 +658,7 @@ const Cart = (props) => {
                                   ):(
                                   <TouchableOpacity
                                     onPress={() => {
-                                      props.add()
+                                     
                                       addPackages(packages.cart_package_id,quantity(packages.cart_package_items))
                                     }}>
                                     <Image
@@ -905,7 +905,6 @@ const Cart = (props) => {
                         ):(
                         <TouchableOpacity
                           onPress={() => {
-                            props.add()
                             decreaseItem(items)
                           }}>
                           <Image
@@ -946,7 +945,6 @@ const Cart = (props) => {
                         ):(
                         <TouchableOpacity
                           onPress={() => {
-                            props.add()
                             addItem(items)
                           }}>
                           <Image
@@ -1448,9 +1446,28 @@ const Cart = (props) => {
               }
               {Object.keys(cartData).length === 0 ? null : cartPackage.length === 0 && cartItems.length === 0 ? null :
                 <TouchableOpacity style={{marginRight:arOren =="ar"? 50:0}} onPress={() => checkout()}>
-                  <View style={{ width: "105%" }}>
+                  <View style={{ width: "100%" }}>
                     {!loading ? (
-                      <PayBtn text={labels.pay} kd={kd} price={cartData.grand_total} />
+                      // <PayBtn text={labels.pay} kd={kd} price={cartData.grand_total} />
+                      <ImageBackground
+                        source={BuildYourPcImg} 
+                        style={{
+                          width:315,
+                          height:48,
+                          justifyContent:'center'
+                        }}
+                      >
+                        <View 
+                          style={{
+                            flexDirection:'row',
+                            justifyContent:'space-around',
+                            
+                          }}
+                        >
+                          <Text style={{color:'#fff',fontSize:18,fontFamily:Platform.OS == 'android'? 'Montserrat-Bold':'Montserrat',}}>{labels.pay}</Text>
+                          <Text style={{color:'#fff',fontSize:18,fontFamily:Platform.OS == 'android'? 'Montserrat-Regular':'Montserrat',}}>{kd} {cartData.grand_total}</Text>
+                        </View>
+                      </ImageBackground>
                     ) : (
                         <>
                           <PayBtn text={' '} x="54" price="" kd=""/>
@@ -1470,9 +1487,9 @@ const Cart = (props) => {
                 {strings.forgotToAdd}
               </Text> */}
               <View>
-                <TouchableOpacity style={{ marginTop: 10, marginLeft: 40 }} onPress={() => props.navigation.navigate('home')}>
-                  <View style={{ width: "87%", }}>
-                    <SaveBtn text={labels.continueShopping} x={arOren == "ar" ? "130": "100"}/>
+                <TouchableOpacity style={{ marginTop: 10, marginLeft: 26 }} onPress={() => props.navigation.navigate('home')}>
+                  <View style={{ width: "85%", }}>
+                    <SecondaryBtn text={labels.continueShopping}/>
                   </View>
                 </TouchableOpacity>
               </View>

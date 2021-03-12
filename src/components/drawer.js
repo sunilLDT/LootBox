@@ -25,6 +25,7 @@ import Api from '../api/index';
 import { profileActions } from '../actions/profileAction';
 import { useIsFocused } from "@react-navigation/native";
 import {getProfilApi} from '../api/buildYourPc';
+import editProfileImg from '../assets/editprofile.png';
 
 const { width, height } = Dimensions.get('window');
 
@@ -35,7 +36,6 @@ const Drawer = (props) => {
   const [profileDetails, setProfileDetails] = useState({});
   const [disableEdit, setDisable] = useState(false)
   const [languageImage, setLanguageImage] = useState();
-  const [ignored, forceUpdate] = useReducer(x => x + 1, 0); 
   const [arOren,setarOren] = useState('en');
   const [photo, setPhoto] = useState();
   
@@ -46,9 +46,9 @@ const Drawer = (props) => {
 
   useEffect(() => {
     waitForProp();
-    gettingLangName()
-    checkUserType()
-    languageChange()
+    gettingLangName();
+    checkUserType();
+    languageChange();
     props.sendaction();
     getProfilApi().then((response) => {
       setProfileDetails(response.data)
@@ -66,14 +66,6 @@ const Drawer = (props) => {
     setPhoto(props.profileData.profile_image.replace('user/profile/',''))
   }
 
-
-  // useEffect(() => {
-  //   const unsubscribe = props.navigation.addListener('focus', () => {
-  //     waitForProp();
-  //   });
-  //   return unsubscribe;
-  // }, []);
-
   let options = [
     {
       name: props.labels.cart,
@@ -84,7 +76,7 @@ const Drawer = (props) => {
       path: 'orders',
     },
     // {
-    //   name:strings.faq,
+    //   name:"faq",
     //   path: 'Faq',
     // },
     {
@@ -99,13 +91,8 @@ const Drawer = (props) => {
   const gettingLangName = async () => {
     try {
       const value = await AsyncStorage.getItem('language');
-      console.log("*****lang 1************")
-      console.log(value)
-      console.log("*****************")
+     
       if (value !== null) {
-        console.log("*****lang 2************")
-        console.log(value)
-        console.log("*****************")
         setLanguageImage(value)
       }
     } catch (error) {
@@ -146,12 +133,12 @@ const Drawer = (props) => {
         device_type:Platform.OS=='android' ? 1 : 2,
         action_type:1
       }
+      
       const checking =   await Api.post('app/user/device-token',data);
-      console.log("*****arabic************")
-      console.log(language)
-      console.log("*****************")
-      I18nManager.forceRTL(true)
+     
+      I18nManager.forceRTL(true);
       RNRestart.Restart();
+     
     }catch(e){
       console.log("checking ar+++++++++++++" + e)
     }
@@ -165,7 +152,6 @@ const Drawer = (props) => {
   const englishLang = async () => {
     try{  
       await AsyncStorage.setItem('language', 'en');
-  
       const value = await AsyncStorage.getItem('deviceToken');
       const language = await AsyncStorage.getItem('language');
       const data = {
@@ -176,10 +162,7 @@ const Drawer = (props) => {
       }
 
       const making =  await Api.post('app/user/device-token',data);
-      console.log("*****en************")
-      console.log(language)
-      console.log("*****************")
-      I18nManager.forceRTL(false)
+      I18nManager.forceRTL(false);
       RNRestart.Restart();
     }catch(e){
       console.log('en language change +++++++++++++'+ e)
@@ -187,27 +170,21 @@ const Drawer = (props) => {
   };
 
   const getLanguafeButton=()=>{
-    let d;
-    //AsyncStorage.getItem("language").then((value) => {
-      
+
       if(languageImage=='en'){
-        
        return( <TouchableOpacity onPress={() => arabicLang()}>
           <Image
             source={englishImage}
           />
         </TouchableOpacity>)
         }else{
- 
-         return( <TouchableOpacity onPress={() => englishLang()}>
-                        <Image
-                          source={arabicImage}
-                        />
-                      </TouchableOpacity>)
-               }
-
-  
-
+        
+        return( <TouchableOpacity onPress={() => englishLang()}>
+              <Image
+                source={arabicImage}
+              />
+            </TouchableOpacity>)
+        }
   }
 
   return (
@@ -241,13 +218,25 @@ const Drawer = (props) => {
                   flexDirection: 'row',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  marginRight: '35%'
+                  marginRight: arOren == "ar"?'0%':'0%',
                 }}>
                 <View style={{
                   width: width * 0.5,
                   height: 25,
                 }}>
-                  <EditBtn text={props.labels.editProfile} x={arOren == "ar"? 9:0}/>
+                  <ImageBackground source={editProfileImg}
+                    style={{
+                      width:150,
+                      height:36,
+                      justifyContent:'center',
+                      alignItems:'center'
+                    }}
+                  >
+                    <Text style={{
+                      color:'#fff',
+                      fontFamily: Platform.OS == 'android' ? 'Montserrat Bold Italic' : 'Montserrat',
+                    }}>{props.labels.editProfile}</Text>
+                  </ImageBackground>
                 </View>
               </TouchableOpacity>
             }

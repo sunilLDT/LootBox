@@ -25,6 +25,7 @@ import PopUp from '../components/popup';
 import { navigate } from '../api/contexts/navigationRef';
 import Api from '../api/index';
 import AsyncStorage from '@react-native-community/async-storage';
+import PrimaryBtn from '../components/PrimaryBtn';
 
 const {height, width} = Dimensions.get('window');
 
@@ -71,7 +72,6 @@ const ForgotPassword = ({navigation, labels}) => {
         setLoad(false);
       }
     } catch (e) {
-      console.log(e)
       setLoad(false);
       setaddressModal(true);
       setContentModal(e.response.data.message)
@@ -163,14 +163,14 @@ const ForgotPassword = ({navigation, labels}) => {
                 width: '100%',
               }}>
                 {!load ? (
-                <Btn text={labels.submit} x={"38"} pay=""/>
+                <PrimaryBtn text={labels.submit}/>
                 ) : (
                   <>
-                  <Btn text={' '} x="38" pay="" />
+                  <PrimaryBtn text={' '}  />
                   <ActivityIndicator
                     color="#ECDBFA"
                     size="small"
-                    style={{bottom: 63}}
+                    style={{bottom: 53}}
                   />
                 </>
                 )}

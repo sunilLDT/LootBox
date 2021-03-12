@@ -18,7 +18,7 @@ import bgImage from '../assets/signup.png';
 import AsyncStorage from '@react-native-community/async-storage';
 import { connect } from 'react-redux';
 import PopUp from '../components/popup';
-import { navigate } from '../api/contexts/navigationRef';
+import PrimaryBtn from '../components/PrimaryBtn';
 
 const {height, width} = Dimensions.get('window');
 
@@ -172,7 +172,7 @@ const Otp = (props) => {
             // }
           }}
          >
-          <Btn text={props.labels.verify.toUpperCase()} x={"54"} pay=""/>
+          <PrimaryBtn text={props.labels.verify.toUpperCase()} />
         </TouchableOpacity>
         </View>
       </ImageBackground>

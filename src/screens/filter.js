@@ -11,12 +11,12 @@ import RangeSlider from 'rn-range-slider';
 import SmallLGBtn from './smallLGBtn';
 import {getFilterData} from '../api/buildYourPc';
 import {ScrollView} from 'react-native-gesture-handler';
-import {filter, flattenDeep, keys, values, without} from 'lodash';
+import {flattenDeep, keys, values, without} from 'lodash';
 const {width, height} = Dimensions.get('window');
 const THUMB_RADIUS = 12;
 
 const Filter = (props) => {
-  const {labels} = props
+  const {labels} = props;
   const [low, setLow] = useState(null);
   const [high, setHigh] = useState(null);
   const [filterOptions, setFilterOptions] = useState([]);
@@ -57,18 +57,19 @@ const Filter = (props) => {
           props.selectedSubCategory === 0
             ? props.allCategories.map((a, k) => a.id)
             : [Object.keys(props.selectedSubCategory)[0]];
+            setSubId(allSubCategories)
       } else {
         allSubCategories =
           props.selectedSubCategory === 0
             ? props.allCategories.map((a, k) => a.id)
             : [props.allCategories[props.selectedSubCategory - 1].id];
+            setSubId(allSubCategories)
       }
     }
 
     if ((props.allCategories, props.initalValues)) {
       // console.log(props.initalValues)
     }
-
     getFilterData(allSubCategories)
       .then((response) => {
         setFilterOptions(response.data);

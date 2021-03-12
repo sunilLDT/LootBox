@@ -157,9 +157,11 @@ const PcDetails = ({ navigation, route, labels }) => {
                                                     <Image style={{
                                                         width: width * 0.4,
                                                         height: height * 0.1,
-                                                        resizeMode: 'contain',
+                                                        resizeMode: 'cover',
                                                         borderRadius: 12,
-                                                        overflow:'hidden'
+                                                        overflow:'hidden',
+                                                        marginTop:"10%",
+                                                        marginBottom:'10%'
                                                         
                                                     }} source={{ uri: cpuDetail.image }} />
                                                 ) : (

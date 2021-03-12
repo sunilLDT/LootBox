@@ -24,6 +24,7 @@ import bgImage from '../assets/signup.png';
 import Icons  from 'react-native-vector-icons/FontAwesome';
 import {connect} from 'react-redux'
 import PopUp from '../components/popup';
+import PrimaryBtn from '../components/PrimaryBtn';
 
 const {height, width} = Dimensions.get('window');
 
@@ -132,10 +133,10 @@ const NewPassword = ({navigation, labels}) => {
                 width: '100%',
               }}>
                 {!state.loading ? (
-                <Btn text={labels.submit} x={"38"} pay=""/>
+                <PrimaryBtn text={labels.submit} />
                 ) : (
                   <>
-                  <Btn text={' '} x="38" pay="" />
+                  <PrimaryBtn text={' '} />
                   <ActivityIndicator
                     color="#ECDBFA"
                     size="small"

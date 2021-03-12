@@ -18,15 +18,15 @@ import {
 import Logo from '../assets/launch_screen.png';
 import Input from '../components/input';
 import { Context as AuthContext } from '../api/contexts/authContext';
-import Modal from '../components/modal';
-import Btn from './btn';
-import ContinueBtn from '../components/ContinueGmailBtn';
 import bgImage from '../assets/signup.png';
 import Icons  from 'react-native-vector-icons/FontAwesome';
 import {languagename} from '../components/LanguageName';
 import { connect } from 'react-redux';
 import PopUp from '../components/popup';
-import { navigate } from '../api/contexts/navigationRef';
+import PrimaryBtn from '../components/PrimaryBtn';
+import continueShoppingImg from '../assets/continueshopping.png';
+import googleIcon from '../assets/ic_google.png';
+
 const { height, width } = Dimensions.get('window');
 
 const Signin = ({ navigation ,labels}) => {
@@ -247,14 +247,15 @@ const Signin = ({ navigation ,labels}) => {
                 height: height * 0.1,
               }}>
               {!state.loading ? (
-                <Btn text={labels.login.toUpperCase()} pay="" x={arOren == "ar"?40:54} />
+                // <Btn text={labels.login.toUpperCase()} pay="" x={arOren == "ar"?40:54} />
+                <PrimaryBtn text={labels.login.toUpperCase()}/>
               ) : (
                   <>
-                    <Btn text={' '} x="54" pay="" />
+                    <PrimaryBtn text={' '} />
                     <ActivityIndicator
                       color="#ECDBFA"
                       size="small"
-                      style={{ bottom: 63 }}
+                      style={{ bottom: 47 }}
                     />
                   </>
                 )}
@@ -265,7 +266,32 @@ const Signin = ({ navigation ,labels}) => {
               }}
             >
               <View style={{ marginVertical: 10 }}>
-                <ContinueBtn text={labels.continueWithGmail}/>
+                <ImageBackground
+                  source={continueShoppingImg}
+                  style={{
+                      width:315,
+                      height:48,
+                      justifyContent:'center',
+                      alignItems:'center',
+                  }}
+                  >
+                  <View style={{
+                    flexDirection:'row',
+                    justifyContent:'center'
+                  }}>
+                    <Image source={googleIcon}/>
+                    <Text style={{
+                      color:'#fff',
+                      fontSize:12,
+                      alignSelf:'center',
+                      fontFamily:Platform.OS == 'android'? 'Montserrat-Bold':'Montserrat',
+                    }}>
+                        {labels.continueWithGmail}
+                    </Text>
+                  </View>
+                  
+                </ImageBackground>
+
               </View>
             </TouchableWithoutFeedback>
           </ScrollView>

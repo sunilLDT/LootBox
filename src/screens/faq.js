@@ -7,7 +7,8 @@ import {
     SafeAreaView,
 } from "react-native";
 
-const Faq = ({ navigation, route }) => {
+const Faq = (props) => {
+    const {invoiceUrl} = props.route.params;
     return (
         <>
            <SafeAreaView >
@@ -16,7 +17,7 @@ const Faq = ({ navigation, route }) => {
                     style={{ height: 400 }}
                     originWhitelist={['*']}
                     scalesPageToFit={true}
-                    source={{ uri: 'https://www.google.com' }}>
+                    source={{ uri: invoiceUrl }}>
                 </WebView>
             </View>
         </SafeAreaView>

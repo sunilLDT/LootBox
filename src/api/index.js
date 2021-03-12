@@ -27,7 +27,8 @@ instance.interceptors.request.use(
 instance.interceptors.response.use(
   (response) => response,
   (error) => {
-    // alert(error.response.data.message)
+    // console.log(error.response.toString())
+    // alert(error.response)
     // AsyncStorage.clear()
     
    // AsyncStorage.removeItem('deviceToken');

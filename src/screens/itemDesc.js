@@ -12,7 +12,7 @@ import {
 import LinearGradient from 'react-native-linear-gradient';
 import Btn from './btn';
 import {Context as AuthContext} from '../api/contexts/authContext';
-import {showCartData,addToCartForStore} from '../api/buildYourPc';
+import {addToCartForStore} from '../api/buildYourPc';
 import ViewMoreText from 'react-native-view-more-text';
 import { connect } from 'react-redux';
 import { languagename } from '../components/LanguageName';
@@ -21,6 +21,7 @@ import Dialog, {
   DialogContent,
   SlideAnimation,
 } from 'react-native-popup-dialog';
+import PrimaryBtn from '../components/PrimaryBtn';
 
 const {width, height} = Dimensions.get('window');
 
@@ -544,11 +545,11 @@ const renderViewLess = (onPress) => {
             )
         )}
         <TouchableOpacity onPress={() => addIntoCart()}>
-          <Btn text={labels.addToCart} x={arOren == "ar"? 35:0} pay= ""/>
+          <PrimaryBtn text={labels.addToCart}/>
         </TouchableOpacity>
 
         <TouchableOpacity style={{marginTop:-28}} onPress={() => proceedToCheckout()}>
-          <Btn text={labels.proceedToCheckout} pay= "" x= {arOren == "ar"?20: -15}/>
+          <PrimaryBtn text={labels.proceedToCheckout}/>
         </TouchableOpacity>
       </ImageBackground>
     </ScrollView>

@@ -20,6 +20,7 @@ import { connect } from 'react-redux';
 import { cartActions } from '../../actions/user';
 import ViewMoreText from 'react-native-view-more-text';
 import {languagename} from '../../components/LanguageName';
+import PrimaryBtn from '../../components/PrimaryBtn';
 
 const { width, height } = Dimensions.get('window');
 const ItemDetails = (props) => {
@@ -201,7 +202,7 @@ const ItemDetails = (props) => {
                     </ImageBackground>
 
                     <TouchableOpacity style={styles.btn} onPress={() => {selectItem(itemId)}}>
-                        <SelectBtn subCat={labels.select} x="50"/>
+                        <PrimaryBtn text={labels.select}/>
                     </TouchableOpacity>
                 </View>
             </ScrollView>

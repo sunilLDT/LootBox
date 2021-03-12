@@ -11,9 +11,9 @@
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		18CC431D25F73DA100F13406 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 18CC431C25F73DA100F13406 /* GoogleService-Info.plist */; };
-		18CC43D125F7490B00F13406 /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = 008F07F21AC5B25A0029DE68 /* main.jsbundle */; };
-		18CC43E425F7850300F13406 /* assets in Resources */ = {isa = PBXBuildFile; fileRef = 18CC43D625F7494500F13406 /* assets */; };
+		1854806125FA6BC500A84010 /* assets in Resources */ = {isa = PBXBuildFile; fileRef = 1854806025FA6BC500A84010 /* assets */; };
+		1854806A25FA6D0500A84010 /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = 008F07F21AC5B25A0029DE68 /* main.jsbundle */; };
+		18EB85C125F88BA2004C4847 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 18EB85C025F88BA2004C4847 /* GoogleService-Info.plist */; };
 		271413B525E0AF8F007B0D10 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 271413B425E0AF8F007B0D10 /* HealthKit.framework */; };
 		2D02E4BC1E0B4A80006451C7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
@@ -23,9 +23,6 @@
 		4A168C732ED5993A575358CD /* libPods-lootbox-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DC131C653A093F7FB7A5768F /* libPods-lootbox-tvOS.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		84B65B21251901E500784621 /* credentials.plist in Resources */ = {isa = PBXBuildFile; fileRef = 84B65B20251901E400784621 /* credentials.plist */; };
-		962274D425F69C97000E53F1 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 962274D325F69C97000E53F1 /* GoogleService-Info.plist */; };
-		967322A225F7821A0017683A /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = 008F07F21AC5B25A0029DE68 /* main.jsbundle */; };
-		967322AB25F787430017683A /* assets in Resources */ = {isa = PBXBuildFile; fileRef = 967320DD25F749700017683A /* assets */; };
 		B4967CC9449CF5C6F59021FA /* libPods-lootbox-lootboxTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C12F376D264A26C7880068B /* libPods-lootbox-lootboxTests.a */; };
 		CD39DB88259DAC20001CB3B3 /* Montserrat-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CD39DB87259DAC1F001CB3B3 /* Montserrat-SemiBold.ttf */; };
 		CD74636A257F545B00784C52 /* Michroma-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CD746368257F50CC00784C52 /* Michroma-Regular.ttf */; };
@@ -72,8 +69,8 @@
 		14A560DE18984EAFA7EB8C62 /* Fontisto.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Fontisto.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Fontisto.ttf"; sourceTree = "<group>"; };
 		161FB011A66B41F8A41D4F6B /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
 		182A513D25A0A69A003909A9 /* libYogaKit.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libYogaKit.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		18CC431C25F73DA100F13406 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Desktop/GoogleService-Info.plist"; sourceTree = "<group>"; };
-		18CC43D625F7494500F13406 /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; name = assets; path = ../assets; sourceTree = "<group>"; };
+		1854806025FA6BC500A84010 /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; path = assets; sourceTree = "<group>"; };
+		18EB85C025F88BA2004C4847 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Desktop/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		1C12F376D264A26C7880068B /* libPods-lootbox-lootboxTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-lootbox-lootboxTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		21A1A1DFD7DA46F49ADA8B46 /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = SimpleLineIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf"; sourceTree = "<group>"; };
 		271413B325E0AF8F007B0D10 /* LootboxDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = LootboxDebug.entitlements; path = lootbox/LootboxDebug.entitlements; sourceTree = "<group>"; };
@@ -93,7 +90,6 @@
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = lootbox/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		84B65B20251901E400784621 /* credentials.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = credentials.plist; sourceTree = "<group>"; };
 		924AA13B975A7D1DA9F8D23A /* Pods-lootbox-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lootbox-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-lootbox-tvOSTests/Pods-lootbox-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
-		962274D325F69C97000E53F1 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Desktop/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		967320DD25F749700017683A /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; name = assets; path = ../assets; sourceTree = "<group>"; };
 		9D23C4D11AF24A4EACBCD9FF /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
 		A25938D8D79D4965923BA27A /* FontAwesome.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
@@ -196,7 +192,7 @@
 		13B07FAE1A68108700A75B9A /* lootbox */ = {
 			isa = PBXGroup;
 			children = (
-				962274D325F69C97000E53F1 /* GoogleService-Info.plist */,
+				18EB85C025F88BA2004C4847 /* GoogleService-Info.plist */,
 				271413BE25E0B491007B0D10 /* LootboxRelease.entitlements */,
 				271413B325E0AF8F007B0D10 /* LootboxDebug.entitlements */,
 				84B65B20251901E400784621 /* credentials.plist */,
@@ -268,6 +264,7 @@
 			isa = PBXGroup;
 			children = (
 				967320DD25F749700017683A /* assets */,
+				1854806025FA6BC500A84010 /* assets */,
 				CDE6B22325886E74001C939A /* Montserrat-LightItalic.ttf */,
 				CDE6B22025886A9E001C939A /* Montserrat-BoldItalic.ttf */,
 				CDE6B21E25886A04001C939A /* Montserrat-BlackItalic.ttf */,
@@ -442,9 +439,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				967322AB25F787430017683A /* assets in Resources */,
-				967322A225F7821A0017683A /* main.jsbundle in Resources */,
-				962274D425F69C97000E53F1 /* GoogleService-Info.plist in Resources */,
+				1854806A25FA6D0500A84010 /* main.jsbundle in Resources */,
+				1854806125FA6BC500A84010 /* assets in Resources */,
+				18EB85C125F88BA2004C4847 /* GoogleService-Info.plist in Resources */,
 				CDE6B21D258867D2001C939A /* Montserrat-BoldItalic.ttf in Resources */,
 				CDE6B21F25886A04001C939A /* Montserrat-BlackItalic.ttf in Resources */,
 				CD39DB88259DAC20001CB3B3 /* Montserrat-SemiBold.ttf in Resources */,
@@ -859,7 +856,7 @@
 				DEVELOPMENT_TEAM = RJJ99X8FX3;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = lootbox/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
@@ -888,7 +885,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = RJJ99X8FX3;
 				INFOPLIST_FILE = lootbox/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",

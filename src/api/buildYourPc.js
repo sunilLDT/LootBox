@@ -119,7 +119,6 @@ export async function profileUpdateApi(email, dob, gender, first_Name,
     first_name: first_Name,
     last_name: last_name
   });
-  console.log(response.data)
   return response.data;
 }
 
@@ -155,8 +154,8 @@ export async function cityApi() {
   return response.data;
 }
 
-export async function addAddressApi(city, areas, addressType, name, block, street, building, floor, apartment, addressid) {
-  const response = await Api.post('app/user/add-address', {
+export async function addAddressApi(city, areas, addressType, name, block, street, building, floor, apartment,avenue, addressid) {
+  const addressData = {
     address_id: addressid,
     city: city,
     area: areas,
@@ -165,11 +164,12 @@ export async function addAddressApi(city, areas, addressType, name, block, stree
     block: block,
     street: street,
     building: building,
-    floor: floor,
+    avenue: avenue,
     apartment: apartment,
+    floor:floor,
     address: "",
-  });
-  console.log(response.data)
+  }
+  const response = await Api.post('app/user/add-address', addressData);
   return response.data;
 }
 

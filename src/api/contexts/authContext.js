@@ -68,7 +68,6 @@ const reducer = (state, action) => {
 const checkUser = (dispatch) => async () => {
   const token = await AsyncStorage.getItem('token');
   const language = await AsyncStorage.getItem('language');
- console.log(token);
   if (token && token.length > 0) {
     dispatch({
       type: 'signin',
@@ -596,20 +595,20 @@ const fetchCategories = (dispatch) => async () => {
 
 const fetchItems = (dispatch) => async (category_id, sub_category_id, page, filterId, filterValues, minPrice, maxPrice , all ,text) => {
   try {
-    
-
     if (sub_category_id) {
       if (filterId) {
         const allVariables = {
           category_id:category_id,
           sub_category_id:  [parseInt(sub_category_id)],
-          filter_custome_field_id:filterId == ""?null: all ? filterId : filterId.map((items) => parseInt(items) + parseInt(category_id) -1 ),
+          filter_custome_field_id:filterId == ""?null: all ? filterId : filterId,
           filter_custome_values:filterValues == ""?null:filterValues,
           min_price:parseInt(minPrice),
           max_price:parseInt(maxPrice),
           limit:6,
-          search:text
+          search:text == undefined?"":text
         }
+        console.log("allVariables ++  ==== ")
+        console.log(allVariables)
        
        let response = await Api.post('app/items/list',allVariables);
         return response.data;
@@ -632,8 +631,6 @@ const fetchItems = (dispatch) => async (category_id, sub_category_id, page, filt
          search:text
 
         });
-        
-        // console.log(response.data.parameter.last_page)
         return response.data;
       } else {
         const response = await Api.post('app/items/list',{
@@ -642,8 +639,6 @@ const fetchItems = (dispatch) => async (category_id, sub_category_id, page, filt
           limit:6,
           search:text
         });
-        // console.log(response.data)
-        // console.log(response.data.parameter.last_page)
         return response.data;
       }
 

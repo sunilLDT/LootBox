@@ -15,6 +15,7 @@ import Icons from 'react-native-vector-icons/Feather';
 import ViewBtn from '../components/SaveBtn';
 import { connect } from 'react-redux';
 import { cartActions } from '../actions/user';
+import SecondaryBtn from '../components/SecondaryBtn';
 
 const { width, height } = Dimensions.get('window');
 
@@ -50,13 +51,13 @@ const AlertMessage = (props) => {
                 </View>
                 <View style={styles.btnCotainer}>
                     <TouchableOpacity onPress={() => props.navigation.navigate('orders')}>
-                        <ViewBtn text={props.labels.viewOrder} x="117" />
+                        <SecondaryBtn text={props.labels.viewOrder}  />
                     </TouchableOpacity>
                 </View>
                 <View>
-          <TouchableOpacity style={{marginTop:5,marginLeft:40}} onPress={() => props.navigation.navigate('home')}>
-            <View style={{width:"87%", marginVertical: 50,}}>
-              <ViewBtn text={props.labels.continueShopping} x="100" />
+          <TouchableOpacity style={{marginTop:5}} onPress={() => props.navigation.navigate('home')}>
+            <View style={{marginVertical: 40,}}>
+              <SecondaryBtn text={props.labels.continueShopping} />
             </View>
           </TouchableOpacity>
         </View>

@@ -15,6 +15,7 @@ import {Context as AuthContext} from '../api/contexts/authContext';
 import Modal from '../components/modal';
 import {connect} from 'react-redux';
 import PopUp from '../components/popup';
+import PrimaryBtn from '../components/PrimaryBtn';
 
 const {width, height} = Dimensions.get('window');
 
@@ -133,10 +134,10 @@ const Email = ({navigation, labels}) => {
               height: height * 0.1,
             }}>
             {!state.loading ? (
-              <Btn text={labels.submit} x="45" pay="" />
+              <PrimaryBtn text={labels.submit}  />
             ) : (
               <>
-                <Btn text={' '} x="45" pay=""/>
+                <PrimaryBtn text={' '} />
                 <ActivityIndicator
                   color="#ECDBFA"
                   size="small"

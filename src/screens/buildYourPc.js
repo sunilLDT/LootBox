@@ -10,16 +10,14 @@ import {
   ScrollView,
   StyleSheet, 
   FlatList,
-  Alert,
+  SafeAreaView
 } from 'react-native';
 import Testing from './testing';
 import Card from './card';
-import Btn from './btn';
 import Option1 from './1080P';
 import Option2 from './2K';
 import {TouchableWithoutFeedback} from 'react-native-gesture-handler';
 import {getAllGames} from '../api/buildYourPc';
-import AdvanceBuilderButton from '../components/AdvanceBuilderBtn';
 import { SearchBar } from 'react-native-elements';
 import { languagename } from '../components/LanguageName';
 import { connect } from 'react-redux';
@@ -29,6 +27,8 @@ import Dialog, {
   DialogContent,
   SlideAnimation,
 } from 'react-native-popup-dialog';
+import AdvanceBuilderButton from '../assets/buildpc.png';
+import BuildYourPcImg from '../assets/lootbuttons/iOS/maincta.png';
 
 const {width, height} = Dimensions.get('window');
 
@@ -122,6 +122,7 @@ const BuildYourPc = ({ navigation, labels }) => {
   }
 
   return (
+    <SafeAreaView style={styles.safeArea}>
     <View style={{ backgroundColor: '#292633', width: '100%', height: '100%' }}>
       <ScrollView
         showsVerticalScrollIndicator={false}
@@ -248,13 +249,23 @@ const BuildYourPc = ({ navigation, labels }) => {
               />
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={() => navigation.navigate('AdvanceBuilder', { fromCart: 0 })}>
-              <View style={{
-                height: 32,
-                width: 153,
-              }}>
-                <AdvanceBuilderButton x={arOren == "ar"?25:0} text={labels.advancedBuilder} />
-              </View>
+              onPress={() => navigation.navigate('AdvanceBuilder', { fromCart: 0 })}
+            >
+              <ImageBackground
+                source={AdvanceBuilderButton}
+                style={{
+                  width:170,
+                  height:48,
+                  justifyContent:'center',
+                  alignItems:'center',
+                }}
+              >
+                <Text style={{
+                  color:'#fff',
+                  fontSize:14,
+                  fontFamily:Platform.OS == 'android'? 'Montserrat-Bold':'Montserrat',
+                }}>{labels.advancedBuilder}</Text>
+              </ImageBackground>
             </TouchableOpacity>
           </View>
           <View
@@ -423,8 +434,24 @@ const BuildYourPc = ({ navigation, labels }) => {
                       onPress={() =>
                         submitGames()
                       }>
-                      <Btn text={labels.BuildYourPc} pay=""  x={arOren == "ar"? 40:0}/>
-
+                      <ImageBackground
+                        source={BuildYourPcImg}
+                        style={{
+                          width:315,
+                          height:48,
+                          justifyContent:'center',
+                          alignItems:'center',
+                          marginBottom:15
+                        }}
+                      >
+                        <Text style={{
+                          color:'#fff',
+                          fontSize:18,
+                          fontFamily:Platform.OS == 'android'? 'Montserrat-Bold':'Montserrat',
+                        }}>
+                          {labels.BuildYourPc}
+                        </Text>
+                      </ImageBackground>
                     </TouchableOpacity>
                   </View>
                 </>
@@ -432,12 +459,18 @@ const BuildYourPc = ({ navigation, labels }) => {
         </ImageBackground>
       </ScrollView>
     </View>
+    </SafeAreaView>
   );
 };
 const styles = StyleSheet.create({
   bottom: {
     flex: 1,
     justifyContent: 'flex-end',
+  },
+  safeArea: {
+    flex: 1,
+    backgroundColor: '#292633',
+    marginTop:-15,
   },
 });
 const mapStateToProps = (state) => ({

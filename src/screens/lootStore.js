@@ -16,6 +16,7 @@ import {
   ScrollView,
   FlatList,
   StyleSheet,
+  SafeAreaView
 } from 'react-native';
 import GradientCircle from '../components/gradientCircle';
 import LinearGradient from 'react-native-linear-gradient';
@@ -152,6 +153,7 @@ const LootStore = (props) => {
           filterValues.minPrice,
           filterValues.maxPrice,
         );
+        
         setlastPage(itemData.parameter.last_page);
       }
 
@@ -192,7 +194,6 @@ const LootStore = (props) => {
       var x = categories.map((i, k) => {
         return {id: i.category_id, name: i.name_en, index: k};
       });
-      console.log(x)
       setCategories(x);
       var itemData = null;
 
@@ -259,10 +260,8 @@ const LootStore = (props) => {
   }, [fetchData]);
 
   const handleLodeMore = () => {
-    console.log('handeloadmore called');
     if (page <= lastPage) {
       setLoading(false);
-      console.log('handeloadmore called');
       setPage(page + 1);
       fetchData2();
     }
@@ -285,7 +284,6 @@ const LootStore = (props) => {
   };
 
   const searchFilterFunction = (text) => {
-    
     setPage(1);
     setSearch(text);
     if(text){
@@ -332,6 +330,7 @@ const LootStore = (props) => {
   };
 
   return (
+    <SafeAreaView style={styles.safeArea}>
     <View style={{backgroundColor: '#292633', width: '100%', height: '100%'}}>
       <ImageBackground
         source={require('../assets/dottedBackground.png')}
@@ -366,7 +365,7 @@ const LootStore = (props) => {
                   setFilter(!filter);
                 }}
                 selectedSubCategory={selectedSubCategory}
-                allCategories={subCategories[0]}
+                allCategories={subCategories[current]}
               />
             </View>
           </DialogContent>
@@ -959,6 +958,7 @@ const LootStore = (props) => {
               </>
             )}
           </View>
+          
         ) : (
           <View style={{marginTop: height * 0.35}}>
             <ActivityIndicator color="#ECDBFA" size="small" />
@@ -966,6 +966,7 @@ const LootStore = (props) => {
         )}
       </ImageBackground>
     </View>
+    </SafeAreaView>
   );
 };
 const mapStateToProps = (state) => ({
@@ -987,6 +988,11 @@ const styles = StyleSheet.create({
     borderLeftWidth: 4,
     borderRightWidth: 4,
     borderTopWidth: 8,
+  },
+  safeArea: {
+    flex: 1,
+    backgroundColor: '#292633',
+    marginTop:-15,
   },
   rail: {
     flex: 1,

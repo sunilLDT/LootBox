@@ -20,7 +20,8 @@ export default function (state = initialState, action) {
     case cartConstants.LABELS_SUCCESS:
       return {
         ...state,
-        labels: action.labelData
+        labels: action.labelData,
+        loading: false,
       };
 
 
