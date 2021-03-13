@@ -290,7 +290,6 @@ const guestUserReSignIn = (dispatch) => async (type) => {
 };
 
 const  hidePops = (dispatch) => async () =>{
-console.log('++++++++++>>><<<+++++++')
   dispatch({
     type: 'hidePopup',
     payload: '',
@@ -300,9 +299,6 @@ console.log('++++++++++>>><<<+++++++')
 
 
 const verifyOtp = (dispatch) => async ( otp,from ) => {
-  console.log("from ======= ")
-  console.log(from);
-
   try {
     if (!otp && otp !== "") {
       dispatch({
@@ -594,6 +590,7 @@ const fetchCategories = (dispatch) => async () => {
 };
 
 const fetchItems = (dispatch) => async (category_id, sub_category_id, page, filterId, filterValues, minPrice, maxPrice , all ,text) => {
+  
   try {
     if (sub_category_id) {
       if (filterId) {
@@ -607,8 +604,6 @@ const fetchItems = (dispatch) => async (category_id, sub_category_id, page, filt
           limit:6,
           search:text == undefined?"":text
         }
-        console.log("allVariables ++  ==== ")
-        console.log(allVariables)
        
        let response = await Api.post('app/items/list',allVariables);
         return response.data;

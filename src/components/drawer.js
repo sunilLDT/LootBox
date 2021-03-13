@@ -124,7 +124,6 @@ const Drawer = (props) => {
   const arabicLang = async () => {
     try{
       await AsyncStorage.setItem('language', 'ar');
-     
       const value = await AsyncStorage.getItem('deviceToken');
       const language = await AsyncStorage.getItem('language');
       const data = {

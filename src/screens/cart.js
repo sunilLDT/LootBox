@@ -52,7 +52,6 @@ import SecondaryBtn from '../components/SecondaryBtn';
 const { width, height } = Dimensions.get('window');
 
 const Cart = (props) => {
-
   const {labels} = props  
   const isFocused = useIsFocused();
   const [cartItems, setcartItems] = useState([]);
@@ -468,12 +467,23 @@ const Cart = (props) => {
                                   color: '#fff',
                                   paddingHorizontal: 10,
                                   borderRadius: 10,
-                                  paddingTop: 7,
+                                  alignSelf:'center',
+                                  padding:10
                                 }}>
                                   {addValues.address_type}
                                 </Text>
                               }
-                              <Text style={styles.addressList}>{addValues.area_name},{addValues.block},{addValues.street}</Text>
+                              <Text style={styles.addressList}>
+                                {addValues.name+ ":- "}
+                                {"House: "+ addValues.building+ " "}
+                                {addValues.floor !== null? "Floor: "+addValues.floor + " ":null}
+                                {addValues.floor !== null?addValues.apartment + " ":null}
+                                {addValues.avenue !== null ?addValues.avenue +" ":null}
+                                {addValues.street + " "}
+                                {addValues.block + " "}
+                                {addValues.area_name + " "}
+                                {addValues.city_name}
+                              </Text>
                             </View>
                             {addValues.is_default == 1 ? <Icon name="check-circle" size={25} color="#fff" style={styles.icon} /> : null}
                           </View>
@@ -1157,7 +1167,7 @@ const Cart = (props) => {
           width: 351,
           height: 75,
           marginVertical: 10,
-          paddingTop:10,
+          // paddingTop:10,
         }}>
           <View style={{
             flexDirection: 'row',
@@ -1197,13 +1207,14 @@ const Cart = (props) => {
                     fontFamily:'Montserrat-Bold',
                     flexShrink: 1,
                 }}>
-                  {props.address[0].city_name},
-                  {props.address[0].area_name},
-                  {props.address[0].building},
-                  {props.address[0].block},
-                  {props.address[0].street},
-                  {props.address[0].apartment},
-                  {props.address[0].floor}
+                  
+                  {props.address[0].building+ " "},
+                  {props.address[0].block+ " "},
+                  {props.address[0].street+ " "},
+                  {props.address[0].apartment+ " "},
+                  {props.address[0].floor+ " "}
+                  {props.address[0].city_name + " "},
+                  {props.address[0].area_name+ " "},
                 </Text>
               </View>
               ):props.address?props.address.map((addValues,index) => {
@@ -1220,13 +1231,15 @@ const Cart = (props) => {
                         fontFamily:'Montserrat-Bold',
                         flexShrink: 1,
                       }}>
-                        {addValues.city_name},
-                        {addValues.area_name},
-                        {addValues.block},
-                        {addValues.street},
-                        {addValues.building},
-                        {addValues.apartment},
-                        {addValues.floor}
+                        <Text >{addValues.name+":- "}</Text>
+                        {"House: "+addValues.building + ", "}
+                        {"Floor: "+addValues.floor + ", "}
+                        {addValues.apartment + ", "}
+                        {addValues.avenue+ ", "}
+                        {addValues.street + ", "}
+                        {addValues.block + ", "}
+                        {addValues.area_name + ", "}
+                        {addValues.city_name}
                     </Text>: null}
                   </View>
                 );
@@ -1578,7 +1591,7 @@ const styles = StyleSheet.create({
   addressContainer: {
     display: 'flex',
     flexDirection: 'row',
-    width: width * 0.4,
+    width: width * 0.5,
   },
   icon: {
     padding: 10,

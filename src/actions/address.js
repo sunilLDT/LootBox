@@ -1,8 +1,9 @@
 import { cartConstants } from './actionTypes';
-import {addressListApi} from '../api/buildYourPc';
+import {addressListApi,getSpecificAddress} from '../api/buildYourPc';
 
 export const addressActions = {
   showAddress,
+  specificAdddress,
 };
 
 function showAddress(addresses) {
@@ -26,5 +27,28 @@ function showAddress(addresses) {
     return { type: cartConstants.SHOW_ADDRESS_FAILURE,error};
   }
 
+}
+
+function specificAdddress(addId){
+  return (dispatch) => {
+    dispatch(request(addId));
+    getSpecificAddress(addId).then((response) => {
+      console.log("show address ======== ")
+      console.log(response.data)
+      dispatch(success(response.data));
+    }).catch((error) => {
+      console.log("specificaddress" + error);
+        dispatch(failure(response.data))
+    });
+  }
+  function request(addId) {
+    return { type: cartConstants.SHOW_SPECIFIC_ADDRESS, addId };
+  }
+  function success(addId) {
+    return { type: cartConstants.SUCCESS_SPECIFIC_ADDRESS, addId };
+  }
+  function failure(error) {
+    return { type: cartConstants.FALIURE_SPECIFIC_ADDRESS,error};
+  }
 }
 

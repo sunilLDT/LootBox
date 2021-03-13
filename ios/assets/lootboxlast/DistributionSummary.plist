@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Lootbox.ipa</key>
+	<array>
+		<dict>
+			<key>architectures</key>
+			<array>
+				<string>arm64</string>
+			</array>
+			<key>certificate</key>
+			<dict>
+				<key>SHA1</key>
+				<string>1ED8F9FBF89AB885D5504CB59A74BD2A8A076896</string>
+				<key>dateExpires</key>
+				<string>16/01/22</string>
+				<key>type</key>
+				<string>Apple Development</string>
+			</dict>
+			<key>entitlements</key>
+			<dict>
+				<key>application-identifier</key>
+				<string>RJJ99X8FX3.com.lootbox</string>
+				<key>aps-environment</key>
+				<string>development</string>
+				<key>com.apple.developer.team-identifier</key>
+				<string>RJJ99X8FX3</string>
+				<key>get-task-allow</key>
+				<true/>
+			</dict>
+			<key>name</key>
+			<string>Lootbox.app</string>
+			<key>profile</key>
+			<dict>
+				<key>UUID</key>
+				<string>4e583f44-7f59-40c9-a805-91bbd5a6cc14</string>
+				<key>name</key>
+				<string>iOS Team Provisioning Profile: com.lootbox</string>
+			</dict>
+			<key>team</key>
+			<dict>
+				<key>id</key>
+				<string>RJJ99X8FX3</string>
+				<key>name</key>
+				<string>Shoremena General Trading Co.</string>
+			</dict>
+		</dict>
+	</array>
+</dict>
+</plist>

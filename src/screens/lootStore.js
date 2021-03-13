@@ -25,7 +25,6 @@ import {useIsFocused} from '@react-navigation/native';
 import {Context as AuthContext} from '../api/contexts/authContext';
 import SmallLGBtn from './smallLGBtn';
 import {SearchBar} from 'react-native-elements';
-import strings from '../languages/index';
 import {connect} from 'react-redux';
 import {cartActions} from '../actions/user';
 import Filter from './filter';
@@ -78,7 +77,10 @@ const LootStore = (props) => {
         await fetchData1();
       } else {
         if (selectedSubCategory !== 0) {
+          console.log("selected sub cat ====")
+          console.log(selectedSubCategory)
           await fetchData1(subCategories[current][selectedSubCategory - 1].id);
+          // await fetchData1(keys(selectedSubCategory));
         }
       }
     } catch (errr) {
@@ -100,6 +102,8 @@ const LootStore = (props) => {
   };
 
   const allFilterFunction = async (r) => {
+    console.log("r value in case of all ")
+    console.log(r)
     setPage(1);
     setAll1(r.all);
     const cat = categories.map((i, k) => {
@@ -134,6 +138,8 @@ const LootStore = (props) => {
       var itemData = null;
 
       if (b) {
+        console.log("in alll fro all in b ")
+        console.log(b)
         itemData = await fetchItems(
           x[current].id,
           b,
@@ -324,7 +330,7 @@ const LootStore = (props) => {
     handleFilters({
       filter_custome_field_id: keys(selectedSubCategory),
       filter_custome_values: flattenDeep(
-        values(console.log(selectedSubCategory)),
+        values(selectedSubCategory),
       ),
     });
   };

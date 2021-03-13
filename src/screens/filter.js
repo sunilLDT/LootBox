@@ -56,7 +56,7 @@ const Filter = (props) => {
         allSubCategories =
           props.selectedSubCategory === 0
             ? props.allCategories.map((a, k) => a.id)
-            : [Object.keys(props.selectedSubCategory)[0]];
+            : Object.keys(props.selectedSubCategory);
             setSubId(allSubCategories)
       } else {
         allSubCategories =

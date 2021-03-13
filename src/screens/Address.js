@@ -29,42 +29,42 @@ const { width, height } = Dimensions.get('window');
 import { KeyboardAwareView } from 'react-native-keyboard-aware-view';
 
 const Address = (props) => {
-    const { addressId } = props.route.params;
+    const { addressId } = props.route.params; 
     const {labels} = props
     const [specficAddress, setSpecficAddress] = useState({});
-    const [loading, setLoading] = useState(false);
-    const [allAddress, setAllAddress] = useState([]);
     const [move,setMove] = useState(0);
     const [arOren,setarOren] = useState('en');
     languagename().then(res => setarOren(res))
     if (addressId && addressId !== "") {
         useEffect(() => {
-            setLoading(true)
-            getSpecificAddress(addressId).then((response) => {
-                console.log("add address response getSpecificAddress -------------- ===== ")
-                console.log(response.data)
-                setSpecficAddress(response.data);
-                setAddressType(response.data.address_type);
-                setName(response.data.name);
-                // setEmail(response.data.email);
-                setselectedCity(response.data.city_id);
-                setBlock(response.data.block);
-                setStreet(response.data.street);
-                setBuilding(response.data.building);
-                setAvenue(response.data.avenue);
-                setFloor(response.data.floor);
-                setapartment(response.data.apartment);
-                setSelectedArea(response.data.area_id);
-                setLoading(false)
-            }).catch((error) => {
-                console.log("specficAddress" + error)
-                setLoading(false)
-            });
+            props.specificAdddress(addressId)
+            setSpecficAddress(props.specificAdddressArray);
+            setAddressType(props.specificAdddressArray.address_type);
+            setName(props.specificAdddressArray.name);
+            setselectedCity(props.specificAdddressArray.city_id);
+            setBlock(props.specificAdddressArray.block);
+            setStreet(props.specificAdddressArray.street);
+            setBuilding(props.specificAdddressArray.building);
+            setAvenue(props.specificAdddressArray.avenue);
+            setFloor(props.specificAdddressArray.floor);
+            setapartment(props.specificAdddressArray.apartment);
+            setSelectedArea(props.specificAdddressArray.area_id);
             return () => {
                 console.log("willUnMount")
             }
-        }, []);
+        }, [addressId]);
     }
+
+    useEffect(() => {
+        cityApi().then((response) => {
+            setCity(response.data);
+            response.data.map((cityValues) => {
+                {cityValues.areas[0].city_id == props.specificAdddressArray.city_id ? setAreas(cityValues.areas) : null }
+            })
+        }).catch((error) => {
+            console.log("cityWithArea" + error)
+        });
+    }, []);
 
     const [city, setCity] = useState([]);
     const [areas, setAreas] = useState([]);
@@ -81,7 +81,6 @@ const Address = (props) => {
     const [addressModal, setaddressModal] = useState(false);
     const [contentModal, setContentModal] = useState('');
     const [avenue,setAvenue] = useState();
-
     let cityaArea = [];
     city.map((i, k) => {
         cityaArea.push({
@@ -100,14 +99,6 @@ const Address = (props) => {
             })
         })
     }
-
-    useEffect(() => {
-        cityApi().then((response) => {
-            setCity(response.data);
-        }).catch((error) => {
-            console.log("cityWithArea" + error)
-        });
-    }, []);
 
     const popUpHandler=(isOne)=>{
         setaddressModal(!addressModal);
@@ -145,10 +136,7 @@ const Address = (props) => {
             setContentModal(labels.pleaseSelectArea)
         }
         else {
-            console.log("to check avenue ====")
-            console.log(avenue)
-            console.log("apartemt ====== for checkimg ")
-            console.log(apartment)
+            
             setLoadingBtn(true)
             addAddressApi(selectedCity, selectedArea, addressType, name, block, street, building, floor, apartment,avenue, address_id).then((response) => {
                 props.showAddress();
@@ -210,7 +198,7 @@ const Address = (props) => {
                             width,
                             minHeight: height,
                         }}>
-                        {loading ? (
+                        {props.loading ? (
                             <View style={{ margin: height * 0.45, alignSelf: 'center' }}>
                                 <ActivityIndicator color="#ECDBFA" size="small" />
                             </View>) : (
@@ -368,6 +356,12 @@ const Address = (props) => {
                                                             />
                                                         );
                                                     })}
+                                                    {/* <Picker.Item
+                                                                key={index}
+                                                                label={areasValues.name}
+                                                                value={areasValues.area_id}
+                                                                color="#ECDBFA"
+                                                            /> */}
                                                 </Picker>
                                             ) : (
                                                     <View >
@@ -569,9 +563,12 @@ const pickerStyle = {
 const mapStateToProps = (state) => ({
     address: state.addressReducer.address,
     labels:state.languageReducer.labels,
+    specificAdddressArray:state.addressReducer.specificAdddressArray,
+    loading:state.addressReducer.loading
 })
 const actionCreators = {
     showAddress: addressActions.showAddress,
+    specificAdddress: addressActions.specificAdddress,
 };
 
 export default connect(mapStateToProps, actionCreators)(Address);

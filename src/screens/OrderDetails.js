@@ -664,12 +664,12 @@ const OrderDetails = (props) => {
                           opacity: 0.87,
                           paddingLeft: 20,
                         }}>
-                        {orderDetails.address.city_name },
-                        { orderDetails.address.building },
-                        { orderDetails.address.street },
-                        { orderDetails.address.building },
-                        { orderDetails.address.apartment },
-                        { orderDetails.address.floor }
+                        {orderDetails.address.city_name +" "}
+                        { orderDetails.address.building +" "}
+                        { orderDetails.address.street +" "}
+                        { orderDetails.address.building +" "}
+                        { orderDetails.address.apartment +" "}
+                        { orderDetails.address.floor +" "}
                       </Text>
                     ) : <Text
                       style={{

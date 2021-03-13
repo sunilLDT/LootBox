@@ -15,13 +15,16 @@ const AddressList = (props) => {
     useEffect(() => {
         props.showAddress();
     },[]);
+    const navigateToForm = (id) => {
+        props.navigation.navigate('address',{addressId:id});
+    }
     return(
         <View>
             {props.address?props.address.map((values,i) => {
             return(
             <TouchableOpacity 
             key={i}
-            onPress={() => props.navigation.navigate('address',{addressId:values.address_id})}
+            onPress={() => navigateToForm(values.address_id)}
             >
             {values.is_default == 1?(
                 <View style={styles.viewStyle}>
@@ -39,7 +42,7 @@ const AddressList = (props) => {
                             color: '#ECDBFA',
                             marginRight:arOren == "ar"?"3%":"0%",
                         }}>
-                    {values.area_name},{values.city_name}
+                    <Text style={{fontSize:14,fontWeight:'bold'}}>{values.name+ ": "}</Text>{values.area_name+ " "},{values.city_name}
                     </Text>
                 </View>
             ):(
@@ -61,7 +64,7 @@ const AddressList = (props) => {
                             marginRight:arOren == "ar"?"3%":"0%",
                             
                         }}>
-                    {values.area_name},{values.city_name}
+                    <Text style={{fontSize:14,fontWeight:'bold'}}>{values.name+ ": "}</Text>{values.area_name + " "},{values.city_name}
                     </Text>
                 </View>
             )}  
@@ -94,7 +97,6 @@ const mapStateToProps = (state) => ({
   })
   const actionCreators = {
     showAddress: addressActions.showAddress,
-  
   };
   
 export default connect(mapStateToProps,actionCreators)(AddressList);
