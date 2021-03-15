@@ -30,39 +30,44 @@ import { KeyboardAwareView } from 'react-native-keyboard-aware-view';
 
 const Address = (props) => {
     const { addressId } = props.route.params; 
-    const {labels} = props
+    const {labels} = props;
+    const {fullAddress} = props.route.params;
     const [specficAddress, setSpecficAddress] = useState({});
     const [move,setMove] = useState(0);
     const [arOren,setarOren] = useState('en');
+    const [loading,setLoading] = useState(false);
     languagename().then(res => setarOren(res))
     if (addressId && addressId !== "") {
         useEffect(() => {
-            props.specificAdddress(addressId)
-            setSpecficAddress(props.specificAdddressArray);
-            setAddressType(props.specificAdddressArray.address_type);
-            setName(props.specificAdddressArray.name);
-            setselectedCity(props.specificAdddressArray.city_id);
-            setBlock(props.specificAdddressArray.block);
-            setStreet(props.specificAdddressArray.street);
-            setBuilding(props.specificAdddressArray.building);
-            setAvenue(props.specificAdddressArray.avenue);
-            setFloor(props.specificAdddressArray.floor);
-            setapartment(props.specificAdddressArray.apartment);
-            setSelectedArea(props.specificAdddressArray.area_id);
+            setSpecficAddress(fullAddress);
+            setAddressType(fullAddress.address_type);
+            setName(fullAddress.name);
+            setselectedCity(fullAddress.city_id);
+            setBlock(fullAddress.block);
+            setStreet(fullAddress.street);
+            setBuilding(fullAddress.building);
+            setAvenue(fullAddress.avenue);
+            setFloor(fullAddress.floor);
+            setapartment(fullAddress.apartment);
+            setSelectedArea(fullAddress.area_id);
             return () => {
                 console.log("willUnMount")
             }
-        }, [addressId]);
+           
+        }, [fullAddress]);
     }
 
     useEffect(() => {
         cityApi().then((response) => {
+            setLoading(true)
             setCity(response.data);
             response.data.map((cityValues) => {
-                {cityValues.areas[0].city_id == props.specificAdddressArray.city_id ? setAreas(cityValues.areas) : null }
+                {cityValues.areas[0].city_id == fullAddress.city_id ? setAreas(cityValues.areas) : null }
             })
+            setLoading(false)
         }).catch((error) => {
             console.log("cityWithArea" + error)
+            setLoading(false)
         });
     }, []);
 
@@ -198,7 +203,7 @@ const Address = (props) => {
                             width,
                             minHeight: height,
                         }}>
-                        {props.loading ? (
+                        {loading? (
                             <View style={{ margin: height * 0.45, alignSelf: 'center' }}>
                                 <ActivityIndicator color="#ECDBFA" size="small" />
                             </View>) : (

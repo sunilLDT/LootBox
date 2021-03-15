@@ -110,7 +110,6 @@ function getAdvanceCatList() {
             }));
         }).catch((error) => {
             console.log("pcPartSubcategory list" + error)
-            setLoading(false)
         });
     };
 

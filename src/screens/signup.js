@@ -389,7 +389,7 @@ const Signup = ({navigation, route, labels}) => {
                         <ActivityIndicator
                           color="#ECDBFA"
                           size="small"
-                          style={{bottom: 63}}
+                          style={{bottom: 53}}
                         />
                       </>
                     )}

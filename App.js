@@ -90,8 +90,11 @@ const AuthScreen = ({ navigation }) => {
         // ...TransitionPresets.FadeFromBottom
         // cardStyleInterpolator:CardStyleInterpolators.forHorizontalIOS
         // forFadeBottomFromAndroid
+        cardStyle: { backgroundColor: '#000000' },
       }}
-      headerMode="none">
+      headerMode="none"
+      
+      >
       <Auth.Screen name="signin" component={Signin} />
       <Auth.Screen name="signup" component={Signup} />
     </Auth.Navigator>
@@ -136,17 +139,12 @@ const App = () => {
     messaging().onNotificationOpenedApp(remoteMessage => {
       console.log(
         'Notification caused app to open from background state:',
-        remoteMessage.notification,
+        remoteMessage.data,
       );
       navigate({ name: 'orders' });
     });
     messaging().setBackgroundMessageHandler(async remoteMessage => {
-      console.log('Message handled in the background!', remoteMessage.data);
-      if(remoteMessage.data.fcm_options.notificationType == 3){
-        navigate({ name: 'notifications' });
-      }else{
-        navigate({ name: 'orders' });
-      }
+      console.log('Message handled in the background!', remoteMessage.data.notificationType);
       
     });
     
@@ -170,9 +168,12 @@ const App = () => {
 
       var forBoad = ""
       AsyncStorage.getItem("language").then((res) => {
+        // console.log(AsyncStorage.getItem('deviceToken'));
+        // console.log("device token for unsubscribe ======")
+        // console.log(token)
         forBoad = res;
         messaging().subscribeToTopic('broadcast_notifications_'+forBoad)
-        .then((res) => {
+        .then((response) => {
           console.log('broadcast_notifications_'+forBoad )
           if(res == "ar"){
             messaging().unsubscribeFromTopic('broadcast_notifications_en')
@@ -213,6 +214,7 @@ const App = () => {
 
    getFcmToken = async () => {
      const fcmToken = await messaging().getToken();
+
      if (fcmToken) {
       console.log("Your Firebase Token is:", fcmToken);
      } else {
@@ -245,6 +247,7 @@ const App = () => {
             gestureEnabled: false,
             gestureDirection: 'horizontal',
             ...TransitionPresets.SlideFromRightIOS,
+            cardStyle: { backgroundColor: '#000000' },
           }}
           //headerMode="none"
           >

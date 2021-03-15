@@ -44,8 +44,8 @@ function specificAdddress(addId){
   function request(addId) {
     return { type: cartConstants.SHOW_SPECIFIC_ADDRESS, addId };
   }
-  function success(addId) {
-    return { type: cartConstants.SUCCESS_SPECIFIC_ADDRESS, addId };
+  function success(result) {
+    return { type: cartConstants.SUCCESS_SPECIFIC_ADDRESS, result };
   }
   function failure(error) {
     return { type: cartConstants.FALIURE_SPECIFIC_ADDRESS,error};

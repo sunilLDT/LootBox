@@ -1,6 +1,5 @@
 import axios from 'axios';
 import AsyncStorage from '@react-native-community/async-storage';
-import {navigate} from '../api/contexts/navigationRef';
 
 const instance = axios.create({
   baseURL: 'https://test-api.loot-box.co/api/',

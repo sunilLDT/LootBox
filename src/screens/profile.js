@@ -27,7 +27,6 @@ import { connect } from 'react-redux';
 import { profileActions } from '../actions/profileAction';
 import ImagePicker from "react-native-image-picker";
 import { uploadImageApi } from '../api/buildYourPc';
-import { Context as AuthContext } from '../api/contexts/authContext';
 import AddressList from '../components/AddressList';
 import SaveBtn from '../components/SaveBtn';
 import bgImage from '../assets/signup.png';
@@ -53,7 +52,6 @@ const Profile = (props) => {
   const [newPassword, setnewPassword] = useState();
   const [confirmPassword, setconfirmPassword] = useState();
   const [photo, setPhoto] = useState();
-  const { signout, guestUserSignIn,state } = useContext(AuthContext);
   const [loadingBtn, setLoadingBtn] = useState(false);
   const [loading,setloading] = useState(false);
   const [first_name, setFirstName] = useState();
@@ -176,6 +174,8 @@ const Profile = (props) => {
   }
 
   const uploadImageOnS3 = async (file) => {
+    console.log("file data  for image =====")
+    console.log(file)
     try{
     const s3bucket = new S3({
       accessKeyId: 'AKIA3JWMPNMIYUFSR54M',
@@ -240,10 +240,12 @@ const Profile = (props) => {
       setImageLoader(false)
       }
       else{
+        console.log("response in else condition ========")
+        console.log(response)
         setPhoto(response.uri)
         const file = {
           uri: response.uri,
-          name: response.fileName,
+          name: Platform.OS =='android'? response.fileName:"ios",
           type: response.type,
        };
        uploadImageOnS3(file);

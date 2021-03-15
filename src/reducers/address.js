@@ -33,7 +33,7 @@ const initialState = {
         case cartConstants.SUCCESS_SPECIFIC_ADDRESS:
         return {
             ...state,
-            specificAdddressArray:action.addId,
+            specificAdddressArray:action.result,
             loading:false,
         };
         case cartConstants.FALIURE_SPECIFIC_ADDRESS:

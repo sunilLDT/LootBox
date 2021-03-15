@@ -13,7 +13,6 @@ import { connect } from 'react-redux';
 import { cartActions } from '../actions/user';
 import { packageActions } from '../actions/package';
 import { profileActions } from '../actions/profileAction';
-import BuildingPc from '../components/BuildingPc';
 import { languagename } from '../components/LanguageName';
 
 const {height, width} = Dimensions.get('window');

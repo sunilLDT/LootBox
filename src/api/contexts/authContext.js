@@ -76,14 +76,13 @@ const checkUser = (dispatch) => async () => {
   }
   if (language) {
     if (token && token.length > 0) {
-
+      console.log("token ==== in token if")
+      console.log(token)
       navigate({ name: 'home' });
     } else {
-
       navigate({ name: 'slider' });
     }
   } else {
-    
     if (token && token.length > 0) {
 
       navigate({ name: 'home' });
@@ -183,8 +182,6 @@ const signin = (dispatch) => async ({ email, password }) => {
       email,
       password,
     });
-    console.log("====== consol 1")
-    console.log(res)
     if (res.data.data.token) {
       dispatch({
         type: 'signin',
@@ -218,8 +215,6 @@ const signin = (dispatch) => async ({ email, password }) => {
       type: 'toggle_loading',
     });
   } catch (e) {
-    console.log("====== consol 2")
-    console.log(e.response)
     dispatch({
       type: 'toggle_loading',
     });
@@ -246,8 +241,10 @@ const guestUserSignIn = (dispatch) => async (type) => {
       await AsyncStorage.setItem('user_id', JSON.stringify(res.data.data.user_id));
       await AsyncStorage.setItem('user_type', JSON.stringify(res.data.data.user_type));
       if(type=='login'){
+        console.log("auth while opening appp")
         navigate({ name: 'auth' });
       }else{
+        console.log("home  while opening appp")
         navigate({ name: 'home' });
       }
      
@@ -316,24 +313,19 @@ const verifyOtp = (dispatch) => async ( otp,from ) => {
         otp,
         is_reset_password: JSON.parse(resetPassword)
       });
-      console.log("forgot password ,=======")
-      console.log(res)
       if (res.data.success) {
         if (resetPassword && !JSON.parse(isLoggedIn)) {
           await AsyncStorage.setItem('userId', res.data.data.user_id);
-          // console.log("===== user id 1 *****")
-          // console.log(res.data.data.user_id)
         } else {
-          console.log(res.data);
           if(from== "undefined"){
             console.log("===== 1 *****")
             await AsyncStorage.setItem('token', res.data.data.token);
           }else{
             console.log("===== 2 *****")
           }
-          await AsyncStorage.setItem('userId', JSON.stringify(res.data.data.user_id));
+          // await AsyncStorage.setItem('userId', JSON.stringify(res.data.data.user_id));
           await AsyncStorage.setItem('user_type', JSON.stringify(1));
-          await AsyncStorage.setItem('is_OTP_Verified', JSON.stringify(true))
+          // await AsyncStorage.setItem('is_OTP_Verified', JSON.stringify(true))
           const deviceToken = await AsyncStorage.getItem('deviceToken');
           const language = await AsyncStorage.getItem('language');
           const store = await Api.post('app/user/device-token',{
@@ -345,7 +337,6 @@ const verifyOtp = (dispatch) => async ( otp,from ) => {
         }
         navigate({ name: navigationName || 'home' });
       } else {
-        console.log('Invalid hai');
         dispatch({
           type: 'add_msg',
           payload: 'Invalid OTP',
@@ -353,7 +344,6 @@ const verifyOtp = (dispatch) => async ( otp,from ) => {
       }
     }
   } catch (e) {
-    console.log('error hai');
     dispatch({
       type: 'add_msg',
       payload: e.response.data.message,
@@ -364,8 +354,7 @@ const verifyOtp = (dispatch) => async ( otp,from ) => {
 const resetPassword = (dispatch) => async (password) => {
   try {
     const user_id = await AsyncStorage.getItem('userId');
-    console.log("===== user id 2 *****")
-    console.log(user_id)
+    
     await AsyncStorage.removeItem('is_reset_password');
     const res = await Api.post('app/user/reset-password', {
       user_id: user_id,
@@ -423,8 +412,7 @@ const resendOtp = (dispatch) => async () => {
 
 
 const registerGuestUser = (dispatch) => async (data) => {
-  console.log("register guest user in auth context ")
-  console.log(data)
+  
   try {
     dispatch({
       type: 'toggle_loading',
@@ -478,7 +466,6 @@ const signup = (dispatch) => async (data) => {
       type: 'toggle_loading',
     });
   } catch (e) {
-    console.log(e.response.data)
     dispatch({
       type: 'add_msg',
       payload: e.response.data.message,

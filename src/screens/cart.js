@@ -1167,7 +1167,7 @@ const Cart = (props) => {
           width: 351,
           height: 75,
           marginVertical: 10,
-          // paddingTop:10,
+          paddingTop:10,
         }}>
           <View style={{
             flexDirection: 'row',
@@ -1183,8 +1183,7 @@ const Cart = (props) => {
               <Text
               style={{
                 fontSize: 12,
-                color: '#D2D7F9',
-                opacity: 0.5,
+                color: '#DF2EDC',
               }}
               >
                {labels.deliveryTo}

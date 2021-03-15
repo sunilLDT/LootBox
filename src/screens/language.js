@@ -12,20 +12,17 @@ import LinearGradient from 'react-native-linear-gradient';
 import { Context as AuthContext } from '../api/contexts/authContext';
 import LanguageCard from '../svgs/cardLang';
 import { connect } from 'react-redux';
-
 import AsyncStorage from '@react-native-community/async-storage';
 import { I18nManager } from "react-native";
 import RNRestart from 'react-native-restart';
 import FastImage from 'react-native-fast-image'
 import { getBannerApi } from './../api/buildYourPc';
 
-
 const { height, width } = Dimensions.get('window');
 
 const Language = (props) => {
   const { state, checkUser, setLanguage } = useContext(AuthContext);
   const [Loading, setLoading] = useState(false);
-
 
   useEffect(() => {
     setLoading(true)
@@ -44,8 +41,6 @@ const Language = (props) => {
           // },
         )
       }
-
-
       setLoading(false)
     })
       .catch((error) => {
@@ -68,13 +63,7 @@ const Language = (props) => {
   const languageChange = async isOn => {
     try {
       await AsyncStorage.setItem('language', isOn);
-      console.log("*****1************")
-      console.log(isOn)
-      console.log("*****************")
       let languagename = await AsyncStorage.getItem('language');
-      console.log('====================');
-      console.log(languagename)
-      console.log('====================');
       if (languagename == "ar") {
         await AsyncStorage.setItem('language', isOn);
         I18nManager.forceRTL(true)

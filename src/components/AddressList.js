@@ -8,6 +8,7 @@ import {
 import { connect } from 'react-redux';
 import { addressActions } from '../actions/address';
 import {languagename} from '../components/LanguageName';
+import {getSpecificAddress} from '../api/buildYourPc';
 
 const AddressList = (props) => {
     const [arOren,setarOren] = useState('en');
@@ -15,8 +16,13 @@ const AddressList = (props) => {
     useEffect(() => {
         props.showAddress();
     },[]);
-    const navigateToForm = (id) => {
-        props.navigation.navigate('address',{addressId:id});
+    const navigateToForm = async (id) => {
+        try{
+            const response = await getSpecificAddress(id);
+            props.navigation.navigate('address',{addressId:id,fullAddress:response.data});
+        }catch(error){
+            console.log("get specific data " + error)
+        } 
     }
     return(
         <View>
@@ -85,7 +91,6 @@ const styles = StyleSheet.create({
         marginVertical:5,
         borderColor:'#ffffff',
         borderWidth:0,
-        // marginLeft:10,
         flex:1,
         marginTop:20,
         justifyContent:'space-between'
@@ -94,9 +99,12 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => ({
     address: state.addressReducer.address,
+    specificAdddressArray:state.addressReducer.specificAdddressArray,
+    loading:state.addressReducer.loading
   })
   const actionCreators = {
     showAddress: addressActions.showAddress,
+    specificAdddress: addressActions.specificAdddress,
   };
   
 export default connect(mapStateToProps,actionCreators)(AddressList);
