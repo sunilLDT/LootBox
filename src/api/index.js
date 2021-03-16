@@ -7,7 +7,6 @@ const instance = axios.create({
 instance.interceptors.request.use(
   async (config) => {
     const token = await AsyncStorage.getItem('token');
-    console.log(token)
     const lang = await AsyncStorage.getItem('language');
     config.headers.Accept = 'application/json';
     config.headers['X-Localization'] = lang;

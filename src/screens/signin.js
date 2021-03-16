@@ -66,7 +66,7 @@ const Signin = ({ navigation ,labels}) => {
         setContentModal(labels.validPhoneNumber);
        
       }
-      else if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
+      else if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email.replace(/\s+/g, ''))) {
         setPopModal(true);
         setContentModal(labels.invaildEmail);
        

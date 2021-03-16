@@ -38,7 +38,7 @@ const AddressList = (props) => {
                         style={{
                         fontSize: 14,
                         color: '#ECDBFA',
-                        
+                        width:"20%",
                         }}>
                         {values.address_type}
                     </Text>
@@ -47,6 +47,7 @@ const AddressList = (props) => {
                             fontSize: 12,
                             color: '#ECDBFA',
                             marginRight:arOren == "ar"?"3%":"0%",
+                            width:"80%"
                         }}>
                     <Text style={{fontSize:14,fontWeight:'bold'}}>{values.name+ ": "}</Text>{values.area_name+ " "},{values.city_name}
                     </Text>
@@ -58,7 +59,7 @@ const AddressList = (props) => {
                         fontSize: 14,
                         color: '#ECDBFA',
                         opacity: 0.5,
-                        
+                        width:"20%"
                         }}>
                         {values.address_type}
                     </Text>
@@ -68,6 +69,7 @@ const AddressList = (props) => {
                             color: '#ECDBFA',
                             opacity: 0.5,
                             marginRight:arOren == "ar"?"3%":"0%",
+                            width:"80%",
                             
                         }}>
                     <Text style={{fontSize:14,fontWeight:'bold'}}>{values.name+ ": "}</Text>{values.area_name + " "},{values.city_name}
@@ -88,11 +90,10 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         width: '100%',
-        marginVertical:5,
+        marginVertical:20,
         borderColor:'#ffffff',
         borderWidth:0,
         flex:1,
-        marginTop:20,
         justifyContent:'space-between'
     },
 });

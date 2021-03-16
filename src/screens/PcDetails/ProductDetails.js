@@ -18,7 +18,6 @@ import ListDetails from '../PcDetails/List';
 import { connect } from 'react-redux';
 import { cartActions } from '../../actions/user';
 import { packageActions } from '../../actions/package';
-import AsyncStorage from '@react-native-community/async-storage';
 import { languagename } from '../../components/LanguageName';
 import BuildYourPcImg from '../../assets/lootbuttons/iOS/maincta.png';
 import PrimaryBtn from '../../components/PrimaryBtn';
@@ -170,7 +169,7 @@ const ProductDetails = (props) => {
                             height:48,
                             justifyContent:'center',
                             alignItems:'center',
-                            marginTop:"10%"
+                            marginBottom:height * 0.05,
                           }} 
                         >
                           <Text
@@ -192,7 +191,7 @@ const ProductDetails = (props) => {
                                 height:48,
                                 justifyContent:'center',
                                 alignItems:'center',
-                                marginTop:"10%"
+                                marginBottom:height * 0.05,
                               }} 
                             >
                               <Text
@@ -208,7 +207,7 @@ const ProductDetails = (props) => {
                             <ActivityIndicator
                               color="#ECDBFA"
                               size="small"
-                              style={{ bottom: 35,right:30 }}
+                              style={{ bottom: 75,right:30 }}
                             />
                           </>
                         )}

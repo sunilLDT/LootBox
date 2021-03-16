@@ -279,7 +279,7 @@ const OrderDetails = (props) => {
                             
                           }}>
                           <Image
-                            resizeMode="contain"
+                            resizeMode="cover"
                             source={{ uri: packages.image }}
                             style={{
                               width: 63,
@@ -465,11 +465,11 @@ const OrderDetails = (props) => {
                         }}>
                         {i.image !== "" ? (
                           <Image
-                            resizeMode="contain"
+                            resizeMode="cover"
                             source={{ uri: i.image }}
                             style={{
-                              width: 70,
-                              height: 50,
+                              width: 63,
+                              height: 60,
                               position: 'relative',
                               right: 30,
                               alignSelf: 'center',
@@ -479,7 +479,7 @@ const OrderDetails = (props) => {
                           />
                         ) : (
                             <Image
-                              resizeMode="contain"
+                              resizeMode="cover"
                               source={require('../assets/thumbnail.png')}
                               style={{
                                 //   width: 127,
@@ -664,12 +664,16 @@ const OrderDetails = (props) => {
                           opacity: 0.87,
                           paddingLeft: 20,
                         }}>
+                        {orderDetails.address.name + ":- "}
+                        {orderDetails.address.building +" "}
+                        {orderDetails.address.floor +" "}
+                        {orderDetails.address.floor !== null? "Floor: "+orderDetails.address.floor + " ":null}
+                        {orderDetails.address.apartment !== null?orderDetails.address.apartment + " ":null}
+                        {orderDetails.address.street +" "}
+                        {orderDetails.address.block +" "}
+                        {orderDetails.address.avenue + " "}
+                        {orderDetails.address.area_name +" "}
                         {orderDetails.address.city_name +" "}
-                        { orderDetails.address.building +" "}
-                        { orderDetails.address.street +" "}
-                        { orderDetails.address.building +" "}
-                        { orderDetails.address.apartment +" "}
-                        { orderDetails.address.floor +" "}
                       </Text>
                     ) : <Text
                       style={{
@@ -946,13 +950,16 @@ const OrderDetails = (props) => {
                           color: '#D2D7F9',
                           opacity: 0.87,
                         }}>
-                        {orderDetails.address.city_name},
-                        {orderDetails.address.area_name},
-                        {orderDetails.address.building},
-                        {orderDetails.address.street},
-                        {orderDetails.address.building},
-                        {orderDetails.address.apartment},
-                        {orderDetails.address.floor}
+                        
+                        {orderDetails.address.building + " "}
+                        {orderDetails.address.block + " "}
+                        {orderDetails.address.apartment + " "}
+                        {orderDetails.address.floor + " "}
+                        {orderDetails.address.avenue + " "}
+                        {orderDetails.address.street + " "}
+                        {orderDetails.address.area_name + " "}
+                        {orderDetails.address.city_name + " "}
+                        
                       </Text>
                     </View>
                   ) : <Text

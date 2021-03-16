@@ -275,6 +275,7 @@ const styles = StyleSheet.create({
     },
     descriptionText:{
         color: 'rgba(255,255,255,0.3)',
+        fontFamily: Platform.OS=='android'?'Montserrat Bold':'Montserrat',
     },
     desToBtn:{
         display:'flex',
@@ -296,6 +297,7 @@ const styles = StyleSheet.create({
         color: '#fff',
         fontSize: 12,
         opacity: 0.8,
+        fontFamily: Platform.OS=='android'?'Montserrat Regular':'Michroma',
     },
     dataView:{
         padding: 20,
@@ -312,6 +314,7 @@ const styles = StyleSheet.create({
         fontSize: 14,
         flexShrink: 1,
         width:'50%',
+        fontFamily: Platform.OS=='android'?'Montserrat Regular':'Michroma',
     },
     itemData:{
         color: 'rgba(255,255,255,0.3)',
@@ -319,7 +322,8 @@ const styles = StyleSheet.create({
         flexShrink: 1,
         width:'50%',
         paddingHorizontal:3,
-        textAlign:'right'
+        textAlign:'right',
+        fontFamily: Platform.OS=='android'?'Montserrat Regular':'Michroma',
     },
     btn:{
         marginHorizontal:"7%",

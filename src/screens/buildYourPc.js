@@ -300,7 +300,7 @@ const BuildYourPc = ({ navigation, labels }) => {
                 display: 'flex',
                 flexDirection: 'row',
               }}>
-               <View style={{ position: 'relative', right:arOren == "ar"?14: 38, width: 116,}}> 
+               <View style={{ position: 'relative',borderWidth:2,borderColor: 'rgba(0, 0, 0, .000001)',zIndex: arOren == "ar"?0: 999, right:arOren == "ar"?14: 38, width: 116,}}> 
               <TouchableOpacity
                 style={{ 
                   position:'relative',
@@ -312,7 +312,7 @@ const BuildYourPc = ({ navigation, labels }) => {
                 <Option1 selected={resolution === '1080P'} />
               </TouchableOpacity>
               </View> 
-              <View style={{ position: 'relative', right:arOren == "ar"?14: 84, width: 84 }}>
+              <View style={{ position: 'relative',borderWidth:2,borderColor: 'rgba(0, 0, 0, .000001)', right:arOren == "ar"?14: 84, width: 84 }}>
                 <TouchableOpacity
                   style={{
                     position:'relative',
@@ -324,7 +324,7 @@ const BuildYourPc = ({ navigation, labels }) => {
                   <Option2 selected={resolution === '2K'} text="2K" />
                 </TouchableOpacity>
               </View>
-              <View style={{ position: 'relative', right:arOren == "ar"?50: 80, width: 84 }}>
+              <View style={{ position: 'relative',borderWidth:2,borderColor: 'rgba(0, 0, 0, .000001)', right:arOren == "ar"?50: 80, width: 84 }}>
                 <TouchableOpacity
                   style={{
                     position:'relative',
@@ -387,7 +387,7 @@ const BuildYourPc = ({ navigation, labels }) => {
           {loading ? (
             <View style={{ marginTop: height * 0.19 }}>
               <ActivityIndicator color="#ECDBFA" size="small" />
-            </View>) : gameData.length === 0 ? (
+            </View>) : filterData.length === 0 ? (
               <Text style={{
                 color: "#fff",
                 lineHeight: 32,
@@ -396,7 +396,7 @@ const BuildYourPc = ({ navigation, labels }) => {
               }}
               >{labels.noGameAvailable}
               </Text>
-            ) : (
+            ) :(
                 <>
                   <FlatList
                     keyExtractor={(item) => item.name}

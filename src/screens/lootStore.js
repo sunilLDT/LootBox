@@ -102,8 +102,6 @@ const LootStore = (props) => {
   };
 
   const allFilterFunction = async (r) => {
-    console.log("r value in case of all ")
-    console.log(r)
     setPage(1);
     setAll1(r.all);
     const cat = categories.map((i, k) => {
@@ -658,14 +656,13 @@ const LootStore = (props) => {
             <ScrollView
               style={{
                 marginVertical: 20,
-                // height: height * 0.1,
               }}
               contentContainerStyle={{
                 display: 'flex',
                 flexDirection: 'row',
                 width: '100%',
-                justifyContent: 'space-between',
-                paddingHorizontal: width * 0.1,
+                justifyContent: 'space-around',
+                paddingHorizontal: width * 0.05,
               }}
               showsVerticalScrollIndicator={false}
               horizontal>

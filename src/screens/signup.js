@@ -324,7 +324,7 @@ const Signup = ({navigation, route, labels}) => {
                         email &&
                         phone &&
                         password &&
-                        /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email) &&
+                        /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email.replace(/\s+/g, '')) &&
                         password.length >= 8 &&
                         phone.length >= 8
                       ) {
@@ -338,7 +338,7 @@ const Signup = ({navigation, route, labels}) => {
                         }
                         else if (
                           email &&
-                          !/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)
+                          !/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email.replace(/\s+/g, ''))
                         ) {
                           setaddressModal(true);
                           setContentModal(labels.invaildEmail)

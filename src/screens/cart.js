@@ -477,7 +477,7 @@ const Cart = (props) => {
                                 {addValues.name+ ":- "}
                                 {"House: "+ addValues.building+ " "}
                                 {addValues.floor !== null? "Floor: "+addValues.floor + " ":null}
-                                {addValues.floor !== null?addValues.apartment + " ":null}
+                                {addValues.apartment !== null?addValues.apartment + " ":null}
                                 {addValues.avenue !== null ?addValues.avenue +" ":null}
                                 {addValues.street + " "}
                                 {addValues.block + " "}
@@ -1232,9 +1232,9 @@ const Cart = (props) => {
                       }}>
                         <Text >{addValues.name+":- "}</Text>
                         {"House: "+addValues.building + ", "}
-                        {"Floor: "+addValues.floor + ", "}
-                        {addValues.apartment + ", "}
-                        {addValues.avenue+ ", "}
+                        {addValues.floor !== null? "Floor: "+addValues.floor + " ":null}
+                        {addValues.apartment !== null?addValues.apartment + " ":null}
+                        {addValues.avenue !== null ?addValues.avenue +" ":null}
                         {addValues.street + ", "}
                         {addValues.block + ", "}
                         {addValues.area_name + ", "}

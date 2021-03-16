@@ -45,7 +45,6 @@ const AdvanceBuilder = (props) => {
   const {labels} = props;
   const isFocused = useIsFocused();
   const scrollRef = useRef();
-  const [loading, setLoading] = useState(true);
   const [subCategoryId, setSubCategoryid] = useState("");
   const [items, setItems] = useState([]);
   const [itemList, setItemList] = useState([]);
@@ -74,6 +73,7 @@ const AdvanceBuilder = (props) => {
   const [arOren, setarOren] = useState('en');
   const kd = labels.kD;
   languagename().then((res) => setarOren(res));
+
   const selectedSubCategoryAdvance = (arr) => {
     let a = []
     arr.forEach(function (obj, index) {
@@ -103,20 +103,8 @@ const AdvanceBuilder = (props) => {
     setIsOptional(optionalArray)
     setIsMultiple(isMultipleArray)
   }
-
-  // const getRemoveAdvance = async () => {
-  //   try {
-  //     const data = await AsyncStorage.getItem('removeAdvBuilder');
-  //     setIsAdvDel(JSON.parse(data));
-  //     return JSON.parse(data);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // }
   
   useEffect(() => {
-    setLoading(true);
-    // console.log(getRemoveAdvance())
     props.categoryList();
     if(fromCart === 1){
       cartAddedFilterItems.map((subCat, i) => {
@@ -137,18 +125,8 @@ const AdvanceBuilder = (props) => {
 
         let index = selectStatus.find(obj => obj.status === false);
         if (!index) {
-          console.log("in index")
           setShowSubmit(true)
         }
-        
-        // if(forEdit == 1){
-        //   console.log("edit")
-        //   setShowSubmit(true)
-        // }else{
-        //   console.log('remove')
-        //   setShowSubmit(false)
-        // }
-       
         
     }
     setMaxIndex(props.categories.length);
@@ -160,7 +138,6 @@ const AdvanceBuilder = (props) => {
         props.categorySubCatgoryList(props.firstSubCatid)
       }
     });
-    setLoading(false);
     getStatus(props.categories);
   }, [propsFocused]);
 
@@ -567,7 +544,7 @@ const AdvanceBuilder = (props) => {
                 marginHorizontal: width * 0.1,
                 borderRadius: 20,
               }}
-              inputContainerStyle={{ height: 30, backgroundColor: '#D2D7F9', marginTop: -5 }}
+              inputContainerStyle={{ height: 30, backgroundColor: '#D2D7F9',}}
             /> : open &&  arOren == "ar"?(
               <SearchBar
               placeholder={props.labels.typeHere}
@@ -580,11 +557,11 @@ const AdvanceBuilder = (props) => {
                 marginHorizontal: width * 0.1,
                 borderRadius: 20,
               }}
-              inputContainerStyle={{ height: 30, backgroundColor: '#D2D7F9', marginTop: -5 }}
+              inputContainerStyle={{ height: 30, backgroundColor: '#D2D7F9',}}
               inputStyle={{ textAlign:"right"}}
             />
             ):null}
-          {loading ? (
+          {props.loadingCat ? (
             <View style={{ marginTop: height * 0.37 }}>
               <ActivityIndicator color="#ECDBFA" size="small" />
             </View>
@@ -757,7 +734,17 @@ const AdvanceBuilder = (props) => {
                             </View>
                           </TouchableOpacity>
                           : null} */}
-                    </View> : <ActivityIndicator color="#ECDBFA" size="large" />}
+                    </View> :filteredDataSource.length === 0 ?(
+                      <Text style={{
+                        color: "#fff",
+                        lineHeight: 32,
+                        fontFamily: Platform.OS == 'android' ? 'Michroma-Regular' : 'Michroma',
+                        fontSize: 15,
+                        marginTop: height * 0.5
+                      }}
+                      >{labels.noGameAvailable}
+                      </Text>
+                    ): (<ActivityIndicator color="#ECDBFA" size="large" />)}
                 </View>
               </>
             )}

@@ -51,7 +51,7 @@ const Profile = (props) => {
   const [oldPassword, setOldPassword] = useState();
   const [newPassword, setnewPassword] = useState();
   const [confirmPassword, setconfirmPassword] = useState();
-  const [photo, setPhoto] = useState();
+  const [photo, setPhoto] = useState("");
   const [loadingBtn, setLoadingBtn] = useState(false);
   const [loading,setloading] = useState(false);
   const [first_name, setFirstName] = useState();
@@ -133,7 +133,6 @@ const Profile = (props) => {
 
     }
     else if (newPassword == "" || confirmPassword == "" || oldPassword == "") {
-      console.log("all fields required")
       setPopModal(true);
       setContentModal(labels.fillAllField)
   
@@ -174,8 +173,6 @@ const Profile = (props) => {
   }
 
   const uploadImageOnS3 = async (file) => {
-    console.log("file data  for image =====")
-    console.log(file)
     try{
     const s3bucket = new S3({
       accessKeyId: 'AKIA3JWMPNMIYUFSR54M',
@@ -205,12 +202,12 @@ const Profile = (props) => {
           console.log('error in callback');
         }
         else{
-          console.log('success')
           console.log("Respomse URL : "+ data.Location);
           uploadImageApi(data.Location).then((response) => {
             setImageLoader(false)
             setPopModal(true);
             setContentModal(response.message);
+            props.sendaction();
           }).catch((error) => {
             console.log("ImageUploadProfile" + error);
             setImageLoader(false)
@@ -240,8 +237,6 @@ const Profile = (props) => {
       setImageLoader(false)
       }
       else{
-        console.log("response in else condition ========")
-        console.log(response)
         setPhoto(response.uri)
         const file = {
           uri: response.uri,
@@ -386,7 +381,7 @@ const Profile = (props) => {
                         </Text>
 
                       </View>
-                    {!imageLoader?(
+                    {!imageLoader ?(
                     <TouchableOpacity
                       style={{ width: "40%" }}
                       onPress={() => handleChoosePhoto()}>
