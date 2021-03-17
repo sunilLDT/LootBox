@@ -32,8 +32,6 @@ import Dialog, {
   SlideAnimation,
 } from 'react-native-popup-dialog';
 import Filter from '../filter';
-import { useIsFocused } from "@react-navigation/native";
-import { values } from 'lodash';
 import PopUp from '../../components/popup';
 import {languagename} from '../../components/LanguageName';
 const { width, height } = Dimensions.get('window');
@@ -43,7 +41,6 @@ const AdvanceBuilder = (props) => {
   const propsFocused = props.navigation.isFocused();
   const {fromCart} = props.route.params;
   const {labels} = props;
-  const isFocused = useIsFocused();
   const scrollRef = useRef();
   const [subCategoryId, setSubCategoryid] = useState("");
   const [items, setItems] = useState([]);
@@ -53,7 +50,7 @@ const AdvanceBuilder = (props) => {
   const [open, setOpen] = useState(false);
   const [tick, setTick] = useState([]);
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const [lastIndexedCat, setLastIndexedCat] = useState(0);
+  const [subCatIndex, setSubCatIndex] = useState();
   const [maxIndex, setMaxIndex] = useState(0);
   const [linkedItems, setLinkedItems] = useState({});
   const [showSubmit, setShowSubmit] = useState(false);
@@ -69,6 +66,7 @@ const AdvanceBuilder = (props) => {
   const [popModal, setPopModal] = useState(false);
   const [contentModal, setContentModal] = useState('');
   const [storeSubCatId,setStoreSubCatId] = useState();
+  const [block,setBlock] = useState(0);
   const maxlimit = 20;
   const [arOren, setarOren] = useState('en');
   const kd = labels.kD;
@@ -87,7 +85,7 @@ const AdvanceBuilder = (props) => {
 
   const popUpHandler=()=>{
     setPopModal(!popModal);
-}
+  }
 
   function filterIsOPtion(arr) {
     let isMultipleArray = [];
@@ -160,20 +158,26 @@ const AdvanceBuilder = (props) => {
   }
 
   const subCategoryFun = (subCatId, index, source,ids) => {
+    setSubCatIndex(index)
     if(fromCart === 1){
+      scrollRef.current?.scrollTo({
+        animated: true,
+      });
       ids = ids.filter( function( item ) {
         for( var i=0, len=itemList.length; i<len; i++ ){
-            if( itemList[i].item_id == item.item_id ) {
-                return false;
-            }
+          if( itemList[i].item_id == item.item_id ) {
+              return false;
+          }
         }
         return true;
       });
       removeAdvanceBuilderItems(ids)
     }
     if (source == 1 || !filterValues) {
+      scrollRef.current?.scrollTo({
+        animated: true,
+      });
       setSubCategoryid(subCatId);
-      setLastIndexedCat(subCatId);
       let id = subCatId;
       //Opn for new Logic
       /* if (subCatId == linkedItems.linkedItemId) {
@@ -185,15 +189,19 @@ const AdvanceBuilder = (props) => {
         setFilteredDataSource(response.data)
       })
     } else {
-      let result = itemList.find(x => x.sub_category_id === subCatId);
-      if (result) {
-        let id = subCatId;
-        setSubCategoryid(id);
-        advancedBuilderItems(id, filterValues.filter_custome_field_id, filterValues.filter_custome_values).then((response) => {
-          setItems(response.data)
-          setFilteredDataSource(response.data)
-        })
-      }
+        let objIndex = selectStatus.findIndex(obj => obj.id === subCatId);
+        const statusOfSelect =  selectStatus[objIndex].status;
+        if(statusOfSelect === true){
+          scrollRef.current?.scrollTo({
+            animated: true,
+          });
+          let id = subCatId;
+          setSubCategoryid(id);
+          advancedBuilderItems(id, filterValues.filter_custome_field_id, filterValues.filter_custome_values).then((response) => {
+            setItems(response.data)
+            setFilteredDataSource(response.data)
+          })
+        }
     }
 
   }
@@ -222,7 +230,6 @@ const AdvanceBuilder = (props) => {
         props.add()
         props.navigation.navigate('cart');
       }
-      console.log(addResponse)
     }catch(e){
       console.log("final submit error "+e)
     }
@@ -232,16 +239,14 @@ const AdvanceBuilder = (props) => {
     scrollRef.current?.scrollTo({
       animated: true,
     });
-    
-    
     let i
     if(isOptional.includes(subCategoryId)){
      let objIndex = selectStatus.findIndex((obj => obj.id == subCategoryId));
      const statusOfSelect =  selectStatus[objIndex].status;
      if(statusOfSelect === false){
+      setStatus(subCategoryId)
       i = selectedIndex + 1;
       setSelectedIndex(i)
-      setStatus(subCategoryId)
      }
      else{
       i = selectedIndex;
@@ -249,8 +254,7 @@ const AdvanceBuilder = (props) => {
         i = selectedIndex + 1;
         setSelectedIndex(i)
       }
-     }    
-     
+     }
     }
     else{
       if(fromCart === 1){
@@ -284,6 +288,11 @@ const AdvanceBuilder = (props) => {
       subCatId && subCategoryFun(subCatId.sub_category_id, i, 1,cartItemId);
     }
     // setTick([...tick, subCatId.sub_category_id]);
+
+    let index = selectStatus.find(obj => obj.status === false);
+    if (!index) {
+      setShowSubmit(true)
+    }
   }
 
   
@@ -306,7 +315,28 @@ const AdvanceBuilder = (props) => {
       setStatus(i.sub_category_id);
       let k = selectedIndex;
       if(storeSubCatId !== i.sub_category_id){
-        k = k + 1;
+        let objIndex = selectStatus.findIndex((obj => obj.id == i.sub_category_id));
+        const statusOfSelect =  selectStatus[objIndex].status;
+        if(statusOfSelect === true){
+          if(!isOptional.includes(i.sub_category_id)){
+            k = k + 1;
+          }
+          else{
+            let objIndex = selectStatus.findIndex((obj => obj.id == i.sub_category_id));
+            const statusOfSelect =  selectStatus[objIndex].status;
+            if(statusOfSelect === true){
+              if(subCatIndex >= selectedIndex){
+                k = k+1;
+              }
+
+              console.log("selected index in second ======")
+              console.log(selectedIndex)
+              console.log("subcat index here******** ======")
+              console.log(subCatIndex)
+              
+            }
+          }
+        }
       }
       setSelectedIndex(k);
       setTick([...tick, i.sub_category_id]);
@@ -373,12 +403,12 @@ const AdvanceBuilder = (props) => {
         total += parseFloat(data[i]['price'])
       }
       setTotalPrice(total.toFixed(3))
+     
       let index = selectStatus.find(obj => obj.status === false);
       if (!index) {
         setShowSubmit(true)
       }
       else if(fromCart === 1){
-        console.log("select item ")
         setShowSubmit(true)
       }
   }
@@ -609,11 +639,17 @@ const AdvanceBuilder = (props) => {
                                 source={TickImage}
                                 style={styles.tick}
                               /> : null}
-
-                              <Image style={styles.subImage}
+                              {part.logo !== ""?(
+                                <Image style={styles.subImage}
                                 resizeMode="contain"
                                 source={{uri:part.logo}}
                               />
+                              ):(
+                                <Image style={styles.subImage}
+                                resizeMode="contain"
+                                source={thumbnail}/>
+                              )}
+                              
                               <Text
                                 style={styles.subName}
                                 numberOfLines={2}
@@ -721,19 +757,7 @@ const AdvanceBuilder = (props) => {
                         }}
                         numColumns={2}
                       />
-                      {/* {showSubmit ?
-                        <TouchableOpacity onPress={() => { finalSubmit() }}>
-                          <View style={styles.nextBtn}>
-                            <NextBtn name='Submit' price={totalPrice} />
-                          </View>
-                        </TouchableOpacity> :
-                        checkSelectedForNext() ?
-                          <TouchableOpacity onPress={() => { setFilterApplied({}); submitNow() }}>
-                            <View style={styles.nextBtn}>
-                              <NextBtn name='Next' price={totalPrice} />
-                            </View>
-                          </TouchableOpacity>
-                          : null} */}
+                      
                     </View> :filteredDataSource.length === 0 ?(
                       <Text style={{
                         color: "#fff",
