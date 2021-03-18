@@ -239,7 +239,7 @@ const AdvanceBuilder = (props) => {
     }catch(e){
       console.log("final submit error "+e)
     }
-    // setLoadingItem(false)
+     setLoadingItem(false)
   }
 
   const submitNow = (ids) => {
@@ -698,8 +698,8 @@ const AdvanceBuilder = (props) => {
                         data={filteredDataSource}
                         renderItem={({ item }, index) => {
                           const maxlimit = 22;
-                          console.log("75847586568567567867867")
-                          console.log(loadingItem)
+                          // console.log("75847586568567567867867")
+                          // console.log(loadingItem)
                           return (
                             
                             <TouchableOpacity onPress={() => {
