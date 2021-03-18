@@ -252,6 +252,7 @@ const AdvanceBuilder = (props) => {
      let objIndex = selectStatus.findIndex((obj => obj.id == subCategoryId));
      const statusOfSelect =  selectStatus[objIndex].status;
      if(statusOfSelect === false){
+      setLoadingItem(false)
       setStatus(subCategoryId)
       i = selectedIndex + 1;
       setSelectedIndex(i)
