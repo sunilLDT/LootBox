@@ -1290,7 +1290,7 @@ const Cart = (props) => {
                         opacity: 0.8,
                         fontFamily: 'Montserrat-Medium',
                       }}>
-                      {labels.summary} ({" "+ Object.keys(cartData).length === 0 ? "0" : cartData.total_items}
+                      {labels.summary} ({" "+ Object.keys(cartData).length === 0 ? "0" : cartData.total_items}&nbsp;
                       { cartData.total_items === 1 ? labels.item : labels.items})
                     </Text>
                   </View>

@@ -100,11 +100,13 @@ const ItemListing = (props) => {
             onChangeText={queryText => handleSearch(queryText)}
             containerStyle={{
               backgroundColor:'#D2D7F9',
-              marginBottom: 20,
+              marginBottom: 10,
               marginHorizontal: width * 0.1,
               borderRadius:20,
              }}
              inputContainerStyle={{ height: 30,backgroundColor:'#D2D7F9'}}
+             inputStyle={{padding:0}}
+
           />
         ) : null}
       </>

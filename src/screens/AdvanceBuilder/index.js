@@ -69,6 +69,7 @@ const AdvanceBuilder = (props) => {
   const [block,setBlock] = useState(0);
   const maxlimit = 20;
   const [arOren, setarOren] = useState('en');
+  const [loadingItem, setLoadingItem] = useState(false)
   const kd = labels.kD;
   languagename().then((res) => setarOren(res));
 
@@ -114,6 +115,7 @@ const AdvanceBuilder = (props) => {
         setCartAddedFilterItems(response.data)
         selectedSubCategoryAdvance(response.data)
         setItemList(response.data)
+        
         var total = 0
         for (var i = 0, _len = response.data.length; i < _len; i++) {
           total += parseFloat(response.data[i]['price'])
@@ -137,6 +139,7 @@ const AdvanceBuilder = (props) => {
       }
     });
     getStatus(props.categories);
+    
   }, [propsFocused]);
 
   const getStatus = (arr) => {
@@ -187,6 +190,7 @@ const AdvanceBuilder = (props) => {
       advancedBuilderItems(id, filterValues.filter_custome_field_id, filterValues.filter_custome_values).then((response) => {
         setItems(response.data)
         setFilteredDataSource(response.data)
+        setLoadingItem(false)
       })
     } else {
         let objIndex = selectStatus.findIndex(obj => obj.id === subCatId);
@@ -200,6 +204,7 @@ const AdvanceBuilder = (props) => {
           advancedBuilderItems(id, filterValues.filter_custome_field_id, filterValues.filter_custome_values).then((response) => {
             setItems(response.data)
             setFilteredDataSource(response.data)
+            setLoadingItem(false)
           })
         }
     }
@@ -219,6 +224,7 @@ const AdvanceBuilder = (props) => {
   }
 
   const finalSubmit = async () => {
+    setLoadingItem(true)
     try{
       if(fromCart === 1 && ItemToDelete.length !== 0){
         const removeitemConst = await removeItemAPI(ItemToDelete);
@@ -233,9 +239,11 @@ const AdvanceBuilder = (props) => {
     }catch(e){
       console.log("final submit error "+e)
     }
+    // setLoadingItem(false)
   }
 
   const submitNow = (ids) => {
+    setLoadingItem(true)
     scrollRef.current?.scrollTo({
       animated: true,
     });
@@ -281,6 +289,7 @@ const AdvanceBuilder = (props) => {
       else{
         setPopModal(true);
         setContentModal(labels.selectoneitem);
+        setLoadingItem(false)
       }
       
     }
@@ -293,6 +302,7 @@ const AdvanceBuilder = (props) => {
     if (!index) {
       setShowSubmit(true)
     }
+    // setLoadingItem(false)
   }
 
   
@@ -340,6 +350,7 @@ const AdvanceBuilder = (props) => {
       }
       setSelectedIndex(k);
       setTick([...tick, i.sub_category_id]);
+      
     }
 
     var data = itemList;
@@ -482,6 +493,7 @@ const AdvanceBuilder = (props) => {
       setItems(response.data)
       setFilteredDataSource(response.data)
     })}
+
   }, [filterValues, subCategoryId,propsFocused])
 
   const handleFilters = (filterValues) => {
@@ -570,11 +582,12 @@ const AdvanceBuilder = (props) => {
               onChangeText={(text) => searchFilterFunction(text)}
               containerStyle={{
                 backgroundColor: '#D2D7F9',
-                marginBottom: 20,
+                marginBottom: 10,
                 marginHorizontal: width * 0.1,
                 borderRadius: 20,
               }}
-              inputContainerStyle={{ height: 30, backgroundColor: '#D2D7F9',}}
+              inputContainerStyle={{ height: 36, backgroundColor: '#D2D7F9',}}
+              inputStyle={{padding:0}}
             /> : open &&  arOren == "ar"?(
               <SearchBar
               placeholder={props.labels.typeHere}
@@ -583,13 +596,13 @@ const AdvanceBuilder = (props) => {
               onChangeText={(text) => searchFilterFunction(text)}
               containerStyle={{
                 backgroundColor: '#D2D7F9',
-                marginBottom: 20,
+                marginBottom: 10,
                 marginHorizontal: width * 0.1,
                 borderRadius: 20,
               }}
-              inputContainerStyle={{ height: 30, backgroundColor: '#D2D7F9',}}
-              inputStyle={{ textAlign:"right"}}
-            />
+              inputContainerStyle={{ height: 38, backgroundColor: '#D2D7F9',}}
+              inputStyle={{paddingTop:5,marginTop:5, textAlign:"right"}}
+              />
             ):null}
           {props.loadingCat ? (
             <View style={{ marginTop: height * 0.37 }}>
@@ -678,12 +691,17 @@ const AdvanceBuilder = (props) => {
                   </View>
                   {items ?
                     <View style={styles.flatlistContainer}>
+                     {
+                    loadingItem ? <View style={{ marginTop: height * 0.20 }}><ActivityIndicator  color="#ECDBFA" size="large"  /></View>:
                       <FlatList
                         keyExtractor={(item) => item.item_id}
                         data={filteredDataSource}
                         renderItem={({ item }, index) => {
                           const maxlimit = 22;
+                          console.log("75847586568567567867867")
+                          console.log(loadingItem)
                           return (
+                            
                             <TouchableOpacity onPress={() => {
                             selectItem(item,cartItemId) 
                             // onPressTouch()
@@ -753,10 +771,15 @@ const AdvanceBuilder = (props) => {
                                 styleForArrow={1}
                               />
                             </TouchableOpacity>
+                            
                           );
                         }}
                         numColumns={2}
                       />
+                     }
+
+
+                      
                       
                     </View> :filteredDataSource.length === 0 ?(
                       <Text style={{

@@ -590,12 +590,13 @@ const LootStore = (props) => {
             onChangeText={(text) => searchFilterFunction(text)}
             containerStyle={{
               backgroundColor: '#D2D7F9',
-              marginBottom: 20,
+              marginBottom: 10,
               marginHorizontal: width * 0.1,
               borderRadius: 20,
             }}
-            inputContainerStyle={{height: 35, backgroundColor: '#D2D7F9',}}
-          />
+            inputContainerStyle={{height: 36,marginTop:0, backgroundColor: '#D2D7F9',}}
+            inputStyle={{padding:0}}
+                      />
         ) :open &&  arOren == "ar"?(
           <SearchBar
             placeholder={props.labels.typeHere}
@@ -605,12 +606,12 @@ const LootStore = (props) => {
             onChangeText={(text) => searchFilterFunction(text)}
             containerStyle={{
               backgroundColor: '#D2D7F9',
-              marginBottom: 20,
+              marginBottom: 10,
               marginHorizontal: width * 0.1,
               borderRadius: 20,
             }}
-            inputContainerStyle={{height: 35, backgroundColor: '#D2D7F9',}}
-            inputStyle={{ textAlign:"right"}}
+            inputContainerStyle={{height: 38,marginTop:0, backgroundColor: '#D2D7F9',}}
+            inputStyle={{paddingTop:5,marginTop:5, textAlign:"right"}}
           />
         ):null}
         <View

@@ -45,6 +45,7 @@ const BuildYourPc = ({ navigation, labels }) => {
   const [contentModal, setContentModal] = useState('');
   const [chooseModal,setChooseModal] = useState(false);
   const [reso,setRes] = useState('1080P');
+ console.log( selected)
   languagename().then(res => setarOren(res))
 
   useEffect(() => {
@@ -364,6 +365,8 @@ const BuildYourPc = ({ navigation, labels }) => {
                    borderRadius: 20,
                   }}
                 inputContainerStyle={{ height: 30, backgroundColor: '#D2D7F9',}}
+                inputStyle={{padding:0}}
+
               />
             ) : open &&  arOren == "ar"?(
               <SearchBar
@@ -380,8 +383,8 @@ const BuildYourPc = ({ navigation, labels }) => {
                    borderRadius: 20,
                   }}
                 inputContainerStyle={{ height: 30, backgroundColor: '#D2D7F9',}}
-                inputStyle={{ textAlign:"right"}}
-              />
+                inputStyle={{paddingTop:5,marginTop:5, textAlign:"right"}}
+                />
             ):null}
           </View>
           {loading ? (
