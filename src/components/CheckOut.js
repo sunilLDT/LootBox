@@ -13,10 +13,10 @@ const CheckOut = (props) => {
     const _onNavigationStateChange = (webViewState) => {
         var fullUrl = webViewState.url;
         var msgUrl = fullUrl.substring(0, 56);
-        console.log(msgUrl)
+        
         // if(msgUrl == "https://test-api.loot-box.co/api/hesabe-success-callback" || msgUrl == "https://test-api.loot-box.co/api/hesabe-error-callback"){
         if (msgUrl.includes('hesabe-success-callback')) {
-            props.navigation.navigate('alertMessage', { msgUrl: msgUrl });
+            props.navigation.navigate('alertMessage', { msgUrl: msgUrl,labels: labels});
         } else if (msgUrl.includes('hesabe-error-callback')) {
             alert(labels.paymentFailed)
             props.navigation.navigate('cart')

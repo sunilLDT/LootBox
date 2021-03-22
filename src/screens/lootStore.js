@@ -20,8 +20,6 @@ import {
 } from 'react-native';
 import GradientCircle from '../components/gradientCircle';
 import LinearGradient from 'react-native-linear-gradient';
-import {useIsFocused} from '@react-navigation/native';
-
 import {Context as AuthContext} from '../api/contexts/authContext';
 import SmallLGBtn from './smallLGBtn';
 import {SearchBar} from 'react-native-elements';
@@ -62,7 +60,6 @@ const LootStore = (props) => {
   const [search, setSearch] = useState('');
   const [open, setOpen] = useState(false);
   const [filter, setFilter] = useState(false);
-  const [callOnScrollEnd, setCallOnScrollEnd] = useState(false);
   const [allfilter, setAllfilter] = useState(false);
   const [allfilterId, setAllfilterId] = useState({});
   const [all1, setAll1] = useState();
@@ -654,54 +651,57 @@ const LootStore = (props) => {
 
         {data ? (
           <View style={{width: '100%'}}>
-            <ScrollView
-              style={{
-                marginVertical: 20,
-              }}
-              contentContainerStyle={{
-                display: 'flex',
-                flexDirection: 'row',
-                width: '100%',
-                justifyContent: 'space-around',
-                paddingHorizontal: width * 0.05,
-              }}
-              showsVerticalScrollIndicator={false}
-              horizontal>
-              {categories.map((i, k) => {
-              return (
-                <TouchableOpacity
-                  onPress={() => {
-                    setCurrent(i.index);
-                    changeCategory(0);
-                    setPage(1);
-                    setOpen(false);
-                    onPressTouch(k);
-                    setIsFocused(true);
-                    // setIsRoll(true);
-                  }}
-                  key={i.index}>
-                  {i.index === current && (
-                    <GradientCircle
+            <View >
+              <ScrollView
+              alwaysBounceHorizontal={true}
+                style={{
+                  marginVertical: 20,
+                }}
+                contentContainerStyle={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  width: '100%',
+                  justifyContent: 'space-around',
+                  paddingHorizontal: width * 0.06,
+                }}
+                horizontal>
+                {categories.map((i, k) => {
+                return (
+                  <TouchableOpacity
+                    onPress={() => {
+                      setCurrent(i.index);
+                      changeCategory(0);
+                      setPage(1);
+                      setOpen(false);
+                      onPressTouch(k);
+                      setIsFocused(true);
+                      // setIsRoll(true);
+                    }}
+                    key={i.index}>
+                    {i.index === current && (
+                      <GradientCircle
+                        style={{
+                          position: 'absolute',
+                        }}
+                      />
+                    )}
+                    <Text
                       style={{
-                        position: 'absolute',
-                      }}
-                    />
-                  )}
-                  <Text
-                    style={{
-                      fontSize: 14,
-                      fontFamily: 'Montserrat-Bold',
-                      lineHeight: 16,
-                      color: '#ECDBFA',
-                      opacity: i.index === current ? 1 : 0.4,
-                      marginLeft: i.index === current ? 10 : 0,
-                    }}>
-                    {i.name}
-                  </Text>
-                </TouchableOpacity>
-              );
-            })}
-            </ScrollView>
+                        fontSize:arOren == "ar"?12: 14,
+                        fontFamily: 'Montserrat-Bold',
+                        lineHeight: 16,
+                        color: '#ECDBFA',
+                        opacity: i.index === current ? 1 : 0.4,
+                        marginLeft: i.index === current ? 10 : 0,
+                      }}>
+                      {i.name}
+                    </Text>
+                    
+                  </TouchableOpacity>
+                );
+              })}
+              </ScrollView>
+            </View>
 
             <View style={{width: '100%',alignItems: 'flex-start',}}>
               <ScrollView

@@ -148,7 +148,8 @@ const Orders = ({ navigation, labels }) => {
                   fontSize: 20,
                   lineHeight: 28,
                   color: '#ECDBFA',
-                  marginTop: "45%",
+                  marginTop: "50%",
+                  marginRight:"10%"
                 }}>
                   {labels.noOrder}
               </Text>

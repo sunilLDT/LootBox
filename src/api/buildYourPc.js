@@ -169,8 +169,13 @@ export async function addAddressApi(city, areas, addressType, name, block, stree
     floor:floor,
     address: "",
   }
-  const response = await Api.post('app/user/add-address', addressData);
-  return response.data;
+  try{
+    const response = await Api.post('app/user/add-address', addressData);
+    return response.data;
+  }catch(e){
+    return e.response.data;
+  }
+  
 }
 
 export async function addressListApi() {

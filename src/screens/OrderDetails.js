@@ -88,7 +88,7 @@ const OrderDetails = (props) => {
     return total
   }
  
-  handleClick = (url) => {
+  const  handleClick = (url) => {
     Linking.canOpenURL(url).then(supported => {
       if (supported) {
         Linking.openURL(url);
@@ -665,15 +665,14 @@ const OrderDetails = (props) => {
                           paddingLeft: 20,
                         }}>
                         {orderDetails.address.name + ":- "}
-                        {orderDetails.address.building +" "}
-                        {orderDetails.address.floor +" "}
-                        {orderDetails.address.floor !== null? "Floor: "+orderDetails.address.floor + " ":null}
-                        {orderDetails.address.apartment !== null?orderDetails.address.apartment + " ":null}
-                        {orderDetails.address.street +" "}
-                        {orderDetails.address.block +" "}
-                        {orderDetails.address.avenue + " "}
-                        {orderDetails.address.area_name +" "}
-                        {orderDetails.address.city_name +" "}
+                        {"House: "+orderDetails.address.building +""}
+                        {orderDetails.address.floor !== null? "Floor: "+orderDetails.address.floor + ", ":null}
+                        {orderDetails.address.apartment !== null?"Apartment: "+orderDetails.address.apartment + ", ":null}
+                        {orderDetails.address.avenue !== null?"Avenue: "+orderDetails.address.avenue + ", ":null}
+                        {"Street: "+orderDetails.address.street +", "}
+                        {"Block: "+orderDetails.address.block +", "}
+                        {"Area: "+orderDetails.address.area_name +", "}
+                        {"City: "+orderDetails.address.city_name +", "}
                       </Text>
                     ) : <Text
                       style={{
@@ -951,14 +950,14 @@ const OrderDetails = (props) => {
                           opacity: 0.87,
                         }}>
                         
-                        {orderDetails.address.building + " "}
-                        {orderDetails.address.block + " "}
-                        {orderDetails.address.apartment + " "}
-                        {orderDetails.address.floor + " "}
-                        {orderDetails.address.avenue + " "}
-                        {orderDetails.address.street + " "}
-                        {orderDetails.address.area_name + " "}
-                        {orderDetails.address.city_name + " "}
+                        {"House: "+orderDetails.address.building + ""}
+                        {orderDetails.address.floor !== null? "Floor:"+orderDetails.address.floor + ", ":null}
+                        {orderDetails.address.apartment !== null?"Apartment: "+ orderDetails.address.apartment + ", ":null}
+                        {orderDetails.address.avenue !== null?"Avenue: "+orderDetails.address.avenue + ", ":null}
+                        {"Block: "+orderDetails.address.block + ", "}
+                        {"Street: "+orderDetails.address.street + ", "}
+                        {"Area: "+orderDetails.address.area_name + ", "}
+                        {"City: "+orderDetails.address.city_name + " "}
                         
                       </Text>
                     </View>

@@ -33,8 +33,6 @@ function specificAdddress(addId){
   return (dispatch) => {
     dispatch(request(addId));
     getSpecificAddress(addId).then((response) => {
-      console.log("show address ======== ")
-      console.log(response.data)
       dispatch(success(response.data));
     }).catch((error) => {
       console.log("specificaddress" + error);

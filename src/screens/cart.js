@@ -475,14 +475,14 @@ const Cart = (props) => {
                               }
                               <Text style={styles.addressList}>
                                 {addValues.name+ ":- "}
-                                {"House: "+ addValues.building+ " "}
+                                {"House: "+ addValues.building+ ", "}
                                 {addValues.floor !== null? "Floor: "+addValues.floor + " ":null}
-                                {addValues.apartment !== null?addValues.apartment + " ":null}
-                                {addValues.avenue !== null ?addValues.avenue +" ":null}
-                                {addValues.street + " "}
-                                {addValues.block + " "}
-                                {addValues.area_name + " "}
-                                {addValues.city_name}
+                                {addValues.apartment !== null? "Apartment: "+addValues.apartment + " ":null}
+                                {addValues.avenue !== null ? "Avenue: "+addValues.avenue +" ":null}
+                                {"Street: "+addValues.street + " "}
+                                {"Block: "+addValues.block + " "}
+                                {"Area: "+addValues.area_name + " "}
+                                {"City: "+addValues.city_name}
                               </Text>
                             </View>
                             {addValues.is_default == 1 ? <Icon name="check-circle" size={25} color="#fff" style={styles.icon} /> : null}
@@ -1186,7 +1186,7 @@ const Cart = (props) => {
                 color: '#DF2EDC',
               }}
               >
-               {labels.deliveryTo}
+               {labels.deliverTo}
               </Text>
               {props.address?props.address.length === 1?(
               <View 
@@ -1207,13 +1207,14 @@ const Cart = (props) => {
                     flexShrink: 1,
                 }}>
                   
-                  {props.address[0].building+ " "},
-                  {props.address[0].block+ " "},
-                  {props.address[0].street+ " "},
-                  {props.address[0].apartment+ " "},
-                  {props.address[0].floor+ " "}
-                  {props.address[0].city_name + " "},
-                  {props.address[0].area_name+ " "},
+                  {"House: "+props.address[0].building + ", "}
+                  {props.address[0].floor !== null? "Floor: "+props.address[0].floor + ", ":null}
+                  {props.address[0].apartment !== null?"Apartment: "+props.address[0].apartment + ", ":null}
+                  {props.address[0].avenue !== null ?"Avenue: "+props.address[0].avenue +", ":null}
+                  {"Street: "+props.address[0].street+ ", "}
+                  {"Block: "+props.address[0].block+ ", "}
+                  {"Area: "+props.address[0].area_name+ ", "}
+                  {"City: "+props.address[0].city_name }
                 </Text>
               </View>
               ):props.address?props.address.map((addValues,index) => {
@@ -1232,13 +1233,13 @@ const Cart = (props) => {
                       }}>
                         <Text >{addValues.name+":- "}</Text>
                         {"House: "+addValues.building + ", "}
-                        {addValues.floor !== null? "Floor: "+addValues.floor + " ":null}
-                        {addValues.apartment !== null?addValues.apartment + " ":null}
-                        {addValues.avenue !== null ?addValues.avenue +" ":null}
-                        {addValues.street + ", "}
-                        {addValues.block + ", "}
-                        {addValues.area_name + ", "}
-                        {addValues.city_name}
+                        {addValues.floor !== null? "Floor: "+addValues.floor + ", ":null}
+                        {addValues.apartment !== null?"Apartment: "+addValues.apartment + ", ":null}
+                        {addValues.avenue !== null ?"Avenue: "+addValues.avenue +", ":null}
+                        {"Street: "+addValues.street + ", "}
+                        {"Block: "+addValues.block + ", "}
+                        {"Area: "+addValues.area_name + ", "}
+                        {"City: "+addValues.city_name}
                     </Text>: null}
                   </View>
                 );
@@ -1578,14 +1579,15 @@ const styles = StyleSheet.create({
   },
   addressList: {
     color: 'rgba(255,255,255,0.8)',
-    padding: 8,
+    paddingHorizontal:10
   },
   addressType: {
     backgroundColor: '#353240',
     color: '#fff',
     paddingHorizontal: 10,
     borderRadius: 10,
-    paddingTop: 12,
+    padding:10,
+    alignSelf:'center'
   },
   addressContainer: {
     display: 'flex',
@@ -1593,7 +1595,7 @@ const styles = StyleSheet.create({
     width: width * 0.5,
   },
   icon: {
-    padding: 10,
+    paddingVertical:10,
   },
   bottom: {
     flex: 1,

@@ -204,10 +204,11 @@ const Profile = (props) => {
         else{
           console.log("Respomse URL : "+ data.Location);
           uploadImageApi(data.Location).then((response) => {
+            props.sendaction();
             setImageLoader(false)
             setPopModal(true);
             setContentModal(response.message);
-            props.sendaction();
+            
           }).catch((error) => {
             console.log("ImageUploadProfile" + error);
             setImageLoader(false)
@@ -381,7 +382,7 @@ const Profile = (props) => {
                         </Text>
 
                       </View>
-                    {!imageLoader ?(
+                    {!imageLoader || !props.profileLoader ?(
                     <TouchableOpacity
                       style={{ width: "40%" }}
                       onPress={() => handleChoosePhoto()}>

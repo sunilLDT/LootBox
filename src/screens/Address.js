@@ -15,7 +15,7 @@ import { Picker } from '@react-native-picker/picker';
 import Input from '../components/input';
 import SmallInput from '../components/SmallInput';
 import LinearGradient from 'react-native-linear-gradient';
-import { cityApi, addAddressApi, getSpecificAddress } from '../api/buildYourPc';
+import { cityApi, addAddressApi } from '../api/buildYourPc';
 import SaveBtn from '../components/SaveBtn';
 import { connect } from 'react-redux';
 import { addressActions } from '../actions/address';
@@ -141,12 +141,11 @@ const Address = (props) => {
             setContentModal(labels.pleaseSelectArea)
         }
         else {
-            
             setLoadingBtn(true)
             addAddressApi(selectedCity, selectedArea, addressType, name, block, street, building, floor, apartment,avenue, address_id).then((response) => {
                 props.showAddress();
                 setLoadingBtn(false)
-                if (response.message) {
+                if (response.code == 200) {
                     setaddressModal(true);
                     setContentModal(response.message)
                     setMove(1)
@@ -165,14 +164,20 @@ const Address = (props) => {
                             }
                         })
                     })
+                }else{
+                    setaddressModal(true);
+                    setContentModal(response.message)
+                    console.log("AddAddress" + error)
+                    setLoadingBtn(false)
                 }
-            }).catch((error) => {
-               
-                setaddressModal(true);
-                setContentModal(labels.somethingWentWrong)
-                console.log("AddAddress" + error)
-                setLoadingBtn(false)
             })
+
+            // .catch((error) => {
+            //     setaddressModal(true);
+            //     setContentModal(labels.somethingWentWrong)
+            //     console.log("AddAddress" + error)
+            //     setLoadingBtn(false)
+            // })
         }
     }
 

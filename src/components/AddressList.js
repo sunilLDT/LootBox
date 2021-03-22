@@ -49,7 +49,14 @@ const AddressList = (props) => {
                             marginRight:arOren == "ar"?"3%":"0%",
                             width:"80%"
                         }}>
-                    <Text style={{fontSize:14,fontWeight:'bold'}}>{values.name+ ": "}</Text>{values.area_name+ " "},{values.city_name}
+                    <Text style={{fontSize:14,fontWeight:'bold'}}>{values.name+ ": "}</Text>
+                        {values.floor !== null? "Floor: "+values.floor + ", ":null}
+                        {values.apartment !== null?"Apartment: "+ values.apartment + ", ":null}
+                        {values.avenue !== null?"Avenue: "+ values.avenue + ", ":null}
+                        {"Street: "+values.street + ", "}
+                        {"Block: "+values.block + ", "}
+                        {"Area: "+values.area_name + ", "}
+                        {"City: "+values.city_name}
                     </Text>
                 </View>
             ):(
@@ -72,7 +79,20 @@ const AddressList = (props) => {
                             width:"80%",
                             
                         }}>
-                    <Text style={{fontSize:14,fontWeight:'bold'}}>{values.name+ ": "}</Text>{values.area_name + " "},{values.city_name}
+                    <Text style={{
+                        fontSize:14,
+                        fontWeight:'bold'
+                        }}
+                    >
+                        {values.name+ ": "}
+                    </Text>
+                        {values.floor !== null? "Floor: "+values.floor + ", ":null}
+                        {values.apartment !== null?"Apartment: "+ values.apartment + ", ":null}
+                        {values.avenue !== null?"Avenue: "+ values.avenue + " ,":null}
+                        {"Street: "+values.street + ", "}
+                        {"Block: "+values.block + ", "}
+                        {"Area: "+values.area_name + ", "}
+                        {"City: "+values.city_name}
                     </Text>
                 </View>
             )}  
@@ -90,7 +110,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         width: '100%',
-        marginVertical:20,
+        marginVertical:30,
         borderColor:'#ffffff',
         borderWidth:0,
         flex:1,

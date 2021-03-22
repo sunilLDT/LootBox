@@ -20,6 +20,7 @@ import SecondaryBtn from '../components/SecondaryBtn';
 const { width, height } = Dimensions.get('window');
 
 const AlertMessage = (props) => {
+    const { labels } = props.route.params;
     useEffect(() => {
         props.empty();
         props.add();
@@ -32,6 +33,7 @@ const AlertMessage = (props) => {
     }
 
     const { msgUrl } = props.route.params;
+   
     return (
         <ImageBackground
             source={require('../assets/signup.png')}
@@ -39,14 +41,14 @@ const AlertMessage = (props) => {
             <SafeAreaView style={styles.mainContainer}>
 
                 <View style={styles.container}>
-                    {msgUrl == "https://test-api.loot-box.co/api/hesabe-success-callback" ||msgUrl == "success"  ?
+                    {msgUrl.includes('hesabe-success-callback') ||msgUrl == "success"  ?
                      <Image style={styles.checkImage} source={require('../assets/check.png')} />
                       : 
-                      <Icons name="x" size={35}
+                      <Icons name="alert-circle" size={35}
                         style={styles.cross}
                      />
                     }
-                    {msgUrl == "https://test-api.loot-box.co/api/hesabe-success-callback" ||msgUrl == "success" ? <Text style={styles.msg}>{props.labels.order}{"\n"}{props.labels.successful}</Text> : <Text style={styles.msg}>props.labels.order{"\n"}props.labels.failed</Text>}
+                    {msgUrl.includes('hesabe-success-callback') ||msgUrl == "success" ? <Text style={styles.msg}>{props.labels.order}{"\n"}{props.labels.successful}</Text> : <Text style={styles.msg}>{props.labels.order}{"\n"}{props.labels.failed}</Text>}
                     {/* {msgUrl == "https://test-api.loot-box.co/api/hesabe-success-callback" ||msgUrl == "success" ? <Text style={styles.line}>Your Order will be delivered{"\n"}between 48-72 Hours</Text> : <Text style={styles.line}>You can try again !</Text>} */}
                 </View>
                 <View style={styles.btnCotainer}>
