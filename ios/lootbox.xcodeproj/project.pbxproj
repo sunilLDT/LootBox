@@ -11,8 +11,8 @@
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		1854806125FA6BC500A84010 /* assets in Resources */ = {isa = PBXBuildFile; fileRef = 1854806025FA6BC500A84010 /* assets */; };
-		1854806A25FA6D0500A84010 /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = 008F07F21AC5B25A0029DE68 /* main.jsbundle */; };
+		1835C105260398B600C9AF7A /* assets in Resources */ = {isa = PBXBuildFile; fileRef = 1854806025FA6BC500A84010 /* assets */; };
+		1835C10A260398C400C9AF7A /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = 008F07F21AC5B25A0029DE68 /* main.jsbundle */; };
 		18EB85C125F88BA2004C4847 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 18EB85C025F88BA2004C4847 /* GoogleService-Info.plist */; };
 		271413B525E0AF8F007B0D10 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 271413B425E0AF8F007B0D10 /* HealthKit.framework */; };
 		2D02E4BC1E0B4A80006451C7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
@@ -439,8 +439,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1854806A25FA6D0500A84010 /* main.jsbundle in Resources */,
-				1854806125FA6BC500A84010 /* assets in Resources */,
+				1835C10A260398C400C9AF7A /* main.jsbundle in Resources */,
+				1835C105260398B600C9AF7A /* assets in Resources */,
 				18EB85C125F88BA2004C4847 /* GoogleService-Info.plist in Resources */,
 				CDE6B21D258867D2001C939A /* Montserrat-BoldItalic.ttf in Resources */,
 				CDE6B21F25886A04001C939A /* Montserrat-BlackItalic.ttf in Resources */,
