@@ -641,7 +641,9 @@ const OrderDetails = (props) => {
                     height: 75,
                     flexDirection: 'row',
                   }}>
-                  <View style={{}}>
+                  <View style={{
+                    // marginHorizontal:7
+                    }}>
                     <Text
                       style={{
                         fontFamily: 'Montserrat-Regular',
@@ -652,7 +654,7 @@ const OrderDetails = (props) => {
                         marginVertical: 5
                       }}>
                      {labels.deliverTo}
-              </Text>
+                    </Text>
                     {orderDetails.address !== null ? (
                       <Text
                         numberOfLines={3}
@@ -665,14 +667,14 @@ const OrderDetails = (props) => {
                           paddingLeft: 20,
                         }}>
                         {orderDetails.address.name + ":- "}
-                        {"House: "+orderDetails.address.building +""}
+                        {"House: "+orderDetails.address.building +", "}
                         {orderDetails.address.floor !== null? "Floor: "+orderDetails.address.floor + ", ":null}
                         {orderDetails.address.apartment !== null?"Apartment: "+orderDetails.address.apartment + ", ":null}
                         {orderDetails.address.avenue !== null?"Avenue: "+orderDetails.address.avenue + ", ":null}
                         {"Street: "+orderDetails.address.street +", "}
                         {"Block: "+orderDetails.address.block +", "}
                         {"Area: "+orderDetails.address.area_name +", "}
-                        {"City: "+orderDetails.address.city_name +", "}
+                        {"City: "+orderDetails.address.city_name }
                       </Text>
                     ) : <Text
                       style={{
@@ -950,14 +952,14 @@ const OrderDetails = (props) => {
                           opacity: 0.87,
                         }}>
                         
-                        {"House: "+orderDetails.address.building + ""}
+                        {"House: "+orderDetails.address.building + ", "}
                         {orderDetails.address.floor !== null? "Floor:"+orderDetails.address.floor + ", ":null}
                         {orderDetails.address.apartment !== null?"Apartment: "+ orderDetails.address.apartment + ", ":null}
                         {orderDetails.address.avenue !== null?"Avenue: "+orderDetails.address.avenue + ", ":null}
                         {"Block: "+orderDetails.address.block + ", "}
                         {"Street: "+orderDetails.address.street + ", "}
                         {"Area: "+orderDetails.address.area_name + ", "}
-                        {"City: "+orderDetails.address.city_name + " "}
+                        {"City: "+orderDetails.address.city_name }
                         
                       </Text>
                     </View>
