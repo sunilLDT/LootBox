@@ -456,7 +456,7 @@ const Cart = (props) => {
                       <Text style={styles.addAddress}>{labels.addAddress}</Text>
                     </TouchableOpacity>
                   </View>
-                  {props.address ? props.address.map((addValues, index) => {
+                  {!props.load ? props.address.map((addValues, index) => {
                     return (
                         <TouchableOpacity key={index} onPress={() => defaultAddressfun(addValues.address_id)}>
                           <View style={styles.addressDialouge} >
@@ -478,7 +478,7 @@ const Cart = (props) => {
                                 {"House: "+ addValues.building+ ", "}
                                 {addValues.floor !== null? "Floor: "+addValues.floor + " ":null}
                                 {addValues.apartment !== null? "Apartment: "+addValues.apartment + " ":null}
-                                {addValues.avenue !== null ? "Avenue: "+addValues.avenue +" ":null}
+                                {addValues.avenue !== null && addValues.avenue !== ""? "Avenue: "+addValues.avenue +" ":null}
                                 {"Street: "+addValues.street + " "}
                                 {"Block: "+addValues.block + " "}
                                 {"Area: "+addValues.area_name + " "}
@@ -489,7 +489,9 @@ const Cart = (props) => {
                           </View>
                         </TouchableOpacity>
                     );
-                  }) : null}
+                  }) :(<View>
+                    <ActivityIndicator color="#ECDBFA" size="small" />
+                  </View>)}
                 </DialogContent>
                 </ScrollView>
               </Dialog>
@@ -1210,7 +1212,7 @@ const Cart = (props) => {
                   {"House: "+props.address[0].building + ", "}
                   {props.address[0].floor !== null? "Floor: "+props.address[0].floor + ", ":null}
                   {props.address[0].apartment !== null?"Apartment: "+props.address[0].apartment + ", ":null}
-                  {props.address[0].avenue !== null ?"Avenue: "+props.address[0].avenue +", ":null}
+                  {props.address[0].avenue !== null && props.address[0].avenue !== "" ?"Avenue: "+props.address[0].avenue +", ":null}
                   {"Street: "+props.address[0].street+ ", "}
                   {"Block: "+props.address[0].block+ ", "}
                   {"Area: "+props.address[0].area_name+ ", "}
@@ -1235,7 +1237,7 @@ const Cart = (props) => {
                         {"House: "+addValues.building + ", "}
                         {addValues.floor !== null? "Floor: "+addValues.floor + ", ":null}
                         {addValues.apartment !== null?"Apartment: "+addValues.apartment + ", ":null}
-                        {addValues.avenue !== null ?"Avenue: "+addValues.avenue +", ":null}
+                        {addValues.avenue !== null && addValues.avenue !== "" ?"Avenue: "+addValues.avenue +", ":null}
                         {"Street: "+addValues.street + ", "}
                         {"Block: "+addValues.block + ", "}
                         {"Area: "+addValues.area_name + ", "}
@@ -1642,6 +1644,7 @@ const mapStateToProps = (state) => ({
   cart: state.cartReducer.cart,
   address: state.addressReducer.address,
   labels:state.languageReducer.labels,
+  load:state.addressReducer.load,
 })
 
 const actionCreators = {

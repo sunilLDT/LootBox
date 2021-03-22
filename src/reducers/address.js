@@ -5,6 +5,7 @@ const initialState = {
     addAddressError: false,
     specificAdddressArray:{},
     loading:false,
+    load:false,
   };
 
   export default function (state = initialState, action) {
@@ -13,16 +14,19 @@ const initialState = {
         return {
             ...state,
             address:action.addresses,
+            load:true,
         };
         case cartConstants.SHOW_ADDRESS_FAILURE:
         return {
             ...state,
             addAddressError:true,
+            load:false,
         };
         case cartConstants.SHOW_ADDRESS_SUCCESS:
         return {
             ...state,
             address:action.addresses,
+            load:false,
         };
         case cartConstants.SHOW_SPECIFIC_ADDRESS:
         return {

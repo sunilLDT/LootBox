@@ -52,7 +52,7 @@ const AddressList = (props) => {
                     <Text style={{fontSize:14,fontWeight:'bold'}}>{values.name+ ": "}</Text>
                         {values.floor !== null? "Floor: "+values.floor + ", ":null}
                         {values.apartment !== null?"Apartment: "+ values.apartment + ", ":null}
-                        {values.avenue !== null?"Avenue: "+ values.avenue + ", ":null}
+                        {values.avenue !== null && values.avenue !== ""?"Avenue: "+ values.avenue + ", ":null}
                         {"Street: "+values.street + ", "}
                         {"Block: "+values.block + ", "}
                         {"Area: "+values.area_name + ", "}
@@ -88,7 +88,7 @@ const AddressList = (props) => {
                     </Text>
                         {values.floor !== null? "Floor: "+values.floor + ", ":null}
                         {values.apartment !== null?"Apartment: "+ values.apartment + ", ":null}
-                        {values.avenue !== null?"Avenue: "+ values.avenue + " ,":null}
+                        {values.avenue !== null && values.avenue !== ""?"Avenue: "+ values.avenue + " ,":null}
                         {"Street: "+values.street + ", "}
                         {"Block: "+values.block + ", "}
                         {"Area: "+values.area_name + ", "}
