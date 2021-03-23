@@ -301,7 +301,7 @@ const BuildYourPc = ({ navigation, labels }) => {
                 display: 'flex',
                 flexDirection: 'row',
               }}>
-               <View style={{ position: 'relative',borderWidth:2,borderColor: 'rgba(0, 0, 0, .000001)',zIndex: arOren == "ar"?0: 999, right:arOren == "ar"?14: 38, width: 116,}}> 
+               <View style={{ position: 'relative',borderWidth:2,borderColor: 'rgba(0, 0, 0, .000001)', right:arOren == "ar"?14: 38, width: 116,}}> 
               <TouchableOpacity
                 style={{ 
                   position:'relative',
