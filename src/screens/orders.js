@@ -222,7 +222,7 @@ const Orders = ({ navigation, labels }) => {
                                 opacity: 0.5,
                                 lineHeight: 20,
                               }}>
-                              {i.items_count} {labels.items}
+                              {i.items_count} {i.items_count < 2 ?labels.item:labels.items}
                     </Text>
                           </View>
                         </View>

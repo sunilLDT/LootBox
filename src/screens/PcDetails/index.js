@@ -93,9 +93,7 @@ const PcDetails = ({ navigation, route, labels }) => {
                                 resizeMode="contain"
                                 style={{
                                     width: 48,
-                                    transform: [
-                                        { scaleX: arOren == "ar" ? -1 : 1 }
-                                    ]
+                                    
                                 }}
                             />
                         </TouchableOpacity>

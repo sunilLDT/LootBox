@@ -49,19 +49,20 @@ const ChangePhoneNumber = ({ navigation , labels}) => {
             else {
                 setLoadingBtn(true)
                 changeNumberApi(phoneNumber).then((response) => {
-
-                    navigation.navigate('otp', {
-                        screen: 'OtpVerification',
-                    })
-                    setLoadingBtn(false);
-                    setNavigation('profile')
-                    AsyncStorage.setItem('is_OTP_Verified', JSON.stringify(response.data.is_otp_verified));
-                    setPopModal(true);
-                    setContentModal(response.message);
-                    //alert(response.message)
-                }).catch((error) => {
-                    console.log("PhoneNumberChange" + error);
-                    setLoadingBtn(false)
+                    if(response.code == 200){
+                        navigation.navigate('otp', {
+                            screen: 'OtpVerification',
+                        })
+                        setLoadingBtn(false);
+                        setNavigation('profile')
+                        AsyncStorage.setItem('is_OTP_Verified', JSON.stringify(response.data.is_otp_verified));
+                        setPopModal(true);
+                        setContentModal(response.message);
+                    }else{
+                        setLoadingBtn(false)
+                        setPopModal(true);
+                        setContentModal(response.message);
+                    }
                 })
             }
         }

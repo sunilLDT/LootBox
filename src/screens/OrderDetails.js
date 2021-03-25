@@ -45,7 +45,6 @@ const OrderDetails = (props) => {
   const [packageItems, setpackageItems] = useState([]);
   const [showCpuPerocessersList, setShowCpuProcesserList] = useState(false);
   const [open, setOpen] = useState();
-  const [download, setDownload] = useState(false);
   const [arOren, setarOren] = useState('en');
   const maxlimit = 22;
   languagename().then(res => setarOren(res))
@@ -1039,12 +1038,14 @@ const OrderDetails = (props) => {
                         display: 'flex',
                         alignItems: 'center',
                         flexDirection: 'row',
+                        width:"80%",
                       }}>
                         <Text
                           style={{
                             fontFamily: 'Montserrat-SemiBold',
                             fontSize: 14,
                             color: '#ECDBFA',
+                            
                           }}>
                           {orderDetails.address.email}
                         </Text>
@@ -1071,17 +1072,6 @@ const OrderDetails = (props) => {
 
                     <TouchableOpacity onPress={() => handleClick(orderDetails.invoice_pdf_url)}
                     >
-                      {/* <WebView
-                        originWhitelist={['*']}
-                        scalesPageToFit={true}
-                        // allowUniversalAccessFromFileURLs={true}
-                        // javaScriptEnabled={true}
-                        // mixedContentMode={'always'}
-                        source={{ uri: download == true ? orderDetails.invoice_pdf_url : "" }}
-                        // onNavigationStateChange={(result) => console.log(result.url)}
-                      >
-                      </WebView> */}
-
                       <Text style={{ color: "#DF2EDC", fontFamily: Platform.OS == 'android' ? 'Montserrat-SemiBold' : 'Montserrat', }} >{labels.download}</Text>
                     </TouchableOpacity>
                   </View>

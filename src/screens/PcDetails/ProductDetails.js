@@ -62,9 +62,6 @@ const ProductDetails = (props) => {
   }
 
   const changeData = (item) => {
-    //setFinalData([finalData,...item]);
-    //setFinalData([...finalData, item]);
-    //setTotalPrice(finalData.reduce( function(cnt,o){ return cnt + parseInt(o.price); }, 0))
   }
   return (
     <View style={{ backgroundColor: '#292633', width: '100%', height: '100%' }}>
@@ -78,9 +75,6 @@ const ProductDetails = (props) => {
               source={require('../../assets/back.png')}
               resizeMode="contain"
               style={{width: 48,
-                transform: [
-                  { scaleX: arOren == "ar" ? -1 : 1 }
-              ]
               }}
             />
           </View>

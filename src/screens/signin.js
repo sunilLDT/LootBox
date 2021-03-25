@@ -211,7 +211,7 @@ const Signin = ({ navigation ,labels}) => {
                   value={password}
                   onChangeText={setPassword}
                   placeholder={labels.password}
-                  password={showPassword}
+                  password={!showPassword}
 
                 />
                 <TouchableOpacity style={styles.icon} onPress={() => setPasswordVisibility(!showPassword)}>

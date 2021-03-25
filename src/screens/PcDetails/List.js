@@ -54,7 +54,6 @@ const ListDetails = (props) => {
                 "name": response.data[0].name
             };
             setSelectedItems(item);
-            //setTotalPrice(props.cart.reduce(function (cnt, o) { return cnt + parseInt(o.price); }, 0));
         }).catch((error) => {
             console.log("getCategoriesItems" + error);
         });
@@ -89,42 +88,6 @@ const ListDetails = (props) => {
         <View>
             {packageDetails ?
                 <View>
-
-                    {/*props.parentIndex == 0 ? <View >
-                        <Image
-                            source={{ uri: props.imData }}
-                            width={100}
-                            height={100}
-                            style={{
-                                width: 312,
-                                height: 200,
-                                alignSelf: 'center',
-                            }}
-                        />
-                        <View
-                            style={{
-                                marginVertical: 20,
-                                flexDirection: 'row',
-                                justifyContent: 'space-around',
-                            }}>
-                            <View style={{ alignSelf: 'center', paddingLeft: '2%' }}>
-                                <Text style={styles.brandTitle}>{props.packName}</Text>
-                                <Text style={styles.brandTitle}>{props.cart.reduce(function (cnt, o) { return cnt + parseInt(o.price); }, 0)}</Text>
-                            </View>
-                            <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-                                {props.coverImage.map((cImages, index) => {
-                                    return (
-                                        <Image
-                                            key={index}
-                                            source={{ uri: cImages.image_path }}
-                                            style={styles.coverImage}
-                                        />
-                                    );
-                                })}
-                            </ScrollView>
-                        </View>
-                            </View> : null*/}
-
                     <ImageBackground
                         source={ItemCard}
                         style={{
@@ -211,7 +174,7 @@ const ListDetails = (props) => {
                             style={{ flexDirection: 'row', justifyContent: 'flex-start' }}>
                             <Text
                                 style={{ fontSize: 14, color: '#D2D7F9', fontWeight: '300' }}>
-                                List Of {props.data.sub_category_name}
+                                {props.labels.listOf} {props.data.sub_category_name}
                             </Text>
                             <TouchableOpacity
                                 style={{ marginHorizontal: 10 }}

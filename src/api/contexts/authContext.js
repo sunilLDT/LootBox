@@ -76,8 +76,6 @@ const checkUser = (dispatch) => async () => {
   }
   if (language) {
     if (token && token.length > 0) {
-      console.log("token ==== in token if")
-      console.log(token)
       navigate({ name: 'home' });
     } else {
       navigate({ name: 'slider' });
@@ -104,8 +102,8 @@ const setNavigation = (dispatch) => async (name) => {
 const googleSignIn = (dispatch) => async () => {
   try {
     await GoogleSignin.configure({
-      webClientId: '85981177828-f80nh50j5ssoclamiva7b32aakbpenlp.apps.googleusercontent.com',
-      iosClientId: '85981177828-f80nh50j5ssoclamiva7b32aakbpenlp.apps.googleusercontent.com',
+      webClientId: '85981177828-vimmqnf1kr23gvlct0mvkonp8nqre1n5.apps.googleusercontent.com',
+      iosClientId: '85981177828-vimmqnf1kr23gvlct0mvkonp8nqre1n5.apps.googleusercontent.com',
     });
     await GoogleSignin.hasPlayServices();
     const userInfo = await GoogleSignin.signIn();
@@ -154,7 +152,7 @@ const googleSignIn = (dispatch) => async () => {
     await GoogleSignin.revokeAccess();
     await GoogleSignin.signOut();
   } catch (error) {
-    console.log(error)
+    console.log(error.response.data)
     if (error.code === statusCodes.SIGN_IN_CANCELLED) {
       console.log("user cancelled the login flow");
     } else if (error.code === statusCodes.IN_PROGRESS) {
@@ -404,7 +402,7 @@ const resendOtp = (dispatch) => async () => {
   } catch (e) {
     dispatch({
       type: 'add_msg',
-      payload: 'Some error occurred',
+      payload: e.response.data.message,
     });
     return false;
   }

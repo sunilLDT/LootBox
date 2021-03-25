@@ -359,6 +359,7 @@ const Cart = (props) => {
     settrashPackageLoaderID(id);
     removePackageApi(id).then((response) => {
       reloadData();
+      props.add()
     })
   }
 

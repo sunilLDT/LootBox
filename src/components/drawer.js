@@ -14,7 +14,6 @@ import * as Animatable from 'react-native-animatable';
 import { useIsDrawerOpen } from '@react-navigation/drawer';
 import LinearGradient from 'react-native-linear-gradient';
 import { Context as AuthContext } from '../api/contexts/authContext';
-import EditBtn from '../components/EditBtn';
 import englishImage from '../assets/english.png';
 import arabicImage from '../assets/arabic.png';
 import RNRestart from 'react-native-restart';
@@ -134,7 +133,6 @@ const Drawer = (props) => {
       }
       
       const checking =   await Api.post('app/user/device-token',data);
-     
       I18nManager.forceRTL(true);
       RNRestart.Restart();
      

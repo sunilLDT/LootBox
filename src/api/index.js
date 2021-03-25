@@ -24,13 +24,11 @@ instance.interceptors.request.use(
 instance.interceptors.response.use(
   (response) => response,
   (error) => {
-    // console.log(error.response.toString())
-    // alert(error.response)
-    // AsyncStorage.clear()
-    
-   // AsyncStorage.removeItem('deviceToken');
-   // AsyncStorage.removeItem('token');
-   // navigate({name: 'auth'})
+    if(error.response.data.code == 401){
+      alert(error.response)
+      AsyncStorage.removeItem('deviceToken');
+      navigate({name: 'auth'})
+    }
     return Promise.reject(error)
   }
 )

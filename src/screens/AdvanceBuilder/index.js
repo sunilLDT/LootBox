@@ -693,7 +693,7 @@ const AdvanceBuilder = (props) => {
                   {items ?
                     <View style={styles.flatlistContainer}>
                      {
-                    loadingItem ? <View style={{ marginTop: height * 0.20 }}><ActivityIndicator  color="#ECDBFA" size="large"  /></View>:
+                    loadingItem ? <View style={{ marginTop: height * 0.20 }}><ActivityIndicator  color="#ECDBFA" size="small"  /></View>:
                       <FlatList
                         keyExtractor={(item) => item.item_id}
                         data={filteredDataSource}
@@ -792,7 +792,7 @@ const AdvanceBuilder = (props) => {
                       }}
                       >{labels.noGameAvailable}
                       </Text>
-                    ): (<ActivityIndicator color="#ECDBFA" size="large" />)}
+                    ): (<ActivityIndicator color="#ECDBFA" size="small" />)}
                 </View>
               </>
             )}

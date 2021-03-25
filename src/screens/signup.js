@@ -283,7 +283,6 @@ const Signup = ({navigation, route, labels}) => {
                       marginTop: 10,
                       color: '#dacae8',
                       fontSize: 12,
-                      // height: height * 0.04,
                       display: 'flex',
                       width: width * 0.7,
                       flexWrap: 'wrap',

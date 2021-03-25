@@ -46,8 +46,7 @@ export async function addToCart(packageId, data, is_package) {
       items: data
     }
   }
-  console.log("sending data *****")
-  console.log(sendingData)
+
   const response = await Api.post('app/cart/add-to-cart', sendingData);
   return response.data;
 }
@@ -136,10 +135,14 @@ export async function changePasswordApi(current_password, new_password, new_conf
 }
 
 export async function changeNumberApi(number) {
-  const response = await Api.post('app/user/change-phone', {
-    new_phone: number
-  });
-  return response.data;
+  try{
+    const response = await Api.post('app/user/change-phone', {
+      new_phone: number
+    });
+    return response.data;
+  }catch(e){
+    return e.response.data;
+  }
 }
 
 export async function uploadImageApi(imageUri) {

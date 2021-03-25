@@ -110,6 +110,13 @@ const Profile = (props) => {
     else if (gender == "") {
       setPopModal(true);
       setContentModal("Invalid Email Address");
+    }else if(!first_name){
+      setPopModal(true);
+      setContentModal("Please Fill the First Name");
+    }
+    else if(!last_name){
+      setPopModal(true);
+      setContentModal("Please Fill the Last Name");
     }
     else {
       setLoadingBtn(true)
@@ -469,6 +476,7 @@ const Profile = (props) => {
                       <DateTimePicker
                         testID="datetimepicker"
                         value={DOB}
+                        maximumDate={new Date()}
                         style={{ color: '#ffffff' }}
                         textColor="white"
                         mode="date"

@@ -13,7 +13,6 @@ import {
 import LinearGradient from 'react-native-linear-gradient';
 import {Context as AuthContext} from '../api/contexts/authContext';
 import OtpInput from '../components/otp';
-import Btn from '../screens/btn';
 import bgImage from '../assets/signup.png';
 import AsyncStorage from '@react-native-community/async-storage';
 import { connect } from 'react-redux';
