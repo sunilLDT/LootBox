@@ -16,6 +16,8 @@ import com.reactcommunity.rndatetimepicker.RNDateTimePickerPackage;
 import org.devio.rn.splashscreen.SplashScreenReactPackage;
 import com.babisoft.ReactNativeLocalization.ReactNativeLocalizationPackage;
 import com.rnfs.RNFSPackage;
+import com.facebook.react.bridge.JSIModulePackage; 
+import com.swmansion.reanimated.ReanimatedJSIModulePackage; 
 
 public class MainApplication extends Application implements ReactApplication {
 
@@ -42,6 +44,10 @@ public class MainApplication extends Application implements ReactApplication {
         @Override
         protected String getJSMainModuleName() {
           return "index";
+        }
+        @Override
+        protected JSIModulePackage getJSIModulePackage() {
+          return new ReanimatedJSIModulePackage(); 
         }
       };
 

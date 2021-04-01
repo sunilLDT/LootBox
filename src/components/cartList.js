@@ -27,7 +27,6 @@ import CloseImage from '../assets/ic-3copy.png';
 import IcCardImage from '../assets/ic3.png';
 import thumbnail from '../assets/thumbnail.png';
 import PayBtn from '../components/PayBtn';
-import { startClock } from 'react-native-reanimated';
 import PopUp from '../components/popup';
 const {width, height} = Dimensions.get('window');
 

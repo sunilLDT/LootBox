@@ -152,7 +152,10 @@ const googleSignIn = (dispatch) => async () => {
     await GoogleSignin.revokeAccess();
     await GoogleSignin.signOut();
   } catch (error) {
-    console.log(error.response.data)
+    dispatch({
+      type: 'add_msg',
+      payload: error.response.data.message,
+    });
     if (error.code === statusCodes.SIGN_IN_CANCELLED) {
       console.log("user cancelled the login flow");
     } else if (error.code === statusCodes.IN_PROGRESS) {
@@ -176,10 +179,17 @@ const signin = (dispatch) => async ({ email, password }) => {
     dispatch({
       type: 'toggle_loading',
     });
-    const res = await Api.post('app/user/login', {
-      email,
-      password,
-    });
+    const user_id = await AsyncStorage.getItem('user_id');
+   
+    const data = {
+      email:email,
+      password:password,
+      guest_user_id:user_id - 1,
+    }
+    console.log("sigin in functionn ====== for guest user ")
+    console.log(data)
+
+    const res = await Api.post('app/user/login', data);
     if (res.data.data.token) {
       dispatch({
         type: 'signin',
@@ -239,10 +249,8 @@ const guestUserSignIn = (dispatch) => async (type) => {
       await AsyncStorage.setItem('user_id', JSON.stringify(res.data.data.user_id));
       await AsyncStorage.setItem('user_type', JSON.stringify(res.data.data.user_type));
       if(type=='login'){
-        console.log("auth while opening appp")
         navigate({ name: 'auth' });
       }else{
-        console.log("home  while opening appp")
         navigate({ name: 'home' });
       }
      
@@ -261,7 +269,6 @@ const guestUserSignIn = (dispatch) => async (type) => {
 
 const guestUserReSignIn = (dispatch) => async (type) => {
   try {
-    
     const res = await Api.post('app/user/register', {
       first_name: "0",
       user_type: 2,

@@ -182,8 +182,8 @@ const Profile = (props) => {
   const uploadImageOnS3 = async (file) => {
     try{
     const s3bucket = new S3({
-      accessKeyId: 'AKIA3JWMPNMIYUFSR54M',
-      secretAccessKey: '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',
+      accessKeyId: 'AKIA3JWMPNMI2NPN27GP',
+      secretAccessKey: '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',
       Bucket: 'lootbox-s3',
       signatureVersion: 'v4',
     });
@@ -389,7 +389,7 @@ const Profile = (props) => {
                         </Text>
 
                       </View>
-                    {!imageLoader || !props.profileLoader ?(
+                    {!imageLoader  ?(
                     <TouchableOpacity
                       style={{ width: "40%" }}
                       onPress={() => handleChoosePhoto()}>
