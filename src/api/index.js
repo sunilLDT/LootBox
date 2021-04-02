@@ -2,7 +2,7 @@ import axios from 'axios';
 import AsyncStorage from '@react-native-community/async-storage';
 
 const instance = axios.create({
-  baseURL: 'https://api.loot.com.kw/api/',
+  baseURL: 'https://liveapi.loot.com.kw/api/',
 });
 instance.interceptors.request.use(
   async (config) => {

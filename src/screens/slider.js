@@ -17,7 +17,7 @@ import {connect} from 'react-redux';
 
 const Slideshow = (props) => {
   const [loading, setLoading] = useState([true]);
-  const [bannerData, setBannerData] = useState([])
+  const [bannerData, setBannerData] = useState([{title: "",image: ""}])
   const { guestUserSignIn, state } = useContext(
     AuthContext,
   );
@@ -25,7 +25,7 @@ const Slideshow = (props) => {
   useEffect(() => {
     setLoading(true)
     getBannerApi().then((response) => {
-      if (response.data) {
+      if (response.code == 200) {
         const imageUrls = response.data.map(res => {
           return {
             image: res.image,
@@ -33,13 +33,15 @@ const Slideshow = (props) => {
           }
         })
         setBannerData(imageUrls)
-      }
-      setLoading(false)
-    })
-      .catch((error) => {
-        console.log("banner" + error);
         setLoading(false)
-      })
+      }
+      else{
+        setLoading(false)
+        alert(response.message)
+      }
+      
+    })
+  
   }, []);
 
   const { navigation } = props;

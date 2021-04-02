@@ -260,9 +260,13 @@ export async function getProfilApi() {
 }
 
 export async function getBannerApi() {
-  const response = await Api.get('app/banner/list');
-
-  return response.data;
+  try{
+    const response = await Api.get('app/banner/list');
+    return response.data;
+  }catch(e){
+    return e.response.data
+  }
+  
 }
 
 export async function removeItemAPI(id) {
