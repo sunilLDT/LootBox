@@ -61,7 +61,7 @@ const Slideshow = (props) => {
           skipLabel = {props.labels.Skip}
           onSkip={() => { guestUserSignIn() }}
           onDone={() => { guestUserSignIn() }}
-          imageContainerStyles={{ height }}
+          imageContainerStyles={{width,height}}
           titleStyles={{
             // position: 'relative', flex: Platform.OS == 'android' ? 0 : 1,
             // flexWrap: Platform.OS == 'android' ? 'nowrap' : 'wrap',
@@ -76,16 +76,12 @@ const Slideshow = (props) => {
               return {
                 backgroundColor: '#272732',
                 image: <FastImage
-                  style={{ width, height }}
+                  style={{ width, height, }}
                   source={{
                     uri: bd.image,
                     priority: FastImage.priority.high,
                   }}
-                // onLoadStart={e => setLoading(true)}
-                // onLoadEnd={e => setLoading(false)}
-                // onProgress={e => console.log(e.nativeEvent.loaded / e.nativeEvent.total)}
-                //onProgress={e => {set}}
-                // resizeMode={FastImage.resizeMode.contain}
+                  resizeMode={FastImage.resizeMode.contain}
                 />,
                 title: bd.title,
                 subtitle: ''
